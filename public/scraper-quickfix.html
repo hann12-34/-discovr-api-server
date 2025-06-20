@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scraper Quick Fix Wizard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { padding: 20px; }
+    #output {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 10px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    .success { color: #198754; }
+    .error { color: #dc3545; }
+    .warning { color: #ffc107; }
+    .info { color: #0dcaf0; }
+    .step-card {
+      margin-bottom: 15px;
+      border-left: 5px solid #0d6efd;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      border-top-color: #007bff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1 class="mb-3">Scraper Quick Fix Wizard</h1>
+        <p>Quickly diagnose and fix common scraper issues.</p>
+        <div class="d-flex mb-3">
+          <a href="/" class="btn btn-outline-secondary me-2">Home</a>
+          <a href="/scraper-dashboard.html" class="btn btn-outline-secondary me-2">Full Scraper Dashboard</a>
+          <a href="/all-events-dashboard.html" class="btn btn-outline-primary me-2">All Events Dashboard</a>
+          <a href="/scraper-tester.html" class="btn btn-outline-warning">Scraper Tester</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card mb-3">
+          <div class="card-header bg-primary text-white">
+            <h5>Step 1: Select Scraper</h5>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <input type="text" id="scraperFilter" class="form-control" placeholder="Filter scrapers...">
+            </div>
+            <div class="mb-3">
+              <select id="scraperSelect" class="form-select" size="10"></select>
+            </div>
+            <button id="analyzeBtn" class="btn btn-primary">Analyze Scraper</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-info text-white">
+            <h5>Output</h5>
+          </div>
+          <div class="card-body">
+            <div id="output"></div>
+            <button id="clearOutputBtn" class="btn btn-sm btn-outline-secondary">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header bg-success text-white">
+            <h5>Quick Fix Tools</h5>
+          </div>
+          <div class="card-body">
+            <div id="quickFixContainer" class="mb-3">
+              <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> Select a scraper to see available fix options
+              </div>
+            </div>
+            
+            <div class="card step-card mb-4" id="testUrlCard" style="display: none;">
+              <div class="card-header">
+                <h5>Test URL Accessibility</h5>
+              </div>
+              <div class="card-body">
+                <p>Test if the scraper's URL is accessible:</p>
+                <div id="urlInput" class="mb-3">
+                  <input type="text" class="form-control" id="testUrl" placeholder="Enter URL to test">
+                </div>
+                <button id="testUrlBtn" class="btn btn-primary">Test URL</button>
+                <div id="urlResult" class="mt-3"></div>
+              </div>
+            </div>
+            
+            <div class="card step-card mb-4" id="commonFixesCard" style="display: none;">
+              <div class="card-header">
+                <h5>Apply Common Fixes</h5>
+              </div>
+              <div class="card-body">
+                <p>Apply common fixes to resolve scraper issues:</p>
+                <button id="fixSelectorsBtn" class="btn btn-warning mb-2">Update Selectors</button>
+                <button id="fixTimeoutBtn" class="btn btn-warning mb-2">Increase Timeout</button>
+                <button id="fixUserAgentBtn" class="btn btn-warning mb-2">Add User-Agent</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM elements
+      const output = document.getElementById('output');
+      const scraperSelect = document.getElementById('scraperSelect');
+      const scraperFilter = document.getElementById('scraperFilter');
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      const clearOutputBtn = document.getElementById('clearOutputBtn');
+      const testUrlCard = document.getElementById('testUrlCard');
+      const testUrlBtn = document.getElementById('testUrlBtn');
+      const testUrl = document.getElementById('testUrl');
+      const urlResult = document.getElementById('urlResult');
+      const commonFixesCard = document.getElementById('commonFixesCard');
+      const fixSelectorsBtn = document.getElementById('fixSelectorsBtn');
+      const fixTimeoutBtn = document.getElementById('fixTimeoutBtn');
+      const fixUserAgentBtn = document.getElementById('fixUserAgentBtn');
+      
+      // Global variables
+      let allScrapers = [];
+      let selectedScraper = null;
+
+      // Initialize
+      loadScrapers();
+
+      // Output logging function
+      function log(message, type = 'info') {
+        const timestamp = new Date().toLocaleTimeString();
+        const logLine = document.createElement('div');
+        logLine.className = type;
+        logLine.textContent = `[${timestamp}] ${message}`;
+        output.appendChild(logLine);
+        output.scrollTop = output.scrollHeight;
+      }
+
+      // Clear output
+      clearOutputBtn.addEventListener('click', () => {
+        output.innerHTML = '';
+      });
+
+      // Filter scrapers
+      scraperFilter.addEventListener('input', function() {
+        const filterText = this.value.toLowerCase();
+        const filteredScrapers = allScrapers.filter(scraper => 
+          scraper.name.toLowerCase().includes(filterText)
+        );
+        populateScraperSelect(filteredScrapers);
+      });
+
+      // Populate scraper select
+      function populateScraperSelect(scrapers) {
+        scraperSelect.innerHTML = '';
+        scrapers.forEach(scraper => {
+          const option = document.createElement('option');
+          option.textContent = scraper.name;
+          option.value = scraper.name;
+          scraperSelect.appendChild(option);
+        });
+      }
+
+      // Load scrapers
+      function loadScrapers() {
+        log('Loading scraper list...');
+        
+        fetch('/api/v1/scrapers/status')
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              allScrapers = data.scrapers;
+              populateScraperSelect(allScrapers);
+              log(`Loaded ${allScrapers.length} scrapers`, 'success');
+            } else {
+              log('Failed to load scrapers from status endpoint, trying fallback...', 'warning');
+              
+              // Fallback to regular list endpoint
+              return fetch('/api/v1/scrapers/list')
+                .then(response => response.json())
+                .then(data => {
+                  if (data.success && Array.isArray(data.scrapers)) {
+                    allScrapers = data.scrapers;
+                    populateScraperSelect(allScrapers);
+                    log(`Loaded ${allScrapers.length} scrapers from fallback`, 'success');
+                  } else {
+                    throw new Error('Invalid data format from fallback');
+                  }
+                });
+            }
+          })
+          .catch(error => {
+            log(`Error loading scrapers: ${error.message}`, 'error');
+          });
+      }
+
+      // Analyze scraper
+      analyzeBtn.addEventListener('click', () => {
+        const scraperName = scraperSelect.value;
+        if (!scraperName) {
+          log('Please select a scraper first', 'warning');
+          return;
+        }
+        
+        log(`Analyzing scraper: ${scraperName}...`);
+        
+        // Find scraper in our list
+        selectedScraper = allScrapers.find(s => s.name === scraperName);
+        
+        if (!selectedScraper) {
+          log('Could not find scraper details', 'error');
+          return;
+        }
+        
+        // Show the URL test card
+        testUrlCard.style.display = 'block';
+        commonFixesCard.style.display = 'block';
+        
+        // Pre-fill the URL field
+        testUrl.value = selectedScraper.url || '';
+        
+        // Run the scraper to see what happens
+        fetch(`/api/v1/scrapers/run/${encodeURIComponent(scraperName)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ save: false })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              log(`Scraper completed successfully`, 'success');
+              if (Array.isArray(data.events)) {
+                log(`Found ${data.events.length} events`, 'info');
+                
+                if (data.events.length === 0) {
+                  log('Scraper returns no events - this might indicate a selector issue', 'warning');
+                } else {
+                  log('Scraper is working correctly!', 'success');
+                }
+              }
+            } else {
+              const errorMessage = data.errorType && data.message ? 
+                `Error (${data.errorType}): ${data.message}` : 
+                'An error occurred while running the scraper';
+                
+              log(errorMessage, 'error');
+              
+              if (data.stack) {
+                log(`Stack trace: ${data.stack}`, 'error');
+              }
+              
+              // Analyze the error
+              analyzeError(data);
+            }
+          })
+          .catch(error => {
+            log(`Request error: ${error.message}`, 'error');
+          });
+      });
+
+      // Analyze error and suggest fixes
+      function analyzeError(errorData) {
+        if (!errorData || !errorData.message) return;
+        
+        const errorMessage = errorData.message.toLowerCase();
+        const errorType = errorData.errorType || '';
+        
+        if (errorMessage.includes('timeout') || errorType.includes('timeout')) {
+          log('Detected timeout issue. Consider increasing the scraper timeout.', 'info');
+        }
+        
+        if (errorMessage.includes('404') || errorMessage.includes('not found')) {
+          log('URL might be invalid or no longer accessible. Check if the site structure has changed.', 'info');
+        }
+        
+        if (errorMessage.includes('selector') || errorMessage.includes('element not found')) {
+          log('Selector issue detected. The HTML structure of the site may have changed.', 'info');
+        }
+      }
+
+      // Test URL accessibility
+      testUrlBtn.addEventListener('click', () => {
+        const url = testUrl.value.trim();
+        if (!url) {
+          urlResult.innerHTML = '<div class="alert alert-warning">Please enter a URL</div>';
+          return;
+        }
+        
+        urlResult.innerHTML = '<div class="d-flex align-items-center"><div class="loading me-2"></div> Testing URL accessibility...</div>';
+        
+        // Use a proxy approach since we can't directly test from browser
+        fetch(`/api/v1/scrapers/run/${encodeURIComponent(selectedScraper.name)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            save: false,
+            testUrlOnly: true 
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.urlAccessible) {
+              urlResult.innerHTML = '<div class="alert alert-success">URL is accessible! Status: ' + data.urlStatus + '</div>';
+              log(`URL is accessible: ${url}`, 'success');
+            } else {
+              urlResult.innerHTML = '<div class="alert alert-danger">URL is not accessible. Error: ' + (data.urlError || 'Unknown error') + '</div>';
+              log(`URL is not accessible: ${url} - ${data.urlError || 'Unknown error'}`, 'error');
+            }
+          })
+          .catch(error => {
+            urlResult.innerHTML = '<div class="alert alert-danger">Error testing URL: ' + error.message + '</div>';
+            log(`Error testing URL: ${error.message}`, 'error');
+          });
+      });
+
+      // Fix selector buttons (these are simulated as we can't actually modify server code from front-end)
+      fixSelectorsBtn.addEventListener('click', () => {
+        log('Selector fix would require examining and updating the scraper source code.', 'info');
+        log('1. Check if HTML structure of target site has changed', 'info');
+        log('2. Update selectors in scraper file', 'info');
+        log('3. Test with improved selectors or fallbacks', 'info');
+        log(`Path to scraper: ${selectedScraper?.sourcePath || 'Unknown'}`, 'info');
+      });
+
+      fixTimeoutBtn.addEventListener('click', () => {
+        log('To fix timeout issues:', 'info');
+        log('1. Increase the scraper\'s axios timeout value', 'info');
+        log('2. Add error handling for timeout scenarios', 'info');
+        log('3. Consider breaking complex scrapers into smaller chunks', 'info');
+      });
+
+      fixUserAgentBtn.addEventListener('click', () => {
+        log('Adding a User-Agent can help with sites that block scrapers:', 'info');
+        log('headers: {', 'info');
+        log('  \'User-Agent\': \'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\'', 'info');
+        log('}', 'info');
+      });
+    });
+  </script>
+</body>
+</html>

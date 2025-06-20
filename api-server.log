@@ -1,0 +1,5 @@
+Scrapers disabled in development mode. Set ENABLE_SCRAPERS=true to enable.
+Server running on port 3000
+API is available at: http://localhost:3000/api/v1/events
+Scraper connected to MongoDB
+Connected to MongoDB

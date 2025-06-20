@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scraper Tester</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { padding: 20px; }
+    #debugOutput {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 10px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    .success { color: #198754; }
+    .error { color: #dc3545; }
+    .warning { color: #ffc107; }
+    .info { color: #0dcaf0; }
+    .event-card {
+      margin-bottom: 15px;
+      border-left: 5px solid #0d6efd;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      border-top-color: #007bff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1 class="mb-3">Scraper Tester</h1>
+        <p>Test individual scrapers to debug issues and verify functionality.</p>
+        <div class="d-flex mb-3">
+          <a href="/" class="btn btn-outline-secondary me-2">Home</a>
+          <a href="/scraper-dashboard.html" class="btn btn-outline-secondary me-2">Full Scraper Dashboard</a>
+          <a href="/all-events-dashboard.html" class="btn btn-outline-primary">All Events Dashboard</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5>Select Scraper</h5>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="scraperFilter" class="form-label">Search Scrapers:</label>
+              <input type="text" id="scraperFilter" class="form-control" placeholder="Filter scrapers...">
+            </div>
+            <div class="mb-3">
+              <select id="scraperSelect" class="form-select" size="10"></select>
+            </div>
+            <div class="d-grid gap-2">
+              <button id="runScraperBtn" class="btn btn-primary">Run Selected Scraper</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5>Debug Output</h5>
+          </div>
+          <div class="card-body">
+            <div id="debugOutput"></div>
+            <button id="clearDebugBtn" class="btn btn-outline-secondary">Clear Output</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>Events (<span id="eventCount">0</span>)</h5>
+            <div>
+              <button id="copyEventsBtn" class="btn btn-sm btn-outline-primary">Copy Events JSON</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="eventsContainer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const debugOutput = document.getElementById('debugOutput');
+      const scraperSelect = document.getElementById('scraperSelect');
+      const scraperFilter = document.getElementById('scraperFilter');
+      const runScraperBtn = document.getElementById('runScraperBtn');
+      const clearDebugBtn = document.getElementById('clearDebugBtn');
+      const eventsContainer = document.getElementById('eventsContainer');
+      const eventCount = document.getElementById('eventCount');
+      const copyEventsBtn = document.getElementById('copyEventsBtn');
+      
+      let allScrapers = [];
+      let currentEvents = [];
+
+      // Debug log functions
+      function log(message, type = 'info') {
+        const timestamp = new Date().toLocaleTimeString();
+        const logLine = document.createElement('div');
+        logLine.className = type;
+        logLine.textContent = `[${timestamp}] ${message}`;
+        debugOutput.appendChild(logLine);
+        debugOutput.scrollTop = debugOutput.scrollHeight;
+      }
+
+      // Clear debug output
+      clearDebugBtn.addEventListener('click', () => {
+        debugOutput.innerHTML = '';
+      });
+      
+      // Copy events JSON
+      copyEventsBtn.addEventListener('click', () => {
+        const json = JSON.stringify(currentEvents, null, 2);
+        navigator.clipboard.writeText(json).then(() => {
+          log('Events JSON copied to clipboard!', 'success');
+        }).catch(err => {
+          log(`Failed to copy: ${err}`, 'error');
+        });
+      });
+
+      // Filter scrapers
+      scraperFilter.addEventListener('input', function() {
+        const filterText = this.value.toLowerCase();
+        const filteredScrapers = allScrapers.filter(scraper => 
+          scraper.toLowerCase().includes(filterText)
+        );
+        populateScraperSelect(filteredScrapers);
+      });
+
+      // Populate scraper select
+      function populateScraperSelect(scrapers) {
+        scraperSelect.innerHTML = '';
+        scrapers.forEach(scraper => {
+          const option = document.createElement('option');
+          option.textContent = scraper;
+          option.value = scraper;
+          scraperSelect.appendChild(option);
+        });
+      }
+
+      // Load scrapers
+      function loadScrapers() {
+        log('Loading scraper list...');
+        
+        fetch('/api/v1/scrapers/list')
+          .then(response => response.json())
+          .then(data => {
+            if (data.success && Array.isArray(data.scrapers)) {
+              allScrapers = data.scrapers.map(s => s.name).sort();
+              populateScraperSelect(allScrapers);
+              log(`Loaded ${allScrapers.length} scrapers`, 'success');
+            } else {
+              log('Failed to load scrapers, trying fallback...', 'warning');
+              // Fallback to venues endpoint
+              return fetch('/api/v1/venues')
+                .then(response => response.json())
+                .then(data => {
+                  if (Array.isArray(data)) {
+                    allScrapers = data.map(v => v.name).sort();
+                    populateScraperSelect(allScrapers);
+                    log(`Loaded ${allScrapers.length} scrapers from fallback`, 'success');
+                  } else {
+                    throw new Error('Invalid data format from fallback');
+                  }
+                });
+            }
+          })
+          .catch(error => {
+            log(`Error loading scrapers: ${error.message}`, 'error');
+          });
+      }
+
+      // Run selected scraper
+      runScraperBtn.addEventListener('click', () => {
+        const selectedScraper = scraperSelect.value;
+        if (!selectedScraper) {
+          log('Please select a scraper first', 'warning');
+          return;
+        }
+        
+        log(`Running scraper: ${selectedScraper}...`);
+        eventsContainer.innerHTML = '<div class="text-center p-5"><div class="loading"></div><p class="mt-2">Running scraper...</p></div>';
+        currentEvents = [];
+        
+        fetch(`/api/v1/scrapers/run/${encodeURIComponent(selectedScraper)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ save: false })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              log(`Scraper completed successfully`, 'success');
+              if (Array.isArray(data.events)) {
+                currentEvents = data.events;
+                log(`Found ${data.events.length} events`, 'info');
+                displayEvents(data.events);
+              } else {
+                log('No events returned or invalid format', 'warning');
+                eventsContainer.innerHTML = '<div class="alert alert-warning">No events found</div>';
+              }
+            } else {
+              const errorMessage = data.errorType && data.message ? 
+                `Error (${data.errorType}): ${data.message}` : 
+                'An error occurred while running the scraper';
+                
+              log(errorMessage, 'error');
+              
+              if (data.stack) {
+                log(`Stack trace: ${data.stack}`, 'error');
+              }
+              
+              eventsContainer.innerHTML = '<div class="alert alert-danger">Error running scraper. See debug log for details.</div>';
+            }
+          })
+          .catch(error => {
+            log(`Request error: ${error.message}`, 'error');
+            eventsContainer.innerHTML = '<div class="alert alert-danger">Error running scraper. See debug log for details.</div>';
+          });
+      });
+
+      // Display events
+      function displayEvents(events) {
+        eventsContainer.innerHTML = '';
+        eventCount.textContent = events.length;
+        
+        if (events.length === 0) {
+          eventsContainer.innerHTML = '<div class="alert alert-warning">No events found</div>';
+          return;
+        }
+        
+        events.forEach((event, index) => {
+          const card = document.createElement('div');
+          card.className = 'card event-card';
+          
+          const startDate = event.startDate ? new Date(event.startDate) : null;
+          const formattedDate = startDate ? startDate.toLocaleDateString() : 'No date';
+          
+          card.innerHTML = `
+            <div class="card-body">
+              <h5 class="card-title">${event.title || 'Untitled Event'}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${formattedDate}</h6>
+              <p class="card-text">${event.venue?.name || 'Unknown Venue'}</p>
+              ${event.imageURL ? `<p><small>Image URL: ${event.imageURL}</small></p>` : ''}
+              <button class="btn btn-sm btn-outline-secondary view-details-btn" data-event-index="${index}">View Details</button>
+            </div>
+          `;
+          
+          eventsContainer.appendChild(card);
+        });
+        
+        // Add event listeners for detail buttons
+        document.querySelectorAll('.view-details-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const index = parseInt(this.getAttribute('data-event-index'), 10);
+            const event = events[index];
+            
+            // Format event details as JSON
+            const formattedJson = JSON.stringify(event, null, 2);
+            
+            // Log to debug
+            log(`Event details for "${event.title}":`, 'info');
+            log(formattedJson, 'info');
+          });
+        });
+      }
+
+      // Initialize
+      loadScrapers();
+      log('Scraper Tester initialized', 'info');
+      log('Select a scraper and click "Run Selected Scraper" to test', 'info');
+    });
+  </script>
+</body>
+</html>

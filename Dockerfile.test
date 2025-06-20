@@ -1,0 +1,16 @@
+FROM node:16-slim
+
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install express
+
+# Copy test server code
+COPY test-server.js ./
+
+# Expose 8080 for Cloud Run
+EXPOSE 8080
+
+# Start test server
+CMD ["node", "test-server.js"]

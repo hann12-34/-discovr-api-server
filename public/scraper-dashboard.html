@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovr Scrapers Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2a2a2a;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        .status-good {
+            color: #43a047;
+        }
+        .status-warn {
+            color: #ff9800;
+        }
+        .status-error {
+            color: #e53935;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f5f5;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .scraper-name {
+            font-weight: 500;
+        }
+        .scraper-type {
+            font-size: 12px;
+            background-color: #e0e0e0;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 8px;
+            color: #666;
+        }
+        .scraper-url {
+            color: #666;
+            font-size: 14px;
+        }
+        .scraper-status {
+            font-weight: 500;
+        }
+        .scraper-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .action-button:hover {
+            background-color: #1976D2;
+        }
+        .action-button:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+        }
+        .view-button {
+            background-color: #4CAF50;
+        }
+        .view-button:hover {
+            background-color: #388E3C;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+        }
+        .error {
+            color: #e53935;
+            padding: 15px;
+            background-color: #ffebee;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .last-updated {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+            text-align: right;
+        }
+        .nav-links {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            margin-right: 15px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Discovr Scrapers Dashboard</h1>
+        <button id="refreshAll" class="action-button">Refresh All</button>
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/venue-viewer.html">Venue Events Viewer</a>
+        <a href="/scraper-dashboard.html">Scraper Dashboard</a>
+    </div>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-label">Total Scrapers</div>
+            <div id="totalScrapers" class="stat-value">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Active Scrapers</div>
+            <div id="activeScrapers" class="stat-value status-good">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Total Events</div>
+            <div id="totalEvents" class="stat-value">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Last Refreshed</div>
+            <div id="lastRefreshed" class="stat-value" style="font-size: 16px">-</div>
+        </div>
+    </div>
+    
+    <h2>Scraper Status</h2>
+    <table id="scrapersTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Events</th>
+                <th>Last Run</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="6" class="loading">Loading scrapers data...</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="last-updated">
+        Dashboard last updated: <span id="updateTimestamp">-</span>
+    </div>
+
+    <script>
+        // API base URL
+        const API_BASE = '/api/v1';
+        
+        // State
+        let scrapers = [];
+        let scraperResults = {};
+        
+        // DOM Elements
+        const scrapersTable = document.getElementById('scrapersTable').querySelector('tbody');
+        const totalScrapersEl = document.getElementById('totalScrapers');
+        const activeScrapersEl = document.getElementById('activeScrapers');
+        const totalEventsEl = document.getElementById('totalEvents');
+        const lastRefreshedEl = document.getElementById('lastRefreshed');
+        const updateTimestampEl = document.getElementById('updateTimestamp');
+        const refreshAllBtn = document.getElementById('refreshAll');
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                updateTimestamp();
+                await loadScrapers();
+                
+                // Set up event listeners
+                refreshAllBtn.addEventListener('click', refreshAllScrapers);
+            } catch (error) {
+                showError(`Failed to initialize: ${error.message}`);
+            }
+        });
+        
+        // Load scrapers list
+        async function loadScrapers() {
+            try {
+                // Add debug info directly to the page
+                const debugDiv = document.createElement('div');
+                debugDiv.style.padding = '10px';
+                debugDiv.style.margin = '10px';
+                debugDiv.style.border = '1px solid #ccc';
+                debugDiv.style.backgroundColor = '#f8f8f8';
+                debugDiv.innerHTML = '<h3>Debug Info</h3>';
+                document.body.insertBefore(debugDiv, document.body.firstChild);
+                
+                const logToDebug = (message) => {
+                    console.log(message);
+                    const p = document.createElement('p');
+                    p.textContent = message;
+                    debugDiv.appendChild(p);
+                };
+                
+                // Try loading from the scraper endpoint first
+                try {
+                    logToDebug('Trying to load from /api/v1/scrapers/list...');
+                    const scrapersResponse = await fetch(`${API_BASE}/scrapers/list`);
+                    logToDebug(`Response status: ${scrapersResponse.status}`);
+                    
+                    const scrapersData = await scrapersResponse.json();
+                    logToDebug(`Data received: ${JSON.stringify(scrapersData).slice(0, 100)}...`);
+                    
+                    if (scrapersData.success) {
+                        logToDebug(`Success! Found ${scrapersData.scrapers.length} scrapers`);
+                        // Transform the scrapers list into the format we need
+                        scrapers = scrapersData.scrapers.map(scraper => ({
+                            id: scraper.name.toLowerCase().replace(/\s+/g, '-'),
+                            name: scraper.name,
+                            url: scraper.url || '#',
+                            type: scraper.type || 'Scraper'
+                        }));
+                        
+                        logToDebug(`Transformed scrapers: ${JSON.stringify(scrapers.slice(0, 2))}...`);
+                        
+                        updateStats();
+                        renderScraperTable();
+                        
+                        // Test each scraper once
+                        testAllScrapers();
+                        return; // If this worked, we're done
+                    } else {
+                        logToDebug('API returned success: false');
+                    }
+                } catch (err) {
+                    logToDebug(`Error with /scrapers/list: ${err.message}`);
+                    console.warn('Could not load from /scrapers/list, falling back to /venues');
+                }
+                
+                // Fallback to venues endpoint
+                try {
+                    logToDebug('Falling back to /api/v1/venues endpoint');
+                    const response = await fetch(`${API_BASE}/venues`);
+                    logToDebug(`Venues response status: ${response.status}`);
+                    
+                    const data = await response.json();
+                    logToDebug(`Venues data received: ${JSON.stringify(data).slice(0, 100)}...`);
+                    
+                    if (data.success) {
+                        logToDebug(`Success! Found ${(data.venues || []).length} venues`);
+                        scrapers = data.venues || [];
+                        updateStats();
+                        renderScraperTable();
+                        
+                        // Test each scraper once
+                        testAllScrapers();
+                    } else {
+                        logToDebug('Venues API returned success: false');
+                        showError('Failed to fetch scrapers from venues endpoint');
+                    }
+                } catch (error) {
+                    logToDebug(`Error with venues endpoint: ${error.message}`);
+                    showError(`Error fetching scrapers: ${error.message}`);
+                }
+            } catch (error) {
+                showError(`Error loading scrapers: ${error.message}`);
+            }
+        }
+        
+        // Test all scrapers
+        async function testAllScrapers() {
+            for (const scraper of scrapers) {
+                await testScraper(scraper.id);
+            }
+        }
+        
+        // Test a single scraper
+        async function testScraper(scraperId) {
+            try {
+                updateScraperStatus(scraperId, 'testing');
+                
+                // Try scraper-specific endpoint first
+                const scraperName = scrapers.find(s => s.id === scraperId)?.name;
+                
+                try {
+                    if (scraperName) {
+                        const encodedName = encodeURIComponent(scraperName);
+                        const scraperResponse = await fetch(`${API_BASE}/scrapers/run/${encodedName}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                save: false
+                            })
+                        });
+                        
+                        const scraperData = await scraperResponse.json();
+                        
+                        if (scraperData.success) {
+                            scraperResults[scraperId] = {
+                                status: 'success',
+                                eventCount: scraperData.count || 0,
+                                lastRun: new Date()
+                            };
+                            
+                            updateScraperStatus(scraperId);
+                            updateStats();
+                            return; // If successful, we're done
+                        }
+                    }
+                } catch (err) {
+                    console.warn(`Could not use /scrapers/run/${scraperName}, falling back to venues API`);
+                }
+                
+                // Fallback to venues API
+                const response = await fetch(`${API_BASE}/venues/${scraperId}/events`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    scraperResults[scraperId] = {
+                        status: 'success',
+                        eventCount: data.events ? data.events.length : 0,
+                        lastRun: new Date()
+                    };
+                } else {
+                    scraperResults[scraperId] = {
+                        status: 'error',
+                        error: data.message || 'Unknown error',
+                        lastRun: new Date()
+                    };
+                }
+            } catch (error) {
+                scraperResults[scraperId] = {
+                    status: 'error',
+                    error: error.message,
+                    lastRun: new Date()
+                };
+            }
+            
+            updateScraperStatus(scraperId);
+            updateStats();
+        }
+        
+        // Refresh all scrapers
+        async function refreshAllScrapers() {
+            refreshAllBtn.disabled = true;
+            refreshAllBtn.textContent = 'Refreshing...';
+            
+            await testAllScrapers();
+            
+            refreshAllBtn.disabled = false;
+            refreshAllBtn.textContent = 'Refresh All';
+            updateTimestamp();
+        }
+        
+        // Render scrapers table
+        function renderScraperTable() {
+            if (scrapers.length === 0) {
+                scrapersTable.innerHTML = '<tr><td colspan="6">No scrapers found</td></tr>';
+                return;
+            }
+            
+            scrapersTable.innerHTML = scrapers
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(scraper => {
+                    const result = scraperResults[scraper.id] || { status: 'unknown' };
+                    const statusClass = 
+                        result.status === 'success' ? 'status-good' :
+                        result.status === 'error' ? 'status-error' :
+                        result.status === 'testing' ? 'status-warn' : '';
+                    
+                    const statusText = 
+                        result.status === 'success' ? 'Active' :
+                        result.status === 'error' ? 'Error' :
+                        result.status === 'testing' ? 'Testing...' : 'Unknown';
+                    
+                    // Add type badge
+                    const typeLabel = scraper.type ? 
+                        `<span class="scraper-type">${scraper.type}</span>` : '';
+                    
+                    return `
+                        <tr data-scraper-id="${scraper.id}">
+                            <td class="scraper-name">${scraper.name} ${typeLabel}</td>
+                            <td class="scraper-url">
+                                <a href="${scraper.url}" target="_blank">${formatUrl(scraper.url)}</a>
+                            </td>
+                            <td class="scraper-status ${statusClass}">${statusText}</td>
+                            <td>${result.eventCount !== undefined ? result.eventCount : '-'}</td>
+                            <td>${result.lastRun ? formatDateTime(result.lastRun) : '-'}</td>
+                            <td class="scraper-actions">
+                                <button class="action-button test-button" data-scraper-id="${scraper.id}">Test</button>
+                                <button class="action-button view-button" data-scraper-id="${scraper.id}">View Events</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.test-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const scraperId = button.getAttribute('data-scraper-id');
+                    
+                    // Disable the button during test
+                    button.disabled = true;
+                    button.textContent = 'Testing...';
+                    
+                    // Run the test and re-enable when done
+                    testScraper(scraperId).finally(() => {
+                        button.disabled = false;
+                        button.textContent = 'Test';
+                    });
+                });
+            });
+            
+            document.querySelectorAll('.view-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const scraperId = button.getAttribute('data-scraper-id');
+                    const scraperName = scrapers.find(s => s.id === scraperId)?.name;
+                    
+                    if (scraperName) {
+                        // Try scraper API first
+                        const encodedName = encodeURIComponent(scraperName);
+                        window.open(`${API_BASE}/scrapers/run/${encodedName}`, '_blank');
+                    } else {
+                        // Fallback to venues viewer
+                        window.location.href = `/venue-viewer.html?venue=${scraperId}`;
+                    }
+                });
+            });
+        }
+        
+        // Update a single scraper's status in the table
+        function updateScraperStatus(scraperId, status) {
+            if (status) {
+                scraperResults[scraperId] = { status };
+            }
+            
+            const result = scraperResults[scraperId] || { status: 'unknown' };
+            const row = document.querySelector(`tr[data-scraper-id="${scraperId}"]`);
+            
+            if (!row) {
+                renderScraperTable();
+                return;
+            }
+            
+            const statusCell = row.querySelector('.scraper-status');
+            const eventsCell = row.cells[3];
+            const lastRunCell = row.cells[4];
+            
+            // Update status
+            const statusClass = 
+                result.status === 'success' ? 'status-good' :
+                result.status === 'error' ? 'status-error' :
+                result.status === 'testing' ? 'status-warn' : '';
+            
+            const statusText = 
+                result.status === 'success' ? 'Active' :
+                result.status === 'error' ? 'Error' :
+                result.status === 'testing' ? 'Testing...' : 'Unknown';
+            
+            statusCell.className = `scraper-status ${statusClass}`;
+            statusCell.textContent = statusText;
+            
+            // Update event count and last run
+            if (result.eventCount !== undefined) {
+                eventsCell.textContent = result.eventCount;
+            }
+            
+            if (result.lastRun) {
+                lastRunCell.textContent = formatDateTime(result.lastRun);
+            }
+        }
+        
+        // Update statistics display
+        function updateStats() {
+            // Total scrapers
+            totalScrapersEl.textContent = scrapers.length;
+            
+            // Active scrapers (those with events)
+            const activeCount = Object.values(scraperResults)
+                .filter(result => result.status === 'success' && result.eventCount > 0)
+                .length;
+            activeScrapersEl.textContent = activeCount;
+            
+            // Total events
+            const totalEvents = Object.values(scraperResults)
+                .reduce((total, result) => total + (result.eventCount || 0), 0);
+            totalEventsEl.textContent = totalEvents;
+            
+            // Last refreshed
+            if (Object.keys(scraperResults).length > 0) {
+                const lastRun = Object.values(scraperResults)
+                    .map(r => r.lastRun)
+                    .filter(Boolean)
+                    .sort((a, b) => b - a)[0];
+                
+                if (lastRun) {
+                    lastRefreshedEl.textContent = formatDateTime(lastRun);
+                }
+            }
+        }
+        
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            updateTimestampEl.textContent = formatDateTime(now);
+        }
+        
+        // Show error message
+        function showError(message) {
+            const errorEl = document.createElement('div');
+            errorEl.className = 'error';
+            errorEl.textContent = message;
+            
+            // Replace any existing error
+            const existingError = document.querySelector('.error');
+            if (existingError) {
+                existingError.parentNode.replaceChild(errorEl, existingError);
+            } else {
+                // Insert at the top
+                document.body.insertBefore(errorEl, document.body.firstChild);
+            }
+        }
+        
+        // Format date and time
+        function formatDateTime(date) {
+            return new Date(date).toLocaleString();
+        }
+        
+        // Format URL for display
+        function formatUrl(url) {
+            if (!url) return '';
+            return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+        }
+    </script>
+</body>
+</html>

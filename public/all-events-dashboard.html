@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        #events-table {
+            font-size: 0.9rem;
+        }
+        .debug-section {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .spinner-container {
+            text-align: center;
+        }
+        .success-badge {
+            background-color: #28a745;
+        }
+        .error-badge {
+            background-color: #dc3545;
+        }
+        .filter-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        .event-card {
+            margin-bottom: 15px;
+            border-left: 5px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-12">
+                <h1>All Events Dashboard</h1>
+                <div class="d-flex">
+                    <a href="/" class="btn btn-outline-secondary me-2">Back to Home</a>
+                    <a href="/scraper-dashboard.html" class="btn btn-outline-primary me-2">Scraper Dashboard</a>
+                    <a href="/debug-dashboard.html" class="btn btn-outline-danger me-2">Debug Dashboard</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row filter-section">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" id="search-filter" class="form-control" placeholder="Filter by title, venue, or date...">
+                    <button id="clear-filter" class="btn btn-outline-secondary">Clear</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex justify-content-end">
+                    <button id="refresh-all" class="btn btn-primary">Refresh All Events</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Events (<span id="event-count">0</span>)</h5>
+                        <div>
+                            <span class="badge bg-secondary" id="scrapers-loaded">0 scrapers loaded</span>
+                            <span class="badge bg-success" id="events-loaded">0 events loaded</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="events-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Venue</th>
+                                        <th>Source</th>
+                                        <th>URL</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="events-body">
+                                    <!-- Events will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="accordion" id="debugAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="debugHeading">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#debugContent">
+                                Debug Information
+                            </button>
+                        </h2>
+                        <div id="debugContent" class="accordion-collapse collapse" data-bs-parent="#debugAccordion">
+                            <div class="accordion-body">
+                                <div id="debug-log" class="debug-section"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner-container">
+            <div class="spinner-border text-primary" role="status"></div>
+            <div class="mt-2" id="loading-text">Loading scrapers...</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        const allEvents = [];
+        const debugLog = document.getElementById('debug-log');
+        const eventsTable = document.getElementById('events-table');
+        const eventsBody = document.getElementById('events-body');
+        const eventCount = document.getElementById('event-count');
+        const scrapersLoaded = document.getElementById('scrapers-loaded');
+        const eventsLoaded = document.getElementById('events-loaded');
+        const searchFilter = document.getElementById('search-filter');
+        const clearFilter = document.getElementById('clear-filter');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingText = document.getElementById('loading-text');
+        const refreshAllButton = document.getElementById('refresh-all');
+
+        // Debug logging function
+        function logDebug(message, isError = false) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<span style="color: #6c757d">[${timestamp}]</span> ${isError ? '<span style="color: #dc3545">[ERROR]</span> ' : ''}${message}`;
+            debugLog.appendChild(logEntry);
+            debugLog.scrollTop = debugLog.scrollHeight;
+            console.log(`${isError ? '[ERROR] ' : ''}${message}`);
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date)) return dateString;
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit'
+                });
+            } catch (e) {
+                return dateString;
+            }
+        }
+
+        // Display events in the table
+        function displayEvents(events) {
+            eventsBody.innerHTML = '';
+            
+            if (events.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="6" class="text-center">No events found</td>`;
+                eventsBody.appendChild(row);
+                return;
+            }
+            
+            events.forEach(event => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${event.title || 'N/A'}</td>
+                    <td>${formatDate(event.startDate)}</td>
+                    <td>${formatDate(event.endDate)}</td>
+                    <td>${event.venue || 'N/A'}</td>
+                    <td>${event.source || 'N/A'}</td>
+                    <td>${event.url ? `<a href="${event.url}" target="_blank">Link</a>` : 'N/A'}</td>
+                `;
+                eventsBody.appendChild(row);
+            });
+            
+            eventCount.textContent = events.length;
+        }
+
+        // Filter events
+        function filterEvents() {
+            const filterText = searchFilter.value.toLowerCase();
+            if (!filterText) {
+                displayEvents(allEvents);
+                return;
+            }
+            
+            const filtered = allEvents.filter(event => {
+                const title = (event.title || '').toLowerCase();
+                const venue = (event.venue || '').toLowerCase();
+                const startDate = formatDate(event.startDate).toLowerCase();
+                
+                return title.includes(filterText) || 
+                       venue.includes(filterText) || 
+                       startDate.includes(filterText);
+            });
+            
+            displayEvents(filtered);
+        }
+
+        // Fetch scrapers
+        async function fetchScrapers() {
+            loadingText.textContent = 'Loading scrapers...';
+            loadingOverlay.style.display = 'flex';
+            
+            try {
+                logDebug('Fetching scrapers from /api/v1/scrapers/list');
+                const scraperResponse = await fetch('/api/v1/scrapers/list');
+                
+                if (!scraperResponse.ok) {
+                    throw new Error(`Failed to fetch scrapers: ${scraperResponse.status} ${scraperResponse.statusText}`);
+                }
+                
+                const scraperData = await scraperResponse.json();
+                logDebug(`Found ${scraperData.scrapers.length} scrapers`);
+                scrapersLoaded.textContent = `${scraperData.scrapers.length} scrapers loaded`;
+                
+                return scraperData.scrapers;
+            } catch (error) {
+                logDebug(`Error fetching scrapers: ${error.message}`, true);
+                
+                // Try fallback to venues API
+                logDebug('Attempting fallback to /api/v1/venues endpoint');
+                try {
+                    const venuesResponse = await fetch('/api/v1/venues');
+                    
+                    if (!venuesResponse.ok) {
+                        throw new Error(`Failed to fetch venues: ${venuesResponse.status} ${venuesResponse.statusText}`);
+                    }
+                    
+                    const venuesData = await venuesResponse.json();
+                    logDebug(`Found ${venuesData.venues.length} venues`);
+                    scrapersLoaded.textContent = `${venuesData.venues.length} venues loaded`;
+                    
+                    // Convert venues to scrapers format
+                    return venuesData.venues.map(venue => ({
+                        name: venue.name,
+                        url: venue.url,
+                        type: 'venue'
+                    }));
+                } catch (venueError) {
+                    logDebug(`Error fetching venues: ${venueError.message}`, true);
+                    return [];
+                }
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        // Run each scraper and fetch events
+        async function fetchAllEvents() {
+            allEvents.length = 0; // Clear events array
+            
+            const scrapers = await fetchScrapers();
+            if (scrapers.length === 0) {
+                logDebug('No scrapers found', true);
+                return;
+            }
+            
+            loadingText.textContent = `Loading events from ${scrapers.length} scrapers...`;
+            loadingOverlay.style.display = 'flex';
+            
+            let completedScrapers = 0;
+            
+            // Process scrapers in batches to avoid overloading the server
+            const batchSize = 5;
+            const batches = [];
+            
+            for (let i = 0; i < scrapers.length; i += batchSize) {
+                batches.push(scrapers.slice(i, i + batchSize));
+            }
+            
+            for (const batch of batches) {
+                await Promise.all(batch.map(async scraper => {
+                    try {
+                        logDebug(`Running scraper: ${scraper.name}`);
+                        
+                        // Normalize the scraper name for the API call
+                        const normalizedName = scraper.name.replace(/\s+/g, '').toLowerCase();
+                        const response = await fetch(`/api/v1/scrapers/run/${normalizedName}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ save: false }) // Don't save to database by default
+                        });
+                        
+                        if (!response.ok) {
+                            // Even if the scraper fails, we still count it as completed
+                            const errorText = await response.text();
+                            logDebug(`Error running scraper ${scraper.name}: ${errorText}`, true);
+                            return;
+                        }
+                        
+                        const data = await response.json();
+                        
+                        if (data.events && Array.isArray(data.events)) {
+                            // Add the events to our global array with the scraper as source
+                            const eventsWithSource = data.events.map(event => ({
+                                ...event,
+                                source: scraper.name,
+                                url: scraper.url
+                            }));
+                            
+                            allEvents.push(...eventsWithSource);
+                            logDebug(`Added ${eventsWithSource.length} events from ${scraper.name}`);
+                        } else {
+                            logDebug(`No events returned from ${scraper.name}`);
+                        }
+                    } catch (error) {
+                        logDebug(`Exception running scraper ${scraper.name}: ${error.message}`, true);
+                    } finally {
+                        completedScrapers++;
+                        loadingText.textContent = `Loading events... (${completedScrapers}/${scrapers.length})`;
+                    }
+                }));
+            }
+            
+            // Sort events by date
+            allEvents.sort((a, b) => {
+                const dateA = a.startDate ? new Date(a.startDate) : new Date(9999, 11, 31);
+                const dateB = b.startDate ? new Date(b.startDate) : new Date(9999, 11, 31);
+                return dateA - dateB;
+            });
+            
+            eventsLoaded.textContent = `${allEvents.length} events loaded`;
+            displayEvents(allEvents);
+            loadingOverlay.style.display = 'none';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAllEvents();
+            
+            searchFilter.addEventListener('input', filterEvents);
+            
+            clearFilter.addEventListener('click', () => {
+                searchFilter.value = '';
+                filterEvents();
+            });
+            
+            refreshAllButton.addEventListener('click', fetchAllEvents);
+        });
+    </script>
+</body>
+</html>
