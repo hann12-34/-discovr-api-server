@@ -18,7 +18,7 @@ app.use(express.json());
 
 // MongoDB connection URIs (using environment variables for deployment)
 const CLOUD_MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr";
-const LOCAL_MONGODB_URI = process.env.LOCAL_MONGODB_URI || 'mongodb://localhost:27017/discovr';
+
 // Use environment variable for port (Render will provide this)
 const PORT = process.env.PORT || 3030;
 
@@ -34,13 +34,7 @@ const cloudClient = new MongoClient(CLOUD_MONGODB_URI, {
   }
 });
 
-const localClient = new MongoClient(LOCAL_MONGODB_URI, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+
 
 // Serve static files for admin UI
 app.use(express.static(ADMIN_UI_PATH));
@@ -58,21 +52,8 @@ async function connectToMongoDB() {
     
     const cloudEventsCount = await cloudEventsCollection.countDocuments();
     console.log(`📊 Found ${cloudEventsCount} events in cloud database`);
-    
-    // Connect to local MongoDB for admin UI
-    await localClient.connect();
-    console.log('✅ Connected to local MongoDB');
-    
-    const localDb = localClient.db('discovr');
-    const localEventsCollection = localDb.collection('events');
-    
-    const localEventsCount = await localEventsCollection.countDocuments();
-    console.log(`📊 Found ${localEventsCount} events in local database`);
-    
-    return {
-      cloud: cloudEventsCollection,
-      local: localEventsCollection
-    };
+
+    return { cloud: cloudEventsCollection };
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
     throw error;
