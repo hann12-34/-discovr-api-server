@@ -125,7 +125,7 @@ async function startServer() {
         }
         
         // Get events from local database for admin UI
-        const events = await collections.local.find(query).sort({ startDate: 1 }).toArray();
+        const events = await collections.cloud.find(query).sort({ startDate: 1 }).toArray();
         console.log(`Found ${events.length} events for admin UI from local database`);
         
         res.status(200).json(events);
@@ -138,7 +138,7 @@ async function startServer() {
     // Get event by ID for admin UI
     app.get('/api/v1/events/:id', async (req, res) => {
       try {
-        const event = await collections.local.findOne({ id: req.params.id });
+        const event = await collections.cloud.findOne({ id: req.params.id });
         
         if (!event) {
           return res.status(404).json({ error: 'Event not found' });
@@ -191,7 +191,7 @@ async function startServer() {
 process.on('SIGINT', async () => {
   console.log('Shutting down...');
   await cloudClient.close();
-  await localClient.close();
+
   process.exit(0);
 });
 
