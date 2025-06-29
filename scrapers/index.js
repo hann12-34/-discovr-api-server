@@ -13,6 +13,7 @@ const eventbriteScraper = require('./sources/eventbrite');
 const meetupScraper = require('./sources/meetup');
 const localVenuesScraper = require('./sources/localVenues');
 const tourismBoardScraper = require('./sources/tourismBoard');
+const roxyScraper = require('./roxy-scraper');
 
 // Import city scrapers
 const cityScraper = require('./cities');
@@ -30,7 +31,8 @@ class ScraperCoordinator {
       meetupScraper,
       localVenuesScraper,
       tourismBoardScraper,
-      cityScraper
+      cityScraper,
+      roxyScraper
     ];
   }
 
