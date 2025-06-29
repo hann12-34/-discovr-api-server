@@ -16,8 +16,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection URIs (using environment variables for deployment)
-const CLOUD_MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr";
+// MongoDB connection URI (must be set in Render environment)
+const CLOUD_MONGODB_URI = process.env.MONGODB_URI;
+
+// Crash if the environment variable is not set
+if (!CLOUD_MONGODB_URI) {
+  console.error('FATAL ERROR: MONGODB_URI environment variable is not set.');
+  process.exit(1);
+}
 
 // Use environment variable for port (Render will provide this)
 const PORT = process.env.PORT || 3030;
