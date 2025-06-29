@@ -50,12 +50,6 @@ async function connectToMongoDB() {
     const cloudDb = cloudClient.db('discovr');
     const cloudEventsCollection = cloudDb.collection('events');
     
-    // --- DIAGNOSTIC LOGGING --- //
-    console.log(`[DIAGNOSTIC] Connecting with URI: ${CLOUD_MONGODB_URI}`);
-    const testEvent = await cloudEventsCollection.findOne({ title: "THE SHINDIGS / 4 QUARTER BOULEVARD" });
-    console.log(`[DIAGNOSTIC] Test query for a Roxy event found: ${testEvent ? 'Yes, found event.' : 'No, event not found.'}`);
-    // --- END DIAGNOSTIC LOGGING --- //
-
     const cloudEventsCount = await cloudEventsCollection.countDocuments();
     console.log(`📊 Found ${cloudEventsCount} events in cloud database`);
 
