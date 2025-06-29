@@ -47,7 +47,11 @@ async function connectToMongoDB() {
     await cloudClient.connect();
     console.log('✅ Connected to cloud MongoDB');
     
+    // CRITICAL: Always explicitly specify 'discovr' as the database name
+    // This ensures we connect to the correct database regardless of the URI
     const cloudDb = cloudClient.db('discovr');
+    console.log(`💾 Using database: ${cloudDb.databaseName}`);
+    
     const cloudEventsCollection = cloudDb.collection('events');
     
     const cloudEventsCount = await cloudEventsCollection.countDocuments();
