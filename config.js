@@ -6,7 +6,7 @@
 const config = {
   // Base application settings
   appName: 'Discovr Vancouver',
-  baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+  baseUrl: process.env.BASE_URL || 'https://discovr-api-531591199325.us-west1.run.app',
   port: process.env.PORT || 3000,
   
   // MongoDB configuration

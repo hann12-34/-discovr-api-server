@@ -1,161 +1,43 @@
 const mongoose = require('mongoose');
 
+// Event schema definition
 const EventSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: false,
-    default: 'Untitled Event',
-    trim: true
-  },
-  description: {
-    type: String,
-    default: ''
-  },
+  id: { type: String, unique: true },
+  title: { type: String, required: true },
+  description: String,
+  startDate: { type: Date, required: true },
+  endDate: Date,
+  image: String,
   venue: {
-    name: {
-      type: String,
-      default: 'Unknown Venue'
-    },
-    address: {
-      type: String,
-      default: 'Address not provided'
-    },
-    city: {
-      type: String,
-      default: 'Seattle'
-    },
-    state: {
-      type: String,
-      default: 'WA'
-    },
-    zipCode: {
-      type: String
-    },
-    venueType: {
-      type: String,
-      enum: ['music', 'theater', 'sports', 'outdoor', 'restaurant', 'bar', 'museum', 'gallery', 'other'],
-      default: 'other'
-    },
-    website: {
-      type: String
-    },
-    capacity: {
-      type: Number
+    name: { type: String, required: true },
+    address: String,
+    city: String,
+    state: String,
+    country: String,
+    coordinates: {
+      lat: Number,
+      lng: Number
     }
   },
-  location: {
-    type: String,
-    default: 'Seattle, WA'
-  },
-  latitude: {
-    type: Number,
-    default: 0
-  },
-  longitude: {
-    type: Number,
-    default: 0
-  },
-  startDate: {
-    type: Date,
-    default: Date.now
-  },
-  endDate: {
-    type: Date
-  },
-  imageURL: {
-    type: String
-  },
-  sourceURL: {
-    type: String
-  },
-  type: {
-    type: String,
-    default: 'general'
-  },
-  price: {
-    type: String,
-    default: 'Free'
-  },
-  priceRange: {
-    min: {
-      type: Number,
-      default: 0
-    },
-    max: {
-      type: Number
-    },
-    currency: {
-      type: String,
-      default: 'USD'
-    }
-  },
-  ticketURL: {
-    type: String
-  },
-  source: {
-    type: String,
-    default: 'manual',
-    enum: ['manual', 'scraped', 'api']
-  },
-  season: {
-    type: String,
-    enum: ['winter', 'spring', 'summer', 'fall'],
-    default: function() {
-      const month = new Date().getMonth();
-      if (month >= 2 && month <= 4) return 'spring';
-      if (month >= 5 && month <= 7) return 'summer';
-      if (month >= 8 && month <= 10) return 'fall';
-      return 'winter';
-    }
-  },
-  tags: [{
-    type: String,
-    trim: true
-  }],
-  accessibility: {
-    wheelchairAccessible: {
-      type: Boolean,
-      default: false
-    },
-    assistiveListening: {
-      type: Boolean,
-      default: false
-    },
-    closedCaptions: {
-      type: Boolean,
-      default: false
-    },
-    signLanguage: {
-      type: Boolean,
-      default: false
-    },
-    serviceAnimalsAllowed: {
-      type: Boolean,
-      default: true
-    },
-    notes: {
-      type: String
-    }
-  },
-  status: {
-    type: String,
-    enum: ['active', 'upcoming', 'ended'],
-    default: 'upcoming'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
+  category: { type: String, default: 'music' },
+  categories: [String],
+  sourceURL: String,
+  ticketURL: String,
+  location: String, // Legacy field for compatibility
+  lastUpdated: { type: Date, default: Date.now }
 });
 
-// Pre-save hook to update the updatedAt field
-EventSchema.pre('save', function(next) {
-  this.updatedAt = Date.now();
-  next();
-});
+// Create compound index on title and venue.name for faster lookups
+EventSchema.index({ title: 1, 'venue.name': 1 });
 
-module.exports = mongoose.model('Event', EventSchema);
+// Create index on startDate for date range queries
+EventSchema.index({ startDate: 1 });
+EventSchema.index({ endDate: 1 });
+
+// Create index on venue.name for venue filtering
+EventSchema.index({ 'venue.name': 1 });
+
+// Export model
+const Event = mongoose.model('Event', EventSchema);
+
+module.exports = Event;

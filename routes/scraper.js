@@ -108,7 +108,7 @@ router.get('/status', isAdmin, (req, res) => {
  */
 router.post('/run/:scraperName', isAdmin, async (req, res) => {
   const { scraperName } = req.params;
-  const { save = true } = req.body;
+  const { save = true, preserveExisting = false } = req.body;
   
   try {
     // Find the scraper with more flexible matching
@@ -179,19 +179,41 @@ router.post('/run/:scraperName', isAdmin, async (req, res) => {
     // Save events if requested
     if (save && events && Array.isArray(events) && events.length > 0) {
       try {
-        // Save each event to the database
-        await Promise.all(events.map(event => {
-          // Only add if not a duplicate
-          return Event.findOneAndUpdate(
-            { 
+        if (preserveExisting) {
+          // When preserveExisting is true, we'll only add new events without affecting existing ones
+          console.log(`Preserving existing events while adding new ones from ${scraper.name}`);
+          
+          // Process each event
+          for (const event of events) {
+            // Check if this event already exists in the database
+            const existingEvent = await Event.findOne({ 
               title: event.title,
               startDate: event.startDate,
-              venue: event.venue
-            }, 
-            event, 
-            { upsert: true, new: true }
-          );
-        }));
+              venue: { $exists: true, $ne: null },
+              'venue.name': event.venue?.name
+            });
+            
+            if (!existingEvent) {
+              // Only insert if it doesn't exist
+              const newEvent = new Event(event);
+              await newEvent.save();
+            }
+            // Skip if it already exists (preservation mode)
+          }
+        } else {
+          // Standard approach - will replace matching events
+          await Promise.all(events.map(event => {
+            return Event.findOneAndUpdate(
+              { 
+                title: event.title,
+                startDate: event.startDate,
+                venue: event.venue
+              }, 
+              event, 
+              { upsert: true, new: true }
+            );
+          }));
+        }
         
         console.log(`Saved ${events.length} events from scraper ${scraper.name}`);
       } catch (dbError) {

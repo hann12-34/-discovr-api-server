@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
+const mongoose = require('mongoose');
 
 /**
  * @route   GET /api/v1/events/venues/:venueName
@@ -58,6 +59,17 @@ router.get('/test', (req, res) => {
  */
 router.get('/', async (req, res) => {
   try {
+    // Check MongoDB connection status first
+    const connectionState = mongoose.connection.readyState;
+    if (connectionState !== 1) {
+      return res.status(503).json({ 
+        error: 'Database unavailable', 
+        message: 'Database connection not established', 
+        connectionState,
+        mongooseVersion: mongoose.version
+      });
+    }
+
     const { 
       type, 
       season, 
@@ -126,11 +138,14 @@ router.get('/', async (req, res) => {
     const sortOptions = {};
     sortOptions[sort] = order === 'desc' ? -1 : 1;
     
-    // Get total count for pagination metadata
-    const totalEvents = await Event.countDocuments(query);
+    // Set timeouts for all operations
+    const options = { maxTimeMS: 15000 }; // 15 second timeout
     
-    // Execute query with pagination
-    const events = await Event.find(query)
+    // Get total count for pagination metadata with timeout
+    const totalEvents = await Event.countDocuments(query, options);
+    
+    // Execute query with pagination and timeout
+    const events = await Event.find(query, null, options)
       .skip(skip)
       .limit(parseInt(limit))
       .sort(sortOptions);
@@ -146,8 +161,12 @@ router.get('/', async (req, res) => {
       }
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Error in GET /events:', err);
+    res.status(500).json({ 
+      error: 'Server error', 
+      message: err.message,
+      mongooseState: mongoose.connection.readyState
+    });
   }
 });
 
@@ -178,13 +197,7 @@ router.post('/', async (req, res) => {
   try {
     console.log('Received event data:', JSON.stringify(req.body, null, 2));
 
-    // Create event with defaults for missing required fields
-    let eventData = { ...req.body };
-    
-    // Handle potential missing fields that might cause validation errors
-    if (!eventData.name) eventData.name = 'Untitled Event';
-    if (!eventData.location) eventData.location = 'Seattle, WA';
-    if (!eventData.status) eventData.status = 'active';
+    const eventData = { ...req.body };
     
     // Create and save the new event
     const event = new Event(eventData);
@@ -462,6 +475,62 @@ router.delete('/bulk', async (req, res) => {
 });
 
 /**
+ * @route   GET /api/v1/events/venues/:venueName
+ * @desc    Get events by venue name
+ * @access  Private (requires API key)
+ */
+router.get('/venues/:venueName', async (req, res) => {
+  try {
+    // Check MongoDB connection status first
+    const connectionState = mongoose.connection.readyState;
+    if (connectionState !== 1) {
+      return res.status(503).json({ 
+        error: 'Database unavailable', 
+        message: 'Database connection not established', 
+        connectionState,
+        mongooseVersion: mongoose.version
+      });
+    }
+    
+    const venueName = req.params.venueName;
+    console.log(`Searching for events at venue: ${venueName}`);
+    
+    // Get pagination parameters
+    const limit = parseInt(req.query.limit) || 20;
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * limit;
+    
+    // Build query for venue name with case-insensitive regex
+    const query = { 'venue.name': { $regex: new RegExp(venueName, 'i') } };
+    
+    // Set timeout for all operations
+    const options = { maxTimeMS: 10000 }; // 10 second timeout
+    
+    // Get total count and events in parallel
+    const [totalEvents, events] = await Promise.all([
+      Event.countDocuments(query, options),
+      Event.find(query, null, options)
+        .sort({ startDate: 1 })
+        .skip(skip)
+        .limit(limit)
+    ]);
+    
+    res.json({
+      events,
+      pagination: {
+        total: totalEvents,
+        page,
+        limit,
+        pages: Math.ceil(totalEvents / limit)
+      }
+    });
+  } catch (err) {
+    console.error(`Error getting events for venue '${req.params.venueName}':`, err);
+    res.status(500).json({ error: 'Server error', message: err.message });
+  }
+});
+
+/**
  * @route   GET /api/v1/events/search
  * @desc    Advanced search endpoint with full-text search capabilities
  * @access  Private (requires API key)
@@ -511,6 +580,75 @@ router.get('/search', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+/**
+ * @route   DELETE /api/v1/events/:eventId
+ * @desc    Delete an event by its ID
+ * @access  Private (requires API key or JWT)
+ */
+router.delete('/:eventId', async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+
+    // Validate if eventId is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(eventId)) {
+      return res.status(400).json({ success: false, message: 'Invalid event ID format' });
+    }
+
+    const event = await Event.findByIdAndDelete(eventId);
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    res.json({ success: true, message: 'Event deleted successfully', data: event });
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    res.status(500).json({ success: false, message: 'Server error while deleting event', error: error.message });
+  }
+});
+
+
+/**
+ * @route   PUT /api/v1/events/:eventId
+ * @desc    Update an event by its ID
+ * @access  Private (requires API key or JWT)
+ */
+router.put('/:eventId', async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const updates = req.body;
+
+    // Validate if eventId is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(eventId)) {
+      return res.status(400).json({ success: false, message: 'Invalid event ID format' });
+    }
+
+    // Example: Prevent updating the _id or sourceURL if it's system-generated
+    // delete updates._id; 
+    // delete updates.sourceURL; 
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      eventId,
+      { $set: updates }, // Use $set to apply updates
+      { new: true, runValidators: true } // Options: new=true returns the modified document, runValidators ensures schema validation
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    res.json({ success: true, message: 'Event updated successfully', data: updatedEvent });
+  } catch (error) {
+    console.error('Error updating event:', error);
+    // Handle Mongoose validation errors specifically
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: 'Validation error', errors: error.errors });
+    }
+    res.status(500).json({ success: false, message: 'Server error while updating event', error: error.message });
   }
 });
 

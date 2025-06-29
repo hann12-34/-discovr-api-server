@@ -1,6 +1,7 @@
-FROM node:16
+FROM node:18-slim
 
-# Install puppeteer dependencies
+# Install Puppeteer dependencies
+# See https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-puppeteer-in-docker
 RUN apt-get update \
     && apt-get install -y wget gnupg \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -10,20 +11,19 @@ RUN apt-get update \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
+# Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
-RUN npm install
+# Install all dependencies from package.json
+RUN npm ci || npm install
 
+# Copy the rest of your application code
 COPY . .
 
-# Set environment variables
-ENV NODE_ENV=production
-
-# Always expose port 8080 for Cloud Run
+# Expose port 8080 for Cloud Run
 EXPOSE 8080
 
-# Start the server
+# Run the simple server to test if dependencies installed correctly
 CMD ["node", "server.js"]
-

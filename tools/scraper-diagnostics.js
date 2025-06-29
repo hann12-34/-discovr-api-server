@@ -165,7 +165,7 @@ async function runAllScrapers() {
   console.log(`Scrapers with 0 events: ${colors.yellow}${emptyResultsCount}${colors.reset}`);
   
   // Generate success rate
-  const successRate = (successCount / results.length) * 100;
+  const successRate = (results.length > 0) ? (successCount / results.length) * 100 : 0;
   console.log(`Success rate: ${colors.cyan}${successRate.toFixed(1)}%${colors.reset}`);
   
   // Save results to file
@@ -200,7 +200,7 @@ function generateHtmlReport(results) {
   const successCount = results.filter(r => r.success).length;
   const failureCount = results.filter(r => !r.success).length;
   const emptyResultsCount = results.filter(r => r.success && r.eventsCount === 0).length;
-  const successRate = (successCount / totalScrapers) * 100;
+  const successRate = (totalScrapers > 0) ? (successCount / totalScrapers) * 100 : 0;
   
   const timestamp = new Date().toISOString();
   
@@ -229,8 +229,9 @@ function generateHtmlReport(results) {
         .scraper-card.success { border-left: 5px solid #198754; }
         .scraper-card.failure { border-left: 5px solid #dc3545; }
         .scraper-card.empty { border-left: 5px solid #ffc107; }
-        pre { white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+        pre { white-space: pre-wrap; max-height: 300px; overflow-y: auto; background-color: #f8f9fa; padding: 10px; border-radius: 5px; }
         .fix-suggestions { background-color: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .btn-link { text-decoration: none; }
     </style>
 </head>
 <body>
@@ -339,7 +340,7 @@ function generateHtmlReport(results) {
                       return `
                         <div class="card scraper-card ${statusClass}">
                             <div class="card-header" id="heading${index}">
-                                <h5 class="mb-0 d-flex justify-content-between">
+                                <h5 class="mb-0 d-flex justify-content-between align-items-center">
                                     <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}">
                                         ${result.name}
                                     </button>
@@ -402,7 +403,10 @@ function generateHtmlReport(results) {
   `;
 }
 
-// Run the script
-runAllScrapers().catch(error => {
-  console.error('Fatal error:', error);
-});
+// This allows the script to be run directly from the command line
+if (require.main === module) {
+  runAllScrapers();
+}
+
+// Export functions for testing
+module.exports = { testScraper, runAllScrapers };

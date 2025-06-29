@@ -3,13 +3,15 @@
  */
 const scraperSystem = require('./scrapers');
 
-async function runAllScrapers() {
+async function runAllScrapers(preserveExisting = true) {
   try {
     console.log("Starting Discovr API scraper system...");
     console.log(`Running ${scraperSystem.scrapers.length} registered scrapers`);
     
+    console.log(`Preserving existing events: ${preserveExisting ? 'YES' : 'NO'}`);
+    
     // Run all scrapers and save events to database
-    const results = await scraperSystem.runAll(true);
+    const results = await scraperSystem.runAll(true, { preserveExisting });
     
     // Print results
     console.log("\nScraping Results:");
