@@ -12,114 +12,82 @@ if (!MONGODB_URI) {
 
 async function scrapeCommodore() {
   console.log('🔍 Starting Commodore Ballroom scraper...');
-  
   const browser = await puppeteer.launch({
-    headless: 'new', // Use the new headless mode
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
-  
+
   try {
     const page = await browser.newPage();
-    
-    // Set viewport to ensure we get desktop view
-    await page.setViewport({ width: 1280, height: 800 });
-    
-    // Navigate to the shows page
-    console.log('📄 Loading Commodore Ballroom events page...');
-    await page.goto('https://www.commodoreballroom.com/shows', { 
-      waitUntil: 'networkidle2',
-      timeout: 30000
-    });
-    
-    // Wait for the events to load
-    await page.waitForSelector('[data-test="event-row"]', { timeout: 15000 });
-    
-    console.log('📊 Extracting event data...');
-    
-    // Extract event data
-    const events = await page.evaluate(() => {
-      const eventRows = Array.from(document.querySelectorAll('[data-test="event-row"]'));
-      
-      return eventRows.map(row => {
-        // Get the event date
-        const dateElement = row.querySelector('[data-test="date"]');
-        const dateText = dateElement ? dateElement.textContent.trim() : '';
-        
-        // Get the month and day
-        const monthDay = dateText.match(/^([A-Za-z]+)\s+(\d+)/);
-        const month = monthDay ? monthDay[1] : '';
-        const day = monthDay ? monthDay[2] : '';
-        
-        // Get the year (current or next year)
-        const now = new Date();
-        let year = now.getFullYear();
-        // If the month is earlier in the year than current month, it's probably next year's event
-        const monthIndex = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-          .findIndex(m => month.startsWith(m));
-        if (monthIndex !== -1 && monthIndex < now.getMonth()) {
-          year += 1;
-        }
-        
-        // Get the event name and opener/subtitle
-        const titleElement = row.querySelector('[data-test="event-link"]');
-        const title = titleElement ? titleElement.textContent.trim() : '';
-        
-        // Get the support act / opener info
-        const openerElement = row.querySelector('[data-test="supporting-acts"]');
-        const opener = openerElement ? openerElement.textContent.trim() : '';
-        
-        // Get the link to the event page
-        const link = titleElement ? titleElement.href : '';
-        
-        // Get the price
-        const priceElement = row.querySelector('[data-test="price-range"]');
-        const price = priceElement ? priceElement.textContent.trim() : '';
-        
-        // Check if sold out
-        const isSoldOut = row.querySelector('[data-test="sold-out-label"]') !== null;
-        
-        // Format a complete date string
-        let startDate = null;
-        if (month && day && year) {
-          // Try to parse the time if available
-          const timeMatch = dateText.match(/(\d+):(\d+)\s*(PM|AM)/i);
-          let hours = 0;
-          let minutes = 0;
-          
-          if (timeMatch) {
-            hours = parseInt(timeMatch[1]);
-            if (timeMatch[3].toUpperCase() === 'PM' && hours < 12) hours += 12;
-            if (timeMatch[3].toUpperCase() === 'AM' && hours === 12) hours = 0;
-            minutes = parseInt(timeMatch[2]);
+    let apiDataFound = false;
+
+    const eventsPromise = new Promise((resolve, reject) => {
+      page.on('response', async (response) => {
+        const request = response.request();
+        // This URL is specific to Next.js sites and fetches page data as JSON
+        if (request.url().includes('/_next/data/') && request.url().endsWith('/shows.json')) {
+          try {
+            if (response.ok()) {
+              apiDataFound = true;
+              console.log('📊 Found Next.js data API response. Parsing...');
+              const data = await response.json();
+              
+              // The actual event data is nested inside the pageProps
+              const rawEvents = data.pageProps.page.blocks.find(b => b.type === 'upcomingShows')?.events;
+
+              if (rawEvents && Array.isArray(rawEvents)) {
+                const formattedEvents = rawEvents.map(event => {
+                  return {
+                    name: event.title,
+                    description: event.subtitle || '',
+                    venue: {
+                      name: 'Commodore Ballroom',
+                      address: '868 Granville St, Vancouver, BC V6Z 1K3',
+                    },
+                    price: event.price || 'TBA',
+                    // The date is already in a usable format
+                    startDate: new Date(event.date).toISOString(),
+                    // The URL needs to be constructed
+                    sourceUrl: `https://www.commodoreballroom.com/shows/${event.slug}`,
+                    source: 'commodore-scraper',
+                  };
+                });
+                console.log(`✅ Extracted ${formattedEvents.length} events from API data.`);
+                resolve(formattedEvents);
+              } else {
+                 console.log('API response found, but event data is missing or in an unexpected format.');
+              }
+            }
+          } catch (e) {
+            console.error('Error parsing API response:', e);
+            // Don't reject here, as other responses might be valid
           }
-          
-          // Create date object
-          const date = new Date(year, monthIndex, parseInt(day), hours, minutes);
-          startDate = date.toISOString();
         }
-        
-        return {
-          name: title,
-          description: opener ? `With: ${opener}` : '',
-          venue: {
-            name: 'Commodore Ballroom',
-            address: '868 Granville St, Vancouver, BC V6Z 1K3'
-          },
-          price: price || (isSoldOut ? 'Sold Out' : 'TBA'),
-          startDate,
-          sourceUrl: link,
-          source: 'commodore-scraper'
-        };
       });
     });
-    
-    console.log(`✅ Found ${events.length} events at Commodore Ballroom`);
+
+    console.log('📄 Loading Commodore Ballroom events page...');
+    await page.goto('https://www.commodoreballroom.com/shows', {
+      waitUntil: 'networkidle2',
+    });
+
+    // Wait for either the API data to be found or a timeout
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => {
+        if (!apiDataFound) {
+          reject(new Error('Timeout: Did not find the expected API response for event data after 30 seconds.'));
+        }
+      }, 30000)
+    );
+
+    const events = await Promise.race([eventsPromise, timeoutPromise]);
     return events;
-    
+
   } catch (error) {
-    console.error('❌ Error scraping Commodore Ballroom:', error);
+    console.error('❌ Error scraping Commodore Ballroom:', error.message);
     return [];
   } finally {
+    console.log('Closing browser.');
     await browser.close();
   }
 }
