@@ -465,7 +465,9 @@ async function saveEvents(events) {
   }
 
   try {
-    const eventsCollection = cloudDb.collection('events');
+    // Access the MongoDB client directly - this ensures we have the right reference
+    const db = cloudClient.db('discovr');
+    const eventsCollection = db.collection('events');
     
     // Track how many new events we add
     let newEventCount = 0;
