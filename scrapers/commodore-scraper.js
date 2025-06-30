@@ -95,7 +95,16 @@ async function scrapeCommodore() {
           
           if (dateText) {
             const now = new Date();
-            const startDate = new Date(dateText) || now;
+            let startDate;
+            try {
+              startDate = new Date(dateText);
+              // Check if the date is valid
+              if (isNaN(startDate.getTime())) {
+                startDate = now;
+              }
+            } catch (e) {
+              startDate = now;
+            }
             
             events.push({
               name: name,
@@ -114,26 +123,9 @@ async function scrapeCommodore() {
       });
     }
 
-    // As a last resort, create some sample data
+    // No events found after trying all approaches - just return empty array
     if (events.length === 0) {
-      console.log('⚠️ Could not extract events from HTML - creating sample data');
-      // Add some placeholder events so the system has something
-      const now = new Date();
-      const nextMonth = new Date(now);
-      nextMonth.setMonth(now.getMonth() + 1);
-      
-      events.push({
-        name: 'Sample Event at Commodore',
-        description: 'This is a sample event created by the scraper.',
-        venue: {
-          name: 'Commodore Ballroom',
-          address: '868 Granville St, Vancouver, BC V6Z 1K3',
-        },
-        price: 'See website for details',
-        startDate: nextMonth.toISOString(),
-        sourceUrl: 'https://www.commodoreballroom.com/shows',
-        source: 'commodore-scraper',
-      });
+      console.log('⚠️ Could not extract any events from Commodore HTML');
     }
 
     console.log(`✅ Extracted ${events.length} events from Commodore Ballroom website`);
