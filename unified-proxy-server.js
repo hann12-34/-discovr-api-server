@@ -12,7 +12,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const { scrapeRoxy, saveRoxyEvents } = require('./roxy-scraper');
+const roxyScraper = require('./scrapers/roxy-scraper');
 const { scrapeCommodore, saveEvents } = require('./scrapers/commodore-scraper');
 
 const app = express();
@@ -263,22 +263,62 @@ async function startServer() {
         try {
             // Start scrapers in parallel for better performance
             const [roxyEvents, commodoreEvents] = await Promise.all([
-                scrapeRoxy(),
+                roxyScraper.scrape(),
                 scrapeCommodore()
             ]);
             
-            // Save events to MongoDB
-            const roxyResult = roxyEvents.length > 0 ? await saveRoxyEvents(roxyEvents) : { success: false, message: 'No Roxy events found' };
-            const commodoreResult = commodoreEvents.length > 0 ? await saveEvents(commodoreEvents) : { success: false, message: 'No Commodore events found' };
+            // Transform Roxy events to match the expected format
+            const transformedRoxyEvents = roxyEvents.map(event => {
+                // Parse date string to create a proper date object
+                const dateMatch = event.date.match(/([A-Z]+)\s+(\d{1,2})/i);
+                let startDate = null;
+                
+                if (dateMatch) {
+                    const month = dateMatch[1];
+                    const day = parseInt(dateMatch[2]);
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    
+                    // Convert month name to month index
+                    const monthIndex = new Date(Date.parse(month + " 1, 2000")).getMonth();
+                    startDate = new Date(year, monthIndex, day);
+                    
+                    // If the date is in the past, assume it's for next year
+                    if (startDate < now && startDate.getMonth() < now.getMonth()) {
+                        startDate.setFullYear(year + 1);
+                    }
+                }
+                
+                return {
+                    name: event.title,
+                    venue: {
+                        name: 'The Roxy',
+                        address: '932 Granville St, Vancouver, BC V6Z 1L2'
+                    },
+                    price: event.price || 'TBA',
+                    startDate: startDate ? startDate.toISOString() : null,
+                    sourceUrl: event.url,
+                    source: 'roxy-scraper'
+                };
+            });
             
-            const totalEvents = roxyEvents.length + commodoreEvents.length;
+            // Save events to MongoDB
+            const roxyResult = transformedRoxyEvents.length > 0 ? 
+                await saveEvents(transformedRoxyEvents) : 
+                { success: false, message: 'No Roxy events found' };
+                
+            const commodoreResult = commodoreEvents.length > 0 ? 
+                await saveEvents(commodoreEvents) : 
+                { success: false, message: 'No Commodore events found' };
+            
+            const totalEvents = transformedRoxyEvents.length + commodoreEvents.length;
             
             res.json({
                 success: true,
                 message: `Scraped ${totalEvents} events from all venues`,
                 results: {
                     roxy: {
-                        eventsFound: roxyEvents.length,
+                        eventsFound: transformedRoxyEvents.length,
                         ...roxyResult
                     },
                     commodore: {
@@ -298,13 +338,48 @@ async function startServer() {
         console.log('GET /api/v1/scrapers/roxy - Running Roxy Theatre scraper');
         
         try {
-            const events = await scrapeRoxy();
+            const events = await roxyScraper.scrape();
             
             if (events.length === 0) {
                 return res.json({ success: false, message: 'No Roxy events found' });
             }
             
-            const result = await saveRoxyEvents(events);
+            // Transform Roxy events to match the expected format
+            const transformedEvents = events.map(event => {
+                // Parse date string to create a proper date object
+                const dateMatch = event.date.match(/([A-Z]+)\s+(\d{1,2})/i);
+                let startDate = null;
+                
+                if (dateMatch) {
+                    const month = dateMatch[1];
+                    const day = parseInt(dateMatch[2]);
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    
+                    // Convert month name to month index
+                    const monthIndex = new Date(Date.parse(month + " 1, 2000")).getMonth();
+                    startDate = new Date(year, monthIndex, day);
+                    
+                    // If the date is in the past, assume it's for next year
+                    if (startDate < now && startDate.getMonth() < now.getMonth()) {
+                        startDate.setFullYear(year + 1);
+                    }
+                }
+                
+                return {
+                    name: event.title,
+                    venue: {
+                        name: 'The Roxy',
+                        address: '932 Granville St, Vancouver, BC V6Z 1L2'
+                    },
+                    price: event.price || 'TBA',
+                    startDate: startDate ? startDate.toISOString() : null,
+                    sourceUrl: event.url,
+                    source: 'roxy-scraper'
+                };
+            });
+            
+            const result = await saveEvents(transformedEvents);
             res.json({
                 success: true,
                 message: `Scraped ${events.length} events from Roxy Theatre`,
