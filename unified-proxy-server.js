@@ -7,6 +7,7 @@
  * 3. Compatible with the Discovr iOS app
  */
 
+require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -42,9 +43,8 @@ const cloudClient = new MongoClient(CLOUD_MONGODB_URI, {
 
 
 
-// Serve static files for admin UI
-app.use(express.static(ADMIN_UI_PATH));
-app.use('/admin', express.static(ADMIN_UI_PATH));
+// Serve the admin UI, setting all-events-dashboard.html as the default page
+app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-events-dashboard.html' }));
 
 // Connect to MongoDB
 async function connectToMongoDB() {
