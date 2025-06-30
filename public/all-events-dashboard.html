@@ -250,22 +250,35 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // API Endpoints
-        const apiBaseUrl = '/api/v1';
-        
-        // DOM Elements
-        const eventsTable = document.getElementById('events-table');
-        const eventsBody = document.getElementById('events-body');
-        const eventsLoaded = document.getElementById('events-loaded');
-        const loadSavedButton = document.getElementById('load-saved-events-button');
-        const searchFilter = document.getElementById('searchFilter');
-        const clearFilter = document.getElementById('clearFilter');
-        const loadingOverlay = document.querySelector('.loading-overlay');
-        const loadingText = document.getElementById('loading-text');
-        const debugOutput = document.getElementById('debug-output');
-        const eventsEndpoint = `${apiBaseUrl}/events`;
-        const scrapersEndpoint = `${apiBaseUrl}/scrapers`;
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed');
+
+            // API Endpoints
+            const apiBaseUrl = '/api/v1';
+            console.log('API base URL set');
+
+            // DOM Elements
+            const eventsTable = document.getElementById('events-table');
+            const eventsBody = document.getElementById('events-body');
+            const eventsLoaded = document.getElementById('events-loaded');
+            const loadSavedButton = document.getElementById('load-saved-events-button');
+            const searchFilter = document.getElementById('search-filter');
+            const clearFilter = document.getElementById('clear-filter');
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            const loadingText = document.getElementById('loading-text');
+            const debugOutput = document.getElementById('debug-output');
+            const eventsEndpoint = `${apiBaseUrl}/events`;
+            const scrapersEndpoint = `${apiBaseUrl}/scrapers`;
+            console.log('DOM elements captured');
+
+            if (!loadSavedButton) {
+                console.error('CRITICAL: Load Saved Events button not found!');
+                return;
+            }
+
         
         // Event display and formatting
         function displayEvents(events) {
@@ -413,8 +426,22 @@
                     throw new Error(`Server error: ${response.status} ${response.statusText}`);
                 }
                 
-                const data = await response.json();
-                const allEvents = data.events || [];
+                // Log raw response for debugging
+                const responseText = await response.text();
+                logDebug(`Raw API response: ${responseText.substring(0, 150)}...`);
+                
+                // Parse the JSON response
+                const data = JSON.parse(responseText);
+                
+                // Verify data format and extract events
+                if (!data) {
+                    throw new Error('API returned empty response');
+                }
+                
+                // Handle both direct array and wrapped object formats for robustness
+                const allEvents = Array.isArray(data) ? data : data.events || [];
+                logDebug(`Response format check: ${Array.isArray(data) ? 'Direct Array' : 'Object with keys: ' + JSON.stringify(Object.keys(data))}`);
+                logDebug(`Found ${allEvents.length} events in API response`);
                 
                 // Store the current events for reference
                 currentEvents = allEvents;
@@ -437,9 +464,22 @@
 
         // Event management functions
         let currentEvent = null;
+        console.log('Attempting to initialize Bootstrap modals...');
+        if (typeof bootstrap === 'undefined') {
+            console.error('CRITICAL: Bootstrap library is not loaded!');
+            return;
+        }
+        console.log('Bootstrap object found:', bootstrap);
+
         const eventFormModal = new bootstrap.Modal(document.getElementById('eventFormModal'));
+        console.log('eventFormModal initialized');
+
         const eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+        console.log('eventDetailsModal initialized');
+
         const deleteConfirmModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+        console.log('deleteConfirmModal initialized');
+        console.log('All modals initialized successfully.');
         
         function resetEventForm() {
             document.getElementById('event-form').reset();
@@ -693,12 +733,26 @@
             logDebug('Dashboard ready! Click "Load Saved Events" or "Run Scrapers" to load data.');
             
             // Set up event listeners for search and filters
-            searchFilter.addEventListener('input', filterEvents);
+            const searchFilter = document.getElementById('search-filter');
+            const clearFilter = document.getElementById('clear-filter');
+            const loadSavedButton = document.getElementById('load-saved-events-button');
             
-            clearFilter.addEventListener('click', () => {
-                searchFilter.value = '';
-                filterEvents();
-            });
+            if (searchFilter) {
+                searchFilter.addEventListener('input', filterEvents);
+                console.log('Search filter event listener added');
+            } else {
+                console.error('Search filter element not found!');
+            }
+            
+            if (clearFilter) {
+                clearFilter.addEventListener('click', () => {
+                    searchFilter.value = '';
+                    filterEvents();
+                });
+                console.log('Clear filter event listener added');
+            } else {
+                console.error('Clear filter element not found!');
+            }
             
             // Set up scraper dropdown listeners
             document.querySelectorAll('.run-scraper').forEach(item => {
@@ -709,7 +763,12 @@
                 });
             });
             
-            loadSavedButton.addEventListener('click', fetchSavedEvents);
+            if (loadSavedButton) {
+                loadSavedButton.addEventListener('click', fetchSavedEvents);
+                console.log('Load saved events button listener added');
+            } else {
+                console.error('Load saved events button not found!');
+            }
             
             // Event management listeners
             document.getElementById('create-event-button').addEventListener('click', () => {

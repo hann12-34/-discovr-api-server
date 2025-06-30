@@ -92,14 +92,34 @@ async function startServer() {
       console.log('📥 Received request for ALL events from cloud MongoDB');
       
       try {
-        const events = await collections.cloud.find({}).toArray();
-        console.log(`📤 Returning ${events.length} events from cloud MongoDB`);
+        let events = await collections.cloud.find({}).toArray();
         
-        // Based on the app logs showing:
-        // "📊 Response is a direct array with 28 items"
-        // This shows the app expects a direct array, not an object with a data property
-        console.log('📝 Formatting response as direct array to match app expectations');
-        res.status(200).json(events);
+        if (!events || events.length === 0) {
+          console.log('⚠️ No events found in database');
+          return res.status(404).json({ message: 'No events found' });
+        }
+
+        // Ensure every event has an id field (required by the mobile app)
+        events = events.map(event => {
+          // Ensure id exists on every event
+          if (!event.id) {
+            // Use _id if available, otherwise generate a unique id
+            if (event._id) {
+              event.id = event._id.toString();
+            } else if (event.name && event.startDate) {
+              // Fallback: generate id from name and date
+              event.id = `${event.name}-${new Date(event.startDate).toISOString()}`.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+            } else {
+              // Last resort: random id
+              event.id = `event-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+            }
+          }
+          return event;
+        });
+
+        console.log(`📤 Returning ${events.length} events from cloud MongoDB`);
+        console.log('📝 Formatting response as object with events key to match app expectations');
+        res.status(200).json({ events: events });
       } catch (error) {
         console.error('❌ Error fetching cloud events:', error.message);
         res.status(500).json({ error: 'Failed to fetch events' });
