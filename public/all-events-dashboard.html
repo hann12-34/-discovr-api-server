@@ -32,50 +32,46 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            display: flex;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
         }
         .spinner-container {
             text-align: center;
         }
-        .success-badge {
-            background-color: #28a745;
+        .log-entry {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #ddd;
         }
-        .error-badge {
-            background-color: #dc3545;
-        }
-        .filter-section {
-            margin-bottom: 20px;
+        .log-error {
+            color: #dc3545;
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row header">
-            <div class="col-12">
-                <h1>All Events Dashboard (Manual Load)</h1>
-                <div class="d-flex">
-                    <a href="/" class="btn btn-outline-secondary me-2">Back to Home</a>
-                    <a href="/scraper-dashboard.html" class="btn btn-outline-primary me-2">Scraper Dashboard</a>
-                    <a href="/debug-dashboard.html" class="btn btn-outline-info me-2">Debug Dashboard</a>
-                </div>
+            <div class="col-md-6">
+                <h1>Events Dashboard</h1>
+                <p class="text-muted">Manage events from various venues</p>
             </div>
-        </div>
-        
-        <div class="row mb-4">
-            <div class="col d-flex justify-content-between align-items-center">
-                <div class="dropdown">
+            <div class="col-md-6 text-end">
+                <div class="dropdown d-inline-block me-2">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="scraperDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-arrow-repeat"></i> Run Scrapers
+                        <i class="bi bi-cloud-download"></i> Run Scraper
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="scraperDropdown">
-                        <li><a class="dropdown-item run-scraper" data-scraper="all" href="#">All Venues</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="all">Run All Scrapers</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item run-scraper" data-scraper="roxy" href="#">Roxy Theatre</a></li>
-                        <li><a class="dropdown-item run-scraper" data-scraper="commodore" href="#">Commodore Ballroom</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="commodore">Commodore Ballroom</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="rickshaw">Rickshaw Theatre</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="vogue">Vogue Theatre</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="fox">Fox Cabaret</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="hollywood">Hollywood Theatre</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="red-room">Red Room</a></li>
+                        <li><a class="dropdown-item run-scraper" href="#" data-scraper="queen-elizabeth">Queen Elizabeth Theatre</a></li>
                     </ul>
                 </div>
                 
@@ -148,9 +144,9 @@
         </div>
     </div>
     
-    <!-- Create/Edit Event Modal -->
+    <!-- Event Form Modal -->
     <div class="modal fade" id="eventFormModal" tabindex="-1" aria-labelledby="eventFormModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="eventFormModalLabel">Create New Event</h5>
@@ -160,26 +156,24 @@
                     <form id="event-form">
                         <input type="hidden" id="event-id">
                         
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="event-name" class="form-label">Event Name*</label>
-                                <input type="text" class="form-control" id="event-name" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="event-venue" class="form-label">Venue</label>
-                                <input type="text" class="form-control" id="event-venue-name" placeholder="Venue Name">
-                            </div>
+                        <div class="mb-3">
+                            <label for="event-name" class="form-label">Event Name</label>
+                            <input type="text" class="form-control" id="event-name" required>
                         </div>
                         
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="event-start-date" class="form-label">Start Date</label>
-                                <input type="date" class="form-control" id="event-start-date">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="event-price" class="form-label">Price</label>
-                                <input type="text" class="form-control" id="event-price" placeholder="e.g. $25 or Free">
-                            </div>
+                        <div class="mb-3">
+                            <label for="event-venue-name" class="form-label">Venue Name</label>
+                            <input type="text" class="form-control" id="event-venue-name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="event-start-date" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="event-start-date">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="event-price" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="event-price">
                         </div>
                         
                         <div class="mb-3">
@@ -189,12 +183,12 @@
                         
                         <div class="mb-3">
                             <label for="event-source-url" class="form-label">Source URL</label>
-                            <input type="url" class="form-control" id="event-source-url" placeholder="https://...">
+                            <input type="url" class="form-control" id="event-source-url">
                         </div>
                         
                         <div class="mb-3">
                             <label for="event-image-url" class="form-label">Image URL</label>
-                            <input type="url" class="form-control" id="event-image-url" placeholder="https://...">
+                            <input type="url" class="form-control" id="event-image-url">
                         </div>
                     </form>
                 </div>
@@ -208,14 +202,16 @@
     
     <!-- Event Details Modal -->
     <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="eventDetailsModalLabel">Event Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="event-details-content">
-                    <!-- Details will be inserted here -->
+                <div class="modal-body">
+                    <div id="event-details-content">
+                        <!-- Event details will be inserted here -->
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -229,12 +225,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Delete</h5>
+                    <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this event?</p>
-                    <p><strong id="delete-event-name"></strong></p>
+                    <p>Are you sure you want to delete the event "<span id="delete-event-name"></span>"?</p>
+                    <p class="text-danger">This action cannot be undone.</p>
                     <input type="hidden" id="delete-event-id">
                 </div>
                 <div class="modal-footer">
@@ -249,598 +245,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded and parsed');
-
-            // API Endpoints
-            const apiBaseUrl = '/api/v1';
-            console.log('API base URL set');
-
-            // DOM Elements
-            const eventsTable = document.getElementById('events-table');
-            const eventsBody = document.getElementById('events-body');
-            const eventsLoaded = document.getElementById('events-loaded');
-            const loadSavedButton = document.getElementById('load-saved-events-button');
-            const searchFilter = document.getElementById('search-filter');
-            const clearFilter = document.getElementById('clear-filter');
-            const loadingOverlay = document.querySelector('.loading-overlay');
-            const loadingText = document.getElementById('loading-text');
-            const debugOutput = document.getElementById('debug-output');
-            const eventsEndpoint = `${apiBaseUrl}/events`;
-            const scrapersEndpoint = `${apiBaseUrl}/scrapers`;
-            console.log('DOM elements captured');
-
-            if (!loadSavedButton) {
-                console.error('CRITICAL: Load Saved Events button not found!');
-                return;
-            }
-
-        
-        // Event display and formatting
-        function displayEvents(events) {
-            eventsBody.innerHTML = '';
-            
-            if (events.length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td colspan="5" class="text-center">No events found</td>
-                `;
-                eventsBody.appendChild(row);
-                return;
-            }
-            
-            events.forEach(event => {
-                const row = document.createElement('tr');
-                
-                // Format the date
-                let formattedDate = 'TBD';
-                if (event.startDate) {
-                    const date = new Date(event.startDate);
-                    if (!isNaN(date.getTime())) {
-                        formattedDate = date.toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                        });
-                    }
-                }
-                
-                // Format the price
-                let priceDisplay = event.price || 'Free';
-                
-                // Create external link if there is a sourceUrl
-                const sourceLink = event.sourceUrl ? 
-                    `<a href="${event.sourceUrl}" target="_blank" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-box-arrow-up-right"></i> View
-                     </a>` : '';
-                
-                row.innerHTML = `
-                    <td>${event.name}</td>
-                    <td>${event.venue ? event.venue.name || 'Unknown' : 'Unknown'}</td>
-                    <td>${formattedDate}</td>
-                    <td>${priceDisplay}</td>
-                    <td>
-                        ${sourceLink}
-                        <button class="btn btn-sm btn-outline-info view-details" data-event-id="${event._id}">
-                            <i class="bi bi-info-circle"></i> Details
-                        </button>
-                        <button class="btn btn-sm btn-outline-warning edit-event" data-event-id="${event._id}">
-                            <i class="bi bi-pencil"></i> Edit
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger delete-event" data-event-id="${event._id}">
-                            <i class="bi bi-trash"></i> Delete
-                        </button>
-                    </td>
-                `;
-                eventsBody.appendChild(row);
-            });
-            
-            // Add event listeners for detail buttons
-            document.querySelectorAll('.view-details').forEach(button => {
-                button.addEventListener('click', () => {
-                    const eventId = button.getAttribute('data-event-id');
-                    // Here you would implement the logic to show event details
-                    alert(`Event details for ID: ${eventId}`);
-                });
-            });
-        }
-        
-        // Filter events based on search text
-        function filterEvents() {
-            const searchText = searchFilter.value.toLowerCase();
-            const rows = eventsBody.querySelectorAll('tr');
-            
-            let visibleCount = 0;
-            
-            rows.forEach(row => {
-                const allCells = row.querySelectorAll('td');
-                if (allCells.length === 1) return; // "No events found" row
-                
-                let shouldShow = false;
-                
-                allCells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(searchText)) {
-                        shouldShow = true;
-                    }
-                });
-                
-                if (shouldShow) {
-                    row.style.display = '';
-                    visibleCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            
-            eventsLoaded.textContent = `${visibleCount} events shown`;
-        }
-        
-        // Debug logging
-        function logDebug(message, isError = false) {
-            const timestamp = new Date().toLocaleTimeString();
-            const logClass = isError ? 'text-danger' : 'text-success';
-            debugOutput.innerHTML += `<div class="${logClass}">[${timestamp}] ${message}</div>`;
-            debugOutput.scrollTop = debugOutput.scrollHeight;
-        }
-        
-        // API Calls
-        async function fetchAllEvents(save = false) {
-            loadingOverlay.style.display = 'flex';
-            loadingText.textContent = 'Running scrapers... This may take a while.';
-            
-            try {
-                logDebug(`Starting scrapers with save=${save}`);
-                
-                const url = `${scrapersEndpoint}/run-all?save=${save}&preserveExisting=true`;
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status} ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                logDebug(`Scrapers completed. Found ${data.eventsCount} events.`);
-                
-                // Now fetch the saved events to display them
-                await fetchSavedEvents();
-            } catch (error) {
-                logDebug(`Error running scrapers: ${error.message}`, true);
-                loadingOverlay.style.display = 'none';
-            }
-        }
-        
-        async function fetchSavedEvents() {
-            loadingOverlay.style.display = 'flex';
-            loadingText.textContent = 'Loading saved events...';
-            
-            try {
-                logDebug('Fetching saved events from database');
-                
-                const response = await fetch(eventsEndpoint);
-                
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status} ${response.statusText}`);
-                }
-                
-                // Log raw response for debugging
-                const responseText = await response.text();
-                logDebug(`Raw API response: ${responseText.substring(0, 150)}...`);
-                
-                // Parse the JSON response
-                const data = JSON.parse(responseText);
-                
-                // Verify data format and extract events
-                if (!data) {
-                    throw new Error('API returned empty response');
-                }
-                
-                // Handle both direct array and wrapped object formats for robustness
-                const allEvents = Array.isArray(data) ? data : data.events || [];
-                logDebug(`Response format check: ${Array.isArray(data) ? 'Direct Array' : 'Object with keys: ' + JSON.stringify(Object.keys(data))}`);
-                logDebug(`Found ${allEvents.length} events in API response`);
-                
-                // Store the current events for reference
-                currentEvents = allEvents;
-                
-                // Sort events by date
-                allEvents.sort((a, b) => {
-                    const dateA = a.startDate ? new Date(a.startDate) : new Date(9999, 11, 31);
-                    const dateB = b.startDate ? new Date(b.startDate) : new Date(9999, 11, 31);
-                    return dateA - dateB;
-                });
-                
-                eventsLoaded.textContent = `${allEvents.length} events loaded`;
-                displayEvents(allEvents);
-            } catch (error) {
-                logDebug(`Error fetching saved events: ${error.message}`, true);
-            } finally {
-                loadingOverlay.style.display = 'none';
-            }
-        }
-
-        // Event management functions
-        let currentEvent = null;
-        console.log('Attempting to initialize Bootstrap modals...');
-        if (typeof bootstrap === 'undefined') {
-            console.error('CRITICAL: Bootstrap library is not loaded!');
-            return;
-        }
-        console.log('Bootstrap object found:', bootstrap);
-
-        const eventFormModal = new bootstrap.Modal(document.getElementById('eventFormModal'));
-        console.log('eventFormModal initialized');
-
-        const eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
-        console.log('eventDetailsModal initialized');
-
-        const deleteConfirmModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-        console.log('deleteConfirmModal initialized');
-        console.log('All modals initialized successfully.');
-        
-        function resetEventForm() {
-            document.getElementById('event-form').reset();
-            document.getElementById('event-id').value = '';
-            document.getElementById('eventFormModalLabel').textContent = 'Create New Event';
-            currentEvent = null;
-        }
-        
-        function fillEventForm(event) {
-            currentEvent = event;
-            
-            document.getElementById('event-id').value = event._id;
-            document.getElementById('event-name').value = event.name || '';
-            document.getElementById('event-venue-name').value = event.venue?.name || '';
-            
-            // Format date for input
-            if (event.startDate) {
-                const date = new Date(event.startDate);
-                if (!isNaN(date.getTime())) {
-                    const formattedDate = date.toISOString().split('T')[0];
-                    document.getElementById('event-start-date').value = formattedDate;
-                }
-            }
-            
-            document.getElementById('event-price').value = event.price || '';
-            document.getElementById('event-description').value = event.description || '';
-            document.getElementById('event-source-url').value = event.sourceUrl || '';
-            document.getElementById('event-image-url').value = event.imageUrl || '';
-            
-            document.getElementById('eventFormModalLabel').textContent = 'Edit Event';
-        }
-        
-        function showEventDetails(event) {
-            const detailsContent = document.getElementById('event-details-content');
-            
-            // Format the date
-            let formattedDate = 'TBD';
-            if (event.startDate) {
-                const date = new Date(event.startDate);
-                if (!isNaN(date.getTime())) {
-                    formattedDate = date.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: '2-digit'
-                    });
-                }
-            }
-            
-            // Create HTML content for modal
-            let html = `
-                <div class="card mb-3">
-                    ${event.imageUrl ? `<img src="${event.imageUrl}" class="card-img-top" alt="${event.name}">` : ''}
-                    <div class="card-body">
-                        <h3 class="card-title">${event.name}</h3>
-                        <h6 class="card-subtitle mb-2 text-muted">${event.venue ? event.venue.name || 'Unknown Venue' : 'Unknown Venue'}</h6>
-                        
-                        <div class="row mb-3 mt-3">
-                            <div class="col-md-6">
-                                <p><strong>Date:</strong> ${formattedDate}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <p><strong>Price:</strong> ${event.price || 'Free'}</p>
-                            </div>
-                        </div>
-                        
-                        ${event.description ? `<p class="card-text">${event.description}</p>` : ''}
-                        
-                        ${event.sourceUrl ? `<a href="${event.sourceUrl}" target="_blank" class="btn btn-primary">Visit Event Page</a>` : ''}
-                    </div>
-                </div>
-                
-                <div class="accordion" id="eventDetailsAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="rawDataHeading">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rawDataCollapse" aria-expanded="false" aria-controls="rawDataCollapse">
-                                Raw Data
-                            </button>
-                        </h2>
-                        <div id="rawDataCollapse" class="accordion-collapse collapse" aria-labelledby="rawDataHeading">
-                            <div class="accordion-body">
-                                <pre>${JSON.stringify(event, null, 2)}</pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            detailsContent.innerHTML = html;
-            eventDetailsModal.show();
-        }
-        
-        async function createEvent() {
-            const eventData = {
-                name: document.getElementById('event-name').value,
-                venue: {
-                    name: document.getElementById('event-venue-name').value
-                },
-                description: document.getElementById('event-description').value,
-                price: document.getElementById('event-price').value,
-                sourceUrl: document.getElementById('event-source-url').value,
-                imageUrl: document.getElementById('event-image-url').value,
-            };
-            
-            // Add start date if provided
-            const startDateInput = document.getElementById('event-start-date').value;
-            if (startDateInput) {
-                eventData.startDate = new Date(startDateInput).toISOString();
-            }
-            
-            loadingOverlay.style.display = 'flex';
-            loadingText.textContent = 'Creating event...';
-            
-            try {
-                const response = await fetch(`${apiBaseUrl}/events`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(eventData)
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to create event');
-                }
-                
-                logDebug(`Event created successfully: ${data.event.name}`);
-                eventFormModal.hide();
-                resetEventForm();
-                fetchSavedEvents(); // Refresh the events list
-            } catch (error) {
-                logDebug(`Error creating event: ${error.message}`, true);
-            } finally {
-                loadingOverlay.style.display = 'none';
-            }
-        }
-        
-        async function updateEvent(eventId) {
-            const eventData = {
-                name: document.getElementById('event-name').value,
-                venue: {
-                    name: document.getElementById('event-venue-name').value
-                },
-                description: document.getElementById('event-description').value,
-                price: document.getElementById('event-price').value,
-                sourceUrl: document.getElementById('event-source-url').value,
-                imageUrl: document.getElementById('event-image-url').value,
-            };
-            
-            // Add start date if provided
-            const startDateInput = document.getElementById('event-start-date').value;
-            if (startDateInput) {
-                eventData.startDate = new Date(startDateInput).toISOString();
-            }
-            
-            loadingOverlay.style.display = 'flex';
-            loadingText.textContent = 'Updating event...';
-            
-            try {
-                const response = await fetch(`${apiBaseUrl}/events/${eventId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(eventData)
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to update event');
-                }
-                
-                logDebug(`Event updated successfully: ${eventData.name}`);
-                eventFormModal.hide();
-                resetEventForm();
-                fetchSavedEvents(); // Refresh the events list
-            } catch (error) {
-                logDebug(`Error updating event: ${error.message}`, true);
-            } finally {
-                loadingOverlay.style.display = 'none';
-            }
-        }
-        
-        async function deleteEvent(eventId) {
-            loadingOverlay.style.display = 'flex';
-            loadingText.textContent = 'Deleting event...';
-            
-            try {
-                const response = await fetch(`${apiBaseUrl}/events/${eventId}`, {
-                    method: 'DELETE'
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to delete event');
-                }
-                
-                logDebug(`Event deleted successfully`);
-                deleteConfirmModal.hide();
-                fetchSavedEvents(); // Refresh the events list
-            } catch (error) {
-                logDebug(`Error deleting event: ${error.message}`, true);
-            } finally {
-                loadingOverlay.style.display = 'none';
-            }
-        }
-
-        async function runScraper(scraperType) {
-            loadingOverlay.style.display = 'flex';
-            loadingText.textContent = `Running ${scraperType === 'all' ? 'all scrapers' : scraperType + ' scraper'}... This may take a while`;
-            
-            try {
-                logDebug(`Running ${scraperType} scraper(s)...`);
-                const response = await fetch(`${apiBaseUrl}/scrapers/${scraperType}`);
-                
-                if (!response.ok) {
-                    throw new Error(`Scraper API returned ${response.status}: ${response.statusText}`);
-                }
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    if (scraperType === 'all') {
-                        const totalEvents = Object.values(result.results).reduce((total, venue) => total + venue.eventsFound, 0);
-                        logDebug(`✅ Scraped ${totalEvents} events from all venues!`);
-                    } else {
-                        logDebug(`✅ Scraped ${result.eventsFound} events from ${scraperType}!`);
-                    }
-                    
-                    // Automatically load the events after scraping
-                    await fetchSavedEvents();
-                } else {
-                    logDebug(`⚠️ ${result.message}`, true);
-                }
-            } catch (error) {
-                console.error(`Error running ${scraperType} scraper:`, error);
-                logDebug(`❌ Error: ${error.message}`, true);
-            } finally {
-                loadingOverlay.style.display = 'none';
-            }
-        }
-
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            // Show initial welcome message
-            logDebug('Dashboard ready! Click "Load Saved Events" or "Run Scrapers" to load data.');
-            
-            // Set up event listeners for search and filters
-            const searchFilter = document.getElementById('search-filter');
-            const clearFilter = document.getElementById('clear-filter');
-            const loadSavedButton = document.getElementById('load-saved-events-button');
-            
-            if (searchFilter) {
-                searchFilter.addEventListener('input', filterEvents);
-                console.log('Search filter event listener added');
-            } else {
-                console.error('Search filter element not found!');
-            }
-            
-            if (clearFilter) {
-                clearFilter.addEventListener('click', () => {
-                    searchFilter.value = '';
-                    filterEvents();
-                });
-                console.log('Clear filter event listener added');
-            } else {
-                console.error('Clear filter element not found!');
-            }
-            
-            // Set up scraper dropdown listeners
-            document.querySelectorAll('.run-scraper').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const scraperType = e.target.getAttribute('data-scraper');
-                    runScraper(scraperType);
-                });
-            });
-            
-            if (loadSavedButton) {
-                loadSavedButton.addEventListener('click', fetchSavedEvents);
-                console.log('Load saved events button listener added');
-            } else {
-                console.error('Load saved events button not found!');
-            }
-            
-            // Event management listeners
-            document.getElementById('create-event-button').addEventListener('click', () => {
-                resetEventForm();
-                eventFormModal.show();
-            });
-            
-            document.getElementById('save-event-button').addEventListener('click', () => {
-                const eventId = document.getElementById('event-id').value;
-                if (eventId) {
-                    updateEvent(eventId);
-                } else {
-                    createEvent();
-                }
-            });
-            
-            document.getElementById('confirm-delete-button').addEventListener('click', () => {
-                const eventId = document.getElementById('delete-event-id').value;
-                if (eventId) {
-                    deleteEvent(eventId);
-                }
-            });
-            
-            // Add event listeners for detail, edit, and delete buttons (these are added dynamically)
-            document.addEventListener('click', (e) => {
-                // View details button
-                if (e.target.closest('.view-details')) {
-                    const button = e.target.closest('.view-details');
-                    const eventId = button.getAttribute('data-event-id');
-                    
-                    // Find the event in the current dataset
-                    const event = findEventById(eventId);
-                    if (event) {
-                        showEventDetails(event);
-                    }
-                }
-                
-                // Edit button
-                if (e.target.closest('.edit-event')) {
-                    const button = e.target.closest('.edit-event');
-                    const eventId = button.getAttribute('data-event-id');
-                    
-                    // Find the event in the current dataset
-                    const event = findEventById(eventId);
-                    if (event) {
-                        fillEventForm(event);
-                        eventFormModal.show();
-                    }
-                }
-                
-                // Delete button
-                if (e.target.closest('.delete-event')) {
-                    const button = e.target.closest('.delete-event');
-                    const eventId = button.getAttribute('data-event-id');
-                    
-                    // Find the event in the current dataset
-                    const event = findEventById(eventId);
-                    if (event) {
-                        document.getElementById('delete-event-name').textContent = event.name;
-                        document.getElementById('delete-event-id').value = eventId;
-                        deleteConfirmModal.show();
-                    }
-                }
-            });
-        });
-        
-        // Helper function to find event by ID
-        let currentEvents = []; // Store current events for reference
-        
-        function findEventById(id) {
-            return currentEvents.find(event => event._id === id);
-        }
-    </script>
+    <!-- External dashboard.js script -->
+    <script src="/admin/dashboard.js"></script>
 </body>
 </html>
