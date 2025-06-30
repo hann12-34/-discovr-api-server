@@ -162,7 +162,100 @@ async function startServer() {
       }
     });
     
-    // Add more admin UI endpoints as needed
+    // Create a new event
+    app.post('/api/v1/events', async (req, res) => {
+      try {
+        console.log('POST /api/v1/events - Creating new event', req.body);
+        
+        const newEvent = req.body;
+        
+        // Validate required fields
+        if (!newEvent.name) {
+          return res.status(400).json({ error: 'Event name is required' });
+        }
+        
+        // Generate a unique ID if not provided
+        if (!newEvent._id) {
+          newEvent._id = new require('mongodb').ObjectId();
+        }
+        
+        // Add timestamp for creation
+        newEvent.createdAt = new Date();
+        newEvent.source = 'admin';
+        
+        const result = await collections.cloud.insertOne(newEvent);
+        
+        console.log(`Created event with ID: ${result.insertedId}`);
+        res.status(201).json({ 
+          success: true, 
+          event: newEvent,
+          message: 'Event created successfully' 
+        });
+      } catch (err) {
+        console.error('Error creating event:', err);
+        res.status(500).json({ error: 'Failed to create event' });
+      }
+    });
+    
+    // Update an event
+    app.put('/api/v1/events/:id', async (req, res) => {
+      try {
+        console.log(`PUT /api/v1/events/${req.params.id} - Updating event`);
+        
+        const eventId = req.params.id;
+        const updates = req.body;
+        
+        // Add timestamp for update
+        updates.updatedAt = new Date();
+        
+        // Remove _id from updates if present
+        delete updates._id;
+        
+        const result = await collections.cloud.updateOne(
+          { _id: new require('mongodb').ObjectId(eventId) },
+          { $set: updates }
+        );
+        
+        if (result.matchedCount === 0) {
+          return res.status(404).json({ error: 'Event not found' });
+        }
+        
+        console.log(`Updated event with ID: ${eventId}`);
+        res.status(200).json({ 
+          success: true, 
+          message: 'Event updated successfully' 
+        });
+      } catch (err) {
+        console.error('Error updating event:', err);
+        res.status(500).json({ error: 'Failed to update event' });
+      }
+    });
+    
+    // Delete an event
+    app.delete('/api/v1/events/:id', async (req, res) => {
+      try {
+        console.log(`DELETE /api/v1/events/${req.params.id} - Deleting event`);
+        
+        const eventId = req.params.id;
+        
+        const result = await collections.cloud.deleteOne(
+          { _id: new require('mongodb').ObjectId(eventId) }
+        );
+        
+        if (result.deletedCount === 0) {
+          return res.status(404).json({ error: 'Event not found' });
+        }
+        
+        console.log(`Deleted event with ID: ${eventId}`);
+        res.status(200).json({ 
+          success: true, 
+          message: 'Event deleted successfully' 
+        });
+      } catch (err) {
+        console.error('Error deleting event:', err);
+        res.status(500).json({ error: 'Failed to delete event' });
+      }
+    });
     
     // Start the server
     app.listen(PORT, () => {
