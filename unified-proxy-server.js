@@ -13,7 +13,7 @@ const cors = require('cors');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const roxyScraper = require('./scrapers/roxy-scraper');
-const { scrapeCommodore, saveEvents } = require('./scrapers/commodore-scraper');
+const { scrapeCommodore } = require('./scrapers/commodore-scraper');
 
 const app = express();
 app.use(cors());
@@ -457,6 +457,45 @@ process.on('SIGINT', async () => {
 
   process.exit(0);
 });
+
+// Save events to MongoDB
+async function saveEvents(events) {
+  if (!events || !Array.isArray(events) || events.length === 0) {
+    return { savedCount: 0 };
+  }
+
+  try {
+    const eventsCollection = cloudDb.collection('events');
+    
+    // Track how many new events we add
+    let newEventCount = 0;
+    
+    // Process events one by one to check for duplicates
+    for (const event of events) {
+      // Check if this event already exists (by name and venue)
+      const existingEvent = await eventsCollection.findOne({
+        name: event.name,
+        'venue.name': event.venue.name
+      });
+      
+      if (!existingEvent) {
+        // This is a new event, so add it
+        await eventsCollection.insertOne({
+          ...event,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+        newEventCount++;
+      }
+    }
+    
+    console.log(`✅ Saved ${newEventCount} new events to MongoDB`);
+    return { savedCount: newEventCount };
+  } catch (error) {
+    console.error('❌ Error saving events to MongoDB:', error.message);
+    return { savedCount: 0, error: error.message };
+  }
+}
 
 // Start the server
 startServer().catch(console.error);
