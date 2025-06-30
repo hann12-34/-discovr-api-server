@@ -11,7 +11,9 @@ require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { scrapeRoxy, saveRoxyEvents } = require('./roxy-scraper');
+const { scrapeCommodore, saveEvents } = require('./scrapers/commodore-scraper');
 
 const app = express();
 app.use(cors());
@@ -233,28 +235,110 @@ async function startServer() {
     
     // Delete an event
     app.delete('/api/v1/events/:id', async (req, res) => {
-      try {
+        // Delete an event
         console.log(`DELETE /api/v1/events/${req.params.id} - Deleting event`);
         
-        const eventId = req.params.id;
-        
-        const result = await collections.cloud.deleteOne(
-          { _id: new require('mongodb').ObjectId(eventId) }
-        );
-        
-        if (result.deletedCount === 0) {
-          return res.status(404).json({ error: 'Event not found' });
+        try {
+            const result = await collections.cloud.deleteOne({
+                _id: new ObjectId(req.params.id)
+            });
+            
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ error: 'Event not found' });
+            }
+            
+            res.json({ success: true, message: 'Event deleted successfully' });
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            res.status(500).json({ error: 'Internal server error' });
         }
+    });
+    
+    // ===== SCRAPER ENDPOINTS =====
+    
+    // Run all scrapers
+    app.get('/api/v1/scrapers/all', async (req, res) => {
+        console.log('GET /api/v1/scrapers/all - Running all scrapers');
         
-        console.log(`Deleted event with ID: ${eventId}`);
-        res.status(200).json({ 
-          success: true, 
-          message: 'Event deleted successfully' 
-        });
-      } catch (err) {
-        console.error('Error deleting event:', err);
-        res.status(500).json({ error: 'Failed to delete event' });
-      }
+        try {
+            // Start scrapers in parallel for better performance
+            const [roxyEvents, commodoreEvents] = await Promise.all([
+                scrapeRoxy(),
+                scrapeCommodore()
+            ]);
+            
+            // Save events to MongoDB
+            const roxyResult = roxyEvents.length > 0 ? await saveRoxyEvents(roxyEvents) : { success: false, message: 'No Roxy events found' };
+            const commodoreResult = commodoreEvents.length > 0 ? await saveEvents(commodoreEvents) : { success: false, message: 'No Commodore events found' };
+            
+            const totalEvents = roxyEvents.length + commodoreEvents.length;
+            
+            res.json({
+                success: true,
+                message: `Scraped ${totalEvents} events from all venues`,
+                results: {
+                    roxy: {
+                        eventsFound: roxyEvents.length,
+                        ...roxyResult
+                    },
+                    commodore: {
+                        eventsFound: commodoreEvents.length,
+                        ...commodoreResult
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error running all scrapers:', error);
+            res.status(500).json({ error: 'Error running scrapers', details: error.message });
+        }
+    });
+    
+    // Run Roxy Theatre scraper
+    app.get('/api/v1/scrapers/roxy', async (req, res) => {
+        console.log('GET /api/v1/scrapers/roxy - Running Roxy Theatre scraper');
+        
+        try {
+            const events = await scrapeRoxy();
+            
+            if (events.length === 0) {
+                return res.json({ success: false, message: 'No Roxy events found' });
+            }
+            
+            const result = await saveRoxyEvents(events);
+            res.json({
+                success: true,
+                message: `Scraped ${events.length} events from Roxy Theatre`,
+                eventsFound: events.length,
+                ...result
+            });
+        } catch (error) {
+            console.error('Error running Roxy scraper:', error);
+            res.status(500).json({ error: 'Error running Roxy scraper', details: error.message });
+        }
+    });
+    
+    // Run Commodore Ballroom scraper
+    app.get('/api/v1/scrapers/commodore', async (req, res) => {
+        console.log('GET /api/v1/scrapers/commodore - Running Commodore Ballroom scraper');
+        
+        try {
+            const events = await scrapeCommodore();
+            
+            if (events.length === 0) {
+                return res.json({ success: false, message: 'No Commodore events found' });
+            }
+            
+            const result = await saveEvents(events);
+            res.json({
+                success: true,
+                message: `Scraped ${events.length} events from Commodore Ballroom`,
+                eventsFound: events.length,
+                ...result
+            });
+        } catch (error) {
+            console.error('Error running Commodore scraper:', error);
+            res.status(500).json({ error: 'Error running Commodore scraper', details: error.message });
+        }
     });
     
     // Start the server

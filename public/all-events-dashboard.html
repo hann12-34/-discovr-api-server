@@ -65,17 +65,33 @@
             </div>
         </div>
         
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-between align-items-center">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="scraperDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-arrow-repeat"></i> Run Scrapers
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="scraperDropdown">
+                        <li><a class="dropdown-item run-scraper" data-scraper="all" href="#">All Venues</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item run-scraper" data-scraper="roxy" href="#">Roxy Theatre</a></li>
+                        <li><a class="dropdown-item run-scraper" data-scraper="commodore" href="#">Commodore Ballroom</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <button id="create-event-button" class="btn btn-success me-2">
+                        <i class="bi bi-plus-circle"></i> Create Event
+                    </button>
+                    <button id="load-saved-events-button" class="btn btn-secondary">
+                        <i class="bi bi-cloud-download"></i> Load Saved Events
+                    </button>
+                </div>
+            </div>
+        </div>
+        
         <div class="row mb-3">
             <div class="col-12">
-                <button id="refresh-all-button" class="btn btn-primary me-2">
-                    <i class="bi bi-arrow-repeat"></i> Run Scrapers
-                </button>
-                <button id="load-saved-button" class="btn btn-success me-2">
-                    <i class="bi bi-cloud-download"></i> Load Saved Events
-                </button>
-                <button id="create-event-button" class="btn btn-info me-2">
-                    <i class="bi bi-plus-circle"></i> Create Event
-                </button>
                 <span id="events-loaded" class="badge bg-info"></span>
             </div>
         </div>
@@ -235,20 +251,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
     <script>
+        // API Endpoints
+        const apiBaseUrl = '/api/v1';
+        
         // DOM Elements
         const eventsTable = document.getElementById('events-table');
         const eventsBody = document.getElementById('events-body');
         const eventsLoaded = document.getElementById('events-loaded');
-        const debugOutput = document.getElementById('debug-output');
+        const loadSavedButton = document.getElementById('load-saved-events-button');
+        const searchFilter = document.getElementById('searchFilter');
+        const clearFilter = document.getElementById('clearFilter');
         const loadingOverlay = document.querySelector('.loading-overlay');
         const loadingText = document.getElementById('loading-text');
-        const refreshAllButton = document.getElementById('refresh-all-button');
-        const loadSavedButton = document.getElementById('load-saved-button');
-        const searchFilter = document.getElementById('search-filter');
-        const clearFilter = document.getElementById('clear-filter');
-        
-        // API Endpoints
-        const apiBaseUrl = '/api/v1';
+        const debugOutput = document.getElementById('debug-output');
         const eventsEndpoint = `${apiBaseUrl}/events`;
         const scrapersEndpoint = `${apiBaseUrl}/scrapers`;
         
@@ -637,6 +652,41 @@
             }
         }
 
+        async function runScraper(scraperType) {
+            loadingOverlay.style.display = 'flex';
+            loadingText.textContent = `Running ${scraperType === 'all' ? 'all scrapers' : scraperType + ' scraper'}... This may take a while`;
+            
+            try {
+                logDebug(`Running ${scraperType} scraper(s)...`);
+                const response = await fetch(`${apiBaseUrl}/scrapers/${scraperType}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Scraper API returned ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    if (scraperType === 'all') {
+                        const totalEvents = Object.values(result.results).reduce((total, venue) => total + venue.eventsFound, 0);
+                        logDebug(`✅ Scraped ${totalEvents} events from all venues!`);
+                    } else {
+                        logDebug(`✅ Scraped ${result.eventsFound} events from ${scraperType}!`);
+                    }
+                    
+                    // Automatically load the events after scraping
+                    await fetchSavedEvents();
+                } else {
+                    logDebug(`⚠️ ${result.message}`, true);
+                }
+            } catch (error) {
+                console.error(`Error running ${scraperType} scraper:`, error);
+                logDebug(`❌ Error: ${error.message}`, true);
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', () => {
             // Show initial welcome message
@@ -650,9 +700,13 @@
                 filterEvents();
             });
             
-            refreshAllButton.addEventListener('click', () => {
-                // When running scrapers, set save to true to persist the results
-                fetchAllEvents(true);
+            // Set up scraper dropdown listeners
+            document.querySelectorAll('.run-scraper').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const scraperType = e.target.getAttribute('data-scraper');
+                    runScraper(scraperType);
+                });
             });
             
             loadSavedButton.addEventListener('click', fetchSavedEvents);
