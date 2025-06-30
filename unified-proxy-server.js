@@ -138,7 +138,8 @@ async function startServer() {
         const events = await collections.cloud.find(query).sort({ startDate: 1 }).toArray();
         console.log(`Found ${events.length} events for admin UI from local database`);
         
-        res.status(200).json(events);
+        // Format response in the structure expected by the admin dashboard
+        res.status(200).json({ events: events });
       } catch (err) {
         console.error('Error fetching events for admin UI:', err);
         res.status(500).json({ error: 'Failed to fetch events' });
