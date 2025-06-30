@@ -5,6 +5,7 @@ async function scrapeCommodore() {
   const browser = await puppeteer.launch({
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    channel: 'chrome', // Use the installed Chrome browser
   });
 
   try {
