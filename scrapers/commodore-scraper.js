@@ -11,7 +11,7 @@ if (!MONGODB_URI) {
 }
 
 async function scrapeCommodore() {
-  console.log('🔍 Starting Commodore Ballroom scraper...');
+  console.log('🕵️‍♂️ Starting Commodore Ballroom scraper in debug mode...');
   const browser = await puppeteer.launch({
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -19,72 +19,34 @@ async function scrapeCommodore() {
 
   try {
     const page = await browser.newPage();
-    let apiDataFound = false;
 
-    const eventsPromise = new Promise((resolve, reject) => {
-      page.on('response', async (response) => {
-        const request = response.request();
-        // This URL is specific to Next.js sites and fetches page data as JSON
-        if (request.url().includes('/_next/data/') && request.url().endsWith('/shows.json')) {
-          try {
-            if (response.ok()) {
-              apiDataFound = true;
-              console.log('📊 Found Next.js data API response. Parsing...');
-              const data = await response.json();
-              
-              // The actual event data is nested inside the pageProps
-              const rawEvents = data.pageProps.page.blocks.find(b => b.type === 'upcomingShows')?.events;
-
-              if (rawEvents && Array.isArray(rawEvents)) {
-                const formattedEvents = rawEvents.map(event => {
-                  return {
-                    name: event.title,
-                    description: event.subtitle || '',
-                    venue: {
-                      name: 'Commodore Ballroom',
-                      address: '868 Granville St, Vancouver, BC V6Z 1K3',
-                    },
-                    price: event.price || 'TBA',
-                    // The date is already in a usable format
-                    startDate: new Date(event.date).toISOString(),
-                    // The URL needs to be constructed
-                    sourceUrl: `https://www.commodoreballroom.com/shows/${event.slug}`,
-                    source: 'commodore-scraper',
-                  };
-                });
-                console.log(`✅ Extracted ${formattedEvents.length} events from API data.`);
-                resolve(formattedEvents);
-              } else {
-                 console.log('API response found, but event data is missing or in an unexpected format.');
-              }
-            }
-          } catch (e) {
-            console.error('Error parsing API response:', e);
-            // Don't reject here, as other responses might be valid
-          }
+    // Listen for all network responses
+    page.on('response', async (response) => {
+      const url = response.url();
+      // Log URLs that are likely to be data APIs
+      if (response.request().resourceType() === 'fetch' || response.request().resourceType() === 'xhr') {
+        console.log(`📡 Network request (fetch/XHR): ${url}`);
+        // Also log the first 100 chars of the response to see if it's JSON
+        try {
+          const text = await response.text();
+          console.log(`   Response body preview: ${text.substring(0, 100)}...`);
+        } catch (e) {
+          // Ignore errors for responses with no body
         }
-      });
+      }
     });
 
-    console.log('📄 Loading Commodore Ballroom events page...');
+    console.log('📄 Loading Commodore Ballroom events page to inspect traffic...');
     await page.goto('https://www.commodoreballroom.com/shows', {
       waitUntil: 'networkidle2',
     });
 
-    // Wait for either the API data to be found or a timeout
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => {
-        if (!apiDataFound) {
-          reject(new Error('Timeout: Did not find the expected API response for event data after 30 seconds.'));
-        }
-      }, 30000)
-    );
-
-    const events = await Promise.race([eventsPromise, timeoutPromise]);
-    return events;
+    console.log('✅ Page loaded. Network requests have been logged.');
+    // In this debug run, we are not returning events, just logging URLs.
+    return [];
 
   } catch (error) {
-    console.error('❌ Error scraping Commodore Ballroom:', error.message);
+    console.error('❌ Error during scraper debug run:', error.message);
     return [];
   } finally {
     console.log('Closing browser.');
