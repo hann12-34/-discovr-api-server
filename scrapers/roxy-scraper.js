@@ -30,7 +30,19 @@ async function scrapeRoxy() {
                 const eventData = {
                     date: line,
                     title: '',
-                    venue: 'The Roxy',
+                    venue: {
+                        name: 'The Roxy',
+                        id: 'the-roxy',
+                        address: '932 Granville St',
+                        city: 'Vancouver',
+                        state: 'BC',
+                        country: 'Canada',
+                        postalCode: 'V6Z 1K2',
+                        coordinates: {
+                            lat: 49.2795,
+                            lng: -123.1213
+                        }
+                    },
                     url: VENUE_URL,
                     source: sourceIdentifier,
                     time: 'N/A',

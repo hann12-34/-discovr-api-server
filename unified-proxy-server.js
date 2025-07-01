@@ -48,6 +48,39 @@ const cloudClient = new MongoClient(CLOUD_MONGODB_URI, {
 // Serve the admin UI, setting all-events-dashboard.html as the default page
 app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-events-dashboard.html' }));
 
+// Serve static files from the 'public' directory
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+// Add explicit API endpoint for proxy configuration
+app.get('/api/v1/config', (req, res) => {
+  // Get client IP address
+  const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  console.log(`📱 Config requested from: ${clientIp}`);
+  
+  // Read and serve the proxy-config.json file
+  const configPath = path.join(__dirname, 'public', 'proxy-config.json');
+  res.sendFile(configPath);
+});
+
+// API endpoint for TestFlight detection
+app.get('/api/v1/testflight-config', (req, res) => {
+  // Get client IP address and user agent
+  const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const userAgent = req.headers['user-agent'] || 'Unknown';
+  
+  console.log(`📱 TestFlight config requested from: ${clientIp}`);
+  console.log(`📱 User agent: ${userAgent}`);
+  
+  // Send back configuration with Mac's IP address
+  res.json({
+    apiBaseUrl: `http://10.0.0.249:3030/api/v1`,
+    useLocalProxy: true,
+    serverType: 'direct',
+    macLocalIp: '10.0.0.249',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Connect to MongoDB
 async function connectToMongoDB() {
   try {
@@ -99,29 +132,52 @@ async function startServer() {
           return res.status(404).json({ message: 'No events found' });
         }
 
-        // Ensure every event has an id field (required by the mobile app)
-        events = events.map(event => {
+        // Ensure every event has an id field and venue is always an object (required by the mobile app)
+        const validatedEvents = events.map(event => {
+          // Create a copy to avoid modifying the original
+          const validatedEvent = {...event};
+          
           // Ensure id exists on every event
-          if (!event.id) {
+          if (!validatedEvent.id) {
             // Use _id if available, otherwise generate a unique id
-            if (event._id) {
-              event.id = event._id.toString();
-            } else if (event.name && event.startDate) {
+            if (validatedEvent._id) {
+              validatedEvent.id = validatedEvent._id.toString();
+            } else if (validatedEvent.name && validatedEvent.startDate) {
               // Fallback: generate id from name and date
-              event.id = `${event.name}-${new Date(event.startDate).toISOString()}`.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+              validatedEvent.id = `${validatedEvent.name}-${new Date(validatedEvent.startDate).toISOString()}`.replace(/[^a-z0-9]/gi, '-').toLowerCase();
             } else {
               // Last resort: random id
-              event.id = `event-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+              validatedEvent.id = `event-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
             }
           }
-          return event;
+          
+          // Fix venue format: ensure venue is always an object, not a string
+          if (typeof validatedEvent.venue === 'string') {
+            const venueName = validatedEvent.venue;
+            validatedEvent.venue = {
+              name: venueName,
+              id: venueName.toLowerCase().replace(/[^a-z0-9]/gi, '-'),
+              location: validatedEvent.location || { address: 'Vancouver, BC' }
+            };
+            console.log(`🔧 Fixed venue format for event: ${validatedEvent.title || validatedEvent.id} - converted string venue '${venueName}' to object`);
+          } else if (!validatedEvent.venue) {
+            // Handle missing venue
+            validatedEvent.venue = {
+              name: validatedEvent.location || 'Unknown Venue',
+              id: 'unknown-venue',
+              location: { address: validatedEvent.location || 'Vancouver, BC' }
+            };
+            console.log(`🔧 Added missing venue for event: ${validatedEvent.title || validatedEvent.id}`);
+          }
+          
+          return validatedEvent;
         });
-
-        console.log(`📤 Returning ${events.length} events from cloud MongoDB`);
+        
+        console.log(`📤 Returning ${validatedEvents.length} events`);
         console.log('📝 Formatting response as object with events key to match app expectations');
-        res.status(200).json({ events: events });
+        res.status(200).json({ events: validatedEvents });
       } catch (error) {
-        console.error('❌ Error fetching cloud events:', error.message);
+        console.error('❌ Error serving events:', error.message);
         res.status(500).json({ error: 'Failed to fetch events' });
       }
     });
@@ -281,10 +337,13 @@ async function startServer() {
         console.log('GET /api/v1/scrapers/all - Running all scrapers');
         
         try {
+            // Import commodore scraper
+            const commodoreScraper = require('./scrapers/commodore-scraper');
+            
             // Start scrapers in parallel for better performance
             const [roxyEvents, commodoreEvents] = await Promise.all([
                 roxyScraper.scrape(),
-                scrapeCommodore()
+                commodoreScraper.scrape()
             ]);
             
             // Transform Roxy events to match the expected format
