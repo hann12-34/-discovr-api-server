@@ -7,6 +7,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv = require('dotenv');
 
@@ -30,6 +31,19 @@ if (!MONGODB_URI) {
 // Enable CORS
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the public directory
+app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-events-dashboard.html' }));
+
+// Serve the unified admin interface
+app.get('/admin/unified', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'unified-admin.html'));
+});
+
+// Add route for featured events admin page
+app.get('/admin/featured', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'featured-events-admin.html'));
+});
 
 // Create MongoDB client
 const client = new MongoClient(MONGODB_URI, {

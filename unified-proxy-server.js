@@ -48,6 +48,11 @@ const cloudClient = new MongoClient(CLOUD_MONGODB_URI, {
 // Serve the admin UI, setting all-events-dashboard.html as the default page
 app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-events-dashboard.html' }));
 
+// Serve the unified admin interface
+app.get('/admin/unified', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'unified-admin.html'));
+});
+
 // Add route for featured events admin page
 app.get('/admin/featured', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'featured-events-admin.html'));

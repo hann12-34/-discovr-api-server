@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add navigation links
     navContainer.innerHTML = `
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="/admin" class="btn btn-primary">Events Dashboard</a>
-        <a href="/admin/featured" class="btn btn-success">Featured Events Admin</a>
+        <a href="/admin/unified" class="btn btn-primary"><i class="bi bi-grid-3x3-gap-fill"></i> Unified Admin</a>
+        <a href="/admin" class="btn btn-outline-primary">Events Dashboard</a>
+        <a href="/admin/featured" class="btn btn-outline-success">Featured Events Admin</a>
       </div>
     `;
   }
