@@ -30,7 +30,7 @@ class MeetupScraper {
       console.log('Starting Meetup scraper...');
       
       // Use provided options or defaults
-      const location = options.location || 'San Francisco, CA';
+      const location = options.location || 'Vancouver, BC';
       
       // Fetch events from Meetup API
       const events = await this.fetchEvents(location);
@@ -165,83 +165,7 @@ class MeetupScraper {
     return 'Other';
   }
 
-  /**
-   * Generate mock events for testing or when API is unavailable
-   * @returns {Array} - Array of mock events
-   */
-  getMockEvents() {
-    return [
-      {
-        id: 'mu-001',
-        title: 'San Francisco JavaScript Meetup',
-        description: 'Join fellow JavaScript developers for an evening of talks, networking, and code sharing.',
-        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97',
-        startDate: new Date('2025-07-05T18:30:00Z'),
-        endDate: new Date('2025-07-05T21:00:00Z'),
-        season: 'Summer',
-        location: 'TechSpace SF',
-        venue: {
-          name: 'TechSpace SF',
-          address: '25 Taylor Street',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Technology',
-        priceRange: 'Free',
-        sourceURL: 'https://meetup.com/events/sf-javascript-meetup',
-        officialWebsite: '',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'mu-002',
-        title: 'Hiking & Nature Photography',
-        description: 'A morning hike combined with nature photography tips and tricks from professional photographers.',
-        image: 'https://images.unsplash.com/photo-1520962880247-cfaf541c8724',
-        startDate: new Date('2025-08-12T09:00:00Z'),
-        endDate: new Date('2025-08-12T13:00:00Z'),
-        season: 'Summer',
-        location: 'Lands End Trail',
-        venue: {
-          name: 'Lands End Trail',
-          address: 'Lands End Trail Head',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Sports & Fitness',
-        priceRange: 'Low',
-        sourceURL: 'https://meetup.com/events/hiking-photography-sf',
-        officialWebsite: '',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'mu-003',
-        title: 'Startup Networking Breakfast',
-        description: 'Connect with founders, investors, and tech professionals over coffee and breakfast.',
-        image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72',
-        startDate: new Date('2025-09-03T08:00:00Z'),
-        endDate: new Date('2025-09-03T10:00:00Z'),
-        season: 'Fall',
-        location: 'The Workshop Cafe',
-        venue: {
-          name: 'The Workshop Cafe',
-          address: '180 Montgomery Street',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Business',
-        priceRange: 'Low',
-        sourceURL: 'https://meetup.com/events/startup-networking-sf',
-        officialWebsite: '',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      }
-    ];
-  }
+  // No mock events - we only use real events from the API
 }
 
 module.exports = new MeetupScraper();

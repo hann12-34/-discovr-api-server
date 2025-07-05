@@ -14,6 +14,23 @@ const meetupScraper = require('./sources/meetup');
 const localVenuesScraper = require('./sources/localVenues');
 const tourismBoardScraper = require('./sources/tourismBoard');
 const roxyScraper = require('./roxy-scraper');
+const { scrape: scrapeRickshaw } = require('./rickshaw-scraper');
+const { scrape: scrapeCommodore } = require('./commodore-scraper');
+const { scrape: scrapeCultch } = require('./cultch-scraper');
+const { scrape: scrapePenthouse } = require('./penthouse-scraper');
+const { scrape: scrapeOrpheum } = require('./orpheum-scraper');
+const { scrape: scrapePearl, sourceIdentifier: pearlSourceIdentifier } = require('./pearl-scraper');
+const { scrape: scrapeLivingRoom, sourceIdentifier: livingRoomSourceIdentifier } = require('./livingroom-scraper');
+const { scrape: scrapeVogue, sourceIdentifier: vogueSourceIdentifier } = require('./vogue-scraper');
+const { scrape: scrapeMansion, sourceIdentifier: mansionSourceIdentifier } = require('./mansion-scraper');
+const { scrape: scrapeTwelveWest, sourceIdentifier: twelveWestSourceIdentifier } = require('./twelvewest-scraper');
+
+// Define scraper objects with sourceIdentifier
+const commodoreScraper = { scrape: scrapeCommodore, sourceIdentifier: 'commodore-ballroom' };
+const rickshawScraper = { scrape: scrapeRickshaw, sourceIdentifier: 'rickshaw-theatre' };
+const cultchScraper = { scrape: scrapeCultch, sourceIdentifier: 'cultch-theatre' };
+const penthouseScraper = { scrape: scrapePenthouse, sourceIdentifier: 'penthouse' };
+const livingRoomScraper = { scrape: scrapeLivingRoom, sourceIdentifier: livingRoomSourceIdentifier };
 
 // Import city scrapers
 const cityScraper = require('./cities');
@@ -32,7 +49,17 @@ class ScraperCoordinator {
       localVenuesScraper,
       tourismBoardScraper,
       cityScraper,
-      roxyScraper
+      roxyScraper,
+      commodoreScraper,
+      rickshawScraper,
+      cultchScraper,
+      penthouseScraper,
+      { scrape: scrapeOrpheum, sourceIdentifier: 'orpheum-theatre' },
+      { scrape: scrapePearl, sourceIdentifier: pearlSourceIdentifier },
+      livingRoomScraper,
+      { scrape: scrapeVogue, sourceIdentifier: vogueSourceIdentifier },
+      { scrape: scrapeMansion, sourceIdentifier: mansionSourceIdentifier },
+      { scrape: scrapeTwelveWest, sourceIdentifier: twelveWestSourceIdentifier }
     ];
   }
 

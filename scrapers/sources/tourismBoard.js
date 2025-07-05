@@ -46,17 +46,17 @@ class TourismBoardScraper {
       
       console.log(`Tourism Board scraper found ${allEvents.length} events`);
       
-      // If no events were found through scraping, use mock data
+      // If no events were found through scraping, return empty array
       if (allEvents.length === 0) {
-        console.log('No events found through scraping, using mock data');
-        return this.getMockEvents();
+        console.log('No events found through scraping, returning empty array');
+        return [];
       }
       
       return allEvents;
     } catch (error) {
       console.error('Error in Tourism Board scraper:', error.message);
-      console.log('Using mock events due to scraping error');
-      return this.getMockEvents();
+      console.log('Returning empty array due to scraping error');
+      return [];
     }
   }
 
@@ -70,10 +70,10 @@ class TourismBoardScraper {
       console.log(`Scraping ${url} for events...`);
       
       // Determine which scraper function to use based on the URL
-      if (url.includes('sftravel.com')) {
-        return await this.scrapeSFTravel(url);
-      } else if (url.includes('visitcalifornia.com')) {
-        return await this.scrapeVisitCalifornia(url);
+      if (url.includes('tourismvancouver.com')) {
+        return await this.scrapeTourismVancouver(url);
+      } else if (url.includes('keepexploring.canada.travel')) {
+        return await this.scrapeTourismCanada(url);
       } else {
         console.warn(`No specific scraper available for ${url}, using generic scraper`);
         return await this.scrapeGeneric(url);
@@ -85,17 +85,17 @@ class TourismBoardScraper {
   }
 
   /**
-   * Scrape SF Travel events
-   * @param {String} url - SF Travel URL
+   * Scrape Tourism Vancouver events
+   * @param {String} url - Tourism Vancouver URL
    * @returns {Promise<Array>} - Array of events
    */
-  async scrapeSFTravel(url) {
+  async scrapeTourismVancouver(url) {
     try {
       const response = await axios.get(url, { timeout: this.commonConfig.timeout });
       const $ = cheerio.load(response.data);
       const events = [];
       
-      // SF Travel specific selectors for events
+      // Tourism Vancouver specific selectors for events
       $('.eventitem, .event-card').each((index, element) => {
         if (events.length >= this.config.maxEventsPerSource) return false;
         
@@ -115,7 +115,7 @@ class TourismBoardScraper {
         // Parse date
         let startDate = null;
         try {
-          // SF Travel often uses formats like "June 15, 2025"
+          // Tourism Vancouver often uses formats like "June 15, 2025"
           startDate = new Date(dateStr);
           if (isNaN(startDate.getTime())) startDate = null;
         } catch (e) {
@@ -127,7 +127,7 @@ class TourismBoardScraper {
           id: helpers.generateDeterministicId({ title, date: dateStr, location }),
           title,
           description,
-          image: image.startsWith('http') ? image : `https://www.sftravel.com${image}`,
+          image: image.startsWith('http') ? image : `https://www.tourismvancouver.com${image}`,
           startDate,
           endDate: null, // Often not provided
           season: helpers.mapDateToSeason(startDate),
@@ -135,13 +135,13 @@ class TourismBoardScraper {
           venue: {
             name: location,
             address: '',
-            city: 'San Francisco',
-            state: 'CA',
-            country: 'US'
+            city: 'Vancouver',
+            state: 'BC',
+            country: 'Canada'
           },
           category: this.inferCategory(title, description),
           priceRange: this.inferPriceRange(description),
-          sourceURL: url.startsWith('http') ? url : `https://www.sftravel.com${url}`,
+          sourceURL: url.startsWith('http') ? url : `https://www.tourismvancouver.com${url}`,
           officialWebsite: '',
           dataSources: [this.sourceIdentifier],
           lastUpdated: new Date()
@@ -152,23 +152,23 @@ class TourismBoardScraper {
       
       return events;
     } catch (error) {
-      console.error('Error scraping SF Travel:', error.message);
+      console.error('Error scraping Tourism Vancouver:', error.message);
       return [];
     }
   }
 
   /**
-   * Scrape Visit California events
-   * @param {String} url - Visit California URL
+   * Scrape Tourism Canada events
+   * @param {String} url - Tourism Canada URL
    * @returns {Promise<Array>} - Array of events
    */
-  async scrapeVisitCalifornia(url) {
+  async scrapeTourismCanada(url) {
     try {
       const response = await axios.get(url, { timeout: this.commonConfig.timeout });
       const $ = cheerio.load(response.data);
       const events = [];
       
-      // Visit California specific selectors for events
+      // Tourism Canada specific selectors for events
       $('.event-item, .event-card, .teaser--event').each((index, element) => {
         if (events.length >= this.config.maxEventsPerSource) return false;
         
@@ -188,7 +188,7 @@ class TourismBoardScraper {
         // Parse date
         let startDate = null;
         try {
-          // Visit California often uses formats like "June 15 - June 20, 2025"
+          // Tourism Canada often uses formats like "June 15 - June 20, 2025"
           const dateMatch = dateStr.match(/(\w+\s+\d+)(?:\s*-\s*(?:\w+\s+)?\d+)?,\s*(\d{4})/);
           if (dateMatch) {
             const fullDate = `${dateMatch[1]}, ${dateMatch[2]}`;
@@ -207,7 +207,7 @@ class TourismBoardScraper {
           id: helpers.generateDeterministicId({ title, date: dateStr, location }),
           title,
           description,
-          image: image.startsWith('http') ? image : `https://www.visitcalifornia.com${image}`,
+          image: image.startsWith('http') ? image : `https://keepexploring.canada.travel${image}`,
           startDate,
           endDate: null, // Often not provided
           season: helpers.mapDateToSeason(startDate),
@@ -215,13 +215,13 @@ class TourismBoardScraper {
           venue: {
             name: location,
             address: '',
-            city: this.extractCity(location) || 'San Francisco',
-            state: 'CA',
-            country: 'US'
+            city: this.extractCity(location) || 'Vancouver',
+            state: 'BC',
+            country: 'Canada'
           },
           category: this.inferCategory(title, description),
           priceRange: this.inferPriceRange(description),
-          sourceURL: url.startsWith('http') ? url : `https://www.visitcalifornia.com${url}`,
+          sourceURL: url.startsWith('http') ? url : `https://keepexploring.canada.travel${url}`,
           officialWebsite: '',
           dataSources: [this.sourceIdentifier],
           lastUpdated: new Date()
@@ -232,7 +232,7 @@ class TourismBoardScraper {
       
       return events;
     } catch (error) {
-      console.error('Error scraping Visit California:', error.message);
+      console.error('Error scraping Tourism Canada:', error.message);
       return [];
     }
   }
@@ -316,9 +316,9 @@ class TourismBoardScraper {
             venue: {
               name: location,
               address: '',
-              city: this.extractCity(location) || 'San Francisco',
-              state: 'CA',
-              country: 'US'
+              city: this.extractCity(location) || 'Vancouver',
+              state: 'BC',
+              country: 'Canada'
             },
             category: this.inferCategory(title, description),
             priceRange: this.inferPriceRange(description),
@@ -350,11 +350,11 @@ class TourismBoardScraper {
   extractCity(location) {
     if (!location) return null;
     
-    // Check for common California cities
+    // Check for common Canadian cities
     const cities = [
-      'San Francisco', 'Los Angeles', 'San Diego', 'Sacramento',
-      'Oakland', 'Berkeley', 'San Jose', 'Napa', 'Sonoma',
-      'Santa Cruz', 'Monterey', 'Santa Barbara', 'Palm Springs'
+      'Vancouver', 'Toronto', 'Montreal', 'Calgary',
+      'Edmonton', 'Ottawa', 'Victoria', 'Whistler', 'Kelowna',
+      'Halifax', 'Quebec City', 'Winnipeg', 'Saskatoon'
     ];
     
     for (const city of cities) {
@@ -411,83 +411,7 @@ class TourismBoardScraper {
     return 'Varies';
   }
 
-  /**
-   * Generate mock events for testing when scraping fails
-   * @returns {Array} - Array of mock events
-   */
-  getMockEvents() {
-    return [
-      {
-        id: 'tb-001',
-        title: 'Golden Gate Park 150th Anniversary Celebration',
-        description: 'A citywide celebration of San Francisco\'s iconic park with special exhibits, performances, and activities.',
-        image: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29',
-        startDate: new Date('2025-10-15T10:00:00Z'),
-        endDate: new Date('2025-10-17T18:00:00Z'),
-        season: 'Fall',
-        location: 'Golden Gate Park',
-        venue: {
-          name: 'Golden Gate Park',
-          address: 'Golden Gate Park',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Community',
-        priceRange: 'Free',
-        sourceURL: 'https://www.sftravel.com/events/golden-gate-park-150',
-        officialWebsite: 'https://goldengatepark150.com',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'tb-002',
-        title: 'California Coastal Wine Festival',
-        description: 'Sample premium wines from coastal vineyards across California with ocean views, gourmet food, and live music.',
-        image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb',
-        startDate: new Date('2025-08-22T14:00:00Z'),
-        endDate: new Date('2025-08-23T21:00:00Z'),
-        season: 'Summer',
-        location: 'Presidio',
-        venue: {
-          name: 'Presidio',
-          address: 'Presidio',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Food & Drink',
-        priceRange: 'High',
-        sourceURL: 'https://www.visitcalifornia.com/events/coastal-wine-festival',
-        officialWebsite: 'https://californiacoastalwine.com',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'tb-003',
-        title: 'San Francisco Heritage Festival',
-        description: 'Celebrate the diverse cultural heritage of San Francisco with international food, performances, and cultural exhibits.',
-        image: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29',
-        startDate: new Date('2025-11-08T11:00:00Z'),
-        endDate: new Date('2025-11-09T20:00:00Z'),
-        season: 'Fall',
-        location: 'Civic Center Plaza',
-        venue: {
-          name: 'Civic Center Plaza',
-          address: 'Civic Center Plaza',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Community',
-        priceRange: 'Low',
-        sourceURL: 'https://www.sftravel.com/events/heritage-festival',
-        officialWebsite: 'https://sfheritagefestival.org',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      }
-    ];
-  }
+  // No mock events - we only use real events from the API
 }
 
 module.exports = new TourismBoardScraper();

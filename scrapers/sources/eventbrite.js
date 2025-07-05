@@ -30,7 +30,7 @@ class EventbriteScraper {
       console.log('Starting Eventbrite scraper...');
       
       // Use provided options or defaults
-      const location = options.location || 'San Francisco';
+      const location = options.location || 'Vancouver';
       const startDate = options.startDate || new Date().toISOString();
       const endDate = options.endDate || new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(); // 90 days from now
       
@@ -190,83 +190,7 @@ class EventbriteScraper {
     return categoryMap[categoryId] || 'Other';
   }
 
-  /**
-   * Generate mock events for testing or when API is unavailable
-   * @returns {Array} - Array of mock events
-   */
-  getMockEvents() {
-    return [
-      {
-        id: 'eb-001',
-        title: 'Tech Conference 2025',
-        description: 'Join us for the biggest tech conference in San Francisco featuring keynotes from industry leaders.',
-        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87',
-        startDate: new Date('2025-09-15T09:00:00Z'),
-        endDate: new Date('2025-09-17T18:00:00Z'),
-        season: 'Fall',
-        location: 'Moscone Center',
-        venue: {
-          name: 'Moscone Center',
-          address: '747 Howard St',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Technology',
-        priceRange: 'High',
-        sourceURL: 'https://example.com/tech-conference-2025',
-        officialWebsite: 'https://techconference2025.com',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'eb-002',
-        title: 'Summer Music Festival',
-        description: 'A weekend of amazing performances from top artists across multiple genres.',
-        image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3',
-        startDate: new Date('2025-07-10T10:00:00Z'),
-        endDate: new Date('2025-07-12T23:00:00Z'),
-        season: 'Summer',
-        location: 'Golden Gate Park',
-        venue: {
-          name: 'Golden Gate Park',
-          address: 'Golden Gate Park',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Music',
-        priceRange: 'Moderate',
-        sourceURL: 'https://example.com/summer-music-festival',
-        officialWebsite: 'https://summermusicfest.com',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'eb-003',
-        title: 'Wine Tasting Experience',
-        description: 'Sample premium wines from California\'s best vineyards with expert sommeliers.',
-        image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3',
-        startDate: new Date('2025-08-20T18:30:00Z'),
-        endDate: new Date('2025-08-20T21:30:00Z'),
-        season: 'Summer',
-        location: 'Ferry Building',
-        venue: {
-          name: 'Ferry Building',
-          address: '1 Ferry Building',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Food & Drink',
-        priceRange: 'Moderate',
-        sourceURL: 'https://example.com/wine-tasting',
-        officialWebsite: 'https://sfwinetasting.com',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      }
-    ];
-  }
+  // No mock events - we only use real events from the API
 }
 
 module.exports = new EventbriteScraper();

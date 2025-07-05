@@ -1,0 +1,36 @@
+{
+  "commonSelectors": [
+    {
+      "selector": "Tag",
+      "count": 282
+    },
+    {
+      "selector": "EventList--EventListItem",
+      "count": 70
+    },
+    {
+      "selector": "Eventive--Dialog",
+      "count": 2
+    }
+  ],
+  "potentialEventContainers": [],
+  "headings": [
+    {
+      "text": "Past events",
+      "tag": "H2",
+      "classes": ""
+    }
+  ],
+  "eventLinks": [],
+  "filmTitles": [],
+  "dateElements": [],
+  "images": [
+    {
+      "src": "https://doxa2025.eventive.org/img/preloader.gif",
+      "alt": "",
+      "width": 128,
+      "height": 128,
+      "classes": ""
+    }
+  ]
+}

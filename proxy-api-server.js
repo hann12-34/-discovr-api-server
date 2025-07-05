@@ -77,10 +77,37 @@ app.get('/api/v1/venues/events/all', async (req, res) => {
     
     // Get all events without any limit
     const events = await eventsCollection.find({}).toArray();
-    console.log(`📤 Returning ${events.length} events`);
     
-    // Return events as an array (same format as cloud API)
-    res.status(200).json(events);
+    // Process events to ensure they have required fields and structure
+    const processedEvents = events.map(event => {
+      // Ensure all events have an 'id' field (use '_id' as fallback)
+      const eventWithId = !event.id && event._id ? 
+        { ...event, id: event._id.toString() } : 
+        event;
+      
+      // Ensure venue is an object (not a string)
+      if (eventWithId.venue && typeof eventWithId.venue === 'string') {
+        const venueName = eventWithId.venue;
+        eventWithId.venue = {
+          id: `venue-${venueName.toLowerCase().replace(/\s+/g, '-')}`,
+          name: venueName,
+          address: '',
+          city: 'Vancouver',
+          province: 'BC',
+          postalCode: '',
+          country: 'Canada',
+          latitude: 0,
+          longitude: 0
+        };
+      }
+      
+      return eventWithId;
+    });
+    
+    console.log(`📤 Returning ${processedEvents.length} events with validated id fields`);
+    
+    // Return events wrapped in an object with 'events' key (format expected by the app)
+    res.status(200).json({ events: processedEvents });
   } catch (error) {
     console.error('❌ Error fetching events:', error.message);
     res.status(500).json({ error: 'Failed to fetch events' });

@@ -53,9 +53,9 @@ class VenueScraper {
       venue: {
         name: venueName,
         address: rawEvent.venue?.address || '',
-        city: rawEvent.venue?.city || 'San Francisco',
-        state: rawEvent.venue?.state || 'CA',
-        country: rawEvent.venue?.country || 'USA',
+        city: rawEvent.venue?.city || 'Vancouver',
+        state: rawEvent.venue?.state || 'BC',
+        country: rawEvent.venue?.country || 'Canada',
         coordinates: rawEvent.venue?.coordinates || { lat: 0, lng: 0 }
       },
       price: rawEvent.price || { min: 0, max: 0, free: true },

@@ -471,14 +471,14 @@
     "venue": {
       "name": "Moscone Center",
       "address": "747 Howard St",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e05b28b1bc68a236dd7",
     "id": "eb-001",
     "title": "Tech Conference 2025",
-    "description": "Join us for the biggest tech conference in San Francisco featuring keynotes from industry leaders.",
+    "description": "Join us for the biggest tech conference in Vancouver featuring keynotes from industry leaders.",
     "image": "https://images.unsplash.com/photo-1540575467063-178a50c2df87",
     "startDate": "2025-09-15T09:00:00.000Z",
     "endDate": "2025-09-17T18:00:00.000Z",
@@ -498,9 +498,9 @@
     "venue": {
       "name": "Golden Gate Park",
       "address": "Golden Gate Park",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e05b28b1bc68a236dda",
     "id": "eb-002",
@@ -525,9 +525,9 @@
     "venue": {
       "name": "Ferry Building",
       "address": "1 Ferry Building",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e05b28b1bc68a236ddd",
     "id": "eb-003",
@@ -552,13 +552,13 @@
     "venue": {
       "name": "TechSpace SF",
       "address": "25 Taylor Street",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e05b28b1bc68a236de0",
     "id": "mu-001",
-    "title": "San Francisco JavaScript Meetup",
+    "title": "Vancouver JavaScript Meetup",
     "description": "Join fellow JavaScript developers for an evening of talks, networking, and code sharing.",
     "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
     "startDate": "2025-07-05T18:30:00.000Z",
@@ -579,9 +579,9 @@
     "venue": {
       "name": "Lands End Trail",
       "address": "Lands End Trail Head",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e05b28b1bc68a236de3",
     "id": "mu-002",
@@ -606,9 +606,9 @@
     "venue": {
       "name": "The Workshop Cafe",
       "address": "180 Montgomery Street",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e05b28b1bc68a236de6",
     "id": "mu-003",
@@ -633,13 +633,13 @@
     "venue": {
       "name": "SFJAZZ Center",
       "address": "201 Franklin St",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e06b28b1bc68a236de9",
     "id": "lv-001",
-    "title": "San Francisco Jazz Festival",
+    "title": "Vancouver Jazz Festival",
     "description": "Annual jazz festival featuring renowned artists from around the world.",
     "image": "https://images.unsplash.com/photo-1511192336575-5a79af67a629",
     "startDate": "2025-06-21T19:00:00.000Z",
@@ -660,9 +660,9 @@
     "venue": {
       "name": "Dolores Park",
       "address": "19th & Dolores St",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e06b28b1bc68a236dec",
     "id": "lv-002",
@@ -686,10 +686,10 @@
   {
     "venue": {
       "name": "Various Locations",
-      "address": "San Francisco",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "address": "Vancouver",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e06b28b1bc68a236def",
     "id": "lv-003",
@@ -714,14 +714,14 @@
     "venue": {
       "name": "Golden Gate Park",
       "address": "Golden Gate Park",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e06b28b1bc68a236df2",
     "id": "tb-001",
     "title": "Golden Gate Park 150th Anniversary Celebration",
-    "description": "A citywide celebration of San Francisco's iconic park with special exhibits, performances, and activities.",
+    "description": "A citywide celebration of Vancouver's iconic park with special exhibits, performances, and activities.",
     "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
     "startDate": "2025-10-15T10:00:00.000Z",
     "endDate": "2025-10-17T18:00:00.000Z",
@@ -741,9 +741,9 @@
     "venue": {
       "name": "Presidio",
       "address": "Presidio",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e06b28b1bc68a236df5",
     "id": "tb-002",
@@ -768,14 +768,14 @@
     "venue": {
       "name": "Civic Center Plaza",
       "address": "Civic Center Plaza",
-      "city": "San Francisco",
-      "state": "CA",
-      "country": "US"
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada"
     },
     "_id": "685f7e06b28b1bc68a236df8",
     "id": "tb-003",
-    "title": "San Francisco Heritage Festival",
-    "description": "Celebrate the diverse cultural heritage of San Francisco with international food, performances, and cultural exhibits.",
+    "title": "Vancouver Heritage Festival",
+    "description": "Celebrate the diverse cultural heritage of Vancouver with international food, performances, and cultural exhibits.",
     "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
     "startDate": "2025-11-08T11:00:00.000Z",
     "endDate": "2025-11-09T20:00:00.000Z",

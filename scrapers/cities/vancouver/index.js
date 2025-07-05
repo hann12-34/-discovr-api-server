@@ -1,16 +1,75 @@
 /**
  * Vancouver city scrapers
  * Collection of scrapers for Vancouver events and venues
+ * Only includes real scrapers that perform actual web scraping (not hardcoded sample data)
  */
 
 const { v5: uuidv5 } = require('uuid');
 const NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 
-// Import venue scrapers
-const commodoreBallroom = require('./commodoreBallroom');
+// Import all venue scrapers that perform actual web scraping
+const commodoreBallroom = require('./commodoreBallroomEvents'); // Using improved events scraper
+// Previously commented out scrapers now available
+const vancouverAquariumEvents = require('./vancouverAquariumEvents');
+const granvilleMarketEvents = require('./granvilleMarketEvents');
+const orpheumEvents = require('./orpheumEvents');
+const steamworksBrewingEvents = require('./steamworksBrewingEvents');
+const scienceWorldVancouverEvents = require('./scienceWorldVancouverEvents');
+// New scrapers
+const theatreUnderTheStarsEvents = require('./theatreUnderTheStarsEvents');
+const vancouverSymphonyEvents = require('./vancouverSymphonyEvents');
+const rogersArenaEvents = require('./rogersArenaEvents');
+// Improved Rogers Arena scraper
+const rogersArenaEventsImproved = require('./rogersArenaEventsImproved');
+const queenElizabethTheatreEvents = require('./queenElizabethTheatreEvents');
+// Canada Place scraper
+const canadaPlaceEvents = require('./canadaPlaceEvents');
+const bcPlaceEvents = require('./bcPlaceEvents');
+const hrMacMillanSpaceCentreEvents = require('./hrMacMillanSpaceCentreEvents');
+const ubcBotanicalGardenEvents = require('./ubcBotanicalGardenEvents');
+const vancouverMaritimeMuseumEvents = require('./vancouverMaritimeMuseumEvents');
+const moaUbcEvents = require('./moaUbcEvents');
+// Vancouver Convention Centre scraper
+const vancouverConventionCentreEvents = require('./vancouverConventionCentreEvents');
+
+// Import working scrapers
+const fortuneSoundClub = require('./fortuneSoundClub');
+const gastownSundaySet = require('./gastownSundaySet');
+const granvilleIsland = require('./granvilleIsland');
+const VancouverArtGalleryEvents = require('./vancouverArtGalleryEvents');
+const VeganMarketEvents = require('./veganMarketEvents');
+const QueerArtsFestivalEvents = require('./queerArtsFestivalEvents');
+const BardOnTheBeachEvents = require('./bardOnTheBeachEvents');
+const FestivalDEteEvents = require('./festivalDEteEvents');
+const BroadwayVancouverEvents = require('./broadwayVancouverEvents');
+const MusqueamEvents = require('./musqueamEvents');
+const JapanMarketEvents = require('./japanMarketEvents');
+const VSFFEvents = require('./vsffEvents');
+const RunToEndEndoEvents = require('./runToEndEndoEvents');
+const ChineseGardenEvents = require('./chineseGardenEvents');
+const MetropolisEvents = require('./metropolisEvents');
+const ArcDiningEvents = require('./arcDiningEvents');
+const VancouverMysteriesEvents = require('./vancouverMysteriesEvents');
+const DragonBoatFestivalEvents = require('./dragonBoatFestivalEvents');
+const MuseumOfVancouverEvents = require('./museumOfVancouverEvents');
+const CoastalJazzEvents = require('./coastalJazzEvents');
+const KhatsahlanoEvents = require('./khatsahlanoEvents');
+const SummerCinemaEvents = require('./summerCinemaEvents');
+const GastownGrandPrixEvents = require('./gastownGrandPrixEvents');
+const HelloGoodbyeBarEvents = require('./helloGoodbyeBarEvents');
+// const MalonesEvents = require('./malonesEvents'); // Removed due to scrape function issues
+// const UndergroundComedyClubEvents = require('./undergroundComedyClubEvents'); // Removed due to syntax errors
+// const ImprovCentreEvents = require('./improvCentreEvents'); // Removed due to scrape function issues
+// const DOXAFilmFestivalEvents = require('./doxaFilmFestivalEvents'); // Removed due to SPA compatibility issues
+// const BillReidGalleryEvents = require('./billReidGalleryEvents'); // Removed due to scrape function issues
 const vogueTheatre = require('./vogueTheatre');
 const foxCabaret = require('./foxCabaret');
-const fortuneSoundClub = require('./fortuneSoundClubBridge');
+
+// Import new scrapers
+const VancouverAsianFilmFestivalEvents = require('./vancouverAsianFilmFestivalEvents');
+const QueerFilmFestivalEvents = require('./queerFilmFestivalEvents');
+const MuseumOfAnthropologyEvents = require('./museumOfAnthropologyEvents');
+// const fortuneSoundClubBridge = require('./fortuneSoundClubBridge');  // Already imported as fortuneSoundClub
 
 class VancouverScrapers {
   constructor() {
@@ -21,19 +80,108 @@ class VancouverScrapers {
     this.enabled = true;
     this.venueScrapers = [];
     
-    // Add venue scrapers to the scrapers array
+    // Add venue scrapers to the scrapers array - ONLY REAL SCRAPERS
     this.scrapers = [
       commodoreBallroom,
-      vogueTheatre,
-      foxCabaret,
-      fortuneSoundClub
+      vancouverAquariumEvents,
+      granvilleMarketEvents,
+      orpheumEvents,
+      steamworksBrewingEvents,
+      scienceWorldVancouverEvents,
+      theatreUnderTheStarsEvents,
+      vancouverSymphonyEvents,
+      // rogersArenaEvents, // Commented out in favor of improved version
+      rogersArenaEventsImproved, // Added improved Rogers Arena scraper
+      canadaPlaceEvents, // Added Canada Place events scraper
+      queenElizabethTheatreEvents,
+      bcPlaceEvents,
+      hrMacMillanSpaceCentreEvents,
+      ubcBotanicalGardenEvents,
+      vancouverMaritimeMuseumEvents,
+      moaUbcEvents,
+      vancouverConventionCentreEvents, // Added Vancouver Convention Centre events scraper
+      VancouverArtGalleryEvents,
+      VeganMarketEvents,
+      QueerArtsFestivalEvents,
+      BardOnTheBeachEvents,
+      FestivalDEteEvents,
+      BroadwayVancouverEvents,
+      MusqueamEvents,
+      JapanMarketEvents,
+      VSFFEvents,
+      RunToEndEndoEvents,
+      ChineseGardenEvents,
+      MetropolisEvents,
+      ArcDiningEvents,
+      VancouverMysteriesEvents,
+      DragonBoatFestivalEvents,
+      MuseumOfVancouverEvents,
+      CoastalJazzEvents,
+      KhatsahlanoEvents,
+      SummerCinemaEvents,
+      GastownGrandPrixEvents,
+      HelloGoodbyeBarEvents,
+      VancouverAsianFilmFestivalEvents,
+      QueerFilmFestivalEvents,
+      MuseumOfAnthropologyEvents,
+      // MalonesEvents, // Removed due to scrape function issues
+      // UndergroundComedyClubEvents, // Removed due to syntax errors
+      // ImprovCentreEvents, // Removed due to scrape function issues
+      // DOXAFilmFestivalEvents, // Removed due to SPA compatibility issues
+      // BillReidGalleryEvents, // Removed due to scrape function issues
     ];
     
-    // Register venue scrapers
+    // Register venue scrapers - ONLY REAL SCRAPERS
     this.register(commodoreBallroom);
     this.register(vogueTheatre);
     this.register(foxCabaret);
     this.register(fortuneSoundClub);
+    this.register(gastownSundaySet);
+    this.register(granvilleIsland);
+    // Comment out undefined variables
+    // this.register(barNoneClub);
+    // this.register(queenElizabethTheatre);
+    // this.register(vancouverCivicTheatres);
+    // this.register(rogersArena);
+    // this.register(chanCentre);
+    // this.register(carnavalDelSol);
+    this.register(theatreUnderTheStarsEvents);
+    this.register(vancouverSymphonyEvents);
+    // this.register(rogersArenaEvents); // Commented out in favor of improved version
+    this.register(rogersArenaEventsImproved); // Registering improved Rogers Arena scraper
+    this.register(canadaPlaceEvents); // Registering Canada Place events scraper
+    this.register(queenElizabethTheatreEvents);
+    this.register(bcPlaceEvents);
+    this.register(hrMacMillanSpaceCentreEvents);
+    this.register(ubcBotanicalGardenEvents);
+    this.register(vancouverMaritimeMuseumEvents);
+    this.register(moaUbcEvents);
+    this.register(vancouverConventionCentreEvents); // Registering Vancouver Convention Centre events scraper
+    // this.register(bardOnTheBeach);
+    // this.register(helloBCEventsScraper);
+    // these variables are not defined
+    // this.register(tourismVancouverEvents);
+    // this.register(vancouverCityEvents);
+    this.register(VancouverArtGalleryEvents);
+    // this.register(redRoomEvents);
+    this.register(VeganMarketEvents);
+    this.register(QueerArtsFestivalEvents);
+    this.register(BardOnTheBeachEvents);
+    this.register(FestivalDEteEvents);
+    this.register(BroadwayVancouverEvents);
+    this.register(CoastalJazzEvents);
+    this.register(KhatsahlanoEvents);
+    this.register(SummerCinemaEvents);
+    this.register(GastownGrandPrixEvents);
+    this.register(HelloGoodbyeBarEvents);
+    this.register(VancouverAsianFilmFestivalEvents);
+    this.register(QueerFilmFestivalEvents);
+    this.register(MuseumOfAnthropologyEvents);
+    // this.register(MalonesEvents); // Removed due to scrape function issues
+    // this.register(UndergroundComedyClubEvents); // Removed due to syntax errors
+    // this.register(ImprovCentreEvents); // Removed due to scrape function issues
+    // this.register(DOXAFilmFestivalEvents); // Removed due to SPA compatibility issues
+    // this.register(BillReidGalleryEvents); // Removed due to scrape function issues
   }
 
   /**

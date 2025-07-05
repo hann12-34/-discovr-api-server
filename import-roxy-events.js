@@ -2,7 +2,7 @@
  * Simple script to import events from the Roxy scraper directly into MongoDB
  * Uses the direct MongoDB driver to bypass schema validation issues
  */
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables from .env file
 const { MongoClient } = require('mongodb');
 const roxyScraper = require('./scrapers/roxy-scraper');
 

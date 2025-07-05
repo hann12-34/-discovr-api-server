@@ -1,0 +1,807 @@
+/**
+ * DOXA Documentary Film Festival Events Scraper
+ * 
+ * Scrapes events from the DOXA Documentary Film Festival website
+ * Using Eventive.org platform at https://doxa2025.eventive.org/
+ */
+
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class DOXAFilmFestivalEvents {
+  constructor() {
+    this.name = "DOXA Documentary Film Festival";
+    this.url = "https://doxa2025.eventive.org/schedule";
+    this.city = "Vancouver";
+    this.scraperName = "doxaFilmFestivalEvents";
+  }
+  
+  /**
+   * Scrape events from the DOXA Documentary Film Festival website using Eventive.org platform
+   */
+  async scrape() {
+    console.log(`🔍 Starting ${this.name} scraper...`);
+    
+    // Launch browser with increased memory
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        '--no-sandbox', 
+        '--disable-setuid-sandbox', 
+        '--disable-gpu',
+        '--disable-dev-shm-usage',
+        '--js-flags=--max-old-space-size=4096'
+      ]
+    });
+    
+    const page = await browser.newPage();
+    
+    // Set user agent
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Safari/605.1.15');
+    
+    // Set longer navigation timeouts for SPA
+    await page.setDefaultNavigationTimeout(60000);
+    await page.setDefaultTimeout(60000);
+    
+    const events = [];
+    
+    try {
+      console.log(`Navigating to: ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
+      
+      // SPA needs extra time to load JavaScript content
+      console.log('Waiting for Eventive.org SPA to load...');
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      // Take a debug screenshot
+      await page.screenshot({ path: 'doxa-debug.png', fullPage: true });
+      console.log('✅ Saved debug screenshot');
+      
+      // Look for film/event section
+      console.log('Looking for film/event listings on Eventive platform...');
+      
+      // Wait for film data to load - Eventive shows films/events in these classes
+      await page.waitForSelector('main', { timeout: 10000 })
+        .catch(() => console.log('Main container not found'));
+
+      
+      // Eventive has a different approach - instead of following program links,
+      // we can directly extract events from the schedule page
+      console.log('Extracting events directly from Eventive schedule...');
+      
+      // Wait for content to load fully
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Eventive shows films in film cards - with different possible class names
+      // First, evaluate possible event containers
+      const eventContainerInfo = await page.evaluate(() => {
+        // Possible selectors for Eventive film/event cards
+        const possibleSelectors = [
+          '.film-tile', '.film-card', '.event-card', '.event-tile',
+          '.film-list-item', '.schedule-grid-item', '.event-list-item', 
+          '.screening-card', '.movie-card', '.program-item',
+          '[data-testid="film-card"]', '[data-testid="event-card"]',
+          '[data-component="FilmCard"]', '[data-component="EventCard"]',
+          '.compact-tile', '.schedule-tile'
+        ];
+        
+        // Find the selector that returns the most elements
+        let bestSelector = null;
+        let maxCount = 0;
+        
+        for (const selector of possibleSelectors) {
+          const elements = document.querySelectorAll(selector);
+          if (elements.length > maxCount) {
+            maxCount = elements.length;
+            bestSelector = selector;
+          }
+        }
+        
+        // If we found films using selectors
+        if (bestSelector && maxCount > 0) {
+          return { selector: bestSelector, count: maxCount };
+        }
+        
+        // If no specific selectors work, look for event cards with basic attributes
+        // Eventive often uses grid or list layouts with generic classes
+        const genericCardSelectors = [
+          'a[href*="/films/"]', 'a[href*="/events/"]', 'a[href*="/screenings/"]',
+          'div.MuiCard-root', '.MuiGrid-item a', '.grid-item a',
+          '.list-item a', '.event-container'
+        ];
+        
+        for (const selector of genericCardSelectors) {
+          const elements = document.querySelectorAll(selector);
+          if (elements.length > maxCount) {
+            maxCount = elements.length;
+            bestSelector = selector;
+          }
+        }
+        
+        return { selector: bestSelector, count: maxCount };
+      });
+      
+      if (eventContainerInfo && eventContainerInfo.selector) {
+        console.log(`Found ${eventContainerInfo.count} possible events with selector: ${eventContainerInfo.selector}`);
+        
+        // Extract film/event data using the found selector
+        const extractedEvents = await page.evaluate((selector) => {
+          const events = [];
+          const containers = document.querySelectorAll(selector);
+          
+          containers.forEach(container => {
+            try {
+              // Get link to film/event detail page
+              const linkElement = container.tagName === 'A' ? container : container.querySelector('a');
+              const eventUrl = linkElement ? linkElement.href : '';
+              
+              // Extract title (different approaches for Eventive)
+              let title = '';
+              const titleElement = container.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
+              if (titleElement) {
+                title = titleElement.textContent.trim();
+              } else if (linkElement && linkElement.getAttribute('aria-label')) {
+                // Sometimes titles are in aria-label attributes
+                title = linkElement.getAttribute('aria-label').trim();
+              }
+              
+              // Extract image
+              const imgElement = container.querySelector('img');
+              const imageUrl = imgElement ? imgElement.src : null;
+              
+              // Extract date - often in data attributes or specific elements
+              let dateText = '';
+              const dateElement = container.querySelector('[class*="date"], [class*="time"], time, [class*="screening"]');
+              if (dateElement) {
+                dateText = dateElement.textContent.trim();
+              }
+              
+              // Get description snippet if available
+              let description = '';
+              const descElement = container.querySelector('p, [class*="description"], [class*="synopsis"]');
+              if (descElement) {
+                description = descElement.textContent.trim();
+              }
+              
+              // Only add if we have at least a title and URL
+              if (title && eventUrl) {
+                events.push({
+                  title,
+                  dateText,
+                  description,
+                  imageUrl,
+                  eventUrl
+                });
+              }
+            } catch (e) {
+              // Skip this item if there's an error
+            }
+          });
+          
+          return events;
+        }, eventContainerInfo.selector);
+        
+        console.log(`Extracted ${extractedEvents.length} events from schedule page`);
+        
+        // Process extracted events
+        for (const eventData of extractedEvents) {
+          if (eventData.title) {
+            try {
+        // Filter out links that are likely to be useful
+        const priorityLinks = programLinks.filter(link => {
+          const url = link.url.toLowerCase();
+          const text = link.text.toLowerCase();
+          return (url.includes('program') || url.includes('film') || 
+                 text === 'films' || text === 'program' || 
+                 text.includes('schedule') || text.includes('2025'));
+        });
+        
+        // Use priority link or first link
+        const linkToVisit = priorityLinks.length > 0 ? priorityLinks[0] : programLinks[0];
+        
+        console.log(`Visiting program page: ${linkToVisit.url}`);
+        await page.goto(linkToVisit.url, { waitUntil: 'networkidle2' });
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Take screenshot of program page
+        await page.screenshot({ path: 'doxa-program-page.png' });
+        
+        // Extract films/events from program page
+        console.log('Looking for film listings on program page...');
+        
+        // Look for film containers
+        const filmContainers = await page.evaluate(() => {
+          // Common selectors for film listings
+          const selectors = [
+            '.film-item', '.film-listing', '.event-item', '.event-listing',
+            '.movie-item', '.movie-listing', '.program-item', '.program-listing',
+            'article.film', 'article.event', '.film-card', '.event-card',
+            '.movie-card', '.program-card', '.film', '.movie', '.event',
+            '.screening', '.screening-item'
+          ];
+          
+          // Check each selector
+          for (const selector of selectors) {
+            const elements = document.querySelectorAll(selector);
+            if (elements && elements.length > 0) {
+              return {
+                selector,
+                count: elements.length
+              };
+            }
+          }
+          
+          return null;
+        });
+        
+        if (filmContainers) {
+          console.log(`Found ${filmContainers.count} film containers with selector: ${filmContainers.selector}`);
+          
+          // Extract films
+          const extractedFilms = await page.evaluate((selector) => {
+            const films = [];
+            const containers = document.querySelectorAll(selector);
+            
+            containers.forEach(container => {
+              try {
+                // Extract title
+                const titleElement = container.querySelector('h1, h2, h3, h4, h5, .title, .film-title, .event-title');
+                const title = titleElement ? titleElement.textContent.trim() : '';
+                
+                // Extract dates/times
+                const dateElement = container.querySelector('.date, .datetime, .screening-date, .film-date, .event-date, time');
+                const dateText = dateElement ? dateElement.textContent.trim() : '';
+                
+                // Extract description
+                const descElement = container.querySelector('p, .description, .synopsis, .film-description, .event-description');
+                const description = descElement ? descElement.textContent.trim() : '';
+                
+                // Extract image
+                const imgElement = container.querySelector('img');
+                const imageUrl = imgElement ? imgElement.src : null;
+                
+                // Extract film detail URL
+                const linkElement = container.querySelector('a');
+                const filmUrl = linkElement ? linkElement.href : '';
+                
+                films.push({
+                  title,
+                  dateText,
+                  description,
+                  imageUrl,
+                  filmUrl
+                });
+              } catch (e) {
+                // Continue processing other films
+              }
+            });
+            
+            return films;
+          }, filmContainers.selector);
+          
+          console.log(`Extracted ${extractedFilms.length} films/events`);
+          
+          // Process each film
+          for (const filmData of extractedFilms) {
+            if (filmData.title) {
+              try {
+                // If film has a detail URL, visit the page for more information
+                if (filmData.filmUrl) {
+                  console.log(`Visiting film detail page: ${filmData.filmUrl}`);
+                  await page.goto(filmData.filmUrl, { waitUntil: 'networkidle2' });
+                  
+                  // Get detailed information
+                  const detailedInfo = await page.evaluate(() => {
+                    // Get more specific date information if available
+                    const dateElements = document.querySelectorAll('.date, .datetime, .screening-date, .film-date, .screening-time, time');
+                    let detailedDateText = '';
+                    
+                    for (const el of dateElements) {
+                      const text = el.textContent.trim();
+                      if (text && text.length > detailedDateText.length) {
+                        detailedDateText = text;
+                      }
+                    }
+                    
+                    // Get full description/synopsis
+                    const descElements = document.querySelectorAll('.description, .synopsis, .content, .film-description, .film-synopsis, article p');
+                    let fullDescription = '';
+                    
+                    for (const el of descElements) {
+                      const text = el.textContent.trim();
+                      if (text && text.length > fullDescription.length) {
+                        fullDescription = text;
+                      }
+                    }
+                    
+                    // Get film image
+                    const imgElement = document.querySelector('.film-image img, .featured-image img, .poster img, article img, header img');
+                    const imageUrl = imgElement ? imgElement.src : null;
+                    
+                    // Get venue information if available
+                    const venueElements = document.querySelectorAll('.venue, .location, .screening-venue, .theatre');
+                    let venueText = '';
+                    
+                    for (const el of venueElements) {
+                      const text = el.textContent.trim();
+                      if (text && text.includes('Theatre') || text.includes('Cinema') || text.includes('Center')) {
+                        venueText = text;
+                        break;
+                      }
+                    }
+                    
+                    return {
+                      detailedDateText,
+                      fullDescription,
+                      imageUrl,
+                      venueText
+                    };
+                  });
+                  
+                  // Use the detailed information if available
+                  if (detailedInfo.detailedDateText) {
+                    filmData.dateText = detailedInfo.detailedDateText;
+                  }
+                  
+                  if (detailedInfo.fullDescription) {
+                    filmData.description = detailedInfo.fullDescription;
+                  }
+                  
+                  if (detailedInfo.imageUrl) {
+                    filmData.imageUrl = detailedInfo.imageUrl;
+                  }
+                  
+                  // Include venue information in description if available
+                  if (detailedInfo.venueText) {
+                    filmData.description = `${filmData.description}\n\nVenue: ${detailedInfo.venueText}`;
+                  }
+                }
+                
+                // Parse the date
+                const dateInfo = this.parseEventDate(filmData.dateText);
+                
+                if (dateInfo) {
+                  // Create event object
+                  const eventId = this.generateEventId(filmData.title, dateInfo.startDate);
+                  
+                  const event = this.createEventObject(
+                    eventId,
+                    filmData.title,
+                    filmData.description || `${filmData.title} - DOXA Documentary Film Festival screening`,
+                    dateInfo.startDate,
+                    dateInfo.endDate,
+                    filmData.imageUrl,
+                    filmData.filmUrl || linkToVisit.url
+                  );
+                  
+                  events.push(event);
+                  console.log(`✅ Added film event: ${filmData.title}`);
+                } else {
+                  console.log(`⚠️ Could not parse date from: ${filmData.dateText}`);
+                }
+              } catch (error) {
+                console.error(`Error processing film ${filmData.title}: ${error.message}`);
+              }
+            }
+          }
+        } else {
+          console.log('No structured film listings found, checking for film links...');
+          
+          // Look for links to individual films
+          const filmLinks = await page.evaluate(() => {
+            const links = Array.from(document.querySelectorAll('a'));
+            return links
+              .filter(link => {
+                const text = (link.textContent || '').toLowerCase().trim();
+                const href = (link.href || '').toLowerCase();
+                return href.includes('film') || 
+                       href.includes('movie') || 
+                       href.includes('screening') || 
+                       href.includes('event') || 
+                       text.includes('film') || 
+                       text.includes('movie');
+              })
+              .map(link => ({
+                url: link.href,
+                text: link.textContent.trim()
+              }));
+          });
+          
+          console.log(`Found ${filmLinks.length} potential film links`);
+          
+          // Visit up to 5 film links to extract details
+          const linksToCheck = filmLinks.slice(0, Math.min(5, filmLinks.length));
+          
+          for (const link of linksToCheck) {
+            try {
+              console.log(`Visiting film page: ${link.url}`);
+              await page.goto(link.url, { waitUntil: 'networkidle2' });
+              
+              // Extract film information
+              const filmInfo = await page.evaluate(() => {
+                // Look for a title
+                const titleElements = document.querySelectorAll('h1, h2, .title, .film-title, .movie-title');
+                let title = '';
+                
+                for (const el of titleElements) {
+                  const text = el.textContent.trim();
+                  if (text && (text.length > title.length || title === '')) {
+                    title = text;
+                  }
+                }
+                
+                // Look for dates
+                const dateElements = document.querySelectorAll('.date, .datetime, .screening-date, .film-date, time');
+                let dateText = '';
+                
+                for (const el of dateElements) {
+                  const text = el.textContent.trim();
+                  if (text && (text.includes('202') || text.includes('July') || text.includes('Aug'))) {
+                    dateText = text;
+                    break;
+                  }
+                }
+                
+                // Look for description/synopsis
+                const descElements = document.querySelectorAll('p, .description, .synopsis, .film-description');
+                let description = '';
+                
+                for (const el of descElements) {
+                  const text = el.textContent.trim();
+                  if (text && text.length > 100 && (text.length > description.length || description === '')) {
+                    description = text;
+                  }
+                }
+                
+                // Look for film image
+                const imgElement = document.querySelector('.film-image img, .featured-image img, .poster img, article img');
+                const imageUrl = imgElement ? imgElement.src : null;
+                
+                return {
+                  title,
+                  dateText,
+                  description,
+                  imageUrl
+                };
+              });
+              
+              // Only add if we found a title
+              if (filmInfo.title) {
+                // Use link text as title if no title found
+                if (!filmInfo.title) {
+                  filmInfo.title = link.text;
+                }
+                
+                // Set a default date for the festival if none found (using current year's festival dates)
+                let dateInfo = null;
+                if (filmInfo.dateText) {
+                  dateInfo = this.parseEventDate(filmInfo.dateText);
+                }
+                
+                // If we have a valid date
+                if (dateInfo) {
+                  // Create event object
+                  const eventId = this.generateEventId(filmInfo.title, dateInfo.startDate);
+                  
+                  const event = this.createEventObject(
+                    eventId,
+                    filmInfo.title,
+                    filmInfo.description || `${filmInfo.title} - DOXA Documentary Film Festival screening`,
+                    dateInfo.startDate,
+                    dateInfo.endDate,
+                    filmInfo.imageUrl,
+                    link.url
+                  );
+                  
+                  events.push(event);
+                  console.log(`✅ Added film event from link: ${filmInfo.title}`);
+                }
+              }
+            } catch (error) {
+              console.error(`Error processing film link ${link.url}: ${error.message}`);
+            }
+          }
+        }
+      }
+      
+      // Check for any specific "Festival Dates" mention on homepage
+      if (events.length === 0) {
+        try {
+          console.log('Checking for festival dates on homepage...');
+          await page.goto(this.url, { waitUntil: 'networkidle2' });
+          
+          const festivalInfo = await page.evaluate(() => {
+          // Look for festival dates
+          const datePattern = /(\d{1,2}(?:st|nd|rd|th)?\s+(?:to|through|–|-)\s+\d{1,2}(?:st|nd|rd|th)?\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?)/i;
+          const bodyText = document.body.innerText;
+          const dateMatch = bodyText.match(datePattern);
+          
+          // Look for description of the festival
+          const descElements = document.querySelectorAll('p, .description, .about, .content');
+          let description = '';
+          
+          for (const el of descElements) {
+            const text = el.textContent.trim();
+            if (text && text.length > 100 && (text.length > description.length || description === '')) {
+              description = text;
+            }
+          }
+          
+          return {
+            festivalDateText: dateMatch ? dateMatch[0] : null,
+            festivalDescription: description
+          };
+        });
+        
+        if (festivalInfo.festivalDateText) {
+          console.log(`Found festival date information: ${festivalInfo.festivalDateText}`);
+          
+          // Parse the festival date range
+          const dateInfo = this.parseFestivalDateRange(festivalInfo.festivalDateText);
+          
+          if (dateInfo) {
+            // Create a general festival event
+            const eventId = this.generateEventId("DOXA Documentary Film Festival", dateInfo.startDate);
+            
+            const event = this.createEventObject(
+              eventId,
+              "DOXA Documentary Film Festival",
+              festivalInfo.festivalDescription || "DOXA Documentary Film Festival showcases innovative and thought-provoking documentary films from Canada and around the world.",
+              dateInfo.startDate,
+              dateInfo.endDate,
+              null,
+              this.url
+            );
+            
+            events.push(event);
+            console.log('✅ Added main festival event');
+          }
+        }
+        } catch (error) {
+          console.error(`Error checking festival homepage: ${error.message}`);
+        }
+      
+      
+      // Close the browser
+      await browser.close();
+      console.log(`🎉 Successfully scraped ${events.length} events from ${this.name}`);
+      
+      return events;
+    } catch (error) {
+      console.error(`❌ Error scraping ${this.name}: ${error.message}`);
+      
+      try {
+        await browser.close();
+      } catch (e) {
+        // Browser might already be closed
+      }
+      
+      return [];
+    }
+  }
+  
+  /**
+   * Parse a festival date range
+   * Example: "May 4th to May 14th, 2023"
+   */
+  parseFestivalDateRange(dateString) {
+    try {
+      // Current year for reference
+      const currentYear = new Date().getFullYear();
+      
+      // Clean the date string
+      const cleanDateStr = dateString.trim();
+      
+      // Look for month names
+      const monthNames = ['january', 'february', 'march', 'april', 'may', 'june',
+                         'july', 'august', 'september', 'october', 'november', 'december'];
+      
+      // Extract month and day information
+      const datePattern = /(\d{1,2})(?:st|nd|rd|th)?\s+(?:to|through|–|-)\s+(\d{1,2})(?:st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+(\d{4}))?/i;
+      const datePattern2 = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:st|nd|rd|th)?\s+(?:to|through|–|-)\s+(?:(January|February|March|April|May|June|July|August|September|October|November|December)\s+)?(\d{1,2})(?:st|nd|rd|th)?(?:\s+(\d{4}))?/i;
+      
+      const match = cleanDateStr.match(datePattern) || cleanDateStr.match(datePattern2);
+      
+      if (match) {
+        let startMonth, startDay, endMonth, endDay, year;
+        
+        // Handle different date formats
+        if (match[0].match(/^\d{1,2}/)) {
+          // Format: "4th - 14th May 2023"
+          startDay = parseInt(match[1], 10);
+          endDay = parseInt(match[2], 10);
+          startMonth = endMonth = this.getMonthNumber(match[3]);
+          year = match[4] ? parseInt(match[4], 10) : currentYear;
+        } else {
+          // Format: "May 4th - May 14th, 2023" or "May 4th - 14th, 2023"
+          startMonth = this.getMonthNumber(match[1]);
+          startDay = parseInt(match[2], 10);
+          endMonth = match[3] ? this.getMonthNumber(match[3]) : startMonth;
+          endDay = parseInt(match[4], 10);
+          year = match[5] ? parseInt(match[5], 10) : currentYear;
+        }
+        
+        // Create date objects
+        const startDate = new Date(year, startMonth, startDay);
+        const endDate = new Date(year, endMonth, endDay, 23, 59, 59); // End of day
+        
+        return {
+          startDate,
+          endDate
+        };
+      }
+    } catch (error) {
+      console.error(`Error parsing festival date range: ${error.message}`);
+    }
+    
+    return null;
+  }
+  
+  /**
+   * Parse an event date
+   */
+  parseEventDate(dateString) {
+    if (!dateString) return null;
+    
+    try {
+      // Clean the date string
+      const cleanDateStr = dateString.trim();
+      
+      // Current year for reference
+      const currentYear = new Date().getFullYear();
+      
+      // Try different date formats
+      let dateObj;
+      
+      // Format: Month Day, Year (e.g., "July 15, 2025" or "July 15")
+      const monthDayYearMatch = cleanDateStr.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s+(\d{4}))?/i);
+      
+      if (monthDayYearMatch) {
+        const month = this.getMonthNumber(monthDayYearMatch[1]);
+        const day = parseInt(monthDayYearMatch[2], 10);
+        const year = monthDayYearMatch[3] ? parseInt(monthDayYearMatch[3], 10) : currentYear;
+        
+        dateObj = new Date(year, month, day, 19, 0, 0); // Default to 7 PM for film screenings
+      }
+      
+      // Format: MM/DD/YYYY or DD/MM/YYYY
+      if (!dateObj) {
+        const slashMatch = cleanDateStr.match(/(\d{1,2})\/(\d{1,2})(?:\/(\d{4}))?/);
+        
+        if (slashMatch) {
+          let month, day, year;
+          
+          // For North America, assume MM/DD format
+          month = parseInt(slashMatch[1], 10) - 1; // 0-indexed month
+          day = parseInt(slashMatch[2], 10);
+          year = slashMatch[3] ? parseInt(slashMatch[3], 10) : currentYear;
+          
+          dateObj = new Date(year, month, day, 19, 0, 0); // Default to 7 PM for film screenings
+        }
+      }
+      
+      // Format: YYYY-MM-DD
+      if (!dateObj) {
+        const isoMatch = cleanDateStr.match(/(\d{4})-(\d{1,2})-(\d{1,2})/);
+        
+        if (isoMatch) {
+          const year = parseInt(isoMatch[1], 10);
+          const month = parseInt(isoMatch[2], 10) - 1; // 0-indexed month
+          const day = parseInt(isoMatch[3], 10);
+          
+          dateObj = new Date(year, month, day, 19, 0, 0); // Default to 7 PM for film screenings
+        }
+      }
+      
+      // Look for time information
+      const timeMatch = cleanDateStr.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+      
+      if (dateObj && timeMatch) {
+        let hours = parseInt(timeMatch[1], 10);
+        const minutes = timeMatch[2] ? parseInt(timeMatch[2], 10) : 0;
+        const isPM = timeMatch[3] && timeMatch[3].toLowerCase() === 'pm';
+        
+        // Adjust for PM if needed
+        if (isPM && hours < 12) {
+          hours += 12;
+        }
+        
+        dateObj.setHours(hours, minutes);
+      }
+      
+      // If we've successfully parsed a date
+      if (dateObj && !isNaN(dateObj.getTime())) {
+        // Documentary screenings typically last 1.5-2 hours
+        const endDate = new Date(dateObj);
+        endDate.setHours(endDate.getHours() + 2);
+        
+        return {
+          startDate: dateObj,
+          endDate: endDate
+        };
+      }
+    } catch (error) {
+      console.error(`Error parsing date ${dateString}: ${error.message}`);
+    }
+    
+    return null;
+  }
+  
+  /**
+   * Convert month name to month number (0-indexed)
+   */
+  getMonthNumber(monthName) {
+    const months = {
+      'january': 0, 'february': 1, 'march': 2, 'april': 3,
+      'may': 4, 'june': 5, 'july': 6, 'august': 7,
+      'september': 8, 'october': 9, 'november': 10, 'december': 11
+    };
+    
+    return months[monthName.toLowerCase()];
+  }
+  
+  /**
+   * Create an event object
+   */
+  createEventObject(id, title, description, startDate, endDate, imageUrl, sourceURL) {
+    return {
+      id,
+      title,
+      description,
+      startDate,
+      endDate,
+      venue: {
+        name: this.name,
+        id: this.generateVenueId(this.name),
+        address: "Various Vancouver venues",
+        city: "Vancouver",
+        state: "BC",
+        country: "Canada",
+        coordinates: {
+          lat: 49.2827,
+          lng: -123.1207
+        },
+        websiteUrl: this.url,
+        description: "DOXA Documentary Film Festival is an annual event showcasing innovative and thought-provoking documentary films from Canada and around the world."
+      },
+      category: "film",
+      categories: ["film", "festival", "documentary", "arts", "culture"],
+      sourceURL,
+      officialWebsite: this.url,
+      image: imageUrl,
+      ticketsRequired: true,
+      lastUpdated: new Date()
+    };
+  }
+  
+  /**
+   * Generate a venue ID from a name
+   */
+  generateVenueId(name) {
+    return slugify(name, {
+      lower: true,
+      strict: true
+    });
+  }
+  
+  /**
+   * Generate an event ID
+   */
+  generateEventId(title, date) {
+    // Create parts for ID
+    const venuePart = this.generateVenueId(this.name);
+    const titlePart = slugify(title, {
+      lower: true,
+      strict: true
+    });
+    
+    // Format date as YYYY-MM-DD
+    const datePart = date instanceof Date
+      ? date.toISOString().split('T')[0]
+      : 'unknown-date';
+    
+    return `${venuePart}-${titlePart}-${datePart}`;
+  }
+}
+
+module.exports = DOXAFilmFestivalEvents;

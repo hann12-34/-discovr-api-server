@@ -55,8 +55,8 @@ const config = {
     // Local venues scraper settings
     localVenues: {
       urls: [
-        'https://www.sfstation.com/calendar/',
-        'https://www.timeout.com/san-francisco/things-to-do'
+        'https://www.straight.com/listings/events',
+        'https://www.timeout.com/vancouver/things-to-do'
       ],
       maxEventsPerSource: 50
     },
@@ -64,8 +64,8 @@ const config = {
     // Tourism board scraper settings
     tourismBoard: {
       urls: [
-        'https://www.sftravel.com/events',
-        'https://www.visitcalifornia.com/events/'
+        'https://www.tourismvancouver.com/events',
+        'https://keepexploring.canada.travel/events'
       ],
       maxEventsPerSource: 50
     }

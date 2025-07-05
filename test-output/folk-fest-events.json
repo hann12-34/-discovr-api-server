@@ -1,0 +1,32 @@
+[
+  {
+    "id": "folk-fest-vancouver-folk-music-festival-2025-07-15",
+    "title": "Vancouver Folk Music Festival",
+    "description": "Annual folk music festival at Jericho Beach Park featuring artists from around the world.",
+    "startDate": "2025-07-15T19:00:00.000Z",
+    "endDate": "2025-07-18T06:59:59.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://thefestival.bc.ca/",
+    "ticketUrl": "https://thefestival.bc.ca/tickets/",
+    "venue": {
+      "name": "Jericho Beach Park",
+      "address": "3941 Point Grey Road",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6R 1B3",
+      "website": "https://thefestival.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/EwkvVAEGjRGSn9u1A"
+    },
+    "categories": [
+      "music",
+      "folk-music",
+      "festival",
+      "concert",
+      "outdoor"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-03T08:17:19.325Z",
+    "sourceIdentifier": "vancouver-folk-fest"
+  }
+]

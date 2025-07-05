@@ -1,0 +1,29 @@
+[
+  {
+    "id": "pne-neighbourhood-skate-day-2026-02-23",
+    "title": "Neighbourhood Skate Day",
+    "description": "Eligible PNE neighbours skate for free, three times each winter, at our Neighbourhood Skate Days. Our final  free skate of the season is Sunday, February 23, 2025.",
+    "startDate": "2026-02-23T19:00:00.000Z",
+    "endDate": "2026-02-23T22:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/event/neighbourhood-skate-day/",
+    "ticketUrl": "https://www.pne.ca/event/neighbourhood-skate-day/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-03T07:51:03.391Z",
+    "sourceIdentifier": "pne"
+  }
+]

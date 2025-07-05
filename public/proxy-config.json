@@ -1,0 +1,6 @@
+{
+  "apiBaseUrl": "http://10.0.0.249:3030/api/v1",
+  "useLocalProxy": true,
+  "serverType": "direct",
+  "timestamp": "2025-07-01T00:35:00-07:00"
+}

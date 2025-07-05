@@ -46,17 +46,17 @@ class LocalVenuesScraper {
       
       console.log(`Local Venues scraper found ${allEvents.length} events`);
       
-      // If no events were found through scraping, use mock data
+      // If no events were found through scraping, return empty array
       if (allEvents.length === 0) {
-        console.log('No events found through scraping, using mock data');
-        return this.getMockEvents();
+        console.log('No events found through scraping, returning empty array');
+        return [];
       }
       
       return allEvents;
     } catch (error) {
       console.error('Error in Local Venues scraper:', error.message);
-      console.log('Using mock events due to scraping error');
-      return this.getMockEvents();
+      console.log('Returning empty array due to scraping error');
+      return [];
     }
   }
 
@@ -70,8 +70,8 @@ class LocalVenuesScraper {
       console.log(`Scraping ${url} for events...`);
       
       // Determine which scraper function to use based on the URL
-      if (url.includes('sfstation.com')) {
-        return await this.scrapeSFStation(url);
+      if (url.includes('straight.com')) {
+        return await this.scrapeVancouverStraight(url);
       } else if (url.includes('timeout.com')) {
         return await this.scrapeTimeOut(url);
       } else {
@@ -85,17 +85,17 @@ class LocalVenuesScraper {
   }
 
   /**
-   * Scrape SF Station events
-   * @param {String} url - SF Station URL
+   * Scrape Vancouver Straight events
+   * @param {String} url - Vancouver Straight URL
    * @returns {Promise<Array>} - Array of events
    */
-  async scrapeSFStation(url) {
+  async scrapeVancouverStraight(url) {
     try {
       const response = await axios.get(url, { timeout: this.commonConfig.timeout });
       const $ = cheerio.load(response.data);
       const events = [];
       
-      // SF Station specific selectors for events
+      // Vancouver Straight specific selectors for events
       $('.event-card').each((index, element) => {
         if (events.length >= this.config.maxEventsPerSource) return false;
         
@@ -113,7 +113,7 @@ class LocalVenuesScraper {
         // Skip if missing essential info
         if (!title) return;
         
-        // Parse date - SF Station uses formats like "Fri, Jun 5, 2025"
+        // Parse date - Vancouver Straight uses formats like "Fri, Jun 5, 2025"
         let startDate = null;
         try {
           startDate = new Date(dateStr);
@@ -135,13 +135,13 @@ class LocalVenuesScraper {
           venue: {
             name: location,
             address: '',
-            city: 'San Francisco',
-            state: 'CA',
-            country: 'US'
+            city: 'Vancouver',
+            state: 'BC',
+            country: 'Canada'
           },
           category: this.mapLocalCategory(category),
           priceRange: 'Varies', // Often not provided
-          sourceURL: url.startsWith('http') ? url : `https://www.sfstation.com${url}`,
+          sourceURL: url.startsWith('http') ? url : `https://www.straight.com${url}`,
           officialWebsite: '',
           dataSources: [this.sourceIdentifier],
           lastUpdated: new Date()
@@ -152,7 +152,7 @@ class LocalVenuesScraper {
       
       return events;
     } catch (error) {
-      console.error('Error scraping SF Station:', error.message);
+      console.error('Error scraping Vancouver Straight:', error.message);
       return [];
     }
   }
@@ -208,9 +208,9 @@ class LocalVenuesScraper {
           venue: {
             name: location,
             address: '',
-            city: 'San Francisco',
-            state: 'CA',
-            country: 'US'
+            city: 'Vancouver',
+            state: 'BC',
+            country: 'Canada'
           },
           category: this.mapLocalCategory(category),
           priceRange: 'Varies', // Often not provided
@@ -308,9 +308,9 @@ class LocalVenuesScraper {
             venue: {
               name: location,
               address: '',
-              city: 'San Francisco', // Default assumption
-              state: 'CA',
-              country: 'US'
+              city: 'Vancouver', // Default assumption
+              state: 'BC',
+              country: 'Canada'
             },
             category: 'Other',
             priceRange: 'Varies',
@@ -358,83 +358,7 @@ class LocalVenuesScraper {
     return 'Other';
   }
 
-  /**
-   * Generate mock events for testing when scraping fails
-   * @returns {Array} - Array of mock events
-   */
-  getMockEvents() {
-    return [
-      {
-        id: 'lv-001',
-        title: 'San Francisco Jazz Festival',
-        description: 'Annual jazz festival featuring renowned artists from around the world.',
-        image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629',
-        startDate: new Date('2025-06-21T19:00:00Z'),
-        endDate: new Date('2025-06-30T23:00:00Z'),
-        season: 'Summer',
-        location: 'SFJAZZ Center',
-        venue: {
-          name: 'SFJAZZ Center',
-          address: '201 Franklin St',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Music',
-        priceRange: 'Moderate',
-        sourceURL: 'https://www.sfjazz.org/festival',
-        officialWebsite: 'https://www.sfjazz.org',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'lv-002',
-        title: 'Outdoor Movie Night: Classic Films',
-        description: 'Watch classic films under the stars in Dolores Park.',
-        image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1',
-        startDate: new Date('2025-07-25T20:00:00Z'),
-        endDate: new Date('2025-07-25T23:00:00Z'),
-        season: 'Summer',
-        location: 'Dolores Park',
-        venue: {
-          name: 'Dolores Park',
-          address: '19th & Dolores St',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Film & Media',
-        priceRange: 'Free',
-        sourceURL: 'https://doloresparkmovies.org',
-        officialWebsite: 'https://doloresparkmovies.org',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      },
-      {
-        id: 'lv-003',
-        title: 'SF Beer Week',
-        description: 'Celebrate craft beer with special tastings, releases, and events across the city.',
-        image: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13',
-        startDate: new Date('2025-08-07T12:00:00Z'),
-        endDate: new Date('2025-08-16T23:00:00Z'),
-        season: 'Summer',
-        location: 'Various Locations',
-        venue: {
-          name: 'Various Locations',
-          address: 'San Francisco',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US'
-        },
-        category: 'Food & Drink',
-        priceRange: 'Varies',
-        sourceURL: 'https://sfbeerweek.org',
-        officialWebsite: 'https://sfbeerweek.org',
-        dataSources: [this.sourceIdentifier],
-        lastUpdated: new Date()
-      }
-    ];
-  }
+  // No mock events - we only use real events from the API
 }
 
 module.exports = new LocalVenuesScraper();
