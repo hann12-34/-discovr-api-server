@@ -377,8 +377,16 @@
         
         // Helper function to get API URL
         function getApiUrl(endpoint) {
-            // Use relative paths which work in both local and deployed environments
-            return endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+            console.log('%c[DEBUG] Building API URL for endpoint: ' + endpoint, 'background: #ffa; color: #00a');
+            
+            // Make sure the endpoint starts with a slash
+            const formattedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+            
+            // For debugging - log the full URL that will be used
+            const fullUrl = formattedEndpoint;
+            console.log('%c[DEBUG] Using API URL: ' + fullUrl, 'background: #ffa; color: #00a');
+            
+            return fullUrl;
         }
         
         // Debug information
@@ -798,6 +806,7 @@
         
         // Save event changes
         async function saveEventChanges() {
+            console.log('%c[DEBUG] Starting saveEventChanges()', 'background: #ffa; color: #00a');
             const id = document.getElementById('eventId').value;
             
             // Get event data from form
@@ -819,12 +828,18 @@
                 image: document.getElementById('eventImage').value
             };
             
+            console.log('%c[DEBUG] Event data to save:', 'background: #ffa; color: #00a', eventData);
+            
             try {
                 let response;
+                let apiUrl;
                 
                 if (id) {
                     // Update existing event
-                    response = await fetch(`/api/v1/events/${id}`, {
+                    apiUrl = getApiUrl(`/api/v1/events/${id}`);
+                    console.log('%c[DEBUG] Updating existing event with URL:', 'background: #ffa; color: #00a', apiUrl);
+                    
+                    response = await fetch(apiUrl, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -833,7 +848,10 @@
                     });
                 } else {
                     // Create new event
-                    response = await fetch(getApiUrl('/api/v1/events'), {
+                    apiUrl = getApiUrl('/api/v1/events');
+                    console.log('%c[DEBUG] Creating new event with URL:', 'background: #ffa; color: #00a', apiUrl);
+                    
+                    response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -842,39 +860,70 @@
                     });
                 }
                 
+                console.log('%c[DEBUG] Response received:', 'background: #ffa; color: #00a', response);
+                
                 if (response.ok) {
-                    const data = await response.json();
+                    let data;
+                    try {
+                        data = await response.json();
+                        console.log('%c[DEBUG] Response data:', 'background: #ffa; color: #00a', data);
+                    } catch (jsonError) {
+                        console.error('Error parsing response JSON:', jsonError);
+                        throw new Error('Invalid response from server: ' + jsonError.message);
+                    }
+                    
                     const eventId = id || (data.event ? data.event._id || data.event.id : null);
+                    console.log('%c[DEBUG] Event ID:', 'background: #ffa; color: #00a', eventId);
                     
                     if (eventId) {
                         // Handle featured status
                         const featured = document.getElementById('eventFeatured').checked;
+                        console.log('%c[DEBUG] Featured status:', 'background: #ffa; color: #00a', featured);
                         
                         if (featured) {
                             // Add to featured if not already featured
                             if (!featuredEvents.some(fe => fe._id === eventId || fe.id === eventId)) {
+                                console.log('%c[DEBUG] Adding to featured events...', 'background: #ffa; color: #00a');
                                 await addToFeatured(eventId);
                             }
                         } else {
                             // Remove from featured if currently featured
                             if (featuredEvents.some(fe => fe._id === eventId || fe.id === eventId)) {
+                                console.log('%c[DEBUG] Removing from featured events...', 'background: #ffa; color: #00a');
                                 await removeFeaturedEvent(eventId);
                             }
                         }
+                    } else {
+                        console.warn('Could not determine event ID from response:', data);
                     }
                     
                     // Reload events
+                    console.log('%c[DEBUG] Reloading events...', 'background: #ffa; color: #00a');
                     loadAllEvents();
                     loadFeaturedEvents();
                     
                     // Close modal
                     const eventEditModal = bootstrap.Modal.getInstance(document.getElementById('eventEditModal'));
-                    eventEditModal.hide();
+                    if (eventEditModal) {
+                        eventEditModal.hide();
+                    } else {
+                        console.warn('Could not find event edit modal instance');
+                    }
                     
                     alert(id ? 'Event updated successfully!' : 'Event created successfully!');
                 } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to update event');
+                    console.error('%c[ERROR] Failed API request:', 'background: #faa; color: #a00', response.status, response.statusText);
+                    
+                    let errorMessage = 'Failed to ' + (id ? 'update' : 'create') + ' event';
+                    try {
+                        const errorData = await response.json();
+                        console.error('Error data:', errorData);
+                        errorMessage = errorData.error || errorMessage;
+                    } catch (e) {
+                        console.error('Could not parse error response');
+                    }
+                    
+                    throw new Error(errorMessage);
                 }
             } catch (error) {
                 console.error('Error saving event:', error);
