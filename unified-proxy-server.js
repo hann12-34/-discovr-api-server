@@ -131,17 +131,19 @@ async function connectToMongoDB() {
       featuredEventsCollection = cloudDb.collection('featured_events');
     }
     
-    const cloudEventsCollection = cloudDb.collection('events');
+    // Initialize the collections with explicit names
+    const eventsCollection = cloudDb.collection('events');
     
     console.log('Collection names used:');
     console.log('- events collection: "events"');
     console.log(`- featured events collection: "${featuredEventsCollection.collectionName}"`);
     
-    const cloudEventsCount = await cloudEventsCollection.countDocuments();
-    console.log(`📊 Found ${cloudEventsCount} events in cloud database`);
+    const eventsCount = await eventsCollection.countDocuments();
+    console.log(`📊 Found ${eventsCount} events in cloud database`);
 
     return { 
-      cloud: cloudEventsCollection,
+      cloud: eventsCollection, // This is the correct name used throughout the code
+      events: eventsCollection, // Adding an alias for clarity
       featured: featuredEventsCollection
     };
   } catch (error) {
