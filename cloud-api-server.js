@@ -64,28 +64,45 @@ let collections = {}; // Store all collections
 // Connect to MongoDB
 async function connectToMongoDB() {
   try {
+    console.log('Attempting to connect to MongoDB...');
     await client.connect();
     console.log('✅ Connected to MongoDB');
     
+    console.log('Getting database reference...');
     const db = client.db('discovr');
     
     // Initialize collections
+    console.log('Initializing collections...');
     eventsCollection = db.collection('events');
+    console.log('Events collection initialized');
+    
+    // IMPORTANT: The collection name in MongoDB is 'featured_events'
     featuredCollection = db.collection('featured_events');
+    console.log('Featured events collection initialized');
     
     // Store collections in the collections object for easier access
     collections = {
       cloud: eventsCollection,
       featured: featuredCollection
     };
+    console.log('Collections mapped:', Object.keys(collections));
     
     dbConnected = true;
     
-    const eventsCount = await eventsCollection.countDocuments();
-    console.log(`📊 Found ${eventsCount} events in database`);
+    // Check if collections are accessible
+    try {
+      const eventsCount = await eventsCollection.countDocuments();
+      console.log(`📊 Found ${eventsCount} events in database`);
+    } catch (err) {
+      console.error('Error counting events:', err);
+    }
     
-    const featuredCount = await featuredCollection.countDocuments();
-    console.log(`📊 Found ${featuredCount} featured events in database`);
+    try {
+      const featuredCount = await featuredCollection.countDocuments();
+      console.log(`📊 Found ${featuredCount} featured events in database`);
+    } catch (err) {
+      console.error('Error counting featured events:', err);
+    }
     
     return true;
   } catch (error) {
@@ -192,21 +209,42 @@ app.get('/api/v1/featured-events', async (req, res) => {
   
   try {
     if (!dbConnected) {
+      console.log('Database not connected, attempting to connect...');
       await connectToMongoDB();
     }
     
+    console.log('Collections available:', Object.keys(collections));
+    
+    // Check if featured collection exists
+    if (!collections.featured) {
+      console.error('Featured collection is not initialized!');
+      return res.status(500).json({ error: 'Featured collection not initialized', events: [] });
+    }
+    
+    console.log('Attempting to query featured_events collection...');
+    
     // Get featured event IDs
     const featuredEventIds = await collections.featured.find({}).sort({ order: 1 }).toArray();
+    console.log(`Found ${featuredEventIds.length} featured event IDs:`, featuredEventIds);
     
     if (featuredEventIds.length === 0) {
+      console.log('No featured events found, returning empty array');
       return res.status(200).json({ events: [] });
+    }
+    
+    // Check if cloud collection exists
+    if (!collections.cloud) {
+      console.error('Cloud collection is not initialized!');
+      return res.status(500).json({ error: 'Cloud collection not initialized', events: [] });
     }
     
     // Get the actual events
     const featuredEvents = [];
+    console.log('Fetching individual featured events...');
     
     for (const featuredEvent of featuredEventIds) {
       try {
+        console.log(`Looking up event with ID: ${featuredEvent.eventId}`);
         // Try to find by ObjectId first
         let event = null;
         
@@ -214,21 +252,31 @@ app.get('/api/v1/featured-events', async (req, res) => {
           event = await collections.cloud.findOne({
             _id: new ObjectId(featuredEvent.eventId)
           });
+          if (event) {
+            console.log(`Found event by ObjectId: ${event.title || 'Untitled'}`);
+          }
         } catch (err) {
+          console.log(`Not a valid ObjectId or other error: ${err.message}, trying string ID lookup`);
           // If not a valid ObjectId, try by string id
           event = await collections.cloud.findOne({
             id: featuredEvent.eventId
           });
+          if (event) {
+            console.log(`Found event by string id: ${event.title || 'Untitled'}`);
+          }
         }
         
         if (event) {
           featuredEvents.push(event);
+        } else {
+          console.log(`No event found with ID: ${featuredEvent.eventId}`);
         }
       } catch (err) {
         console.error(`Error finding featured event ${featuredEvent.eventId}:`, err);
       }
     }
     
+    console.log(`Returning ${featuredEvents.length} featured events`);
     res.status(200).json({ events: featuredEvents });
   } catch (error) {
     console.error('Error getting featured events:', error);
