@@ -802,7 +802,9 @@
             
             // Get event data from form
             const eventData = {
-                title: document.getElementById('eventTitle').value,
+                // Add name field to match backend validation expectation
+                name: document.getElementById('eventTitle').value,
+                title: document.getElementById('eventTitle').value, // Keep title for compatibility
                 description: document.getElementById('eventDescription').value,
                 venue: {
                     name: document.getElementById('eventVenueName').value,
