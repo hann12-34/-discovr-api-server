@@ -28,9 +28,23 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
-// Enable CORS
-app.use(cors());
+// Enhanced CORS configuration
+app.use(cors({
+  origin: '*', // Allow all origins for testing
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Handle OPTIONS preflight requests
+app.options('*', cors());
+
 app.use(express.json());
+
+// Log all incoming requests
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
 
 // Serve static files from the public directory
 app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-events-dashboard.html' }));
@@ -182,6 +196,66 @@ app.get('/api/v1/health', (req, res) => {
   });
 });
 
+// MongoDB test endpoint
+app.get('/api/v1/db-test', async (req, res) => {
+  try {
+    console.log('Testing MongoDB connection...');
+    
+    if (!dbConnected) {
+      console.log('Database not connected, attempting to connect...');
+      await connectToMongoDB();
+    }
+    
+    if (!dbConnected) {
+      return res.status(500).json({ error: 'Failed to connect to database' });
+    }
+    
+    // Get database info
+    const db = client.db('discovr');
+    const collectionsInfo = await db.listCollections().toArray();
+    const collectionNames = collectionsInfo.map(col => col.name);
+    
+    // Check if our collections are properly initialized
+    const collectionsStatus = {
+      events: collections.cloud ? 'initialized' : 'not initialized',
+      featured_events: collections.featured ? 'initialized' : 'not initialized'
+    };
+    
+    // Get counts
+    let eventsCount = 0;
+    let featuredCount = 0;
+    
+    try {
+      if (collections.cloud) {
+        eventsCount = await collections.cloud.countDocuments();
+      }
+    } catch (err) {
+      console.error('Error counting events:', err);
+    }
+    
+    try {
+      if (collections.featured) {
+        featuredCount = await collections.featured.countDocuments();
+      }
+    } catch (err) {
+      console.error('Error counting featured events:', err);
+    }
+    
+    return res.status(200).json({
+      dbConnected,
+      collections: collectionNames,
+      collectionsStatus,
+      counts: {
+        events: eventsCount,
+        featured: featuredCount
+      }
+    });
+  } catch (error) {
+    console.error('Error testing database connection:', error);
+    return res.status(500).json({ error: 'Database test failed', details: error.message });
+  }
+});
+
 // Get all events endpoint
 app.get('/api/v1/venues/events/all', async (req, res) => {
   console.log('📥 Received request for ALL events');
@@ -202,6 +276,73 @@ app.get('/', (req, res) => {
 });
 
 // ===== FEATURED EVENTS API ENDPOINTS =====
+
+// Initialize featured events collection
+app.post('/api/v1/featured-events/initialize', async (req, res) => {
+  try {
+    console.log('Attempting to initialize featured_events collection');
+    
+    if (!dbConnected) {
+      console.log('Database not connected, attempting to connect...');
+      await connectToMongoDB();
+    }
+    
+    if (!dbConnected) {
+      return res.status(500).json({ error: 'Failed to connect to database' });
+    }
+    
+    // Check if collection exists
+    const db = client.db('discovr');
+    const collections = await db.listCollections({ name: 'featured_events' }).toArray();
+    
+    // Check if the old collection name exists
+    const oldCollections = await db.listCollections({ name: 'featuredEvents' }).toArray();
+    const hasOldCollection = oldCollections.length > 0;
+    console.log('Old collection exists:', hasOldCollection);
+    
+    if (collections.length === 0) {
+      console.log('Creating featured_events collection...');
+      await db.createCollection('featured_events');
+      
+      // Migrate data from old collection if it exists
+      if (hasOldCollection) {
+        console.log('Migrating data from featuredEvents to featured_events...');
+        const oldCollection = db.collection('featuredEvents');
+        const oldDocs = await oldCollection.find({}).toArray();
+        
+        if (oldDocs.length > 0) {
+          console.log(`Found ${oldDocs.length} documents in old collection to migrate`);
+          const featCollection = db.collection('featured_events');
+          
+          for (const doc of oldDocs) {
+            // Check if document already exists in new collection
+            const exists = await featCollection.findOne({ eventId: doc.eventId });
+            if (!exists) {
+              await featCollection.insertOne(doc);
+              console.log(`Migrated document with eventId: ${doc.eventId}`);
+            }
+          }
+        }
+      }
+      console.log('Featured_events collection created successfully');
+    } else {
+      console.log('Featured_events collection already exists');
+    }
+    
+    // Ensure the collection is properly initialized in our app
+    featuredCollection = db.collection('featured_events');
+    collections.featured = featuredCollection;
+    
+    // Count documents to verify access
+    const count = await featuredCollection.countDocuments();
+    console.log(`Featured events collection contains ${count} documents`);
+    
+    return res.status(200).json({ success: true, message: 'Featured events collection initialized', count });
+  } catch (error) {
+    console.error('Error initializing featured events collection:', error);
+    return res.status(500).json({ error: 'Failed to initialize featured events collection', details: error.message });
+  }
+});
 
 // Get all featured events
 app.get('/api/v1/featured-events', async (req, res) => {
@@ -335,7 +476,8 @@ app.post('/api/v1/featured-events', async (req, res) => {
       addedAt: new Date()
     });
     
-    res.status(201).json({ message: 'Event added to featured' });
+    console.log(`Successfully added event ${eventId} to featured events collection`);
+    res.status(200).json({ success: true, message: 'Event added to featured' });
   } catch (error) {
     console.error('Error adding event to featured:', error);
     res.status(500).json({ error: 'Failed to add event to featured' });

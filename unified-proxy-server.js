@@ -103,8 +103,39 @@ async function connectToMongoDB() {
     const cloudDb = cloudClient.db('discovr');
     console.log(`💾 Using database: ${cloudDb.databaseName}`);
     
+    // Check if we have both old and new collection names
+    const collections = await cloudDb.listCollections().toArray();
+    const collectionNames = collections.map(c => c.name);
+    console.log('Available collections:', collectionNames);
+    
+    // Handle the featured events collection name inconsistency
+    let featuredEventsCollection;
+    
+    // Check if both collections exist
+    const hasFeaturedEvents = collectionNames.includes('featuredEvents');
+    const hasFeatured_events = collectionNames.includes('featured_events');
+    
+    if (hasFeaturedEvents && hasFeatured_events) {
+      console.log('⚠️ Both featuredEvents and featured_events collections exist');
+      // Use the new collection name
+      featuredEventsCollection = cloudDb.collection('featured_events');
+    } else if (hasFeatured_events) {
+      console.log('✅ Using featured_events collection');
+      featuredEventsCollection = cloudDb.collection('featured_events');
+    } else if (hasFeaturedEvents) {
+      console.log('⚠️ Using legacy featuredEvents collection');
+      featuredEventsCollection = cloudDb.collection('featuredEvents');
+    } else {
+      console.log('⚠️ No featured events collection found, creating featured_events');
+      await cloudDb.createCollection('featured_events');
+      featuredEventsCollection = cloudDb.collection('featured_events');
+    }
+    
     const cloudEventsCollection = cloudDb.collection('events');
-    const featuredEventsCollection = cloudDb.collection('featuredEvents');
+    
+    console.log('Collection names used:');
+    console.log('- events collection: "events"');
+    console.log(`- featured events collection: "${featuredEventsCollection.collectionName}"`);
     
     const cloudEventsCount = await cloudEventsCollection.countDocuments();
     console.log(`📊 Found ${cloudEventsCount} events in cloud database`);
@@ -132,6 +163,50 @@ async function startServer() {
         message: 'Direct MongoDB proxy is healthy',
         timestamp: new Date().toISOString()
       });
+    });
+    
+    // Database test endpoint
+    app.get('/api/v1/db-test', async (req, res) => {
+      try {
+        console.log('Testing MongoDB connection...');
+        
+        // Get database info
+        const cloudDb = cloudClient.db('discovr');
+        const collectionsInfo = await cloudDb.listCollections().toArray();
+        const collectionNames = collectionsInfo.map(col => col.name);
+        
+        // Get counts
+        let eventsCount = 0;
+        let featuredCount = 0;
+        
+        try {
+          eventsCount = await collections.cloud.countDocuments();
+        } catch (err) {
+          console.error('Error counting events:', err);
+        }
+        
+        try {
+          featuredCount = await collections.featured.countDocuments();
+        } catch (err) {
+          console.error('Error counting featured events:', err);
+        }
+        
+        return res.status(200).json({
+          dbConnected: true,
+          collections: collectionNames,
+          collectionsStatus: {
+            events: collections.cloud ? 'initialized' : 'not initialized',
+            featured_events: collections.featured ? 'initialized' : 'not initialized'
+          },
+          counts: {
+            events: eventsCount,
+            featured: featuredCount
+          }
+        });
+      } catch (error) {
+        console.error('Error testing database connection:', error);
+        return res.status(500).json({ error: 'Database test failed', details: error.message });
+      }
     });
     
     // API endpoint to get ALL events (for the Discovr app)
@@ -374,7 +449,72 @@ async function startServer() {
     
     // ===== FEATURED EVENTS API ENDPOINTS =====
     
-    // Get all featured events
+    // Featured events API endpoints
+    
+    // Initialize featured events collection
+    app.post('/api/v1/featured-events/initialize', async (req, res) => {
+      try {
+        console.log('Attempting to initialize featured_events collection');
+        
+        // Check if collection exists
+        const cloudDb = cloudClient.db('discovr');
+        const collectionsInfo = await cloudDb.listCollections().toArray();
+        const collectionNames = collectionsInfo.map(c => c.name);
+        
+        // Check if both collections exist
+        const hasFeaturedEvents = collectionNames.includes('featuredEvents');
+        const hasFeatured_events = collectionNames.includes('featured_events');
+        
+        // Create the new collection if it doesn't exist
+        if (!hasFeatured_events) {
+          console.log('Creating featured_events collection...');
+          await cloudDb.createCollection('featured_events');
+          console.log('Featured_events collection created successfully');
+        } else {
+          console.log('Featured_events collection already exists');
+        }
+        
+        // Reinitialize the collection reference
+        collections.featured = cloudDb.collection('featured_events');
+        
+        // Migrate data from old collection if needed
+        if (hasFeaturedEvents) {
+          const oldCollection = cloudDb.collection('featuredEvents');
+          const oldCount = await oldCollection.countDocuments();
+          
+          if (oldCount > 0) {
+            console.log(`Found ${oldCount} documents in old featuredEvents collection, migrating...`);
+            
+            // Get all documents from old collection
+            const oldDocs = await oldCollection.find({}).toArray();
+            
+            // Check if they exist in the new collection
+            for (const doc of oldDocs) {
+              const exists = await collections.featured.findOne({ eventId: doc.eventId });
+              if (!exists) {
+                console.log(`Migrating event ${doc.eventId} to new collection`);
+                await collections.featured.insertOne(doc);
+              }
+            }
+          }
+        }
+        
+        // Count documents to verify access
+        const count = await collections.featured.countDocuments();
+        console.log(`Featured events collection contains ${count} documents`);
+        
+        return res.status(200).json({ 
+          success: true, 
+          message: 'Featured events collection initialized', 
+          count,
+          migrated: hasFeaturedEvents
+        });
+      } catch (error) {
+        console.error('Error initializing featured events collection:', error);
+        return res.status(500).json({ error: 'Failed to initialize featured events collection', details: error.message });
+      }
+    });
+    
     app.get('/api/v1/featured-events', async (req, res) => {
         console.log('GET /api/v1/featured-events - Getting featured events');
         

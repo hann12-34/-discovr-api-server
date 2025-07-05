@@ -366,6 +366,17 @@
         const clearFeaturedBtn = document.getElementById('clearFeaturedBtn');
         const scraperOutput = document.getElementById('scraperOutput');
         
+        // Helper function to get API URL
+        function getApiUrl(endpoint) {
+            // Use relative paths which work in both local and deployed environments
+            return endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+        }
+        
+        // Debug information
+        console.log('Current hostname:', window.location.hostname);
+        console.log('Current pathname:', window.location.pathname);
+        console.log('Sample API URL:', getApiUrl('/api/v1/featured-events'));
+        
         // Event listeners
         refreshBtn.addEventListener('click', loadAllEvents);
         searchInput.addEventListener('keyup', filterEvents);
@@ -383,7 +394,7 @@
                     </div>
                 `;
                 
-                const response = await fetch('/api/v1/events');
+                const response = await fetch(getApiUrl('/api/v1/events'));
                 const data = await response.json();
                 
                 if (data.events && data.events.length > 0) {
@@ -401,6 +412,7 @@
         // Load featured events
         async function loadFeaturedEvents() {
             try {
+                console.log('%c[DEBUG] Starting featured events load', 'background: #ffa; color: #00a');
                 featuredEventsList.innerHTML = `
                     <div class="col-12 text-center">
                         <div class="spinner-border" role="status"></div>
@@ -408,19 +420,101 @@
                     </div>
                 `;
                 
-                const response = await fetch('/api/v1/featured-events');
+                // Initialize carousel with loading state
+                const carousel = document.getElementById('carousel3d');
+                if (carousel) {
+                    carousel.innerHTML = `
+                        <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
+                            <div class="text-center p-5">
+                                <div class="spinner-border text-light" role="status"></div>
+                                <p class="mt-2 text-light">Loading featured events...</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Set a timeout to handle potential hanging requests
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => reject(new Error('Request timeout after 10 seconds')), 10000);
+                });
+                
+                // Add detailed debug information
+                console.log('%c[DEBUG] Environment details:', 'background: #ffa; color: #00a');
+                console.log('  - Current URL:', window.location.href);
+                console.log('  - Host:', window.location.hostname);
+                console.log('  - Protocol:', window.location.protocol);
+                console.log('  - API URL:', getApiUrl('/api/v1/featured-events'));
+                
+                // Make the API call with detailed error tracking
+                let fetchResponse;
+                try {
+                    console.log('%c[DEBUG] Sending fetch request...', 'background: #ffa; color: #00a');
+                    // Race the fetch against the timeout
+                    fetchResponse = await Promise.race([
+                        fetch(getApiUrl('/api/v1/featured-events')),
+                        timeoutPromise
+                    ]);
+                    console.log('%c[DEBUG] Fetch response received', 'background: #ffa; color: #00a', fetchResponse);
+                } catch (fetchError) {
+                    console.error('%c[ERROR] Fetch error:', 'background: #faa; color: #a00', fetchError);
+                    throw fetchError;
+                }
+                
+                // Use the response
+                const response = fetchResponse;
+                
+                console.log('Featured events API response status:', response.status);
                 const data = await response.json();
+                console.log('Featured events data:', data);
                 
                 if (data.events) {
                     featuredEvents = data.events;
+                    console.log('Featured events loaded:', featuredEvents.length);
                     renderFeaturedEvents();
                     renderPreviewEvents();
                 } else {
+                    console.log('No featured events found in response');
                     featuredEventsList.innerHTML = '<div class="col-12"><p>No featured events set.</p></div>';
+                    renderPreviewEvents(); // Still call this to show the empty state
                 }
             } catch (error) {
                 console.error('Error loading featured events:', error);
-                featuredEventsList.innerHTML = '<div class="col-12"><p class="text-danger">Error loading featured events. Please try again.</p></div>';
+                featuredEventsList.innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            <h5>Error loading featured events</h5>
+                            <p>${error.message}</p>
+                            <button class="btn btn-primary mt-2" onclick="loadFeaturedEvents()">Retry</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Also update the carousel to show the error
+                const carousel = document.getElementById('carousel3d');
+                if (carousel) {
+                    carousel.innerHTML = `
+                        <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
+                            <div class="text-center p-5">
+                                <div class="alert alert-danger">
+                                    <h5>Error loading featured events</h5>
+                                    <p>${error.message}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Add a button to create a featured events collection if it doesn't exist
+                const controlsDiv = document.getElementById('featuredEventsControls');
+                if (controlsDiv && !document.getElementById('troubleshootingSection')) {
+                    controlsDiv.innerHTML += `
+                        <div id="troubleshootingSection" class="alert alert-warning mt-3">
+                            <h5>Troubleshooting</h5>
+                            <p>If this is your first time setting up featured events, the collection might not exist yet.</p>
+                            <button class="btn btn-warning" onclick="initializeFeaturedCollection()">Initialize Featured Events Collection</button>
+                        </div>
+                    `;
+                }
             }
         }
         
@@ -505,21 +599,28 @@
         
         // Render preview events (how they will appear in the app)
         function renderPreviewEvents() {
+            console.log('Rendering preview events...');
             const carousel = document.getElementById('carousel3d');
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             
-            if (featuredEvents.length === 0) {
+            if (!carousel) {
+                console.error('Carousel element not found!');
+                return;
+            }
+            
+            if (!featuredEvents || featuredEvents.length === 0) {
+                console.log('No featured events to display in carousel');
                 carousel.innerHTML = `
                     <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
-                        <div class="text-center p-5">
+                        <div class="text-center p-5 text-light">
                             <p>No featured events to display.</p>
                             <p>Add up to 10 events to see them here.</p>
                         </div>
                     </div>
                 `;
-                prevBtn.disabled = true;
-                nextBtn.disabled = true;
+                if (prevBtn) prevBtn.disabled = true;
+                if (nextBtn) nextBtn.disabled = true;
                 return;
             }
             
@@ -712,7 +813,7 @@
                     });
                 } else {
                     // Create new event
-                    response = await fetch('/api/v1/events', {
+                    response = await fetch(getApiUrl('/api/v1/events'), {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -1049,8 +1150,48 @@
             }
         }
         
+        // Initialize featured events collection if it doesn't exist
+        async function initializeFeaturedCollection() {
+            try {
+                const response = await fetch('/api/v1/featured-events/initialize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('Featured events collection initialized successfully!');
+                    loadFeaturedEvents(); // Reload featured events
+                } else {
+                    alert(`Error: ${result.error || 'Unknown error initializing collection'}`);
+                }
+            } catch (error) {
+                console.error('Error initializing featured events collection:', error);
+                alert(`Error: ${error.message}`);
+            }
+        }
+        
         // Load data on page load
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing admin interface...');
+            
+            // Initialize the carousel first with a loading state
+            const carousel = document.getElementById('carousel3d');
+            if (carousel) {
+                carousel.innerHTML = `
+                    <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
+                        <div class="text-center p-5">
+                            <div class="spinner-border text-light" role="status"></div>
+                            <p class="mt-2 text-light">Loading featured events...</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Load data
             loadAllEvents();
             loadFeaturedEvents();
             
@@ -1058,6 +1199,7 @@
             document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tab => {
                 tab.addEventListener('shown.bs.tab', event => {
                     if (event.target.id === 'featured-tab') {
+                        console.log('Featured tab activated, refreshing carousel...');
                         renderPreviewEvents();
                     }
                 });
