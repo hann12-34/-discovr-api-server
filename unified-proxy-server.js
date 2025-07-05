@@ -48,6 +48,11 @@ const cloudClient = new MongoClient(CLOUD_MONGODB_URI, {
 // Serve the admin UI, setting all-events-dashboard.html as the default page
 app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-events-dashboard.html' }));
 
+// Add route for featured events admin page
+app.get('/admin/featured', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'featured-events-admin.html'));
+});
+
 // Serve static files from the 'public' directory
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
@@ -94,11 +99,15 @@ async function connectToMongoDB() {
     console.log(`💾 Using database: ${cloudDb.databaseName}`);
     
     const cloudEventsCollection = cloudDb.collection('events');
+    const featuredEventsCollection = cloudDb.collection('featuredEvents');
     
     const cloudEventsCount = await cloudEventsCollection.countDocuments();
     console.log(`📊 Found ${cloudEventsCount} events in cloud database`);
 
-    return { cloud: cloudEventsCollection };
+    return { 
+      cloud: cloudEventsCollection,
+      featured: featuredEventsCollection
+    };
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
     throw error;
@@ -125,6 +134,11 @@ async function startServer() {
       console.log('📥 Received request for ALL events from cloud MongoDB');
       
       try {
+        // Get featured events first
+        const featuredEventIds = await collections.featured.find({}).toArray();
+        const featuredIds = featuredEventIds.map(fe => fe.eventId);
+        
+        // Get all events
         let events = await collections.cloud.find({}).toArray();
         
         if (!events || events.length === 0) {
@@ -170,10 +184,30 @@ async function startServer() {
             console.log(`🔧 Added missing venue for event: ${validatedEvent.title || validatedEvent.id}`);
           }
           
+          // Mark as featured if in featured list
+          const eventId = validatedEvent._id ? validatedEvent._id.toString() : validatedEvent.id;
+          validatedEvent.featured = featuredIds.includes(eventId);
+          
           return validatedEvent;
         });
         
-        console.log(`📤 Returning ${validatedEvents.length} events`);
+        // Sort events to put featured ones first
+        validatedEvents.sort((a, b) => {
+          if (a.featured && !b.featured) return -1;
+          if (!a.featured && b.featured) return 1;
+          
+          // For featured events, maintain the order from featuredIds
+          if (a.featured && b.featured) {
+            const aIndex = featuredIds.indexOf(a._id ? a._id.toString() : a.id);
+            const bIndex = featuredIds.indexOf(b._id ? b._id.toString() : b.id);
+            return aIndex - bIndex;
+          }
+          
+          // For non-featured events, sort by date
+          return new Date(a.startDate || a.date || 0) - new Date(b.startDate || b.date || 0);
+        });
+        
+        console.log(`📤 Returning ${validatedEvents.length} events (${featuredIds.length} featured)`);
         console.log('📝 Formatting response as object with events key to match app expectations');
         res.status(200).json({ events: validatedEvents });
       } catch (error) {
@@ -323,10 +357,191 @@ async function startServer() {
                 return res.status(404).json({ error: 'Event not found' });
             }
             
+            // Also remove from featured if it was featured
+            await collections.featured.deleteOne({ eventId: req.params.id });
+            
             res.json({ success: true, message: 'Event deleted successfully' });
         } catch (error) {
             console.error('Error deleting event:', error);
             res.status(500).json({ error: 'Internal server error' });
+        }
+    });
+    
+    // ===== FEATURED EVENTS API ENDPOINTS =====
+    
+    // Get all featured events
+    app.get('/api/v1/featured-events', async (req, res) => {
+        console.log('GET /api/v1/featured-events - Getting featured events');
+        
+        try {
+            // Get featured event IDs
+            const featuredEventIds = await collections.featured.find({})
+                .sort({ order: 1 })
+                .toArray();
+            
+            if (featuredEventIds.length === 0) {
+                return res.status(200).json({ events: [] });
+            }
+            
+            // Get the actual events
+            const featuredEvents = [];
+            
+            for (const featuredEvent of featuredEventIds) {
+                try {
+                    // Try to find by ObjectId first
+                    let event = null;
+                    
+                    try {
+                        event = await collections.cloud.findOne({
+                            _id: new ObjectId(featuredEvent.eventId)
+                        });
+                    } catch (err) {
+                        // If not a valid ObjectId, try by string id
+                        event = await collections.cloud.findOne({
+                            id: featuredEvent.eventId
+                        });
+                    }
+                    
+                    if (event) {
+                        featuredEvents.push(event);
+                    }
+                } catch (err) {
+                    console.error(`Error finding featured event ${featuredEvent.eventId}:`, err);
+                }
+            }
+            
+            res.status(200).json({ events: featuredEvents });
+        } catch (error) {
+            console.error('Error getting featured events:', error);
+            res.status(500).json({ error: 'Failed to get featured events' });
+        }
+    });
+    
+    // Add an event to featured
+    app.post('/api/v1/featured-events', async (req, res) => {
+        console.log('POST /api/v1/featured-events - Adding event to featured');
+        
+        try {
+            const { eventId } = req.body;
+            
+            if (!eventId) {
+                return res.status(400).json({ error: 'Event ID is required' });
+            }
+            
+            // Check if event exists
+            let event = null;
+            
+            try {
+                event = await collections.cloud.findOne({
+                    _id: new ObjectId(eventId)
+                });
+            } catch (err) {
+                // If not a valid ObjectId, try by string id
+                event = await collections.cloud.findOne({
+                    id: eventId
+                });
+            }
+            
+            if (!event) {
+                return res.status(404).json({ error: 'Event not found' });
+            }
+            
+            // Check if already featured
+            const existingFeatured = await collections.featured.findOne({ eventId });
+            
+            if (existingFeatured) {
+                return res.status(400).json({ error: 'Event is already featured' });
+            }
+            
+            // Get current count of featured events
+            const featuredCount = await collections.featured.countDocuments();
+            
+            // Limit to 5 featured events
+            if (featuredCount >= 5) {
+                return res.status(400).json({ error: 'Maximum of 5 featured events allowed' });
+            }
+            
+            // Add to featured
+            await collections.featured.insertOne({
+                eventId,
+                order: featuredCount + 1,
+                addedAt: new Date()
+            });
+            
+            res.status(201).json({ success: true, message: 'Event added to featured' });
+        } catch (error) {
+            console.error('Error adding event to featured:', error);
+            res.status(500).json({ error: 'Failed to add event to featured' });
+        }
+    });
+    
+    // Remove an event from featured
+    app.delete('/api/v1/featured-events/:id', async (req, res) => {
+        console.log(`DELETE /api/v1/featured-events/${req.params.id} - Removing event from featured`);
+        
+        try {
+            const result = await collections.featured.deleteOne({ eventId: req.params.id });
+            
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ error: 'Featured event not found' });
+            }
+            
+            // Reorder remaining featured events
+            const remainingFeatured = await collections.featured.find({})
+                .sort({ order: 1 })
+                .toArray();
+            
+            for (let i = 0; i < remainingFeatured.length; i++) {
+                await collections.featured.updateOne(
+                    { _id: remainingFeatured[i]._id },
+                    { $set: { order: i + 1 } }
+                );
+            }
+            
+            res.status(200).json({ success: true, message: 'Event removed from featured' });
+        } catch (error) {
+            console.error('Error removing event from featured:', error);
+            res.status(500).json({ error: 'Failed to remove event from featured' });
+        }
+    });
+    
+    // Update featured events order
+    app.put('/api/v1/featured-events/order', async (req, res) => {
+        console.log('PUT /api/v1/featured-events/order - Updating featured events order');
+        
+        try {
+            const { eventIds } = req.body;
+            
+            if (!eventIds || !Array.isArray(eventIds)) {
+                return res.status(400).json({ error: 'Event IDs array is required' });
+            }
+            
+            // Update order for each event
+            for (let i = 0; i < eventIds.length; i++) {
+                await collections.featured.updateOne(
+                    { eventId: eventIds[i] },
+                    { $set: { order: i + 1 } }
+                );
+            }
+            
+            res.status(200).json({ success: true, message: 'Featured events order updated' });
+        } catch (error) {
+            console.error('Error updating featured events order:', error);
+            res.status(500).json({ error: 'Failed to update featured events order' });
+        }
+    });
+    
+    // Clear all featured events
+    app.delete('/api/v1/featured-events', async (req, res) => {
+        console.log('DELETE /api/v1/featured-events - Clearing all featured events');
+        
+        try {
+            await collections.featured.deleteMany({});
+            
+            res.status(200).json({ success: true, message: 'All featured events cleared' });
+        } catch (error) {
+            console.error('Error clearing featured events:', error);
+            res.status(500).json({ error: 'Failed to clear featured events' });
         }
     });
     
