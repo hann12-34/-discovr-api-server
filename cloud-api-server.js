@@ -8,7 +8,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const dotenv = require('dotenv');
 
 // Load environment variables
@@ -55,9 +55,11 @@ const client = new MongoClient(MONGODB_URI, {
 });
 
 let eventsCollection = null;
+let featuredCollection = null;
 let cachedEvents = null;
 let lastFetchTime = null;
 let dbConnected = false;
+let collections = {}; // Store all collections
 
 // Connect to MongoDB
 async function connectToMongoDB() {
@@ -66,11 +68,24 @@ async function connectToMongoDB() {
     console.log('✅ Connected to MongoDB');
     
     const db = client.db('discovr');
+    
+    // Initialize collections
     eventsCollection = db.collection('events');
+    featuredCollection = db.collection('featured_events');
+    
+    // Store collections in the collections object for easier access
+    collections = {
+      cloud: eventsCollection,
+      featured: featuredCollection
+    };
+    
     dbConnected = true;
     
     const eventsCount = await eventsCollection.countDocuments();
     console.log(`📊 Found ${eventsCount} events in database`);
+    
+    const featuredCount = await featuredCollection.countDocuments();
+    console.log(`📊 Found ${featuredCount} featured events in database`);
     
     return true;
   } catch (error) {
@@ -169,12 +184,162 @@ app.get('/', (req, res) => {
   res.send('Discovr API Server is running');
 });
 
+// ===== FEATURED EVENTS API ENDPOINTS =====
+
+// Get all featured events
+app.get('/api/v1/featured-events', async (req, res) => {
+  console.log('GET /api/v1/featured-events - Getting featured events');
+  
+  try {
+    if (!dbConnected) {
+      await connectToMongoDB();
+    }
+    
+    // Get featured event IDs
+    const featuredEventIds = await collections.featured.find({}).sort({ order: 1 }).toArray();
+    
+    if (featuredEventIds.length === 0) {
+      return res.status(200).json({ events: [] });
+    }
+    
+    // Get the actual events
+    const featuredEvents = [];
+    
+    for (const featuredEvent of featuredEventIds) {
+      try {
+        // Try to find by ObjectId first
+        let event = null;
+        
+        try {
+          event = await collections.cloud.findOne({
+            _id: new ObjectId(featuredEvent.eventId)
+          });
+        } catch (err) {
+          // If not a valid ObjectId, try by string id
+          event = await collections.cloud.findOne({
+            id: featuredEvent.eventId
+          });
+        }
+        
+        if (event) {
+          featuredEvents.push(event);
+        }
+      } catch (err) {
+        console.error(`Error finding featured event ${featuredEvent.eventId}:`, err);
+      }
+    }
+    
+    res.status(200).json({ events: featuredEvents });
+  } catch (error) {
+    console.error('Error getting featured events:', error);
+    res.status(500).json({ error: 'Failed to get featured events' });
+  }
+});
+
+// Add an event to featured
+app.post('/api/v1/featured-events', async (req, res) => {
+  console.log('POST /api/v1/featured-events - Adding event to featured');
+  
+  try {
+    if (!dbConnected) {
+      await connectToMongoDB();
+    }
+    
+    const { eventId } = req.body;
+    
+    if (!eventId) {
+      return res.status(400).json({ error: 'Event ID is required' });
+    }
+    
+    // Check if event exists
+    let event = null;
+    
+    try {
+      event = await collections.cloud.findOne({
+        _id: new ObjectId(eventId)
+      });
+    } catch (err) {
+      // If not a valid ObjectId, try by string id
+      event = await collections.cloud.findOne({
+        id: eventId
+      });
+    }
+    
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+    
+    // Check if already featured
+    const existingFeatured = await collections.featured.findOne({ eventId });
+    
+    if (existingFeatured) {
+      return res.status(400).json({ error: 'Event is already featured' });
+    }
+    
+    // Get current max order
+    const maxOrderResult = await collections.featured.find().sort({ order: -1 }).limit(1).toArray();
+    const nextOrder = maxOrderResult.length > 0 ? maxOrderResult[0].order + 1 : 0;
+    
+    // Add to featured
+    await collections.featured.insertOne({
+      eventId,
+      order: nextOrder,
+      addedAt: new Date()
+    });
+    
+    res.status(201).json({ message: 'Event added to featured' });
+  } catch (error) {
+    console.error('Error adding event to featured:', error);
+    res.status(500).json({ error: 'Failed to add event to featured' });
+  }
+});
+
+// Remove an event from featured
+app.delete('/api/v1/featured-events', async (req, res) => {
+  console.log('DELETE /api/v1/featured-events - Removing event from featured');
+  
+  try {
+    if (!dbConnected) {
+      await connectToMongoDB();
+    }
+    
+    const { eventId } = req.body;
+    
+    if (!eventId) {
+      return res.status(400).json({ error: 'Event ID is required' });
+    }
+    
+    // Remove from featured
+    const result = await collections.featured.deleteOne({ eventId });
+    
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: 'Event not found in featured events' });
+    }
+    
+    // Reorder remaining featured events
+    const remainingFeatured = await collections.featured.find().sort({ order: 1 }).toArray();
+    
+    for (let i = 0; i < remainingFeatured.length; i++) {
+      await collections.featured.updateOne(
+        { _id: remainingFeatured[i]._id },
+        { $set: { order: i } }
+      );
+    }
+    
+    res.status(200).json({ message: 'Event removed from featured' });
+  } catch (error) {
+    console.error('Error removing event from featured:', error);
+    res.status(500).json({ error: 'Failed to remove event from featured' });
+  }
+});
+
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n✅ Server listening on port ${PORT}`);
   console.log(`API base URL: http://0.0.0.0:${PORT}/api/v1`);
   console.log(`Health check: http://0.0.0.0:${PORT}/api/v1/health`);
   console.log(`All events: http://0.0.0.0:${PORT}/api/v1/venues/events/all`);
+  console.log(`Featured events: http://0.0.0.0:${PORT}/api/v1/featured-events`);
 });
 
 // Handle graceful shutdown
