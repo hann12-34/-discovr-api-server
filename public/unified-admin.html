@@ -382,9 +382,17 @@
             // Make sure the endpoint starts with a slash
             const formattedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
             
+            // Determine base URL - we're using relative URLs within the same origin
+            // This ensures it works both locally and when deployed
+            const baseUrl = '';
+            
             // For debugging - log the full URL that will be used
-            const fullUrl = formattedEndpoint;
+            const fullUrl = baseUrl + formattedEndpoint;
             console.log('%c[DEBUG] Using API URL: ' + fullUrl, 'background: #ffa; color: #00a');
+            
+            // Log the full absolute URL for clarity
+            const absoluteUrl = new URL(fullUrl, window.location.origin).href;
+            console.log('%c[DEBUG] Absolute API URL: ' + absoluteUrl, 'background: #ffa; color: #00a');
             
             return fullUrl;
         }
@@ -850,14 +858,21 @@
                     // Create new event
                     apiUrl = getApiUrl('/api/v1/events');
                     console.log('%c[DEBUG] Creating new event with URL:', 'background: #ffa; color: #00a', apiUrl);
+                    console.log('%c[DEBUG] Event data payload:', 'background: #ffa; color: #00a', JSON.stringify(eventData, null, 2));
                     
-                    response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(eventData)
-                    });
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(eventData)
+                        });
+                        console.log('%c[DEBUG] Raw response object:', 'background: #ffa; color: #00a', response);
+                    } catch (fetchError) {
+                        console.error('%c[ERROR] Network error during fetch:', 'background: #faa; color: #a00', fetchError);
+                        throw new Error(`Network error: ${fetchError.message}`);
+                    }
                 }
                 
                 console.log('%c[DEBUG] Response received:', 'background: #ffa; color: #00a', response);
@@ -916,11 +931,22 @@
                     
                     let errorMessage = 'Failed to ' + (id ? 'update' : 'create') + ' event';
                     try {
-                        const errorData = await response.json();
-                        console.error('Error data:', errorData);
-                        errorMessage = errorData.error || errorMessage;
+                        // Get the raw text first for debugging
+                        const rawText = await response.text();
+                        console.error('%c[ERROR] Raw error response:', 'background: #faa; color: #a00', rawText);
+                        
+                        // Then try to parse it as JSON
+                        try {
+                            const errorData = JSON.parse(rawText);
+                            console.error('%c[ERROR] Parsed error data:', 'background: #faa; color: #a00', errorData);
+                            errorMessage = errorData.error || errorData.details || errorData.message || errorMessage;
+                            if (errorData.details) errorMessage += `: ${errorData.details}`;
+                        } catch (jsonError) {
+                            console.error('%c[ERROR] Response is not valid JSON:', 'background: #faa; color: #a00', jsonError);
+                            errorMessage += ` (Server responded with: ${rawText.substring(0, 100)}${rawText.length > 100 ? '...' : ''})`;
+                        }
                     } catch (e) {
-                        console.error('Could not parse error response');
+                        console.error('%c[ERROR] Could not read response body:', 'background: #faa; color: #a00', e);
                     }
                     
                     throw new Error(errorMessage);
