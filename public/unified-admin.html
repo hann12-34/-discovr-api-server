@@ -356,15 +356,24 @@
         let featuredEvents = [];
         const MAX_FEATURED_EVENTS = 10;
         
-        // DOM elements
-        const allEventsList = document.getElementById('allEventsList');
-        const featuredEventsList = document.getElementById('featuredEventsList');
-        const searchInput = document.getElementById('eventSearch');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const refreshBtn = document.getElementById('refreshBtn');
-        const saveFeaturedBtn = document.getElementById('saveFeaturedBtn');
-        const clearFeaturedBtn = document.getElementById('clearFeaturedBtn');
-        const scraperOutput = document.getElementById('scraperOutput');
+        // DOM elements with safety check logging
+        function safeGetElement(id) {
+            const element = document.getElementById(id);
+            if (!element) {
+                console.warn(`Element with ID '${id}' not found in the DOM`);
+            }
+            return element;
+        }
+        
+        // Get all required DOM elements
+        const allEventsList = safeGetElement('allEventsList');
+        const featuredEventsList = safeGetElement('featuredEventsList');
+        const searchInput = safeGetElement('eventSearch');
+        const categoryFilter = safeGetElement('categoryFilter');
+        const refreshBtn = safeGetElement('refreshBtn');
+        const saveFeaturedBtn = safeGetElement('saveFeaturedBtn');
+        const clearFeaturedBtn = safeGetElement('clearFeaturedBtn');
+        const scraperOutput = safeGetElement('scraperOutput');
         
         // Helper function to get API URL
         function getApiUrl(endpoint) {
@@ -377,12 +386,21 @@
         console.log('Current pathname:', window.location.pathname);
         console.log('Sample API URL:', getApiUrl('/api/v1/featured-events'));
         
-        // Event listeners
-        refreshBtn.addEventListener('click', loadAllEvents);
-        searchInput.addEventListener('keyup', filterEvents);
-        categoryFilter.addEventListener('change', filterEvents);
-        saveFeaturedBtn.addEventListener('click', saveFeaturedEvents);
-        clearFeaturedBtn.addEventListener('click', clearFeaturedEvents);
+        // Event listeners - with safety checks
+        function addSafeEventListener(element, event, handler) {
+            if (element) {
+                element.addEventListener(event, handler);
+            } else {
+                console.warn(`Element for event ${event} not found`);
+            }
+        }
+        
+        // Add all event listeners safely
+        addSafeEventListener(refreshBtn, 'click', loadAllEvents);
+        addSafeEventListener(searchInput, 'keyup', filterEvents);
+        addSafeEventListener(categoryFilter, 'change', filterEvents);
+        addSafeEventListener(saveFeaturedBtn, 'click', saveFeaturedEvents);
+        addSafeEventListener(clearFeaturedBtn, 'click', clearFeaturedEvents);
         
         // Load all events
         async function loadAllEvents() {
@@ -1176,7 +1194,18 @@
         
         // Load data on page load
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM loaded, initializing admin interface...');
+            console.log('%c[DEBUG] DOM loaded, initializing admin interface...', 'background: #ffa; color: #00a');
+            
+            // Log information about critical DOM elements
+            const criticalElements = [
+                'allEventsList', 'featuredEventsList', 'carousel3d', 'eventSearch',
+                'categoryFilter', 'refreshBtn', 'saveFeaturedBtn', 'clearFeaturedBtn'
+            ];
+            
+            criticalElements.forEach(id => {
+                const element = document.getElementById(id);
+                console.log(`Element '${id}' ${element ? 'found' : 'NOT FOUND'} in DOM`);
+            });
             
             // Initialize the carousel first with a loading state
             const carousel = document.getElementById('carousel3d');
@@ -1189,6 +1218,9 @@
                         </div>
                     </div>
                 `;
+                console.log('Carousel initialized with loading state');
+            } else {
+                console.warn('Carousel element not found in DOM');
             }
             
             // Load data
