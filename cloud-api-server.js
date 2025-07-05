@@ -186,6 +186,53 @@ async function getAllEvents() {
 
 // API Routes
 
+// Create a new event
+app.post('/api/v1/events', async (req, res) => {
+  try {
+    console.log('POST /api/v1/events - Creating new event', req.body);
+    
+    if (!dbConnected) {
+      await connectToMongoDB();
+    }
+    
+    const newEvent = req.body;
+    
+    // Validate required fields
+    if (!newEvent.name) {
+      return res.status(400).json({ error: 'Event name is required' });
+    }
+    
+    // Add _id if missing
+    if (!newEvent._id) {
+      newEvent._id = new ObjectId();
+    }
+    
+    // Add timestamps and source info
+    newEvent.createdAt = new Date();
+    newEvent.source = 'admin';
+    
+    // Check if cloud collection exists
+    if (!collections.cloud) {
+      console.error('Cloud collection is not initialized!');
+      return res.status(500).json({ error: 'Cloud collection not initialized' });
+    }
+    
+    // Insert event into database
+    const result = await collections.cloud.insertOne(newEvent);
+    console.log(`Created event with ID: ${result.insertedId}`);
+    
+    // Return success response
+    res.status(201).json({ 
+      success: true, 
+      event: newEvent, 
+      message: 'Event created successfully' 
+    });
+  } catch (err) {
+    console.error('Error creating event:', err);
+    res.status(500).json({ error: 'Failed to create event', details: err.message });
+  }
+});
+
 // Health check endpoint
 app.get('/api/v1/health', (req, res) => {
   res.status(200).json({
