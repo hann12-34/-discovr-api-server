@@ -357,7 +357,7 @@ app.get('/api/v1/seed', async (req, res) => {
         description: 'This is a sample activity for testing',
         image: 'https://picsum.photos/300/200',
         season: 'Summer',
-        location: 'San Francisco',
+        location: 'Vancouver, BC, Canada',
         date: new Date(),
         category: 'Outdoor'
       });
