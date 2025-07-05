@@ -456,9 +456,9 @@ async function startServer() {
             // Get current count of featured events
             const featuredCount = await collections.featured.countDocuments();
             
-            // Limit to 5 featured events
-            if (featuredCount >= 5) {
-                return res.status(400).json({ error: 'Maximum of 5 featured events allowed' });
+            // Limit to 10 featured events
+            if (featuredCount >= 10) {
+                return res.status(400).json({ error: 'Maximum of 10 featured events allowed' });
             }
             
             // Add to featured

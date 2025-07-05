@@ -43,10 +43,60 @@
         .event-card {
             position: relative;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
         .event-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* 3D Carousel Styles */
+        .carousel-3d-container {
+            perspective: 1000px;
+            position: relative;
+            margin: 40px auto;
+            height: 400px;
+            overflow: hidden;
+            background: linear-gradient(145deg, #2c3338, #343a40);
+            border-radius: 15px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+        .carousel-3d {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+        .carousel-3d-item {
+            position: absolute;
+            width: 300px;
+            height: 380px;
+            left: 50%;
+            top: 10px;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            margin-left: -150px; /* Center horizontally */
+            backface-visibility: hidden;
+            border: 4px solid white;
+        }
+        .carousel-3d-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .carousel-3d-item .content {
+            padding: 15px;
+        }
+        .carousel-controls {
+            text-align: center;
+            margin-top: 20px;
         }
         .preview-section {
             background-color: #343a40;
@@ -78,14 +128,28 @@
             </div>
             <div class="card-body preview-section">
                 <h3>Real Events from MongoDB</h3>
-                <div class="row" id="previewFeaturedEvents">
-                    <!-- Featured events will be displayed here -->
-                    <div class="col-md-6">
-                        <div class="preview-event">
-                            <h4>Loading featured events...</h4>
+                
+                <!-- 3D Carousel Container -->
+                <div class="carousel-3d-container">
+                    <div class="carousel-3d" id="carousel3d">
+                        <!-- 3D carousel items will be added here -->
+                        <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
+                            <div class="text-center p-5">
+                                <div class="spinner-border text-light" role="status"></div>
+                                <p class="mt-2">Loading featured events...</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Carousel Controls -->
+                <div class="carousel-controls">
+                    <button class="btn btn-light" id="prevBtn"><i class="bi bi-chevron-left"></i> Previous</button>
+                    <button class="btn btn-light" id="nextBtn">Next <i class="bi bi-chevron-right"></i></button>
+                </div>
+                
+                <!-- Legacy container for compatibility -->
+                <div class="d-none" id="previewFeaturedEvents"></div>
             </div>
         </div>
 
@@ -234,7 +298,7 @@
         // Global variables
         let allEvents = [];
         let featuredEvents = [];
-        const MAX_FEATURED_EVENTS = 5;
+        const MAX_FEATURED_EVENTS = 10;
         
         // DOM Elements
         const allEventsList = document.getElementById('allEventsList');
@@ -374,25 +438,84 @@
         
         // Render preview events (how they will appear in the app)
         function renderPreviewEvents() {
+            const carousel = document.getElementById('carousel3d');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
             if (featuredEvents.length === 0) {
-                previewFeaturedEvents.innerHTML = '<div class="col-12"><p>No featured events to display.</p></div>';
+                carousel.innerHTML = `
+                    <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
+                        <div class="text-center p-5">
+                            <p>No featured events to display.</p>
+                            <p>Add up to 10 events to see them here.</p>
+                        </div>
+                    </div>
+                `;
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
                 return;
             }
             
-            let html = '';
+            // Clear previous items
+            carousel.innerHTML = '';
             
-            featuredEvents.forEach(event => {
-                html += `
-                <div class="col-md-6 mb-3">
-                    <div class="preview-event">
+            // Current rotation angle
+            let currentAngle = 0;
+            let currentIndex = 0;
+            
+            // Calculate angle between items and radius
+            const angleStep = 360 / featuredEvents.length;
+            const radius = 300; // Distance from center
+            
+            // Create carousel items
+            featuredEvents.forEach((event, index) => {
+                const angle = index * angleStep;
+                const item = document.createElement('div');
+                item.className = 'carousel-3d-item';
+                item.dataset.index = index;
+                
+                // Position in 3D space
+                item.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+                
+                // Add content
+                item.innerHTML = `
+                    <img src="${event.image || 'https://via.placeholder.com/300x180?text=No+Image'}" alt="${event.title || 'Event'}">
+                    <div class="content">
                         <h4>${event.title || 'Untitled Event'}</h4>
                         <p>${formatVenue(event)}</p>
+                        <p><small>${formatDate(event.startDate)}</small></p>
+                        <p class="category badge bg-secondary">${event.category || 'Uncategorized'}</p>
                     </div>
-                </div>
                 `;
+                
+                carousel.appendChild(item);
             });
             
-            previewFeaturedEvents.innerHTML = html;
+            // Enable buttons
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+            
+            // Add event listeners for rotation
+            prevBtn.onclick = () => {
+                currentIndex = (currentIndex - 1 + featuredEvents.length) % featuredEvents.length;
+                currentAngle += angleStep;
+                carousel.style.transform = `rotateY(${currentAngle}deg)`;
+            };
+            
+            nextBtn.onclick = () => {
+                currentIndex = (currentIndex + 1) % featuredEvents.length;
+                currentAngle -= angleStep;
+                carousel.style.transform = `rotateY(${currentAngle}deg)`;
+            };
+            
+            // Auto-rotate every 3 seconds
+            if (window.carouselInterval) {
+                clearInterval(window.carouselInterval);
+            }
+            
+            window.carouselInterval = setInterval(() => {
+                nextBtn.click();
+            }, 3000);
         }
         
         // Filter events based on search and category
