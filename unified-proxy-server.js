@@ -12,8 +12,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const roxyScraper = require('./scrapers/roxyEvents.js');
-const orpheumScraper = require('./scrapers/orpheumEvents.js');
+const roxyScraper = require('./scrapers/cities/vancouver/roxyVancouverEvents.js');
+// const orpheumScraper = require('./scrapers/orpheumEvents.js'); // Commented out - file doesn't exist
 
 const app = express();
 app.use(cors());
@@ -64,7 +64,8 @@ app.get('/scrape/roxy', async (req, res) => {
   }
 });
 
-// Endpoint to trigger the Orpheum scraper
+// Endpoint to trigger the Orpheum scraper - COMMENTED OUT (scraper file missing)
+/*
 app.get('/scrape/orpheum', async (req, res) => {
   try {
     console.log('Orpheum scraper started');
@@ -76,6 +77,7 @@ app.get('/scrape/orpheum', async (req, res) => {
     res.status(500).json({ message: 'Error running Orpheum scraper', error: error.message });
   }
 });
+*/
 
 // Add route for featured events admin page
 app.get('/admin/featured', (req, res) => {
