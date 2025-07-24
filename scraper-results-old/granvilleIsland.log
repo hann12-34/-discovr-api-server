@@ -1,0 +1,61 @@
+============================================================
+--- Attempting to run scraper: granvilleIsland.js ---
+============================================================
+Scraper 'Granville Island' instantiated successfully. Running scrape()...
+🔍 Starting Granville Island events scraper...
+🔗 Found 8 event links
+🔍 Scraping details from: https://granvilleisland.com/event/rebirth
+✅ Processed event: Rebirth
+🔍 Scraping details from: https://granvilleisland.com/event/house-teams
+✅ Processed event: House Teams
+🔍 Scraping details from: https://granvilleisland.com/event/choose-day
+✅ Processed event: Choose-Day
+🔍 Scraping details from: https://granvilleisland.com/event/blockbuster
+✅ Processed event: Blockbuster
+🔍 Scraping details from: https://granvilleisland.com/event/the-mousetrap
+✅ Processed event: The Mousetrap
+🔍 Scraping details from: https://granvilleisland.com/event/summer-sizzler
+✅ Processed event: Summer Sizzler
+🔍 Scraping details from: https://granvilleisland.com/event/theatresports-3
+✅ Processed event: Theatresports™
+🔍 Scraping details from: https://granvilleisland.com/event/all-over-the-map-2025
+✅ Processed event: All Over the Map 2025
+🎉 Successfully scraped 8 events from Granville Island
+
+------------------------------------------------------------
+✅ Scraper 'Granville Island' finished successfully.
+   Processed 8 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "granville-island-rebirth",
+  "title": "Rebirth",
+  "description": "\"Rebirth\" is a pottery exhibition by Ami Li Chuan, which is about a group of creatures and plants that settle down on another planet and start a new life there. Amy’s creatures have adapted to the harsh environment with AI technology and strange outfits. The theme of “Rebirth” raises the question: what is the meaning […]",
+  "sourceURL": "https://granvilleisland.com/event/rebirth",
+  "officialWebsite": "https://granvilleisland.com/event/rebirth",
+  "recurring": null,
+  "categories": [
+    "culture",
+    "entertainment"
+  ],
+  "startDate": "2025-07-15T16:05:46.973Z",
+  "endDate": "2025-07-15T16:05:46.973Z",
+  "venue": {
+    "name": "Granville Island",
+    "id": "granville-island",
+    "address": "1661 Duranleau St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6H 3S3",
+    "coordinates": {
+      "lat": 49.2707,
+      "lng": -123.134
+    },
+    "websiteUrl": "https://granvilleisland.com"
+  },
+  "category": "art",
+  "image": null,
+  "lastUpdated": "2025-07-15T16:05:46.973Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/granvilleIsland-results.json

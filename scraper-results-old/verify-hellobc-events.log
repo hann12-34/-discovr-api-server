@@ -1,0 +1,10 @@
+ERROR: Command failed: node test-single-scraper.js verify-hellobc-events.js
+❌ MONGODB_URI not set in environment variables
+
+
+============================================================
+--- Attempting to run scraper: verify-hellobc-events.js ---
+============================================================
+
+
+❌ MONGODB_URI not set in environment variables

@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: vancouverAquariumEvents.js ---
+============================================================
+Scraper 'Vancouver Aquarium Events' instantiated successfully. Running scrape()...
+Starting Vancouver Aquarium Events scraper...
+Navigating to https://www.vanaqua.org/events
+Extracting Vancouver Aquarium events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Vancouver Aquarium events
+Vancouver Aquarium Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Aquarium Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverAquariumEvents-results.json

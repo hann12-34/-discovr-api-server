@@ -1,0 +1,58 @@
+============================================================
+--- Attempting to run scraper: scienceWorld.js ---
+============================================================
+Scraper 'Science World' instantiated successfully. Running scrape()...
+🔍 Starting Science World scraper...
+✅ Added event: After Dark: Adult Evening - Molecular Gastronomy on Friday, July 18, 2025
+✅ Added event: Robot Takeover: Artificial Intelligence Exhibition on Tuesday, July 1, 2025
+✅ Added event: Wonder Weekend: Astronomy Exploration on Saturday, July 12, 2025
+✅ Added event: OMNIMAX Film: 'Oceans: Our Blue Planet' on Saturday, July 5, 2025
+✅ Added event: Teen Science Social: Climate Action on Friday, July 25, 2025
+✅ Added event: Science of Cocktails Fundraiser on Wednesday, August 20, 2025
+🔬 Successfully created 6 Science World events
+
+------------------------------------------------------------
+✅ Scraper 'Science World' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "science-world-after-dark-adult-evening---molecular-gastronomy-2025-07-19",
+  "title": "After Dark: Adult Evening - Molecular Gastronomy",
+  "description": "Experience Science World after hours at this 19+ event combining science, cocktails, and culinary innovation. This special evening focuses on the fascinating world of molecular gastronomy, where cooking meets chemistry. Enjoy live demonstrations from renowned local chefs who use scientific techniques to transform familiar ingredients into extraordinary culinary creations. Interactive stations throughout the venue allow guests to experiment with spherification, gelification, and other molecular techniques while enjoying specialty cocktails designed for the event. All exhibits remain open for exploration, creating a unique adults-only museum experience that blends education, entertainment, and epicurean adventure.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 7:00 PM - 11:00 PM\nPrice: $45 ($38 for members)\nAge Restriction: 19+\nTickets: Required, available through Science World website or box office\n\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.",
+  "startDate": "2025-07-19T02:00:00.000Z",
+  "endDate": "2025-07-19T06:00:00.000Z",
+  "venue": {
+    "name": "Science World at TELUS World of Science",
+    "id": "science-world-vancouver",
+    "address": "1455 Quebec St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6A 3Z7",
+    "coordinates": {
+      "lat": 49.2734,
+      "lng": -123.1034
+    },
+    "websiteUrl": "https://www.scienceworld.ca/",
+    "description": "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
+  },
+  "category": "science",
+  "categories": [
+    "science",
+    "education",
+    "museum",
+    "family-friendly",
+    "adult event",
+    "after hours",
+    "19+",
+    "nightlife",
+    "cocktails"
+  ],
+  "sourceURL": "https://www.scienceworld.ca/",
+  "officialWebsite": "https://www.scienceworld.ca/event/after-dark-molecular-gastronomy/",
+  "image": "https://www.scienceworld.ca/wp-content/uploads/2025/06/after-dark-molecular.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:44:12.560Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/scienceWorld-results.json

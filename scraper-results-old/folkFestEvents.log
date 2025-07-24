@@ -1,0 +1,47 @@
+============================================================
+--- Attempting to run scraper: folkFestEvents.js ---
+============================================================
+Scraper 'Vancouver Folk Music Festival' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Folk Music Festival...
+Navigating to https://thefestival.bc.ca/lineup/
+Could not find artist elements with standard selectors, trying to proceed anyway
+Found 0 potential artists/performers
+Checking homepage for festival dates
+Found 1 events from Vancouver Folk Music Festival
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Folk Music Festival' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "folk-fest-vancouver-folk-music-festival-2025-07-15",
+  "title": "Vancouver Folk Music Festival",
+  "description": "Annual folk music festival at Jericho Beach Park featuring artists from around the world.",
+  "startDate": "2025-07-15T19:00:00.000Z",
+  "endDate": "2025-07-18T06:59:59.000Z",
+  "imageUrl": "",
+  "sourceUrl": "https://thefestival.bc.ca/",
+  "ticketUrl": "https://thefestival.bc.ca/tickets/",
+  "venue": {
+    "name": "Jericho Beach Park",
+    "address": "3941 Point Grey Road",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6R 1B3",
+    "website": "https://thefestival.bc.ca/",
+    "googleMapsUrl": "https://goo.gl/maps/EwkvVAEGjRGSn9u1A"
+  },
+  "categories": [
+    "music",
+    "folk-music",
+    "festival",
+    "concert",
+    "outdoor"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-15T16:04:08.668Z",
+  "sourceIdentifier": "vancouver-folk-fest"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/folkFestEvents-results.json

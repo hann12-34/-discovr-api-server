@@ -1,0 +1,144 @@
+[
+  {
+    "id": "red-room-cancun-nites-2025-07-18",
+    "title": "CANCUN NITES - Latin Music & Top 40",
+    "description": "Every Friday for more than 18 years, VLF is providing the most energetic and longest running latin event in Vancouver. Latin Music & Top 40 presented by Vancouver Latin Fever at Red Room Vancouver. 398 Richards St. / 9PM - 3AM",
+    "startDate": "2025-07-19T04:00:00.271Z",
+    "endDate": "2025-07-18T10:00:00.271Z",
+    "venue": {
+      "name": "Red Room",
+      "id": "red-room-vancouver",
+      "address": "398 Richards St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2Z3",
+      "coordinates": {
+        "lat": 49.2839,
+        "lng": -123.1126
+      },
+      "websiteUrl": "https://redroomvancouver.com/",
+      "description": "The Red Room is an underground nightclub and music venue in downtown Vancouver known for its intimate atmosphere."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "latin",
+      "dance",
+      "weekly"
+    ],
+    "sourceURL": "https://redroomvancouver.com/",
+    "officialWebsite": "https://redroomvancouver.com/",
+    "image": "https://redroomvancouver.com/wp-content/uploads/2023/09/cancun-nites-4.jpg",
+    "ticketsRequired": true,
+    "isRecurring": true,
+    "recurringDay": "Friday",
+    "lastUpdated": "2025-07-15T18:43:58.272Z"
+  },
+  {
+    "id": "red-room-subculture-2025-07-19",
+    "title": "SUBCULTURE - Bass Music Saturdays",
+    "description": "Subculture is Vancouver's home for Bass Music. Showcasing the best in Drum & Bass, Dubstep and other bass & electronic music sub-genres. Powered by PK Sound and presented by Digital Motion BC every Saturday at Red Room Vancouver.",
+    "startDate": "2025-07-20T05:00:00.272Z",
+    "endDate": "2025-07-19T10:00:00.272Z",
+    "venue": {
+      "name": "Red Room",
+      "id": "red-room-vancouver",
+      "address": "398 Richards St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2Z3",
+      "coordinates": {
+        "lat": 49.2839,
+        "lng": -123.1126
+      },
+      "websiteUrl": "https://redroomvancouver.com/",
+      "description": "The Red Room is an underground nightclub and music venue in downtown Vancouver known for its intimate atmosphere."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "electronic",
+      "bass",
+      "drum and bass",
+      "dubstep",
+      "weekly"
+    ],
+    "sourceURL": "https://redroomvancouver.com/",
+    "officialWebsite": "https://redroomvancouver.com/",
+    "image": "https://redroomvancouver.com/wp-content/uploads/sb-facebook-feed-images/178864748799337_1030857892417515-0-250.jpg",
+    "ticketsRequired": true,
+    "isRecurring": true,
+    "recurringDay": "Saturday",
+    "lastUpdated": "2025-07-15T18:43:58.272Z"
+  },
+  {
+    "id": "red-room-special-special-event-at-red-room-2025-07-15",
+    "title": "Special Event at Red Room",
+    "description": "Special event at Red Room Vancouver. Visit https://www.vancouverlatinfever.com/events/lkf15eytWeyugVTI8Dj4mBB74xGr6vKY for more details.",
+    "startDate": "2025-07-16T04:00:00.782Z",
+    "endDate": "2025-07-15T09:00:00.782Z",
+    "venue": {
+      "name": "Red Room",
+      "id": "red-room-vancouver",
+      "address": "398 Richards St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2Z3",
+      "coordinates": {
+        "lat": 49.2839,
+        "lng": -123.1126
+      },
+      "websiteUrl": "https://redroomvancouver.com/",
+      "description": "The Red Room is an underground nightclub and music venue in downtown Vancouver known for its intimate atmosphere."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "special event"
+    ],
+    "sourceURL": "https://www.vancouverlatinfever.com/events/lkf15eytWeyugVTI8Dj4mBB74xGr6vKY",
+    "officialWebsite": "https://redroomvancouver.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:04.782Z"
+  },
+  {
+    "id": "red-room-special-special-event-at-red-room-2025-07-15",
+    "title": "Special Event at Red Room",
+    "description": "Special event at Red Room Vancouver. Visit https://digitalmotionbc.ca/events/ for more details.",
+    "startDate": "2025-07-16T04:00:00.783Z",
+    "endDate": "2025-07-15T09:00:00.783Z",
+    "venue": {
+      "name": "Red Room",
+      "id": "red-room-vancouver",
+      "address": "398 Richards St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2Z3",
+      "coordinates": {
+        "lat": 49.2839,
+        "lng": -123.1126
+      },
+      "websiteUrl": "https://redroomvancouver.com/",
+      "description": "The Red Room is an underground nightclub and music venue in downtown Vancouver known for its intimate atmosphere."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "special event"
+    ],
+    "sourceURL": "https://digitalmotionbc.ca/events/",
+    "officialWebsite": "https://redroomvancouver.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:04.783Z"
+  }
+]

@@ -1,0 +1,235 @@
+[
+  {
+    "id": "capilano-canyon-lights-winter-festival-2025-01-11",
+    "title": "Canyon Lights Winter Festival",
+    "description": "Experience the magic of Canyon Lights, a winter festival that transforms the Capilano Suspension Bridge Park into a world of festive lights and visual enchantment. Hundreds of thousands of lights illuminate the suspension bridge, Treetops Adventure, Cliffwalk, and throughout the rainforest and canyon. This year's display features new light installations including a mesmerizing walk-through light tunnel, illuminated totem poles, and a multi-dimensional light show projected onto the canyon walls. Enjoy live holiday music, hot chocolate stations throughout the park, and appearances by holiday characters. The suspension bridge and Treetops Adventure viewing platforms provide spectacular perspectives of the light displays from above.\n\nEVENT DETAILS:\nDate: Friday, January 10, 2025\nTime: 4:00 PM - 9:00 PM\nRecurrence: Daily from November 2024 to January 19, 2025\nPrice: Regular admission rates apply, Annual Pass holders free\nTickets: Required, available online or at the park entrance\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+    "startDate": "2025-01-11T00:00:00.000Z",
+    "endDate": "2025-01-11T05:00:00.000Z",
+    "venue": {
+      "name": "Capilano Suspension Bridge Park",
+      "id": "capilano-suspension-bridge-park",
+      "address": "3735 Capilano Road",
+      "city": "North Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V7R 4J1",
+      "coordinates": {
+        "lat": 49.3429,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.capbridge.com/",
+      "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+    },
+    "category": "attraction",
+    "categories": [
+      "attraction",
+      "outdoors",
+      "nature",
+      "tourism",
+      "winter festival",
+      "lights",
+      "holiday",
+      "family-friendly",
+      "seasonal"
+    ],
+    "sourceURL": "https://www.capbridge.com/",
+    "officialWebsite": "https://www.capbridge.com/events/canyon-lights-2025/",
+    "image": "https://www.capbridge.com/wp-content/uploads/2024/11/canyon-lights-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:33:11.891Z"
+  },
+  {
+    "id": "capilano-rainforest-ecology-tour-2025-07-15",
+    "title": "Rainforest Ecology Tour",
+    "description": "Join our expert naturalists for a guided educational tour of the coastal temperate rainforest ecosystem within Capilano Suspension Bridge Park. This 90-minute walk explores the unique plant and animal species that make this forest their home, the interconnectedness of the ecosystem, and the importance of conservation. Learn about old-growth giants, nurse logs, forest regeneration, and native wildlife while walking through the rainforest trails, suspension bridge, and Treetops Adventure. Suitable for all ages but best for those interested in natural history, ecology, and conservation. Tours operate in small groups for a more personalized experience.\n\nEVENT DETAILS:\nDate: Tuesday, July 15, 2025\nTime: 10:00 AM - 11:30 AM\nRecurrence: Daily at 10am and 2pm, July-August 2025\nPrice: $10 in addition to park admission\nTickets: Required, available online or at the park entrance\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+    "startDate": "2025-07-15T17:00:00.000Z",
+    "endDate": "2025-07-15T18:30:00.000Z",
+    "venue": {
+      "name": "Capilano Suspension Bridge Park",
+      "id": "capilano-suspension-bridge-park",
+      "address": "3735 Capilano Road",
+      "city": "North Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V7R 4J1",
+      "coordinates": {
+        "lat": 49.3429,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.capbridge.com/",
+      "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+    },
+    "category": "attraction",
+    "categories": [
+      "attraction",
+      "outdoors",
+      "nature",
+      "tourism",
+      "educational tour",
+      "nature",
+      "guided tour",
+      "ecology",
+      "learning"
+    ],
+    "sourceURL": "https://www.capbridge.com/",
+    "officialWebsite": "https://www.capbridge.com/events/rainforest-ecology-tours-2025/",
+    "image": "https://www.capbridge.com/wp-content/uploads/2025/06/rainforest-ecology-tour.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:33:11.891Z"
+  },
+  {
+    "id": "capilano-indigenous-cultural-performances-2025-07-05",
+    "title": "Indigenous Cultural Performances",
+    "description": "Experience authentic Indigenous cultural performances featuring traditional songs, dances, and stories from the Coast Salish Nations of the Pacific Northwest. These engaging performances provide insights into the rich cultural heritage, traditional practices, and connection to the land of the region's First Nations peoples. The performances take place at the park's outdoor stage area, with seating available on a first-come basis. Following each performance, visitors have the opportunity to meet the performers, learn about the traditional regalia, and ask questions. The surrounding Indigenous carving center and totem pole collection provide additional context for understanding the cultural significance of the performances.\n\nEVENT DETAILS:\nDate: Saturday, July 5, 2025\nTime: 1:00 PM - 2:00 PM\nRecurrence: Weekends at 11am, 1pm, and 3pm throughout July and August\nPrice: Included with park admission\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+    "startDate": "2025-07-05T20:00:00.000Z",
+    "endDate": "2025-07-05T21:00:00.000Z",
+    "venue": {
+      "name": "Capilano Suspension Bridge Park",
+      "id": "capilano-suspension-bridge-park",
+      "address": "3735 Capilano Road",
+      "city": "North Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V7R 4J1",
+      "coordinates": {
+        "lat": 49.3429,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.capbridge.com/",
+      "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+    },
+    "category": "attraction",
+    "categories": [
+      "attraction",
+      "outdoors",
+      "nature",
+      "tourism",
+      "cultural performance",
+      "indigenous",
+      "first nations",
+      "performance",
+      "cultural"
+    ],
+    "sourceURL": "https://www.capbridge.com/",
+    "officialWebsite": "https://www.capbridge.com/events/indigenous-cultural-performances-2025/",
+    "image": "https://www.capbridge.com/wp-content/uploads/2025/05/indigenous-performances.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:33:11.891Z"
+  },
+  {
+    "id": "capilano-photography-workshop-capturing-nature-2025-07-19",
+    "title": "Photography Workshop: Capturing Nature",
+    "description": "Develop your nature photography skills in one of Vancouver's most photogenic settings. Led by professional landscape and nature photographer David Thompson, this hands-on workshop covers techniques for capturing stunning images of forests, waterfalls, architectural elements, and wildlife in challenging light conditions. The workshop includes both technical instruction and creative guidance, with sessions focusing on composition, lighting, perspective, and post-processing techniques. Participants will have special early access to the park before regular opening hours to capture images without crowds. All skill levels are welcome, from beginners to advanced photographers. Bring your own camera equipment (DSLR, mirrorless, or advanced point-and-shoot recommended).\n\nEVENT DETAILS:\nDate: Saturday, July 19, 2025\nTime: 7:00 AM - 10:00 AM\nPrice: $95 (includes park admission)\nTickets: Required, available online or at the park entrance\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+    "startDate": "2025-07-19T14:00:00.000Z",
+    "endDate": "2025-07-19T17:00:00.000Z",
+    "venue": {
+      "name": "Capilano Suspension Bridge Park",
+      "id": "capilano-suspension-bridge-park",
+      "address": "3735 Capilano Road",
+      "city": "North Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V7R 4J1",
+      "coordinates": {
+        "lat": 49.3429,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.capbridge.com/",
+      "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+    },
+    "category": "attraction",
+    "categories": [
+      "attraction",
+      "outdoors",
+      "nature",
+      "tourism",
+      "workshop",
+      "photography",
+      "skill-building",
+      "creative"
+    ],
+    "sourceURL": "https://www.capbridge.com/",
+    "officialWebsite": "https://www.capbridge.com/events/nature-photography-workshop/",
+    "image": "https://www.capbridge.com/wp-content/uploads/2025/06/photo-workshop.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:33:11.891Z"
+  },
+  {
+    "id": "capilano-summer-solstice-celebration-2025-06-22",
+    "title": "Summer Solstice Celebration",
+    "description": "Celebrate the longest day of the year with our special Summer Solstice event at Capilano Suspension Bridge Park. This evening event features extended hours until sunset, allowing visitors to experience the park's natural beauty in the golden evening light. The celebration includes guided sunset nature walks, live acoustic music performances at various locations throughout the park, a special solstice-themed menu at the park's Cliff House Restaurant, and a ceremonial lighting of the bridge at dusk. Local storytellers will share traditional solstice tales from various cultures, connecting visitors to this universal celestial celebration. Cap off the evening by watching the sunset from the suspension bridge for a truly magical experience.\n\nEVENT DETAILS:\nDate: Saturday, June 21, 2025\nTime: 5:00 PM - 10:00 PM\nPrice: Regular admission rates apply, 20% discount after 5pm\nTickets: Required, available online or at the park entrance\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+    "startDate": "2025-06-22T00:00:00.000Z",
+    "endDate": "2025-06-22T05:00:00.000Z",
+    "venue": {
+      "name": "Capilano Suspension Bridge Park",
+      "id": "capilano-suspension-bridge-park",
+      "address": "3735 Capilano Road",
+      "city": "North Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V7R 4J1",
+      "coordinates": {
+        "lat": 49.3429,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.capbridge.com/",
+      "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+    },
+    "category": "attraction",
+    "categories": [
+      "attraction",
+      "outdoors",
+      "nature",
+      "tourism",
+      "seasonal celebration",
+      "solstice",
+      "sunset",
+      "evening event",
+      "music"
+    ],
+    "sourceURL": "https://www.capbridge.com/",
+    "officialWebsite": "https://www.capbridge.com/events/summer-solstice-2025/",
+    "image": "https://www.capbridge.com/wp-content/uploads/2025/05/solstice-celebration.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:33:11.891Z"
+  },
+  {
+    "id": "capilano-kids-treetop-adventure-camp-2025-08-11",
+    "title": "Kids' Treetop Adventure Camp",
+    "description": "This five-day summer camp for children ages 8-12 offers an exciting blend of outdoor adventure, environmental education, and hands-on nature activities. Campers will explore the rainforest ecosystem, learn wilderness skills, participate in nature crafts, and discover the park's unique features through interactive games and guided exploration. Daily themes focus on forest ecology, Indigenous knowledge, wildlife, conservation, and adventure skills. The camp includes special behind-the-scenes tours of park operations, ecology field activities led by naturalists, and a junior ranger training program. Each day includes time on the suspension bridge and Treetops Adventure platforms. Camp runs Monday through Friday with drop-off at 9am and pick-up at 4pm, with optional extended care available.\n\nEVENT DETAILS:\nDates: Monday, August 11, 2025 to Friday, August 15, 2025\nTime: 9:00 AM - 4:00 PM daily\nPrice: $385 per child for the week\nTickets: Required, available online or at the park entrance\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+    "startDate": "2025-08-11T16:00:00.000Z",
+    "endDate": "2025-08-15T23:00:00.000Z",
+    "venue": {
+      "name": "Capilano Suspension Bridge Park",
+      "id": "capilano-suspension-bridge-park",
+      "address": "3735 Capilano Road",
+      "city": "North Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V7R 4J1",
+      "coordinates": {
+        "lat": 49.3429,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.capbridge.com/",
+      "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+    },
+    "category": "attraction",
+    "categories": [
+      "attraction",
+      "outdoors",
+      "nature",
+      "tourism",
+      "children's program",
+      "camp",
+      "kids",
+      "summer camp",
+      "educational"
+    ],
+    "sourceURL": "https://www.capbridge.com/",
+    "officialWebsite": "https://www.capbridge.com/events/kids-adventure-camp-2025/",
+    "image": "https://www.capbridge.com/wp-content/uploads/2025/06/kids-camp.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:33:11.892Z"
+  }
+]

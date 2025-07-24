@@ -1,0 +1,197 @@
+[
+  {
+    "id": "space-centre-cosmic-nights-exoplanets-alien-worlds-2025-07-13",
+    "title": "Cosmic Nights: Exoplanets & Alien Worlds",
+    "description": "Join us for a special 19+ evening at the Space Centre focused on exoplanets and the search for alien life. This adults-only event transforms the Space Centre into an after-hours science lounge featuring expert talks, planetarium shows, telescope viewing (weather permitting), and interactive demonstrations. Dr. Sara Rodriguez, exoplanet researcher from UBC's Department of Physics and Astronomy, will deliver the keynote presentation on recent discoveries from the James Webb Space Telescope and what they tell us about potentially habitable worlds beyond our solar system. The evening includes a special planetarium show 'Worlds Beyond' that takes audiences on a tour of the most fascinating exoplanets discovered to date, from scorching hot gas giants to potentially Earth-like rocky worlds. Throughout the night, enjoy themed cocktails from our licensed bar, explore the exhibits without crowds, and participate in hands-on activities including spectroscopy demonstrations showing how scientists detect elements in exoplanet atmospheres. The observatory will be open for guided stargazing through our telescopes, weather permitting.\n\nEVENT DETAILS:\nDate: Saturday, July 12, 2025\nTime: 7:00 PM - 11:00 PM\nVenue: H.R. MacMillan Space Centre, 1100 Chestnut St, Vancouver\nPrice: $35 ($30 for members)\nAge: 19+\nTickets: Required, available online through the Space Centre website or at the door\n\nVenue Information: The H.R. MacMillan Space Centre is located in Vanier Park, adjacent to the Museum of Vancouver. The facility includes the Planetarium Star Theatre with its digital projection system, the Cosmic Courtyard hands-on activity area, and the Gordon MacMillan Southam Observatory (open on clear nights). The Space Centre is wheelchair accessible and offers a gift shop with space-themed merchandise and educational items.",
+    "startDate": "2025-07-13T02:00:00.000Z",
+    "endDate": "2025-07-13T06:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2764,
+        "lng": -123.1446
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonders of space to Earth, while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "astronomy",
+      "space",
+      "special event",
+      "adult",
+      "nightlife",
+      "after hours",
+      "science"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/cosmic-nights-exoplanets-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/cosmic-nights-exoplanets.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:37:58.131Z"
+  },
+  {
+    "id": "space-centre-summer-space-camp-junior-astronauts-ages-6-8-2025-07-14",
+    "title": "Summer Space Camp: Junior Astronauts (Ages 6-8)",
+    "description": "Blast off into an exciting week of space exploration designed specifically for young astronomers! Our Junior Astronauts day camp provides children ages 6-8 with an immersive, hands-on introduction to space science through engaging activities, demonstrations, and interactive learning. Campers will build and launch their own model rockets, create Mars rovers using simple machines, design space habitats, learn about astronaut training, and explore the solar system through daily planetarium shows tailored to their age group. Our experienced educators guide children through scientific concepts using play-based learning approaches that make complex ideas accessible and exciting. The week culminates in a special 'graduation ceremony' where junior astronauts demonstrate their new knowledge to family members and receive official certificates. All materials and daily healthy snacks are provided; children should bring their own lunch and water bottle each day. Extended care options are available before and after regular camp hours for an additional fee. Space is limited to ensure a high-quality experience with appropriate staff-to-child ratios.\n\nEVENT DETAILS:\nDates: Monday, July 14, 2025 - Friday, July 18, 2025\nHours: 9:00 AM - 4:00 PM daily\nVenue: H.R. MacMillan Space Centre, 1100 Chestnut St, Vancouver\nPrice: $395 for 5-day camp ($350 for members)\nAge: Ages 6-8\nTickets: Required, available online through the Space Centre website or at the door\n\nVenue Information: The H.R. MacMillan Space Centre is located in Vanier Park, adjacent to the Museum of Vancouver. The facility includes the Planetarium Star Theatre with its digital projection system, the Cosmic Courtyard hands-on activity area, and the Gordon MacMillan Southam Observatory (open on clear nights). The Space Centre is wheelchair accessible and offers a gift shop with space-themed merchandise and educational items.",
+    "startDate": "2025-07-14T16:00:00.000Z",
+    "endDate": "2025-07-18T23:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2764,
+        "lng": -123.1446
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonders of space to Earth, while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "astronomy",
+      "space",
+      "camp",
+      "kids",
+      "family",
+      "camp",
+      "summer"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/summer-space-camp-junior-astronauts-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/05/junior-astronauts-camp-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:37:58.132Z"
+  },
+  {
+    "id": "space-centre-planetarium-feature-origins-the-birth-of-our-universe-2025-07-01",
+    "title": "Planetarium Feature: 'Origins: The Birth of Our Universe'",
+    "description": "Experience the premiere of our breathtaking new planetarium show that takes audiences on an immersive journey through space and time to witness the origins of our universe. 'Origins: The Birth of Our Universe' utilizes state-of-the-art digital projection technology to visualize the latest scientific understanding of how our cosmos began and evolved. The 45-minute show begins with the Big Bang and traces the formation of the first stars and galaxies, the birth of our solar system, and the emergence of life on Earth. Narrated by renowned astrophysicist Dr. Neil Patel, the presentation combines cutting-edge scientific visualization with an emotional narrative about our cosmic connections. The show features data-driven animations based on actual observations from space telescopes including Webb, Hubble, and Chandra, making complex cosmological concepts accessible to audiences of all backgrounds. This feature presentation runs daily throughout the summer and is included with admission to the Space Centre. The immersive dome experience is enhanced by our newly upgraded 8K projection system and spatial sound technology that creates a truly multisensory experience of cosmic evolution.\n\nEVENT DETAILS:\nDates: Tuesday, July 1, 2025 - Sunday, August 31, 2025\nSchedule: Daily showtimes at 11:00am, 1:00pm, 3:00pm (additional 5:00pm show on weekends)\nVenue: H.R. MacMillan Space Centre, 1100 Chestnut St, Vancouver\nPrice: Included with admission ($22-$28)\nTickets: Required, available online through the Space Centre website or at the door\n\nVenue Information: The H.R. MacMillan Space Centre is located in Vanier Park, adjacent to the Museum of Vancouver. The facility includes the Planetarium Star Theatre with its digital projection system, the Cosmic Courtyard hands-on activity area, and the Gordon MacMillan Southam Observatory (open on clear nights). The Space Centre is wheelchair accessible and offers a gift shop with space-themed merchandise and educational items.",
+    "startDate": "2025-07-01T18:00:00.000Z",
+    "endDate": "2025-08-31T23:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2764,
+        "lng": -123.1446
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonders of space to Earth, while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "astronomy",
+      "space",
+      "planetarium show",
+      "show",
+      "immersive",
+      "planetarium",
+      "educational"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/origins-planetarium-show/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/origins-planetarium-show.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:37:58.132Z"
+  },
+  {
+    "id": "space-centre-space-explorers-club-apollo-anniversary-celebration-2025-07-20",
+    "title": "Space Explorers Club: Apollo Anniversary Celebration",
+    "description": "Celebrate the anniversary of the historic Apollo Moon landings with a special edition of our Space Explorers Club, designed for space enthusiasts of all ages. This drop-in event commemorates humanity's greatest journey with activities focused on lunar exploration past, present, and future. Visitors can touch authentic lunar meteorites, build and test lunar landers with different landing mechanisms, participate in simulated moonwalks to understand the challenges faced by Apollo astronauts, and explore detailed models of the Apollo spacecraft. Special presentations throughout the day will highlight Canada's contributions to lunar exploration, including the Canadarm technology and Canadian astronauts involved in upcoming Artemis missions. The Gordon MacMillan Southam Observatory will feature solar telescope viewing during daylight hours (weather permitting). All activities are included with regular admission, and Space Centre members can bring a guest for free on this special day. The celebration culminates with a screening of restored Apollo mission footage in the planetarium and a panel discussion with space experts discussing the legacy of Apollo and the future of human space exploration.\n\nEVENT DETAILS:\nDate: Sunday, July 20, 2025\nTime: 10:00 AM - 5:00 PM\nVenue: H.R. MacMillan Space Centre, 1100 Chestnut St, Vancouver\nPrice: Included with admission ($22-$28)\nTickets: Required, available online through the Space Centre website or at the door\n\nVenue Information: The H.R. MacMillan Space Centre is located in Vanier Park, adjacent to the Museum of Vancouver. The facility includes the Planetarium Star Theatre with its digital projection system, the Cosmic Courtyard hands-on activity area, and the Gordon MacMillan Southam Observatory (open on clear nights). The Space Centre is wheelchair accessible and offers a gift shop with space-themed merchandise and educational items.",
+    "startDate": "2025-07-20T17:00:00.000Z",
+    "endDate": "2025-07-21T00:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2764,
+        "lng": -123.1446
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonders of space to Earth, while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "astronomy",
+      "space",
+      "special event",
+      "history",
+      "moon landing",
+      "special event",
+      "family"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/apollo-anniversary-celebration-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/apollo-anniversary-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:37:58.132Z"
+  },
+  {
+    "id": "space-centre-astronomy-lecture-series-the-future-of-mars-exploration-2025-07-26",
+    "title": "Astronomy Lecture Series: The Future of Mars Exploration",
+    "description": "Join us for an engaging evening lecture featuring Dr. Christine Martinez, planetary geologist and member of NASA's Mars 2025 rover planning team. In this illustrated presentation, Dr. Martinez will discuss the latest discoveries from Mars missions and preview the exciting future of Martian exploration. The talk will cover recent findings from the Perseverance and Curiosity rovers, the successful Mars sample return mission, and plans for human exploration of the Red Planet in the 2030s. Dr. Martinez will share her firsthand experience working on Mars mission planning, including the challenges of identifying landing sites, designing experiments to search for signs of ancient life, and developing technologies that will eventually support human presence on Mars. Following the lecture, audience members will have the opportunity to ask questions and, weather permitting, observe Mars through telescopes set up by local astronomy club members in the plaza outside the Space Centre. This lecture is suitable for adults and interested teens and is part of our ongoing commitment to connecting the public with leading scientists and cutting-edge space research.\n\nEVENT DETAILS:\nDate: Friday, July 25, 2025\nTime: 7:00 PM - 9:00 PM\nVenue: H.R. MacMillan Space Centre, 1100 Chestnut St, Vancouver\nPrice: $18 ($15 for members, $10 for students)\nTickets: Required, available online through the Space Centre website or at the door\n\nVenue Information: The H.R. MacMillan Space Centre is located in Vanier Park, adjacent to the Museum of Vancouver. The facility includes the Planetarium Star Theatre with its digital projection system, the Cosmic Courtyard hands-on activity area, and the Gordon MacMillan Southam Observatory (open on clear nights). The Space Centre is wheelchair accessible and offers a gift shop with space-themed merchandise and educational items.",
+    "startDate": "2025-07-26T02:00:00.000Z",
+    "endDate": "2025-07-26T04:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2764,
+        "lng": -123.1446
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonders of space to Earth, while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "astronomy",
+      "space",
+      "lecture",
+      "talk",
+      "mars",
+      "science",
+      "educational"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/astronomy-lecture-series-mars-exploration-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/07/mars-lecture-series.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:37:58.132Z"
+  }
+]

@@ -1,0 +1,839 @@
+<!DOCTYPE html><html class="js sizes customelements history pointerevents postmessage webgl websockets cssanimations csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox picture srcset webworkers" lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>PROGJECT - Buy Tickets (orangetickets.ca)</title>
+
+  
+  <!-- <meta name="robots" content="noindex, nofollow" /> -->
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:title" content="OrangeTickets.ca">
+  <meta property="og:description" content="Time to rock on! Concert Tickets in Vancouver.">
+  <meta property="og:image" content="https:/orangetickets.ca/admin/img_flayers/logo.jpeg">
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="assets/orangetickets/favico-color.png">
+  <!-- CSS
+	============================================ -->
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/plugins/plugins.css">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+  <!-- Main Style CSS (Please use minify version for better website load performance) -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/custom.css">
+
+  <link rel="stylesheet" href="libraries/Seat-Charts/jquery.seat-charts.css">
+
+</head>
+
+<body>
+
+      <header class="header-area haeder-default  black-logo-version ptb_lg--40 ptb_md--40 ptb_sm--30">
+      <div class="header-wrapper container">
+        <div class="row align-items-center">
+          <!-- Start Header Left -->
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-9 ptb_lg--40 ptb_md--40 ptb_sm--30">
+                <div class="d-none d-lg-block" style="height: 10px;"></div>
+                <div class="logo">
+                                        <a href="/">
+                      <img src="../admin/img_registros/20716-41166189.png" alt="Promoter's Logo">
+                      <!-- <img src='../admin/img_registros/20716-41166189.png' alt="The Invisible Orange logo" /> -->
+                    </a>
+                      <div class="text-center">Powered by: <a href="/"><img width="100" src="../assets/images/logo/orange-draft-logo.png" alt="Orange Tickets logo"></a></div>                    
+                </div>
+              </div>
+                     <!-- Start Header Center -->
+          <div class="col-xl-7 d-none d-xl-block">
+            <nav class="mainmenu__nav ">
+              <!-- Start Mainmanu Nav -->
+              <ul class="primary-menu megamenu-wrapper ">
+                <!--<li>
+                  <a class="mainmenu-size" href="eventos.php">Shows</a>
+                </li>
+                <li>
+                  <a class="mainmenu-size" href="Artistas.php">Artist</a>
+                </li>
+                <li><a class="mainmenu-size" href="Venues.php">Venues</a></li>
+                -->
+                                  <!-- <li>
+                  <a class="mainmenu-size" data-toggle="modal" data-target="#myModal">MIS TICKETS</a>
+                </li>
+                <li>
+                  <a class="mainmenu-size" data-toggle="modal" data-target="#myModal">VENDER TICKETS</a>
+                </li> -->
+                
+              </ul>
+
+              <!-- End Mainmanu Nav -->
+            </nav>
+          </div>
+          <!-- Start Header Right -->
+          <div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-3">
+            <div class="d-flex justify-content-end cart text-right">
+              <div class="buttons">
+                <div class="sn-form-inner">
+                  <div class="single-input">
+
+                                          <a class="login-register-pad boton-login" data-toggle="modal" data-target="#myModal" href="#">Login</a>
+
+                      <a class="login-register-pad boton-login" data-toggle="modal" data-target="#myModal" href="#">Register</a>
+
+                                      </div>
+                </div>
+              </div>
+
+              <a class="hamburger-trigger d-block d-xl-none pl--15" href="#">
+                <i class="fa fa-bars"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Start Header -->
+
+    <!-- Start Hamburger -->
+    <div class="hamburger-area">
+      <div class="btn-close-search">
+        <button>
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <!-- Start Main Menu -->
+      <ul class="menu-primary-menu-1 responsive-manu d-block d-xl-none" id="responsive-manu">
+        <!--
+        <li><a onclick="window.location.href = '/eventos.php';">Events</a></li>
+        <li><a onclick="window.location.href = '/Artistas.php';">Artist</a></li>
+        <li><a onclick="window.location.href = '/Venues.php';">Venues</a></li>
+        -->
+                  <!--
+          <li><a data-toggle="modal" data-target="#myModal">Sell Tickets</a></li>
+          -->
+                          <li><a data-toggle="modal" data-target="#myModal" href="#">Login</a></li>
+          <li><a data-toggle="modal" data-target="#myModal" href="#">Register</a></li>
+              </ul>
+      <!-- End Main Menu -->
+    </div>
+    <!-- End Hamburger -->
+
+    <div class="modal fade-in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog custom-width" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title" id="myModalLabel2">Login</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="login">
+              <form id="FormularioLogin">
+                <input name="enlace" type="hidden" value="/detalles_evento.php?id_evento=1900" id="enlace">
+                <div class="row">
+                  <div class="col-sm-6 pad-20" style="border-right: 1px solid #ded7d7;">
+                    <div class="row">
+                      <div class="col-sm-12 text-center">
+                        <p class="mt5 mb20" id="comprobar">
+                          Do you want to create an account?
+                        </p>
+                      </div>
+                      <div class="col-sm-12">
+                        <br>
+                        <br>
+                        <div class="form-group" style="display:none;">
+                          <a href="https://orangetickets.ca/vendor/fbconfig.php" class="btn btn-success btn-facebook  col-sm-12">Login with Facebook</a>
+                        </div>
+                        <div class="form-group">
+                          <a href="" onclick="return false;" id="CrearCuenta" class="btn btn-success btn-reg col-sm-12">Create Account</a>
+                        </div>
+                        <div class="form-group">
+                          <br>
+                          <br>
+                          <a href="" onclick="return false;" id="PreRegistro" class="btn btn-success col-sm-12" style="background: #f2600f;border-color: #f2600f;display:none;">Continue as Guest</a>
+                        </div>
+                      </div>
+                      <!-- col-sm-6 -->
+                    </div>
+                    <!-- row -->
+                  </div>
+                  <div class="col-sm-6 pad-20">
+                    <div class="row">
+                      <div class="col-sm-12 text-center">
+                        <p class="mt5 mb20" id="comprobar">Login</p>
+                      </div>
+                      <div class="col-sm-12">
+                        <br>
+                        <div class="form-group">
+                          <label class="control-label label-custom">User / Email</label>
+                          <input name="usuario" class="form-control" type="text" id="usuario">
+                        </div>
+                      </div>
+                      <!-- col-sm-6 -->
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label class="control-label label-custom">Password</label>
+                          <input name="pass" class="form-control" type="password" id="pass">
+                        </div>
+                      </div>
+                      <!-- col-sm-6 -->
+                    </div>
+                    <!-- row -->
+                    <div class="row">
+                      <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary" onclick="realizaProceso();return false;">
+                          Login
+                        </button>
+                        <br>
+                        <br>
+                        <div>
+                          <a href="" onclick="return false;" id="RecoverPass" style="color:#1669f9;">Forgot my password</a>
+                        </div>
+                      </div>
+                      <!-- col-sm-6 -->
+                    </div>
+                    <!-- row -->
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div id="RecoverContra" style="display: none;">
+              <div class="row">
+                <div class="col-sm-12 text-center">
+                  <a href="" onclick="return false;" id="BackLogin3" style="color:#1669f9;">Back</a>
+                  <br>
+                  <br>
+                </div>
+                <!-- col-sm-6 -->
+                <div class="col-sm-12 text-center">
+                  <br>
+                  <div id="MensajeRecuperar"></div>
+                  <br>
+                  <div id="IngresarCorreo">
+                    <h4 style="margin-bottom: 10px">
+                      Please provide the email for your OrangeTickets account:
+                    </h4>
+                    <input name="correo" id="RecoverCorreo" class="form-control" style="width: 300px;margin: 0 auto;">
+                    <br>
+                    <button type="button" class="btn btn-primary" id="EnviarPass">
+                      Send Reset Link
+                    </button>
+                  </div>
+                  <br>
+                  <br>
+                </div>
+                <!-- col-sm-6 -->
+              </div>
+              <!-- row -->
+            </div>
+
+            <!-- Crear cuenta  -->
+            <div id="registro" style="display: none;">
+              <form id="formulario">
+                <div class="text-center">
+                  <p id="mensaje"></p>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 text-center">
+                    <!-- <a href="" onclick="return false;" id="BackLogin" style="color:#1669f9;">Back</a> -->
+                    <button onclick="return false;" id="BackLogin" class="btn btn-primary">
+                      Back
+                    </button>
+                    <br>
+                    <br>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Name<span class="AsteriscoRojo">**</span></label>
+                      <input name="nombre" class="form-control" type="text" id="nombre">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Last Name<span class="AsteriscoRojo">**</span></label>
+                      <input name="apellidos" class="form-control" type="text" id="apellidos">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Email<span class="AsteriscoRojo">**</span></label>
+                      <input name="correo" class="form-control" type="text" id="correo">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Password<span class="AsteriscoRojo">**</span></label>
+                      <input name="pass" class="form-control" type="password" id="password">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Phone<span class="AsteriscoRojo">**</span></label>
+                      <input placeholder="10 digits" name="telefono" class="form-control" type="text" id="telefono" maxlength="10">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Postal Code<span class="AsteriscoRojo">**</span></label>
+                      <input name="postal" class="form-control" type="text" id="postal">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="control-label">Country<span class="AsteriscoRojo">**</span></label>
+                      <select name="pais" class="countries form-control" id="countryId">
+                        <option value="">Please select...</option>
+                        <option value="Canada">Canada</option>
+                        <option value="USA">USA</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="control-label">Provice or State<span class="AsteriscoRojo">**</span></label>
+                      <input name="estado" class="form-control" type="text" id="stateId">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="control-label">City<span class="AsteriscoRojo">**</span></label>
+                      <input name="ciudad" class="form-control" type="text" id="cityId">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+
+
+                <!-- OLD: guardarRegistro.php -->
+                <!-- NEW: crearUsuario.php -->
+                <div class="row" style="margin-top: 10px;">
+                  <div class="col-sm-12 text-center">
+                    <!-- DEPRECATED: onclick="RealizarRegistro();return false;" -->
+                    <button onclick="RealizarRegistroPOST();return false;" class="btn btn-primary">
+                      Register
+                    </button>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+              </form>
+            </div>
+
+            <div id="registro2" style="display: none;">
+              <form id="formulario">
+                <div class="text-center">
+                  <p id="mensaje2"></p>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 text-center">
+                    <a href="" onclick="return false;" id="BackLogin4" style="color:#1669f9;">Back</a>
+                    <br>
+                    <br>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Name<span class="AsteriscoRojo">**</span></label>
+                      <input name="nombre" class="form-control" type="text" id="nombre2">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Last Name<span class="AsteriscoRojo">**</span></label>
+                      <input name="apellidos" class="form-control" type="text" id="apellidos2">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Email<span class="AsteriscoRojo">**</span></label>
+                      <input name="correo" class="form-control" type="text" id="correo2">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label">Password<span class="AsteriscoRojo">**</span></label>
+                      <input name="pass" class="form-control" type="password" id="password2">
+                    </div>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+
+                <div class="row" style="margin-top: 10px;">
+                  <div class="col-sm-12 text-center">
+                    <button onclick="RealizarRegistro2();return false;" class="btn btn-primary" style="background: #f2600f;border-color: #f2600f;">
+                      Next
+                    </button>
+                  </div>
+                  <!-- col-sm-6 -->
+                </div>
+                <!-- row -->
+              </form>
+            </div>
+
+
+
+            <div id="Aviso" style="display: none;">
+              <div class="row">
+                <div class="col-sm-12 text-center">
+                  <br>
+                  <h3>
+                    You are all set, you are one step closer to go to your favorite show!
+                  </h3>
+                  <br>
+                  <button type="button" class="btn btn-primary" id="BackLogin2">
+                    Login
+                  </button>
+                  <br>
+                  <br>
+                </div>
+                <!-- col-sm-6 -->
+              </div>
+              <!-- row -->
+            </div>
+
+            <div id="Aviso2" style="display: none;">
+              <div class="row">
+                <div class="col-sm-12 text-center">
+                  <br>
+                  <h3>
+                    You are all set, you are one step closer to go to your favorite show!
+                  </h3>
+                  <br>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" style="background: #f2600f;border-color: #f2600f;">
+                    Next
+                  </button>
+                  <br>
+                  <br>
+                </div>
+                <!-- col-sm-6 -->
+              </div>
+              <!-- row -->
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>    <div class="main-wrapper">
+
+      <div class="detalles_evento_desktop">
+        <div class="brook-single-product plr--100 plr_lg--100 plr_md--50 plr_sm--20">
+          <div class="single-product-wrapper ptb--60" style="max-width:1170px;margin:auto;">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="single-product-left-side">
+                  <div class="product__details__container">
+
+                    <div class="tab_container big_img_container ">
+                      <div class="big_img tab-pane fade show active detalles_evento_imagen" id="img1" role="tabpanel">
+                        <img src="admin/img_flayers/1900-35153365.jpeg" alt="PROGJECT - The Ultimate Prog Rock Experience">
+                      </div>
+                    </div>
+
+                                        <div class="col-7 descpt-mob">
+                      <div class="inner">
+                        <div class="header">
+                          <div>The Invisible Orange Presents:</div>
+                          <h4 class="heading heading-h4 detalles_evento_title">PROGJECT - The Ultimate Prog Rock Experience                          </h4>
+                        </div>
+                        <div class="detalles-evento-item" style="font-weight: 500!important;">
+                          <div class="row">
+                            <div class="detalles-evento-item-info col-sm-9">
+                              <ul class="row" style="padding:0;margin-bottom:0px;">
+                                <li class="col-sm-5">
+                                  Rickshaw Theatre - 254 East Hastings Street                                  Fri, Jul 18, 2025 - 07:00 PM                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="bk_pra no-mobile" style="border-top: 1px solid #d8d8d8;background: white;padding: 0 38px 38px;">
+                      <p style="font-size:20px;" class="bk_pra no-mobile">
+                        <br>PROGJECT - The Ultimate Prog Rock Experience                        <br>Fri, Jul 18, 2025 - 07:00 PM                      </p>
+                      <a href="/detalles_venue.php?id_venue=1">
+                        <img class="img-venue-desc" src="admin/img_venues/1-48229443.jpeg" alt="Rickshaw Theatre"></a>
+                      <p style="font-size:20px;" class="bk_pra">Venue Information</p>
+                      <p style="font-size:16px;" class="bk_pra">
+                        Rickshaw Theatre                        <br>254 East Hastings Street                        <br>Vancouver,
+                        BC, V6A 1P1                        <br>
+                        <u style="color:blue"><a target="_blank" href="https://maps.google.com/#!q=254 East Hastings Street, Vancouver, BC">
+                            Google Maps</a></u>
+                        <br>Telephone: +1 (604) 681-8915                      </p>
+                      <p style="font-size:20px;" class="bk_pra"><br>Promoter's Information</p>
+                      <p style="font-size:16px;" class="bk_pra">
+                        The Invisible Orange                        <br>Email: support@theinvisibleorange.com                        <br>Telephone: 604-889-9672                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-12 detail-bg-white" style="padding-top:20px">
+                <div class="single-product-details-side">
+                  <div class="product-details">
+                    <div class="col-sm-12">
+
+                      <div class="event-details">
+                        <div>The Invisible Orange Presents:</div>
+                        <div class="header">
+                          <h4 class="heading heading-h4" style="text-transform: uppercase;font-size:25px;">PROGJECT - The Ultimate Prog Rock Experience</h4>
+                        </div>
+                        <div class="detalles-evento-item" style="border-bottom: 1px solid #d8d8d8;">
+                          <div class="row">
+                            <div class="detalles-evento-item-info col-sm-9">
+                              <ul class="row" style="padding:0;">
+                                <li class="col-sm-5">
+                                  <span>Venue</span>
+                                  <span class="location">Rickshaw Theatre<br>254 East Hastings Street</span>
+                                </li>
+
+                                <li class="col-sm-4">
+                                  <span>Date</span>
+                                  Fri, Jul 18, 2025                                </li>
+                                <li class="col-sm-3">
+                                  <span>Time</span>
+                                  07:00 PM                                </li>
+                              </ul>
+                            </div>
+                            <div class="detalles-evento-item-price col-sm-3">
+                                                          </div>
+                          </div>
+                        </div>
+                      </div>
+
+                                              <!-- VENTA DE BOLETOS -->
+                        <div class="bds-l-event__tickets" style="margin-bottom:30px;">
+                          <div class="bds-o-ticket-list">
+
+                            <form action="FormGeneral2.php" method="post">
+                              <input type="hidden" name="id_evento" value="1900">
+                              <ul class="bds-o-ticketList__tickets">
+
+                                                                        <li class="bds-o-ticketList__ticket">
+                                          <div class="bds-m-ticket-item">
+
+                                            
+                                            <div class="bds-m-ticket-item__basic">
+                                              <div class="bds-m-ticket-item__main">
+                                                <div class="bds-m-ticket-item__name">General Admission : Standing room                                                </div>
+                                                <div class="bds-m-ticket-item__price">
+                                                  <span class="">
+                                                    <strong>Total Price: $34.50<br></strong>
+                                                    (Face Value: $28.00, Facility Fee: $2.00, Service Fee: $4.50)                                                  </span>
+                                                </div>
+                                              </div>
+                                              <div class="bds-m-ticket-item__action">
+                                                <input type="hidden" name="ticket_id_1" value="574">
+
+                                                <select name="ticket_qty_1" class="form-select input-qty medium bds-a-input__field bds-a-input__field--ticketSelect" id="edit-qty" size="1" data-ticket-id="5d17f98dd04f8b000406d51a" onchange="chckt_btn()">
+
+                                                  
+                                                    <option value="0" selected="selected">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    
+                                                </select>
+                                              </div>
+                                            </div>
+                                            <div class="bds-m-ticket-item__details">
+                                              <div class="more-info-item">
+                                                <p class="bds-o-moreInfo__description more-info-text" style="color: #777;">
+                                                  Description: Regular ticket                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </li>
+                                                                              <li class="bds-o-ticketList__ticket">
+                                          <div class="bds-m-ticket-item">
+
+                                            
+                                            <div class="bds-m-ticket-item__basic">
+                                              <div class="bds-m-ticket-item__main">
+                                                <div class="bds-m-ticket-item__name">General Admission : VIP Ticket                                                </div>
+                                                <div class="bds-m-ticket-item__price">
+                                                  <span class="">
+                                                    <strong>Total Price: $92.00<br></strong>
+                                                    (Face Value: $78.00, Facility Fee: $2.00, Service Fee: $12.00)                                                  </span>
+                                                </div>
+                                              </div>
+                                              <div class="bds-m-ticket-item__action">
+                                                <input type="hidden" name="ticket_id_2" value="575">
+
+                                                <select name="ticket_qty_2" class="form-select input-qty medium bds-a-input__field bds-a-input__field--ticketSelect" id="edit-qty" size="1" data-ticket-id="5d17f98dd04f8b000406d51a" onchange="chckt_btn()">
+
+                                                  
+                                                    <option value="0" selected="selected">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    
+                                                </select>
+                                              </div>
+                                            </div>
+                                            <div class="bds-m-ticket-item__details">
+                                              <div class="more-info-item">
+                                                <p class="bds-o-moreInfo__description more-info-text" style="color: #777;">
+                                                  Description: General Admission ticket with VIP Package and reserved seat                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </li>
+                                                                    </ul>
+
+                              <input type="hidden" name="tickets_counter" value="2">
+                              <small class="bds-a-alert bds-a-alert--error zero-tickets" style="display:none">You must select tickets to check out.</small>
+                                                            
+                              <div class="bds-l-eventButton" style="text-align: right;">
+                                                                  <input data-toggle="modal" data-target="#myModal" class="bds-a-btn bds-a-btn--full" value="Checkout"></div>
+                                                            </form>
+                          </div>
+                        </div>
+                        <!-- VENTA DE BOLETOS -->
+                    
+                    <div class="description" style="border-top: 1px solid #d8d8d8;">
+                      <p class="bk_pra"><br>
+                        </p><p>The Invisible Orange and Different Stages Radio present:</p><p><b><span style="font-size: 18px;">Progject </span></b>(Mike Keneally, Ryo Okumoto, Pete Griffin, Jonathan Mover, Alessandro Del Vecchio)<br>with special guest Travis Larson (solo, not full band)&nbsp;</p><p><b>VIP Add-on<br></b>The ProgJect VIP Experience includes:</p><ul><li>Attending soundcheck</li><li>Q&amp;A with the band</li><li>Meet/photograph/autograph opportunity</li><li>Pre-show 20% discount on all merch</li><li>An event poster</li><li>Reserve your seat*</li></ul><p>*Reserve your seat at the Theatre: All seats are unassigned and free-for-all, but we will reserve the seat of your preference for the duration of the show: do not worry about losing it when you leave to get a drink or to stand closer to the stage.</p><p><b>ALESSANDRO DEL VECCHIO</b> (Hardline) - Lead Vocals<br><b>RYO OKUMOTO</b> (Spock’s Beard, Asia, Chris Squire) Keyboards<br><b>MIKE KENEALLY</b> (Frank Zappa, Steve Vai, Joe Satriani) - Guitar &amp; Vocals<br><b>PETE GRIFFIN</b> (Zappa Plays Zappa, Edgar Winter) - Bass, Pedals, Guitar, Keys &amp; Vocals<br><b>JONATHAN MOVER</b> (GTR, Marillion, Satriani, The Tubes) - Drums, Percussion, Samples &amp; Vocals</p><p>Look for ProgJect to perform a two-plus hour set of Prog classics &amp; epics such as “The Lamb Lies Down On Broadway”, “The Cinema Show,” “Karn Evil 9”, “Roundabout,” “Long Distance Runaround,” “21st Century Schizoid Man,” “Lark’s Tongues In Aspic”, “Hell’s Bells”, “Xanadu,” “Red Barchetta,”“Have A Cigar,” “Wish You Were Here,” “Solsbury Hill” and “Living In The Past,” to name only a few.</p><p>ProgJect – The Ultimate Prog Rock Expereience is the brainchild of drummer Jonathan Mover and came to fruition out of his childhood love of Prog. “Prog Rock is the reason I play drums,” Mover explains, “but by the time I turned pro, Prog in the classic sense was over. And, although I got to work with some Prog-associated artists–GTR (Steve Hackett and Steve Howe) and Marillion–my career took a decidedly different, though incredibly fortunate path, with artists such as Alice Cooper, Joe Satriani, Aretha Franklin, The Tubes, Shakira, Julian Lennon and others. That being said, I never lost my desire to play the Prog I grew up listening to.”</p><p>He adds: “The idea and inspiration came in 2019 from my getting a last-minute rescue call to play with the Genesis tribute band, The Musical Box. That not only relit my childhood fire and desire, but made me realize: in the tribute world, if there’s an audience for Genesis, and an audience for Pink Floyd, and YES, and Rush, there must be an audience for King Crimson, Gentle Giant, U.K., Bruford, and Jethro Tull, too. So, why not play them all, since I love them all, and assemble a team of extraordinary musicians that feel the same as I? So I did. And they, like me, wanted to play a wide variety of Prog from all our favorite bands, and therefore thought more of the concept of a legacy ‘homage band’, instead of a tribute band.”</p><p>Mover says that “the chemistry and dynamics of ProgJect are amazing” and “we’re all very excited to hit the road again, especially now with Alessandro singing; with his four-and-a-half octave range, there are no limits to what we can cover. We love playing this music so much and know how much prog fans love it too, and now more than ever, since most of our prog heros are either gone, or simply not touring anymore.”</p><p>What is the enduring appeal of Prog? “It’s music that you really listen to, and in some ways, live in,” says Mover. “It’s not music to be played in the background. When you’re into Prog, you’re not only really into listening, but often times, attached to it as well. It’s the same for seeing it played live. It’s more than just a music performance–it’s an experience.”</p>                      <p></p>
+                    </div>
+
+                                        <img class="w-100" src="admin/img_registros/20716-41166189.png" alt="Promoter's Logo">
+                    
+                      <div class="blog-item post-tag clearfix">
+                        <object width="100%" height="350">
+                          <param name="movie" value="https://www.youtube.com/v/Ga4IkBvHzAo&amp;ab_channel">
+                          <embed src="https://www.youtube.com/v/Ga4IkBvHzAo&amp;ab_channel" type="application/x-shockwave-flash" style="width: 100%;height: 270px;">
+                        </object>
+                      </div>
+
+                                        <br>
+
+                                        <br>
+
+                                        </div>
+                    <div class="col-sm-12 descpt-mob" style="border-top: 1px solid #d8d8d8;background: white;padding: 0 38px 38px;">
+                      <p style="font-size:20px;" class="bk_pra no-mobile">
+                        <br>PROGJECT - The Ultimate Prog Rock Experience                        <br>Fri, Jul 18, 2025 - 07:00 PM                      </p>
+                      <a href="/detalles_venue.php?id_venue=1">
+                        <img class="img-venue-desc" src="admin/img_venues/1-48229443.jpeg" alt="Rickshaw Theatre"></a>
+                      <p style="font-size:20px;" class="bk_pra">Venue Information</p>
+                      <p style="font-size:16px;" class="bk_pra">
+                        Rickshaw Theatre                        <br>254 East Hastings Street                        <br>Vancouver,
+                        BC, V6A 1P1                        <br>
+                        <u style="color:blue"><a target="_blank" href="https://maps.google.com/#!q=254 East Hastings Street, Vancouver, BC">
+                            Google Maps</a></u>
+                        <br>Telephone: +1 (604) 681-8915                      </p>
+                      <p style="font-size:20px;" class="bk_pra"><br>Promoter's Information</p>
+                      <p style="font-size:16px;" class="bk_pra">
+                        The Invisible Orange                        <br>Email: support@theinvisibleorange.com                        <br>Telephone: 604-889-9672                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Single Product -->
+      </div>
+    </div>
+
+    <!-- Inicio Footer -->
+        <!-- Start Footer Area -->
+    <footer class="footer-area bg-white plr--100 plr_lg--40 plr_md--30 plr_sm--30 clearfix" data-bg-color="#f4f8fa">
+      <!-- Start Footer Top -->
+      <div class="footer-top ptb--80">
+        <div class="row">
+          <div class="col-custom--5">
+            <div class="footer-widget">
+              <div class="logo">
+                <a href="/">
+                  <img class="little-width" src="../assets/images/logo/orange-draft-logo.png" alt="Logo">
+                </a>
+              </div>
+              <div class="inner">
+                <p>Call us +1 (604) 889-9672</p>
+                <a href="support@theinvisibleorange.com">support@theinvisibleorange.com</a><br>
+              </div>
+            </div>
+          </div>
+          <div class="col-custom--5 mt_mobile--40">
+            <div class="footer-widget">
+              <h5 class="title">Information</h5>
+              <div class="inner">
+                <ul class="ft-link">
+                  <li><a href="/about.php">About Us</a></li>
+                  <li><a href="/privacy.php">Privacy Policy</a></li>
+                  <li><a href="/terms.php">Terms and Conditions</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-custom--5 mt_md--40 mt_sm--40">
+            <div class="footer-widget">
+              <h5 class="title">Suggested Links</h5>
+              <div class="inner">
+                <ul class="ft-link">
+                  <!-- <li><a href="#">Nuestros Clientes</a></li>
+                  <li><a href="#">Gift Certificates</a></li>
+                  <li><a href="#">Afiliados</a></li>
+                  The Invisible Orange ()-->
+                  <li><a href="http://shugert.com.mx/">Shugert Marketing</a></li>
+                  <li><a href="https://www.theinvisibleorange.com">The Invisible Orange</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!--
+          <div class="col-custom--5 mt_md--40 mt_sm--40">
+            <div class="footer-widget">
+              <h5 class="title">Follow us</h5>
+              <div class="inner">
+                <ul class="ft-link">
+                  <li><a href="https://www.facebook.com/">Facebook</a></li>
+                  <li><a href="https://www.instagram.com/">Instagram</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          -->
+        </div>
+      </div>
+      <!-- End Footer Top -->
+      <!-- Start Footer Middle -->
+      <div class="footer-middle"></div>
+      <!-- End Footer Middle -->
+      <!-- Start Copyright -->
+      <div class="copyright-area">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="copyright-inner ptb--25 text-center">
+                <p class="mb--0">
+                  COPYRIGHT © 2022 ORANGETICKETS.CA - All Rigths Reserved
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Copyright -->
+    </footer>
+    <!-- End Footer Area -->    <!-- Fin Footer -->
+
+    <!-- JS
+============================================ -->
+
+    <!-- Modernizer JS -->
+    <script src="assets/js/vendor/modernizr.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="assets/js/vendor/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/plugins/plugins.js"></script>
+    <!-- Vendor & Plugins JS (Please remove the comment from below vendor.min.js & plugins.min.js for better website load performance and remove js files from avobe) -->
+    <!--
+<script src="assets/js/vendor/vendor.min.js"></script>
+<script src="assets/js/plugins/plugins.min.js"></script>
+-->
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script><a id="scrollUp" href="#top" style="display: none; position: fixed; z-index: 2147483647;"><i class="fa fa-angle-up"></i></a>
+    <script src="js/jquery-2.1.4.js"></script>
+    <!-- <script src="js/functions.js"></script> -->
+    <script src="js/VenBo.js"></script>
+    <script src="general.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        $("#submitButton").click(function() {
+          var enteredPassword = $("#EnteredPass").val();
+          var eventPassword = $("#EventPass").val();
+
+          if (enteredPassword === eventPassword) {
+            $("#divTicketPass").hide();
+            $(".bds-m-ticket-item__basic").show();
+            $(".bds-m-ticket-item__details").show();
+          } else {
+            alert("Incorrect password. Please try again.");
+          }
+        });
+      });
+    </script>
+
+    <script>
+      function chckt_btn() {
+        // REMOVER CLASE CHECKOUT-DISABLED
+        document.getElementById('checkout-btn').classList.remove('checkout-disabled');
+        document.getElementById('checkout-btn').disabled = false;
+        document.getElementById('checkout-btn').value = "Checkout"
+
+      }
+
+      function chckt_btn_2() {
+        // REMOVER CLASE CHECKOUT-DISABLED
+        document.getElementById('checkout-btn-2').classList.remove('checkout-disabled');
+        document.getElementById('checkout-btn-2').disabled = false;
+        document.getElementById('checkout-btn-2').value = "Checkout"
+      }
+    </script>
+
+    ;
+      
+
+    
+
+</body></html>

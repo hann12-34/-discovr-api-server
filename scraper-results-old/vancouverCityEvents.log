@@ -1,0 +1,18 @@
+============================================================
+--- Attempting to run scraper: vancouverCityEvents.js ---
+============================================================
+Scraper 'Vancouver City Events' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver City Events...
+Navigating to https://vancouver.ca/parks-recreation-culture/events-calendar.aspx
+Waiting for page to be fully loaded...
+Selector timeout, will continue with what is available
+Extracting events from the page...
+Found 0 events on Vancouver City website
+🎉 Successfully scraped 0 Vancouver City events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver City Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverCityEvents-results.json

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "memories-of-the-sun-cultural-reflections-on-light-memory-renewal-2025-07-15",
+    "title": "Memories of the Sun: Cultural Reflections on Light, Memory + Renewal",
+    "description": "",
+    "startDate": "2025-07-15T18:42:27.787Z",
+    "endDate": "2025-07-15T18:42:27.787Z",
+    "image": "https://moa.ubc.ca/wp-content/uploads/2025/07/Sun-Event-MOA-Photo--150x150.jpg",
+    "venue": {
+      "name": "Museum of Anthropology at UBC",
+      "address": "6393 NW Marine Dr, Vancouver, BC V6T 1Z2",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2695,
+        "lng": -123.2593
+      }
+    },
+    "categories": [
+      "Museum",
+      "Art",
+      "Culture",
+      "Indigenous",
+      "Education"
+    ],
+    "sourceURL": "https://moa.ubc.ca/exhibitions-events/",
+    "lastUpdated": "2025-07-15T18:42:27.789Z"
+  },
+  {
+    "id": "native-youth-program-tours-interpretation-2025-07-15",
+    "title": "Native Youth Program Tours + Interpretation",
+    "description": "",
+    "startDate": "2025-07-15T18:42:27.789Z",
+    "endDate": "2025-07-15T18:42:27.789Z",
+    "image": "https://moa.ubc.ca/wp-content/uploads/2025/07/IMG_3442-150x150.jpeg",
+    "venue": {
+      "name": "Museum of Anthropology at UBC",
+      "address": "6393 NW Marine Dr, Vancouver, BC V6T 1Z2",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2695,
+        "lng": -123.2593
+      }
+    },
+    "categories": [
+      "Museum",
+      "Art",
+      "Culture",
+      "Indigenous",
+      "Education"
+    ],
+    "sourceURL": "https://moa.ubc.ca/exhibitions-events/",
+    "lastUpdated": "2025-07-15T18:42:27.789Z"
+  }
+]

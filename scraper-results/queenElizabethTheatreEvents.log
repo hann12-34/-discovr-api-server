@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: queenElizabethTheatreEvents.js ---
+============================================================
+Scraper 'Queen Elizabeth Theatre Events' instantiated successfully. Running scrape()...
+Starting Queen Elizabeth Theatre Events scraper...
+Navigating to https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/events/
+Extracting Queen Elizabeth Theatre events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Queen Elizabeth Theatre events
+Queen Elizabeth Theatre Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Queen Elizabeth Theatre Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/queenElizabethTheatreEvents-results.json

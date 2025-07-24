@@ -1,0 +1,194 @@
+{
+  "timestamp": "2025-07-15T15:55:39.103Z",
+  "directory": "/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver",
+  "summary": {
+    "total": 20,
+    "successful": 5,
+    "failed": 15,
+    "eventsTotal": 164
+  },
+  "scrapers": [
+    {
+      "file": "commodoreBallroomEvents.js",
+      "startTime": "2025-07-15T15:55:39.103Z",
+      "endTime": "2025-07-15T15:55:39.676Z",
+      "duration": 573,
+      "success": true,
+      "events": 74,
+      "error": null
+    },
+    {
+      "file": "foxCabaret.js",
+      "startTime": "2025-07-15T15:55:40.676Z",
+      "endTime": "2025-07-15T15:55:40.677Z",
+      "duration": 1,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "fortuneSoundClub.js",
+      "startTime": "2025-07-15T15:55:41.678Z",
+      "endTime": "2025-07-15T15:55:41.679Z",
+      "duration": 1,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "orpheumTheatre.js",
+      "startTime": "2025-07-15T15:55:42.678Z",
+      "endTime": "2025-07-15T15:55:42.679Z",
+      "duration": 1,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "rickshawTheatreEvents.js",
+      "startTime": "2025-07-15T15:55:43.680Z",
+      "endTime": "2025-07-15T15:55:46.931Z",
+      "duration": 3251,
+      "success": true,
+      "events": 38,
+      "error": null
+    },
+    {
+      "file": "queenElizabethTheatre.js",
+      "startTime": "2025-07-15T15:55:47.953Z",
+      "endTime": "2025-07-15T15:55:47.953Z",
+      "duration": 0,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "celebritiesNightclub.js",
+      "startTime": "2025-07-15T15:55:48.954Z",
+      "endTime": "2025-07-15T15:55:48.954Z",
+      "duration": 0,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "barNoneClub.js",
+      "startTime": "2025-07-15T15:55:49.954Z",
+      "endTime": "2025-07-15T15:55:49.955Z",
+      "duration": 1,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "vogueTheatre.js",
+      "startTime": "2025-07-15T15:55:50.956Z",
+      "endTime": "2025-07-15T15:55:55.765Z",
+      "duration": 4809,
+      "success": true,
+      "events": 38,
+      "error": null
+    },
+    {
+      "file": "rogersArenaEvents.js",
+      "startTime": "2025-07-15T15:55:56.767Z",
+      "endTime": "2025-07-15T15:55:56.767Z",
+      "duration": 0,
+      "success": false,
+      "events": 0,
+      "error": "Scraper file not found"
+    },
+    {
+      "file": "theCultchEvents.js",
+      "startTime": "2025-07-15T15:55:57.768Z",
+      "endTime": "2025-07-15T15:55:57.770Z",
+      "duration": 2,
+      "success": false,
+      "events": 0,
+      "error": "TheCultchEvents is not a constructor"
+    },
+    {
+      "file": "thePearlEvents.js",
+      "startTime": "2025-07-15T15:55:58.772Z",
+      "endTime": "2025-07-15T15:55:58.774Z",
+      "duration": 2,
+      "success": false,
+      "events": 0,
+      "error": "ThePearlEvents is not a constructor"
+    },
+    {
+      "file": "theRoxyEvents.js",
+      "startTime": "2025-07-15T15:55:59.774Z",
+      "endTime": "2025-07-15T15:55:59.776Z",
+      "duration": 2,
+      "success": false,
+      "events": 0,
+      "error": "TheRoxyEvents is not a constructor"
+    },
+    {
+      "file": "biltmoreCabaret.js",
+      "startTime": "2025-07-15T15:56:00.776Z",
+      "endTime": "2025-07-15T15:56:00.776Z",
+      "duration": 0,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "harbourEventCentre.js",
+      "startTime": "2025-07-15T15:56:01.776Z",
+      "endTime": "2025-07-15T15:56:01.777Z",
+      "duration": 1,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "gastownSundaySet.js",
+      "startTime": "2025-07-15T15:56:02.777Z",
+      "endTime": "2025-07-15T15:56:02.777Z",
+      "duration": 0,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "startTime": "2025-07-15T15:56:03.779Z",
+      "endTime": "2025-07-15T15:56:03.780Z",
+      "duration": 1,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "startTime": "2025-07-15T15:56:04.781Z",
+      "endTime": "2025-07-15T15:56:04.782Z",
+      "duration": 1,
+      "success": false,
+      "events": 0,
+      "error": "scraper.scrape is not a function"
+    },
+    {
+      "file": "vancouverArtGallery.js",
+      "startTime": "2025-07-15T15:56:05.786Z",
+      "endTime": "2025-07-15T15:56:05.787Z",
+      "duration": 1,
+      "success": true,
+      "events": 7,
+      "error": null
+    },
+    {
+      "file": "vancouverJazzFestival.js",
+      "startTime": "2025-07-15T15:56:06.788Z",
+      "endTime": "2025-07-15T15:56:06.789Z",
+      "duration": 1,
+      "success": true,
+      "events": 7,
+      "error": null
+    }
+  ],
+  "endTime": "2025-07-15T15:56:07.789Z",
+  "duration": 28686
+}

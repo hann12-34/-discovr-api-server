@@ -1,0 +1,1032 @@
+{
+  "timestamp": "2025-07-20T21:23:52.512Z",
+  "summary": {
+    "total": 146,
+    "valid": 18,
+    "invalid": 128
+  },
+  "scrapers": [
+    {
+      "file": "anthropologyMuseumEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "arcDiningEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "barNoneClub.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "bardOnTheBeach.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "bardOnTheBeachEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "bcPlaceEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "bcPlaceStadium.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "billReidGalleryEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "biltmoreCabaret.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "biltmoreCabaretEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "broadwayVancouverEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "burnabyShadboltCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "burnabyVillageMuseum.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "capilanoSuspensionBridge.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "carnavalDelSol.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "celebritiesNightclub.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "chanCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "chanCentreEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "cherryBlossomFestEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "chineseGardenEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "coastalJazzFestival.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "commodoreBallroomEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "contemporaryArtGalleryEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "coquitlamCentreForTheArts.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "cultureCrawlEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "danceFestivalEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "doxaFilmFestivalEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "dragonBoatFestivalEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "festivalDEteEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "folkFestEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "fortuneSoundClub.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "fortuneSoundClubBridge.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "foxCabaret.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "fringeFestivalEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "gastownGrandPrixEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "gastownSundaySet.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "granvilleIsland.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "granvilleIslandEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "granvilleIslandMarket.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "granvilleMarketEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "harbourEventCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "helloBCEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "helloBCEventsAdditional.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "helloBCEventsScraper.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "helloGoodbyeBarEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "hrMacMillanSpaceCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "hrMacMillanSpaceCentreEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "imperialTheatre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "improvCentreEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "index.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Cannot find module './rogersArenaEventsImproved'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/validate_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/Import files/import-all-vancouver-events.js"
+    },
+    {
+      "file": "irishHeather.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "japanMarketEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "joffreLakesVisitorCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "junctionPublicMarket.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "khatsahlanoEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "kitsilanoShowboat.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "laowaiBar.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "levelsNightclub.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "malonesEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "mansionClubEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "metropolisEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "moaUbcEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "museumOfAnthropology.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "museumOfAnthropologyEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "museumOfVancouver.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "museumOfVancouverEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "musqueamEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "nanaimoConferenceCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "newWestminsterMasseyTheatre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "northVancouverRecCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "orpheumEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "orpheumTheatre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "orpheumTheatreEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "penthouseNightclubEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "pneFair.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "pneSummerNightConcerts.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "polygonGallery.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "queenElizabethTheatreEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "queerArtsFestivalEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "queerFilmFestivalEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "redRoom.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "redRoomEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "redRoomEvents_new.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "redRoom_OLD.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "richmondNightMarket.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "richmondOlympicOval.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "rickshawTheatreEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "riverRockCasinoResort.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "rogersArenaEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "rogersArenaScraperAdapter.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "roxyEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "runToEndEndoEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "scienceWorld.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "scienceWorldVancouverEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "scrape-celebration-of-light.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "scrape-todocanada-vancouver-events.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "scrape-vancouver-folk-music-festival.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "scrape-vancouver-international-jazz-festival.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "shipyardsNightMarket.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "spaceCenter.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "squamishAdventureCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "squamishBeerFestival.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "stanleyPark.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "steamworksBrewing.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "steamworksBrewingEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "summerCinemaEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "surreyArtsCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "theCentreVancouver.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "theCultchEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "theLivingRoomEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "thePearlEvents.js",
+      "valid": true,
+      "hasInstance": true,
+      "hasScrapeMethod": true,
+      "error": null
+    },
+    {
+      "file": "theatreUnderTheStars.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "theatreUnderTheStarsEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "tourismVancouverEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "twelveWestEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "ubcBotanicalGardenEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverAquarium.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverAquariumEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverArtAndLeisure.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverArtGallery.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverArtGalleryEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverAsianFilmFestivalEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCityEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCivicTheatres.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverConventionCentreEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFolkFest.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFringe.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverInternationalFilmFestival.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverJazzFestival.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverMaritimeMuseumEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverMysteriesEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverPride.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSymphony.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSymphonyEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "veganMarketEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "venueNightclub.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "victoriaConferenceCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "victoriaRoyalTheatre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vogueTheatre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vsffEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "westVancouverCommunityEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "whistlerVillageConferenceCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "wiseHall.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "yaletownJazz.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    }
+  ]
+}

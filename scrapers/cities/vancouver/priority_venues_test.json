@@ -1,0 +1,133 @@
+{
+  "timestamp": "2025-07-15T03:20:07.566Z",
+  "summary": {
+    "total": 11,
+    "available": 10,
+    "working": 8,
+    "failed": 2,
+    "successRate": 80
+  },
+  "details": [
+    {
+      "venue": "Commodore Ballroom",
+      "url": "https://www.commodoreballroom.com/shows",
+      "scraperFile": "commodoreBallroomEvents.js",
+      "scraperExists": true,
+      "hasScrapingFunction": false,
+      "success": false,
+      "events": 0,
+      "error": "Import error: CommodoreBallroomEvents is not a constructor",
+      "duration": 0
+    },
+    {
+      "venue": "Fox Cabaret",
+      "url": "https://www.foxcabaret.com/monthly-calendar",
+      "scraperFile": "foxCabaret.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 17,
+      "error": null,
+      "duration": 869
+    },
+    {
+      "venue": "Fortune Sound Club",
+      "url": "https://www.fortunesoundclub.com/events",
+      "scraperFile": "fortuneSoundClub.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 27,
+      "error": null,
+      "duration": 782
+    },
+    {
+      "venue": "Orpheum Theatre",
+      "url": "https://vancouvercivictheatres.com/events/",
+      "scraperFile": "orpheumTheatre.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 7,
+      "error": null,
+      "duration": 40
+    },
+    {
+      "venue": "The Rickshaw Theatre",
+      "url": "https://www.rickshawtheatre.com/",
+      "scraperFile": "rickshawTheatreEvents.js",
+      "scraperExists": true,
+      "hasScrapingFunction": false,
+      "success": false,
+      "events": 0,
+      "error": "Import error: RickshawTheatreEvents is not a constructor",
+      "duration": 0
+    },
+    {
+      "venue": "Rogers Arena",
+      "url": "https://www.rogersarena.com/",
+      "scraperFile": "rogersArena.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 0,
+      "error": null,
+      "duration": 99
+    },
+    {
+      "venue": "The Vogue Theatre",
+      "url": "https://voguetheatre.com/events",
+      "scraperFile": "vogueTheatre.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 0,
+      "error": null,
+      "duration": 531
+    },
+    {
+      "venue": "Queen Elizabeth Theatre",
+      "url": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/events",
+      "scraperFile": "queenElizabethTheatre.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 10,
+      "error": null,
+      "duration": 2
+    },
+    {
+      "venue": "Celebrities Nightclub",
+      "url": "https://www.celebritiesnightclub.com/",
+      "scraperFile": "celebritiesNightclub.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 5,
+      "error": null,
+      "duration": 3
+    },
+    {
+      "venue": "Bar None Club",
+      "url": "https://www.barnoneclub.com/",
+      "scraperFile": "barNoneClub.js",
+      "scraperExists": true,
+      "hasScrapingFunction": true,
+      "success": true,
+      "events": 16,
+      "error": null,
+      "duration": 294
+    },
+    {
+      "venue": "The Roxy",
+      "url": "https://www.roxyvan.com/events",
+      "scraperFile": null,
+      "scraperExists": false,
+      "hasScrapingFunction": false,
+      "success": false,
+      "events": 0,
+      "error": "No scraper file defined",
+      "duration": 0
+    }
+  ]
+}

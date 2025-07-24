@@ -1,0 +1,266 @@
+[
+  {
+    "id": "vancouver-aquarium-ocean-after-hours-2025-07-12",
+    "title": "Ocean After Hours",
+    "description": "Experience the Vancouver Aquarium in a whole new light at our adults-only evening event. Ocean After Hours transforms the aquarium into a sophisticated venue with themed cocktails, live music, and special animal presentations. Explore the galleries without crowds, enjoy sustainable seafood canapés from local chefs, and engage with marine educators stationed throughout the exhibits. Each event features a different ocean conservation theme with guest speakers and interactive displays.\n\nEVENT DETAILS:\nDate: Friday, July 11, 2025\nTime: 7:00 PM - 11:00 PM\nRecurrence: Monthly, second Friday\nPrice: $45 general, $35 members\nAge Restriction: 19+\nTickets: Required, please book in advance\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+    "startDate": "2025-07-12T02:00:00.000Z",
+    "endDate": "2025-07-12T06:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Aquarium",
+      "id": "vancouver-aquarium",
+      "address": "845 Avison Way",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6G 3E2",
+      "coordinates": {
+        "lat": 49.3004,
+        "lng": -123.1309
+      },
+      "websiteUrl": "https://www.vanaqua.org/",
+      "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+    },
+    "category": "attraction",
+    "categories": [
+      "aquarium",
+      "marine life",
+      "education",
+      "adults",
+      "nightlife",
+      "social",
+      "19+",
+      "evening event"
+    ],
+    "sourceURL": "https://www.vanaqua.org/",
+    "officialWebsite": "https://www.vanaqua.org/visit/events/ocean-after-hours",
+    "image": "https://www.vanaqua.org/wp-content/uploads/2025/06/ocean-after-hours.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:49:28.530Z"
+  },
+  {
+    "id": "vancouver-aquarium-marine-conservation-workshop-protecting-our-oceans-2025-07-19",
+    "title": "Marine Conservation Workshop: Protecting Our Oceans",
+    "description": "Join marine biologists and conservation experts for an in-depth workshop on ocean protection. Participants will learn about current threats facing marine ecosystems, innovative conservation techniques, and practical actions to reduce their environmental impact. The workshop includes hands-on activities with marine specimens, a behind-the-scenes tour of the Aquarium's research facilities, and collaborative problem-solving sessions focused on real-world conservation challenges.\n\nEVENT DETAILS:\nDate: Saturday, July 19, 2025\nTime: 10:00 AM - 3:00 PM\nPrice: $75 general, $60 members (includes lunch)\nTickets: Required, please book in advance\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+    "startDate": "2025-07-19T17:00:00.000Z",
+    "endDate": "2025-07-19T22:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Aquarium",
+      "id": "vancouver-aquarium",
+      "address": "845 Avison Way",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6G 3E2",
+      "coordinates": {
+        "lat": 49.3004,
+        "lng": -123.1309
+      },
+      "websiteUrl": "https://www.vanaqua.org/",
+      "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+    },
+    "category": "attraction",
+    "categories": [
+      "aquarium",
+      "marine life",
+      "education",
+      "educational",
+      "workshop",
+      "conservation",
+      "learning"
+    ],
+    "sourceURL": "https://www.vanaqua.org/",
+    "officialWebsite": "https://www.vanaqua.org/visit/events/marine-conservation-workshop",
+    "image": "https://www.vanaqua.org/wp-content/uploads/2025/06/conservation-workshop.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:49:28.530Z"
+  },
+  {
+    "id": "vancouver-aquarium-world-oceans-day-celebration-2025-07-26",
+    "title": "World Oceans Day Celebration",
+    "description": "Celebrate World Oceans Day at the Vancouver Aquarium with a day full of special activities highlighting ocean conservation. The event features interactive exhibits on plastic pollution, sustainable seafood choices, and climate change impacts on marine life. Join beach clean-up demonstrations, watch special dive shows with conservation messages, participate in citizen science projects, and meet local environmental organizations. All activities are included with regular admission.\n\nEVENT DETAILS:\nDate: Saturday, July 26, 2025\nTime: 10:00 AM - 5:00 PM\nPrice: Included with regular admission\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+    "startDate": "2025-07-26T17:00:00.000Z",
+    "endDate": "2025-07-27T00:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Aquarium",
+      "id": "vancouver-aquarium",
+      "address": "845 Avison Way",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6G 3E2",
+      "coordinates": {
+        "lat": 49.3004,
+        "lng": -123.1309
+      },
+      "websiteUrl": "https://www.vanaqua.org/",
+      "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+    },
+    "category": "attraction",
+    "categories": [
+      "aquarium",
+      "marine life",
+      "education",
+      "special event",
+      "celebration",
+      "conservation",
+      "family-friendly"
+    ],
+    "sourceURL": "https://www.vanaqua.org/",
+    "officialWebsite": "https://www.vanaqua.org/visit/events/world-oceans-day",
+    "image": "https://www.vanaqua.org/wp-content/uploads/2025/06/world-oceans-day.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:49:28.530Z"
+  },
+  {
+    "id": "vancouver-aquarium-tiny-bubbles-preschool-program-2025-08-05",
+    "title": "Tiny Bubbles: Preschool Program",
+    "description": "Designed specifically for children ages 3-5, Tiny Bubbles is an engaging educational program that introduces young children to marine life through storytelling, puppet shows, crafts, and up-close animal encounters. Each session focuses on a different ocean theme, encouraging curiosity and wonder about aquatic creatures. Children will create ocean-themed art projects, participate in movement activities that mimic marine animals, and develop early science skills through guided observation.\n\nEVENT DETAILS:\nDate: Tuesday, August 5, 2025\nTime: 9:30 AM - 11:00 AM\nRecurrence: Weekly on Tuesdays\nPrice: $20 per child (accompanying adult free)\nTickets: Required, please book in advance\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+    "startDate": "2025-08-05T16:30:00.000Z",
+    "endDate": "2025-08-05T18:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Aquarium",
+      "id": "vancouver-aquarium",
+      "address": "845 Avison Way",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6G 3E2",
+      "coordinates": {
+        "lat": 49.3004,
+        "lng": -123.1309
+      },
+      "websiteUrl": "https://www.vanaqua.org/",
+      "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+    },
+    "category": "attraction",
+    "categories": [
+      "aquarium",
+      "marine life",
+      "education",
+      "children",
+      "kids",
+      "preschool",
+      "family",
+      "learning"
+    ],
+    "sourceURL": "https://www.vanaqua.org/",
+    "officialWebsite": "https://www.vanaqua.org/visit/events/tiny-bubbles",
+    "image": "https://www.vanaqua.org/wp-content/uploads/2025/07/tiny-bubbles.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:49:28.531Z"
+  },
+  {
+    "id": "vancouver-aquarium-sleep-with-the-sharks-family-overnight-adventure-2025-08-16",
+    "title": "Sleep with the Sharks: Family Overnight Adventure",
+    "description": "Experience the magic of the Vancouver Aquarium after dark during this unforgettable family overnight adventure. Participants enjoy exclusive after-hours access to the galleries, special presentations by marine educators, and the unique opportunity to sleep beside their favorite exhibits. The program includes evening snacks, morning breakfast, a special nighttime flashlight tour, animal encounters, and interactive marine activities. This popular program creates lasting memories for families with children aged 5-12.\n\nEVENT DETAILS:\nStart: Friday, August 15, 2025 at 7:00 PM\nEnd: Saturday, August 16, 2025 at 9:00 AM\nPrice: $120 per person\nTickets: Required, please book in advance\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+    "startDate": "2025-08-16T02:00:00.000Z",
+    "endDate": "2025-08-16T16:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Aquarium",
+      "id": "vancouver-aquarium",
+      "address": "845 Avison Way",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6G 3E2",
+      "coordinates": {
+        "lat": 49.3004,
+        "lng": -123.1309
+      },
+      "websiteUrl": "https://www.vanaqua.org/",
+      "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+    },
+    "category": "attraction",
+    "categories": [
+      "aquarium",
+      "marine life",
+      "education",
+      "family",
+      "family",
+      "overnight",
+      "children",
+      "sleepover",
+      "special experience"
+    ],
+    "sourceURL": "https://www.vanaqua.org/",
+    "officialWebsite": "https://www.vanaqua.org/visit/events/sleep-with-sharks",
+    "image": "https://www.vanaqua.org/wp-content/uploads/2025/07/sleep-with-sharks.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:49:28.531Z"
+  },
+  {
+    "id": "vancouver-aquarium-sustainable-seafood-symposium-2025-08-23",
+    "title": "Sustainable Seafood Symposium",
+    "description": "Join leading chefs, marine scientists, and sustainable fishing advocates for a day focused on ocean-friendly seafood choices. This symposium includes panel discussions on aquaculture innovations, wild fishery management, and consumer choices that support healthy oceans. Participants will enjoy sustainable seafood tastings prepared by prominent Vancouver chefs, learn practical tips for making environmentally responsible seafood choices, and receive resources for continued education on this important topic.\n\nEVENT DETAILS:\nDate: Saturday, August 23, 2025\nTime: 11:00 AM - 4:00 PM\nPrice: $85 general, $70 members (includes tastings)\nTickets: Required, please book in advance\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+    "startDate": "2025-08-23T18:00:00.000Z",
+    "endDate": "2025-08-23T23:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Aquarium",
+      "id": "vancouver-aquarium",
+      "address": "845 Avison Way",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6G 3E2",
+      "coordinates": {
+        "lat": 49.3004,
+        "lng": -123.1309
+      },
+      "websiteUrl": "https://www.vanaqua.org/",
+      "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+    },
+    "category": "attraction",
+    "categories": [
+      "aquarium",
+      "marine life",
+      "education",
+      "symposium",
+      "food",
+      "sustainability",
+      "culinary",
+      "conservation"
+    ],
+    "sourceURL": "https://www.vanaqua.org/",
+    "officialWebsite": "https://www.vanaqua.org/visit/events/sustainable-seafood-symposium",
+    "image": "https://www.vanaqua.org/wp-content/uploads/2025/07/sustainable-seafood.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:49:28.531Z"
+  },
+  {
+    "id": "vancouver-aquarium-behind-the-scenes-marine-mammal-care-2025-08-30",
+    "title": "Behind the Scenes: Marine Mammal Care",
+    "description": "Gain exclusive access to the Vancouver Aquarium's marine mammal facilities in this special behind-the-scenes tour. Participants will meet the dedicated animal care team and learn about the specialized care provided to sea otters, seals, sea lions, and other marine mammals. The tour covers animal nutrition, veterinary care, training techniques, and enrichment activities. You'll observe a training session up-close and learn about the rescue and rehabilitation work conducted by the Marine Mammal Rescue Centre.\n\nEVENT DETAILS:\nDate: Saturday, August 30, 2025\nTime: 1:00 PM - 3:00 PM\nRecurrence: Last Saturday of each month\nPrice: $60 general, $50 members\nTickets: Required, please book in advance\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+    "startDate": "2025-08-30T20:00:00.000Z",
+    "endDate": "2025-08-30T22:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Aquarium",
+      "id": "vancouver-aquarium",
+      "address": "845 Avison Way",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6G 3E2",
+      "coordinates": {
+        "lat": 49.3004,
+        "lng": -123.1309
+      },
+      "websiteUrl": "https://www.vanaqua.org/",
+      "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+    },
+    "category": "attraction",
+    "categories": [
+      "aquarium",
+      "marine life",
+      "education",
+      "tour",
+      "behind-the-scenes",
+      "exclusive",
+      "animal care"
+    ],
+    "sourceURL": "https://www.vanaqua.org/",
+    "officialWebsite": "https://www.vanaqua.org/visit/events/behind-scenes-marine-mammals",
+    "image": "https://www.vanaqua.org/wp-content/uploads/2025/07/behind-scenes-mammals.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:49:28.531Z"
+  }
+]

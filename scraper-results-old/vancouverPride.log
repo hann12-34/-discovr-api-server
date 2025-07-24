@@ -1,0 +1,43 @@
+============================================================
+--- Attempting to run scraper: vancouverPride.js ---
+============================================================
+Scraper 'Vancouver Pride Festival' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Pride Festival scraper...
+✅ Added event: Pride Kick-Off Party on Monday, July 28, 2025
+✅ Added event: Pride Youth Dance on Wednesday, July 30, 2025
+✅ Added event: Vancouver Pride Parade on Sunday, August 3, 2025
+✅ Added event: Pride Festival at Sunset Beach on Sunday, August 3, 2025
+✅ Added event: Pride Art Walk on Friday, August 1, 2025
+✅ Added event: Pride Night at the Vancouver Aquarium on Thursday, July 31, 2025
+🏳️‍🌈 Successfully created 6 Vancouver Pride Festival events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Pride Festival' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vancouver-pride-pride-kick-off-party-2025-07-29",
+  "title": "Pride Kick-Off Party",
+  "description": "Launch into Pride Week at the official Pride Kick-Off Party! This celebration brings together community members, allies, performers, and dignitaries to mark the beginning of Vancouver Pride festivities. The event features speeches from community leaders, performances by local LGBTQ2S+ artists, and the raising of the Pride and Trans flags. Join us for an evening of celebration, connection, and community as we kick off Pride Week 2025.\n\nEVENT DETAILS:\nDate: Monday, July 28, 2025\nTime: 7:00 PM - 10:00 PM\nLocation: Jim Deva Plaza, Vancouver\nPrice: Free\n\nThis event is part of the Vancouver Pride Festival 2025. For more information about this and other Pride events, please visit https://www.vancouverpride.ca/",
+  "startDate": "2025-07-29T02:00:00.000Z",
+  "endDate": "2025-07-29T05:00:00.000Z",
+  "category": "festival",
+  "categories": [
+    "pride",
+    "lgbtq+",
+    "festival",
+    "community",
+    "celebration",
+    "party",
+    "dance",
+    "social",
+    "nightlife"
+  ],
+  "sourceURL": "https://www.vancouverpride.ca/",
+  "officialWebsite": "https://www.vancouverpride.ca/events/kick-off-party/",
+  "image": "https://www.vancouverpride.ca/wp-content/uploads/2025/05/kick-off-2025.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:26:23.550Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverPride-results.json

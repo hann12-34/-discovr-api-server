@@ -1,0 +1,24 @@
+============================================================
+--- Attempting to run scraper: helloBCEventsScraper.js ---
+============================================================
+Scraper 'HelloBC Events' instantiated successfully. Running scrape()...
+🔍 Scraping events from HelloBC Events using Puppeteer...
+Navigating to https://www.hellobc.com/things-to-do/events/
+
+------------------------------------------------------------
+✅ Scraper 'HelloBC Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/helloBCEventsScraper-results.json
+
+STDERR:
+❌ Error scraping HelloBC Events: TimeoutError: Navigation timeout of 60000 ms exceeded
+    at new Deferred (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/util/Deferred.js:60:34)
+    at Deferred.create (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/util/Deferred.js:21:16)
+    at new LifecycleWatcher (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/LifecycleWatcher.js:69:60)
+    at CdpFrame.goto (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Frame.js:149:29)
+    at CdpFrame.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/util/decorators.js:109:27)
+    at CdpPage.goto (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/api/Page.js:574:43)
+    at HelloBCEventsScraper.scrape (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/helloBCEventsScraper.js:178:18)
+    at async runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:40:20)

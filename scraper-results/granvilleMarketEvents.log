@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: granvilleMarketEvents.js ---
+============================================================
+Scraper 'Granville Island Public Market Events' instantiated successfully. Running scrape()...
+Starting Granville Island Public Market Events scraper...
+Navigating to https://granvilleisland.com/events-calendar
+Extracting Granville Market events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Granville Market events
+Granville Island Public Market Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Granville Island Public Market Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/granvilleMarketEvents-results.json

@@ -1,0 +1,33 @@
+============================================================
+--- Attempting to run scraper: helloBCEvents.js ---
+============================================================
+Scraper 'HelloBC Events' instantiated successfully. Running scrape()...
+🔍 Starting HelloBC Events scraper...
+Fetching events from HelloBC website...
+Found event: Music on the Patio at https://hestercreek.com/events/live-music/
+Found event: Dine with Us - Intimate Dinner Series at https://www.maverickwine.ca/events/
+Found event: Bubble Fun with That Bubble Guy at Malahat SkyWalk at https://malahatskywalk.com/connect/events/that-bubble-guy/
+Found event: The Raptors at Malahat Skywalk at https://malahatskywalk.com/connect/events/the-raptors/
+Found event: Summer SkyWalk Music Series | Live Music at Malahat SkyWalk at https://malahatskywalk.com/connect/events/summer-skywalk-music-series/
+Found event: Yoga At New Heights at Malahat SkyWalk at https://malahatskywalk.com/connect/events/morning-skyoga/
+Found 6 event links on the main page
+Fetching details for event: https://hestercreek.com/events/live-music/
+Fetching details for event: https://www.maverickwine.ca/events/
+Fetching details for event: https://malahatskywalk.com/connect/events/that-bubble-guy/
+Fetching details for event: https://malahatskywalk.com/connect/events/the-raptors/
+Fetching details for event: https://malahatskywalk.com/connect/events/summer-skywalk-music-series/
+Fetching details for event: https://malahatskywalk.com/connect/events/morning-skyoga/
+⏭️ Skipping generic event title: Plan Your Visit
+⏭️ Skipping generic event title: Plan Your Visit
+⏭️ Skipping generic event title: Plan Your Visit
+⏭️ Skipping generic event title: Maverick Events
+⏭️ Skipping generic event title: Plan Your Visit
+⏭️ Skipping generic event title: Live Music
+✅ Found 0 valid events from HelloBC (filtered out 6 generic entries)
+
+------------------------------------------------------------
+✅ Scraper 'HelloBC Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/helloBCEvents-results.json

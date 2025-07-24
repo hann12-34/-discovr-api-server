@@ -1,0 +1,61 @@
+============================================================
+--- Attempting to run scraper: vancouverSymphony.js ---
+============================================================
+Scraper 'Vancouver Symphony Orchestra' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Symphony Orchestra scraper...
+✅ Added VSO event: Beethoven's Emperor Concerto on Friday, September 19, 2025
+✅ Added VSO event: Beethoven's Emperor Concerto on Saturday, September 20, 2025
+✅ Added VSO event: Beethoven's Emperor Concerto on Sunday, September 21, 2025
+✅ Added VSO event: Mozart & Mahler on Friday, October 10, 2025
+✅ Added VSO event: Mozart & Mahler on Saturday, October 11, 2025
+✅ Added VSO event: Tchaikovsky's Violin Concerto on Friday, November 7, 2025
+✅ Added VSO event: Tchaikovsky's Violin Concerto on Saturday, November 8, 2025
+✅ Added VSO event: Vivaldi's Four Seasons on Friday, December 5, 2025
+✅ Added VSO event: Vivaldi's Four Seasons on Saturday, December 6, 2025
+✅ Added VSO event: Holst's The Planets on Friday, December 12, 2025
+✅ Added VSO event: Holst's The Planets on Saturday, December 13, 2025
+✅ Added VSO event: Surrey Nights: Brahms & Sibelius on Wednesday, October 22, 2025
+🎻 Successfully created 12 Vancouver Symphony Orchestra events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Symphony Orchestra' finished successfully.
+   Processed 12 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vso-beethovens-emperor-concerto-2025-09-20",
+  "title": "Beethoven's Emperor Concerto",
+  "description": "Otto Tausk conducts the VSO in a program featuring acclaimed pianist Jan Lisiecki performing Beethoven's majestic 'Emperor' Concerto. The program opens with Jocelyn Morlock's captivating 'Oiseaux Bleus et Sauvages' and concludes with Dvořák's spirited Symphony No. 8, a work brimming with Czech folk melodies and pastoral charm.\n\nPROGRAM:\nJOCELYN MORLOCK: Oiseaux Bleus et Sauvages<br>BEETHOVEN: Piano Concerto No. 5 in E-flat Major, Op. 73 'Emperor'<br>DVOŘÁK: Symphony No. 8 in G Major, Op. 88\n\nARTISTS:\nConductor: Otto Tausk\nJan Lisiecki, piano\n\nPERFORMANCE DETAILS:\nDate: Friday, September 19, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours",
+  "startDate": "2025-09-20T03:00:00.000Z",
+  "endDate": "2025-09-20T05:00:00.000Z",
+  "venue": {
+    "name": "Orpheum Theatre",
+    "id": "orpheum-theatre-vancouver",
+    "address": "601 Smithe St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 3L4",
+    "coordinates": {
+      "lat": 49.2809242,
+      "lng": -123.1204763
+    },
+    "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+    "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+  },
+  "category": "music",
+  "categories": [
+    "music",
+    "classical",
+    "orchestra",
+    "symphony",
+    "concert",
+    "performance"
+  ],
+  "sourceURL": "https://www.vancouversymphony.ca/",
+  "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+  "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/beethoven-emperor.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:26:24.743Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverSymphony-results.json

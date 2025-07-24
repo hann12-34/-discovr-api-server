@@ -1,0 +1,25 @@
+============================================================
+--- Attempting to run scraper: ubcBotanicalGardenEvents.js ---
+============================================================
+Scraper 'UBC Botanical Garden Events' instantiated successfully. Running scrape()...
+Starting UBC Botanical Garden Events scraper...
+Navigating to https://botanicalgarden.ubc.ca/visit/events/
+UBC Botanical Garden Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'UBC Botanical Garden Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/ubcBotanicalGardenEvents-results.json
+
+STDERR:
+Error in UBC Botanical Garden Events scraper: TimeoutError: Navigation timeout of 30000 ms exceeded
+    at new Deferred (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/util/Deferred.js:60:34)
+    at Deferred.create (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/util/Deferred.js:21:16)
+    at new LifecycleWatcher (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/LifecycleWatcher.js:69:60)
+    at CdpFrame.goto (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Frame.js:149:29)
+    at CdpFrame.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/util/decorators.js:109:27)
+    at CdpPage.goto (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/api/Page.js:574:43)
+    at UBCBotanicalGardenEvents.scrape (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/ubcBotanicalGardenEvents.js:43:18)
+    at async runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:40:20)

@@ -1,0 +1,58 @@
+============================================================
+--- Attempting to run scraper: capilanoSuspensionBridge.js ---
+============================================================
+Scraper 'Capilano Suspension Bridge Park' instantiated successfully. Running scrape()...
+🔍 Starting Capilano Suspension Bridge Park scraper...
+✅ Added event: Canyon Lights Winter Festival on Friday, January 10, 2025
+✅ Added event: Rainforest Ecology Tour on Tuesday, July 15, 2025
+✅ Added event: Indigenous Cultural Performances on Saturday, July 5, 2025
+✅ Added event: Photography Workshop: Capturing Nature on Saturday, July 19, 2025
+✅ Added event: Summer Solstice Celebration on Saturday, June 21, 2025
+✅ Added event: Kids' Treetop Adventure Camp on Monday, August 11, 2025
+🌲 Successfully created 6 Capilano Suspension Bridge Park events
+
+------------------------------------------------------------
+✅ Scraper 'Capilano Suspension Bridge Park' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "capilano-canyon-lights-winter-festival-2025-01-11",
+  "title": "Canyon Lights Winter Festival",
+  "description": "Experience the magic of Canyon Lights, a winter festival that transforms the Capilano Suspension Bridge Park into a world of festive lights and visual enchantment. Hundreds of thousands of lights illuminate the suspension bridge, Treetops Adventure, Cliffwalk, and throughout the rainforest and canyon. This year's display features new light installations including a mesmerizing walk-through light tunnel, illuminated totem poles, and a multi-dimensional light show projected onto the canyon walls. Enjoy live holiday music, hot chocolate stations throughout the park, and appearances by holiday characters. The suspension bridge and Treetops Adventure viewing platforms provide spectacular perspectives of the light displays from above.\n\nEVENT DETAILS:\nDate: Friday, January 10, 2025\nTime: 4:00 PM - 9:00 PM\nRecurrence: Daily from November 2024 to January 19, 2025\nPrice: Regular admission rates apply, Annual Pass holders free\nTickets: Required, available online or at the park entrance\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+  "startDate": "2025-01-11T00:00:00.000Z",
+  "endDate": "2025-01-11T05:00:00.000Z",
+  "venue": {
+    "name": "Capilano Suspension Bridge Park",
+    "id": "capilano-suspension-bridge-park",
+    "address": "3735 Capilano Road",
+    "city": "North Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V7R 4J1",
+    "coordinates": {
+      "lat": 49.3429,
+      "lng": -123.1139
+    },
+    "websiteUrl": "https://www.capbridge.com/",
+    "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+  },
+  "category": "attraction",
+  "categories": [
+    "attraction",
+    "outdoors",
+    "nature",
+    "tourism",
+    "winter festival",
+    "lights",
+    "holiday",
+    "family-friendly",
+    "seasonal"
+  ],
+  "sourceURL": "https://www.capbridge.com/",
+  "officialWebsite": "https://www.capbridge.com/events/canyon-lights-2025/",
+  "image": "https://www.capbridge.com/wp-content/uploads/2024/11/canyon-lights-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:01:26.353Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/capilanoSuspensionBridge-results.json

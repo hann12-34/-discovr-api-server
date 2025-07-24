@@ -1,0 +1,572 @@
+[
+  {
+    "id": "pne-fair-2025-08-16",
+    "title": "PNE Fair 2025 - Fri, Aug 15",
+    "description": "Join us for the PNE Fair on Friday, August 15! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-16T18:00:00.000Z",
+    "endDate": "2025-08-17T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.761Z"
+  },
+  {
+    "id": "pne-fair-2025-08-17",
+    "title": "PNE Fair 2025 - Sat, Aug 16",
+    "description": "Join us for the PNE Fair on Saturday, August 16! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-17T18:00:00.000Z",
+    "endDate": "2025-08-18T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.761Z"
+  },
+  {
+    "id": "pne-fair-2025-08-19",
+    "title": "PNE Fair 2025 - Mon, Aug 18",
+    "description": "Join us for the PNE Fair on Monday, August 18! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-19T18:00:00.000Z",
+    "endDate": "2025-08-20T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.761Z"
+  },
+  {
+    "id": "pne-fair-2025-08-20",
+    "title": "PNE Fair 2025 - Tue, Aug 19",
+    "description": "Join us for the PNE Fair on Tuesday, August 19! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-20T18:00:00.000Z",
+    "endDate": "2025-08-21T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.761Z"
+  },
+  {
+    "id": "pne-fair-2025-08-21",
+    "title": "PNE Fair 2025 - Wed, Aug 20",
+    "description": "Join us for the PNE Fair on Wednesday, August 20! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-21T18:00:00.000Z",
+    "endDate": "2025-08-22T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.761Z"
+  },
+  {
+    "id": "pne-fair-2025-08-22",
+    "title": "PNE Fair 2025 - Thu, Aug 21",
+    "description": "Join us for the PNE Fair on Thursday, August 21! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-22T18:00:00.000Z",
+    "endDate": "2025-08-23T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-23",
+    "title": "PNE Fair 2025 - Fri, Aug 22",
+    "description": "Join us for the PNE Fair on Friday, August 22! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-23T18:00:00.000Z",
+    "endDate": "2025-08-24T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-24",
+    "title": "PNE Fair 2025 - Sat, Aug 23",
+    "description": "Join us for the PNE Fair on Saturday, August 23! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-24T18:00:00.000Z",
+    "endDate": "2025-08-25T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-26",
+    "title": "PNE Fair 2025 - Mon, Aug 25",
+    "description": "Join us for the PNE Fair on Monday, August 25! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-26T18:00:00.000Z",
+    "endDate": "2025-08-27T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-27",
+    "title": "PNE Fair 2025 - Tue, Aug 26",
+    "description": "Join us for the PNE Fair on Tuesday, August 26! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-27T18:00:00.000Z",
+    "endDate": "2025-08-28T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-28",
+    "title": "PNE Fair 2025 - Wed, Aug 27",
+    "description": "Join us for the PNE Fair on Wednesday, August 27! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-28T18:00:00.000Z",
+    "endDate": "2025-08-29T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-29",
+    "title": "PNE Fair 2025 - Thu, Aug 28",
+    "description": "Join us for the PNE Fair on Thursday, August 28! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-29T18:00:00.000Z",
+    "endDate": "2025-08-30T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-30",
+    "title": "PNE Fair 2025 - Fri, Aug 29",
+    "description": "Join us for the PNE Fair on Friday, August 29! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-30T18:00:00.000Z",
+    "endDate": "2025-08-31T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-08-31",
+    "title": "PNE Fair 2025 - Sat, Aug 30",
+    "description": "Join us for the PNE Fair on Saturday, August 30! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-08-31T18:00:00.000Z",
+    "endDate": "2025-09-01T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.762Z"
+  },
+  {
+    "id": "pne-fair-2025-09-01",
+    "title": "PNE Fair 2025 - Sun, Aug 31",
+    "description": "Join us for the PNE Fair on Sunday, August 31! The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.\n\nFeatured attractions and events today include:\n\n• SuperDogs Show - The President's Choice SuperDogs return with an all-new show featuring incredible canine athletes performing amazing stunts, relay races, and choreographed routines that showcase their agility, speed, and training. A family favorite that delights audiences of all ages multiple times daily. Located at Pacific Coliseum. Daily performances at 12:30pm, 3:00pm, and 6:30pm.\n\n• Farm Country - An educational and interactive agricultural showcase featuring livestock displays, 4-H competitions, and demonstrations that connect fairgoers with BC's agricultural heritage. See cows, pigs, goats, sheep, and other farm animals up close while learning about modern farming practices. Located at Livestock Building. Open daily from 11:00am to 10:00pm.\n\n• Marketplace - Browse hundreds of vendors offering unique products, innovations, crafts, and services. The Marketplace is a shopper's paradise with everything from kitchen gadgets and home decor to artisanal foods and wellness products. Located at Marketplace Buildings. Open daily from 11:00am to 11:00pm.\n\n• Craft Beer Fest - Sample craft beers from over 30 local breweries in this special tasting area for guests 19+. Featuring rotating taps, beer education sessions, and perfect pairings with fair food favorites. Located at Festival Park. Open daily from 12:00pm to 10:00pm.\n\n• Kidz Zone - A dedicated area for younger fairgoers featuring interactive games, family-friendly entertainment, arts and crafts, and kid-sized attractions. Includes daily performances by children's entertainers and character meet-and-greets. Located at Garden Auditorium. Open daily from 11:00am to 9:00pm.\n\n• Culinary Pavilion - Watch live cooking demonstrations from local chefs, participate in tastings, and learn new recipes and cooking techniques. The pavilion showcases BC's diverse culinary scene with a focus on seasonal ingredients and international cuisines. Located at BC Showcase Building. Demonstrations daily at 1:00pm, 3:00pm, 5:00pm, and 7:00pm.\n\nThe fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.",
+    "startDate": "2025-09-01T18:00:00.000Z",
+    "endDate": "2025-09-02T06:00:00.000Z",
+    "venue": {
+      "name": "Hastings Park (PNE Fairgrounds)",
+      "id": "hastings-park-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2827778,
+        "lng": -123.0388889
+      },
+      "websiteUrl": "https://www.pne.ca/fair2025/",
+      "description": "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "family",
+      "fair",
+      "food",
+      "entertainment",
+      "amusement-park"
+    ],
+    "sourceURL": "https://www.pne.ca/fair2025/",
+    "officialWebsite": "https://www.pne.ca/fair2025/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/PNEFair-Social-Share-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/pnefair2025",
+    "lastUpdated": "2025-07-15T18:43:13.763Z"
+  }
+]

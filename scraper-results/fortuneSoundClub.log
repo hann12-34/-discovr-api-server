@@ -1,0 +1,51 @@
+============================================================
+--- Attempting to run scraper: fortuneSoundClub.js ---
+============================================================
+Scraper 'Fortune Sound Club' instantiated successfully. Running scrape()...
+🎵 Scraping Fortune Sound Club events...
+🎵 Scraping Fortune Sound Club events...
+Found 27 potential event links
+Successfully parsed 27 events from 27 links
+Fortune Sound Club: Found 27 events
+
+------------------------------------------------------------
+✅ Scraper 'Fortune Sound Club' finished successfully.
+   Processed 27 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "7de32c00-bdcb-5326-8160-7cf2ec6a0ea8",
+  "title": "Two Another North American",
+  "name": "Two Another North American",
+  "description": "Event at Fortune Sound Club",
+  "image": "",
+  "date": "2025-07-15T07:00:00.000Z",
+  "startDate": "2025-07-15T07:00:00.000Z",
+  "endDate": null,
+  "season": "Summer",
+  "category": "Music",
+  "categories": [
+    "Music",
+    "Nightlife"
+  ],
+  "location": "Fortune Sound Club",
+  "venue": {
+    "name": "Fortune Sound Club",
+    "address": "147 E Pender St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2801,
+      "lng": -123.1022
+    }
+  },
+  "sourceURL": "https://www.ticketweb.ca/event/two-another-north-american-fortune-sound-club-tickets/14310203?pl=timbre21",
+  "officialWebsite": "https://www.ticketweb.ca/event/two-another-north-american-fortune-sound-club-tickets/14310203?pl=timbre21",
+  "ticketURL": "https://www.ticketweb.ca/event/two-another-north-american-fortune-sound-club-tickets/14310203?pl=timbre21",
+  "dataSources": [
+    "vancouver-fortune-sound-club"
+  ],
+  "lastUpdated": "2025-07-15T18:35:15.495Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/fortuneSoundClub-results.json

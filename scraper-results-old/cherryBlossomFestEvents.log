@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: cherryBlossomFestEvents.js ---
+============================================================
+Scraper 'Vancouver Cherry Blossom Festival' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Cherry Blossom Festival...
+Navigating to https://vcbf.ca/events
+Found 1 potential events
+Skipping event "Haiku Invitational 2023" due to invalid date: ""
+Found 0 events from Vancouver Cherry Blossom Festival
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Cherry Blossom Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/cherryBlossomFestEvents-results.json

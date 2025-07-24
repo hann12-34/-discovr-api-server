@@ -1,0 +1,54 @@
+============================================================
+--- Attempting to run scraper: venueNightclub.js ---
+============================================================
+Scraper 'VENUE Nightclub' instantiated successfully. Running scrape()...
+🔍 Starting VENUE Nightclub scraper...
+✅ Added event: Diplo - Revolution Tour on Saturday, July 12, 2025
+✅ Added event: VENUE Saturdays: Neon Dreams on Saturday, July 19, 2025
+✅ Added event: Throwback Thursday: 90s & 2000s Dance Party on Thursday, July 24, 2025
+✅ Added event: Disclosure DJ Set on Saturday, August 2, 2025
+✅ Added event: Bass Drop: Dubstep Night on Saturday, August 9, 2025
+🎧 Successfully created 5 VENUE Nightclub events
+
+------------------------------------------------------------
+✅ Scraper 'VENUE Nightclub' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "venue-nightclub-diplo---revolution-tour-2025-07-13",
+  "title": "Diplo - Revolution Tour",
+  "description": "Grammy Award-winning DJ and producer Diplo brings his Revolution Tour to VENUE Nightclub. Known for his genre-bending productions and high-energy performances, Diplo will deliver an unforgettable night of electronic dance music spanning his extensive catalog of hits and collaborations. Expect a cutting-edge audiovisual experience and the latest tracks from his recent releases.\n\nEVENT DETAILS:\nDate: Saturday, July 12, 2025\nDoors: 10:00 PM\nAge Restriction: 19+\nGenre: Electronic\nArtist Website: https://diplo.com/\n\nVENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.",
+  "startDate": "2025-07-13T05:00:00.000Z",
+  "endDate": "2025-07-13T10:00:00.000Z",
+  "venue": {
+    "name": "VENUE Nightclub",
+    "id": "venue-nightclub-vancouver",
+    "address": "881 Granville St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6Z 1L1",
+    "coordinates": {
+      "lat": 49.2811198,
+      "lng": -123.1232201
+    },
+    "websiteUrl": "https://venuelive.ca/",
+    "description": "VENUE Nightclub is one of Vancouver's premier entertainment spots on the Granville Strip, known for its state-of-the-art sound system, lighting design, and diverse music programming. The space regularly hosts top DJs, live music performances, and special events in an upscale nightclub environment."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "music",
+    "dance",
+    "club",
+    "entertainment",
+    "electronic"
+  ],
+  "sourceURL": "https://venuelive.ca/",
+  "officialWebsite": "https://venuelive.ca/events/diplo-revolution-tour/",
+  "image": "https://venuelive.ca/wp-content/uploads/2025/05/diplo-venue.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:28:02.726Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/venueNightclub-results.json

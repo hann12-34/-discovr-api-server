@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: museumOfAnthropology.js ---
+============================================================
+Scraper 'Museum of Anthropology' instantiated successfully. Running scrape()...
+🔍 Starting Museum of Anthropology scraper...
+✅ Added exhibition: Threads of Connection: Textile Arts of the Pacific Northwest (Thursday, May 15, 2025 - Sunday, September 14, 2025)
+✅ Added exhibition: Conservation in Action: Behind the Scenes at MOA (Friday, June 20, 2025 - Sunday, October 5, 2025)
+✅ Added event: Artist Talk: Contemporary Voices in Indigenous Art on Thursday, July 10, 2025
+✅ Added event: Family Day: Indigenous Storytelling on Sunday, July 20, 2025
+✅ Added event: Curator's Tour: Threads of Connection on Thursday, July 24, 2025
+✅ Added event: Workshop: Cedar Bark Weaving on Saturday, August 9, 2025
+✅ Added event: Native Youth Program Showcase on Wednesday, August 20, 2025
+🏛️ Successfully created 7 Museum of Anthropology events
+
+------------------------------------------------------------
+✅ Scraper 'Museum of Anthropology' finished successfully.
+   Processed 7 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "moa-threads-of-connection-textile-arts-of-the-pacific-northwest-2025-05-15",
+  "title": "Threads of Connection: Textile Arts of the Pacific Northwest",
+  "description": "This landmark exhibition explores the rich tradition of textile arts among First Nations communities of the Pacific Northwest. From ceremonial blankets and cedar bark clothing to contemporary fiber art, the exhibition showcases over 100 pieces spanning centuries of cultural expression. Highlighting the technical mastery, artistic innovation, and cultural significance of these textiles, the exhibition includes historical pieces from MOA's collection alongside works by contemporary Indigenous textile artists who are revitalizing and reimagining these traditions.\n\nEVENT DETAILS:\nExhibition Dates: Thursday, May 15, 2025 - Sunday, September 14, 2025\nHours: Tuesday to Sunday, 10 AM - 5 PM; Thursdays until 9 PM\nLocation: Museum of Anthropology at UBC, 6393 NW Marine Drive, Vancouver",
+  "startDate": "2025-05-15T17:00:00.000Z",
+  "endDate": "2025-09-15T00:00:00.000Z",
+  "venue": {
+    "name": "Museum of Anthropology at UBC",
+    "id": "museum-of-anthropology-vancouver",
+    "address": "6393 NW Marine Drive",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6T 1Z2",
+    "coordinates": {
+      "lat": 49.2699,
+      "lng": -123.2588
+    },
+    "websiteUrl": "https://moa.ubc.ca/",
+    "description": "The Museum of Anthropology (MOA) at the University of British Columbia is renowned for its world-class displays of Northwest Coast First Nations art and artifacts. Housed in a spectacular building designed by Canadian architect Arthur Erickson, the museum features over 50,000 ethnographic objects and 535,000 archaeological objects, including many works by celebrated Haida artist Bill Reid. The museum's Great Hall showcases massive totem poles, canoes, and sculptures from coastal communities, while other galleries display cultural objects from around the world."
+  },
+  "category": "arts",
+  "categories": [
+    "arts",
+    "museum",
+    "culture",
+    "exhibition",
+    "indigenous",
+    "education"
+  ],
+  "sourceURL": "https://moa.ubc.ca/",
+  "officialWebsite": "https://moa.ubc.ca/exhibition/threads-of-connection/",
+  "image": "https://moa.ubc.ca/wp-content/uploads/2025/04/textile-exhibition.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:11:31.337Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/museumOfAnthropology-results.json

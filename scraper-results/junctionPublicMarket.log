@@ -1,0 +1,15 @@
+============================================================
+--- Attempting to run scraper: junctionPublicMarket.js ---
+============================================================
+Scraper 'Junction Public Market' instantiated successfully. Running scrape()...
+🔍 Starting Junction Public Market scraper...
+ℹ️ Junction Public Market is open Tuesday to Sunday, but no specific events are available from their website.
+ℹ️ Operating hours: Vendors 10:00 AM - 6:00 PM, Licensed Patio 11:00 AM - 7:00 PM
+✅ Junction Public Market scraper completed - no events to return
+
+------------------------------------------------------------
+✅ Scraper 'Junction Public Market' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/junctionPublicMarket-results.json

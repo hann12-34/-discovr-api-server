@@ -1,0 +1,231 @@
+[
+  {
+    "id": "space-centre-cosmic-nights-after-dark-at-the-space-centre-2025-07-18",
+    "title": "Cosmic Nights: After Dark at the Space Centre",
+    "description": "Experience the Space Centre after hours at this adults-only evening event combining science, socializing, and spirits. July's theme 'Mars: The Red Planet' explores our fascinating planetary neighbor with special exhibits on Mars exploration missions, recent scientific discoveries, and the challenges of potential human colonization. Enjoy access to all galleries, telescope viewing (weather permitting), themed cocktails, interactive demonstrations, and presentations from astronomy experts. This popular monthly series offers a unique night out that's both educational and entertaining.\n\nEVENT DETAILS:\nDate: Thursday, July 17, 2025\nTime: 7:00 PM - 11:00 PM\nRecurrence: Monthly series\nPrice: $35 ($30 for members)\nAge Restriction: 19+\nTickets: Required, please book in advance\n\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.",
+    "startDate": "2025-07-18T02:00:00.000Z",
+    "endDate": "2025-07-18T06:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2762,
+        "lng": -123.1448
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "space",
+      "astronomy",
+      "science",
+      "education",
+      "adults",
+      "nightlife",
+      "social",
+      "19+"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/cosmic-nights-july-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/cosmic-nights-july.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:39.020Z"
+  },
+  {
+    "id": "space-centre-planetarium-show-exploring-exoplanets-2025-07-05",
+    "title": "Planetarium Show: Exploring Exoplanets",
+    "description": "Journey to distant worlds orbiting other stars in our newest planetarium show. 'Exploring Exoplanets' uses stunning visualizations to showcase the incredible diversity of planets discovered beyond our solar system. Learn how astronomers detect these distant worlds, what they've discovered about their compositions and atmospheres, and the ongoing search for potentially habitable planets. The immersive dome projection creates a breathtaking experience as you travel virtually to some of the most fascinating exoplanets discovered to date, from scorching hot Jupiters to potentially Earth-like worlds.\n\nEVENT DETAILS:\nDate: Saturday, July 5, 2025\nTime: 1:00 PM - 2:00 PM\nRecurrence: Multiple showtimes daily\nPrice: Included with admission\nTickets: Required, please book in advance\n\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.",
+    "startDate": "2025-07-05T20:00:00.000Z",
+    "endDate": "2025-07-05T21:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2762,
+        "lng": -123.1448
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "space",
+      "astronomy",
+      "science",
+      "education",
+      "planetarium",
+      "show",
+      "immersive",
+      "family-friendly"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/exploring-exoplanets/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/05/exoplanets-show.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:39.020Z"
+  },
+  {
+    "id": "space-centre-astronomy-day-family-festival-2025-07-26",
+    "title": "Astronomy Day: Family Festival",
+    "description": "Celebrate International Astronomy Day with a full day of family-friendly activities at the Space Centre. This special event features solar telescope viewing (weather permitting), build-your-own constellation activities, meet-and-greets with local astronomers, space-themed crafts and experiments, and special planetarium presentations. Representatives from local astronomy clubs will be on hand with telescopes and expertise to share their passion for stargazing. The festival is designed for visitors of all ages with activities appropriate for everyone from young children to adult astronomy enthusiasts.\n\nEVENT DETAILS:\nDate: Saturday, July 26, 2025\nTime: 10:00 AM - 5:00 PM\nPrice: Included with admission\n\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.",
+    "startDate": "2025-07-26T17:00:00.000Z",
+    "endDate": "2025-07-27T00:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2762,
+        "lng": -123.1448
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "space",
+      "astronomy",
+      "science",
+      "education",
+      "family",
+      "festival",
+      "activities",
+      "all-ages"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/astronomy-day-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/astronomy-day-2025.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:44:39.020Z"
+  },
+  {
+    "id": "space-centre-space-explorers-summer-camp-2025-08-11",
+    "title": "Space Explorers Summer Camp",
+    "description": "Our week-long space camp for children ages 8-12 combines hands-on STEM activities with imagination and fun. Campers will build and launch their own model rockets, design Mars rover prototypes, learn about living in space through simulated astronaut training exercises, explore the night sky using our planetarium, and participate in team challenges inspired by real space missions. Led by our experienced science educators, this camp fosters curiosity, critical thinking, and collaboration while inspiring the next generation of space explorers. Extended care options are available for working parents.\n\nEVENT DETAILS:\nDates: Monday, August 11, 2025 to Friday, August 15, 2025\nTime: 9:00 AM - 4:00 PM daily\nPrice: $375 for the week ($340 for members)\nTickets: Required, please book in advance\n\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.",
+    "startDate": "2025-08-11T16:00:00.000Z",
+    "endDate": "2025-08-15T23:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2762,
+        "lng": -123.1448
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "space",
+      "astronomy",
+      "science",
+      "education",
+      "children",
+      "camp",
+      "summer camp",
+      "stem"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/summer-camp-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/summer-camp.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:39.020Z"
+  },
+  {
+    "id": "space-centre-guest-lecture-dr-sarah-gallagher-on-black-holes-2025-08-08",
+    "title": "Guest Lecture: Dr. Sarah Gallagher on Black Holes",
+    "description": "We're thrilled to welcome renowned astrophysicist Dr. Sarah Gallagher for a fascinating lecture on black holes. As a leading researcher in the field and science advisor to the Canadian Space Agency, Dr. Gallagher will discuss the latest discoveries about these mysterious cosmic objects, from stellar-mass black holes to the supermassive giants at the centers of galaxies. The presentation will cover recent breakthroughs including the first black hole image from the Event Horizon Telescope and gravitational wave detections. The evening includes a Q&A session and post-lecture reception with light refreshments.\n\nEVENT DETAILS:\nDate: Thursday, August 7, 2025\nTime: 7:00 PM - 9:00 PM\nPrice: $25 ($20 for members)\nTickets: Required, please book in advance\n\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.",
+    "startDate": "2025-08-08T02:00:00.000Z",
+    "endDate": "2025-08-08T04:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2762,
+        "lng": -123.1448
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "space",
+      "astronomy",
+      "science",
+      "education",
+      "lecture",
+      "talk",
+      "educational",
+      "astrophysics"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/guest-lecture-black-holes/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/07/black-hole-lecture.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:39.021Z"
+  },
+  {
+    "id": "space-centre-stargazing-evening-perseid-meteor-shower-2025-08-13",
+    "title": "Stargazing Evening: Perseid Meteor Shower",
+    "description": "Join us for a special evening of meteor shower viewing at our observatory site in the UBC Endowment Lands. The annual Perseid meteor shower is one of the best of the year, capable of producing up to 60 meteors per hour at its peak. Our astronomers will guide you in observing this spectacular celestial event, explaining the science behind meteor showers and pointing out other summer sky features visible through our telescopes. Hot chocolate and light snacks will be provided. Please bring warm clothing, a chair or blanket, and a red-filtered flashlight if you have one.\n\nEVENT DETAILS:\nDates: Tuesday, August 12, 2025 to Wednesday, August 13, 2025\nTime: 10:00 PM - 1:00 AM daily\nPrice: $30 ($25 for members)\nTickets: Required, please book in advance\n\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.",
+    "startDate": "2025-08-13T05:00:00.000Z",
+    "endDate": "2025-08-13T08:00:00.000Z",
+    "venue": {
+      "name": "H.R. MacMillan Space Centre",
+      "id": "hr-macmillan-space-centre",
+      "address": "1100 Chestnut St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6J 3J9",
+      "coordinates": {
+        "lat": 49.2762,
+        "lng": -123.1448
+      },
+      "websiteUrl": "https://www.spacecentre.ca/",
+      "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+    },
+    "category": "science",
+    "categories": [
+      "space",
+      "astronomy",
+      "science",
+      "education",
+      "stargazing",
+      "observatory",
+      "night sky",
+      "meteor shower",
+      "outdoor"
+    ],
+    "sourceURL": "https://www.spacecentre.ca/",
+    "officialWebsite": "https://www.spacecentre.ca/event/perseid-viewing-2025/",
+    "image": "https://www.spacecentre.ca/wp-content/uploads/2025/07/perseids-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:39.021Z"
+  }
+]

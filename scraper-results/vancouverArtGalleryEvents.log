@@ -1,0 +1,45 @@
+============================================================
+--- Attempting to run scraper: vancouverArtGalleryEvents.js ---
+============================================================
+Scraper 'Vancouver Art Gallery Events' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Art Gallery Events...
+Navigating to https://www.vanartgallery.bc.ca/exhibitions-events
+Waiting for event elements to load...
+Page screenshot saved to /tmp/vancouver-art-gallery-page.png
+Extracting events from the page...
+Found 3 events on the page
+✅ Added event: Featured
+✅ Added event: Featured
+✅ Added event: 404
+🎉 Successfully scraped 3 Vancouver Art Gallery events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Art Gallery Events' finished successfully.
+   Processed 3 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vag-featured-ongoing",
+  "title": "Featured",
+  "description": "Featured at Vancouver Art Gallery",
+  "startDate": null,
+  "endDate": null,
+  "venue": {
+    "name": "Vancouver Art Gallery",
+    "id": "vancouver-art-gallery",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "address": "750 Hornby St, Vancouver, BC V6Z 2H7"
+  },
+  "category": "arts",
+  "categories": [
+    "arts",
+    "event"
+  ],
+  "sourceURL": "https://www.vanartgallery.bc.ca/exhibitions-events",
+  "officialWebsite": "https://www.vanartgallery.bc.ca/",
+  "image": "https://www.vanartgallery.bc.ca/wp-content/uploads/2025/06/black-white.svg",
+  "lastUpdated": "2025-07-15T18:50:02.015Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverArtGalleryEvents-results.json

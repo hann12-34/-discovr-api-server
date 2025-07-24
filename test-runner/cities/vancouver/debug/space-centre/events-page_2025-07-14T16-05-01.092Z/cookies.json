@@ -1,0 +1,73 @@
+[
+  {
+    "name": "_fbp",
+    "value": "fb.1.1752509100084.768268320746660947",
+    "domain": ".spacecentre.ca",
+    "path": "/",
+    "expires": 1760285100,
+    "size": 41,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "sameSite": "Lax",
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_gid",
+    "value": "GA1.2.1754996546.1752509100",
+    "domain": ".spacecentre.ca",
+    "path": "/",
+    "expires": 1752595499,
+    "size": 31,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_ga",
+    "value": "GA1.2.339480123.1752509100",
+    "domain": ".spacecentre.ca",
+    "path": "/",
+    "expires": 1787069099.975377,
+    "size": 29,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_gat_UA-15673851-1",
+    "value": "1",
+    "domain": ".spacecentre.ca",
+    "path": "/",
+    "expires": 1752509159,
+    "size": 19,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_ga_8QV810C7ZK",
+    "value": "GS2.1.s1752509099$o1$g0$t1752509099$j60$l0$h497279770",
+    "domain": ".spacecentre.ca",
+    "path": "/",
+    "expires": 1787069099.825954,
+    "size": 67,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  }
+]

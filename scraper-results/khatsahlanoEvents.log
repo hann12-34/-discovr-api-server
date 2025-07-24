@@ -1,0 +1,49 @@
+============================================================
+--- Attempting to run scraper: khatsahlanoEvents.js ---
+============================================================
+Scraper 'Khatsahlano Street Party' instantiated successfully. Running scrape()...
+🔍 Starting Khatsahlano Street Party scraper...
+Navigating to: https://www.khatsahlano.ca/
+✅ Saved debug screenshot to khatsahlano-debug.png
+🎉 Successfully scraped 1 events from Khatsahlano Street Party
+
+------------------------------------------------------------
+✅ Scraper 'Khatsahlano Street Party' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "khatsahlano-events-khatsahlano-street-party-2025-2025-07-05",
+  "title": "Khatsahlano Street Party 2025",
+  "description": "Khatsahlano Street Party is Vancouver's largest free music and arts festival. Taking place on West 4th Avenue, this event features multiple stages with live music performances, art installations, street performers, and local food vendors.",
+  "startDate": "2025-07-05T18:00:00.000Z",
+  "endDate": "2025-07-06T04:00:00.000Z",
+  "venue": {
+    "name": "Khatsahlano Street Party - West 4th Avenue",
+    "id": "khatsahlano-events",
+    "address": "4th Avenue between Burrard St and MacDonald St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2682,
+      "lng": -123.1696
+    },
+    "websiteUrl": "https://www.khatsahlano.ca/",
+    "description": "Khatsahlano Street Party spans 10 blocks along West 4th Avenue in Kitsilano."
+  },
+  "category": "festival",
+  "categories": [
+    "festival",
+    "music",
+    "art",
+    "food",
+    "street-party"
+  ],
+  "sourceURL": "https://www.khatsahlano.ca/",
+  "officialWebsite": "https://www.khatsahlano.ca/",
+  "image": null,
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T18:40:47.125Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/khatsahlanoEvents-results.json

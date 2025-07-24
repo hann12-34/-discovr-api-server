@@ -1,0 +1,272 @@
+[
+  {
+    "id": "jazz-festival-opening-night-gala-kamasi-washington-2025-06-21",
+    "title": "Opening Night Gala: Kamasi Washington",
+    "description": "The Vancouver International Jazz Festival kicks off with a spectacular opening night featuring groundbreaking saxophone titan Kamasi Washington. Known for his expansive compositions and spiritual approach to music, Washington has revolutionized modern jazz with his epic recordings and collaborations with artists ranging from Kendrick Lamar to Herbie Hancock. His large ensemble delivers a transcendent musical experience that blends elements of spiritual jazz, funk, hip-hop, and classical music into a unique cosmic sound. Don't miss this triumphant festival opener showcasing one of the most significant voices in contemporary jazz.\n\nEVENT DETAILS:\nDate: Friday, June 20, 2025\nTime: 8:00 PM - 10:30 PM\nVenue: The Vogue Theatre, 918 Granville St, Vancouver\nPrice: $55-$75\nTickets: Required, available through the Vancouver Jazz Festival website or box office\nPerformers: Kamasi Washington and his ensemble\n\nThis event is part of the 2025 Vancouver International Jazz Festival. For more information and the complete festival schedule, visit https://www.coastaljazz.ca/",
+    "startDate": "2025-06-21T03:00:00.000Z",
+    "endDate": "2025-06-21T05:30:00.000Z",
+    "venue": {
+      "name": "The Vogue Theatre",
+      "id": "vogue-theatre-vancouver",
+      "address": "918 Granville St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 1L2",
+      "coordinates": {
+        "lat": 49.2807,
+        "lng": -123.1194
+      },
+      "websiteUrl": "https://www.coastaljazz.ca/",
+      "description": "The Vogue Theatre is a historic art deco venue in downtown Vancouver, known for its excellent acoustics and elegant atmosphere."
+    },
+    "category": "music",
+    "categories": [
+      "jazz",
+      "music",
+      "festival",
+      "live music",
+      "concert",
+      "contemporary jazz",
+      "modern jazz",
+      "fusion"
+    ],
+    "sourceURL": "https://www.coastaljazz.ca/",
+    "officialWebsite": "https://www.coastaljazz.ca/event/kamasi-washington/",
+    "image": "https://www.coastaljazz.ca/wp-content/uploads/2025/04/kamasi-washington-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:50:56.210Z"
+  },
+  {
+    "id": "jazz-festival-brazilian-jazz-night-eliane-elias-trio-2025-06-23",
+    "title": "Brazilian Jazz Night: Eliane Elias Trio",
+    "description": "Grammy-winning pianist, singer, and composer Eliane Elias brings her intoxicating blend of Brazilian bossa nova and sophisticated jazz to the Vancouver Jazz Festival. With her flawless technique, lyrical piano style, and sultry Portuguese vocals, Elias creates an enchanting musical journey that seamlessly integrates the rhythmic complexity of her native Brazil with the harmonic sophistication of jazz. Joined by her exceptional trio featuring Marc Johnson on bass and Rafael Barata on drums, this performance promises an evening of sublime musical interplay and timeless elegance.\n\nEVENT DETAILS:\nDate: Sunday, June 22, 2025\nTime: 7:30 PM - 9:30 PM\nVenue: Performance Works, 1218 Cartwright St, Vancouver\nPrice: $45\nTickets: Required, available through the Vancouver Jazz Festival website or box office\nPerformers: Eliane Elias Trio\n\nThis event is part of the 2025 Vancouver International Jazz Festival. For more information and the complete festival schedule, visit https://www.coastaljazz.ca/",
+    "startDate": "2025-06-23T02:30:00.000Z",
+    "endDate": "2025-06-23T04:30:00.000Z",
+    "venue": {
+      "name": "Performance Works",
+      "id": "performance-works-vancouver",
+      "address": "1218 Cartwright St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6H 3R8",
+      "coordinates": {
+        "lat": 49.2705,
+        "lng": -123.1339
+      },
+      "websiteUrl": "https://www.coastaljazz.ca/",
+      "description": "Performance Works is an intimate black box theatre located on Granville Island, providing a versatile performance space for a wide range of artistic presentations."
+    },
+    "category": "music",
+    "categories": [
+      "jazz",
+      "music",
+      "festival",
+      "live music",
+      "concert",
+      "brazilian jazz",
+      "world music",
+      "latin jazz",
+      "bossa nova"
+    ],
+    "sourceURL": "https://www.coastaljazz.ca/",
+    "officialWebsite": "https://www.coastaljazz.ca/event/eliane-elias-trio/",
+    "image": "https://www.coastaljazz.ca/wp-content/uploads/2025/04/eliane-elias-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:50:56.210Z"
+  },
+  {
+    "id": "jazz-festival-downtown-jazz-series-the-bad-plus-2025-06-26",
+    "title": "Downtown Jazz Series: The Bad Plus",
+    "description": "The legendary trio The Bad Plus continues to push the boundaries of what a piano-bass-drums ensemble can achieve. Known for their unique compositional approach, seamless integration of multiple genres, and telepathic improvisational interplay, the group has been at the forefront of creative music for over two decades. Their repertoire spans original compositions and inventive deconstructions of pop, rock, and electronic music transformed through a jazz lens. This performance will feature material from their latest album alongside audience favorites, showcasing their continued evolution and artistic fearlessness.\n\nEVENT DETAILS:\nDate: Wednesday, June 25, 2025\nTime: 9:00 PM - 11:00 PM\nVenue: Ironworks, 235 Alexander St, Vancouver\nPrice: $40\nTickets: Required, available through the Vancouver Jazz Festival website or box office\nPerformers: The Bad Plus\n\nThis event is part of the 2025 Vancouver International Jazz Festival. For more information and the complete festival schedule, visit https://www.coastaljazz.ca/",
+    "startDate": "2025-06-26T04:00:00.000Z",
+    "endDate": "2025-06-26T06:00:00.000Z",
+    "venue": {
+      "name": "Ironworks",
+      "id": "ironworks-vancouver",
+      "address": "235 Alexander St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 1C2",
+      "coordinates": {
+        "lat": 49.2847,
+        "lng": -123.0979
+      },
+      "websiteUrl": "https://www.coastaljazz.ca/",
+      "description": "Ironworks is a restored industrial building in Vancouver's Gastown district that has been transformed into a unique performance space with exposed brick walls and soaring ceilings."
+    },
+    "category": "music",
+    "categories": [
+      "jazz",
+      "music",
+      "festival",
+      "live music",
+      "concert",
+      "contemporary jazz",
+      "modern jazz",
+      "fusion"
+    ],
+    "sourceURL": "https://www.coastaljazz.ca/",
+    "officialWebsite": "https://www.coastaljazz.ca/event/the-bad-plus/",
+    "image": "https://www.coastaljazz.ca/wp-content/uploads/2025/04/bad-plus-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:50:56.210Z"
+  },
+  {
+    "id": "jazz-festival-free-outdoor-concert-dawn-pemberton-soul-revue-2025-06-28",
+    "title": "Free Outdoor Concert: Dawn Pemberton Soul Revue",
+    "description": "Vancouver's own 'Queen of Soul' Dawn Pemberton brings her powerhouse vocals and infectious energy to this free outdoor concert at Robson Square. Leading her dynamic Soul Revue band, Pemberton delivers a high-energy performance drawing from classic soul, R&B, funk, and gospel traditions. Her commanding stage presence and ability to connect with audiences of all ages make this a perfect family-friendly event. Bring a blanket or chair, enjoy the sunshine, and let Dawn's uplifting music and positive vibes create a joyous community celebration as part of the Jazz Festival's free programming.\n\nEVENT DETAILS:\nDate: Saturday, June 28, 2025\nTime: 2:00 PM - 3:30 PM\nVenue: Robson Square, 800 Robson St, Vancouver\nPrice: Free\nPerformers: Dawn Pemberton Soul Revue\n\nThis event is part of the 2025 Vancouver International Jazz Festival. For more information and the complete festival schedule, visit https://www.coastaljazz.ca/",
+    "startDate": "2025-06-28T21:00:00.000Z",
+    "endDate": "2025-06-28T22:30:00.000Z",
+    "venue": {
+      "name": "Robson Square",
+      "id": "robson-square-vancouver",
+      "address": "800 Robson St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 3B7",
+      "coordinates": {
+        "lat": 49.2819,
+        "lng": -123.1211
+      },
+      "websiteUrl": "https://www.coastaljazz.ca/",
+      "description": "Robson Square is an outdoor civic center and public plaza in the heart of downtown Vancouver, featuring a sunken plaza, tiered seating, and water features."
+    },
+    "category": "music",
+    "categories": [
+      "jazz",
+      "music",
+      "festival",
+      "live music",
+      "concert",
+      "soul/r&b",
+      "soul",
+      "r&b",
+      "funk"
+    ],
+    "sourceURL": "https://www.coastaljazz.ca/",
+    "officialWebsite": "https://www.coastaljazz.ca/event/dawn-pemberton-soul-revue/",
+    "image": "https://www.coastaljazz.ca/wp-content/uploads/2025/05/dawn-pemberton-2025.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:50:56.210Z"
+  },
+  {
+    "id": "jazz-festival-late-night-jazz-makaya-mccraven-quintet-2025-07-01",
+    "title": "Late Night Jazz: Makaya McCraven Quintet",
+    "description": "Visionary drummer, composer, and producer Makaya McCraven presents his unique 'organic beat music' in this late-night festival highlight. Known for his innovative approach to blending live improvisation with studio production techniques, McCraven has been hailed as one of the most important voices in modern jazz. His quintet creates immersive sonic landscapes that draw from jazz, hip-hop, and electronic music while maintaining a deep groove sensibility. This performance will showcase material from his acclaimed albums, featuring virtuosic musicianship and boundary-pushing compositions that point to jazz's future while honoring its past.\n\nEVENT DETAILS:\nDate: Monday, June 30, 2025\nTime: 10:30 PM - 12:30 AM\nVenue: Frankie's Jazz Club, 765 Beatty St, Vancouver\nPrice: $35\nTickets: Required, available through the Vancouver Jazz Festival website or box office\nPerformers: Makaya McCraven Quintet\n\nThis event is part of the 2025 Vancouver International Jazz Festival. For more information and the complete festival schedule, visit https://www.coastaljazz.ca/",
+    "startDate": "2025-07-01T05:30:00.000Z",
+    "endDate": "2025-07-01T07:30:00.000Z",
+    "venue": {
+      "name": "Frankie's Jazz Club",
+      "id": "frankies-jazz-club-vancouver",
+      "address": "765 Beatty St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2M4",
+      "coordinates": {
+        "lat": 49.2786,
+        "lng": -123.1147
+      },
+      "websiteUrl": "https://www.coastaljazz.ca/",
+      "description": "Frankie's Jazz Club is an intimate venue dedicated to jazz performance, featuring excellent acoustics and a warm, sophisticated atmosphere."
+    },
+    "category": "music",
+    "categories": [
+      "jazz",
+      "music",
+      "festival",
+      "live music",
+      "concert",
+      "experimental jazz",
+      "avant-garde",
+      "electronic",
+      "hip-hop"
+    ],
+    "sourceURL": "https://www.coastaljazz.ca/",
+    "officialWebsite": "https://www.coastaljazz.ca/event/makaya-mccraven-quintet/",
+    "image": "https://www.coastaljazz.ca/wp-content/uploads/2025/05/makaya-mccraven-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:50:56.210Z"
+  },
+  {
+    "id": "jazz-festival-jazz-masters-series-ron-carter-quartet-2025-07-02",
+    "title": "Jazz Masters Series: Ron Carter Quartet",
+    "description": "Legendary bassist Ron Carter, the most recorded jazz bassist in history with over 2,200 albums to his credit, brings his masterful quartet to Vancouver. A NEA Jazz Master and member of Miles Davis's second great quintet, Carter's influence on the language of jazz bass is immeasurable. At 86, his playing remains as vital and sophisticated as ever, combining flawless technique with profound musical wisdom. This rare appearance features Carter leading his quartet through standards, original compositions, and selections from his vast recorded legacy, demonstrating why he remains one of jazz's most revered and essential artists.\n\nEVENT DETAILS:\nDate: Tuesday, July 1, 2025\nTime: 8:00 PM - 10:00 PM\nVenue: Performance Works, 1218 Cartwright St, Vancouver\nPrice: $50\nTickets: Required, available through the Vancouver Jazz Festival website or box office\nPerformers: Ron Carter Quartet\n\nThis event is part of the 2025 Vancouver International Jazz Festival. For more information and the complete festival schedule, visit https://www.coastaljazz.ca/",
+    "startDate": "2025-07-02T03:00:00.000Z",
+    "endDate": "2025-07-02T05:00:00.000Z",
+    "venue": {
+      "name": "Performance Works",
+      "id": "performance-works-vancouver",
+      "address": "1218 Cartwright St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6H 3R8",
+      "coordinates": {
+        "lat": 49.2705,
+        "lng": -123.1339
+      },
+      "websiteUrl": "https://www.coastaljazz.ca/",
+      "description": "Performance Works is an intimate black box theatre located on Granville Island, providing a versatile performance space for a wide range of artistic presentations."
+    },
+    "category": "music",
+    "categories": [
+      "jazz",
+      "music",
+      "festival",
+      "live music",
+      "concert",
+      "straight-ahead jazz",
+      "bebop",
+      "swing",
+      "traditional jazz"
+    ],
+    "sourceURL": "https://www.coastaljazz.ca/",
+    "officialWebsite": "https://www.coastaljazz.ca/event/ron-carter-quartet/",
+    "image": "https://www.coastaljazz.ca/wp-content/uploads/2025/05/ron-carter-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:50:56.210Z"
+  },
+  {
+    "id": "jazz-festival-closing-night-ccile-mclorin-salvant-2025-07-06",
+    "title": "Closing Night: Cécile McLorin Salvant",
+    "description": "The 2025 Vancouver International Jazz Festival concludes with a special performance by three-time Grammy winner Cécile McLorin Salvant, widely recognized as one of the most distinctive and compelling vocalists in contemporary jazz. With her extraordinary vocal range, precise intonation, and dramatic interpretive skill, Salvant has revitalized the jazz vocal tradition while creating a unique artistic vision that spans centuries of music. Her repertoire includes forgotten gems from the American songbook, theatrical works, early blues and folk traditions, and original compositions. This concert features material from her latest acclaimed album, showcasing her unparalleled storytelling abilities.\n\nEVENT DETAILS:\nDate: Saturday, July 5, 2025\nTime: 8:00 PM - 10:00 PM\nVenue: The Vogue Theatre, 918 Granville St, Vancouver\nPrice: $50-$70\nTickets: Required, available through the Vancouver Jazz Festival website or box office\nPerformers: Cécile McLorin Salvant\n\nThis event is part of the 2025 Vancouver International Jazz Festival. For more information and the complete festival schedule, visit https://www.coastaljazz.ca/",
+    "startDate": "2025-07-06T03:00:00.000Z",
+    "endDate": "2025-07-06T05:00:00.000Z",
+    "venue": {
+      "name": "The Vogue Theatre",
+      "id": "vogue-theatre-vancouver",
+      "address": "918 Granville St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 1L2",
+      "coordinates": {
+        "lat": 49.2807,
+        "lng": -123.1194
+      },
+      "websiteUrl": "https://www.coastaljazz.ca/",
+      "description": "The Vogue Theatre is a historic art deco venue in downtown Vancouver, known for its excellent acoustics and elegant atmosphere."
+    },
+    "category": "music",
+    "categories": [
+      "jazz",
+      "music",
+      "festival",
+      "live music",
+      "concert",
+      "vocal jazz",
+      "vocals",
+      "singer"
+    ],
+    "sourceURL": "https://www.coastaljazz.ca/",
+    "officialWebsite": "https://www.coastaljazz.ca/event/cecile-mclorin-salvant/",
+    "image": "https://www.coastaljazz.ca/wp-content/uploads/2025/05/cecile-mclorin-salvant-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:50:56.211Z"
+  }
+]

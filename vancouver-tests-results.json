@@ -1,0 +1,975 @@
+{
+  "total": 108,
+  "completed": 108,
+  "success": 6,
+  "failed": 102,
+  "timedOut": 1,
+  "tests": [
+    {
+      "file": "test-arc-dining-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/arcDiningEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/arcDiningEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js:7:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 70
+    },
+    {
+      "file": "test-art-gallery-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/artGalleryEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/artGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js:7:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 69
+    },
+    {
+      "file": "test-art-gallery-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vancouverArtGalleryEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vancouverArtGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js:6:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 68
+    },
+    {
+      "file": "test-bard-on-the-beach-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/bardOnTheBeachEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/bardOnTheBeachEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js:4:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 66
+    },
+    {
+      "file": "test-barnone-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/barNoneClub",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/barNoneClub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js:8:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 73
+    },
+    {
+      "file": "test-bill-reid-gallery.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/billReidGalleryEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/billReidGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js:1:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-biltmore-cabaret-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/biltmoreCabaretEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/biltmoreCabaretEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js:7:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-broadway-vancouver-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/broadwayVancouverEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/broadwayVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js:4:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 52
+    },
+    {
+      "file": "test-carnaval-del-sol-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/carnavalDelSol",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/carnavalDelSol'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js:7:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-chan-centre-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/chanCentreEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/chanCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js:7:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 50
+    },
+    {
+      "file": "test-chan-centre-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/chanCentre",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/chanCentre'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js:7:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-cherry-blossom-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/cherryBlossomFestEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/cherryBlossomFestEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 47
+    },
+    {
+      "file": "test-chinese-garden-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/chineseGardenEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/chineseGardenEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js:5:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 53
+    },
+    {
+      "file": "test-coastal-jazz-and-new-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js:6:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-coastal-jazz-festival-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/coastalJazzFestival",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/coastalJazzFestival'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js:7:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 53
+    },
+    {
+      "file": "test-coastal-jazz-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/coastalJazzEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/coastalJazzEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js:5:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 43
+    },
+    {
+      "file": "test-commodore-ballroom-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/commodoreBallroomEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 48
+    },
+    {
+      "file": "test-commodore-ballroom-fixed.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/commodoreBallroomEvents.fixed",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents.fixed'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js:5:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 48
+    },
+    {
+      "file": "test-commodore-ballroom.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/commodoreBallroomEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js:5:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 47
+    },
+    {
+      "file": "test-commodore-fixed.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/commodoreBallroomEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js:5:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 49
+    },
+    {
+      "file": "test-commodore.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/venues/commodoreBallroomShows",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/venues/commodoreBallroomShows'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js:5:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 49
+    },
+    {
+      "file": "test-contemporary-art-gallery.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/contemporaryArtGalleryEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/contemporaryArtGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js:7:38)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 48
+    },
+    {
+      "file": "test-culture-crawl-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/cultureCrawlEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/cultureCrawlEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 51
+    },
+    {
+      "file": "test-dance-festival-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/danceFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/danceFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js:7:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 49
+    },
+    {
+      "file": "test-destination-vancouver.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/sources/destinationVancouverScraper",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/sources/destinationVancouverScraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js:1:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 52
+    },
+    {
+      "file": "test-doxa-film-festival.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/doxaFilmFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/doxaFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js:1:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 198
+    },
+    {
+      "file": "test-dragon-boat-festival-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/dragonBoatFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/dragonBoatFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js:7:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 198
+    },
+    {
+      "file": "test-festival-dete-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/festivalDEteEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/festivalDEteEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js:4:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 199
+    },
+    {
+      "file": "test-folk-fest-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/folkFestEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/folkFestEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js:7:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 198
+    },
+    {
+      "file": "test-fortune-bridge.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/fortuneSoundClubBridge",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/fortuneSoundClubBridge'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js:2:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 203
+    },
+    {
+      "file": "test-fortune-sound-club copy.js",
+      "success": false,
+      "error": "Cannot find module: ../../scrapers/cities/vancouver/fortuneSoundClub",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module '../../scrapers/cities/vancouver/fortuneSoundClub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js:2:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 65
+    },
+    {
+      "file": "test-fortune-sound-club.js",
+      "success": false,
+      "error": "Cannot find module: ../cities/vancouver/fortuneSoundClub",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module '../cities/vancouver/fortuneSoundClub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js:8:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 340
+    },
+    {
+      "file": "test-fox-cabaret-calendar.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/foxCabaret",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/foxCabaret'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js:2:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 65
+    },
+    {
+      "file": "test-fox-cabaret-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/foxCabaret",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/foxCabaret'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js:9:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 318
+    },
+    {
+      "file": "test-fox-cabaret.js",
+      "success": false,
+      "error": "Cannot find module: ../cities/vancouver/foxCabaret",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module '../cities/vancouver/foxCabaret'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js:5:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 315
+    },
+    {
+      "file": "test-fringe-festival-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/fringeFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/fringeFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 40
+    },
+    {
+      "file": "test-gastown-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./gastown-sunday-set-scraper",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './gastown-sunday-set-scraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js:7:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 43
+    },
+    {
+      "file": "test-granville-island-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/granvilleIslandEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/granvilleIslandEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js:7:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 36
+    },
+    {
+      "file": "test-granville-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/granvilleIsland",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/granvilleIsland'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js:7:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 38
+    },
+    {
+      "file": "test-hello-goodbye-bar-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/helloGoodbyeBarEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/helloGoodbyeBarEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js:5:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 41
+    },
+    {
+      "file": "test-hellobc-real-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/helloBCEventsScraper",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/helloBCEventsScraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js:6:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 45
+    },
+    {
+      "file": "test-hellobc-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/helloBCEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/helloBCEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js:7:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 49
+    },
+    {
+      "file": "test-improv-centre.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/improvCentreEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/improvCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js:1:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-japan-market-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/japanMarketEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js:5:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 59
+    },
+    {
+      "file": "test-jazz-fest-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vancouverJazzFestEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vancouverJazzFestEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 47
+    },
+    {
+      "file": "test-junction-market-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/junctionPublicMarket",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/junctionPublicMarket'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js:5:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 59
+    },
+    {
+      "file": "test-latest-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/levelsNightclub",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/levelsNightclub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js:6:25)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 58
+    },
+    {
+      "file": "test-macmillan-space-centre.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/macMillanSpaceCentreEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/macMillanSpaceCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js:7:36)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 66
+    },
+    {
+      "file": "test-malones-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/malonesEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/malonesEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js:1:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 62
+    },
+    {
+      "file": "test-maritime-museum-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/maritimeMuseumEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/maritimeMuseumEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-metropolis-events-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/metropolisEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/metropolisEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 60
+    },
+    {
+      "file": "test-mongo-connection-v2.js",
+      "success": false,
+      "error": "Exit code 1",
+      "stdout": "🔍 MongoDB Connection Tester v2\n==============================\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority\nConnecting with masteraccount:****23 to discovr-events\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority\nConnecting with masteraccount:****23 to discovr\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority\nConnecting with masteraccount:****23 to test\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority\nConnecting with masteraccount:****23 to default db\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority\nConnecting with discovr-api:****23 to discovr-events\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority\nConnecting with discovr-api:****23 to discovr\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority\nConnecting with discovr-api:****23 to test\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority\nConnecting with discovr-api:****23 to default db\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority\nConnecting with masteraccount:****rd to discovr-events\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority\nConnecting with masteraccount:****rd to discovr\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority\nConnecting with masteraccount:****rd to test\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority\nConnecting with masteraccount:****rd to default db\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority\nConnecting with admin:****23 to discovr-events\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority\nConnecting with admin:****23 to discovr\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority\nConnecting with admin:****23 to test\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority\nConnecting with admin:****23 to default db\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority\nConnecting with discovr:****rd to discovr-events\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority\nConnecting with discovr:****rd to discovr\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority\nConnecting with discovr:****rd to test\n❌ MongoServerError: bad auth : Authentication failed.\n\nTrying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority\nConnecting with discovr:****rd to default db\n❌ MongoServerError: bad auth : Authentication failed.\n\n❌ All connection attempts failed\nPossible issues:\n1. None of the tested credentials are correct\n2. IP whitelist restrictions in MongoDB Atlas\n3. Network connectivity issues\n",
+      "stderr": "",
+      "timedOut": false,
+      "duration": 6698
+    },
+    {
+      "file": "test-mongo-connection.js",
+      "success": true,
+      "stdout": "🔍 MongoDB Connection Tester\n============================\n\n🔄 Testing URI 1/4: mongodb://localhost:27017/discovr\n\n  ⚙️ Testing with options set 1/3: {\"useNewUrlParser\":true,\"useUnifiedTopology\":true}\n\n  ✅ CONNECTION SUCCESSFUL with URI 1 and options set 1\n     URI: mongodb://localhost:27017/discovr\n     Options: {\"useNewUrlParser\":true,\"useUnifiedTopology\":true}\n     Database name: discovr\n     Connection closed\n",
+      "stderr": "(node:12867) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:12867) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version\n",
+      "timedOut": false,
+      "duration": 512
+    },
+    {
+      "file": "test-mongo-fortune-events.js",
+      "success": true,
+      "stdout": "Using MongoDB connection: mongodb+srv://materaccount:*****@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr\nConnecting to MongoDB...\nDisconnected from MongoDB\n",
+      "stderr": "Error checking Fortune events: MongoServerError: bad auth : Authentication failed.\n    at Connection.sendCommand (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/mongoose/node_modules/mongodb/lib/cmap/connection.js:299:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Connection.command (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/mongoose/node_modules/mongodb/lib/cmap/connection.js:327:26)\n    at async executeScram (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/mongoose/node_modules/mongodb/lib/cmap/auth/scram.js:79:22)\n    at async ScramSHA256.auth (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/mongoose/node_modules/mongodb/lib/cmap/auth/scram.js:39:16)\n    at async performInitialHandshake (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/mongoose/node_modules/mongodb/lib/cmap/connect.js:104:13)\n    at async connect (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/mongoose/node_modules/mongodb/lib/cmap/connect.js:24:9) {\n  errorLabelSet: Set(2) { 'HandshakeError', 'ResetPool' },\n  errorResponse: {\n    ok: 0,\n    errmsg: 'bad auth : Authentication failed.',\n    code: 8000,\n    codeName: 'AtlasError'\n  },\n  ok: 0,\n  code: 8000,\n  codeName: 'AtlasError',\n  connectionGeneration: 0\n}\n",
+      "timedOut": false,
+      "duration": 815
+    },
+    {
+      "file": "test-mov-debug.js",
+      "success": true,
+      "stdout": "Analyzing Museum of Vancouver website structure...\nResponse Status: 200\nSaved HTML to mov-debug.html\nPage Title:  Events & Programs — MOV | Museum of Vancouver\n\n=== Checking for event containers ===\n.summary-item: 0\n.eventlist: 0\n.event-item: 0\n.event-list: 0\n.events-list: 0\n.summary-title-link: 0\n.summary-content: 0\n.events-collection: 0\n.event-collection: 0\n.collection-type-events: 0\narticle: 0\n.sqs-block: 21\nFirst .sqs-block example:\n<div class=\"sqs-block-content\">\n\n<div class=\"sqs-html-content\">\n  <h1 style=\"white-space:pre-wrap;\">Upcoming Events &amp; Programs</h1>\n</div>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</div>...\n\n=== Looking for event links ===\nFound 12 potential event links\nLink 1:\n  Text: Feature Exhibitions\n  Href: /feature-exhibitions\n  Parent: DIV with class \"Mobile-overlay-folder\"\nLink 2:\n  Text: Virtual Exhibitions\n  Href: /virtual-exhibitions\n  Parent: DIV with class \"Mobile-overlay-folder\"\nLink 3:\n  Text: Upcoming Exhibitions\n  Href: /upcoming-exhibitions\n  Parent: DIV with class \"Mobile-overlay-folder\"\nLink 4:\n  Text: Past Exhibitions\n  Href: /past-exhibitions\n  Parent: DIV with class \"Mobile-overlay-folder\"\nLink 5:\n  Text: Events & Programs\n  Href: /events-programs\n  Parent: DIV with class \"Mobile-overlay-folder\"\nLink 6:\n  Text: Explore\n  Href: /current-exhibition\n  Parent: SPAN with class \"Header-nav-item Header-nav-item--folder\"\nLink 7:\n  Text: Feature Exhibitions\n  Href: /feature-exhibitions\n  Parent: SPAN with class \"Header-nav-folder\"\nLink 8:\n  Text: Virtual Exhibitions\n  Href: /virtual-exhibitions\n  Parent: SPAN with class \"Header-nav-folder\"\nLink 9:\n  Text: Upcoming Exhibitions\n  Href: /upcoming-exhibitions\n  Parent: SPAN with class \"Header-nav-folder\"\nLink 10:\n  Text: Past Exhibitions\n  Href: /past-exhibitions\n  Parent: SPAN with class \"Header-nav-folder\"\n",
+      "stderr": "",
+      "timedOut": false,
+      "duration": 914
+    },
+    {
+      "file": "test-mov-integration.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 37
+    },
+    {
+      "file": "test-mov-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/events/vancouverMuseumEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/events/vancouverMuseumEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js:4:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-museum-of-anthropology.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/museumOfAnthropologyEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/museumOfAnthropologyEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js:7:36)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-museum-vancouver-no-fallback.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/museumOfVancouverEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js:6:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 34
+    },
+    {
+      "file": "test-museum-vancouver-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/museumOfVancouverEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js:8:34)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-new-scrapers-only.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/metropolisEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/metropolisEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js:8:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 29
+    },
+    {
+      "file": "test-new-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js:5:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 32
+    },
+    {
+      "file": "test-new-vancouver-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js:6:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 29
+    },
+    {
+      "file": "test-new-venue-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/utils/logger",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/utils/logger'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js:8:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 33
+    },
+    {
+      "file": "test-no-fallbacks.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/japanMarketEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js:8:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-orpheum-theatre-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/orpheumTheatreEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/orpheumTheatreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 32
+    },
+    {
+      "file": "test-pearl-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/pearl-scraper-new",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/pearl-scraper-new'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js:6:22)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 30
+    },
+    {
+      "file": "test-pne-concerts-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/pneSummerNightConcerts",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/pneSummerNightConcerts'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js:8:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 31
+    },
+    {
+      "file": "test-pne-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/pneEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/pneEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js:7:19)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 34
+    },
+    {
+      "file": "test-pne-fair-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/pneFair",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/pneFair'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js:8:17)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 32
+    },
+    {
+      "file": "test-proxy-api.js",
+      "success": true,
+      "stdout": "🧪 Testing API connections...\n\n🔄 Testing cloud API...\n✅ Cloud API working! Returned 29 events\n\n🔄 Testing proxy API...\n\n⚠️ Make sure your proxy server is running:\n   node proxy-api-server.js\n",
+      "stderr": "❌ Proxy API error: \n",
+      "timedOut": false,
+      "duration": 10651
+    },
+    {
+      "file": "test-public-library-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/publicLibraryEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/publicLibraryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js:7:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 27
+    },
+    {
+      "file": "test-qet-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/queenElizabethTheatre",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/queenElizabethTheatre'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js:7:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 32
+    },
+    {
+      "file": "test-queer-arts-festival-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/queerArtsFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/queerArtsFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js:4:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 29
+    },
+    {
+      "file": "test-queer-film-festival.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/queerFilmFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/queerFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 32
+    },
+    {
+      "file": "test-red-room-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/redRoomEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/redRoomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js:5:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 56
+    },
+    {
+      "file": "test-richmond-market-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/richmondNightMarket",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/richmondNightMarket'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js:8:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 56
+    },
+    {
+      "file": "test-rickshaw-theatre-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/rickshawTheatreEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/rickshawTheatreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js:7:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 54
+    },
+    {
+      "file": "test-rogers-arena-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/rogersArena",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/rogersArena'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rogers-arena-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rogers-arena-scraper.js:7:21)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rogers-arena-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 52
+    },
+    {
+      "file": "test-roxy-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/roxy-scraper",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/roxy-scraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js:1:21)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 51
+    },
+    {
+      "file": "test-run-to-end-endo-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/runToEndEndoEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/runToEndEndoEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js:5:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 32
+    },
+    {
+      "file": "test-science-world-detailed.js",
+      "success": true,
+      "stdout": "Testing Science World scraper in detail...\nResponse status: 200\nSaved HTML to science-world.html\n\nChecking main containers:\n",
+      "stderr": "",
+      "timedOut": false,
+      "duration": 438
+    },
+    {
+      "file": "test-science-world-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/scienceWorldEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/scienceWorldEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 33
+    },
+    {
+      "file": "test-science-world-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/events/vancouverMuseumEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/events/vancouverMuseumEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js:1:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 33
+    },
+    {
+      "file": "test-science-world.js",
+      "success": true,
+      "stdout": "Testing Science World scraper...\nResponse status: 200\nPage title: Upcoming Events - Science World\nSelector \".event\" found 0 elements\nSelector \".event-card\" found 0 elements\nSelector \".event-item\" found 0 elements\nSelector \"article\" found 0 elements\nSelector \".events-list\" found 0 elements\nSelector \".event-listing\" found 0 elements\nSelector \".swiper-slide\" found 0 elements\nSelector \".programmes-item\" found 0 elements\nSelector \".programme-card\" found 0 elements\n",
+      "stderr": "",
+      "timedOut": false,
+      "duration": 468
+    },
+    {
+      "file": "test-scraper-data.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js:12:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 36
+    },
+    {
+      "file": "test-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/venues/commodoreBallroomShows",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/venues/commodoreBallroomShows'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js:1:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 30
+    },
+    {
+      "file": "test-server.js",
+      "success": false,
+      "error": "Timed out",
+      "stdout": "Test server running on port 8080\nPORT env var: undefined\nNODE_ENV: undefined\n",
+      "stderr": "",
+      "timedOut": true,
+      "duration": 60003
+    },
+    {
+      "file": "test-shipyards-night-market-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/shipyardsNightMarket",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/shipyardsNightMarket'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js:6:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 37
+    },
+    {
+      "file": "test-space-centre-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/spaceCentreEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/spaceCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-squamish-beer-festival-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/squamishBeerFestival",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/squamishBeerFestival'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js:5:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 51
+    },
+    {
+      "file": "test-stanley-park-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/stanleyParkEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/stanleyParkEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 49
+    },
+    {
+      "file": "test-theatre-under-the-stars-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/theatreUnderTheStars",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/theatreUnderTheStars'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 48
+    },
+    {
+      "file": "test-today-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/levelsNightclub",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/levelsNightclub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js:8:3)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 48
+    },
+    {
+      "file": "test-tourism-vancouver-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/tourismVancouverEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/tourismVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 47
+    },
+    {
+      "file": "test-underground-comedy-club.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/undergroundComedyClubEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/undergroundComedyClubEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js:1:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-vancouver-asian-film-festival.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vancouverAsianFilmFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vancouverAsianFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js:7:42)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 33
+    },
+    {
+      "file": "test-vancouver-city-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vancouverCityEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vancouverCityEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js:6:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-vancouver-civic-theatres-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/vancouverCivicTheatres",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/vancouverCivicTheatres'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js:7:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 32
+    },
+    {
+      "file": "test-vancouver-film-festival.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vancouverFilmFestivalEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vancouverFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js:7:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 31
+    },
+    {
+      "file": "test-vancouver-mysteries-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vancouverMysteriesEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vancouverMysteriesEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js:7:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 34
+    },
+    {
+      "file": "test-vancouver-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 198
+    },
+    {
+      "file": "test-vegan-market-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/veganMarketEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/veganMarketEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js:4:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-venue-scrapers.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/utils/logger",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/utils/logger'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js:8:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 35
+    },
+    {
+      "file": "test-vogue-theatre-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vogueTheatreEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vogueTheatreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 37
+    },
+    {
+      "file": "test-vsff-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/vsffEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/vsffEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js:5:21)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 31
+    },
+    {
+      "file": "test-western-front-events.js",
+      "success": false,
+      "error": "Cannot find module: ./scrapers/cities/vancouver/westernFrontEvents",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './scrapers/cities/vancouver/westernFrontEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 29
+    },
+    {
+      "file": "test-yaletown-jazz-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ./cities/vancouver/yaletownJazz",
+      "stdout": "",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module './cities/vancouver/yaletownJazz'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js:8:22)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "duration": 29
+    }
+  ]
+}

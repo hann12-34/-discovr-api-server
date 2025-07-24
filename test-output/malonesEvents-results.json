@@ -1,0 +1,512 @@
+[
+  {
+    "id": "malones-bar-wednesday-dj-night-2025-07-04",
+    "title": "Wednesday DJ Night",
+    "description": "Join us every Wednesday for our signature DJ Night featuring local Vancouver DJs spinning the best music.",
+    "startDate": "2025-07-04T04:00:00.000Z",
+    "endDate": "2025-07-04T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:02.738Z"
+  },
+  {
+    "id": "malones-bar-thirsty-thursday-2025-07-05",
+    "title": "Thirsty Thursday",
+    "description": "Enjoy drink specials all night long with our popular Thirsty Thursday event.",
+    "startDate": "2025-07-05T04:00:00.000Z",
+    "endDate": "2025-07-05T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:02.738Z"
+  },
+  {
+    "id": "malones-bar-friday-night-live-2025-07-06",
+    "title": "Friday Night Live",
+    "description": "Experience live music from Vancouver's top bands every Friday night at Malone's.",
+    "startDate": "2025-07-06T04:00:00.000Z",
+    "endDate": "2025-07-06T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:02.738Z"
+  },
+  {
+    "id": "malones-bar-saturday-dance-party-2025-07-07",
+    "title": "Saturday Dance Party",
+    "description": "Our famous Saturday Dance Party with resident DJ mixing hits all night long.",
+    "startDate": "2025-07-07T04:00:00.000Z",
+    "endDate": "2025-07-07T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:02.738Z"
+  },
+  {
+    "id": "malones-bar-sunday-sports-day-2025-07-08",
+    "title": "Sunday Sports Day",
+    "description": "Watch all the major sports games on our multiple big screens with special food and drink deals.",
+    "startDate": "2025-07-08T04:00:00.000Z",
+    "endDate": "2025-07-08T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:02.738Z"
+  },
+  {
+    "id": "malones-bar-wednesday-dj-night-2025-07-04",
+    "title": "Wednesday DJ Night",
+    "description": "Join us every Wednesday for our signature DJ Night featuring local Vancouver DJs spinning the best music.",
+    "startDate": "2025-07-04T04:00:00.000Z",
+    "endDate": "2025-07-04T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:07.058Z"
+  },
+  {
+    "id": "malones-bar-thirsty-thursday-2025-07-05",
+    "title": "Thirsty Thursday",
+    "description": "Enjoy drink specials all night long with our popular Thirsty Thursday event.",
+    "startDate": "2025-07-05T04:00:00.000Z",
+    "endDate": "2025-07-05T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:07.058Z"
+  },
+  {
+    "id": "malones-bar-friday-night-live-2025-07-06",
+    "title": "Friday Night Live",
+    "description": "Experience live music from Vancouver's top bands every Friday night at Malone's.",
+    "startDate": "2025-07-06T04:00:00.000Z",
+    "endDate": "2025-07-06T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:07.058Z"
+  },
+  {
+    "id": "malones-bar-saturday-dance-party-2025-07-07",
+    "title": "Saturday Dance Party",
+    "description": "Our famous Saturday Dance Party with resident DJ mixing hits all night long.",
+    "startDate": "2025-07-07T04:00:00.000Z",
+    "endDate": "2025-07-07T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:07.058Z"
+  },
+  {
+    "id": "malones-bar-sunday-sports-day-2025-07-08",
+    "title": "Sunday Sports Day",
+    "description": "Watch all the major sports games on our multiple big screens with special food and drink deals.",
+    "startDate": "2025-07-08T04:00:00.000Z",
+    "endDate": "2025-07-08T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:07.058Z"
+  },
+  {
+    "id": "malones-bar-wednesday-dj-night-2025-07-04",
+    "title": "Wednesday DJ Night",
+    "description": "Join us every Wednesday for our signature DJ Night featuring local Vancouver DJs spinning the best music.",
+    "startDate": "2025-07-04T04:00:00.000Z",
+    "endDate": "2025-07-04T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:11.235Z"
+  },
+  {
+    "id": "malones-bar-thirsty-thursday-2025-07-05",
+    "title": "Thirsty Thursday",
+    "description": "Enjoy drink specials all night long with our popular Thirsty Thursday event.",
+    "startDate": "2025-07-05T04:00:00.000Z",
+    "endDate": "2025-07-05T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:11.235Z"
+  },
+  {
+    "id": "malones-bar-friday-night-live-2025-07-06",
+    "title": "Friday Night Live",
+    "description": "Experience live music from Vancouver's top bands every Friday night at Malone's.",
+    "startDate": "2025-07-06T04:00:00.000Z",
+    "endDate": "2025-07-06T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:11.235Z"
+  },
+  {
+    "id": "malones-bar-saturday-dance-party-2025-07-07",
+    "title": "Saturday Dance Party",
+    "description": "Our famous Saturday Dance Party with resident DJ mixing hits all night long.",
+    "startDate": "2025-07-07T04:00:00.000Z",
+    "endDate": "2025-07-07T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:11.235Z"
+  },
+  {
+    "id": "malones-bar-sunday-sports-day-2025-07-08",
+    "title": "Sunday Sports Day",
+    "description": "Watch all the major sports games on our multiple big screens with special food and drink deals.",
+    "startDate": "2025-07-08T04:00:00.000Z",
+    "endDate": "2025-07-08T07:00:00.000Z",
+    "venue": {
+      "name": "Malone's Bar",
+      "id": "malones-bar",
+      "address": "608 W Pender St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2829,
+        "lng": -123.1139
+      },
+      "websiteUrl": "https://www.malones.bc.ca/",
+      "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "bar",
+      "entertainment",
+      "nightlife",
+      "music",
+      "sports"
+    ],
+    "sourceURL": "https://www.malones.bc.ca/events",
+    "officialWebsite": "https://www.malones.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:41:11.235Z"
+  }
+]

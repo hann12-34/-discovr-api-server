@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: metropolisEvents.js ---
+============================================================
+Scraper 'Metropolis at Metrotown Events' instantiated successfully. Running scrape()...
+🔍 Starting Metropolis at Metrotown Events scraper...
+Navigating to: https://metropolisatmetrotown.com/en/events/
+
+------------------------------------------------------------
+✅ Scraper 'Metropolis at Metrotown Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/metropolisEvents-results.json
+
+STDERR:
+❌ Error in Metropolis at Metrotown Events scraper: Navigation timeout of 60000 ms exceeded

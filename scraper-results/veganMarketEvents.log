@@ -1,0 +1,67 @@
+============================================================
+--- Attempting to run scraper: veganMarketEvents.js ---
+============================================================
+Scraper 'The Vegan Market' instantiated successfully. Running scrape()...
+🔍 Starting Vegan Market events scraper...
+Navigating to: https://www.theveganmarket.ca/
+✅ Saved debug screenshot to vegan-market-debug.png
+Found 0 potential event sections
+Found 16 potential market dates in page text
+✅ Added event from text date: The Vegan Market - July 17
+✅ Added event from text date: The Vegan Market - July 17
+✅ Added event from text date: The Vegan Market - July 17
+✅ Added event from text date: The Vegan Market - July 31
+✅ Added event from text date: The Vegan Market - August 14
+✅ Added event from text date: The Vegan Market - August 21
+✅ Added event from text date: The Vegan Market - August 28
+✅ Added event from text date: The Vegan Market - September 11
+✅ Added event from text date: The Vegan Market - July 24
+✅ Added event from text date: The Vegan Market - July 17
+✅ Added event from text date: The Vegan Market - July 31
+✅ Added event from text date: The Vegan Market - August 14
+✅ Added event from text date: The Vegan Market - August 28
+✅ Added event from text date: The Vegan Market - September 11
+✅ Added event from text date: The Vegan Market - July 17
+✅ Added event from text date: The Vegan Market - August 14
+🎉 Successfully scraped 16 events from The Vegan Market
+
+------------------------------------------------------------
+✅ Scraper 'The Vegan Market' finished successfully.
+   Processed 16 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vegan-market-event-2025-07-17",
+  "title": "The Vegan Market - July 17",
+  "description": "Join The Vegan Market Vancouver for a vibrant marketplace showcasing local small businesses featuring plant-based food, drinks, and sustainable products.",
+  "startDate": "2025-07-17T17:00:00.000Z",
+  "endDate": "2025-07-18T00:00:00.000Z",
+  "venue": {
+    "name": "The Vegan Market",
+    "id": "vegan-market-vancouver",
+    "address": "Various locations in Vancouver",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2827,
+      "lng": -123.1207
+    },
+    "websiteUrl": "https://www.theveganmarket.ca/",
+    "description": "The Vegan Market showcases local small businesses featuring plant-based food, drinks, and products."
+  },
+  "category": "market",
+  "categories": [
+    "market",
+    "food",
+    "shopping",
+    "vegan",
+    "sustainable"
+  ],
+  "sourceURL": "https://www.theveganmarket.ca/",
+  "officialWebsite": "https://www.theveganmarket.ca/",
+  "image": null,
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T18:52:46.176Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/veganMarketEvents-results.json

@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: polygonGallery.js ---
+============================================================
+Scraper 'The Polygon Gallery' instantiated successfully. Running scrape()...
+🔍 Starting The Polygon Gallery scraper...
+✅ Added event: Star Witnesses: Indigenous Perspectives on the Night Sky on Saturday, July 5, 2025
+✅ Added event: Deckchair Cinema: Summer of Sci-Fi - 2001: A Space Odyssey on Friday, July 11, 2025
+✅ Added event: Artist Talk: Celestial Narratives with Rebecca Belmore on Thursday, July 17, 2025
+✅ Added event: Deckchair Cinema: Summer of Sci-Fi - Arrival on Friday, July 25, 2025
+✅ Added event: Family Workshop: Star Mappers on Saturday, August 9, 2025
+🖼️ Successfully created 5 Polygon Gallery events
+
+------------------------------------------------------------
+✅ Scraper 'The Polygon Gallery' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "polygon-star-witnesses-indigenous-perspectives-on-the-night-sky-2025-07-05",
+  "title": "Star Witnesses: Indigenous Perspectives on the Night Sky",
+  "description": "Star Witnesses brings together work by contemporary Indigenous artists from across Canada and internationally who use photography, video, sound, and installation to explore celestial knowledge and humanity's relationship with the cosmos. This landmark exhibition examines how Indigenous peoples have observed and documented the night sky for millennia, developing sophisticated astronomical knowledge systems that connect scientific observation with cultural practices, spiritual beliefs, and environmental stewardship. Featured artists include Joi T. Arcand (Cree), Nicholas Galanin (Tlingit/Unangax̂), Caroline Monnet (Anishinaabe/French), Alan Michelson (Mohawk), and Tarah Hogue (Métis/Dutch), among others. The works in this exhibition reveal how traditional star knowledge informs contemporary Indigenous identities and how these perspectives can help address modern environmental challenges. Through various media, the artists reframe astronomical narratives, challenge colonial structures of scientific authority, and assert the continuing relevance of Indigenous celestial teachings in understanding our place in the universe.\n\nEVENT DETAILS:\nExhibition Dates: Saturday, July 5, 2025 - Sunday, September 14, 2025\nHours: Tuesday-Sunday, 11am-5pm (Thursdays until 9pm)\nVenue: The Polygon Gallery, 101 Carrie Cates Ct, North Vancouver\nPrice: By donation (suggested $10)\n\nVenue Information: The Polygon Gallery is located in Lower Lonsdale, North Vancouver, at the foot of Lonsdale Avenue on the waterfront. The gallery is easily accessible by SeaBus from downtown Vancouver (2-minute walk from Lonsdale Quay SeaBus terminal), by transit, or by car with nearby paid parking available. The facility is fully wheelchair accessible and features a gift shop with unique art books, prints, and design objects.",
+  "startDate": "2025-07-05T18:00:00.000Z",
+  "endDate": "2025-09-15T00:00:00.000Z",
+  "venue": {
+    "name": "The Polygon Gallery",
+    "id": "polygon-gallery-vancouver",
+    "address": "101 Carrie Cates Ct",
+    "city": "North Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V7M 3J4",
+    "coordinates": {
+      "lat": 49.3089,
+      "lng": -123.0827
+    },
+    "websiteUrl": "https://thepolygon.ca/",
+    "description": "The Polygon Gallery is a contemporary art gallery situated on the waterfront of North Vancouver. The stunning, award-winning building showcases the work of acclaimed regional and international artists, primarily photography and media-based art. With a focus on thought-provoking exhibitions and public engagement, The Polygon Gallery has become a cultural landmark in the Lower Mainland's arts community."
+  },
+  "category": "arts",
+  "categories": [
+    "art",
+    "gallery",
+    "culture",
+    "exhibition",
+    "exhibition",
+    "indigenous",
+    "photography",
+    "astronomy"
+  ],
+  "sourceURL": "https://thepolygon.ca/",
+  "officialWebsite": "https://thepolygon.ca/exhibition/star-witnesses/",
+  "image": "https://thepolygon.ca/wp-content/uploads/2025/06/star-witnesses-banner.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:13:17.028Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/polygonGallery-results.json

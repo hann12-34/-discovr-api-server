@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: chanCentreEvents.js ---
+============================================================
+Scraper 'Chan Centre for the Performing Arts' instantiated successfully. Running scrape()...
+🔍 Scraping events from Chan Centre for the Performing Arts...
+Navigating to https://chancentre.com/events/
+Extracting events data...
+Found 0 potential events
+Found 0 events from Chan Centre for the Performing Arts
+
+------------------------------------------------------------
+✅ Scraper 'Chan Centre for the Performing Arts' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/chanCentreEvents-results.json

@@ -1,0 +1,172 @@
+[
+  {
+    "id": "broadway-vancouver-shows-2025-08-15",
+    "title": "Shows",
+    "description": "Shows - Broadway Across Canada production at the Queen Elizabeth Theatre in Vancouver.",
+    "startDate": "2025-08-15T02:30:00.000Z",
+    "endDate": "2025-08-15T05:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre-vancouver",
+      "address": "630 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2799,
+        "lng": -123.1128
+      },
+      "websiteUrl": "https://vancouver.broadway.com/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver and the primary venue for Broadway productions in Vancouver."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "musical",
+      "broadway",
+      "performance",
+      "arts"
+    ],
+    "sourceURL": "https://vancouver.broadway.com/shows/",
+    "officialWebsite": "https://vancouver.broadway.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:54.653Z"
+  },
+  {
+    "id": "broadway-vancouver-about-the-show-2025-09-29",
+    "title": "About the show",
+    "description": "About the show - Broadway Across Canada production at the Queen Elizabeth Theatre in Vancouver.",
+    "startDate": "2025-09-29T02:30:00.000Z",
+    "endDate": "2025-09-29T05:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre-vancouver",
+      "address": "630 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2799,
+        "lng": -123.1128
+      },
+      "websiteUrl": "https://vancouver.broadway.com/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver and the primary venue for Broadway productions in Vancouver."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "musical",
+      "broadway",
+      "performance",
+      "arts"
+    ],
+    "sourceURL": "https://vancouver.broadway.com/shows/disneys-the-lion-king/",
+    "officialWebsite": "https://vancouver.broadway.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:54.691Z"
+  },
+  {
+    "id": "broadway-vancouver-about-the-show-2025-11-13",
+    "title": "About the show",
+    "description": "About the show - Broadway Across Canada production at the Queen Elizabeth Theatre in Vancouver.",
+    "startDate": "2025-11-13T03:30:00.000Z",
+    "endDate": "2025-11-13T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre-vancouver",
+      "address": "630 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2799,
+        "lng": -123.1128
+      },
+      "websiteUrl": "https://vancouver.broadway.com/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver and the primary venue for Broadway productions in Vancouver."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "musical",
+      "broadway",
+      "performance",
+      "arts"
+    ],
+    "sourceURL": "https://vancouver.broadway.com/shows/mj/",
+    "officialWebsite": "https://vancouver.broadway.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:54.691Z"
+  },
+  {
+    "id": "broadway-vancouver-about-the-show-2025-12-28",
+    "title": "About the show",
+    "description": "About the show - Broadway Across Canada production at the Queen Elizabeth Theatre in Vancouver.",
+    "startDate": "2025-12-28T03:30:00.000Z",
+    "endDate": "2025-12-28T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre-vancouver",
+      "address": "630 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2799,
+        "lng": -123.1128
+      },
+      "websiteUrl": "https://vancouver.broadway.com/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver and the primary venue for Broadway productions in Vancouver."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "musical",
+      "broadway",
+      "performance",
+      "arts"
+    ],
+    "sourceURL": "https://vancouver.broadway.com/shows/moulin-rouge/",
+    "officialWebsite": "https://vancouver.broadway.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:54.692Z"
+  },
+  {
+    "id": "broadway-vancouver-about-the-show-2026-02-11",
+    "title": "About the show",
+    "description": "About the show - Broadway Across Canada production at the Queen Elizabeth Theatre in Vancouver.",
+    "startDate": "2026-02-11T03:30:00.000Z",
+    "endDate": "2026-02-11T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre-vancouver",
+      "address": "630 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2799,
+        "lng": -123.1128
+      },
+      "websiteUrl": "https://vancouver.broadway.com/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver and the primary venue for Broadway productions in Vancouver."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "musical",
+      "broadway",
+      "performance",
+      "arts"
+    ],
+    "sourceURL": "https://vancouver.broadway.com/shows/les-miserables/",
+    "officialWebsite": "https://vancouver.broadway.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:54.692Z"
+  }
+]

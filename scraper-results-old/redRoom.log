@@ -1,0 +1,15 @@
+============================================================
+--- Attempting to run scraper: redRoom.js ---
+============================================================
+Scraper 'Red Room' instantiated successfully. Running scrape()...
+🔍 Starting Red Room events scraper...
+Navigating to: https://redroomvancouver.com/
+Found 0 event elements on the page
+🎉 Successfully scraped 0 events from Red Room Vancouver
+
+------------------------------------------------------------
+✅ Scraper 'Red Room' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/redRoom-results.json

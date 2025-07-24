@@ -1,0 +1,218 @@
+[
+  {
+    "id": "biltmore-cabaret-lucy-dacus-with-special-guests-2025-07-16",
+    "title": "Lucy Dacus with Special Guests",
+    "description": "Acclaimed indie rock singer-songwriter Lucy Dacus returns to The Biltmore Cabaret in support of her critically celebrated new album. Known for her insightful lyrics and captivating live performances, Dacus brings her full band to deliver an intimate evening of storytelling and music. The show will feature songs from her latest release as well as fan favorites from her previous albums.\n\nEVENT DETAILS:\nDate: Tuesday, July 15, 2025\nDoors: 7:00 PM\nShow: 8:00 PM\nAge Restriction: 19+\nGenre: Indie Rock\nArtist Website: https://lucydacus.com/\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+    "startDate": "2025-07-16T03:00:00.000Z",
+    "endDate": "2025-07-16T06:30:00.000Z",
+    "venue": {
+      "name": "The Biltmore Cabaret",
+      "id": "biltmore-cabaret-vancouver",
+      "address": "2755 Prince Edward St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5T 0A9",
+      "coordinates": {
+        "lat": 49.2614363,
+        "lng": -123.1018535
+      },
+      "websiteUrl": "https://www.thebiltmorecabaret.com/",
+      "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "nightlife",
+      "entertainment",
+      "live music",
+      "indie rock"
+    ],
+    "sourceURL": "https://www.thebiltmorecabaret.com/",
+    "officialWebsite": "https://www.thebiltmorecabaret.com/events/lucy-dacus/",
+    "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/04/lucy-dacus.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:35.973Z"
+  },
+  {
+    "id": "biltmore-cabaret-glory-days-80s-new-wave-dance-party-2025-07-19",
+    "title": "Glory Days: 80s New Wave Dance Party",
+    "description": "Step back in time with Glory Days, The Biltmore's monthly celebration of all things 80s new wave, post-punk, and synthpop. Dance the night away to classics from The Cure, Depeche Mode, New Order, The Smiths, and more. DJ RayRay and DJ Black Mamba spin the perfect blend of nostalgic hits and underground gems from the era of big hair and even bigger synthesizers.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nDoors: 9:30 PM\nShow: 9:30 PM\nAge Restriction: 19+\nGenre: Dance Party/80s\nDJs: DJ RayRay, DJ Black Mamba\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+    "startDate": "2025-07-19T04:30:00.000Z",
+    "endDate": "2025-07-19T09:00:00.000Z",
+    "venue": {
+      "name": "The Biltmore Cabaret",
+      "id": "biltmore-cabaret-vancouver",
+      "address": "2755 Prince Edward St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5T 0A9",
+      "coordinates": {
+        "lat": 49.2614363,
+        "lng": -123.1018535
+      },
+      "websiteUrl": "https://www.thebiltmorecabaret.com/",
+      "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "nightlife",
+      "entertainment",
+      "live music",
+      "dance party",
+      "80s",
+      "dance"
+    ],
+    "sourceURL": "https://www.thebiltmorecabaret.com/",
+    "officialWebsite": "https://www.thebiltmorecabaret.com/events/glory-days-july/",
+    "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/04/glory-days.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:35.974Z"
+  },
+  {
+    "id": "biltmore-cabaret-vancouver-underground-local-showcase-2025-07-24",
+    "title": "Vancouver Underground: Local Showcase",
+    "description": "The Biltmore proudly presents Vancouver Underground, a monthly showcase featuring the city's most promising emerging talent. This July edition brings together four local bands spanning indie rock, dream pop, and post-punk. Discover your new favorite local artists in the intimate setting that has helped launch countless Vancouver music careers over the years.\n\nEVENT DETAILS:\nDate: Wednesday, July 23, 2025\nDoors: 7:30 PM\nShow: 8:00 PM\nAge Restriction: 19+\nGenre: Local/Indie\nPerformers: Sleepy Gonzales, Hotel Mira, Hollow Twin, Fionn\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+    "startDate": "2025-07-24T02:30:00.000Z",
+    "endDate": "2025-07-24T06:30:00.000Z",
+    "venue": {
+      "name": "The Biltmore Cabaret",
+      "id": "biltmore-cabaret-vancouver",
+      "address": "2755 Prince Edward St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5T 0A9",
+      "coordinates": {
+        "lat": 49.2614363,
+        "lng": -123.1018535
+      },
+      "websiteUrl": "https://www.thebiltmorecabaret.com/",
+      "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "nightlife",
+      "entertainment",
+      "live music",
+      "local",
+      "indie"
+    ],
+    "sourceURL": "https://www.thebiltmorecabaret.com/",
+    "officialWebsite": "https://www.thebiltmorecabaret.com/events/vancouver-underground-july/",
+    "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/05/underground-showcase.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:35.974Z"
+  },
+  {
+    "id": "biltmore-cabaret-the-midnight-with-special-guests-2025-07-30",
+    "title": "The Midnight with Special Guests",
+    "description": "Synthwave superstars The Midnight bring their nostalgic, neon-soaked sounds to The Biltmore Cabaret for an intimate club show. Following their sold-out arena tour, this rare small venue appearance offers fans a chance to experience their cinematic soundscapes and heartfelt lyrics up close. Expect a setlist spanning their entire discography, from early classics to their latest hits.\n\nEVENT DETAILS:\nDate: Tuesday, July 29, 2025\nDoors: 7:00 PM\nShow: 8:00 PM\nAge Restriction: 19+\nGenre: Synthwave/Electronic\nArtist Website: https://www.themidnightofficial.com/\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+    "startDate": "2025-07-30T03:00:00.000Z",
+    "endDate": "2025-07-30T06:00:00.000Z",
+    "venue": {
+      "name": "The Biltmore Cabaret",
+      "id": "biltmore-cabaret-vancouver",
+      "address": "2755 Prince Edward St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5T 0A9",
+      "coordinates": {
+        "lat": 49.2614363,
+        "lng": -123.1018535
+      },
+      "websiteUrl": "https://www.thebiltmorecabaret.com/",
+      "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "nightlife",
+      "entertainment",
+      "live music",
+      "synthwave",
+      "electronic"
+    ],
+    "sourceURL": "https://www.thebiltmorecabaret.com/",
+    "officialWebsite": "https://www.thebiltmorecabaret.com/events/the-midnight/",
+    "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/05/the-midnight.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:35.974Z"
+  },
+  {
+    "id": "biltmore-cabaret-no-demands-post-punk-night-2025-08-02",
+    "title": "No Demands: Post-Punk Night",
+    "description": "No Demands returns to The Biltmore for a night dedicated to post-punk, darkwave, and gothic sounds. This monthly event features resident DJ Cruel Britannia spinning tracks from Joy Division, Bauhaus, Siouxsie and the Banshees, alongside contemporary acts like Shame, Fontaines D.C., and IDLES. The night includes live performances from local post-punk bands followed by dancing until late.\n\nEVENT DETAILS:\nDate: Friday, August 1, 2025\nDoors: 9:00 PM\nShow: 9:30 PM\nAge Restriction: 19+\nGenre: Post-Punk/Darkwave\nPerformers: Actors, SPECTRES\nDJs: DJ Cruel Britannia\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+    "startDate": "2025-08-02T04:00:00.000Z",
+    "endDate": "2025-08-02T09:00:00.000Z",
+    "venue": {
+      "name": "The Biltmore Cabaret",
+      "id": "biltmore-cabaret-vancouver",
+      "address": "2755 Prince Edward St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5T 0A9",
+      "coordinates": {
+        "lat": 49.2614363,
+        "lng": -123.1018535
+      },
+      "websiteUrl": "https://www.thebiltmorecabaret.com/",
+      "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "nightlife",
+      "entertainment",
+      "live music",
+      "post-punk",
+      "darkwave"
+    ],
+    "sourceURL": "https://www.thebiltmorecabaret.com/",
+    "officialWebsite": "https://www.thebiltmorecabaret.com/events/no-demands-august/",
+    "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/06/no-demands.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:35.974Z"
+  },
+  {
+    "id": "biltmore-cabaret-omar-apollo---intimate-show-2025-08-08",
+    "title": "Omar Apollo - Intimate Show",
+    "description": "Grammy-nominated R&B innovator Omar Apollo performs a special intimate show at The Biltmore Cabaret. Following his meteoric rise and major festival appearances, Apollo returns to small venues for a limited run to reconnect with fans in close quarters. Showcasing his soulful vocals, genre-blending musicality, and charismatic stage presence, this rare club show is not to be missed.\n\nEVENT DETAILS:\nDate: Thursday, August 7, 2025\nDoors: 7:00 PM\nShow: 8:00 PM\nAge Restriction: 19+\nGenre: R&B/Soul\nArtist Website: https://www.omarapollo.com/\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+    "startDate": "2025-08-08T03:00:00.000Z",
+    "endDate": "2025-08-08T06:00:00.000Z",
+    "venue": {
+      "name": "The Biltmore Cabaret",
+      "id": "biltmore-cabaret-vancouver",
+      "address": "2755 Prince Edward St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5T 0A9",
+      "coordinates": {
+        "lat": 49.2614363,
+        "lng": -123.1018535
+      },
+      "websiteUrl": "https://www.thebiltmorecabaret.com/",
+      "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "nightlife",
+      "entertainment",
+      "live music",
+      "r&b",
+      "soul"
+    ],
+    "sourceURL": "https://www.thebiltmorecabaret.com/",
+    "officialWebsite": "https://www.thebiltmorecabaret.com/events/omar-apollo/",
+    "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/06/omar-apollo.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:32:35.974Z"
+  }
+]

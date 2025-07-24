@@ -1,0 +1,53 @@
+============================================================
+--- Attempting to run scraper: vancouverMysteriesEvents.js ---
+============================================================
+Scraper 'Vancouver Mysteries Theatre' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Mysteries Theatre scraper...
+Navigating to: https://vancouvermysteries.com/
+✅ Saved debug screenshot to vancouver-mysteries-debug.png
+Looking for game descriptions in page content...
+✅ Found 1 mystery games from page content
+✅ Added event: Vancouver Mysteries: MYSTERY DINING EXPERIENCE on 8/27/2025
+✅ Added event: Vancouver Mysteries: MYSTERY DINING EXPERIENCE on 8/9/2025
+✅ Added event: Vancouver Mysteries: MYSTERY DINING EXPERIENCE on 9/3/2025
+🎉 Successfully scraped 3 events from Vancouver Mysteries
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Mysteries Theatre' finished successfully.
+   Processed 3 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vancouver-mysteries-mystery-dining-experience-2025-08-28",
+  "title": "Vancouver Mysteries: MYSTERY DINING EXPERIENCE",
+  "description": "CHECK OUT OUR NEW MYSTERY DINING EXPERIENCE!",
+  "startDate": "2025-08-28T02:00:00.000Z",
+  "endDate": "2025-08-28T05:00:00.000Z",
+  "venue": {
+    "name": "Vancouver Mysteries",
+    "id": "vancouver-mysteries",
+    "address": "202-1338 Homer Street",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2756,
+      "lng": -123.1236
+    },
+    "websiteUrl": "https://vancouvermysteries.com/",
+    "description": "Vancouver Mysteries offers interactive theatre experiences and puzzle-solving adventures throughout downtown Vancouver."
+  },
+  "category": "mystery",
+  "categories": [
+    "entertainment",
+    "interactive",
+    "mystery",
+    "theatre"
+  ],
+  "sourceURL": "https://vancouvermysteries.com/author/accts/",
+  "officialWebsite": "https://vancouvermysteries.com/",
+  "image": "https://i0.wp.com/vancouvermysteries.com/wp-content/uploads/2025/07/2025.07.13-Murder-at-the-Movies-Cliff-Rogers-jpg.webp?resize=1184%2C1226&ssl=1",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:26:22.343Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverMysteriesEvents-results.json

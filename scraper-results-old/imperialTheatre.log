@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: imperialTheatre.js ---
+============================================================
+Scraper 'Imperial Theatre' instantiated successfully. Running scrape()...
+🔍 Starting Imperial Theatre scraper...
+✅ Added event: Khruangbin: World Tour on Tuesday, July 15, 2025
+✅ Added event: Vancouver International Film Festival: Midnight Madness on Saturday, August 2, 2025
+✅ Added event: Bonobo: Live Electronic Set on Monday, July 28, 2025
+✅ Added event: Vancouver Podcast Festival: Live Recording on Sunday, August 10, 2025
+✅ Added event: Queer Comedy Night: Pride Edition on Friday, August 15, 2025
+✅ Added event: Vancouver Electronic Arts Festival: A/V Showcase on Saturday, August 23, 2025
+🎭 Successfully created 6 Imperial Theatre events
+
+------------------------------------------------------------
+✅ Scraper 'Imperial Theatre' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "imperial-khruangbin-world-tour-2025-07-16",
+  "title": "Khruangbin: World Tour",
+  "description": "Texas trio Khruangbin brings their genre-defying sound to Vancouver, blending psychedelic rock, dub, soul, and global influences into a mesmerizing live experience. Known for their instrumental prowess and hypnotic grooves, the band will perform tracks from their acclaimed albums including their latest release. Khruangbin's live shows are known for their immersive lighting design, impeccable musicianship, and the ability to create an atmosphere that transcends traditional concert experiences. With Laura Lee on bass, Mark Speer on guitar, and Donald 'DJ' Johnson on drums, this performance promises to be a highlight of the summer concert season.\n\nEVENT DETAILS:\nDate: Tuesday, July 15, 2025\nTime: 8:00 PM - 11:00 PM\nVenue: Imperial Theatre, 319 Main St, Vancouver\nPrice: $49.50\nTickets: Required, available through The Imperial website or box office\nPerformers: Khruangbin\n\nThe Imperial Theatre is located in Vancouver's historic Chinatown neighborhood, easily accessible by public transit. The venue is fully accessible and offers a full bar service. Doors typically open one hour before event start time.",
+  "startDate": "2025-07-16T03:00:00.000Z",
+  "endDate": "2025-07-16T06:00:00.000Z",
+  "venue": {
+    "name": "Imperial Theatre",
+    "id": "imperial-theatre-vancouver",
+    "address": "319 Main St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6A 2S9",
+    "coordinates": {
+      "lat": 49.2814,
+      "lng": -123.1002
+    },
+    "websiteUrl": "https://www.imperialvancouver.com/",
+    "description": "The Imperial is a state-of-the-art venue in the heart of Vancouver's historic Chinatown district. Originally built in 1913 as a theatre for silent films, this unique space combines historic architecture with modern technology, including immersive 3D projection mapping, 7.1 surround sound, and a versatile layout that can accommodate a wide range of performances and events. With a capacity of up to 800, The Imperial hosts concerts, arts performances, film screenings, corporate events, and private functions."
+  },
+  "category": "entertainment",
+  "categories": [
+    "entertainment",
+    "nightlife",
+    "arts",
+    "concert",
+    "music",
+    "live music"
+  ],
+  "sourceURL": "https://www.imperialvancouver.com/",
+  "officialWebsite": "https://www.imperialvancouver.com/events/khruangbin/",
+  "image": "https://www.imperialvancouver.com/wp-content/uploads/2025/04/khruangbin-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:08:16.416Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/imperialTheatre-results.json

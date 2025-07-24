@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-07-18T00:53:04.453Z",
+  "summary": {
+    "total": 2,
+    "successful": 0,
+    "failed": 2,
+    "eventsTotal": 0
+  },
+  "scrapers": [
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "success": false,
+      "events": 0,
+      "error": "Cannot find module './utils/helpers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_fixed_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js"
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "success": false,
+      "events": 0,
+      "error": "Scraper file not found"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+============================================================
+--- Attempting to run scraper: fortuneSoundClubBridge.js ---
+============================================================
+Scraper 'Fortune Sound Club' instantiated successfully. Running scrape()...
+🎵 Scraping Fortune Sound Club events via Python bridge...
+Running Python scraper: /Users/seongwoohan/CascadeProjects/discovr-api-server/Scrapers/FortuneSound/fortune_scraper.py
+
+------------------------------------------------------------
+✅ Scraper 'Fortune Sound Club' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/fortuneSoundClubBridge-results.json
+
+STDERR:
+Error running Python scraper: Command failed: cd /Users/seongwoohan/CascadeProjects/discovr-api-server/Scrapers/FortuneSound && python3 fortune_scraper.py
+/bin/sh: line 0: cd: /Users/seongwoohan/CascadeProjects/discovr-api-server/Scrapers/FortuneSound: No such file or directory
+
+Error scraping Fortune Sound Club: Command failed: cd /Users/seongwoohan/CascadeProjects/discovr-api-server/Scrapers/FortuneSound && python3 fortune_scraper.py
+/bin/sh: line 0: cd: /Users/seongwoohan/CascadeProjects/discovr-api-server/Scrapers/FortuneSound: No such file or directory
+

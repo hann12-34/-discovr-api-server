@@ -1,0 +1,84 @@
+============================================================
+--- Attempting to run scraper: arcDiningEvents.js ---
+============================================================
+Scraper 'Arc Dining Garden Dinners' instantiated successfully. Running scrape()...
+🔍 Starting Arc Dining Garden Dinners scraper...
+Navigating to: https://www.arcdining.com/events
+✅ Saved debug screenshot to arc-dining-debug.png
+No structured event elements found. Extracting events from page content...
+✅ Added event from text: Garden Dinner: About sub-menu
+					About
+				
+				
+					
+							
+								Overview on 8/21/2025
+✅ Added event from text: Garden Dinner: About sub-menu
+					About
+				
+				
+					
+							
+								Overview on 8/21/2025
+✅ Added event from text: Garden Dinner: PROVINCE TO PLATE
+            
+			This month's Province to Plate menu on 8/28/2025
+✅ Added event from text: Garden Dinner: This month's Province to Plate menu showcases the very best of the Pacific on 8/30/2025
+✅ Added event from text: GARDEN DINNER SERIES
+            
+			Indulge in a truly unique culinary on 8/28/2025
+✅ Added event from text: Garden Dinner: Indulge in a truly unique culinary experience amidst the lush greenery of on 8/15/2025
+✅ Added event from text: Garden Dinner: SOOTHE & SAVOUR
+            
+			Restore your energy and elevate your weekend on 9/4/2025
+✅ Added event from text: Garden Dinner: Restore your energy and elevate your weekend with a mindful morning of on 8/31/2025
+✅ Added event from text: Garden Dinner: POLAR PLUNGE & BRUNCH
+            
+			Dive into an unforgettable winter on 8/28/2025
+✅ Added event from text: Garden Dinner: Dive into an unforgettable winter experience on Nov 16, Dec 7, Jan 11 & 18, 2025 on 8/28/2025
+✅ Added event from text: Garden Dinner: AWARD WINNING BOTTOMLESS BRUNCH
+            
+			Voted one of Canada's Top 100 on 9/7/2025
+✅ Added event from text: Garden Dinner: Voted one of Canada's Top 100 Brunch Restaurants in 2024 by OpenTable!Join us on 8/1/2025
+🎉 Successfully scraped 12 events from Arc Dining
+
+------------------------------------------------------------
+✅ Scraper 'Arc Dining Garden Dinners' finished successfully.
+   Processed 12 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "arc-dining-garden-dinner:-about-sub-menu-about-overview-2025-08-22",
+  "title": "Garden Dinner: About sub-menu\n\t\t\t\t\tAbout\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tOverview",
+  "description": "About sub-menu\n\t\t\t\t\tAbout\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tOverview\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tTeam\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tOur Bees & Garden\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tWayward Distillery Partnership\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tKids Menu\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tBreakfast\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tLunch\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tWeekend Brunch\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tHappy Hour\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tDinner\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tProvince to Plate\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tDessert\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tDrinks\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\tLounge",
+  "startDate": "2025-08-22T01:30:00.000Z",
+  "endDate": "2025-08-22T04:30:00.000Z",
+  "venue": {
+    "name": "Arc Restaurant",
+    "id": "arc-restaurant-vancouver",
+    "address": "900 Canada Place Way",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2888,
+      "lng": -123.1111
+    },
+    "websiteUrl": "https://www.arcdining.com/",
+    "description": "Arc Restaurant offers a fresh and modern dining experience in a spectacular waterfront setting at the Fairmont Waterfront in Vancouver."
+  },
+  "category": "food",
+  "categories": [
+    "food",
+    "dining",
+    "culinary",
+    "garden",
+    "dinner"
+  ],
+  "sourceURL": "https://www.arcdining.com/events",
+  "officialWebsite": "https://www.arcdining.com/events",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:00:18.537Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/arcDiningEvents-results.json

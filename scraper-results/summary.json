@@ -1,0 +1,1146 @@
+{
+  "success": [
+    {
+      "file": "anthropologyMuseumEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "arcDiningEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "barNoneClub.js",
+      "success": true,
+      "events": 16
+    },
+    {
+      "file": "bardOnTheBeach.js",
+      "success": true,
+      "events": 174
+    },
+    {
+      "file": "bardOnTheBeachEvents.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "bcPlaceEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "bcPlaceStadium.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "billReidGalleryEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "biltmoreCabaret.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "biltmoreCabaretEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "broadwayVancouverEvents.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "capilanoSuspensionBridge.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "carnavalDelSol.js",
+      "success": true,
+      "events": 2
+    },
+    {
+      "file": "celebritiesNightclub.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "chanCentre.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "chanCentreEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "cherryBlossomFestEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "chineseGardenEvents.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "coastalJazzFestival.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "commodoreBallroomEvents.js",
+      "success": true,
+      "events": 77
+    },
+    {
+      "file": "contemporaryArtGalleryEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "cultureCrawlEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "danceFestivalEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "doxaFilmFestivalEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "dragonBoatFestivalEvents.js",
+      "success": true,
+      "events": 12
+    },
+    {
+      "file": "festivalDEteEvents.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "folkFestEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "fortuneSoundClub.js",
+      "success": true,
+      "events": 27
+    },
+    {
+      "file": "fortuneSoundClubBridge.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "foxCabaret.js",
+      "success": true,
+      "events": 17
+    },
+    {
+      "file": "fringeFestivalEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "gastownGrandPrixEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "gastownSundaySet.js",
+      "success": true,
+      "events": 12
+    },
+    {
+      "file": "granvilleIsland.js",
+      "success": true,
+      "events": 8
+    },
+    {
+      "file": "granvilleIslandEvents.js",
+      "success": true,
+      "events": 8
+    },
+    {
+      "file": "granvilleIslandMarket.js",
+      "success": true,
+      "events": 7
+    },
+    {
+      "file": "granvilleMarketEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "harbourEventCentre.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "helloBCEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "helloBCEventsAdditional.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "helloBCEventsScraper.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "helloGoodbyeBarEvents.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "hrMacMillanSpaceCentre.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "hrMacMillanSpaceCentreEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "imperialTheatre.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "improvCentreEvents.js",
+      "success": true,
+      "events": 26
+    },
+    {
+      "file": "irishHeather.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "japanMarketEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "junctionPublicMarket.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "khatsahlanoEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "kitsilanoShowboat.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "laowaiBar.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "levelsNightclub.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "malonesEvents.js",
+      "success": true,
+      "events": 15
+    },
+    {
+      "file": "metropolisEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "moaUbcEvents.js",
+      "success": true,
+      "events": 2
+    },
+    {
+      "file": "museumOfAnthropology.js",
+      "success": true,
+      "events": 7
+    },
+    {
+      "file": "museumOfAnthropologyEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "museumOfVancouver.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "museumOfVancouverEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "musqueamEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "orpheumEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "orpheumTheatre.js",
+      "success": true,
+      "events": 7
+    },
+    {
+      "file": "pneFair.js",
+      "success": true,
+      "events": 15
+    },
+    {
+      "file": "pneSummerNightConcerts.js",
+      "success": true,
+      "events": 15
+    },
+    {
+      "file": "polygonGallery.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "queenElizabethTheatreEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "queerArtsFestivalEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "queerFilmFestivalEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "redRoom.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "redRoomEvents.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "redRoomEvents_new.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "redRoom_OLD.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "richmondNightMarket.js",
+      "success": true,
+      "events": 76
+    },
+    {
+      "file": "runToEndEndoEvents.js",
+      "success": true,
+      "events": 3
+    },
+    {
+      "file": "scienceWorld.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "scienceWorldVancouverEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "shipyardsNightMarket.js",
+      "success": true,
+      "events": 17
+    },
+    {
+      "file": "spaceCenter.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "squamishBeerFestival.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "stanleyPark.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "steamworksBrewing.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "steamworksBrewingEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "summerCinemaEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "theCentreVancouver.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "theatreUnderTheStars.js",
+      "success": true,
+      "events": 42
+    },
+    {
+      "file": "theatreUnderTheStarsEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "tourismVancouverEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "ubcBotanicalGardenEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "vancouverAquarium.js",
+      "success": true,
+      "events": 7
+    },
+    {
+      "file": "vancouverAquariumEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "vancouverArtAndLeisure.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "vancouverArtGallery.js",
+      "success": true,
+      "events": 7
+    },
+    {
+      "file": "vancouverArtGalleryEvents.js",
+      "success": true,
+      "events": 3
+    },
+    {
+      "file": "vancouverAsianFilmFestivalEvents.js",
+      "success": true,
+      "events": 1
+    },
+    {
+      "file": "vancouverCityEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "vancouverCivicTheatres.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "vancouverConventionCentreEvents.js",
+      "success": true,
+      "events": 4
+    },
+    {
+      "file": "vancouverFolkFest.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "vancouverFringe.js",
+      "success": true,
+      "events": 29
+    },
+    {
+      "file": "vancouverInternationalFilmFestival.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "vancouverJazzFestival.js",
+      "success": true,
+      "events": 7
+    },
+    {
+      "file": "vancouverMaritimeMuseumEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "vancouverMysteriesEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "vancouverPride.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "vancouverSymphony.js",
+      "success": true,
+      "events": 12
+    },
+    {
+      "file": "vancouverSymphonyEvents.js",
+      "success": true,
+      "events": 0
+    },
+    {
+      "file": "veganMarketEvents.js",
+      "success": true,
+      "events": 16
+    },
+    {
+      "file": "venueNightclub.js",
+      "success": true,
+      "events": 5
+    },
+    {
+      "file": "vogueTheatre.js",
+      "success": true,
+      "events": 38
+    },
+    {
+      "file": "vsffEvents.js",
+      "success": true,
+      "events": 2
+    },
+    {
+      "file": "wiseHall.js",
+      "success": true,
+      "events": 6
+    },
+    {
+      "file": "yaletownJazz.js",
+      "success": true,
+      "events": 19
+    }
+  ],
+  "failed": [
+    {
+      "file": "index.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js index.js\n\n❌ A critical error occurred in the test runner for index.js:\nError: Cannot find module './rogersArenaEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js:21:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-api-endpoints.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-api-endpoints.js\n\n❌ A critical error occurred in the test runner for test-api-endpoints.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-arc-dining-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-arc-dining-scraper.js\n\n❌ A critical error occurred in the test runner for test-arc-dining-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/arcDiningEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js:7:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-art-gallery-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-art-gallery-events.js\n\n❌ A critical error occurred in the test runner for test-art-gallery-events.js:\nError: Cannot find module './scrapers/cities/vancouver/artGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js:7:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-art-gallery-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-art-gallery-scraper.js\n\n❌ A critical error occurred in the test runner for test-art-gallery-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/vancouverArtGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js:6:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-bard-on-the-beach-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-bard-on-the-beach-scraper.js\n\n❌ A critical error occurred in the test runner for test-bard-on-the-beach-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/bardOnTheBeachEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js:4:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-barnone-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-barnone-scraper.js\n\n❌ A critical error occurred in the test runner for test-barnone-scraper.js:\nError: Cannot find module './cities/vancouver/barNoneClub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js:8:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-bill-reid-gallery.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-bill-reid-gallery.js\n\n❌ A critical error occurred in the test runner for test-bill-reid-gallery.js:\nError: Cannot find module './scrapers/cities/vancouver/billReidGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js:1:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-biltmore-cabaret-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-biltmore-cabaret-events.js\n\n❌ A critical error occurred in the test runner for test-biltmore-cabaret-events.js:\nError: Cannot find module './scrapers/cities/vancouver/biltmoreCabaretEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js:7:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-broadway-vancouver-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-broadway-vancouver-scraper.js\n\n❌ A critical error occurred in the test runner for test-broadway-vancouver-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/broadwayVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js:4:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-carnaval-del-sol-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-carnaval-del-sol-scraper.js\n\n❌ A critical error occurred in the test runner for test-carnaval-del-sol-scraper.js:\nError: Cannot find module './cities/vancouver/carnavalDelSol'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js:7:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-chan-centre-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-chan-centre-events.js\n\n❌ A critical error occurred in the test runner for test-chan-centre-events.js:\nError: Cannot find module './scrapers/cities/vancouver/chanCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js:7:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-chan-centre-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-chan-centre-scraper.js\n\n❌ A critical error occurred in the test runner for test-chan-centre-scraper.js:\nError: Cannot find module './cities/vancouver/chanCentre'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js:7:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-cherry-blossom-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-cherry-blossom-events.js\n\n❌ A critical error occurred in the test runner for test-cherry-blossom-events.js:\nError: Cannot find module './scrapers/cities/vancouver/cherryBlossomFestEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-chinese-garden-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-chinese-garden-scraper.js\n\n❌ A critical error occurred in the test runner for test-chinese-garden-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/chineseGardenEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js:5:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-coastal-jazz-and-new-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-coastal-jazz-and-new-scrapers.js\n\n❌ A critical error occurred in the test runner for test-coastal-jazz-and-new-scrapers.js:\nError: Cannot find module './scrapers/cities/vancouver'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js:6:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-coastal-jazz-festival-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-coastal-jazz-festival-scraper.js\n\n❌ A critical error occurred in the test runner for test-coastal-jazz-festival-scraper.js:\nError: Cannot find module './cities/vancouver/coastalJazzFestival'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js:7:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-coastal-jazz-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-coastal-jazz-scraper.js\n\n❌ A critical error occurred in the test runner for test-coastal-jazz-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/coastalJazzEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js:5:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-commodore-ballroom-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-commodore-ballroom-events.js\n\n❌ A critical error occurred in the test runner for test-commodore-ballroom-events.js:\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-commodore-ballroom-fixed.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-commodore-ballroom-fixed.js\n\n❌ A critical error occurred in the test runner for test-commodore-ballroom-fixed.js:\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents.fixed'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js:5:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-commodore-ballroom.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-commodore-ballroom.js\n\n❌ A critical error occurred in the test runner for test-commodore-ballroom.js:\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js:5:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-commodore-fixed.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-commodore-fixed.js\n\n❌ A critical error occurred in the test runner for test-commodore-fixed.js:\nError: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js:5:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-commodore.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-commodore.js\n\n❌ A critical error occurred in the test runner for test-commodore.js:\nError: Cannot find module './scrapers/venues/commodoreBallroomShows'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js:5:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-contemporary-art-gallery.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-contemporary-art-gallery.js\n\n❌ A critical error occurred in the test runner for test-contemporary-art-gallery.js:\nError: Cannot find module './scrapers/cities/vancouver/contemporaryArtGalleryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js:7:38)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-culture-crawl-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-culture-crawl-events.js\n\n❌ A critical error occurred in the test runner for test-culture-crawl-events.js:\nError: Cannot find module './scrapers/cities/vancouver/cultureCrawlEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-dance-festival-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-dance-festival-events.js\n\n❌ A critical error occurred in the test runner for test-dance-festival-events.js:\nError: Cannot find module './scrapers/cities/vancouver/danceFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js:7:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-destination-vancouver.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-destination-vancouver.js\n\n❌ A critical error occurred in the test runner for test-destination-vancouver.js:\nError: Cannot find module './scrapers/sources/destinationVancouverScraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js:1:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-doxa-film-festival.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-doxa-film-festival.js\n\n❌ A critical error occurred in the test runner for test-doxa-film-festival.js:\nError: Cannot find module './scrapers/cities/vancouver/doxaFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js:1:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-dragon-boat-festival-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-dragon-boat-festival-scraper.js\n\n❌ A critical error occurred in the test runner for test-dragon-boat-festival-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/dragonBoatFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js:7:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-festival-dete-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-festival-dete-scraper.js\n\n❌ A critical error occurred in the test runner for test-festival-dete-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/festivalDEteEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js:4:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-folk-fest-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-folk-fest-events.js\n\n❌ A critical error occurred in the test runner for test-folk-fest-events.js:\nError: Cannot find module './scrapers/cities/vancouver/folkFestEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js:7:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-fortune-bridge.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-fortune-bridge.js\n\n❌ A critical error occurred in the test runner for test-fortune-bridge.js:\nError: Cannot find module './scrapers/cities/vancouver/fortuneSoundClubBridge'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js:2:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-fortune-sound-club copy.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-fortune-sound-club copy.js\nScraper file not found: /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club\n"
+    },
+    {
+      "file": "test-fortune-sound-club.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-fortune-sound-club.js\n\n❌ A critical error occurred in the test runner for test-fortune-sound-club.js:\nError: Cannot find module '../cities/vancouver/fortuneSoundClub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js:8:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-fox-cabaret-calendar.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-fox-cabaret-calendar.js\n\n❌ A critical error occurred in the test runner for test-fox-cabaret-calendar.js:\nError: Cannot find module './scrapers/cities/vancouver/foxCabaret'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js:2:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-fox-cabaret-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-fox-cabaret-scraper.js\n\n❌ A critical error occurred in the test runner for test-fox-cabaret-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/foxCabaret'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js:9:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-fox-cabaret.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-fox-cabaret.js\n\n❌ A critical error occurred in the test runner for test-fox-cabaret.js:\nError: Cannot find module '../cities/vancouver/foxCabaret'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js:5:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-fringe-festival-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-fringe-festival-events.js\n\n❌ A critical error occurred in the test runner for test-fringe-festival-events.js:\nError: Cannot find module './scrapers/cities/vancouver/fringeFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-gastown-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-gastown-scraper.js\n\n❌ A critical error occurred in the test runner for test-gastown-scraper.js:\nError: Cannot find module './gastown-sunday-set-scraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js:7:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-granville-island-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-granville-island-events.js\n\n❌ A critical error occurred in the test runner for test-granville-island-events.js:\nError: Cannot find module './scrapers/cities/vancouver/granvilleIslandEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js:7:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-granville-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-granville-scraper.js\n\n❌ A critical error occurred in the test runner for test-granville-scraper.js:\nError: Cannot find module './cities/vancouver/granvilleIsland'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js:7:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-hello-goodbye-bar-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-hello-goodbye-bar-scraper.js\n\n❌ A critical error occurred in the test runner for test-hello-goodbye-bar-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/helloGoodbyeBarEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js:5:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-hellobc-real-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-hellobc-real-scraper.js\n\n❌ A critical error occurred in the test runner for test-hellobc-real-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/helloBCEventsScraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js:6:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-hellobc-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-hellobc-scrapers.js\n\n❌ A critical error occurred in the test runner for test-hellobc-scrapers.js:\nError: Cannot find module './scrapers/cities/vancouver/helloBCEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js:7:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-improv-centre.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-improv-centre.js\n\n❌ A critical error occurred in the test runner for test-improv-centre.js:\nError: Cannot find module './scrapers/cities/vancouver/improvCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js:1:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-japan-market-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-japan-market-scraper.js\n\n❌ A critical error occurred in the test runner for test-japan-market-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js:5:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-jazz-fest-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-jazz-fest-events.js\n\n❌ A critical error occurred in the test runner for test-jazz-fest-events.js:\nError: Cannot find module './scrapers/cities/vancouver/vancouverJazzFestEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-junction-market-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-junction-market-scraper.js\n\n❌ A critical error occurred in the test runner for test-junction-market-scraper.js:\nError: Cannot find module './cities/vancouver/junctionPublicMarket'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js:5:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-latest-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-latest-scrapers.js\n\n❌ A critical error occurred in the test runner for test-latest-scrapers.js:\nError: Cannot find module './scrapers/cities/vancouver/levelsNightclub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js:6:25)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-macmillan-space-centre.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-macmillan-space-centre.js\n\n❌ A critical error occurred in the test runner for test-macmillan-space-centre.js:\nError: Cannot find module './scrapers/cities/vancouver/macMillanSpaceCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js:7:36)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-malones-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-malones-scraper.js\n\n❌ A critical error occurred in the test runner for test-malones-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/malonesEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js:1:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-maritime-museum-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-maritime-museum-events.js\n\n❌ A critical error occurred in the test runner for test-maritime-museum-events.js:\nError: Cannot find module './scrapers/cities/vancouver/maritimeMuseumEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-metropolis-events-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-metropolis-events-scraper.js\n\n❌ A critical error occurred in the test runner for test-metropolis-events-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/metropolisEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-mongo-connection-v2.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-mongo-connection-v2.js\n\n❌ A critical error occurred in the test runner for test-mongo-connection-v2.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-mongo-connection.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-mongo-connection.js\n\n❌ A critical error occurred in the test runner for test-mongo-connection.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-mongo-fortune-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-mongo-fortune-events.js\n\n❌ A critical error occurred in the test runner for test-mongo-fortune-events.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-mov-debug.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-mov-debug.js\n\n❌ A critical error occurred in the test runner for test-mov-debug.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-mov-integration.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-mov-integration.js\n\n❌ A critical error occurred in the test runner for test-mov-integration.js:\nError: Cannot find module './scrapers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js:4:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-mov-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-mov-scraper.js\n\n❌ A critical error occurred in the test runner for test-mov-scraper.js:\nError: Cannot find module './scrapers/events/vancouverMuseumEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js:4:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-museum-of-anthropology.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-museum-of-anthropology.js\n\n❌ A critical error occurred in the test runner for test-museum-of-anthropology.js:\nError: Cannot find module './scrapers/cities/vancouver/museumOfAnthropologyEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js:7:36)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-museum-vancouver-no-fallback.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-museum-vancouver-no-fallback.js\n\n❌ A critical error occurred in the test runner for test-museum-vancouver-no-fallback.js:\nError: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js:6:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-museum-vancouver-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-museum-vancouver-scraper.js\n\n❌ A critical error occurred in the test runner for test-museum-vancouver-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js:8:34)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-new-scrapers-only.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-new-scrapers-only.js\n\n❌ A critical error occurred in the test runner for test-new-scrapers-only.js:\nError: Cannot find module './scrapers/cities/vancouver/metropolisEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js:8:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-new-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-new-scrapers.js\n\n❌ A critical error occurred in the test runner for test-new-scrapers.js:\nError: Cannot find module './scrapers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js:5:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-new-vancouver-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-new-vancouver-scrapers.js\n\n❌ A critical error occurred in the test runner for test-new-vancouver-scrapers.js:\nError: Cannot find module './scrapers/cities/vancouver'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js:6:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-new-venue-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-new-venue-scrapers.js\n\n❌ A critical error occurred in the test runner for test-new-venue-scrapers.js:\nError: Cannot find module './scrapers/utils/logger'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js:8:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-no-fallbacks.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-no-fallbacks.js\n\n❌ A critical error occurred in the test runner for test-no-fallbacks.js:\nError: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js:8:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-orpheum-theatre-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-orpheum-theatre-events.js\n\n❌ A critical error occurred in the test runner for test-orpheum-theatre-events.js:\nError: Cannot find module './scrapers/cities/vancouver/orpheumTheatreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-pearl-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-pearl-scraper.js\n\n❌ A critical error occurred in the test runner for test-pearl-scraper.js:\nError: Cannot find module './scrapers/pearl-scraper-new'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js:6:22)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-pne-concerts-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-pne-concerts-scraper.js\n\n❌ A critical error occurred in the test runner for test-pne-concerts-scraper.js:\nError: Cannot find module './cities/vancouver/pneSummerNightConcerts'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js:8:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-pne-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-pne-events.js\n\n❌ A critical error occurred in the test runner for test-pne-events.js:\nError: Cannot find module './scrapers/cities/vancouver/pneEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js:7:19)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-pne-fair-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-pne-fair-scraper.js\n\n❌ A critical error occurred in the test runner for test-pne-fair-scraper.js:\nError: Cannot find module './cities/vancouver/pneFair'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js:8:17)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-proxy-api.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-proxy-api.js\n\n❌ A critical error occurred in the test runner for test-proxy-api.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-public-library-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-public-library-events.js\n\n❌ A critical error occurred in the test runner for test-public-library-events.js:\nError: Cannot find module './scrapers/cities/vancouver/publicLibraryEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js:7:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-qet-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-qet-scraper.js\n\n❌ A critical error occurred in the test runner for test-qet-scraper.js:\nError: Cannot find module './cities/vancouver/queenElizabethTheatre'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js:7:20)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-queer-arts-festival-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-queer-arts-festival-scraper.js\n\n❌ A critical error occurred in the test runner for test-queer-arts-festival-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/queerArtsFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js:4:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-queer-film-festival.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-queer-film-festival.js\n\n❌ A critical error occurred in the test runner for test-queer-film-festival.js:\nError: Cannot find module './scrapers/cities/vancouver/queerFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js:7:33)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-red-room-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-red-room-scraper.js\n\n❌ A critical error occurred in the test runner for test-red-room-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/redRoomEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js:5:24)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-richmond-market-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-richmond-market-scraper.js\n\n❌ A critical error occurred in the test runner for test-richmond-market-scraper.js:\nError: Cannot find module './cities/vancouver/richmondNightMarket'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js:8:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-rickshaw-theatre-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-rickshaw-theatre-events.js\n\n❌ A critical error occurred in the test runner for test-rickshaw-theatre-events.js:\nError: Cannot find module './scrapers/cities/vancouver/rickshawTheatreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js:7:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-roxy-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-roxy-scraper.js\n\n❌ A critical error occurred in the test runner for test-roxy-scraper.js:\nError: Cannot find module './scrapers/roxy-scraper'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js:1:21)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-run-to-end-endo-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-run-to-end-endo-scraper.js\n\n❌ A critical error occurred in the test runner for test-run-to-end-endo-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/runToEndEndoEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js:5:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-science-world-detailed.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-science-world-detailed.js\n\n❌ A critical error occurred in the test runner for test-science-world-detailed.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-science-world-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-science-world-events.js\n\n❌ A critical error occurred in the test runner for test-science-world-events.js:\nError: Cannot find module './scrapers/cities/vancouver/scienceWorldEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-science-world-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-science-world-scraper.js\n\n❌ A critical error occurred in the test runner for test-science-world-scraper.js:\nError: Cannot find module './scrapers/events/vancouverMuseumEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js:1:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-science-world.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-science-world.js\n\n❌ A critical error occurred in the test runner for test-science-world.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-scraper-data.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-scraper-data.js\n\n❌ A critical error occurred in the test runner for test-scraper-data.js:\nError: Cannot find module './scrapers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js:12:23)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-scrapers.js\n\n❌ A critical error occurred in the test runner for test-scrapers.js:\nError: Cannot find module './scrapers/venues/commodoreBallroomShows'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js:1:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-server.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-server.js\n\n❌ A critical error occurred in the test runner for test-server.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "test-shipyards-night-market-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-shipyards-night-market-scraper.js\n\n❌ A critical error occurred in the test runner for test-shipyards-night-market-scraper.js:\nError: Cannot find module './cities/vancouver/shipyardsNightMarket'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js:6:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-space-centre-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-space-centre-events.js\n\n❌ A critical error occurred in the test runner for test-space-centre-events.js:\nError: Cannot find module './scrapers/cities/vancouver/spaceCentreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-squamish-beer-festival-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-squamish-beer-festival-scraper.js\n\n❌ A critical error occurred in the test runner for test-squamish-beer-festival-scraper.js:\nError: Cannot find module './cities/vancouver/squamishBeerFestival'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js:5:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-stanley-park-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-stanley-park-events.js\n\n❌ A critical error occurred in the test runner for test-stanley-park-events.js:\nError: Cannot find module './scrapers/cities/vancouver/stanleyParkEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-theatre-under-the-stars-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-theatre-under-the-stars-scraper.js\n\n❌ A critical error occurred in the test runner for test-theatre-under-the-stars-scraper.js:\nError: Cannot find module './cities/vancouver/theatreUnderTheStars'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js:7:30)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-today-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-today-scrapers.js\n\n❌ A critical error occurred in the test runner for test-today-scrapers.js:\nError: Cannot find module './scrapers/cities/vancouver/levelsNightclub'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js:8:3)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-tourism-vancouver-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-tourism-vancouver-scraper.js\n\n❌ A critical error occurred in the test runner for test-tourism-vancouver-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/tourismVancouverEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js:6:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-underground-comedy-club.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-underground-comedy-club.js\n\n❌ A critical error occurred in the test runner for test-underground-comedy-club.js:\nError: Cannot find module './scrapers/cities/vancouver/undergroundComedyClubEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js:1:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vancouver-asian-film-festival.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vancouver-asian-film-festival.js\n\n❌ A critical error occurred in the test runner for test-vancouver-asian-film-festival.js:\nError: Cannot find module './scrapers/cities/vancouver/vancouverAsianFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js:7:42)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vancouver-city-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vancouver-city-scraper.js\n\n❌ A critical error occurred in the test runner for test-vancouver-city-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/vancouverCityEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js:6:29)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vancouver-civic-theatres-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vancouver-civic-theatres-scraper.js\n\n❌ A critical error occurred in the test runner for test-vancouver-civic-theatres-scraper.js:\nError: Cannot find module './cities/vancouver/vancouverCivicTheatres'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js:7:32)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vancouver-film-festival.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vancouver-film-festival.js\n\n❌ A critical error occurred in the test runner for test-vancouver-film-festival.js:\nError: Cannot find module './scrapers/cities/vancouver/vancouverFilmFestivalEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js:7:37)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vancouver-mysteries-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vancouver-mysteries-scraper.js\n\n❌ A critical error occurred in the test runner for test-vancouver-mysteries-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/vancouverMysteriesEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js:7:35)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vancouver-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vancouver-scrapers.js\n\n❌ A critical error occurred in the test runner for test-vancouver-scrapers.js:\nError: Cannot find module './scrapers/cities/vancouver'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js:7:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vegan-market-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vegan-market-scraper.js\n\n❌ A critical error occurred in the test runner for test-vegan-market-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/veganMarketEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js:4:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-venue-scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-venue-scrapers.js\n\n❌ A critical error occurred in the test runner for test-venue-scrapers.js:\nError: Cannot find module './scrapers/utils/logger'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js:8:26)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vogue-theatre-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vogue-theatre-events.js\n\n❌ A critical error occurred in the test runner for test-vogue-theatre-events.js:\nError: Cannot find module './scrapers/cities/vancouver/vogueTheatreEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-vsff-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-vsff-scraper.js\n\n❌ A critical error occurred in the test runner for test-vsff-scraper.js:\nError: Cannot find module './scrapers/cities/vancouver/vsffEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js:5:21)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-western-front-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-western-front-events.js\n\n❌ A critical error occurred in the test runner for test-western-front-events.js:\nError: Cannot find module './scrapers/cities/vancouver/westernFrontEvents'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js:7:28)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "test-yaletown-jazz-scraper.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js test-yaletown-jazz-scraper.js\n\n❌ A critical error occurred in the test runner for test-yaletown-jazz-scraper.js:\nError: Cannot find module './cities/vancouver/yaletownJazz'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js:8:22)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js',\n    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'\n  ]\n}\n"
+    },
+    {
+      "file": "validate_scrapers.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js validate_scrapers.js\n\n❌ A critical error occurred in the test runner for validate_scrapers.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "verify-commodore-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js verify-commodore-events.js\n❌ MONGODB_URI not set in environment variables\n"
+    },
+    {
+      "file": "verify-events-count.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js verify-events-count.js\n\n❌ A critical error occurred in the test runner for verify-events-count.js:\nError: Scraper instance is invalid or does not have a scrape method.\n    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)\n    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14)\n    at Object..js (node:internal/modules/cjs/loader:1899:10)\n    at Module.load (node:internal/modules/cjs/loader:1469:32)\n    at Module._load (node:internal/modules/cjs/loader:1286:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)\n    at node:internal/main/run_main_module:33:47\n"
+    },
+    {
+      "file": "verify-hellobc-events.js",
+      "success": false,
+      "error": "Command failed: node test-single-scraper.js verify-hellobc-events.js\n❌ MONGODB_URI not set in environment variables\n"
+    }
+  ]
+}

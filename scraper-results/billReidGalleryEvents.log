@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: billReidGalleryEvents.js ---
+============================================================
+Scraper 'Bill Reid Gallery' instantiated successfully. Running scrape()...
+🔍 Starting Bill Reid Gallery scraper...
+Navigating to: https://www.billreidgallery.ca/blogs/exhibitions-page
+
+------------------------------------------------------------
+✅ Scraper 'Bill Reid Gallery' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/billReidGalleryEvents-results.json
+
+STDERR:
+❌ Error scraping Bill Reid Gallery: Navigation timeout of 30000 ms exceeded

@@ -1,0 +1,69 @@
+============================================================
+--- Attempting to run scraper: shipyardsNightMarket.js ---
+============================================================
+Scraper 'Shipyards Night Market' instantiated successfully. Running scrape()...
+🔍 Starting Shipyards Night Market scraper...
+📆 Found 17 Shipyards Night Market dates between May 16 and Sept 12, 2025
+✅ Added event: Shipyards Night Market - Fri, May 16
+✅ Added event: Shipyards Night Market - Fri, May 23
+✅ Added event: Shipyards Night Market - Fri, May 30
+✅ Added event: Shipyards Night Market - Fri, Jun 6
+✅ Added event: Shipyards Night Market - Fri, Jun 13
+✅ Added event: Shipyards Night Market - Fri, Jun 20
+✅ Added event: Shipyards Night Market - Fri, Jun 27
+✅ Added event: Shipyards Night Market - Fri, Jul 4
+✅ Added event: Shipyards Night Market - Fri, Jul 11
+✅ Added event: Shipyards Night Market - Fri, Jul 18
+✅ Added event: Shipyards Night Market - Fri, Jul 25
+✅ Added event: Shipyards Night Market - Fri, Aug 1
+✅ Added event: Shipyards Night Market - Fri, Aug 8
+✅ Added event: Shipyards Night Market - Fri, Aug 15
+✅ Added event: Shipyards Night Market - Fri, Aug 22
+✅ Added event: Shipyards Night Market - Fri, Aug 29
+✅ Added event: Shipyards Night Market - Fri, Sep 5
+🎉 Successfully scraped 17 Shipyards Night Market events
+
+------------------------------------------------------------
+✅ Scraper 'Shipyards Night Market' finished successfully.
+   Processed 17 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "shipyards-night-market-2025-05-17",
+  "title": "Shipyards Night Market - Fri, May 16",
+  "description": "Join us for the Shipyards Night Market in North Vancouver on Fri, May 16! Every Friday night, locals and visitors gather at the Shipyards District to indulge in a culinary extravaganza featuring over 40 food trucks, explore unique artisan vendors, enjoy live music and DJs, and unwind in the beer garden provided by The Garden Beer Market Co.\n\nThe Shipyards Night Market showcases:\n• Beer Garden with local craft beer and cocktails\n• Diverse food trucks offering cuisine from around the world\n• Live music and DJ performances\n• Artisan market vendors featuring handcrafted items\n\nThis vibrant weekly event runs from 5:00 PM to 10:00 PM at the waterfront Shipyards District in North Vancouver, with stunning views of Burrard Inlet and the Vancouver skyline. This market is a perfect evening out for families, couples, and friends looking to experience the best of North Vancouver's local food, craft, and entertainment scene.",
+  "startDate": "2025-05-17T00:00:00.000Z",
+  "endDate": "2025-05-17T05:00:00.000Z",
+  "venue": {
+    "name": "The Shipyards",
+    "id": "the-shipyards-north-vancouver",
+    "address": "125 Victory Ship Way",
+    "city": "North Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V7L 0B1",
+    "coordinates": {
+      "lat": 49.309641,
+      "lng": -123.082512
+    },
+    "websiteUrl": "https://shipyardsnightmarket.com/",
+    "description": "The Shipyards District in North Vancouver is a vibrant waterfront area featuring public plazas, restaurants, shops, and event spaces. With a stunning backdrop of Burrard Inlet and downtown Vancouver, this popular venue hosts various community events and markets throughout the year. The area pays homage to the region's shipbuilding heritage while offering modern amenities and gathering spaces."
+  },
+  "category": "market",
+  "categories": [
+    "market",
+    "food",
+    "beer",
+    "music",
+    "shopping",
+    "outdoor",
+    "night-market"
+  ],
+  "sourceURL": "https://shipyardsnightmarket.com/",
+  "officialWebsite": "https://shipyardsnightmarket.com/",
+  "image": "https://shipyardsnightmarket.com/wp-content/uploads/2025/04/shipyards-night-market-aerial.jpg",
+  "recurring": "weekly",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:15:09.125Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/shipyardsNightMarket-results.json

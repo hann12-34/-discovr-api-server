@@ -1,0 +1,32 @@
+[
+  {
+    "id": "culture-crawl-eastside-culture-crawl-festival-2025-11-20",
+    "title": "Eastside Culture Crawl Festival",
+    "description": "Explore Art",
+    "startDate": "2025-11-20T08:00:00.000Z",
+    "endDate": "2025-11-24T07:59:59.000Z",
+    "imageUrl": "https://culturecrawl.ca/_nuxt/img/eccs_2022_logo.405c761.png",
+    "sourceUrl": "https://culturecrawl.ca/",
+    "ticketUrl": "https://culturecrawl.ca/",
+    "venue": {
+      "name": "Eastside Culture Crawl",
+      "address": "1000 Parker Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 2H2",
+      "website": "https://culturecrawl.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/ZppjKoGjahM7AVfS6"
+    },
+    "categories": [
+      "arts",
+      "visual-arts",
+      "festival",
+      "exhibition",
+      "community"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-17T04:49:18.298Z",
+    "sourceIdentifier": "culture-crawl"
+  }
+]

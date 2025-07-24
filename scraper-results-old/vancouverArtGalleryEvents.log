@@ -1,0 +1,27 @@
+============================================================
+--- Attempting to run scraper: vancouverArtGalleryEvents.js ---
+============================================================
+Scraper 'Vancouver Art Gallery Events' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Art Gallery Events...
+Navigating to https://www.vanartgallery.bc.ca/exhibitions-events
+Waiting for event elements to load...
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Art Gallery Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverArtGalleryEvents-results.json
+
+STDERR:
+❌ Error scraping Vancouver Art Gallery Events: ProtocolError: Page.captureScreenshot timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+    at <instance_members_initializer> (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:102:14)
+    at new Callback (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:106:16)
+    at CallbackRegistry.create (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:24:26)
+    at Connection._rawSend (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Connection.js:99:26)
+    at CdpCDPSession.send (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/CdpSession.js:73:33)
+    at CdpPage._screenshot (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Page.js:765:62)
+    at CdpPage.screenshot (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/api/Page.js:1070:41)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at listOnTimeout (node:internal/timers:569:9)
+    at process.processTimers (node:internal/timers:543:7)

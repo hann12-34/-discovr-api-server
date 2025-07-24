@@ -1,0 +1,54 @@
+============================================================
+--- Attempting to run scraper: vancouverArtAndLeisure.js ---
+============================================================
+Scraper 'Vancouver Art & Leisure' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Art & Leisure scraper...
+✅ Added event: Chromatic: Immersive Art Exhibition on Thursday, July 10, 2025
+✅ Added event: Sapphic Saturdays: Pride Edition on Saturday, July 19, 2025
+✅ Added event: Experimental Sound Series: Modular Synthesis on Thursday, July 24, 2025
+✅ Added event: Life Drawing: Figure & Form on Tuesday, July 15, 2025
+🎨 Successfully created 4 Vancouver Art & Leisure events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Art & Leisure' finished successfully.
+   Processed 4 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "val-chromatic-immersive-art-exhibition-2025-07-11",
+  "title": "Chromatic: Immersive Art Exhibition",
+  "description": "Step into a multi-sensory installation where light, sound, and interactive elements create a fully immersive art experience. 'Chromatic' features work by ten local digital artists exploring the theme of synesthesia through projection mapping, responsive environments, and audio installations. Visitors can interact with the exhibits and influence the evolving audiovisual landscape.\n\nEVENT DETAILS:\nDate: Thursday, July 10, 2025\nTime: 6:00 PM - 11:00 PM\nVenue: Vancouver Art & Leisure, 281 Industrial Ave, Vancouver\nPrice: $20\nTickets: Required, available through website",
+  "startDate": "2025-07-11T01:00:00.000Z",
+  "endDate": "2025-07-11T06:00:00.000Z",
+  "venue": {
+    "name": "Vancouver Art & Leisure",
+    "id": "vancouver-art-leisure",
+    "address": "281 Industrial Ave",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6A 2P2",
+    "coordinates": {
+      "lat": 49.2732,
+      "lng": -123.0919
+    },
+    "websiteUrl": "https://www.val.city/",
+    "description": "Vancouver Art and Leisure (VAL) is an artist-run centre and creative community space that hosts exhibitions, performances, dance parties, and cultural events. Known for its inclusive atmosphere and support of underground arts and LGBTQ+ communities, VAL provides a platform for emerging artists and experimental work."
+  },
+  "category": "arts",
+  "categories": [
+    "arts",
+    "culture",
+    "alternative",
+    "art",
+    "exhibition",
+    "immersive",
+    "digital art"
+  ],
+  "sourceURL": "https://www.val.city/",
+  "officialWebsite": "https://www.val.city/events/chromatic/",
+  "image": "https://www.val.city/events/chromatic-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:21:38.724Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverArtAndLeisure-results.json

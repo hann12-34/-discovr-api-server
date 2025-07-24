@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: theatreUnderTheStarsEvents.js ---
+============================================================
+Scraper 'Theatre Under The Stars Events' instantiated successfully. Running scrape()...
+Starting Theatre Under The Stars Events scraper...
+Navigating to https://tuts.ca/shows-tickets/
+Extracting Theatre Under The Stars events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Theatre Under The Stars events
+Theatre Under The Stars Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Theatre Under The Stars Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/theatreUnderTheStarsEvents-results.json

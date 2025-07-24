@@ -1,0 +1,34 @@
+ERROR: Command failed: node test-single-scraper.js test-server.js
+
+❌ A critical error occurred in the test runner for test-server.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47
+
+
+============================================================
+--- Attempting to run scraper: test-server.js ---
+============================================================
+
+
+
+❌ A critical error occurred in the test runner for test-server.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47

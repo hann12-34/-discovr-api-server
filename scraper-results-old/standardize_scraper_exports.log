@@ -1,0 +1,195 @@
+ERROR: Command failed: node test-single-scraper.js standardize_scraper_exports.js
+
+❌ A critical error occurred in the test runner for standardize_scraper_exports.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47
+
+
+============================================================
+--- Attempting to run scraper: standardize_scraper_exports.js ---
+============================================================
+🚀 Standardizing Vancouver scrapers exports...
+Found 151 potential scraper files
+✅ anthropologyMuseumEvents.js already exports an instance
+✅ arcDiningEvents.js already exports an instance
+✅ artGalleryEvents.js already exports an instance
+✅ barNoneClub.js already exports an instance
+✅ bardOnTheBeach.js already exports an instance
+✅ bardOnTheBeachEvents.js already exports an instance
+✅ bcPlaceEvents.js already exports an instance
+✅ bcPlaceStadium.js already exports an instance
+✅ billReidGalleryEvents.js already exports an instance
+✅ biltmoreCabaret.js already exports an instance
+✅ biltmoreCabaretEvents.js already exports an instance
+✅ broadwayVancouverEvents.js already exports an instance
+✅ canadaPlaceEvents.js already exports an instance
+✅ capilanoSuspensionBridge.js already exports an instance
+✅ carnavalDelSol.js already exports an instance
+✅ celebritiesNightclub.js already exports an instance
+✅ chanCentre.js already exports an instance
+✅ chanCentreEvents.js already exports an instance
+⚠️ Unknown export format in check_scrapers.js
+✅ cherryBlossomFestEvents.js already exports an instance
+✅ chineseGardenEvents.js already exports an instance
+✅ coastalJazzEvents.js already exports an instance
+✅ coastalJazzFestival.js already exports an instance
+✅ commodoreBallroomEvents.backup.js already exports an instance
+✅ commodoreBallroomEvents.fixed.js already exports an instance
+✅ commodoreBallroomEvents.js already exports an instance
+✅ contemporaryArtGalleryEvents.js already exports an instance
+✅ cultureCrawlEvents.js already exports an instance
+✅ danceFestivalEvents.js already exports an instance
+✅ doxaFilmFestivalEvents.js already exports an instance
+✅ dragonBoatFestivalEvents.js already exports an instance
+✅ festivalDEteEvents.js already exports an instance
+✅ folkFestEvents.js already exports an instance
+✅ fortuneSoundClub.js already exports an instance
+✅ fortuneSoundClubBridge.js already exports an instance
+✅ foxCabaret.js already exports an instance
+✅ fringeFestivalEvents.js already exports an instance
+✅ gastownGrandPrixEvents.js already exports an instance
+✅ gastownSundaySet.js already exports an instance
+✅ granvilleIsland.js already exports an instance
+✅ granvilleIslandEvents.js already exports an instance
+✅ granvilleIslandMarket.js already exports an instance
+✅ granvilleMarketEvents.js already exports an instance
+✅ harbourEventCentre.js already exports an instance
+✅ helloBCEvents.js already exports an instance
+✅ helloBCEventsAdditional.js already exports an instance
+✅ helloBCEventsScraper.js already exports an instance
+✅ helloGoodbyeBarEvents.js already exports an instance
+✅ hrMacMillanSpaceCentre.js already exports an instance
+✅ hrMacMillanSpaceCentreEvents.js already exports an instance
+✅ imperialTheatre.js already exports an instance
+✅ improvCentreEvents.js already exports an instance
+✅ index.js already exports an instance
+✅ irishHeather.js already exports an instance
+✅ japanMarketEvents.js already exports an instance
+✅ junctionPublicMarket.js already exports an instance
+✅ khatsahlanoEvents.js already exports an instance
+✅ kitsilanoShowboat.js already exports an instance
+✅ laowaiBar.js already exports an instance
+✅ levelsNightclub.js already exports an instance
+⚠️ Unknown export format in list_all_scrapers.js
+✅ macMillanSpaceCentreEvents.js already exports an instance
+✅ malonesEvents.js already exports an instance
+✅ maritimeMuseumEvents.js already exports an instance
+✅ metropolisEvents.js already exports an instance
+✅ moaUbcEvents.js already exports an instance
+✅ museumOfAnthropology.js already exports an instance
+✅ museumOfAnthropologyEvents.js already exports an instance
+✅ museumOfVancouver.js already exports an instance
+✅ museumOfVancouverEvents.js already exports an instance
+✅ musqueamEvents.js already exports an instance
+✅ orpheumEvents.js already exports an instance
+✅ orpheumTheatre.js already exports an instance
+✅ orpheumTheatreEvents.js already exports an instance
+✅ pneEvents.js already exports an instance
+✅ pneFair.js already exports an instance
+✅ pneSummerNightConcerts.js already exports an instance
+✅ polygonGallery.js already exports an instance
+✅ publicLibraryEvents.js already exports an instance
+✅ queenElizabethTheatre.js already exports an instance
+✅ queenElizabethTheatreEvents.js already exports an instance
+✅ queerArtsFestivalEvents.js already exports an instance
+✅ queerFilmFestivalEvents.js already exports an instance
+⚠️ Unknown export format in quick_validation.js
+✅ redRoom.js already exports an instance
+✅ redRoomEvents.js already exports an instance
+✅ redRoomEvents_new.js already exports an instance
+✅ redRoom_OLD.js already exports an instance
+✅ richmondNightMarket.js already exports an instance
+✅ rickshawTheatreEvents.js already exports an instance
+✅ runToEndEndoEvents.js already exports an instance
+⚠️ Unknown export format in run_all_scrapers.js
+⚠️ Unknown export format in run_all_scrapers_with_output.js
+✅ scienceWorld.js already exports an instance
+✅ scienceWorldEvents.js already exports an instance
+✅ scienceWorldVancouverEvents.js already exports an instance
+✅ shipyardsNightMarket.js already exports an instance
+✅ spaceCenter.js already exports an instance
+✅ spaceCentreEvents.js already exports an instance
+✅ squamishBeerFestival.js already exports an instance
+✅ stanleyPark.js already exports an instance
+✅ stanleyParkEvents.js already exports an instance
+✅ steamworksBrewing.js already exports an instance
+✅ steamworksBrewingEvents.js already exports an instance
+✅ summerCinemaEvents.js already exports an instance
+⚠️ Unknown export format in test_fixed_scrapers.js
+⚠️ Unknown export format in test_priority_venues.js
+⚠️ Unknown export format in test_scrapers.js
+⚠️ Unknown export format in test_selected_scrapers.js
+⚠️ Unknown export format in test_single_venue.js
+✅ theCentreVancouver.js already exports an instance
+✅ theCultchEvents.js already exports an instance
+✅ thePearlEvents.js already exports an instance
+✅ theRoxyEvents.js already exports an instance
+✅ theatreUnderTheStars.js already exports an instance
+✅ theatreUnderTheStarsEvents.js already exports an instance
+✅ tourismVancouverEvents.js already exports an instance
+✅ ubcBotanicalGardenEvents.js already exports an instance
+✅ undergroundComedyClubEvents.js already exports an instance
+⚠️ Unknown export format in validate_scrapers.js
+✅ vancouverAquarium.js already exports an instance
+✅ vancouverAquariumEvents.js already exports an instance
+✅ vancouverArtAndLeisure.js already exports an instance
+✅ vancouverArtGallery.js already exports an instance
+✅ vancouverArtGalleryEvents.js already exports an instance
+✅ vancouverAsianFilmFestivalEvents.js already exports an instance
+✅ vancouverCityEvents.js already exports an instance
+✅ vancouverCivicTheatres.js already exports an instance
+✅ vancouverConventionCentreEvents.js already exports an instance
+✅ vancouverFilmFestivalEvents.js already exports an instance
+✅ vancouverFolkFest.js already exports an instance
+✅ vancouverFringe.js already exports an instance
+✅ vancouverInternationalFilmFestival.js already exports an instance
+✅ vancouverJazzFestEvents.js already exports an instance
+✅ vancouverJazzFestival.js already exports an instance
+✅ vancouverMaritimeMuseumEvents.js already exports an instance
+✅ vancouverMysteriesEvents.js already exports an instance
+✅ vancouverPride.js already exports an instance
+✅ vancouverSymphony.js already exports an instance
+✅ vancouverSymphonyEvents.js already exports an instance
+✅ veganMarketEvents.js already exports an instance
+✅ venueNightclub.js already exports an instance
+⚠️ Unknown export format in verify-commodore-events.js
+⚠️ Unknown export format in verify-events-count.js
+⚠️ Unknown export format in verify-hellobc-events.js
+✅ vogueTheatre.js already exports an instance
+✅ vogueTheatreEvents.js already exports an instance
+✅ vsffEvents.js already exports an instance
+✅ westernFrontEvents.js already exports an instance
+✅ wiseHall.js already exports an instance
+✅ yaletownJazz.js already exports an instance
+
+📊 Export Standardization Summary:
+Total files checked: 151
+Files fixed: 0
+Files already standardized: 137
+Files that could not be fixed: 14
+
+Detailed results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/standardize_exports_results.json
+
+
+
+❌ A critical error occurred in the test runner for standardize_scraper_exports.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47

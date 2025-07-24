@@ -1,0 +1,542 @@
+[
+  {
+    "id": "pne-concert-2025-08-16-counting-crows",
+    "title": "Counting Crows - PNE Summer Night Concert",
+    "description": "American rock band Counting Crows brings their distinctive sound and hit songs like 'Mr. Jones,' 'Round Here,' and 'A Long December' to the PNE Summer Night Concerts. Known for their energetic live performances, the band delivers a perfect mix of their classic hits and newer material.",
+    "startDate": "2025-08-17T02:30:00.000Z",
+    "endDate": "2025-08-17T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.807Z"
+  },
+  {
+    "id": "pne-concert-2025-08-17-lynyrd-skynyrd",
+    "title": "Lynyrd Skynyrd - PNE Summer Night Concert",
+    "description": "Southern rock legends Lynyrd Skynyrd take the stage at the PNE Summer Night Concerts. With their unmistakable three-guitar sound and hits like 'Sweet Home Alabama' and 'Free Bird,' this iconic band promises a high-energy performance celebrating their musical legacy.",
+    "startDate": "2025-08-18T02:30:00.000Z",
+    "endDate": "2025-08-18T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.825Z"
+  },
+  {
+    "id": "pne-concert-2025-08-19-bleachers",
+    "title": "Bleachers - PNE Summer Night Concert",
+    "description": "Indie pop band Bleachers, fronted by Grammy-winning songwriter and producer Jack Antonoff, delivers their anthemic, nostalgic sound to the PNE Summer Night Concerts. Known for hits like 'I Wanna Get Better' and 'Don't Take The Money,' their energetic live show combines catchy hooks with personal lyrics.",
+    "startDate": "2025-08-20T02:30:00.000Z",
+    "endDate": "2025-08-20T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.825Z"
+  },
+  {
+    "id": "pne-concert-2025-08-20-gipsy-kings-feat-nicolas-reyes",
+    "title": "Gipsy Kings feat. Nicolas Reyes - PNE Summer Night Concert",
+    "description": "The world-renowned Gipsy Kings featuring Nicolas Reyes bring their infectious blend of traditional flamenco, Latin rhythms, and Western pop to the PNE Summer Night Concerts. Known for hits like 'Bamboléo' and 'Djobi, Djoba,' their passionate performances transcend language barriers.",
+    "startDate": "2025-08-21T02:30:00.000Z",
+    "endDate": "2025-08-21T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.825Z"
+  },
+  {
+    "id": "pne-concert-2025-08-21-tba",
+    "title": "To Be Announced - PNE Summer Night Concert",
+    "description": "Stay tuned for an exciting artist announcement for this date at the PNE Summer Night Concerts. This mystery performer will join the stellar lineup of artists at the Pacific Coliseum during the 2025 PNE Fair.",
+    "startDate": "2025-08-22T02:30:00.000Z",
+    "endDate": "2025-08-22T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.825Z"
+  },
+  {
+    "id": "pne-concert-2025-08-22-flo-rida",
+    "title": "Flo Rida - PNE Summer Night Concert",
+    "description": "Chart-topping rapper Flo Rida brings his high-energy performance and string of hits to the PNE Summer Night Concerts. Known for party anthems like 'Low,' 'Right Round,' and 'Good Feeling,' his dynamic stage presence and infectious beats promise a night of non-stop dancing.",
+    "startDate": "2025-08-23T02:30:00.000Z",
+    "endDate": "2025-08-23T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-23-leon-bridges",
+    "title": "Leon Bridges - PNE Summer Night Concert",
+    "description": "Grammy-winning soul singer Leon Bridges brings his smooth vocals and retro-inspired sound to the PNE Summer Night Concerts. Known for songs like 'Coming Home,' 'River,' and 'Beyond,' his performance blends classic soul with contemporary sensibilities for an unforgettable evening.",
+    "startDate": "2025-08-24T02:30:00.000Z",
+    "endDate": "2025-08-24T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-24-marianas-trench",
+    "title": "Marianas Trench - PNE Summer Night Concert",
+    "description": "Canadian pop-rock band Marianas Trench returns to their hometown for a special performance at the PNE Summer Night Concerts. Known for their theatrical performances and hits like 'Cross My Heart,' 'Celebrity Status,' and 'Haven't Had Enough,' the Vancouver natives always deliver an energetic show.",
+    "startDate": "2025-08-25T02:30:00.000Z",
+    "endDate": "2025-08-25T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-26-sean-paul",
+    "title": "Sean Paul - PNE Summer Night Concert",
+    "description": "Grammy-winning dancehall superstar Sean Paul brings his global hits and Caribbean rhythms to the PNE Summer Night Concerts. Known for chart-toppers like 'Get Busy,' 'Temperature,' and countless collaborations, his high-energy performance will transform the Pacific Coliseum into a dancehall party.",
+    "startDate": "2025-08-27T02:30:00.000Z",
+    "endDate": "2025-08-27T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-27-wilco",
+    "title": "Wilco - PNE Summer Night Concert",
+    "description": "Alternative rock pioneers Wilco bring their critically acclaimed music to the PNE Summer Night Concerts. Known for their experimental sound and albums like 'Yankee Hotel Foxtrot,' the Grammy-winning band delivers a mesmerizing live experience that showcases their musical evolution.",
+    "startDate": "2025-08-28T02:30:00.000Z",
+    "endDate": "2025-08-28T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-28-foreigner",
+    "title": "Foreigner - PNE Summer Night Concert",
+    "description": "Rock legends Foreigner bring their arsenal of classic hits to the PNE Summer Night Concerts. With iconic songs like 'I Want To Know What Love Is,' 'Cold As Ice,' and 'Juke Box Hero,' their performance celebrates a legacy of arena rock anthems that defined a generation.",
+    "startDate": "2025-08-29T02:30:00.000Z",
+    "endDate": "2025-08-29T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-29-tom-cochrane",
+    "title": "Tom Cochrane - PNE Summer Night Concert",
+    "description": "Canadian rock icon Tom Cochrane takes the stage at the PNE Summer Night Concerts. Known for hits like 'Life Is A Highway,' 'Big League,' and his work with Red Rider, the multiple JUNO Award winner brings his signature sound and storytelling to this special performance.",
+    "startDate": "2025-08-30T02:30:00.000Z",
+    "endDate": "2025-08-30T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-30-meghan-trainor",
+    "title": "Meghan Trainor - PNE Summer Night Concert",
+    "description": "Grammy-winning pop sensation Meghan Trainor brings her catchy hits and retro-inspired sound to the PNE Summer Night Concerts. Known for chart-toppers like 'All About That Bass,' 'Lips Are Movin,' and 'No,' her vibrant performance combines doo-wop-infused pop with empowering messages.",
+    "startDate": "2025-08-31T02:30:00.000Z",
+    "endDate": "2025-08-31T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-08-31-tba",
+    "title": "To Be Announced - PNE Summer Night Concert",
+    "description": "Stay tuned for an exciting artist announcement for this date at the PNE Summer Night Concerts. This mystery performer will join the stellar lineup of artists at the Pacific Coliseum during the 2025 PNE Fair.",
+    "startDate": "2025-09-01T02:30:00.000Z",
+    "endDate": "2025-09-01T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  },
+  {
+    "id": "pne-concert-2025-09-01-rainbow-kitten-surprise",
+    "title": "Rainbow Kitten Surprise - PNE Summer Night Concert",
+    "description": "Alternative indie band Rainbow Kitten Surprise brings their eclectic sound and energetic live show to the PNE Summer Night Concerts. Known for their genre-blending style that incorporates folk, rock, and hip-hop elements, the band delivers a captivating performance with songs like 'It's Called: Freefall' and 'Fever Pitch'.",
+    "startDate": "2025-09-02T02:30:00.000Z",
+    "endDate": "2025-09-02T05:00:00.000Z",
+    "venue": {
+      "name": "Pacific Coliseum at the PNE",
+      "id": "pacific-coliseum-pne",
+      "address": "2901 E Hastings St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 0A1",
+      "coordinates": {
+        "lat": 49.2846974,
+        "lng": -123.0356767
+      },
+      "websiteUrl": "https://www.pne.ca/snc/",
+      "description": "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "live-music",
+      "pne-fair"
+    ],
+    "sourceURL": "https://www.pne.ca/snc/",
+    "officialWebsite": "https://www.pne.ca/snc/",
+    "image": "https://www.pne.ca/wp-content/uploads/2024/05/SNC2025-Web-Banner-1200x628-1.jpg",
+    "recurring": null,
+    "ticketsRequired": true,
+    "ticketsUrl": "https://www.ticketleader.ca/events/detail/snc2025",
+    "lastUpdated": "2025-07-15T18:43:14.826Z"
+  }
+]

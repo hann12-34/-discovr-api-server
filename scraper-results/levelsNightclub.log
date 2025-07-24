@@ -1,0 +1,54 @@
+============================================================
+--- Attempting to run scraper: levelsNightclub.js ---
+============================================================
+Scraper 'Levels Nightclub' instantiated successfully. Running scrape()...
+🔍 Starting Levels Nightclub scraper...
+✅ Added event: Trap Dynasty: Future Beats & 808s on Friday, July 18, 2025
+✅ Added event: Throwback Thursday: 2000s Edition on Thursday, July 24, 2025
+✅ Added event: Tech House Collective Presents: Subterranean Sounds on Saturday, July 26, 2025
+✅ Added event: Summer Heat: Latin & Afrobeats Fusion on Thursday, July 31, 2025
+🎧 Successfully created 4 Levels Nightclub events
+
+------------------------------------------------------------
+✅ Scraper 'Levels Nightclub' finished successfully.
+   Processed 4 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "levels-trap-dynasty-future-beats-808s-2025-07-19",
+  "title": "Trap Dynasty: Future Beats & 808s",
+  "description": "Vancouver's longest-running trap music night returns to Levels with a lineup of local and international artists pushing the boundaries of bass music. Experience the evolution of trap, featuring heavy 808s, experimental beats, and vocal chops that blend hip-hop, electronic music, and global influences. The night showcases both established and emerging trap producers, with headlining performances from Vancouver's own Sentry Gang and special guest DJ Bandzz from Atlanta. The event spans both floors of Levels, with the main room focused on high-energy trap and the upstairs lounge featuring more experimental and future bass sounds. The venue's renowned sound system has been specially calibrated for this event to deliver the punchy bass and crisp highs that define the genre.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 10:00 PM - 3:00 AM\nVenue: Levels Nightclub, 560 Seymour St, Vancouver\nPrice: $20-$30\nAge Restriction: 19+\nTickets: Available online through Levels website or at the door if not sold out\nPerformers: Sentry Gang, DJ Bandzz, TrapLord, Bass Queen\n\nVenue Information: Levels Nightclub is a multi-level venue in downtown Vancouver featuring state-of-the-art sound and lighting systems. The venue includes multiple rooms with different music styles, a spacious dance floor, multiple bars, and VIP bottle service areas. Valid government-issued photo ID is required for all 19+ events.",
+  "startDate": "2025-07-19T05:00:00.000Z",
+  "endDate": "2025-07-19T10:00:00.000Z",
+  "venue": {
+    "name": "Levels Nightclub",
+    "id": "levels-nightclub-vancouver",
+    "address": "560 Seymour St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 3J5",
+    "coordinates": {
+      "lat": 49.2832,
+      "lng": -123.1161
+    },
+    "websiteUrl": "https://www.levelsvancouver.com/",
+    "description": "Levels Nightclub is a premium multi-level entertainment venue in downtown Vancouver, featuring state-of-the-art sound and lighting systems across multiple rooms. The venue hosts a variety of electronic music events, hip-hop nights, and themed parties with both local and international DJs."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "music",
+    "club",
+    "electronic",
+    "edm",
+    "dj",
+    "electronic music"
+  ],
+  "sourceURL": "https://www.levelsvancouver.com/",
+  "officialWebsite": "https://www.levelsvancouver.com/events/trap-dynasty-july-2025/",
+  "image": "https://www.levelsvancouver.com/wp-content/uploads/2025/06/trap-dynasty-july.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:40:50.461Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/levelsNightclub-results.json

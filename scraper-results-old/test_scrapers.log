@@ -1,0 +1,1869 @@
+ERROR: Command failed: node test-single-scraper.js test_scrapers.js
+❌ Error importing anthropologyMuseumEvents.js: AnthropologyMuseumEvents is not a constructor
+❌ Error importing artGalleryEvents.js: Unexpected token 'catch'
+❌ Error importing biltmoreCabaretEvents.js: BiltmoreCabaretEvents is not a constructor
+❌ Error importing chanCentreEvents.js: ChanCentreEvents is not a constructor
+❌ Error importing cherryBlossomFestEvents.js: CherryBlossomFestEvents is not a constructor
+❌ Error importing coastalJazzEvents.js: Unexpected token '{'
+❌ Error importing commodoreBallroomEvents.backup.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing commodoreBallroomEvents.fixed.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing commodoreBallroomEvents.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing contemporaryArtGalleryEvents.js: ContemporaryArtGalleryEvents is not a constructor
+❌ Error importing cultureCrawlEvents.js: CultureCrawlEvents is not a constructor
+❌ Error importing danceFestivalEvents.js: DanceFestivalEvents is not a constructor
+❌ Error importing folkFestEvents.js: FolkFestEvents is not a constructor
+❌ Error importing fringeFestivalEvents.js: FringeFestivalEvents is not a constructor
+❌ Error importing granvilleIslandEvents.js: GranvilleIslandEvents is not a constructor
+❌ Error importing index.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing macMillanSpaceCentreEvents.js: MacMillanSpaceCentreEvents is not a constructor
+❌ Error importing maritimeMuseumEvents.js: MaritimeMuseumEvents is not a constructor
+❌ Error running commodoreBallroomEvents.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing orpheumTheatreEvents.js: OrpheumTheatreEvents is not a constructor
+❌ Error importing pneEvents.js: PNEEvents is not a constructor
+❌ Error importing publicLibraryEvents.js: PublicLibraryEvents is not a constructor
+❌ Error importing rickshawTheatreEvents.js: RickshawTheatreEvents is not a constructor
+❌ Error importing scienceWorldEvents.js: ScienceWorldEvents is not a constructor
+❌ Error importing spaceCentreEvents.js: SpaceCentreEvents is not a constructor
+❌ Error importing stanleyParkEvents.js: StanleyParkEvents is not a constructor
+❌ Error importing test-arc-dining-scraper.js: Cannot find module './scrapers/cities/vancouver/arcDiningEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-art-gallery-events.js: Cannot find module './scrapers/cities/vancouver/artGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-art-gallery-scraper.js: Cannot find module './scrapers/cities/vancouver/vancouverArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-bard-on-the-beach-scraper.js: Cannot find module './scrapers/cities/vancouver/bardOnTheBeachEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-barnone-scraper.js: Cannot find module './cities/vancouver/barNoneClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-bill-reid-gallery.js: Cannot find module './scrapers/cities/vancouver/billReidGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-biltmore-cabaret-events.js: Cannot find module './scrapers/cities/vancouver/biltmoreCabaretEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-broadway-vancouver-scraper.js: Cannot find module './scrapers/cities/vancouver/broadwayVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-carnaval-del-sol-scraper.js: Cannot find module './cities/vancouver/carnavalDelSol'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-chan-centre-events.js: Cannot find module './scrapers/cities/vancouver/chanCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-chan-centre-scraper.js: Cannot find module './cities/vancouver/chanCentre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-cherry-blossom-events.js: Cannot find module './scrapers/cities/vancouver/cherryBlossomFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-chinese-garden-scraper.js: Cannot find module './scrapers/cities/vancouver/chineseGardenEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-coastal-jazz-and-new-scrapers.js: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-coastal-jazz-festival-scraper.js: Cannot find module './cities/vancouver/coastalJazzFestival'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-coastal-jazz-scraper.js: Cannot find module './scrapers/cities/vancouver/coastalJazzEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-ballroom-events.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-ballroom-fixed.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents.fixed'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-ballroom.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-fixed.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore.js: Cannot find module './scrapers/venues/commodoreBallroomShows'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-contemporary-art-gallery.js: Cannot find module './scrapers/cities/vancouver/contemporaryArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-culture-crawl-events.js: Cannot find module './scrapers/cities/vancouver/cultureCrawlEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-dance-festival-events.js: Cannot find module './scrapers/cities/vancouver/danceFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-destination-vancouver.js: Cannot find module './scrapers/sources/destinationVancouverScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-doxa-film-festival.js: Cannot find module './scrapers/cities/vancouver/doxaFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-dragon-boat-festival-scraper.js: Cannot find module './scrapers/cities/vancouver/dragonBoatFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-festival-dete-scraper.js: Cannot find module './scrapers/cities/vancouver/festivalDEteEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-folk-fest-events.js: Cannot find module './scrapers/cities/vancouver/folkFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fortune-bridge.js: Cannot find module './scrapers/cities/vancouver/fortuneSoundClubBridge'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fortune-sound-club copy.js: Cannot find module '../../scrapers/cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fortune-sound-club.js: Cannot find module '../cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fox-cabaret-calendar.js: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fox-cabaret-scraper.js: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fox-cabaret.js: Cannot find module '../cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fringe-festival-events.js: Cannot find module './scrapers/cities/vancouver/fringeFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-gastown-scraper.js: Cannot find module './gastown-sunday-set-scraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-granville-island-events.js: Cannot find module './scrapers/cities/vancouver/granvilleIslandEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-granville-scraper.js: Cannot find module './cities/vancouver/granvilleIsland'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-hello-goodbye-bar-scraper.js: Cannot find module './scrapers/cities/vancouver/helloGoodbyeBarEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-hellobc-real-scraper.js: Cannot find module './scrapers/cities/vancouver/helloBCEventsScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-hellobc-scrapers.js: Cannot find module './scrapers/cities/vancouver/helloBCEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-improv-centre.js: Cannot find module './scrapers/cities/vancouver/improvCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-japan-market-scraper.js: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-jazz-fest-events.js: Cannot find module './scrapers/cities/vancouver/vancouverJazzFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-junction-market-scraper.js: Cannot find module './cities/vancouver/junctionPublicMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-latest-scrapers.js: Cannot find module './scrapers/cities/vancouver/levelsNightclub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-macmillan-space-centre.js: Cannot find module './scrapers/cities/vancouver/macMillanSpaceCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-malones-scraper.js: Cannot find module './scrapers/cities/vancouver/malonesEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-maritime-museum-events.js: Cannot find module './scrapers/cities/vancouver/maritimeMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-metropolis-events-scraper.js: Cannot find module './scrapers/cities/vancouver/metropolisEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-mov-integration.js: Cannot find module './scrapers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-mov-scraper.js: Cannot find module './scrapers/events/vancouverMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-museum-of-anthropology.js: Cannot find module './scrapers/cities/vancouver/museumOfAnthropologyEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-museum-vancouver-no-fallback.js: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-museum-vancouver-scraper.js: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-scrapers-only.js: Cannot find module './scrapers/cities/vancouver/metropolisEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-scrapers.js: Cannot find module './scrapers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-vancouver-scrapers.js: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-venue-scrapers.js: Cannot find module './scrapers/utils/logger'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-no-fallbacks.js: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-orpheum-theatre-events.js: Cannot find module './scrapers/cities/vancouver/orpheumTheatreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pearl-scraper.js: Cannot find module './scrapers/pearl-scraper-new'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pne-concerts-scraper.js: Cannot find module './cities/vancouver/pneSummerNightConcerts'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pne-events.js: Cannot find module './scrapers/cities/vancouver/pneEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pne-fair-scraper.js: Cannot find module './cities/vancouver/pneFair'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-public-library-events.js: Cannot find module './scrapers/cities/vancouver/publicLibraryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-qet-scraper.js: Cannot find module './cities/vancouver/queenElizabethTheatre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-queer-arts-festival-scraper.js: Cannot find module './scrapers/cities/vancouver/queerArtsFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-queer-film-festival.js: Cannot find module './scrapers/cities/vancouver/queerFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-red-room-scraper.js: Cannot find module './scrapers/cities/vancouver/redRoomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-richmond-market-scraper.js: Cannot find module './cities/vancouver/richmondNightMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-rickshaw-theatre-events.js: Cannot find module './scrapers/cities/vancouver/rickshawTheatreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-roxy-scraper.js: Cannot find module './scrapers/roxy-scraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-run-to-end-endo-scraper.js: Cannot find module './scrapers/cities/vancouver/runToEndEndoEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-science-world-events.js: Cannot find module './scrapers/cities/vancouver/scienceWorldEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-science-world-scraper.js: Cannot find module './scrapers/events/vancouverMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-scraper-data.js: Cannot find module './scrapers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-scrapers.js: Cannot find module './scrapers/venues/commodoreBallroomShows'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-shipyards-night-market-scraper.js: Cannot find module './cities/vancouver/shipyardsNightMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-space-centre-events.js: Cannot find module './scrapers/cities/vancouver/spaceCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-squamish-beer-festival-scraper.js: Cannot find module './cities/vancouver/squamishBeerFestival'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-stanley-park-events.js: Cannot find module './scrapers/cities/vancouver/stanleyParkEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-theatre-under-the-stars-scraper.js: Cannot find module './cities/vancouver/theatreUnderTheStars'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-today-scrapers.js: Cannot find module './scrapers/cities/vancouver/levelsNightclub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-tourism-vancouver-scraper.js: Cannot find module './scrapers/cities/vancouver/tourismVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-underground-comedy-club.js: Cannot find module './scrapers/cities/vancouver/undergroundComedyClubEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-asian-film-festival.js: Cannot find module './scrapers/cities/vancouver/vancouverAsianFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-city-scraper.js: Cannot find module './scrapers/cities/vancouver/vancouverCityEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-civic-theatres-scraper.js: Cannot find module './cities/vancouver/vancouverCivicTheatres'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-film-festival.js: Cannot find module './scrapers/cities/vancouver/vancouverFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-mysteries-scraper.js: Cannot find module './scrapers/cities/vancouver/vancouverMysteriesEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-scrapers.js: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vegan-market-scraper.js: Cannot find module './scrapers/cities/vancouver/veganMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-venue-scrapers.js: Cannot find module './scrapers/utils/logger'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vogue-theatre-events.js: Cannot find module './scrapers/cities/vancouver/vogueTheatreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vsff-scraper.js: Cannot find module './scrapers/cities/vancouver/vsffEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-western-front-events.js: Cannot find module './scrapers/cities/vancouver/westernFrontEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-yaletown-jazz-scraper.js: Cannot find module './cities/vancouver/yaletownJazz'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing theCultchEvents.js: TheCultchEvents is not a constructor
+❌ Error importing thePearlEvents.js: ThePearlEvents is not a constructor
+❌ Error importing theRoxyEvents.js: TheRoxyEvents is not a constructor
+❌ Error importing vancouverFilmFestivalEvents.js: VancouverFilmFestivalEvents is not a constructor
+❌ Error importing vancouverJazzFestEvents.js: VancouverJazzFestEvents is not a constructor
+❌ Error importing vogueTheatreEvents.js: VogueTheatreEvents is not a constructor
+❌ Error importing westernFrontEvents.js: WesternFrontEvents is not a constructor
+
+❌ A critical error occurred in the test runner for test_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47
+
+
+============================================================
+--- Attempting to run scraper: test_scrapers.js ---
+============================================================
+🚀 Starting Vancouver scrapers test...
+Found 252 JavaScript files to test
+⏩ Skipping arcDiningEvents.js: Not a valid scraper class
+⏩ Skipping barNoneClub.js: Not a valid scraper class
+⏩ Skipping bardOnTheBeach.js: Not a valid scraper class
+⏩ Skipping bardOnTheBeachEvents.js: Not a valid scraper class
+⏩ Skipping bcPlaceEvents.js: Not a valid scraper class
+⏩ Skipping bcPlaceStadium.js: Not a valid scraper class
+⏩ Skipping billReidGalleryEvents.js: Not a valid scraper class
+⏩ Skipping biltmoreCabaret.js: Not a valid scraper class
+⏩ Skipping broadwayVancouverEvents.js: Not a valid scraper class
+⏩ Skipping canadaPlaceEvents.js: Not a valid scraper class
+⏩ Skipping capilanoSuspensionBridge.js: Not a valid scraper class
+⏩ Skipping carnavalDelSol.js: Not a valid scraper class
+⏩ Skipping celebritiesNightclub.js: Not a valid scraper class
+⏩ Skipping chanCentre.js: Not a valid scraper class
+⏩ Skipping chineseGardenEvents.js: Not a valid scraper class
+⏩ Skipping coastalJazzFestival.js: Not a valid scraper class
+⏩ Skipping doxaFilmFestivalEvents.js: Not a valid scraper class
+⏩ Skipping dragonBoatFestivalEvents.js: Not a valid scraper class
+⏩ Skipping festivalDEteEvents.js: Not a valid scraper class
+⏩ Skipping fortuneSoundClub.js: Not a valid scraper class
+⏩ Skipping fortuneSoundClubBridge.js: Not a valid scraper class
+⏩ Skipping foxCabaret.js: Not a valid scraper class
+⏩ Skipping gastownGrandPrixEvents.js: Not a valid scraper class
+⏩ Skipping gastownSundaySet.js: Not a valid scraper class
+⏩ Skipping granvilleIsland.js: Not a valid scraper class
+⏩ Skipping granvilleIslandMarket.js: Not a valid scraper class
+⏩ Skipping granvilleMarketEvents.js: Not a valid scraper class
+⏩ Skipping harbourEventCentre.js: Not a valid scraper class
+⏩ Skipping helloBCEvents.js: Not a valid scraper class
+⏩ Skipping helloBCEventsAdditional.js: Not a valid scraper class
+⏩ Skipping helloBCEventsScraper.js: Not a valid scraper class
+⏩ Skipping helloGoodbyeBarEvents.js: Not a valid scraper class
+⏩ Skipping hrMacMillanSpaceCentre.js: Not a valid scraper class
+⏩ Skipping hrMacMillanSpaceCentreEvents.js: Not a valid scraper class
+⏩ Skipping imperialTheatre.js: Not a valid scraper class
+⏩ Skipping improvCentreEvents.js: Not a valid scraper class
+⏩ Skipping irishHeather.js: Not a valid scraper class
+⏩ Skipping japanMarketEvents.js: Not a valid scraper class
+⏩ Skipping junctionPublicMarket.js: Not a valid scraper class
+⏩ Skipping khatsahlanoEvents.js: Not a valid scraper class
+⏩ Skipping kitsilanoShowboat.js: Not a valid scraper class
+⏩ Skipping laowaiBar.js: Not a valid scraper class
+⏩ Skipping levelsNightclub.js: Not a valid scraper class
+⏩ Skipping malonesEvents.js: Not a valid scraper class
+🚀 Starting Vancouver scraper run at 2025-07-15T16:18:41.958Z
+
+🔍 Running scraper: commodoreBallroomEvents.js
+⏩ Skipping master_scraper_runner.js: Not a valid scraper class
+⏩ Skipping metropolisEvents.js: Not a valid scraper class
+⏩ Skipping moaUbcEvents.js: Not a valid scraper class
+⏩ Skipping museumOfAnthropology.js: Not a valid scraper class
+⏩ Skipping museumOfAnthropologyEvents.js: Not a valid scraper class
+⏩ Skipping museumOfVancouver.js: Not a valid scraper class
+⏩ Skipping museumOfVancouverEvents.js: Not a valid scraper class
+⏩ Skipping musqueamEvents.js: Not a valid scraper class
+⏩ Skipping orpheumEvents.js: Not a valid scraper class
+⏩ Skipping orpheumTheatre.js: Not a valid scraper class
+⏩ Skipping pneFair.js: Not a valid scraper class
+⏩ Skipping pneSummerNightConcerts.js: Not a valid scraper class
+⏩ Skipping polygonGallery.js: Not a valid scraper class
+⏩ Skipping queenElizabethTheatre.js: Not a valid scraper class
+⏩ Skipping queenElizabethTheatreEvents.js: Not a valid scraper class
+⏩ Skipping queerArtsFestivalEvents.js: Not a valid scraper class
+⏩ Skipping queerFilmFestivalEvents.js: Not a valid scraper class
+🔍 Testing key scrapers to validate fixes...
+
+Testing undergroundComedyClubEvents.js...
+✅ Successfully imported undergroundComedyClubEvents.js
+✅ Found scrape method in undergroundComedyClubEvents.js
+ℹ️ Scraper name: Underground Comedy Club
+⏩ Skipping quick_validation.js: Not a valid scraper class
+⏩ Skipping redRoom.js: Not a valid scraper class
+⏩ Skipping redRoomEvents.js: Not a valid scraper class
+⏩ Skipping redRoomEvents_new.js: Not a valid scraper class
+⏩ Skipping redRoom_OLD.js: Not a valid scraper class
+⏩ Skipping richmondNightMarket.js: Not a valid scraper class
+⏩ Skipping runToEndEndoEvents.js: Not a valid scraper class
+⏩ Skipping scienceWorld.js: Not a valid scraper class
+⏩ Skipping scienceWorldVancouverEvents.js: Not a valid scraper class
+⏩ Skipping shipyardsNightMarket.js: Not a valid scraper class
+⏩ Skipping spaceCenter.js: Not a valid scraper class
+⏩ Skipping squamishBeerFestival.js: Not a valid scraper class
+🚀 Standardizing Vancouver scrapers exports...
+Found 151 potential scraper files
+✅ anthropologyMuseumEvents.js already exports an instance
+✅ arcDiningEvents.js already exports an instance
+✅ artGalleryEvents.js already exports an instance
+✅ barNoneClub.js already exports an instance
+✅ bardOnTheBeach.js already exports an instance
+✅ bardOnTheBeachEvents.js already exports an instance
+✅ bcPlaceEvents.js already exports an instance
+✅ bcPlaceStadium.js already exports an instance
+✅ billReidGalleryEvents.js already exports an instance
+✅ biltmoreCabaret.js already exports an instance
+✅ biltmoreCabaretEvents.js already exports an instance
+✅ broadwayVancouverEvents.js already exports an instance
+✅ canadaPlaceEvents.js already exports an instance
+✅ capilanoSuspensionBridge.js already exports an instance
+✅ carnavalDelSol.js already exports an instance
+✅ celebritiesNightclub.js already exports an instance
+✅ chanCentre.js already exports an instance
+✅ chanCentreEvents.js already exports an instance
+⚠️ Unknown export format in check_scrapers.js
+✅ cherryBlossomFestEvents.js already exports an instance
+✅ chineseGardenEvents.js already exports an instance
+✅ coastalJazzEvents.js already exports an instance
+✅ coastalJazzFestival.js already exports an instance
+✅ commodoreBallroomEvents.backup.js already exports an instance
+✅ commodoreBallroomEvents.fixed.js already exports an instance
+✅ commodoreBallroomEvents.js already exports an instance
+✅ contemporaryArtGalleryEvents.js already exports an instance
+✅ cultureCrawlEvents.js already exports an instance
+✅ danceFestivalEvents.js already exports an instance
+✅ doxaFilmFestivalEvents.js already exports an instance
+✅ dragonBoatFestivalEvents.js already exports an instance
+✅ festivalDEteEvents.js already exports an instance
+✅ folkFestEvents.js already exports an instance
+✅ fortuneSoundClub.js already exports an instance
+✅ fortuneSoundClubBridge.js already exports an instance
+✅ foxCabaret.js already exports an instance
+✅ fringeFestivalEvents.js already exports an instance
+✅ gastownGrandPrixEvents.js already exports an instance
+✅ gastownSundaySet.js already exports an instance
+✅ granvilleIsland.js already exports an instance
+✅ granvilleIslandEvents.js already exports an instance
+✅ granvilleIslandMarket.js already exports an instance
+✅ granvilleMarketEvents.js already exports an instance
+✅ harbourEventCentre.js already exports an instance
+✅ helloBCEvents.js already exports an instance
+✅ helloBCEventsAdditional.js already exports an instance
+✅ helloBCEventsScraper.js already exports an instance
+✅ helloGoodbyeBarEvents.js already exports an instance
+✅ hrMacMillanSpaceCentre.js already exports an instance
+✅ hrMacMillanSpaceCentreEvents.js already exports an instance
+✅ imperialTheatre.js already exports an instance
+✅ improvCentreEvents.js already exports an instance
+✅ index.js already exports an instance
+✅ irishHeather.js already exports an instance
+✅ japanMarketEvents.js already exports an instance
+✅ junctionPublicMarket.js already exports an instance
+✅ khatsahlanoEvents.js already exports an instance
+✅ kitsilanoShowboat.js already exports an instance
+✅ laowaiBar.js already exports an instance
+✅ levelsNightclub.js already exports an instance
+⚠️ Unknown export format in list_all_scrapers.js
+✅ macMillanSpaceCentreEvents.js already exports an instance
+✅ malonesEvents.js already exports an instance
+✅ maritimeMuseumEvents.js already exports an instance
+✅ metropolisEvents.js already exports an instance
+✅ moaUbcEvents.js already exports an instance
+✅ museumOfAnthropology.js already exports an instance
+✅ museumOfAnthropologyEvents.js already exports an instance
+✅ museumOfVancouver.js already exports an instance
+✅ museumOfVancouverEvents.js already exports an instance
+✅ musqueamEvents.js already exports an instance
+✅ orpheumEvents.js already exports an instance
+✅ orpheumTheatre.js already exports an instance
+✅ orpheumTheatreEvents.js already exports an instance
+✅ pneEvents.js already exports an instance
+✅ pneFair.js already exports an instance
+✅ pneSummerNightConcerts.js already exports an instance
+✅ polygonGallery.js already exports an instance
+✅ publicLibraryEvents.js already exports an instance
+✅ queenElizabethTheatre.js already exports an instance
+✅ queenElizabethTheatreEvents.js already exports an instance
+✅ queerArtsFestivalEvents.js already exports an instance
+✅ queerFilmFestivalEvents.js already exports an instance
+⚠️ Unknown export format in quick_validation.js
+✅ redRoom.js already exports an instance
+✅ redRoomEvents.js already exports an instance
+✅ redRoomEvents_new.js already exports an instance
+✅ redRoom_OLD.js already exports an instance
+✅ richmondNightMarket.js already exports an instance
+✅ rickshawTheatreEvents.js already exports an instance
+✅ runToEndEndoEvents.js already exports an instance
+⚠️ Unknown export format in run_all_scrapers.js
+⚠️ Unknown export format in run_all_scrapers_with_output.js
+✅ scienceWorld.js already exports an instance
+✅ scienceWorldEvents.js already exports an instance
+✅ scienceWorldVancouverEvents.js already exports an instance
+✅ shipyardsNightMarket.js already exports an instance
+✅ spaceCenter.js already exports an instance
+✅ spaceCentreEvents.js already exports an instance
+✅ squamishBeerFestival.js already exports an instance
+✅ stanleyPark.js already exports an instance
+✅ stanleyParkEvents.js already exports an instance
+✅ steamworksBrewing.js already exports an instance
+✅ steamworksBrewingEvents.js already exports an instance
+✅ summerCinemaEvents.js already exports an instance
+⚠️ Unknown export format in test_fixed_scrapers.js
+⚠️ Unknown export format in test_priority_venues.js
+⚠️ Unknown export format in test_scrapers.js
+⚠️ Unknown export format in test_selected_scrapers.js
+⚠️ Unknown export format in test_single_venue.js
+✅ theCentreVancouver.js already exports an instance
+✅ theCultchEvents.js already exports an instance
+✅ thePearlEvents.js already exports an instance
+✅ theRoxyEvents.js already exports an instance
+✅ theatreUnderTheStars.js already exports an instance
+✅ theatreUnderTheStarsEvents.js already exports an instance
+✅ tourismVancouverEvents.js already exports an instance
+✅ ubcBotanicalGardenEvents.js already exports an instance
+✅ undergroundComedyClubEvents.js already exports an instance
+⚠️ Unknown export format in validate_scrapers.js
+✅ vancouverAquarium.js already exports an instance
+✅ vancouverAquariumEvents.js already exports an instance
+✅ vancouverArtAndLeisure.js already exports an instance
+✅ vancouverArtGallery.js already exports an instance
+✅ vancouverArtGalleryEvents.js already exports an instance
+✅ vancouverAsianFilmFestivalEvents.js already exports an instance
+✅ vancouverCityEvents.js already exports an instance
+✅ vancouverCivicTheatres.js already exports an instance
+✅ vancouverConventionCentreEvents.js already exports an instance
+✅ vancouverFilmFestivalEvents.js already exports an instance
+✅ vancouverFolkFest.js already exports an instance
+✅ vancouverFringe.js already exports an instance
+✅ vancouverInternationalFilmFestival.js already exports an instance
+✅ vancouverJazzFestEvents.js already exports an instance
+✅ vancouverJazzFestival.js already exports an instance
+✅ vancouverMaritimeMuseumEvents.js already exports an instance
+✅ vancouverMysteriesEvents.js already exports an instance
+✅ vancouverPride.js already exports an instance
+✅ vancouverSymphony.js already exports an instance
+✅ vancouverSymphonyEvents.js already exports an instance
+✅ veganMarketEvents.js already exports an instance
+✅ venueNightclub.js already exports an instance
+⚠️ Unknown export format in verify-commodore-events.js
+⚠️ Unknown export format in verify-events-count.js
+⚠️ Unknown export format in verify-hellobc-events.js
+✅ vogueTheatre.js already exports an instance
+✅ vogueTheatreEvents.js already exports an instance
+✅ vsffEvents.js already exports an instance
+✅ westernFrontEvents.js already exports an instance
+✅ wiseHall.js already exports an instance
+✅ yaletownJazz.js already exports an instance
+
+📊 Export Standardization Summary:
+Total files checked: 151
+Files fixed: 0
+Files already standardized: 137
+Files that could not be fixed: 14
+
+Detailed results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/standardize_exports_results.json
+⏩ Skipping standardize_scraper_exports.js: Not a valid scraper class
+⏩ Skipping stanleyPark.js: Not a valid scraper class
+⏩ Skipping steamworksBrewing.js: Not a valid scraper class
+⏩ Skipping steamworksBrewingEvents.js: Not a valid scraper class
+⏩ Skipping summerCinemaEvents.js: Not a valid scraper class
+🧪 Testing API endpoints to find the correct one...
+⏩ Skipping test-api-endpoints.js: Not a valid scraper class
+🔍 MongoDB Connection Tester v2
+==============================
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority
+Connecting with masteraccount:****23 to discovr-events
+⏩ Skipping test-mongo-connection-v2.js: Not a valid scraper class
+🔍 MongoDB Connection Tester
+============================
+
+🔄 Testing URI 1/4: mongodb://localhost:27017/discovr
+
+  ⚙️ Testing with options set 1/3: {"useNewUrlParser":true,"useUnifiedTopology":true}
+⏩ Skipping test-mongo-connection.js: Not a valid scraper class
+Using MongoDB connection: mongodb+srv://materaccount:*****@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr
+Connecting to MongoDB...
+⏩ Skipping test-mongo-fortune-events.js: Not a valid scraper class
+Analyzing Museum of Vancouver website structure...
+⏩ Skipping test-mov-debug.js: Not a valid scraper class
+🧪 Testing API connections...
+
+🔄 Testing cloud API...
+⏩ Skipping test-proxy-api.js: Not a valid scraper class
+Testing Science World scraper in detail...
+⏩ Skipping test-science-world-detailed.js: Not a valid scraper class
+Testing Science World scraper...
+⏩ Skipping test-science-world.js: Not a valid scraper class
+⏩ Skipping test-server.js: Not a valid scraper class
+⏩ Skipping theCentreVancouver.js: Not a valid scraper class
+⏩ Skipping theatreUnderTheStars.js: Not a valid scraper class
+⏩ Skipping theatreUnderTheStarsEvents.js: Not a valid scraper class
+⏩ Skipping tourismVancouverEvents.js: Not a valid scraper class
+⏩ Skipping ubcBotanicalGardenEvents.js: Not a valid scraper class
+⏩ Skipping undergroundComedyClubEvents.js: Not a valid scraper class
+🔍 Validating Vancouver scrapers structure...
+Found 140 potential scrapers to validate
+
+❌ anthropologyMuseumEvents.js - Error: AnthropologyMuseumEvents is not a constructor
+✅ arcDiningEvents.js - Valid scraper
+❌ artGalleryEvents.js - Error: Unexpected token 'catch'
+✅ barNoneClub.js - Valid scraper
+✅ bardOnTheBeach.js - Valid scraper
+✅ bardOnTheBeachEvents.js - Valid scraper
+✅ bcPlaceEvents.js - Valid scraper
+✅ bcPlaceStadium.js - Valid scraper
+✅ billReidGalleryEvents.js - Valid scraper
+✅ biltmoreCabaret.js - Valid scraper
+❌ biltmoreCabaretEvents.js - Error: BiltmoreCabaretEvents is not a constructor
+✅ broadwayVancouverEvents.js - Valid scraper
+✅ canadaPlaceEvents.js - Valid scraper
+✅ capilanoSuspensionBridge.js - Valid scraper
+✅ carnavalDelSol.js - Valid scraper
+✅ celebritiesNightclub.js - Valid scraper
+✅ chanCentre.js - Valid scraper
+❌ chanCentreEvents.js - Error: ChanCentreEvents is not a constructor
+Found 256 potential scrapers to check
+❌ check_scrapers.js - Invalid: no scrape method
+❌ cherryBlossomFestEvents.js - Error: CherryBlossomFestEvents is not a constructor
+✅ chineseGardenEvents.js - Valid scraper
+❌ coastalJazzEvents.js - Error: Unexpected token '{'
+✅ coastalJazzFestival.js - Valid scraper
+❌ commodoreBallroomEvents.backup.js - Error: CommodoreBallroomEvents is not a constructor
+❌ commodoreBallroomEvents.fixed.js - Error: CommodoreBallroomEvents is not a constructor
+❌ commodoreBallroomEvents.js - Error: CommodoreBallroomEvents is not a constructor
+❌ contemporaryArtGalleryEvents.js - Error: ContemporaryArtGalleryEvents is not a constructor
+❌ cultureCrawlEvents.js - Error: CultureCrawlEvents is not a constructor
+❌ danceFestivalEvents.js - Error: DanceFestivalEvents is not a constructor
+✅ doxaFilmFestivalEvents.js - Valid scraper
+✅ dragonBoatFestivalEvents.js - Valid scraper
+✅ festivalDEteEvents.js - Valid scraper
+❌ folkFestEvents.js - Error: FolkFestEvents is not a constructor
+✅ fortuneSoundClub.js - Valid scraper
+✅ fortuneSoundClubBridge.js - Valid scraper
+✅ foxCabaret.js - Valid scraper
+❌ fringeFestivalEvents.js - Error: FringeFestivalEvents is not a constructor
+✅ gastownGrandPrixEvents.js - Valid scraper
+✅ gastownSundaySet.js - Valid scraper
+✅ granvilleIsland.js - Valid scraper
+❌ granvilleIslandEvents.js - Error: GranvilleIslandEvents is not a constructor
+✅ granvilleIslandMarket.js - Valid scraper
+✅ granvilleMarketEvents.js - Valid scraper
+✅ harbourEventCentre.js - Valid scraper
+✅ helloBCEvents.js - Valid scraper
+✅ helloBCEventsAdditional.js - Valid scraper
+✅ helloBCEventsScraper.js - Valid scraper
+✅ helloGoodbyeBarEvents.js - Valid scraper
+✅ hrMacMillanSpaceCentre.js - Valid scraper
+✅ hrMacMillanSpaceCentreEvents.js - Valid scraper
+✅ imperialTheatre.js - Valid scraper
+✅ improvCentreEvents.js - Valid scraper
+❌ index.js - Error: CommodoreBallroomEvents is not a constructor
+✅ irishHeather.js - Valid scraper
+✅ japanMarketEvents.js - Valid scraper
+✅ junctionPublicMarket.js - Valid scraper
+✅ khatsahlanoEvents.js - Valid scraper
+✅ kitsilanoShowboat.js - Valid scraper
+✅ laowaiBar.js - Valid scraper
+✅ levelsNightclub.js - Valid scraper
+Found 147 JavaScript files in the directory.
+🔍 Starting helper import fixes...
+Found 252 JavaScript files to check
+⏩ Skipping anthropologyMuseumEvents.js: Does not use helper functions
+⏩ Skipping arcDiningEvents.js: Does not use helper functions
+⏩ Skipping artGalleryEvents.js: Does not use helper functions
+⏩ Skipping barNoneClub.js: Does not use helper functions
+⏩ Skipping bardOnTheBeach.js: Does not use helper functions
+⏩ Skipping bardOnTheBeachEvents.js: Does not use helper functions
+⏩ Skipping bcPlaceEvents.js: Does not use helper functions
+⏩ Skipping bcPlaceStadium.js: Does not use helper functions
+⏩ Skipping billReidGalleryEvents.js: Does not use helper functions
+⏩ Skipping biltmoreCabaret.js: Does not use helper functions
+⏩ Skipping biltmoreCabaretEvents.js: Does not use helper functions
+⏩ Skipping broadwayVancouverEvents.js: Does not use helper functions
+⏩ Skipping canadaPlaceEvents.js: Does not use helper functions
+⏩ Skipping capilanoSuspensionBridge.js: Does not use helper functions
+⏩ Skipping carnavalDelSol.js: Does not use helper functions
+⏩ Skipping celebritiesNightclub.js: Does not use helper functions
+⏩ Skipping chanCentre.js: Does not use helper functions
+⏩ Skipping chanCentreEvents.js: Does not use helper functions
+⏩ Skipping cherryBlossomFestEvents.js: Does not use helper functions
+⏩ Skipping chineseGardenEvents.js: Does not use helper functions
+⏩ Skipping coastalJazzEvents.js: Does not use helper functions
+⏩ Skipping coastalJazzFestival.js: Does not use helper functions
+⏩ Skipping commodoreBallroomEvents.backup.js: Does not use helper functions
+⏩ Skipping commodoreBallroomEvents.fixed.js: Does not use helper functions
+⏩ Skipping commodoreBallroomEvents.js: Does not use helper functions
+⏩ Skipping contemporaryArtGalleryEvents.js: Does not use helper functions
+⏩ Skipping cultureCrawlEvents.js: Does not use helper functions
+⏩ Skipping danceFestivalEvents.js: Does not use helper functions
+⏩ Skipping doxaFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping dragonBoatFestivalEvents.js: Does not use helper functions
+⏩ Skipping festivalDEteEvents.js: Does not use helper functions
+⏩ Skipping folkFestEvents.js: Does not use helper functions
+⏩ Skipping fortuneSoundClub.js: Does not use helper functions
+⏩ Skipping fortuneSoundClubBridge.js: Does not use helper functions
+⏩ Skipping foxCabaret.js: Does not use helper functions
+⏩ Skipping fringeFestivalEvents.js: Does not use helper functions
+⏩ Skipping gastownGrandPrixEvents.js: Does not use helper functions
+⏩ Skipping gastownSundaySet.js: Does not use helper functions
+⏩ Skipping granvilleIsland.js: Does not use helper functions
+⏩ Skipping granvilleIslandEvents.js: Does not use helper functions
+⏩ Skipping granvilleIslandMarket.js: Does not use helper functions
+⏩ Skipping granvilleMarketEvents.js: Does not use helper functions
+⏩ Skipping harbourEventCentre.js: Does not use helper functions
+⏩ Skipping helloBCEvents.js: Does not use helper functions
+⏩ Skipping helloBCEventsAdditional.js: Does not use helper functions
+⏩ Skipping helloBCEventsScraper.js: Does not use helper functions
+⏩ Skipping helloGoodbyeBarEvents.js: Does not use helper functions
+⏩ Skipping hrMacMillanSpaceCentre.js: Does not use helper functions
+⏩ Skipping hrMacMillanSpaceCentreEvents.js: Does not use helper functions
+⏩ Skipping imperialTheatre.js: Does not use helper functions
+⏩ Skipping improvCentreEvents.js: Does not use helper functions
+⏩ Skipping index.js: Does not use helper functions
+⏩ Skipping irishHeather.js: Does not use helper functions
+⏩ Skipping japanMarketEvents.js: Does not use helper functions
+⏩ Skipping junctionPublicMarket.js: Does not use helper functions
+⏩ Skipping khatsahlanoEvents.js: Does not use helper functions
+⏩ Skipping kitsilanoShowboat.js: Does not use helper functions
+⏩ Skipping laowaiBar.js: Does not use helper functions
+⏩ Skipping levelsNightclub.js: Does not use helper functions
+⏩ Skipping macMillanSpaceCentreEvents.js: Does not use helper functions
+⏩ Skipping malonesEvents.js: Does not use helper functions
+⏩ Skipping maritimeMuseumEvents.js: Does not use helper functions
+⏩ Skipping master_scraper_runner.js: Does not use helper functions
+⏩ Skipping metropolisEvents.js: Does not use helper functions
+⏩ Skipping moaUbcEvents.js: Does not use helper functions
+⏩ Skipping museumOfAnthropology.js: Does not use helper functions
+⏩ Skipping museumOfAnthropologyEvents.js: Does not use helper functions
+⏩ Skipping museumOfVancouver.js: Does not use helper functions
+⏩ Skipping museumOfVancouverEvents.js: Does not use helper functions
+⏩ Skipping musqueamEvents.js: Does not use helper functions
+⏩ Skipping orpheumEvents.js: Does not use helper functions
+⏩ Skipping orpheumTheatre.js: Does not use helper functions
+⏩ Skipping orpheumTheatreEvents.js: Does not use helper functions
+⏩ Skipping pneEvents.js: Does not use helper functions
+⏩ Skipping pneFair.js: Does not use helper functions
+⏩ Skipping pneSummerNightConcerts.js: Does not use helper functions
+⏩ Skipping polygonGallery.js: Does not use helper functions
+⏩ Skipping publicLibraryEvents.js: Does not use helper functions
+⏩ Skipping queenElizabethTheatre.js: Does not use helper functions
+⏩ Skipping queenElizabethTheatreEvents.js: Does not use helper functions
+⏩ Skipping queerArtsFestivalEvents.js: Does not use helper functions
+⏩ Skipping queerFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping quick_validation.js: Does not use helper functions
+⏩ Skipping redRoom.js: Does not use helper functions
+⏩ Skipping redRoomEvents.js: Does not use helper functions
+⏩ Skipping redRoomEvents_new.js: Does not use helper functions
+⏩ Skipping redRoom_OLD.js: Does not use helper functions
+⏩ Skipping richmondNightMarket.js: Does not use helper functions
+⏩ Skipping rickshawTheatreEvents.js: Does not use helper functions
+⏩ Skipping runToEndEndoEvents.js: Does not use helper functions
+⏩ Skipping scienceWorld.js: Does not use helper functions
+⏩ Skipping scienceWorldEvents.js: Does not use helper functions
+⏩ Skipping scienceWorldVancouverEvents.js: Does not use helper functions
+⏩ Skipping shipyardsNightMarket.js: Does not use helper functions
+⏩ Skipping spaceCenter.js: Does not use helper functions
+⏩ Skipping spaceCentreEvents.js: Does not use helper functions
+⏩ Skipping squamishBeerFestival.js: Does not use helper functions
+⏩ Skipping standardize_scraper_exports.js: Does not use helper functions
+⏩ Skipping stanleyPark.js: Does not use helper functions
+⏩ Skipping stanleyParkEvents.js: Does not use helper functions
+⏩ Skipping steamworksBrewing.js: Does not use helper functions
+⏩ Skipping steamworksBrewingEvents.js: Does not use helper functions
+⏩ Skipping summerCinemaEvents.js: Does not use helper functions
+⏩ Skipping test-api-endpoints.js: Does not use helper functions
+⏩ Skipping test-arc-dining-scraper.js: Does not use helper functions
+⏩ Skipping test-art-gallery-events.js: Does not use helper functions
+⏩ Skipping test-art-gallery-scraper.js: Does not use helper functions
+⏩ Skipping test-bard-on-the-beach-scraper.js: Does not use helper functions
+⏩ Skipping test-barnone-scraper.js: Does not use helper functions
+⏩ Skipping test-bill-reid-gallery.js: Does not use helper functions
+⏩ Skipping test-biltmore-cabaret-events.js: Does not use helper functions
+⏩ Skipping test-broadway-vancouver-scraper.js: Does not use helper functions
+⏩ Skipping test-carnaval-del-sol-scraper.js: Does not use helper functions
+⏩ Skipping test-chan-centre-events.js: Does not use helper functions
+⏩ Skipping test-chan-centre-scraper.js: Does not use helper functions
+⏩ Skipping test-cherry-blossom-events.js: Does not use helper functions
+⏩ Skipping test-chinese-garden-scraper.js: Does not use helper functions
+⏩ Skipping test-coastal-jazz-and-new-scrapers.js: Does not use helper functions
+⏩ Skipping test-coastal-jazz-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-coastal-jazz-scraper.js: Does not use helper functions
+⏩ Skipping test-commodore-ballroom-events.js: Does not use helper functions
+⏩ Skipping test-commodore-ballroom-fixed.js: Does not use helper functions
+⏩ Skipping test-commodore-ballroom.js: Does not use helper functions
+⏩ Skipping test-commodore-fixed.js: Does not use helper functions
+⏩ Skipping test-commodore.js: Does not use helper functions
+⏩ Skipping test-contemporary-art-gallery.js: Does not use helper functions
+⏩ Skipping test-culture-crawl-events.js: Does not use helper functions
+⏩ Skipping test-dance-festival-events.js: Does not use helper functions
+⏩ Skipping test-destination-vancouver.js: Does not use helper functions
+⏩ Skipping test-doxa-film-festival.js: Does not use helper functions
+⏩ Skipping test-dragon-boat-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-festival-dete-scraper.js: Does not use helper functions
+⏩ Skipping test-folk-fest-events.js: Does not use helper functions
+⏩ Skipping test-fortune-bridge.js: Does not use helper functions
+⏩ Skipping test-fortune-sound-club copy.js: Does not use helper functions
+⏩ Skipping test-fortune-sound-club.js: Does not use helper functions
+⏩ Skipping test-fox-cabaret-calendar.js: Does not use helper functions
+⏩ Skipping test-fox-cabaret-scraper.js: Does not use helper functions
+⏩ Skipping test-fox-cabaret.js: Does not use helper functions
+⏩ Skipping test-fringe-festival-events.js: Does not use helper functions
+⏩ Skipping test-gastown-scraper.js: Does not use helper functions
+⏩ Skipping test-granville-island-events.js: Does not use helper functions
+⏩ Skipping test-granville-scraper.js: Does not use helper functions
+⏩ Skipping test-hello-goodbye-bar-scraper.js: Does not use helper functions
+⏩ Skipping test-hellobc-real-scraper.js: Does not use helper functions
+⏩ Skipping test-hellobc-scrapers.js: Does not use helper functions
+⏩ Skipping test-improv-centre.js: Does not use helper functions
+⏩ Skipping test-japan-market-scraper.js: Does not use helper functions
+⏩ Skipping test-jazz-fest-events.js: Does not use helper functions
+⏩ Skipping test-junction-market-scraper.js: Does not use helper functions
+⏩ Skipping test-latest-scrapers.js: Does not use helper functions
+⏩ Skipping test-macmillan-space-centre.js: Does not use helper functions
+⏩ Skipping test-malones-scraper.js: Does not use helper functions
+⏩ Skipping test-maritime-museum-events.js: Does not use helper functions
+⏩ Skipping test-metropolis-events-scraper.js: Does not use helper functions
+⏩ Skipping test-mongo-connection-v2.js: Does not use helper functions
+⏩ Skipping test-mongo-connection.js: Does not use helper functions
+⏩ Skipping test-mongo-fortune-events.js: Does not use helper functions
+⏩ Skipping test-mov-debug.js: Does not use helper functions
+⏩ Skipping test-mov-integration.js: Does not use helper functions
+⏩ Skipping test-mov-scraper.js: Does not use helper functions
+⏩ Skipping test-museum-of-anthropology.js: Does not use helper functions
+⏩ Skipping test-museum-vancouver-no-fallback.js: Does not use helper functions
+⏩ Skipping test-museum-vancouver-scraper.js: Does not use helper functions
+⏩ Skipping test-new-scrapers-only.js: Does not use helper functions
+⏩ Skipping test-new-scrapers.js: Does not use helper functions
+⏩ Skipping test-new-vancouver-scrapers.js: Does not use helper functions
+⏩ Skipping test-new-venue-scrapers.js: Does not use helper functions
+⏩ Skipping test-no-fallbacks.js: Does not use helper functions
+⏩ Skipping test-orpheum-theatre-events.js: Does not use helper functions
+⏩ Skipping test-pearl-scraper.js: Does not use helper functions
+⏩ Skipping test-pne-concerts-scraper.js: Does not use helper functions
+⏩ Skipping test-pne-events.js: Does not use helper functions
+⏩ Skipping test-pne-fair-scraper.js: Does not use helper functions
+⏩ Skipping test-proxy-api.js: Does not use helper functions
+⏩ Skipping test-public-library-events.js: Does not use helper functions
+⏩ Skipping test-qet-scraper.js: Does not use helper functions
+⏩ Skipping test-queer-arts-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-queer-film-festival.js: Does not use helper functions
+⏩ Skipping test-red-room-scraper.js: Does not use helper functions
+⏩ Skipping test-richmond-market-scraper.js: Does not use helper functions
+⏩ Skipping test-rickshaw-theatre-events.js: Does not use helper functions
+⏩ Skipping test-roxy-scraper.js: Does not use helper functions
+⏩ Skipping test-run-to-end-endo-scraper.js: Does not use helper functions
+⏩ Skipping test-science-world-detailed.js: Does not use helper functions
+⏩ Skipping test-science-world-events.js: Does not use helper functions
+⏩ Skipping test-science-world-scraper.js: Does not use helper functions
+⏩ Skipping test-science-world.js: Does not use helper functions
+⏩ Skipping test-scraper-data.js: Does not use helper functions
+⏩ Skipping test-scrapers.js: Does not use helper functions
+⏩ Skipping test-server.js: Does not use helper functions
+⏩ Skipping test-shipyards-night-market-scraper.js: Does not use helper functions
+⏩ Skipping test-space-centre-events.js: Does not use helper functions
+⏩ Skipping test-squamish-beer-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-stanley-park-events.js: Does not use helper functions
+⏩ Skipping test-theatre-under-the-stars-scraper.js: Does not use helper functions
+⏩ Skipping test-today-scrapers.js: Does not use helper functions
+⏩ Skipping test-tourism-vancouver-scraper.js: Does not use helper functions
+⏩ Skipping test-underground-comedy-club.js: Does not use helper functions
+⏩ Skipping test-vancouver-asian-film-festival.js: Does not use helper functions
+⏩ Skipping test-vancouver-city-scraper.js: Does not use helper functions
+⏩ Skipping test-vancouver-civic-theatres-scraper.js: Does not use helper functions
+⏩ Skipping test-vancouver-film-festival.js: Does not use helper functions
+⏩ Skipping test-vancouver-mysteries-scraper.js: Does not use helper functions
+⏩ Skipping test-vancouver-scrapers.js: Does not use helper functions
+⏩ Skipping test-vegan-market-scraper.js: Does not use helper functions
+⏩ Skipping test-venue-scrapers.js: Does not use helper functions
+⏩ Skipping test-vogue-theatre-events.js: Does not use helper functions
+⏩ Skipping test-vsff-scraper.js: Does not use helper functions
+⏩ Skipping test-western-front-events.js: Does not use helper functions
+⏩ Skipping test-yaletown-jazz-scraper.js: Does not use helper functions
+⏩ Skipping theCentreVancouver.js: Does not use helper functions
+⏩ Skipping theCultchEvents.js: Does not use helper functions
+⏩ Skipping thePearlEvents.js: Does not use helper functions
+⏩ Skipping theRoxyEvents.js: Does not use helper functions
+⏩ Skipping theatreUnderTheStars.js: Does not use helper functions
+⏩ Skipping theatreUnderTheStarsEvents.js: Does not use helper functions
+⏩ Skipping tourismVancouverEvents.js: Does not use helper functions
+⏩ Skipping ubcBotanicalGardenEvents.js: Does not use helper functions
+✓ undergroundComedyClubEvents.js already has correct import
+⏩ Skipping validate_scrapers.js: Does not use helper functions
+⏩ Skipping vancouverAquarium.js: Does not use helper functions
+⏩ Skipping vancouverAquariumEvents.js: Does not use helper functions
+⏩ Skipping vancouverArtAndLeisure.js: Does not use helper functions
+⏩ Skipping vancouverArtGallery.js: Does not use helper functions
+⏩ Skipping vancouverArtGalleryEvents.js: Does not use helper functions
+⏩ Skipping vancouverAsianFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping vancouverCityEvents.js: Does not use helper functions
+⏩ Skipping vancouverCivicTheatres.js: Does not use helper functions
+⏩ Skipping vancouverConventionCentreEvents.js: Does not use helper functions
+⏩ Skipping vancouverFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping vancouverFolkFest.js: Does not use helper functions
+⏩ Skipping vancouverFringe.js: Does not use helper functions
+⏩ Skipping vancouverInternationalFilmFestival.js: Does not use helper functions
+⏩ Skipping vancouverJazzFestEvents.js: Does not use helper functions
+⏩ Skipping vancouverJazzFestival.js: Does not use helper functions
+⏩ Skipping vancouverMaritimeMuseumEvents.js: Does not use helper functions
+⏩ Skipping vancouverMysteriesEvents.js: Does not use helper functions
+⏩ Skipping vancouverPride.js: Does not use helper functions
+⏩ Skipping vancouverSymphony.js: Does not use helper functions
+⏩ Skipping vancouverSymphonyEvents.js: Does not use helper functions
+⏩ Skipping veganMarketEvents.js: Does not use helper functions
+⏩ Skipping venueNightclub.js: Does not use helper functions
+⏩ Skipping verify-commodore-events.js: Does not use helper functions
+⏩ Skipping verify-events-count.js: Does not use helper functions
+⏩ Skipping verify-hellobc-events.js: Does not use helper functions
+⏩ Skipping vogueTheatre.js: Does not use helper functions
+⏩ Skipping vogueTheatreEvents.js: Does not use helper functions
+⏩ Skipping vsffEvents.js: Does not use helper functions
+⏩ Skipping westernFrontEvents.js: Does not use helper functions
+⏩ Skipping wiseHall.js: Does not use helper functions
+⏩ Skipping yaletownJazz.js: Does not use helper functions
+
+📊 Import Fix Summary:
+Total files checked: 0
+Files fixed: 0
+Files skipped: 252
+Errors: 0
+
+Detailed results saved to import_fixes_log.json
+Fixed duplicate variable declarations in undergroundComedyClubEvents.js
+🚀 Testing fixed scrapers...
+
+🔍 Testing undergroundComedyClubEvents.js...
+✅ Successfully imported undergroundComedyClubEvents.js
+✅ Scrape method found in undergroundComedyClubEvents.js
+🔄 Running scraper undergroundComedyClubEvents.js...
+🔍 Starting Underground Comedy Club scraper...
+🚀 Testing Priority Vancouver Venue Scrapers
+
+
+📍 Checking Commodore Ballroom...
+🔗 Website: https://www.commodoreballroom.com/shows
+❌ Error importing commodoreBallroomEvents.js: CommodoreBallroomEvents is not a constructor
+
+📍 Checking Fox Cabaret...
+🔗 Website: https://www.foxcabaret.com/monthly-calendar
+✅ Successfully imported foxCabaret.js
+✅ Found scrape method in foxCabaret.js
+🔄 Running scraper for Fox Cabaret...
+Starting scrape of Fox Cabaret...
+🚀 Starting selected Vancouver scrapers test...
+🔍 Testing scraper: test_scrapers.js
+✅ Successfully imported test_scrapers.js
+Scraper name: unknown
+❌ test_scrapers.js does not have a scrape method
+
+===== WORKING SCRAPERS =====
+These are scrapers with valid scrape() methods that ran successfully:
+
+Scraper File                                      | Events | Status
+--------------------------------------------------------------------------------
+
+===== POTENTIAL SCRAPERS WITH ISSUES =====
+These appear to be scrapers but have issues:
+
+===== NON-SCRAPER JS FILES =====
+147 JavaScript files are not valid scrapers (helper files, utilities, etc.)
+
+Complete inventory written to scraper_inventory.json
+❌ list_all_scrapers.js - Invalid: no scrape method
+❌ macMillanSpaceCentreEvents.js - Error: MacMillanSpaceCentreEvents is not a constructor
+✅ malonesEvents.js - Valid scraper
+❌ maritimeMuseumEvents.js - Error: MaritimeMuseumEvents is not a constructor
+✅ metropolisEvents.js - Valid scraper
+✅ moaUbcEvents.js - Valid scraper
+✅ museumOfAnthropology.js - Valid scraper
+✅ museumOfAnthropologyEvents.js - Valid scraper
+✅ museumOfVancouver.js - Valid scraper
+✅ museumOfVancouverEvents.js - Valid scraper
+✅ musqueamEvents.js - Valid scraper
+✅ orpheumEvents.js - Valid scraper
+✅ orpheumTheatre.js - Valid scraper
+❌ orpheumTheatreEvents.js - Error: OrpheumTheatreEvents is not a constructor
+❌ pneEvents.js - Error: PNEEvents is not a constructor
+✅ pneFair.js - Valid scraper
+✅ pneSummerNightConcerts.js - Valid scraper
+✅ polygonGallery.js - Valid scraper
+❌ publicLibraryEvents.js - Error: PublicLibraryEvents is not a constructor
+✅ queenElizabethTheatre.js - Valid scraper
+✅ queenElizabethTheatreEvents.js - Valid scraper
+✅ queerArtsFestivalEvents.js - Valid scraper
+✅ queerFilmFestivalEvents.js - Valid scraper
+❌ quick_validation.js - Invalid: no scrape method
+✅ redRoom.js - Valid scraper
+✅ redRoomEvents.js - Valid scraper
+✅ redRoomEvents_new.js - Valid scraper
+✅ redRoom_OLD.js - Valid scraper
+✅ richmondNightMarket.js - Valid scraper
+❌ rickshawTheatreEvents.js - Error: RickshawTheatreEvents is not a constructor
+✅ runToEndEndoEvents.js - Valid scraper
+✅ scienceWorld.js - Valid scraper
+❌ scienceWorldEvents.js - Error: ScienceWorldEvents is not a constructor
+✅ scienceWorldVancouverEvents.js - Valid scraper
+✅ shipyardsNightMarket.js - Valid scraper
+✅ spaceCenter.js - Valid scraper
+❌ spaceCentreEvents.js - Error: SpaceCentreEvents is not a constructor
+✅ squamishBeerFestival.js - Valid scraper
+✅ stanleyPark.js - Valid scraper
+❌ stanleyParkEvents.js - Error: StanleyParkEvents is not a constructor
+✅ steamworksBrewing.js - Valid scraper
+✅ steamworksBrewingEvents.js - Valid scraper
+✅ summerCinemaEvents.js - Valid scraper
+✅ theCentreVancouver.js - Valid scraper
+❌ theCultchEvents.js - Error: TheCultchEvents is not a constructor
+❌ thePearlEvents.js - Error: ThePearlEvents is not a constructor
+❌ theRoxyEvents.js - Error: TheRoxyEvents is not a constructor
+✅ theatreUnderTheStars.js - Valid scraper
+✅ theatreUnderTheStarsEvents.js - Valid scraper
+✅ tourismVancouverEvents.js - Valid scraper
+✅ ubcBotanicalGardenEvents.js - Valid scraper
+✅ undergroundComedyClubEvents.js - Valid scraper
+✅ vancouverAquarium.js - Valid scraper
+✅ vancouverAquariumEvents.js - Valid scraper
+✅ vancouverArtAndLeisure.js - Valid scraper
+✅ vancouverArtGallery.js - Valid scraper
+✅ vancouverArtGalleryEvents.js - Valid scraper
+✅ vancouverAsianFilmFestivalEvents.js - Valid scraper
+✅ vancouverCityEvents.js - Valid scraper
+✅ vancouverCivicTheatres.js - Valid scraper
+✅ vancouverConventionCentreEvents.js - Valid scraper
+❌ vancouverFilmFestivalEvents.js - Error: VancouverFilmFestivalEvents is not a constructor
+✅ vancouverFolkFest.js - Valid scraper
+✅ vancouverFringe.js - Valid scraper
+✅ vancouverInternationalFilmFestival.js - Valid scraper
+❌ vancouverJazzFestEvents.js - Error: VancouverJazzFestEvents is not a constructor
+✅ vancouverJazzFestival.js - Valid scraper
+✅ vancouverMaritimeMuseumEvents.js - Valid scraper
+✅ vancouverMysteriesEvents.js - Valid scraper
+✅ vancouverPride.js - Valid scraper
+✅ vancouverSymphony.js - Valid scraper
+✅ vancouverSymphonyEvents.js - Valid scraper
+✅ veganMarketEvents.js - Valid scraper
+✅ venueNightclub.js - Valid scraper
+✅ vogueTheatre.js - Valid scraper
+❌ vogueTheatreEvents.js - Error: VogueTheatreEvents is not a constructor
+✅ vsffEvents.js - Valid scraper
+❌ westernFrontEvents.js - Error: WesternFrontEvents is not a constructor
+✅ wiseHall.js - Valid scraper
+✅ yaletownJazz.js - Valid scraper
+
+📊 Validation Summary:
+Total scrapers validated: 140
+Valid scrapers: 105
+Invalid scrapers: 35
+
+Detailed results saved to scraper_validation.json
+⏩ Skipping validate_scrapers.js: Not a valid scraper class
+⏩ Skipping vancouverAquarium.js: Not a valid scraper class
+⏩ Skipping vancouverAquariumEvents.js: Not a valid scraper class
+⏩ Skipping vancouverArtAndLeisure.js: Not a valid scraper class
+⏩ Skipping vancouverArtGallery.js: Not a valid scraper class
+⏩ Skipping vancouverArtGalleryEvents.js: Not a valid scraper class
+⏩ Skipping vancouverAsianFilmFestivalEvents.js: Not a valid scraper class
+⏩ Skipping vancouverCityEvents.js: Not a valid scraper class
+⏩ Skipping vancouverCivicTheatres.js: Not a valid scraper class
+⏩ Skipping vancouverConventionCentreEvents.js: Not a valid scraper class
+⏩ Skipping vancouverFolkFest.js: Not a valid scraper class
+⏩ Skipping vancouverFringe.js: Not a valid scraper class
+⏩ Skipping vancouverInternationalFilmFestival.js: Not a valid scraper class
+⏩ Skipping vancouverJazzFestival.js: Not a valid scraper class
+⏩ Skipping vancouverMaritimeMuseumEvents.js: Not a valid scraper class
+⏩ Skipping vancouverMysteriesEvents.js: Not a valid scraper class
+⏩ Skipping vancouverPride.js: Not a valid scraper class
+⏩ Skipping vancouverSymphony.js: Not a valid scraper class
+⏩ Skipping vancouverSymphonyEvents.js: Not a valid scraper class
+⏩ Skipping veganMarketEvents.js: Not a valid scraper class
+⏩ Skipping venueNightclub.js: Not a valid scraper class
+⏩ Skipping verify-commodore-events.js: Not a valid scraper class
+🔍 Event Count Verification
+===========================
+
+🌐 Testing Cloud API...
+⏩ Skipping verify-events-count.js: Not a valid scraper class
+⏩ Skipping verify-hellobc-events.js: Not a valid scraper class
+⏩ Skipping vogueTheatre.js: Not a valid scraper class
+⏩ Skipping vsffEvents.js: Not a valid scraper class
+⏩ Skipping wiseHall.js: Not a valid scraper class
+⏩ Skipping yaletownJazz.js: Not a valid scraper class
+
+📊 Test Summary:
+Total scrapers: 131
+Successful: 0
+Failed: 131
+Total events found: 0
+
+Detailed results saved to scraper_tests_results.json
+
+
+❌ Error importing anthropologyMuseumEvents.js: AnthropologyMuseumEvents is not a constructor
+❌ Error importing artGalleryEvents.js: Unexpected token 'catch'
+❌ Error importing biltmoreCabaretEvents.js: BiltmoreCabaretEvents is not a constructor
+❌ Error importing chanCentreEvents.js: ChanCentreEvents is not a constructor
+❌ Error importing cherryBlossomFestEvents.js: CherryBlossomFestEvents is not a constructor
+❌ Error importing coastalJazzEvents.js: Unexpected token '{'
+❌ Error importing commodoreBallroomEvents.backup.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing commodoreBallroomEvents.fixed.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing commodoreBallroomEvents.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing contemporaryArtGalleryEvents.js: ContemporaryArtGalleryEvents is not a constructor
+❌ Error importing cultureCrawlEvents.js: CultureCrawlEvents is not a constructor
+❌ Error importing danceFestivalEvents.js: DanceFestivalEvents is not a constructor
+❌ Error importing folkFestEvents.js: FolkFestEvents is not a constructor
+❌ Error importing fringeFestivalEvents.js: FringeFestivalEvents is not a constructor
+❌ Error importing granvilleIslandEvents.js: GranvilleIslandEvents is not a constructor
+❌ Error importing index.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing macMillanSpaceCentreEvents.js: MacMillanSpaceCentreEvents is not a constructor
+❌ Error importing maritimeMuseumEvents.js: MaritimeMuseumEvents is not a constructor
+❌ Error running commodoreBallroomEvents.js: CommodoreBallroomEvents is not a constructor
+❌ Error importing orpheumTheatreEvents.js: OrpheumTheatreEvents is not a constructor
+❌ Error importing pneEvents.js: PNEEvents is not a constructor
+❌ Error importing publicLibraryEvents.js: PublicLibraryEvents is not a constructor
+❌ Error importing rickshawTheatreEvents.js: RickshawTheatreEvents is not a constructor
+❌ Error importing scienceWorldEvents.js: ScienceWorldEvents is not a constructor
+❌ Error importing spaceCentreEvents.js: SpaceCentreEvents is not a constructor
+❌ Error importing stanleyParkEvents.js: StanleyParkEvents is not a constructor
+❌ Error importing test-arc-dining-scraper.js: Cannot find module './scrapers/cities/vancouver/arcDiningEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-art-gallery-events.js: Cannot find module './scrapers/cities/vancouver/artGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-art-gallery-scraper.js: Cannot find module './scrapers/cities/vancouver/vancouverArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-bard-on-the-beach-scraper.js: Cannot find module './scrapers/cities/vancouver/bardOnTheBeachEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-barnone-scraper.js: Cannot find module './cities/vancouver/barNoneClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-bill-reid-gallery.js: Cannot find module './scrapers/cities/vancouver/billReidGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-biltmore-cabaret-events.js: Cannot find module './scrapers/cities/vancouver/biltmoreCabaretEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-broadway-vancouver-scraper.js: Cannot find module './scrapers/cities/vancouver/broadwayVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-carnaval-del-sol-scraper.js: Cannot find module './cities/vancouver/carnavalDelSol'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-chan-centre-events.js: Cannot find module './scrapers/cities/vancouver/chanCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-chan-centre-scraper.js: Cannot find module './cities/vancouver/chanCentre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-cherry-blossom-events.js: Cannot find module './scrapers/cities/vancouver/cherryBlossomFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-chinese-garden-scraper.js: Cannot find module './scrapers/cities/vancouver/chineseGardenEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-coastal-jazz-and-new-scrapers.js: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-coastal-jazz-festival-scraper.js: Cannot find module './cities/vancouver/coastalJazzFestival'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-coastal-jazz-scraper.js: Cannot find module './scrapers/cities/vancouver/coastalJazzEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-ballroom-events.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-ballroom-fixed.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents.fixed'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-ballroom.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore-fixed.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-commodore.js: Cannot find module './scrapers/venues/commodoreBallroomShows'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-contemporary-art-gallery.js: Cannot find module './scrapers/cities/vancouver/contemporaryArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-culture-crawl-events.js: Cannot find module './scrapers/cities/vancouver/cultureCrawlEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-dance-festival-events.js: Cannot find module './scrapers/cities/vancouver/danceFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-destination-vancouver.js: Cannot find module './scrapers/sources/destinationVancouverScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-doxa-film-festival.js: Cannot find module './scrapers/cities/vancouver/doxaFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-dragon-boat-festival-scraper.js: Cannot find module './scrapers/cities/vancouver/dragonBoatFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-festival-dete-scraper.js: Cannot find module './scrapers/cities/vancouver/festivalDEteEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-folk-fest-events.js: Cannot find module './scrapers/cities/vancouver/folkFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fortune-bridge.js: Cannot find module './scrapers/cities/vancouver/fortuneSoundClubBridge'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fortune-sound-club copy.js: Cannot find module '../../scrapers/cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fortune-sound-club.js: Cannot find module '../cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fox-cabaret-calendar.js: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fox-cabaret-scraper.js: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fox-cabaret.js: Cannot find module '../cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-fringe-festival-events.js: Cannot find module './scrapers/cities/vancouver/fringeFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-gastown-scraper.js: Cannot find module './gastown-sunday-set-scraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-granville-island-events.js: Cannot find module './scrapers/cities/vancouver/granvilleIslandEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-granville-scraper.js: Cannot find module './cities/vancouver/granvilleIsland'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-hello-goodbye-bar-scraper.js: Cannot find module './scrapers/cities/vancouver/helloGoodbyeBarEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-hellobc-real-scraper.js: Cannot find module './scrapers/cities/vancouver/helloBCEventsScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-hellobc-scrapers.js: Cannot find module './scrapers/cities/vancouver/helloBCEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-improv-centre.js: Cannot find module './scrapers/cities/vancouver/improvCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-japan-market-scraper.js: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-jazz-fest-events.js: Cannot find module './scrapers/cities/vancouver/vancouverJazzFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-junction-market-scraper.js: Cannot find module './cities/vancouver/junctionPublicMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-latest-scrapers.js: Cannot find module './scrapers/cities/vancouver/levelsNightclub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-macmillan-space-centre.js: Cannot find module './scrapers/cities/vancouver/macMillanSpaceCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-malones-scraper.js: Cannot find module './scrapers/cities/vancouver/malonesEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-maritime-museum-events.js: Cannot find module './scrapers/cities/vancouver/maritimeMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-metropolis-events-scraper.js: Cannot find module './scrapers/cities/vancouver/metropolisEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-mov-integration.js: Cannot find module './scrapers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-integration.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-mov-scraper.js: Cannot find module './scrapers/events/vancouverMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-mov-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-museum-of-anthropology.js: Cannot find module './scrapers/cities/vancouver/museumOfAnthropologyEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-of-anthropology.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-museum-vancouver-no-fallback.js: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-no-fallback.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-museum-vancouver-scraper.js: Cannot find module './scrapers/cities/vancouver/museumOfVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-museum-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-scrapers-only.js: Cannot find module './scrapers/cities/vancouver/metropolisEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers-only.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-scrapers.js: Cannot find module './scrapers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-vancouver-scrapers.js: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-vancouver-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-new-venue-scrapers.js: Cannot find module './scrapers/utils/logger'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-new-venue-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-no-fallbacks.js: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-no-fallbacks.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-orpheum-theatre-events.js: Cannot find module './scrapers/cities/vancouver/orpheumTheatreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-orpheum-theatre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pearl-scraper.js: Cannot find module './scrapers/pearl-scraper-new'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pearl-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pne-concerts-scraper.js: Cannot find module './cities/vancouver/pneSummerNightConcerts'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-concerts-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pne-events.js: Cannot find module './scrapers/cities/vancouver/pneEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-pne-fair-scraper.js: Cannot find module './cities/vancouver/pneFair'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-pne-fair-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-public-library-events.js: Cannot find module './scrapers/cities/vancouver/publicLibraryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-qet-scraper.js: Cannot find module './cities/vancouver/queenElizabethTheatre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-queer-arts-festival-scraper.js: Cannot find module './scrapers/cities/vancouver/queerArtsFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-arts-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-queer-film-festival.js: Cannot find module './scrapers/cities/vancouver/queerFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-queer-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-red-room-scraper.js: Cannot find module './scrapers/cities/vancouver/redRoomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-red-room-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-richmond-market-scraper.js: Cannot find module './cities/vancouver/richmondNightMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-richmond-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-rickshaw-theatre-events.js: Cannot find module './scrapers/cities/vancouver/rickshawTheatreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-rickshaw-theatre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-roxy-scraper.js: Cannot find module './scrapers/roxy-scraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-roxy-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-run-to-end-endo-scraper.js: Cannot find module './scrapers/cities/vancouver/runToEndEndoEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-run-to-end-endo-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-science-world-events.js: Cannot find module './scrapers/cities/vancouver/scienceWorldEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-science-world-scraper.js: Cannot find module './scrapers/events/vancouverMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-science-world-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-scraper-data.js: Cannot find module './scrapers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scraper-data.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-scrapers.js: Cannot find module './scrapers/venues/commodoreBallroomShows'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-shipyards-night-market-scraper.js: Cannot find module './cities/vancouver/shipyardsNightMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-shipyards-night-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-space-centre-events.js: Cannot find module './scrapers/cities/vancouver/spaceCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-space-centre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-squamish-beer-festival-scraper.js: Cannot find module './cities/vancouver/squamishBeerFestival'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-squamish-beer-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-stanley-park-events.js: Cannot find module './scrapers/cities/vancouver/stanleyParkEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-stanley-park-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-theatre-under-the-stars-scraper.js: Cannot find module './cities/vancouver/theatreUnderTheStars'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-theatre-under-the-stars-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-today-scrapers.js: Cannot find module './scrapers/cities/vancouver/levelsNightclub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-today-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-tourism-vancouver-scraper.js: Cannot find module './scrapers/cities/vancouver/tourismVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-tourism-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-underground-comedy-club.js: Cannot find module './scrapers/cities/vancouver/undergroundComedyClubEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-underground-comedy-club.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-asian-film-festival.js: Cannot find module './scrapers/cities/vancouver/vancouverAsianFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-asian-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-city-scraper.js: Cannot find module './scrapers/cities/vancouver/vancouverCityEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-city-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-civic-theatres-scraper.js: Cannot find module './cities/vancouver/vancouverCivicTheatres'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-civic-theatres-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-film-festival.js: Cannot find module './scrapers/cities/vancouver/vancouverFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-mysteries-scraper.js: Cannot find module './scrapers/cities/vancouver/vancouverMysteriesEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-mysteries-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vancouver-scrapers.js: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vancouver-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vegan-market-scraper.js: Cannot find module './scrapers/cities/vancouver/veganMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vegan-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-venue-scrapers.js: Cannot find module './scrapers/utils/logger'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-venue-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vogue-theatre-events.js: Cannot find module './scrapers/cities/vancouver/vogueTheatreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vogue-theatre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-vsff-scraper.js: Cannot find module './scrapers/cities/vancouver/vsffEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-vsff-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-western-front-events.js: Cannot find module './scrapers/cities/vancouver/westernFrontEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-western-front-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing test-yaletown-jazz-scraper.js: Cannot find module './cities/vancouver/yaletownJazz'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-yaletown-jazz-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ Error importing theCultchEvents.js: TheCultchEvents is not a constructor
+❌ Error importing thePearlEvents.js: ThePearlEvents is not a constructor
+❌ Error importing theRoxyEvents.js: TheRoxyEvents is not a constructor
+❌ Error importing vancouverFilmFestivalEvents.js: VancouverFilmFestivalEvents is not a constructor
+❌ Error importing vancouverJazzFestEvents.js: VancouverJazzFestEvents is not a constructor
+❌ Error importing vogueTheatreEvents.js: VogueTheatreEvents is not a constructor
+❌ Error importing westernFrontEvents.js: WesternFrontEvents is not a constructor
+
+❌ A critical error occurred in the test runner for test_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47

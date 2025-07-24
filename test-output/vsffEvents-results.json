@@ -1,0 +1,70 @@
+[
+  {
+    "id": "vsff-opening-night-gala-2025-06-14",
+    "title": "VSFF: Opening Night Gala",
+    "description": "Join us for the Vancouver Short Film Festival Opening Night Gala! Celebrate the start of the festival with special screenings, filmmaker Q&As, and networking with the local film community.",
+    "startDate": "2025-06-14T02:00:00.000Z",
+    "endDate": "2025-06-14T05:00:00.000Z",
+    "venue": {
+      "name": "Vancouver Short Film Festival",
+      "id": "vancouver-short-film-festival",
+      "address": "Vancity Theatre, 1181 Seymour St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2768,
+        "lng": -123.124
+      },
+      "websiteUrl": "https://www.vsff.com/",
+      "description": "The Vancouver Short Film Festival celebrates the vibrant community of short film, video, and animation artists in British Columbia through an annual showcase."
+    },
+    "category": "film",
+    "categories": [
+      "film",
+      "festival",
+      "gala",
+      "opening-night",
+      "arts"
+    ],
+    "sourceURL": "https://www.vsff.com/",
+    "officialWebsite": "https://www.vsff.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:53:01.102Z"
+  },
+  {
+    "id": "vsff-awards-ceremony-2025-06-16",
+    "title": "VSFF: Awards Ceremony",
+    "description": "The Vancouver Short Film Festival concludes with the Awards Ceremony, celebrating outstanding achievements in short filmmaking. Join filmmakers and film lovers for this special recognition of talent and creativity.",
+    "startDate": "2025-06-16T01:30:00.000Z",
+    "endDate": "2025-06-16T03:30:00.000Z",
+    "venue": {
+      "name": "Vancouver Short Film Festival",
+      "id": "vancouver-short-film-festival",
+      "address": "Vancity Theatre, 1181 Seymour St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2768,
+        "lng": -123.124
+      },
+      "websiteUrl": "https://www.vsff.com/",
+      "description": "The Vancouver Short Film Festival celebrates the vibrant community of short film, video, and animation artists in British Columbia through an annual showcase."
+    },
+    "category": "film",
+    "categories": [
+      "film",
+      "festival",
+      "awards",
+      "ceremony",
+      "arts"
+    ],
+    "sourceURL": "https://www.vsff.com/",
+    "officialWebsite": "https://www.vsff.com/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:53:01.118Z"
+  }
+]

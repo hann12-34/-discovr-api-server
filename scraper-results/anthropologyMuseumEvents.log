@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: anthropologyMuseumEvents.js ---
+============================================================
+Scraper 'Museum of Anthropology' instantiated successfully. Running scrape()...
+🔍 Scraping events from Museum of Anthropology...
+Navigating to https://moa.ubc.ca/exhibitions-events/
+
+------------------------------------------------------------
+✅ Scraper 'Museum of Anthropology' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/anthropologyMuseumEvents-results.json
+
+STDERR:
+Error scraping Museum of Anthropology: Navigation timeout of 30000 ms exceeded

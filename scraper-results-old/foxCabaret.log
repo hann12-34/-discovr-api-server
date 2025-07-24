@@ -1,0 +1,44 @@
+============================================================
+--- Attempting to run scraper: foxCabaret.js ---
+============================================================
+Scraper 'Fox Cabaret' instantiated successfully. Running scrape()...
+Starting scrape of Fox Cabaret...
+Found 40 potential event links on Fox Cabaret homepage
+Fox Cabaret: Found 17 events via Axios/Cheerio
+
+------------------------------------------------------------
+✅ Scraper 'Fox Cabaret' finished successfully.
+   Processed 17 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "foxcabaret-sweet-neens-karaoke-at-the-fox-cabaret--1737086400000",
+  "name": "Sweet Neens KARAOKE at the Fox Cabaret!",
+  "title": "Sweet Neens KARAOKE at the Fox Cabaret!",
+  "description": "Sweet Neens KARAOKE at the Fox Cabaret! at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
+  "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
+  "date": "2025-01-17T04:00:00.000Z",
+  "startDate": "2025-01-17T04:00:00.000Z",
+  "endDate": "2025-01-17T07:00:00.000Z",
+  "season": "Winter",
+  "category": "Performance Art",
+  "categories": [
+    "Performance Art",
+    "Nightlife"
+  ],
+  "location": "Fox Cabaret",
+  "venue": {
+    "name": "Fox Cabaret",
+    "address": "2321 Main St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2635,
+      "lng": -123.1006
+    }
+  },
+  "sourceURL": "https://www.foxcabaret.com/",
+  "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/karaoke-43khk"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/foxCabaret-results.json

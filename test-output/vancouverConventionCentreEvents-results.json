@@ -1,0 +1,115 @@
+[
+  {
+    "id": "vancouver-convention-centre-2025-international-convention-1751526000000",
+    "title": "2025 International Convention",
+    "description": "2025 International Convention at Vancouver Convention Centre - West Building",
+    "startDate": "2025-07-03T07:00:00.000Z",
+    "endDate": "2025-07-03T07:00:00.000Z",
+    "dateText": "3 JULY - 6 JULY, 2025",
+    "image": "",
+    "link": "https://www.vancouverconventioncentre.com/events/2025-international-convention",
+    "venue": {
+      "name": "Vancouver Convention Centre - West Building",
+      "address": "1055 Canada Pl, Vancouver, BC V6C 0C3",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2891,
+        "lng": -123.1161
+      }
+    },
+    "categories": [
+      "Conference",
+      "Event",
+      "Business"
+    ],
+    "sourceIdentifier": "vancouver-convention-centre",
+    "lastUpdated": "2025-07-15T18:50:46.888Z"
+  },
+  {
+    "id": "vancouver-convention-centre-international-conference-on-machine-learning-icml-2025-1752390000000",
+    "title": "International Conference on Machine Learning (ICML) 2025",
+    "description": "ICML is globally renowned for presenting and publishing cutting-edge research on all aspects of machine learning used in closely related areas like artificial intelligence, statistics and data science, as well as important application areas such as machine vision, computational biology, speech recognition, and robotics.",
+    "startDate": "2025-07-13T07:00:00.000Z",
+    "endDate": "2025-07-13T07:00:00.000Z",
+    "dateText": "13 JULY - 19 JULY, 2025",
+    "image": "https://assets.vancouverconventioncentre.com/banner.png",
+    "link": "https://www.vancouverconventioncentre.com/events/international-conference-on-machine-learning-icml-2025",
+    "venue": {
+      "name": "Vancouver Convention Centre - West Building",
+      "address": "1055 Canada Pl, Vancouver, BC V6C 0C3",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2891,
+        "lng": -123.1161
+      }
+    },
+    "categories": [
+      "Conference",
+      "Event",
+      "Business",
+      "Technology"
+    ],
+    "sourceIdentifier": "vancouver-convention-centre",
+    "lastUpdated": "2025-07-15T18:50:46.888Z"
+  },
+  {
+    "id": "vancouver-convention-centre-9th-annual-live-vmo-symphony-performance-1753340400000",
+    "title": "9th Annual Live VMO Symphony Performance",
+    "description": "Enjoy this FREE, family-friendly, outdoor concert against the breathtaking backdrop of Vancouver’s waterfront and North Shore Mountains. Bring your lawn chairs and blankets, gather your loved ones, and immerse yourself in an evening of splendid symphony by the Vancouver Metropolitan Orchestra. It’s an experience you won’t want to miss! Seating is first come first served.",
+    "startDate": "2025-07-24T07:00:00.000Z",
+    "endDate": "2025-07-24T07:00:00.000Z",
+    "dateText": "24 JULY, 2025",
+    "image": "https://www.vancouverconventioncentre.com/img/asset/YXNzZXRzL2RzYzA2MTA5Yi5qcGc/dsc06109b.jpg?fm=webp&s=72a8e4df39f07dd065f5bbe01fdbedc9",
+    "link": "https://www.vancouverconventioncentre.com/events/9th-annual-live-vmo-symphony-performance",
+    "venue": {
+      "name": "Vancouver Convention Centre - Jack Poole Plaza",
+      "address": "1055 Canada Pl, Vancouver, BC V6C 0C3",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2891,
+        "lng": -123.1161
+      }
+    },
+    "categories": [
+      "Conference",
+      "Event",
+      "Entertainment",
+      "Performance"
+    ],
+    "sourceIdentifier": "vancouver-convention-centre",
+    "lastUpdated": "2025-07-15T18:50:46.888Z"
+  },
+  {
+    "id": "vancouver-convention-centre-a-royal-evening-with-dr-zahi-hawass-1753513200000",
+    "title": "A Royal Evening with Dr. Zahi Hawass",
+    "description": "Join the real-life Indiana Jones for an unforgettable evening of exploration and discovery as he reveals groundbreaking finds and delivers the most thrilling announcements of his legendary career. This royal evening promises to be the most extraordinary event of the year!",
+    "startDate": "2025-07-26T07:00:00.000Z",
+    "endDate": "2025-07-26T07:00:00.000Z",
+    "dateText": "26 JULY, 2025",
+    "image": "https://www.vancouverconventioncentre.com/img/asset/YXNzZXRzL3poMy5wbmc/zh3.png?fm=webp&s=ea29f42ce95d53896f54bc0fc5ee814e",
+    "link": "https://www.vancouverconventioncentre.com/events/a-royal-evening-with-dr-zahi-hawass",
+    "venue": {
+      "name": "Vancouver Convention Centre - West Building",
+      "address": "1055 Canada Pl, Vancouver, BC V6C 0C3",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2891,
+        "lng": -123.1161
+      }
+    },
+    "categories": [
+      "Conference",
+      "Event"
+    ],
+    "sourceIdentifier": "vancouver-convention-centre",
+    "lastUpdated": "2025-07-15T18:50:46.889Z"
+  }
+]

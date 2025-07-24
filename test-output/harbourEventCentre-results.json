@@ -1,0 +1,153 @@
+[
+  {
+    "id": "harbour-event-vancouver-bass-festival-opening-night-2025-07-19",
+    "title": "Vancouver Bass Festival: Opening Night",
+    "description": "Experience the powerful sounds of bass music as Vancouver Bass Festival kicks off its three-day celebration at Harbour Event Centre. The opening night features international headliners and local bass music talent pushing the boundaries of dubstep, drum & bass, and trap music. With the venue's powerful sound system and immersive lighting design, attendees will feel every beat in this high-energy dance event that draws bass music enthusiasts from across the Pacific Northwest. Special festival production elements include enhanced visuals, CO2 cannons, and custom stage design.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 10:00 PM - 3:00 AM\nVenue: Harbour Event Centre, 750 Pacific Blvd, Vancouver\nPrice: $45-$75\nAge Restriction: 19+\nTickets: Required, available online in advance\nPerformers: Excision, The Blessed Madonna, Truth, The Librarian\n\nVenue Information: Harbour Event Centre is located in downtown Vancouver near BC Place Stadium. The venue features multiple levels, state-of-the-art sound systems, and full bar service. Valid government-issued photo ID is required for entry to all 19+ events.",
+    "startDate": "2025-07-19T05:00:00.000Z",
+    "endDate": "2025-07-19T10:00:00.000Z",
+    "venue": {
+      "name": "Harbour Event Centre",
+      "id": "harbour-event-centre-vancouver",
+      "address": "750 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5E7",
+      "coordinates": {
+        "lat": 49.2772,
+        "lng": -123.1165
+      },
+      "websiteUrl": "https://www.harboureventcentre.com/",
+      "description": "Harbour Event Centre is a versatile entertainment venue located in downtown Vancouver near BC Place. This multi-level complex features state-of-the-art sound and lighting systems, multiple bars, VIP areas, and can accommodate everything from electronic dance music events to corporate functions, concerts, and private celebrations."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "entertainment",
+      "events",
+      "music",
+      "electronic",
+      "bass music",
+      "edm",
+      "festival"
+    ],
+    "sourceURL": "https://www.harboureventcentre.com/",
+    "officialWebsite": "https://www.harboureventcentre.com/events/bass-festival/",
+    "image": "https://www.harboureventcentre.com/wp-content/uploads/2025/06/bass-festival-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:36:34.805Z"
+  },
+  {
+    "id": "harbour-event-summer-white-party-2025-07-27",
+    "title": "Summer White Party",
+    "description": "Vancouver's most elegant summer celebration returns to Harbour Event Centre. This all-white dress code event transforms the venue into a sophisticated playground with white decor, specialty lighting, and multiple themed areas across the venue's three levels. Featuring performances by internationally renowned house DJs, theatrical performers, and surprise celebrity guests, this annual event has become a highlight of Vancouver's summer social calendar. The exclusive VIP experience includes access to private lounges, premium bottle service, and a special champagne reception. Advance tickets are highly recommended as this event sells out each year.\n\nEVENT DETAILS:\nDate: Saturday, July 26, 2025\nTime: 9:00 PM - 3:00 AM\nVenue: Harbour Event Centre, 750 Pacific Blvd, Vancouver\nPrice: $60 General / $120 VIP\nAge Restriction: 19+\nTickets: Required, available online in advance\nPerformers: Mark Knight, Nora En Pure, DJ Heather\n\nVenue Information: Harbour Event Centre is located in downtown Vancouver near BC Place Stadium. The venue features multiple levels, state-of-the-art sound systems, and full bar service. Valid government-issued photo ID is required for entry to all 19+ events.",
+    "startDate": "2025-07-27T04:00:00.000Z",
+    "endDate": "2025-07-27T10:00:00.000Z",
+    "venue": {
+      "name": "Harbour Event Centre",
+      "id": "harbour-event-centre-vancouver",
+      "address": "750 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5E7",
+      "coordinates": {
+        "lat": 49.2772,
+        "lng": -123.1165
+      },
+      "websiteUrl": "https://www.harboureventcentre.com/",
+      "description": "Harbour Event Centre is a versatile entertainment venue located in downtown Vancouver near BC Place. This multi-level complex features state-of-the-art sound and lighting systems, multiple bars, VIP areas, and can accommodate everything from electronic dance music events to corporate functions, concerts, and private celebrations."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "entertainment",
+      "events",
+      "nightlife",
+      "dance",
+      "party",
+      "club night",
+      "dress code"
+    ],
+    "sourceURL": "https://www.harboureventcentre.com/",
+    "officialWebsite": "https://www.harboureventcentre.com/events/summer-white-party/",
+    "image": "https://www.harboureventcentre.com/wp-content/uploads/2025/06/white-party-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:36:34.805Z"
+  },
+  {
+    "id": "harbour-event-vancouver-tech-summit-after-party-2025-07-12",
+    "title": "Vancouver Tech Summit After Party",
+    "description": "Concluding the annual Vancouver Tech Summit, this exclusive networking event brings together tech industry professionals, investors, entrepreneurs, and digital innovators for an evening of connections and conversations in a relaxed atmosphere. While maintaining a professional focus, the event features tech demonstrations, interactive digital art installations, and a special panel discussion with venture capital leaders. Live music and DJ sets provide the backdrop for this valuable networking opportunity. Admission is included for Tech Summit attendees or available separately for those who wish to join just the after party.\n\nEVENT DETAILS:\nDate: Friday, July 11, 2025\nTime: 8:00 PM - 1:00 AM\nVenue: Harbour Event Centre, 750 Pacific Blvd, Vancouver\nPrice: $85\nAge Restriction: 19+\nTickets: Required, available online in advance\n\nVenue Information: Harbour Event Centre is located in downtown Vancouver near BC Place Stadium. The venue features multiple levels, state-of-the-art sound systems, and full bar service. Valid government-issued photo ID is required for entry to all 19+ events.",
+    "startDate": "2025-07-12T03:00:00.000Z",
+    "endDate": "2025-07-12T08:00:00.000Z",
+    "venue": {
+      "name": "Harbour Event Centre",
+      "id": "harbour-event-centre-vancouver",
+      "address": "750 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5E7",
+      "coordinates": {
+        "lat": 49.2772,
+        "lng": -123.1165
+      },
+      "websiteUrl": "https://www.harboureventcentre.com/",
+      "description": "Harbour Event Centre is a versatile entertainment venue located in downtown Vancouver near BC Place. This multi-level complex features state-of-the-art sound and lighting systems, multiple bars, VIP areas, and can accommodate everything from electronic dance music events to corporate functions, concerts, and private celebrations."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "entertainment",
+      "events",
+      "corporate",
+      "networking",
+      "tech",
+      "business",
+      "professional"
+    ],
+    "sourceURL": "https://www.harboureventcentre.com/",
+    "officialWebsite": "https://www.harboureventcentre.com/events/tech-summit-after/",
+    "image": "https://www.harboureventcentre.com/wp-content/uploads/2025/05/tech-summit-after.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:36:34.805Z"
+  },
+  {
+    "id": "harbour-event-warehouse-techno-night-2025-07-05",
+    "title": "Warehouse: Techno Night",
+    "description": "Harbour Event Centre's monthly techno series transforms the main room into an industrial-themed space dedicated to authentic techno music. This edition features Berlin-based techno pioneer Ellen Allien headlining alongside local underground favorites. The event showcases minimalist production focused on sound quality and dance floor experience rather than flashy visuals, creating an atmosphere reminiscent of legendary European techno clubs. The venue's powerful sound system and concrete aesthetic make it the perfect setting for this purist approach to techno music culture.\n\nEVENT DETAILS:\nDate: Friday, July 4, 2025\nTime: 11:00 PM - 5:00 AM\nVenue: Harbour Event Centre, 750 Pacific Blvd, Vancouver\nPrice: $30-$40\nAge Restriction: 19+\nTickets: Required, available online in advance\nPerformers: Ellen Allien, Overland, Minimal Violence\n\nVenue Information: Harbour Event Centre is located in downtown Vancouver near BC Place Stadium. The venue features multiple levels, state-of-the-art sound systems, and full bar service. Valid government-issued photo ID is required for entry to all 19+ events.",
+    "startDate": "2025-07-05T06:00:00.000Z",
+    "endDate": "2025-07-05T12:00:00.000Z",
+    "venue": {
+      "name": "Harbour Event Centre",
+      "id": "harbour-event-centre-vancouver",
+      "address": "750 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5E7",
+      "coordinates": {
+        "lat": 49.2772,
+        "lng": -123.1165
+      },
+      "websiteUrl": "https://www.harboureventcentre.com/",
+      "description": "Harbour Event Centre is a versatile entertainment venue located in downtown Vancouver near BC Place. This multi-level complex features state-of-the-art sound and lighting systems, multiple bars, VIP areas, and can accommodate everything from electronic dance music events to corporate functions, concerts, and private celebrations."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "entertainment",
+      "events",
+      "music",
+      "electronic",
+      "techno",
+      "underground"
+    ],
+    "sourceURL": "https://www.harboureventcentre.com/",
+    "officialWebsite": "https://www.harboureventcentre.com/events/warehouse-july/",
+    "image": "https://www.harboureventcentre.com/wp-content/uploads/2025/05/warehouse-july.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:36:34.805Z"
+  }
+]

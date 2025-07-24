@@ -1,0 +1,30 @@
+[
+  {
+    "id": "moa-cultural-interpreter-tours-2025-08-30",
+    "title": "Cultural Interpreter Tours",
+    "description": "Take a tour with one of MOA’s Cultural Interpreters.",
+    "startDate": "2025-08-30T17:00:00.000Z",
+    "endDate": "2025-08-31T00:00:00.000Z",
+    "imageUrl": "https://moa.ubc.ca/wp-content/uploads/2024/10/IMG_3456-150x150.jpeg",
+    "sourceUrl": "https://moa.ubc.ca/exhibitions-events/",
+    "venue": {
+      "name": "Museum of Anthropology",
+      "address": "6393 NW Marine Drive",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6T 1Z2",
+      "website": "https://moa.ubc.ca",
+      "googleMapsUrl": "https://goo.gl/maps/kKVpqgRNixDaYxXZ7"
+    },
+    "categories": [
+      "museum",
+      "art",
+      "cultural",
+      "tour"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-17T04:46:40.532Z",
+    "sourceIdentifier": "moa"
+  }
+]

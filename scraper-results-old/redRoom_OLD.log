@@ -1,0 +1,54 @@
+============================================================
+--- Attempting to run scraper: redRoom_OLD.js ---
+============================================================
+Scraper 'Red Room' instantiated successfully. Running scrape()...
+🔍 Starting Red Room scraper...
+✅ Added event: Bass Coast Presents: Liquid Stranger on Friday, July 11, 2025
+✅ Added event: Vancouver Hip-Hop Collective: Open Cypher on Thursday, July 17, 2025
+✅ Added event: Indie Rock Showcase: Said The Whale & Friends on Saturday, July 19, 2025
+✅ Added event: Asian Underground: K-Pop & J-Pop Night on Friday, July 25, 2025
+🎵 Successfully created 4 Red Room events
+
+------------------------------------------------------------
+✅ Scraper 'Red Room' finished successfully.
+   Processed 4 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "red-room-bass-coast-presents-liquid-stranger-2025-07-12",
+  "title": "Bass Coast Presents: Liquid Stranger",
+  "description": "Bass Coast Festival brings Swedish-born electronic music producer Liquid Stranger to Red Room for a night of boundary-pushing bass music. Known for his genre-defying approach that combines elements of dubstep, trap, downtempo, and experimental electronic sounds, Liquid Stranger delivers an unpredictable and immersive sonic journey. The Red Room's intimate underground setting and powerful Funktion-One sound system provide the perfect environment to experience his bass-heavy productions. Local support will be provided by Bass Coast resident DJs, creating a showcase of both international and homegrown talent. This event is part of Bass Coast's year-round programming that extends the festival experience into Vancouver's club scene.\n\nEVENT DETAILS:\nDate: Friday, July 11, 2025\nTime: 10:00 PM - 3:00 AM\nVenue: Red Room, 398 Richards St, Vancouver\nPrice: $30-$40\nAge Restriction: 19+\nTickets: Available online or at the door if not sold out\nPerformers: Liquid Stranger, The Librarian, Hooves\n\nVenue Information: The Red Room is located underground at 398 Richards Street in downtown Vancouver. The venue features a powerful Funktion-One sound system, full bar service, and an intimate atmosphere. Valid government-issued photo ID is required for all 19+ events.",
+  "startDate": "2025-07-12T05:00:00.000Z",
+  "endDate": "2025-07-12T10:00:00.000Z",
+  "venue": {
+    "name": "Red Room",
+    "id": "red-room-vancouver",
+    "address": "398 Richards St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 2Z3",
+    "coordinates": {
+      "lat": 49.2839,
+      "lng": -123.1126
+    },
+    "websiteUrl": "https://www.redroomonrichards.com/",
+    "description": "The Red Room is an underground nightclub and music venue in downtown Vancouver known for its intimate atmosphere, powerful sound system, and diverse programming. This subterranean venue hosts everything from electronic music nights to hip-hop shows, indie rock concerts, and cultural events."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "music",
+    "underground",
+    "electronic",
+    "bass music",
+    "dubstep",
+    "edm"
+  ],
+  "sourceURL": "https://www.redroomonrichards.com/",
+  "officialWebsite": "https://www.redroomonrichards.com/events/liquid-stranger/",
+  "image": "https://www.redroomonrichards.com/wp-content/uploads/2025/05/liquid-stranger-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:14:39.940Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/redRoom_OLD-results.json

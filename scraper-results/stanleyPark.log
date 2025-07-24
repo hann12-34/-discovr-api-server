@@ -1,0 +1,57 @@
+============================================================
+--- Attempting to run scraper: stanleyPark.js ---
+============================================================
+Scraper 'Stanley Park' instantiated successfully. Running scrape()...
+🔍 Starting Stanley Park scraper...
+✅ Added event: Stanley Park Summer Series: Outdoor Concerts on Saturday, July 5, 2025
+✅ Added event: Ecological Tour: Forest and Foreshore on Saturday, July 12, 2025
+✅ Added event: Theatre Under the Stars: Broadway in the Park on Tuesday, July 15, 2025
+✅ Added event: Stanley Park Run: Summer 10K on Saturday, July 26, 2025
+✅ Added event: Indigenous Plant Walk and Tea Ceremony on Sunday, August 3, 2025
+✅ Added event: Sunset Beach Yoga on Thursday, August 7, 2025
+🌲 Successfully created 6 Stanley Park events
+
+------------------------------------------------------------
+✅ Scraper 'Stanley Park' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "stanley-park-stanley-park-summer-series-outdoor-concerts-2025-07-06",
+  "title": "Stanley Park Summer Series: Outdoor Concerts",
+  "description": "The annual Stanley Park Summer Series returns with free outdoor concerts at the Malkin Bowl. This year's lineup features a diverse range of local and international musicians performing genres from jazz and classical to indie rock and world music. Bring a blanket, pack a picnic, and enjoy beautiful music in one of Vancouver's most scenic settings as the sun sets behind the towering trees.\n\nEVENT DETAILS:\nDate: Saturday, July 5, 2025\nTime: 6:00 PM - 9:00 PM\nRecurrence: Weekly on Saturdays through August\nLocation: Malkin Bowl, Stanley Park\nPrice: Free\nPerformers: Vancouver Symphony Orchestra, The Boom Booms\n\nStanley Park is Vancouver's premier urban park, located at the northwestern edge of downtown Vancouver. The park is easily accessible by public transit, bicycle, or car.",
+  "startDate": "2025-07-06T01:00:00.000Z",
+  "endDate": "2025-07-06T04:00:00.000Z",
+  "venue": {
+    "name": "Stanley Park",
+    "id": "stanley-park-vancouver",
+    "address": "Stanley Park Dr",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6G 1Z4",
+    "coordinates": {
+      "lat": 49.3019,
+      "lng": -123.1417
+    },
+    "websiteUrl": "https://vancouver.ca/parks-recreation-culture/stanley-park.aspx",
+    "description": "Stanley Park is a magnificent 1,000-acre urban park bordering downtown Vancouver. Known for its natural beauty, the park features ancient cedar, hemlock, and fir trees, scenic seawall paths, pristine beaches, landmarks like the 9 O'Clock Gun and Hollow Tree, and attractions including the Vancouver Aquarium. As Vancouver's first and largest urban park, it offers stunning views of the North Shore mountains, city skyline, and harbor while providing a sanctuary for diverse wildlife."
+  },
+  "category": "outdoors",
+  "categories": [
+    "outdoors",
+    "park",
+    "nature",
+    "stanley park",
+    "music",
+    "concert",
+    "entertainment",
+    "live music"
+  ],
+  "sourceURL": "https://vancouver.ca/parks-recreation-culture/stanley-park.aspx",
+  "officialWebsite": "https://vancouver.ca/parks-recreation-culture/stanley-park-summer-series.aspx",
+  "image": "https://vancouver.ca/parks/stanley/images/summer-concert-series.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T18:44:41.146Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/stanleyPark-results.json

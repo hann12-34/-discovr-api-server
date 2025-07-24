@@ -1,0 +1,9 @@
+STDOUT:
+Testing Science World scraper in detail...
+Response status: 200
+Saved HTML to science-world.html
+
+Checking main containers:
+
+
+STDERR:

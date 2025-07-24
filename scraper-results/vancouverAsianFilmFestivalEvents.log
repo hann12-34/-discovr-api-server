@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: vancouverAsianFilmFestivalEvents.js ---
+============================================================
+Scraper 'Vancouver Asian Film Festival' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Asian Film Festival...
+Navigating to https://vaff.org/
+Error parsing date "NOV 7 - 17, 2024": Could not parse date: NOV 7 - 17, 2024
+Looking for event elements...
+Checking potential events page: https://vaff.org/events/
+Checking potential events page: https://vaff.org/whats-on/
+Checking potential events page: https://vaff.org/festival/
+Checking potential events page: https://vaff.org/program/
+Checking potential events page: https://vaff.org/schedule/
+Checking potential events page: https://vaff.org/about/
+Checking potential events page: https://vaff.org/films/
+Found 1 events from Vancouver Asian Film Festival
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Asian Film Festival' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vancouver-asian-film-festival-vaff-2025-2025-11-01",
+  "title": "Vancouver Asian Film Festival 2025",
+  "description": "The Vancouver Asian Film Festival (VAFF) is an annual film festival that showcases works by North American Asian filmmakers. The festival typically features film screenings, panels, workshops, and networking events celebrating Asian diaspora cinema.",
+  "startDate": "2025-11-01T07:00:00.000Z",
+  "endDate": "2025-11-11T07:59:59.000Z",
+  "imageUrl": "",
+  "sourceUrl": "https://vaff.org/",
+  "ticketUrl": "https://vaff.org/",
+  "venue": {
+    "name": "Vancouver Asian Film Festival",
+    "address": "Various locations in Vancouver",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "",
+    "website": "https://vaff.org/",
+    "googleMapsUrl": ""
+  },
+  "categories": [
+    "film",
+    "festival",
+    "arts",
+    "asian",
+    "cultural",
+    "workshop",
+    "talk"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-15T18:50:22.966Z",
+  "sourceIdentifier": "vancouver-asian-film-festival"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverAsianFilmFestivalEvents-results.json

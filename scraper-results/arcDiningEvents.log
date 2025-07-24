@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: arcDiningEvents.js ---
+============================================================
+Scraper 'Arc Dining Garden Dinners' instantiated successfully. Running scrape()...
+🔍 Starting Arc Dining Garden Dinners scraper...
+Navigating to: https://www.arcdining.com/events
+✅ Saved debug screenshot to arc-dining-debug.png
+
+------------------------------------------------------------
+✅ Scraper 'Arc Dining Garden Dinners' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/arcDiningEvents-results.json
+
+STDERR:
+❌ Error in Arc Dining Garden Dinners scraper: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "canada-place-christmas-at-canada-place-1755282790610",
+    "title": "Christmas at Canada Place",
+    "startDate": "2025-08-15T18:33:10.610Z",
+    "endDate": "2025-08-15T18:33:10.610Z",
+    "description": "Christmas at Canada Place at Canada Place",
+    "image": "",
+    "link": "https://www.canadaplace.ca/event/christmas-canada-place",
+    "sourceIdentifier": "canada-place",
+    "venue": {
+      "name": "Canada Place",
+      "address": "999 Canada Place, Vancouver, BC V6C 3E1",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2888,
+        "lng": -123.1111
+      }
+    },
+    "categories": [
+      "Entertainment",
+      "Holiday",
+      "Christmas"
+    ],
+    "lastUpdated": "2025-07-15T18:33:10.612Z"
+  },
+  {
+    "id": "canada-place-port-day-1755282790612",
+    "title": "Port Day",
+    "startDate": "2025-08-15T18:33:10.612Z",
+    "endDate": "2025-08-15T18:33:10.612Z",
+    "description": "Port Day at Canada Place",
+    "image": "",
+    "link": "https://www.canadaplace.ca/events",
+    "sourceIdentifier": "canada-place",
+    "venue": {
+      "name": "Canada Place",
+      "address": "999 Canada Place, Vancouver, BC V6C 3E1",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2888,
+        "lng": -123.1111
+      }
+    },
+    "categories": [
+      "Entertainment",
+      "Special Event",
+      "Community"
+    ],
+    "lastUpdated": "2025-07-15T18:33:10.613Z"
+  },
+  {
+    "id": "canada-place-canada-together-1755282790613",
+    "title": "Canada Together",
+    "startDate": "2025-08-15T18:33:10.613Z",
+    "endDate": "2025-08-15T18:33:10.613Z",
+    "description": "Canada Together at Canada Place",
+    "image": "",
+    "link": "https://www.canadaplace.ca/events",
+    "sourceIdentifier": "canada-place",
+    "venue": {
+      "name": "Canada Place",
+      "address": "999 Canada Place, Vancouver, BC V6C 3E1",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2888,
+        "lng": -123.1111
+      }
+    },
+    "categories": [
+      "Entertainment",
+      "National Holiday",
+      "Celebration"
+    ],
+    "lastUpdated": "2025-07-15T18:33:10.613Z"
+  },
+  {
+    "id": "canada-place-zumba-at-canada-place-1755282790613",
+    "title": "Zumba at Canada Place",
+    "startDate": "2025-08-15T18:33:10.613Z",
+    "endDate": "2025-08-15T18:33:10.613Z",
+    "description": "Zumba at Canada Place at Canada Place",
+    "image": "",
+    "link": "https://www.canadaplace.ca/events",
+    "sourceIdentifier": "canada-place",
+    "venue": {
+      "name": "Canada Place",
+      "address": "999 Canada Place, Vancouver, BC V6C 3E1",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2888,
+        "lng": -123.1111
+      }
+    },
+    "categories": [
+      "Entertainment",
+      "Fitness",
+      "Health & Wellness"
+    ],
+    "lastUpdated": "2025-07-15T18:33:10.613Z"
+  }
+]

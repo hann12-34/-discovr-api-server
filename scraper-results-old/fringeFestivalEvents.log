@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: fringeFestivalEvents.js ---
+============================================================
+Scraper 'Vancouver Fringe Festival' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Fringe Festival...
+Navigating to https://www.vancouverfringe.com/festival/shows
+Could not find show elements with standard selectors, trying to proceed anyway
+Found 0 potential shows
+Found 0 events from Vancouver Fringe Festival
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Fringe Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/fringeFestivalEvents-results.json

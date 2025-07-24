@@ -1,0 +1,57 @@
+============================================================
+--- Attempting to run scraper: spaceCenter.js ---
+============================================================
+Scraper 'H.R. MacMillan Space Centre' instantiated successfully. Running scrape()...
+🔍 Starting H.R. MacMillan Space Centre scraper...
+✅ Added event: Cosmic Nights: After Dark at the Space Centre on Thursday, July 17, 2025
+✅ Added event: Planetarium Show: Exploring Exoplanets on Saturday, July 5, 2025
+✅ Added event: Astronomy Day: Family Festival on Saturday, July 26, 2025
+✅ Added event: Space Explorers Summer Camp on Monday, August 11, 2025
+✅ Added event: Guest Lecture: Dr. Sarah Gallagher on Black Holes on Thursday, August 7, 2025
+✅ Added event: Stargazing Evening: Perseid Meteor Shower on Tuesday, August 12, 2025
+🚀 Successfully created 6 H.R. MacMillan Space Centre events
+
+------------------------------------------------------------
+✅ Scraper 'H.R. MacMillan Space Centre' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "space-centre-cosmic-nights-after-dark-at-the-space-centre-2025-07-18",
+  "title": "Cosmic Nights: After Dark at the Space Centre",
+  "description": "Experience the Space Centre after hours at this adults-only evening event combining science, socializing, and spirits. July's theme 'Mars: The Red Planet' explores our fascinating planetary neighbor with special exhibits on Mars exploration missions, recent scientific discoveries, and the challenges of potential human colonization. Enjoy access to all galleries, telescope viewing (weather permitting), themed cocktails, interactive demonstrations, and presentations from astronomy experts. This popular monthly series offers a unique night out that's both educational and entertaining.\n\nEVENT DETAILS:\nDate: Thursday, July 17, 2025\nTime: 7:00 PM - 11:00 PM\nRecurrence: Monthly series\nPrice: $35 ($30 for members)\nAge Restriction: 19+\nTickets: Required, please book in advance\n\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.",
+  "startDate": "2025-07-18T02:00:00.000Z",
+  "endDate": "2025-07-18T06:00:00.000Z",
+  "venue": {
+    "name": "H.R. MacMillan Space Centre",
+    "id": "hr-macmillan-space-centre",
+    "address": "1100 Chestnut St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6J 3J9",
+    "coordinates": {
+      "lat": 49.2762,
+      "lng": -123.1448
+    },
+    "websiteUrl": "https://www.spacecentre.ca/",
+    "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+  },
+  "category": "science",
+  "categories": [
+    "space",
+    "astronomy",
+    "science",
+    "education",
+    "adults",
+    "nightlife",
+    "social",
+    "19+"
+  ],
+  "sourceURL": "https://www.spacecentre.ca/",
+  "officialWebsite": "https://www.spacecentre.ca/event/cosmic-nights-july-2025/",
+  "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/cosmic-nights-july.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:44:39.020Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/spaceCenter-results.json

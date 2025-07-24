@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: queerArtsFestivalEvents.js ---
+============================================================
+Scraper 'Queer Arts Festival' instantiated successfully. Running scrape()...
+🔍 Starting Queer Arts Festival events scraper...
+Navigating to: https://queerartsfestival.com/
+🎉 Successfully scraped 0 events from Queer Arts Festival
+
+------------------------------------------------------------
+✅ Scraper 'Queer Arts Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/queerArtsFestivalEvents-results.json
+
+STDERR:
+❌ Error in Queer Arts Festival scraper: net::ERR_HTTP2_PROTOCOL_ERROR at https://queerartsfestival.com/

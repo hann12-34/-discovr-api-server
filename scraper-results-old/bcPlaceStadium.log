@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: bcPlaceStadium.js ---
+============================================================
+Scraper 'BC Place Stadium' instantiated successfully. Running scrape()...
+🔍 Starting BC Place Stadium scraper...
+✅ Added event: Coldplay: Music of the Spheres World Tour on Friday, July 25, 2025
+✅ Added event: Vancouver Whitecaps FC vs. Seattle Sounders FC on Saturday, August 2, 2025
+✅ Added event: Monster Jam on Saturday, August 9, 2025
+✅ Added event: BC Lions vs. Toronto Argonauts on Friday, August 15, 2025
+✅ Added event: Vancouver International Auto Show on Saturday, July 5, 2025
+✅ Added event: Global Dance Festival on Saturday, August 23, 2025
+🏟️ Successfully created 6 BC Place Stadium events
+
+------------------------------------------------------------
+✅ Scraper 'BC Place Stadium' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "bc-place-coldplay-music-of-the-spheres-world-tour-2025-07-26",
+  "title": "Coldplay: Music of the Spheres World Tour",
+  "description": "British rock band Coldplay brings their spectacular Music of the Spheres World Tour to Vancouver's BC Place. Known for their visually stunning and environmentally conscious performances, the band will showcase material from their latest album alongside classic hits from their extensive catalog. This tour features a groundbreaking sustainable approach to stadium shows, including kinetic dance floors and power bikes that allow fans to help power the show through renewable energy. The immersive concert experience combines breathtaking visuals, pyrotechnics, and LED wristbands for every attendee that synchronize with the music, creating a unified light display throughout the venue. Supporting acts include H.E.R. and local Vancouver artists.\n\nEVENT DETAILS:\nDate: Friday, July 25, 2025\nTime: 7:30 PM - 11:00 PM\nPrice: $75-$250\nTickets: Required, available through Ticketmaster or the BC Place box office\nPerformers: Coldplay, H.E.R.\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+  "startDate": "2025-07-26T02:30:00.000Z",
+  "endDate": "2025-07-26T06:00:00.000Z",
+  "venue": {
+    "name": "BC Place Stadium",
+    "id": "bc-place-stadium-vancouver",
+    "address": "777 Pacific Blvd",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 4Y8",
+    "coordinates": {
+      "lat": 49.2767,
+      "lng": -123.1119
+    },
+    "websiteUrl": "https://www.bcplace.com/",
+    "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+  },
+  "category": "entertainment",
+  "categories": [
+    "events",
+    "entertainment",
+    "stadium",
+    "concert",
+    "music",
+    "live music"
+  ],
+  "sourceURL": "https://www.bcplace.com/",
+  "officialWebsite": "https://www.bcplace.com/events/coldplay-2025/",
+  "image": "https://www.bcplace.com/wp-content/uploads/2025/05/coldplay-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:00:41.534Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/bcPlaceStadium-results.json

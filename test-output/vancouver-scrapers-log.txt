@@ -1,0 +1,2039 @@
+Vancouver Scrapers Test Run
+Date: 2025-07-17T04:46:35.331Z
+
+Found 245 scrapers to test.
+
+------------------------------------------------------------
+Testing: anthropologyMuseumEvents.js
+Running anthropologyMuseumEvents.js...
+✅ Scraper 'Museum of Anthropology' finished successfully.
+   Processed 1 events.
+   Duration: 5.19s
+Sample event: {
+  "id": "moa-cultural-interpreter-tours-2025-08-30",
+  "title": "Cultural Interpreter Tours",
+  "description": "Take a tour with one of MOA’s Cultural Interpreters.",
+  "startDate": "2025-08-30T17:00:00.000Z",
+  "endDate": "2025-08-31T00:00:00.000Z",
+  "imageUrl": "https://moa.ubc.ca/wp-content/uploads/2024/10/IMG_3456-150x150.jpeg",
+  "sourceUrl": "https://moa.ubc.ca/exhibitions-events/",
+  "venue": {
+    "name": "Museum of Anthropology",
+    "address": "6393 NW Marine Drive",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6T 1Z2",
+    "website": "https://moa.ubc.ca",
+    "googleMapsUrl": "https://goo.gl/maps/kKVpqgRNixDaYxXZ7"
+  },
+  "categories": [
+    "museum",
+    "art",
+    "cultural",
+    "tour"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-17T04:46:40.532Z",
+  "sourceIdentifier": "moa"
+}
+
+------------------------------------------------------------
+Testing: arcDiningEvents.js
+❌ Error with scraper arcDiningEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: barNoneClub.js
+❌ Error with scraper barNoneClub.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: bardOnTheBeach.js
+❌ Error with scraper bardOnTheBeach.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: bardOnTheBeachEvents.js
+❌ Error with scraper bardOnTheBeachEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: bcPlaceEvents.js
+❌ Error with scraper bcPlaceEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: bcPlaceStadium.js
+❌ Error with scraper bcPlaceStadium.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: billReidGalleryEvents.js
+❌ Error with scraper billReidGalleryEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: biltmoreCabaret.js
+❌ Error with scraper biltmoreCabaret.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: biltmoreCabaretEvents.js
+Running biltmoreCabaretEvents.js...
+✅ Scraper 'The Biltmore Cabaret' finished successfully.
+   Processed 0 events.
+   Duration: 10.958s
+
+------------------------------------------------------------
+Testing: broadwayVancouverEvents.js
+❌ Error with scraper broadwayVancouverEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: canadaPlaceEvents.js
+❌ Error with scraper canadaPlaceEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: capilanoSuspensionBridge.js
+❌ Error with scraper capilanoSuspensionBridge.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: carnavalDelSol.js
+❌ Error with scraper carnavalDelSol.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: celebritiesNightclub.js
+❌ Error with scraper celebritiesNightclub.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: chanCentre.js
+❌ Error with scraper chanCentre.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: chanCentreEvents.js
+Running chanCentreEvents.js...
+✅ Scraper 'Chan Centre for the Performing Arts' finished successfully.
+   Processed 0 events.
+   Duration: 2.83s
+
+------------------------------------------------------------
+Testing: cherryBlossomFestEvents.js
+Running cherryBlossomFestEvents.js...
+✅ Scraper 'Vancouver Cherry Blossom Festival' finished successfully.
+   Processed 0 events.
+   Duration: 4.544s
+
+------------------------------------------------------------
+Testing: chineseGardenEvents.js
+❌ Error with scraper chineseGardenEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: coastalJazzFestival.js
+❌ Error with scraper coastalJazzFestival.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: commodoreBallroomEvents.js
+Running commodoreBallroomEvents.js...
+✅ Scraper 'commodoreBallroomEvents.js' finished successfully.
+   Processed 77 events.
+   Duration: 0.639s
+Sample event: {
+  "title": "Macy Gray - On How Life Is 25th Anniversary Tour",
+  "startDate": "2025-07-17T02:00:00.000Z",
+  "endDate": "2025-07-17T02:00:00.000Z",
+  "url": "https://www.ticketmaster.ca/macy-gray-on-how-life-is-vancouver-british-columbia-07-16-2025/event/1100626792DA1E51",
+  "imageUrl": "https://s1.ticketm.net/dam/a/90d/6d1db0ea-5f58-47ec-9016-ae90300e990d_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+  "venue": "Commodore Ballroom",
+  "organizer": "Live Nation",
+  "address": "868 Granville St, Vancouver, BC V6Z 1K3",
+  "slug": "macy-gray-on-how-life-is-25th-anniversary-tour",
+  "city": "vancouver",
+  "source": "commodore-ballroom"
+}
+
+------------------------------------------------------------
+Testing: contemporaryArtGalleryEvents.js
+Running contemporaryArtGalleryEvents.js...
+✅ Scraper 'Contemporary Art Gallery' finished successfully.
+   Processed 0 events.
+   Duration: 7.993s
+
+------------------------------------------------------------
+Testing: cultureCrawlEvents.js
+Running cultureCrawlEvents.js...
+✅ Scraper 'Eastside Culture Crawl' finished successfully.
+   Processed 1 events.
+   Duration: 20.48s
+Sample event: {
+  "id": "culture-crawl-eastside-culture-crawl-festival-2025-11-20",
+  "title": "Eastside Culture Crawl Festival",
+  "description": "Explore Art",
+  "startDate": "2025-11-20T08:00:00.000Z",
+  "endDate": "2025-11-24T07:59:59.000Z",
+  "imageUrl": "https://culturecrawl.ca/_nuxt/img/eccs_2022_logo.405c761.png",
+  "sourceUrl": "https://culturecrawl.ca/",
+  "ticketUrl": "https://culturecrawl.ca/",
+  "venue": {
+    "name": "Eastside Culture Crawl",
+    "address": "1000 Parker Street",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6A 2H2",
+    "website": "https://culturecrawl.ca/",
+    "googleMapsUrl": "https://goo.gl/maps/ZppjKoGjahM7AVfS6"
+  },
+  "categories": [
+    "arts",
+    "visual-arts",
+    "festival",
+    "exhibition",
+    "community"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-17T04:49:18.298Z",
+  "sourceIdentifier": "culture-crawl"
+}
+
+------------------------------------------------------------
+Testing: danceFestivalEvents.js
+Running danceFestivalEvents.js...
+✅ Scraper 'Vancouver International Dance Festival' finished successfully.
+   Processed 0 events.
+   Duration: 1.635s
+
+------------------------------------------------------------
+Testing: doxaFilmFestivalEvents.js
+❌ Error with scraper doxaFilmFestivalEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: dragonBoatFestivalEvents.js
+❌ Error with scraper dragonBoatFestivalEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: festivalDEteEvents.js
+❌ Error with scraper festivalDEteEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: folkFestEvents.js
+Running folkFestEvents.js...
+✅ Scraper 'Vancouver Folk Music Festival' finished successfully.
+   Processed 1 events.
+   Duration: 12.276s
+Sample event: {
+  "id": "folk-fest-vancouver-folk-music-festival-2025-07-15",
+  "title": "Vancouver Folk Music Festival",
+  "description": "Annual folk music festival at Jericho Beach Park featuring artists from around the world.",
+  "startDate": "2025-07-15T19:00:00.000Z",
+  "endDate": "2025-07-18T06:59:59.000Z",
+  "imageUrl": "",
+  "sourceUrl": "https://thefestival.bc.ca/",
+  "ticketUrl": "https://thefestival.bc.ca/tickets/",
+  "venue": {
+    "name": "Jericho Beach Park",
+    "address": "3941 Point Grey Road",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6R 1B3",
+    "website": "https://thefestival.bc.ca/",
+    "googleMapsUrl": "https://goo.gl/maps/EwkvVAEGjRGSn9u1A"
+  },
+  "categories": [
+    "music",
+    "folk-music",
+    "festival",
+    "concert",
+    "outdoor"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-17T04:49:57.226Z",
+  "sourceIdentifier": "vancouver-folk-fest"
+}
+
+------------------------------------------------------------
+Testing: fortuneSoundClub.js
+❌ Error with scraper fortuneSoundClub.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: fortuneSoundClubBridge.js
+❌ Error with scraper fortuneSoundClubBridge.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: foxCabaret.js
+❌ Error with scraper foxCabaret.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: fringeFestivalEvents.js
+Running fringeFestivalEvents.js...
+✅ Scraper 'Vancouver Fringe Festival' finished successfully.
+   Processed 0 events.
+   Duration: 10.604s
+
+------------------------------------------------------------
+Testing: gastownGrandPrixEvents.js
+❌ Error with scraper gastownGrandPrixEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: gastownSundaySet.js
+❌ Error with scraper gastownSundaySet.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: granvilleIsland.js
+❌ Error with scraper granvilleIsland.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: granvilleIslandEvents.js
+Running granvilleIslandEvents.js...
+✅ Scraper 'Granville Island Events' finished successfully.
+   Processed 9 events.
+   Duration: 10.443s
+Sample event: {
+  "id": "granville-island-rebirth-2025-06-05",
+  "title": "Rebirth",
+  "description": "\"Rebirth\" is a pottery exhibition by Ami Li Chuan, which is about a group of creatures and plants that settle down on another planet and start a new life there. Amy’s creatures have adapted to the harsh environment with AI technology and strange outfits. The theme of “Rebirth” raises the question: what is the meaning […]",
+  "startDate": "2025-06-05T07:00:00.000Z",
+  "endDate": "2025-06-06T06:59:59.000Z",
+  "imageUrl": "https://granvilleisland.com/wp-content/uploads/2025/06/Amy-Chang.webp",
+  "sourceUrl": "https://granvilleisland.com/event/rebirth",
+  "ticketUrl": "https://granvilleisland.com/event/rebirth",
+  "venue": {
+    "name": "Granville Island",
+    "address": "1689 Johnston Street",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6H 3R9",
+    "website": "https://granvilleisland.com/",
+    "googleMapsUrl": "https://goo.gl/maps/io5j2JzQhQqKCWDY9"
+  },
+  "categories": [
+    "arts",
+    "festival",
+    "market",
+    "entertainment",
+    "family"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-17T04:50:58.309Z",
+  "sourceIdentifier": "granville-island"
+}
+
+------------------------------------------------------------
+Testing: granvilleIslandMarket.js
+❌ Error with scraper granvilleIslandMarket.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: granvilleMarketEvents.js
+❌ Error with scraper granvilleMarketEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: harbourEventCentre.js
+❌ Error with scraper harbourEventCentre.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: helloBCEvents.js
+❌ Error with scraper helloBCEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: helloBCEventsAdditional.js
+❌ Error with scraper helloBCEventsAdditional.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: helloBCEventsScraper.js
+❌ Error with scraper helloBCEventsScraper.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: helloGoodbyeBarEvents.js
+❌ Error with scraper helloGoodbyeBarEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: hrMacMillanSpaceCentre.js
+❌ Error with scraper hrMacMillanSpaceCentre.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: hrMacMillanSpaceCentreEvents.js
+❌ Error with scraper hrMacMillanSpaceCentreEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: imperialTheatre.js
+❌ Error with scraper imperialTheatre.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: improvCentreEvents.js
+❌ Error with scraper improvCentreEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: index.js
+❌ Error with scraper index.js: Cannot find module './rogersArenaEventsImproved'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './rogersArenaEventsImproved'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js:23:35)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: irishHeather.js
+❌ Error with scraper irishHeather.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: japanMarketEvents.js
+❌ Error with scraper japanMarketEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: junctionPublicMarket.js
+❌ Error with scraper junctionPublicMarket.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: khatsahlanoEvents.js
+❌ Error with scraper khatsahlanoEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: kitsilanoShowboat.js
+❌ Error with scraper kitsilanoShowboat.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: laowaiBar.js
+❌ Error with scraper laowaiBar.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: levelsNightclub.js
+❌ Error with scraper levelsNightclub.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: malonesEvents.js
+❌ Error with scraper malonesEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: mansionClubEvents.js
+❌ Error with scraper mansionClubEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: metropolisEvents.js
+❌ Error with scraper metropolisEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: moaUbcEvents.js
+❌ Error with scraper moaUbcEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: museumOfAnthropology.js
+❌ Error with scraper museumOfAnthropology.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: museumOfAnthropologyEvents.js
+❌ Error with scraper museumOfAnthropologyEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: museumOfVancouver.js
+❌ Error with scraper museumOfVancouver.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: museumOfVancouverEvents.js
+❌ Error with scraper museumOfVancouverEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: musqueamEvents.js
+❌ Error with scraper musqueamEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: orpheumEvents.js
+❌ Error with scraper orpheumEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: orpheumTheatre.js
+❌ Error with scraper orpheumTheatre.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: orpheumTheatreEvents.js
+❌ Error with scraper orpheumTheatreEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: penthouseNightclubEvents.js
+Running penthouseNightclubEvents.js...
+✅ Scraper 'Penthouse Nightclub' finished successfully.
+   Processed 3 events.
+   Duration: 1.474s
+Sample event: {
+  "id": "c7ce1d6a6ddf543214ed6ddbbe40ba4b",
+  "title": "Vancouver - Amateur Night",
+  "description": "Amateur Night",
+  "venue": "Penthouse Nightclub",
+  "location": "1019 Seymour Street, Vancouver, BC V6B 3M4",
+  "date": "2025-07-31T07:00:00.000Z",
+  "time": "9:00 PM",
+  "price": "Contact venue",
+  "url": "http://www.penthousenightclub.com/events/",
+  "source": "penthouse-nightclub",
+  "category": "nightlife",
+  "tags": [
+    "nightlife",
+    "adult entertainment",
+    "vancouver",
+    "downtown"
+  ],
+  "image": null
+}
+
+------------------------------------------------------------
+Testing: pneFair.js
+❌ Error with scraper pneFair.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: pneSummerNightConcerts.js
+❌ Error with scraper pneSummerNightConcerts.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: polygonGallery.js
+❌ Error with scraper polygonGallery.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: queenElizabethTheatreEvents.js
+❌ Error with scraper queenElizabethTheatreEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: queerArtsFestivalEvents.js
+❌ Error with scraper queerArtsFestivalEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: queerFilmFestivalEvents.js
+❌ Error with scraper queerFilmFestivalEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: redRoom.js
+❌ Error with scraper redRoom.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: redRoomEvents.js
+❌ Error with scraper redRoomEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: redRoomEvents_new.js
+❌ Error with scraper redRoomEvents_new.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: redRoom_OLD.js
+❌ Error with scraper redRoom_OLD.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: richmondNightMarket.js
+❌ Error with scraper richmondNightMarket.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: rickshawTheatreEvents.js
+❌ Error with scraper rickshawTheatreEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: rogersArenaEvents.js
+❌ Error with scraper rogersArenaEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: rogersArenaScraperAdapter.js
+Running rogersArenaScraperAdapter.js...
+✅ Scraper 'rogersArenaScraperAdapter.js' finished successfully.
+   Processed 11 events.
+   Duration: 31.868s
+Sample event: {
+  "id": "rogers-arena-babbu-maan-2025-07-21",
+  "title": "Babbu Maan",
+  "description": "BABBU MAAN at Rogers Arena in Vancouver.\n\nTickets: Tickets available online\n\nRogers Arena is located at 800 Griffiths Way in downtown Vancouver. This multi-purpose indoor arena serves as the home of the Vancouver Canucks of the National Hockey League and regularly hosts major concerts, sporting events, and other entertainment. The venue offers concessions, merchandise, and full amenities for an excellent event experience.",
+  "startDate": "2025-07-21T03:30:00.000Z",
+  "endDate": "2025-07-21T06:30:00.000Z",
+  "date": "7/20/2025",
+  "image": "https://rogersarena.com/wp-content/uploads/2024/12/RogersArena-RBG-Red-Stacked.png",
+  "venue": {
+    "name": "Rogers Arena",
+    "address": "800 Griffiths Way, Vancouver, BC V6B 6G1",
+    "id": "rogers-arena-vancouver"
+  },
+  "category": "event",
+  "categories": [
+    "entertainment",
+    "rogers arena",
+    "vancouver",
+    "event",
+    "arena event"
+  ],
+  "sourceURL": "https://rogersarena.com/events/",
+  "location": "Vancouver, BC",
+  "lastUpdated": "2025-07-17T04:55:22.115Z"
+}
+
+------------------------------------------------------------
+Testing: roxyEvents-part1.js
+❌ Error with scraper roxyEvents-part1.js: Unexpected identifier 'scrape'
+/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/roxyEvents-part1.js:6
+async scrape() {
+      ^^^^^^
+
+SyntaxError: Unexpected identifier 'scrape'
+    at wrapSafe (node:internal/modules/cjs/loader:1666:18)
+    at Module._compile (node:internal/modules/cjs/loader:1708:20)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:35:15)
+
+------------------------------------------------------------
+Testing: roxyEvents-part2.js
+❌ Error with scraper roxyEvents-part2.js: await is only valid in async functions and the top level bodies of modules
+/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/roxyEvents-part2.js:3
+      foundEvents = await page.$$eval(foundSelector, elements => {
+                    ^^^^^
+
+SyntaxError: await is only valid in async functions and the top level bodies of modules
+    at wrapSafe (node:internal/modules/cjs/loader:1666:18)
+    at Module._compile (node:internal/modules/cjs/loader:1708:20)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:35:15)
+
+------------------------------------------------------------
+Testing: roxyEvents-part3.js
+❌ Error with scraper roxyEvents-part3.js: Unexpected token '}'
+/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/roxyEvents-part3.js:41
+      }, mainContentSelector);
+      ^
+
+SyntaxError: Unexpected token '}'
+    at wrapSafe (node:internal/modules/cjs/loader:1666:18)
+    at Module._compile (node:internal/modules/cjs/loader:1708:20)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:35:15)
+
+------------------------------------------------------------
+Testing: roxyEvents-part4.js
+❌ Error with scraper roxyEvents-part4.js: Unexpected token '}'
+/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/roxyEvents-part4.js:176
+  } catch (error) {
+  ^
+
+SyntaxError: Unexpected token '}'
+    at wrapSafe (node:internal/modules/cjs/loader:1666:18)
+    at Module._compile (node:internal/modules/cjs/loader:1708:20)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:35:15)
+
+------------------------------------------------------------
+Testing: roxyEvents-part5.js
+❌ Error with scraper roxyEvents-part5.js: Unexpected token '{'
+/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/roxyEvents-part5.js:4
+generateRecurringEvents(events, eventData, title) {
+                                                  ^
+
+SyntaxError: Unexpected token '{'
+    at wrapSafe (node:internal/modules/cjs/loader:1666:18)
+    at Module._compile (node:internal/modules/cjs/loader:1708:20)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:35:15)
+
+------------------------------------------------------------
+Testing: roxyEvents.js
+❌ Error with scraper roxyEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: runToEndEndoEvents.js
+❌ Error with scraper runToEndEndoEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: scienceWorld.js
+❌ Error with scraper scienceWorld.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: scienceWorldVancouverEvents.js
+❌ Error with scraper scienceWorldVancouverEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: scrape-todocanada-vancouver-events.js
+❌ Error with scraper scrape-todocanada-vancouver-events.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: shipyardsNightMarket.js
+❌ Error with scraper shipyardsNightMarket.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: spaceCenter.js
+❌ Error with scraper spaceCenter.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: squamishBeerFestival.js
+❌ Error with scraper squamishBeerFestival.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: stanleyPark.js
+❌ Error with scraper stanleyPark.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: steamworksBrewing.js
+❌ Error with scraper steamworksBrewing.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: steamworksBrewingEvents.js
+❌ Error with scraper steamworksBrewingEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: summerCinemaEvents.js
+❌ Error with scraper summerCinemaEvents.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: test-api-endpoints.js
+❌ Error with scraper test-api-endpoints.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: test-arc-dining-scraper.js
+❌ Error with scraper test-arc-dining-scraper.js: Cannot find module './scrapers/cities/vancouver/arcDiningEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/arcDiningEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-arc-dining-scraper.js:7:26)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-art-gallery-events.js
+❌ Error with scraper test-art-gallery-events.js: Cannot find module './scrapers/cities/vancouver/artGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/artGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-events.js:7:26)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-art-gallery-scraper.js
+❌ Error with scraper test-art-gallery-scraper.js: Cannot find module './scrapers/cities/vancouver/vancouverArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/vancouverArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-art-gallery-scraper.js:6:35)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-bard-on-the-beach-scraper.js
+❌ Error with scraper test-bard-on-the-beach-scraper.js: Cannot find module './scrapers/cities/vancouver/bardOnTheBeachEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/bardOnTheBeachEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bard-on-the-beach-scraper.js:4:30)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-barnone-scraper.js
+❌ Error with scraper test-barnone-scraper.js: Cannot find module './cities/vancouver/barNoneClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './cities/vancouver/barNoneClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-barnone-scraper.js:8:24)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-bill-reid-gallery.js
+❌ Error with scraper test-bill-reid-gallery.js: Cannot find module './scrapers/cities/vancouver/billReidGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/billReidGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-bill-reid-gallery.js:1:31)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-biltmore-cabaret-events.js
+❌ Error with scraper test-biltmore-cabaret-events.js: Cannot find module './scrapers/cities/vancouver/biltmoreCabaretEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/biltmoreCabaretEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-biltmore-cabaret-events.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-broadway-vancouver-scraper.js
+❌ Error with scraper test-broadway-vancouver-scraper.js: Cannot find module './scrapers/cities/vancouver/broadwayVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/broadwayVancouverEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-broadway-vancouver-scraper.js:4:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-carnaval-del-sol-scraper.js
+❌ Error with scraper test-carnaval-del-sol-scraper.js: Cannot find module './cities/vancouver/carnavalDelSol'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './cities/vancouver/carnavalDelSol'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-carnaval-del-sol-scraper.js:7:24)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-chan-centre-events.js
+❌ Error with scraper test-chan-centre-events.js: Cannot find module './scrapers/cities/vancouver/chanCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/chanCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-events.js:7:26)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-chan-centre-scraper.js
+❌ Error with scraper test-chan-centre-scraper.js: Cannot find module './cities/vancouver/chanCentre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './cities/vancouver/chanCentre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chan-centre-scraper.js:7:20)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-cherry-blossom-events.js
+❌ Error with scraper test-cherry-blossom-events.js: Cannot find module './scrapers/cities/vancouver/cherryBlossomFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/cherryBlossomFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-cherry-blossom-events.js:7:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-chinese-garden-scraper.js
+❌ Error with scraper test-chinese-garden-scraper.js: Cannot find module './scrapers/cities/vancouver/chineseGardenEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/chineseGardenEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-chinese-garden-scraper.js:5:30)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-coastal-jazz-and-new-scrapers.js
+❌ Error with scraper test-coastal-jazz-and-new-scrapers.js: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-and-new-scrapers.js:6:27)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-coastal-jazz-festival-scraper.js
+❌ Error with scraper test-coastal-jazz-festival-scraper.js: Cannot find module './cities/vancouver/coastalJazzFestival'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './cities/vancouver/coastalJazzFestival'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-festival-scraper.js:7:29)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-coastal-jazz-scraper.js
+❌ Error with scraper test-coastal-jazz-scraper.js: Cannot find module './scrapers/cities/vancouver/coastalJazzEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/coastalJazzEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-coastal-jazz-scraper.js:5:27)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-commodore-ballroom-events.js
+❌ Error with scraper test-commodore-ballroom-events.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-events.js:7:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-commodore-ballroom-fixed.js
+❌ Error with scraper test-commodore-ballroom-fixed.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents.fixed'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents.fixed'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom-fixed.js:5:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-commodore-ballroom.js
+❌ Error with scraper test-commodore-ballroom.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-ballroom.js:5:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-commodore-fixed.js
+❌ Error with scraper test-commodore-fixed.js: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/commodoreBallroomEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore-fixed.js:5:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-commodore.js
+❌ Error with scraper test-commodore.js: Cannot find module './scrapers/venues/commodoreBallroomShows'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/venues/commodoreBallroomShows'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-commodore.js:5:26)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-contemporary-art-gallery.js
+❌ Error with scraper test-contemporary-art-gallery.js: Cannot find module './scrapers/cities/vancouver/contemporaryArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/contemporaryArtGalleryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-contemporary-art-gallery.js:7:38)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-culture-crawl-events.js
+❌ Error with scraper test-culture-crawl-events.js: Cannot find module './scrapers/cities/vancouver/cultureCrawlEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/cultureCrawlEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-culture-crawl-events.js:7:28)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-dance-festival-events.js
+❌ Error with scraper test-dance-festival-events.js: Cannot find module './scrapers/cities/vancouver/danceFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/danceFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dance-festival-events.js:7:29)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-destination-vancouver.js
+❌ Error with scraper test-destination-vancouver.js: Cannot find module './scrapers/sources/destinationVancouverScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/sources/destinationVancouverScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-destination-vancouver.js:1:37)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-doxa-film-festival.js
+❌ Error with scraper test-doxa-film-festival.js: Cannot find module './scrapers/cities/vancouver/doxaFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/doxaFilmFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-doxa-film-festival.js:1:32)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-dragon-boat-festival-scraper.js
+❌ Error with scraper test-dragon-boat-festival-scraper.js: Cannot find module './scrapers/cities/vancouver/dragonBoatFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/dragonBoatFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-dragon-boat-festival-scraper.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-festival-dete-scraper.js
+❌ Error with scraper test-festival-dete-scraper.js: Cannot find module './scrapers/cities/vancouver/festivalDEteEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/festivalDEteEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-festival-dete-scraper.js:4:28)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-folk-fest-events.js
+❌ Error with scraper test-folk-fest-events.js: Cannot find module './scrapers/cities/vancouver/folkFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/folkFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-folk-fest-events.js:7:24)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-fortune-bridge.js
+❌ Error with scraper test-fortune-bridge.js: Cannot find module './scrapers/cities/vancouver/fortuneSoundClubBridge'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/fortuneSoundClubBridge'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-bridge.js:2:23)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-fortune-sound-club copy.js
+❌ Error with scraper test-fortune-sound-club copy.js: Cannot find module '../../scrapers/cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module '../../scrapers/cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club copy.js:2:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-fortune-sound-club.js
+❌ Error with scraper test-fortune-sound-club.js: Cannot find module '../cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module '../cities/vancouver/fortuneSoundClub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club.js:8:24)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-fox-cabaret-calendar.js
+❌ Error with scraper test-fox-cabaret-calendar.js: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-calendar.js:2:27)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-fox-cabaret-scraper.js
+❌ Error with scraper test-fox-cabaret-scraper.js: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret-scraper.js:9:20)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-fox-cabaret.js
+❌ Error with scraper test-fox-cabaret.js: Cannot find module '../cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module '../cities/vancouver/foxCabaret'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fox-cabaret.js:5:20)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-fringe-festival-events.js
+❌ Error with scraper test-fringe-festival-events.js: Cannot find module './scrapers/cities/vancouver/fringeFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/fringeFestivalEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fringe-festival-events.js:7:30)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-gastown-scraper.js
+❌ Error with scraper test-gastown-scraper.js: Cannot find module './gastown-sunday-set-scraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './gastown-sunday-set-scraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-gastown-scraper.js:7:24)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-granville-island-events.js
+❌ Error with scraper test-granville-island-events.js: Cannot find module './scrapers/cities/vancouver/granvilleIslandEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/granvilleIslandEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-island-events.js:7:31)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-granville-scraper.js
+❌ Error with scraper test-granville-scraper.js: Cannot find module './cities/vancouver/granvilleIsland'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './cities/vancouver/granvilleIsland'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-granville-scraper.js:7:32)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-hello-goodbye-bar-scraper.js
+❌ Error with scraper test-hello-goodbye-bar-scraper.js: Cannot find module './scrapers/cities/vancouver/helloGoodbyeBarEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/helloGoodbyeBarEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hello-goodbye-bar-scraper.js:5:31)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-hellobc-real-scraper.js
+❌ Error with scraper test-hellobc-real-scraper.js: Cannot find module './scrapers/cities/vancouver/helloBCEventsScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/helloBCEventsScraper'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-real-scraper.js:6:30)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-hellobc-scrapers.js
+❌ Error with scraper test-hellobc-scrapers.js: Cannot find module './scrapers/cities/vancouver/helloBCEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/helloBCEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-hellobc-scrapers.js:7:23)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-improv-centre.js
+❌ Error with scraper test-improv-centre.js: Cannot find module './scrapers/cities/vancouver/improvCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/improvCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-improv-centre.js:1:28)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-japan-market-scraper.js
+❌ Error with scraper test-japan-market-scraper.js: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/japanMarketEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-japan-market-scraper.js:5:28)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-jazz-fest-events.js
+❌ Error with scraper test-jazz-fest-events.js: Cannot find module './scrapers/cities/vancouver/vancouverJazzFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/vancouverJazzFestEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-jazz-fest-events.js:7:33)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-junction-market-scraper.js
+❌ Error with scraper test-junction-market-scraper.js: Cannot find module './cities/vancouver/junctionPublicMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './cities/vancouver/junctionPublicMarket'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-junction-market-scraper.js:5:30)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-latest-scrapers.js
+❌ Error with scraper test-latest-scrapers.js: Cannot find module './scrapers/cities/vancouver/levelsNightclub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/levelsNightclub'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-latest-scrapers.js:6:25)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-macmillan-space-centre.js
+❌ Error with scraper test-macmillan-space-centre.js: Cannot find module './scrapers/cities/vancouver/macMillanSpaceCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/macMillanSpaceCentreEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-macmillan-space-centre.js:7:36)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-malones-scraper.js
+❌ Error with scraper test-malones-scraper.js: Cannot find module './scrapers/cities/vancouver/malonesEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/malonesEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-malones-scraper.js:1:23)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-maritime-museum-events.js
+❌ Error with scraper test-maritime-museum-events.js: Cannot find module './scrapers/cities/vancouver/maritimeMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/maritimeMuseumEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-maritime-museum-events.js:7:30)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-metropolis-events-scraper.js
+❌ Error with scraper test-metropolis-events-scraper.js: Cannot find module './scrapers/cities/vancouver/metropolisEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+Error: Cannot find module './scrapers/cities/vancouver/metropolisEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-metropolis-events-scraper.js:7:27)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+
+------------------------------------------------------------
+Testing: test-mongo-connection-v2.js
+❌ Error with scraper test-mongo-connection-v2.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)
+
+------------------------------------------------------------
+Testing: test-mongo-connection.js
+❌ Error with scraper test-mongo-connection.js: Scraper does not have a scrape method
+Error: Scraper does not have a scrape method
+    at runScraper (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:38:13)
+    at runAllScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-vancouver-scrapers.js:99:26)

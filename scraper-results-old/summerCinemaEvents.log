@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: summerCinemaEvents.js ---
+============================================================
+Scraper 'Summer Cinema' instantiated successfully. Running scrape()...
+🔍 Starting Summer Cinema scraper...
+Navigating to: https://summercinema.ca/
+
+------------------------------------------------------------
+✅ Scraper 'Summer Cinema' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/summerCinemaEvents-results.json
+
+STDERR:
+❌ Error in Summer Cinema scraper: Navigation timeout of 60000 ms exceeded

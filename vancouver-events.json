@@ -1,0 +1,3748 @@
+[
+  {
+    "id": "a0154fcc-d0ef-47c8-8eb8-8b1ab5efea36",
+    "title": "Progject - The Ultimate Prog Rock Experience",
+    "slug": "progject-the-ultimate-prog-rock-experience",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "July 18th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/progject-the-ultimate-prog-rock-experience/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/07/NEW-Website-Featured-Image-Template-84-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "2912fc74-ec8f-4eb6-b7b1-2138e27d3211",
+    "title": "M. Ward & The Undertakers",
+    "slug": "m-ward-and-the-undertakers",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "July 24th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/m-ward-the-undertakers/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/04/NEW-Website-Featured-Image-Template-88-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "0a02bb7b-0187-4a06-aaf8-60d32425b482",
+    "title": "Young Friend",
+    "slug": "young-friend",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "July 25th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/young-friend/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/06/Website-Featured-Image-young-friend-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "25258785-be28-43a7-8c9c-bb30bfcc871a",
+    "title": "Janky Bungag, Twin River, Madelyn Read, The ReViberators",
+    "slug": "janky-bungag-twin-river-madelyn-read-the-reviberators",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "July 26th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/4911-2/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/07/janky-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "21a25510-1032-4ac1-bd02-54fe7515c194",
+    "title": "Heart Attack Man",
+    "slug": "heart-attack-man",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "July 26th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/heart-attack-man/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/02/GK1A7142-Edit-Edit-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "d9ed27ab-e799-45c3-89f0-11ecd5d60f46",
+    "title": "Get Tickets",
+    "slug": "get-tickets",
+    "date": {
+      "startDate": null,
+      "endDate": null,
+      "ongoing": false,
+      "tba": true
+    },
+    "url": "https://www.ticketweb.ca/event/heart-attack-man-rickshaw-theatre-tickets/14186793",
+    "image": "",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "754dddd7-553b-4fd5-8439-12a2936b3622",
+    "title": "Stick Men",
+    "slug": "stick-men",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "July 29th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/stick-men-2/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/04/Website-Featured-Image-Stick-Men-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "28926d35-a849-4f59-851f-0153bd6fca8e",
+    "title": "Jennifer Castle",
+    "slug": "jennifer-castle",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "July 30th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/jennifer-castle-at-lanalous/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/05/Website-Featured-Image-Jennifer-Castle-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "62ccb0c7-675c-4712-9c4a-3ac7cd926e86",
+    "title": "Backxwash - SHAME Fest",
+    "slug": "backxwash-shame-fest",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "August 1st,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/backxwash-shame-fest/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/08/NEW-Website-Featured-Image-Template-85-1-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "f9df7728-3d2b-41f1-8259-b07d8f060d2b",
+    "title": "Jutes",
+    "slug": "jutes",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "August 2nd,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/jutes/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/05/NEW-Website-Featured-Image-Template-95-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "292e4887-6fcb-4a84-9a20-ea621ae7934f",
+    "title": "Get Tickets",
+    "slug": "get-tickets",
+    "date": {
+      "startDate": null,
+      "endDate": null,
+      "ongoing": false,
+      "tba": true
+    },
+    "url": "https://www.ticketmaster.ca/event/110062BC855F2D60",
+    "image": "",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "3a834918-d5f9-4ed0-bd0f-2773fc567ec6",
+    "title": "Dozer",
+    "slug": "dozer",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "August 16th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/dozer/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/08/NEW-Website-Featured-Image-Template-92-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "7a1259c1-883c-403b-ac4d-8a54322f3bad",
+    "title": "Teenage Bottlerocket",
+    "slug": "teenage-bottlerocket",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "August 17th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/teenage-bottlerocket/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/05/Website-Featured-Image-TBR-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "e09a98d1-99bc-4015-8735-797c2eb7a99c",
+    "title": "Making Movies and Rizo",
+    "slug": "making-movies-and-rizo",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "August 24th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/making-movies/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/08/mm-rizo-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "2e74586b-1b37-4f5e-bddc-99800a64190f",
+    "title": "EXTC",
+    "slug": "extc",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 3rd,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/extc-xtcs-terry-chambers-and-friends/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/01/extc-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "f5982747-df53-4f7c-9647-8b10192ce533",
+    "title": "Femme-tember",
+    "slug": "femme-tember",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 5th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/femme-tember/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/09/femme-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "acb29d71-f0cc-4ccb-aad7-e18a2fb7625d",
+    "title": "Mac Sabbath",
+    "slug": "mac-sabbath",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 10th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/mac-sabbath/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2024/11/NEW-Website-Featured-Image-Template-38-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "f36280a6-4ee2-482a-9d43-7207c1a8d400",
+    "title": "Baroness",
+    "slug": "baroness",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 12th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/baroness-2/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/07/baroness-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "ba5ec0fc-bbad-4dd3-97c4-b825185bd3ac",
+    "title": "Mudhoney",
+    "slug": "mudhoney",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 13th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/mudhoney/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/02/Website-Featured-Image-Mudhoney-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "adf102a7-e418-4f9c-946c-a5287afd9461",
+    "title": "Be'lakor",
+    "slug": "belakor",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 17th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/belakor/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/09/Website-Featured-Image-Belakor-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "60d38123-1588-4b4a-a9ea-f5a013748489",
+    "title": "Symphony X",
+    "slug": "symphony-x",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 18th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/symphony-x-2/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/04/NEW-Website-Featured-Image-Template-85-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "7872d880-422d-4c29-8575-f3beae17fa02",
+    "title": "Covenant Festival X",
+    "slug": "covenant-festival-x",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 25th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/covenant-festival-x-night-one/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/04/Website-Featured-Image-Covenant-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "f648c894-224e-429e-93a1-345cb59dd62a",
+    "title": "Covenant Festival X",
+    "slug": "covenant-festival-x",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 26th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/covenant-festival-x-night-one-2/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/04/Website-Featured-Image-Covenant-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "ed339b42-8a3e-4df1-8676-a2ab97b0d81d",
+    "title": "Covenant Festival X",
+    "slug": "covenant-festival-x",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 27th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/covenant-festival-x-night-three/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/04/Website-Featured-Image-Covenant-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "8e26d052-5e60-47c9-96b2-1802f5d68f0f",
+    "title": "Soft Play",
+    "slug": "soft-play",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 29th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/soft-play/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/05/Website-Featured-Image-Soft-Play-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "550377f0-397b-49cb-ab96-95e0a214d015",
+    "title": "Jazz Emu - The Pleasure Is All Yours Tour",
+    "slug": "jazz-emu-the-pleasure-is-all-yours-tour",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "September 30th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/jazz-emu-the-pleasure-is-all-yours-tour/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/09/2025-09-30-Jazz-Emu-11x7-web-1-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "26528ea2-549e-4536-b165-92d1e76fdd71",
+    "title": "Econoline Crush",
+    "slug": "econoline-crush",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 4th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/econoline-crush/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/06/ec-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "17b7ed0f-5709-4c71-a178-74bf9c10dc98",
+    "title": "Little Hurricane",
+    "slug": "little-hurricane",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 4th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/4872-2/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/10/Website-Featured-Image-Little-Hurricane-1-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "974d7373-a311-4f7a-b9af-f498c8023d91",
+    "title": "Dying Fetus",
+    "slug": "dying-fetus",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 8th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/dying-fetus/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/06/dying-fetus-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "b5704345-b9c1-4e72-a605-698507a1c37b",
+    "title": "Get Tickets",
+    "slug": "get-tickets",
+    "date": {
+      "startDate": null,
+      "endDate": null,
+      "ongoing": false,
+      "tba": true
+    },
+    "url": "https://www.ticketweb.ca/event/dying-fetus-w-gates-to-rickshaw-theatre-tickets/13833774?pl=ConcertWorks",
+    "image": "",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "78bfec29-56da-4bb6-ab0c-1f57c52598a7",
+    "title": "The Browning",
+    "slug": "the-browning",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 9th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/the-browning/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/06/browning-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "c7cde891-933e-4a75-b0c0-045187bfaf49",
+    "title": "Lene Lovich",
+    "slug": "lene-lovich",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 11th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/lene-lovich/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/10/Website-Featured-Image-Lene-Lovich-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "2b51e41f-3a26-4aa1-98be-ab10bd0d5cfe",
+    "title": "Ty Segall",
+    "slug": "ty-segall",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 15th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/ty-segall/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/03/Website-Featured-Image-Ty-Segall1-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "fbd04e0a-bb4f-450d-9e2e-30d46ad525b3",
+    "title": "Get Tickets",
+    "slug": "get-tickets",
+    "date": {
+      "startDate": null,
+      "endDate": null,
+      "ongoing": false,
+      "tba": true
+    },
+    "url": "https://www.ticketweb.ca/event/ty-segall-rickshaw-theatre-tickets/14262893",
+    "image": "",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "92122698-f116-466d-92d4-fbb424b8d3db",
+    "title": "IAMX",
+    "slug": "iamx",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 16th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/iamx/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/03/Website-Featured-Image-IAMX-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "1e23a8e4-1587-487d-ae52-53bdd28ff0e7",
+    "title": "Jason D. Williams",
+    "slug": "jason-d-williams",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 17th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/jason-d-williams/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/05/PRSHOT3colro-hi-res-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "0e3cbddf-3aca-443c-a819-891ad912205a",
+    "title": "Ada Lea",
+    "slug": "ada-lea",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 25th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/ada-lea/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/06/Website-Featured-Image-Ada-Lea1-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "2ceb9c16-bc53-44b7-9d1b-4fe0e4db597e",
+    "title": "Revocation",
+    "slug": "revocation",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 28th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/revocation/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/06/revocation-banner-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "ba0b9f91-9b94-498c-813e-8299454b571f",
+    "title": "Ulcerate",
+    "slug": "ulcerate",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "October 30th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/ulcerate-2/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2023/07/B4wVLynP-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "f3905259-bb96-4b1f-9087-e464b96564aa",
+    "title": "The Electrifying Seamus Blake Plays The Music of Eddie Harris",
+    "slug": "the-electrifying-seamus-blake-plays-the-music-of-eddie-harris",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "November 2nd,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/the-electrifying-seamus-blake-plays-the-music-of-eddie-harris/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/05/NEW-Website-Featured-Image-Template-96-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "6df51448-4767-469f-a4cb-8525d2f7b9c9",
+    "title": "The Dream Syndicate",
+    "slug": "the-dream-syndicate",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "November 3rd,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/dream-syndicate/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/06/ds-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "f8d94d9c-a6e7-4693-bd7c-2f5912800ae7",
+    "title": "Ingested",
+    "slug": "ingested",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "November 11th,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/ingested/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/05/ingested-Website-Featured-Image-Template-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "0eb1de0c-f057-4f11-88dc-77ea6976d2cc",
+    "title": "Polyrhythmics",
+    "slug": "polyrhythmics",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "November 22nd,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/polyrhythmics-5/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/07/Website-Featured-Image-Poly-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "d68b931c-943a-4698-a036-592c7c728e9c",
+    "title": "Lasso - Mal Criado World Tour",
+    "slug": "lasso-mal-criado-world-tour",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "November 23rd,"
+    },
+    "url": "https://rickshawtheatre.com/show_listings/lasso-mal-criado-world-tour/",
+    "image": "https://rickshawtheatre.com/wp-content/uploads/2025/11/Website-Featured-Image-Lasso-250x175.jpg",
+    "venue": {
+      "name": "Rickshaw Theatre",
+      "location": "Rickshaw Theatre, Vancouver, BC",
+      "address": "Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      }
+    },
+    "category": "music",
+    "source": "rickshaw-theatre"
+  },
+  {
+    "id": "469c9e8c-1c84-42a4-89a5-7f3b527fc04b",
+    "title": "Gorillas In The West",
+    "slug": "gorillas-in-the-west",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, July 11, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/gorillas",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1750227466085-ETCHZA6ANI684717YVHV/gorillas+in+the+west+sqr.jpeg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "11772f9e-2fdb-44cf-afda-03ce9cc9850b",
+    "title": "Pump Up The Jam: Throwback Dance Hits",
+    "slug": "pump-up-the-jam-throwback-dance-hits",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jul 11, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jul 12, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/putj-9xf9p-8xa7l-7t5d3-g2hxz-5bhxy-2j994-68ze3-g5hns-4dnsk-rp3md-8lah4",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1721256294260-BITB9LSMKGUCIE2EAI8M/Pump-up-the-Jam---IG.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "aa7e66a7-7f89-424e-a733-d8b8e8c402b2",
+    "title": "Erosion, Altered Dead, Wet Rot",
+    "slug": "erosion-altered-dead-wet-rot",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, July 12, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/erosion",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749364003784-9TNU8OHFKW3T824UXDPQ/D1C34301-AC18-4C31-A028-2796FD8BEA7C.jpeg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "f6047d89-db84-4c16-b09a-b39c2b837341",
+    "title": "Our Famous 90s vs 00s Summer Boat Cruise!",
+    "slug": "our-famous-90s-vs-00s-summer-boat-cruise",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, July 12, 2025 7:00 PM\n              \n                19:00\n                \n                23:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/boatcruise",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1746654804838-S4YT1B4N3OBWO7RM4NU7/Boat-Cruise-IG-v2-1.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "c5f80c78-77ae-4e9d-864b-df01fcfa8600",
+    "title": "90s vs 00s Night",
+    "slug": "90s-vs-00s-night",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jul 12, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jul 13, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/90svs00s-43dge-wn8ch-yjfmp-9df4z-9kp74-f3egg-cgw7r-42nrx-z447p-cg7nh-fs2zr-psjw3-8td45-89j7y-a8d7p-g377s-h6m9z-h6y6g-sgzm2-gerrb-lkpgk-5jjm9-ghm4e",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1689938275260-28PVGVBI03Z11UE8A4VF/90svs00s-IG-v2.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "68bdadff-95c0-47f6-adaf-d1974703e415",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, July 13, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz-9grd9-dbkxm-mg8dc-s66mn-c5ztf",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a0ffd8d7-2871-435f-bc06-77aabab9d465",
+    "title": "Sweet Neens KARAOKE at the Fox Cabaret!",
+    "slug": "sweet-neens-karaoke-at-the-fox-cabaret",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Wednesday, July 16, 2025 9:00 PM\n              \n                21:00\n                \n                23:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/karaoke-43khk",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1751920687429-P1FZHYE90H6H6DRR2U1O/fox%2Bkaraoke%2Bposter%252811.25%2Bx%2B17.5%2Bin%2529.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "5eab346b-fc71-4564-9bd7-916c72c5a8bc",
+    "title": "Star Collector",
+    "slug": "star-collector",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, July 18, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/zstar",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748544187244-GP8R289YYP7UPB1W1H4V/IMG_4505.jpeg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "f9ad2acf-b752-4a03-af9a-11f77d0f7fe6",
+    "title": "GOLDEN: 80s/90s/00s Hip Hop Dance Party",
+    "slug": "golden-80s90s00s-hip-hop-dance-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jul 18, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jul 19, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/golden/may-mnweg-6jem6-5glmh-7eaej-klza4-z836s-5egap-n38yt-4kjex-wxy86-gwdtc-wag44-wx63w-ymxt9-zpda3-r4w3s-7b2zl-rhncy-s46w3-nbr46-7pjxh-jj4tf-lynde-5ee89-8a3sf-tya3h",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1687217785146-0CD3MR8QP4ZXZGZBBS7Z/Golden-2023-square.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "3d1ddf29-179e-4e31-bd65-8658274be227",
+    "title": "The fin",
+    "slug": "the-fin",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, July 19, 2025 7:00 PM\n              \n                19:00\n                \n                23:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/thefin",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1751649019092-QOZ09OIQFLIAD6CY0ZLA/Vancouver%2Bwith%2Bsupport.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "ef0d64f7-a8ca-481a-83b2-1e30e2805a85",
+    "title": "80s vs 90s Night",
+    "slug": "80s-vs-90s-night",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jul 19, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jul 20, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/80svs90s-92nhb-e4pxy-wlshy-getdr-622xp-z2b6d-66d94-wnlrd-4brxr-3zy8b-stan6-6lpb9-krygy-xl62f-2nlzd-39thp-tbfan",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1705958970826-6DWMG7U8P8XOXLKCELOO/80s90s_insta.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "b6c0cb16-bca4-4a03-8c74-41feae502bc5",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, July 20, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "d9440044-2824-438f-aae7-8d9e5081b03d",
+    "title": "4x4: Four Bands for Four Bucks",
+    "slug": "4x4-four-bands-for-four-bucks",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, July 24, 2025 7:00 PM\n              \n                19:00\n                \n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/4x4-yhymp-cdw4d-2t7jn-6h22z-wejrt",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1737056841052-2TOJ0QWSO2OXR7BRNCM5/4x4-sqr.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "320b1680-ac75-411f-a88f-4011de582279",
+    "title": "Charlotte Lawrence",
+    "slug": "charlotte-lawrence",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, July 25, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/charlottelawrence",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749364494773-MZSB58KSN3P86ZOZKAZ3/Charlotte_Lawrence_IG_SQUARE.png?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "9e334dd7-d8fb-42b8-a65c-3f528c776bb4",
+    "title": "Non-Stop Disco Party",
+    "slug": "non-stop-disco-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jul 25, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jul 26, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/nonstopdisco-j83nc-4nsf9-mac56-pgjs2-7lhze-79sk6-ze2yj-xrjzl-pk5zh-e9cb9-6hjrt-3wwnd-yt7eh-xpzhj-7rc57-9f4ns-gpnxd-ezxx7-tg8xz-jnhas-p5c9h-l9s74-wma9n-lkey8-h5542-ldcjf-6ya9c",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1700873887981-ZKWWDJBMJB1YEWXSBW7O/DISCO-Square-1.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "96ef0175-6c20-4b3e-a0d0-9707ca97033f",
+    "title": "Zoe Twist",
+    "slug": "zoe-twist",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, July 26, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/zoetwist",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749364809019-9CQ75IMSUPDF4DB3M8QI/zoe%2Btwist.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "b84bfb7b-a738-40e8-a70d-ecd53aaebd24",
+    "title": "Millennium",
+    "slug": "millennium",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jul 26, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jul 27, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/gles5cspwcyhzpb-h8px2-kznw4-x6n44-kgmbs",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1568161482449-NIHFHFUEVDCO18YN6IXO/millenium-multi.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "b0e888a5-52b4-4fcf-881b-cb0f8f65be85",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, July 27, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "58bdc6f9-4b9f-4a2e-b842-83783245d5de",
+    "title": "Red Leather",
+    "slug": "red-leather",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Tuesday, July 29, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/redleather",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1744131680987-2ZT7DG7Y99PLESJ9JGQ8/IG+SQUARE.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "42817ded-2329-4521-9249-1e6097a42f5e",
+    "title": "DESERTED",
+    "slug": "deserted",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, August 1, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/deserted",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1751228328725-E722C44Z6E1ILIUBGHMF/DESERTED+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "e8e8176a-c4fd-4409-b5b3-917662c947d6",
+    "title": "Party Rock: A Tribute to the 2010s",
+    "slug": "party-rock-a-tribute-to-the-2010s",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Aug 1, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Aug 2, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/partyrock-jxkwy-fjzpd-xdyrn-ra88c-b8ahj-wj5fy-t4g5e-cgfkf-bcw5a-k26h5-4n4bz-s9bsw-ygwdb-jyzgg-gtlfz-7bf4y-a32xd-z3nzy-gdj89-565hd-j4b5a-jhtw7-b3n9x-clf6m-cal2y-9pyzl-cr5m6-xkyn5",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1687217035340-ELW9B3VYS2TFMOVI9918/Party-Rock-IG.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "87892a3e-3eb4-419e-9b8d-91cf88415a46",
+    "title": "DAMSEL",
+    "slug": "damsel",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, August 2, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/damsel",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1751227499921-6CC32O8HASMNXQFI11KU/image2+4.jpeg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a99d815a-b411-42a2-8fcf-f71e7c1a116a",
+    "title": "Guilty Pleasures: 90s-Now Dance Party",
+    "slug": "guilty-pleasures-90s-now-dance-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Aug 2, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Aug 3, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/guiltypleasures-h2t3y-7rzgl-bljcd-dygmx-bgegb-tcp87-3rbaa-655ez-c3dw6-k2ns7-d4xyj-ynhy4-y4hyh",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1716305532878-HOEAF85Y942XHO3X0Z9K/IMG_0454.jpeg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "fad8562a-23f5-4cb5-a428-947eacad5ced",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, August 3, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "6b72cfd1-b0a6-4d27-a895-ecdabd255804",
+    "title": "Pump Up The Jam: Throwback Dance Hits",
+    "slug": "pump-up-the-jam-throwback-dance-hits",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Aug 8, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Aug 9, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/putj-9xf9p-8xa7l-7t5d3-g2hxz-5bhxy-2j994-68ze3-g5hns-4dnsk-rp3md-8lah4-rmw4a",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1721256294260-BITB9LSMKGUCIE2EAI8M/Pump-up-the-Jam---IG.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "c995a43e-a960-461f-a44b-217454f302ab",
+    "title": "80s vs 90s Night",
+    "slug": "80s-vs-90s-night",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Aug 9, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Aug 10, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/80svs90s-92nhb-e4pxy-wlshy-getdr-622xp-z2b6d-66d94-wnlrd-4brxr-3zy8b-stan6-6lpb9-krygy-xl62f-2nlzd-39thp-tbfan-yk8hc",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1705958970826-6DWMG7U8P8XOXLKCELOO/80s90s_insta.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "c2427940-b745-4186-8103-d3ee5c006cb1",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, August 10, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "0f2c940b-4d0c-4bae-be39-7957f9e0f271",
+    "title": "Michael Seyer",
+    "slug": "michael-seyer",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, August 15, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/seyer",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1746034588516-B27CCSNMPEQ3VTMNU9SG/MS_Square.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "94bfd5d9-904e-41da-82d4-be84f1d6e3b5",
+    "title": "GOLDEN: 80s/90s/00s Hip Hop Dance Party",
+    "slug": "golden-80s90s00s-hip-hop-dance-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Aug 15, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Aug 16, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/golden/may-mnweg-6jem6-5glmh-7eaej-klza4-z836s-5egap-n38yt-4kjex-wxy86-gwdtc-wag44-wx63w-ymxt9-zpda3-r4w3s-7b2zl-rhncy-s46w3-nbr46-7pjxh-jj4tf-lynde-5ee89-8a3sf-tya3h-t8cw6",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1687217785146-0CD3MR8QP4ZXZGZBBS7Z/Golden-2023-square.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "c01bd37d-790a-4af7-8949-3bd3d3292d15",
+    "title": "90s vs 00s Night",
+    "slug": "90s-vs-00s-night",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Aug 16, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Aug 17, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/90svs00s-43dge-wn8ch-yjfmp-9df4z-9kp74-f3egg-cgw7r-42nrx-z447p-cg7nh-fs2zr-psjw3-8td45-89j7y-a8d7p-g377s-h6m9z-h6y6g-sgzm2-gerrb-lkpgk-5jjm9-ghm4e-cc2f8",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1689938275260-28PVGVBI03Z11UE8A4VF/90svs00s-IG-v2.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "38d4a403-6061-4782-b55e-d82b552b747c",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, August 17, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "eb26ebd1-b291-458a-9ec5-10806d9c0430",
+    "title": "SwayzeAck",
+    "slug": "swayzeack",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, August 22, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/swayzeack",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1751228634155-T1759GU66F4BOQLCZP3B/swayzeack.jpeg?format=750w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "db4e330f-1845-48e7-94b2-6085473f13c0",
+    "title": "Non-Stop Disco Party",
+    "slug": "non-stop-disco-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Aug 22, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Aug 23, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/nonstopdisco-j83nc-4nsf9-mac56-pgjs2-7lhze-79sk6-ze2yj-xrjzl-pk5zh-e9cb9-6hjrt-3wwnd-yt7eh-xpzhj-7rc57-9f4ns-gpnxd-ezxx7-tg8xz-jnhas-p5c9h-l9s74-wma9n-lkey8-h5542-ldcjf-6ya9c-8a53y",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1700873887981-ZKWWDJBMJB1YEWXSBW7O/DISCO-Square-1.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "294ac339-c09e-42d1-8fbd-bbe27726ec38",
+    "title": "Millennium",
+    "slug": "millennium",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Aug 23, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Aug 24, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/gles5cspwcyhzpb-h8px2-kznw4-x6n44-kgmbs-csf7e",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1568161482449-NIHFHFUEVDCO18YN6IXO/millenium-multi.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "1954dc56-3d79-4ac1-8c62-aa9103a67052",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, August 24, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "643e24bf-15f0-4e75-86d4-1c56c88e0e4f",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, August 31, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "5e512c58-a671-4231-9098-24ff8fd28e38",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, September 7, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "b385e028-b1df-4dcd-88b3-fdbff68b0907",
+    "title": "billianne",
+    "slug": "billianne",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, September 12, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/billianne",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749366247196-JIEADNT8S4YBZGSIHK5H/Billianne_4x5.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "0cdb3820-16ba-42a3-8b39-843ea38e0a04",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, September 14, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "92142b1c-de37-4e18-b2a0-7fb2b973faa6",
+    "title": "Patrick Wolf",
+    "slug": "patrick-wolf",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Wednesday, September 17, 2025 7:00 PM\n              \n                19:00\n                \n                23:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/patrickwolf",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1742322204288-JQFAVL7PAIFEFVEICCUN/PW_V1_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "e82e46e2-481e-4ee3-8f6b-6e56b2840014",
+    "title": "Haru Nemuri",
+    "slug": "haru-nemuri",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, September 18, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/harunemuri",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749366580847-BBTIWND9N95CXAKFTWCP/HN+-+Vancouver+1080x1080.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "cc5e6abc-89c8-485e-afa5-3c6886145af4",
+    "title": "Jordan Hart",
+    "slug": "jordan-hart",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, September 20, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/hart",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748629393965-O5CQV11LXV2AKNMR150Q/IG+SQUARE+%282%29.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "8b44584a-56b2-425f-8752-5e63acd6beb3",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, September 21, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "fd3eb15d-8807-430f-a48d-5d1f01c4b391",
+    "title": "Stacey Ryan",
+    "slug": "stacey-ryan",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Tuesday, September 23, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/staceyryan",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749367164832-BQYE6NJ4477VHCETOM1C/Stacey%2BRyan%2B%257C%2Bdid%2Byou%2Bhear%2Bthe%2Bnews%253F%253F%2BThat%2Byou%2Bcan%2Bbuy%2Btickets%2Bto%2Bmy%2Btour%2Bnow%253F%253F%2BAt%2Bthe%2Blink%2Bin%2Bmy%2Bbio%253F%253F%2B%25F0%259F%25A5%25B9%2B%257C%2BInstagram%2B2025-06-08%2B00-18-05.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "27d202d0-c0f0-4907-aba3-7e7821330f1d",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, September 28, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "436d7ad0-ad62-4214-aca1-e1a8805fddbb",
+    "title": "The Dreggs",
+    "slug": "the-dreggs",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Tuesday, September 30, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/thedreggs",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749367591960-3IDZHDSDTEKP7DNZMLV9/the-dreggs.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a4f6ad67-f34b-4cce-afbf-394f263db977",
+    "title": "Jembaa Groove",
+    "slug": "jembaa-groove",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, October 4, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/jembaagroove",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749367759735-1P5V52U0DHY124WVSZB2/JG_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "4a4fb493-9820-4e43-997b-b9cc635cca0b",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, October 5, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "cc7a23a4-5fa7-4503-b0aa-e11052216ca5",
+    "title": "Bambara",
+    "slug": "bambara",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Wednesday, October 8, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/bambara",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1740601859968-UYIL335A6VQUJFXVB7XY/Bambara_VAN_1080x1080.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "6413fcb9-3f90-433f-b4b7-3022a53621bb",
+    "title": "French Police",
+    "slug": "french-police",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, October 10, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/frenchpolice",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749368151824-OXPRHI86SWUD40SKUF6O/FP_VAN_1080x1080.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a7beab4d-bc7d-4dd5-8a19-faf74ed05af0",
+    "title": "Pool Kids",
+    "slug": "pool-kids",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, October 11, 2025 6:00 PM\n              \n                18:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/pookids",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749150841429-BQ0RKSZP0HLTF1HP20YP/Square+Fillable-Pool+Kids+V-2.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "531e77a6-c328-4ac0-a826-63424711ffb9",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, October 12, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "8ed08640-b77a-429f-a6c9-99a8ee14bf62",
+    "title": "Durry",
+    "slug": "durry",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Tuesday, October 14, 2025 7:00 PM\n              \n                19:00\n                \n                23:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/durry",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749368422878-UWM15EFKOS8731OV6WZT/Durry-Vancouver-Square.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "c53fd488-9850-44c7-80af-8738d28419eb",
+    "title": "Mating Ritual",
+    "slug": "mating-ritual",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Wednesday, October 15, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/matingritual",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749368674557-AUO5RN0BTWPM2NU6XHA3/MR_VAN_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "f51ae3f6-5529-4811-8f15-548d78a54bcd",
+    "title": "Michael Minelli",
+    "slug": "michael-minelli",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, October 17, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/michaelminelli",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749369145508-YD714A7TYJJGW4T2BB7M/Micheal_Minelli_Vancouver_IG-SQUARE.png?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "3ac8e039-ddeb-46ae-adfd-2c3e17de90c5",
+    "title": "Hand Habits",
+    "slug": "hand-habits",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, October 18, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/handhabits",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749054208039-SNZXE3ZUFXUWY3AD39KS/HandHabits_1080x1080+%281%29.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "62f89a4f-1123-409e-92b5-031cfb5a33e2",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, October 19, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "663ffe53-fab3-4b85-b892-8b12303ca3ee",
+    "title": "The Deep Dark Woods",
+    "slug": "the-deep-dark-woods",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, October 24, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/ddw",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749369977954-VZZDRNZ0IS1XWTLQSH63/DDW_VAN_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "6f438764-6b70-4af1-9688-90a289cb2019",
+    "title": "Willi Carlisle",
+    "slug": "willi-carlisle",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, October 25, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/willic",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1744131439453-W0EBQDBGG5S2NNYN7DDT/WC_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "432650e8-e681-4265-a663-0e8fe1f62665",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, October 26, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "93d9965f-f3d8-45b6-868a-b751a5433a71",
+    "title": "Frost Children",
+    "slug": "frost-children",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Tuesday, October 28, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/frostchildren",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748972070120-EWB7NMD3CBFJT5HAO9SW/FC_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "2e8c157b-3ef9-4f78-bb01-ae88362cadd2",
+    "title": "Infidels Jazz Presents: The Rocky Horror Music Show",
+    "slug": "infidels-jazz-presents-the-rocky-horror-music-show",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, October 30, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/rocky-ld7j7",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1750293403828-Q0SOEQ9Y0WK4R1MFJLQ6/rocky%2Bhorror.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "12241cfa-336d-4db6-a5ea-743a27892f68",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, November 2, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "c9a97271-274c-4747-902f-85a5d7b27129",
+    "title": "L'Eclair",
+    "slug": "leclair",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Wednesday, November 5, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/leclair",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749054745070-BTS8ZJX4W1XUUGV6OLDR/L%2527Eclair_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "d68cf4b9-f25c-4360-b15d-bc747fbacce1",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, November 9, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "51d86376-5ed6-4299-bcaf-71eb317edc7a",
+    "title": "Casey Lowery",
+    "slug": "casey-lowery",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, November 15, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/caseylowery",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1746551297360-7GHLSMXLHIBYZQVBGFP9/CaseyLowery_Portrait.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a405464c-d8db-43f2-a620-36e2828bb982",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, November 16, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "28c9121d-e034-48cd-99d5-6a4b2552f194",
+    "title": "Agriculture",
+    "slug": "agriculture",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Tuesday, November 18, 2025 7:00 PM\n              \n                19:00\n                \n                23:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/agriculture",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1752081545740-9HU1Q9TU300IOCFKLY1R/Agriculture_1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "eaa54c64-ab37-498e-b2f6-4e8bde7f8b78",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, November 23, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp-nc562",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a9a3bc7a-b74c-4ae6-82c9-ea90a1755a42",
+    "title": "Mark William Lewis",
+    "slug": "mark-william-lewis",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, November 27, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/lewis",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748453487200-L5679JJYZ8OZLGD54V7V/Mark-William-Lewis-1080x1350.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "8cfb3bce-08c8-49cc-9a66-87a4c5a0b5e1",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, November 30, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp-nc562-lz9tn",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "24355fb8-185c-4b26-8096-ad958638224a",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, December 7, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp-nc562-lz9tn-hkyc6",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "fb478a7a-021a-4c07-8fe4-fb00050c7e10",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, December 14, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp-nc562-lz9tn-hkyc6-7bc6w",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a0eb52a2-f178-432d-853f-84650e263685",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, December 21, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp-nc562-lz9tn-hkyc6-7bc6w-zzwde",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "bc924cb1-9359-4299-bc12-1ea055230be9",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, December 28, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp-nc562-lz9tn-hkyc6-7bc6w-zzwde-xwdjf",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "7036b169-6199-41e1-8309-2bcc16a07fd4",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, January 4, 2026 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/8a6x8x6tdwdtjlh-lgldy-glw6a-5x463-jjbg9-4a2he-w6wdn-zfd8g-seksz-drzah-3bzm8-x998c-br5hy-jjlmg-e6fg8-dc3fm-z2abx-56nwp-nc562-lz9tn-hkyc6-7bc6w-zzwde-xwdjf-ps8mb",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=300w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "ed19a153-1cbb-4147-955a-932207c94287",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, July 6, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz-9grd9-dbkxm-mg8dc-s66mn",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "705093b1-b2c2-40b2-aaad-af50b19bee5f",
+    "title": "Guilty Pleasures: 90s-Now Dance Party",
+    "slug": "guilty-pleasures-90s-now-dance-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jul 5, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jul 6, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/guiltypleasures-h2t3y-7rzgl-bljcd-dygmx-bgegb-tcp87-3rbaa-655ez-c3dw6-k2ns7-d4xyj-ynhy4",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1716305532878-HOEAF85Y942XHO3X0Z9K/IMG_0454.jpeg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "e6c42c32-4c1f-45a9-894b-2c1cad20557c",
+    "title": "Midnight Cruiser",
+    "slug": "midnight-cruiser",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, July 5, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/midnightcruiser",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749362623269-VS9SAWALZ31ZA3AQ26R4/Jul+5%2C+2025-Fox-Square.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "49e82d63-8fe3-4c19-8316-6720238f5cdf",
+    "title": "Party Rock: A Tribute to the 2010s",
+    "slug": "party-rock-a-tribute-to-the-2010s",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jul 4, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jul 5, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/partyrock-jxkwy-fjzpd-xdyrn-ra88c-b8ahj-wj5fy-t4g5e-cgfkf-bcw5a-k26h5-4n4bz-s9bsw-ygwdb-jyzgg-gtlfz-7bf4y-a32xd-z3nzy-gdj89-565hd-j4b5a-jhtw7-b3n9x-clf6m-cal2y-9pyzl-cr5m6",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1687217035340-ELW9B3VYS2TFMOVI9918/Party-Rock-IG.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "3386d9eb-37d2-4135-9e12-8dedd29ed141",
+    "title": "New Constellations",
+    "slug": "new-constellations",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, July 3, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/newconstellations",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1743009444765-7UPCNE3W06CNZDLE2OYN/NC_1080x1350.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "63e5c8af-2f96-4ac7-8820-a9b981031a93",
+    "title": "Pierre Bensusan",
+    "slug": "pierre-bensusan",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Wednesday, July 2, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/bensusan",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748538187105-79XQVMAS8FR4RKK9NSTP/pierre%2Bbensusan.jpg?format=750w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "730d7608-e9c8-4944-86b1-3585fd6fce9a",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, June 29, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz-9grd9-dbkxm-mg8dc",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "07dbcb43-e8b5-4426-ba1f-7bad46987888",
+    "title": "Millennium",
+    "slug": "millennium",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jun 28, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jun 29, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/gles5cspwcyhzpb-h8px2-kznw4-x6n44",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1568161482449-NIHFHFUEVDCO18YN6IXO/millenium-multi.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "12f70fb6-a2e6-433e-806b-b73a0099efa9",
+    "title": "Non-Stop Disco Party",
+    "slug": "non-stop-disco-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jun 27, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jun 28, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/nonstopdisco-j83nc-4nsf9-mac56-pgjs2-7lhze-79sk6-ze2yj-xrjzl-pk5zh-e9cb9-6hjrt-3wwnd-yt7eh-xpzhj-7rc57-9f4ns-gpnxd-ezxx7-tg8xz-jnhas-p5c9h-l9s74-wma9n-lkey8-h5542-ldcjf",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1700873887981-ZKWWDJBMJB1YEWXSBW7O/DISCO-Square-1.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "77c8ab0f-8af2-4e0b-a136-cd1c21145a11",
+    "title": "Freeze the Fall",
+    "slug": "freeze-the-fall",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, June 27, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/freezethefall",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749362378024-KR7IUYU22GEN5KETDSCF/IMG_98841%281%29+%281%29.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "1a0516ff-a0b8-4d98-ba5f-77d97906aed1",
+    "title": "4x4: Four Bands for Four Bucks",
+    "slug": "4x4-four-bands-for-four-bucks",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, June 26, 2025 7:00 PM\n              \n                19:00\n                \n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/4x4-yhymp-cdw4d-2t7jn-6h22z",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1737056841052-2TOJ0QWSO2OXR7BRNCM5/4x4-sqr.jpg?format=750w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "7af97795-98ff-4154-8ff2-030572f522a9",
+    "title": "Esmé Patterson",
+    "slug": "esme-patterson",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Tuesday, June 24, 2025 7:00 PM\n              \n                19:00\n                \n                23:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/esme",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1739991805845-VLWGZP8UHC81577Q2DH0/EP_1080x1350.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "4d77ace4-b93d-46e9-bd69-8f5adebb233e",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, June 22, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz-9grd9-dbkxm",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "baf77009-9896-428b-8506-144edb0fe237",
+    "title": "90s vs 00s Night",
+    "slug": "90s-vs-00s-night",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jun 21, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jun 22, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/90svs00s-43dge-wn8ch-yjfmp-9df4z-9kp74-f3egg-cgw7r-42nrx-z447p-cg7nh-fs2zr-psjw3-8td45-89j7y-a8d7p-g377s-h6m9z-h6y6g-sgzm2-gerrb-lkpgk-5jjm9",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1689938275260-28PVGVBI03Z11UE8A4VF/90svs00s-IG-v2.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "857df66d-8012-4da4-8ec2-0cec936b411b",
+    "title": "Jake & Elwood's Blues Brothers Revue",
+    "slug": "jake-and-elwoods-blues-brothers-revue",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, June 21, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/dexter",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748152963051-4KV6GYK7ZM98C3I2ZYI9/Jake%2Band%2BElwood%2B-%2BCabaret.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "f2614fa6-ef01-40e3-8568-3a98a7cbd57a",
+    "title": "GOLDEN: 80s/90s/00s Hip Hop Dance Party",
+    "slug": "golden-80s90s00s-hip-hop-dance-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jun 20, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jun 21, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/golden/may-mnweg-6jem6-5glmh-7eaej-klza4-z836s-5egap-n38yt-4kjex-wxy86-gwdtc-wag44-wx63w-ymxt9-zpda3-r4w3s-7b2zl-rhncy-s46w3-nbr46-7pjxh-jj4tf-lynde-5ee89-8a3sf",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1687217785146-0CD3MR8QP4ZXZGZBBS7Z/Golden-2023-square.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "2cc831ee-d12f-4925-b696-b712b8a172ae",
+    "title": "Canyon Riders",
+    "slug": "canyon-riders",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, June 20, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/canyonriders",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749063754541-EY7AWVE57VSGWN8A7YYH/Unknown.jpeg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "c1c70a42-5c2e-4ea8-a8d2-bd652a03e7d1",
+    "title": "Science, Stand-Up, & Song",
+    "slug": "science-stand-up-and-song",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, June 19, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/sciencestandupsong",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748288228479-8EB5UBQMIHG8O6RVUUBO/Science%2BStand-Up%2Band%2BSong%2BJune%2B19%2B2025.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "fb8d25a9-0731-4242-b050-2ed9cb1fd2f1",
+    "title": "Sweet Neens KARAOKE at the Fox Cabaret!",
+    "slug": "sweet-neens-karaoke-at-the-fox-cabaret",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Wednesday, June 18, 2025 9:00 PM\n              \n                21:00\n                \n                23:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/karaoke",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748287251878-4QZY17MPBX39D73SUT0X/IMG_4463.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "5d410864-2e1d-4a03-8c9d-ef39a304bc58",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, June 15, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz-9grd9",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "f631effd-035e-4b3e-952c-dc1fe0a84be9",
+    "title": "80s vs 90s Night",
+    "slug": "80s-vs-90s-night",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jun 14, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jun 15, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/80svs90s-92nhb-e4pxy-wlshy-getdr-622xp-z2b6d-66d94-wnlrd-4brxr-3zy8b-stan6-6lpb9-krygy-xl62f-2nlzd-39thp",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1705958970826-6DWMG7U8P8XOXLKCELOO/80s90s_insta.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "0df6fb4f-db87-4e98-bffc-c5d7aeb92370",
+    "title": "The Dope Show",
+    "slug": "the-dope-show",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, June 14, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/dopeshow",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1749361432903-CWT476WECFQ8ONA0RZAF/dope%2Bshow.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "3e588ead-105e-4774-bbb5-0cbf74711227",
+    "title": "Pump Up The Jam: Throwback Dance Hits",
+    "slug": "pump-up-the-jam-throwback-dance-hits",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jun 13, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jun 14, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/putj-9xf9p-8xa7l-7t5d3-g2hxz-5bhxy-2j994-68ze3-g5hns-4dnsk-rp3md",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1721256294260-BITB9LSMKGUCIE2EAI8M/Pump-up-the-Jam---IG.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "bf573c44-6efa-4589-ad44-97008af1a1a1",
+    "title": "Naethan Apollo",
+    "slug": "naethan-apollo",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, June 13, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/apollo",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1742405957793-GL0E36ZET3OJYL7OG0NV/NA_1080x1080.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "a0fb18b7-e3fc-4866-952a-49dba9b8e14a",
+    "title": "Art d'Ecco",
+    "slug": "art-decco",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Thursday, June 12, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/artdecco",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748540312490-GJ13HEMC1VH72DN1XKBI/art+decco.jpeg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "cbded059-1372-4307-8f1b-ad8ab3a700eb",
+    "title": "The Sunday Service",
+    "slug": "the-sunday-service",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sunday, June 8, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1715892414524-KQSIDG2XV48RCYA68Q6J/Insta+Post+.jpg?format=2500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "19a7e7a7-56fb-4446-8159-5f86cf63762b",
+    "title": "Guilty Pleasures: 90s-Now Dance Party",
+    "slug": "guilty-pleasures-90s-now-dance-party",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Sat, Jun 7, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sun, Jun 8, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2024/guiltypleasures-h2t3y-7rzgl-bljcd-dygmx-bgegb-tcp87-3rbaa-655ez-c3dw6-k2ns7-d4xyj",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1716305532878-HOEAF85Y942XHO3X0Z9K/IMG_0454.jpeg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "7b35bc15-a0f7-4a29-9558-8f1f2f64516d",
+    "title": "The Harpoonist",
+    "slug": "the-harpoonist",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Saturday, June 7, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/theharpoonist",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1746315661920-JRCEN3OF13E5U8DUJJUU/The_Harpoonist_Van_IG_SQUARE.png?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "fdc7d920-5608-4538-98ee-f03637bd5ca0",
+    "title": "Party Rock: A Tribute to the 2010s",
+    "slug": "party-rock-a-tribute-to-the-2010s",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Fri, Jun 6, 2025\n\n              \n                10:30 PM\n                22:30\n              \n\n              \n\n              Sat, Jun 7, 2025\n\n              \n                2:00 AM\n                02:00 10:30 PM\n                22:30"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2023/partyrock-jxkwy-fjzpd-xdyrn-ra88c-b8ahj-wj5fy-t4g5e-cgfkf-bcw5a-k26h5-4n4bz-s9bsw-ygwdb-jyzgg-gtlfz-7bf4y-a32xd-z3nzy-gdj89-565hd-j4b5a-jhtw7-b3n9x-clf6m-cal2y-9pyzl",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1687217035340-ELW9B3VYS2TFMOVI9918/Party-Rock-IG.jpg?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  },
+  {
+    "id": "10725bf0-266f-4619-8b05-66fcc3e56bef",
+    "title": "Fox Presents: Terell Safadi",
+    "slug": "fox-presents-terell-safadi",
+    "date": {
+      "startDate": "2025-07-13",
+      "endDate": null,
+      "ongoing": false,
+      "tba": false,
+      "displayDate": "Friday, June 6, 2025 7:00 PM\n              \n                19:00\n                \n                22:00"
+    },
+    "url": "https://www.foxcabaret.com/monthly-calendar-list/2025/terell",
+    "image": "https://images.squarespace-cdn.com/content/v1/580168e0d2b857b4d19c523c/1748038273952-8MZ50BBXS84T5IGI9ZPH/TERELL+VANCOUVER+NEW+POSTER+%28Instagram+Post+%2845%29%29+%281%29.png?format=1500w",
+    "venue": {
+      "name": "Fox Cabaret",
+      "location": "Fox Cabaret, 2321 Main St, Vancouver, BC",
+      "address": "2321 Main St, Vancouver, BC",
+      "geolocation": {
+        "lat": 49.2639,
+        "lng": -123.1017
+      }
+    },
+    "category": "nightlife",
+    "source": "fox-cabaret"
+  }
+]

@@ -1,0 +1,64 @@
+[
+  {
+    "id": "c7ce1d6a6ddf543214ed6ddbbe40ba4b",
+    "title": "Vancouver - Amateur Night",
+    "description": "Amateur Night",
+    "venue": "Penthouse Nightclub",
+    "location": "1019 Seymour Street, Vancouver, BC V6B 3M4",
+    "date": "2025-07-31T07:00:00.000Z",
+    "time": "9:00 PM",
+    "price": "Contact venue",
+    "url": "http://www.penthousenightclub.com/events/",
+    "source": "penthouse-nightclub",
+    "category": "nightlife",
+    "tags": [
+      "nightlife",
+      "adult entertainment",
+      "vancouver",
+      "downtown"
+    ],
+    "image": null
+  },
+  {
+    "id": "fc4d912649b9a772033704a7cc1e3fea",
+    "title": "Vancouver - Secrets Tour",
+    "description": "Secrets TourPSST…",
+    "venue": "Penthouse Nightclub",
+    "location": "1019 Seymour Street, Vancouver, BC V6B 3M4",
+    "date": "2025-07-19T04:53:40.181Z",
+    "time": "9:00 PM",
+    "price": "Contact venue",
+    "url": "http://www.penthousenightclub.com/events/",
+    "source": "penthouse-nightclub",
+    "category": "nightlife",
+    "tags": [
+      "nightlife",
+      "adult entertainment",
+      "vancouver",
+      "downtown"
+    ],
+    "image": null
+  },
+  {
+    "id": "892688dfbd8cd93794ffb40bf89c9e33",
+    "title": "Vancouver - The Original Strip",
+    "description": "Step into Vancouver's Original Strip, the infamous Penthouse Nightclub. Come for the exotic dancing, cabaret, burlesque.",
+    "venue": "Penthouse Nightclub",
+    "location": "1019 Seymour Street, Vancouver, BC V6B 3M4",
+    "date": "2025-07-19T04:53:40.181Z",
+    "time": "9:00 PM",
+    "price": "Contact venue",
+    "url": "http://www.penthousenightclub.com/events/",
+    "source": "penthouse-nightclub",
+    "category": "nightlife",
+    "tags": [
+      "nightlife",
+      "adult entertainment",
+      "vancouver",
+      "downtown",
+      "recurring"
+    ],
+    "image": null,
+    "recurring": true
+  }
+]

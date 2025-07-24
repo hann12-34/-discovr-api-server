@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: vancouverArtGallery.js ---
+============================================================
+Scraper 'Vancouver Art Gallery' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Art Gallery scraper...
+✅ Added exhibition: Emily Carr: Into the Forest (Thursday, June 12, 2025 - Sunday, September 28, 2025)
+✅ Added event: Art After Dark: Summer Solstice Edition on Friday, June 20, 2025
+✅ Added exhibition: Contemporary Japanese Photography: New Visions (Saturday, July 5, 2025 - Sunday, October 12, 2025)
+✅ Added event: Curator's Tour: Contemporary Japanese Photography on Tuesday, July 15, 2025
+✅ Added event: Family FUSE Weekend: Patterns in Nature on Saturday, July 26, 2025
+✅ Added exhibition: Indigenous Perspectives: Art, Land and Reconciliation (Friday, August 15, 2025 - Sunday, December 7, 2025)
+✅ Added event: Opening Celebration: Indigenous Perspectives on Thursday, August 14, 2025
+🖼️ Successfully created 7 Vancouver Art Gallery events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Art Gallery' finished successfully.
+   Processed 7 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vancouver-art-gallery-emily-carr-into-the-forest-2025-06-12",
+  "title": "Emily Carr: Into the Forest",
+  "description": "Experience a landmark exhibition celebrating one of Canada's most beloved artists, Emily Carr. 'Into the Forest' presents over 50 of Carr's iconic forest landscapes alongside rarely seen sketches, writings, and personal artifacts. The exhibition explores Carr's profound connection to the British Columbia wilderness, her evolving artistic style, and her unique spirituality. Through her vibrant, swirling canvases, visitors will journey into the depths of the West Coast forests that defined her vision.\n\nEVENT DETAILS:\nExhibition Dates: Thursday, June 12, 2025 - Sunday, September 28, 2025\nHours: Daily 10 AM - 5 PM, Tuesdays until 9 PM",
+  "startDate": "2025-06-12T17:00:00.000Z",
+  "endDate": "2025-09-29T00:00:00.000Z",
+  "venue": {
+    "name": "Vancouver Art Gallery",
+    "id": "vancouver-art-gallery",
+    "address": "750 Hornby St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6Z 2H7",
+    "coordinates": {
+      "lat": 49.2827417,
+      "lng": -123.1207375
+    },
+    "websiteUrl": "https://www.vanartgallery.bc.ca/",
+    "description": "The Vancouver Art Gallery is the largest public art museum in Western Canada, occupying a heritage building designed by Francis Rattenbury in downtown Vancouver. The Gallery features a diverse collection of historical and contemporary artworks with a focus on British Columbia art, particularly works by Indigenous artists and the renowned artist Emily Carr. The institution presents major exhibitions of Canadian and international artists while serving as a vibrant cultural hub in the city center."
+  },
+  "category": "arts",
+  "categories": [
+    "arts",
+    "visual arts",
+    "museum",
+    "exhibition",
+    "culture",
+    "visual arts"
+  ],
+  "sourceURL": "https://www.vanartgallery.bc.ca/",
+  "officialWebsite": "https://www.vanartgallery.bc.ca/exhibitions/emily-carr-into-the-forest",
+  "image": "https://www.vanartgallery.bc.ca/wp-content/uploads/2025/04/emily-carr-exhibition.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:21:39.783Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverArtGallery-results.json

@@ -1,0 +1,52 @@
+============================================================
+--- Attempting to run scraper: queerFilmFestivalEvents.js ---
+============================================================
+Scraper 'Vancouver Queer Film Festival' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Queer Film Festival...
+Navigating to https://outonscreen.com/vqff/
+Checking for film program at: https://outonscreen.com/program/
+Checking for film program at: https://outonscreen.com/schedule/
+Checking for film program at: https://outonscreen.com/films/
+Checking for film program at: https://outonscreen.com/events/
+Checking for film program at: https://outonscreen.com/festival/
+Found 1 events from Vancouver Queer Film Festival
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Queer Film Festival' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vancouver-queer-film-festival-vancouver-queer-film-festival-2025-08-10",
+  "title": "Vancouver Queer Film Festival 2025",
+  "description": "The Vancouver Queer Film Festival is Western Canada's largest queer arts event celebrating film, art, and community. The festival typically takes place in August and features films, workshops, panels, and social events celebrating queer cinema and culture.",
+  "startDate": "2025-08-10T07:00:00.000Z",
+  "endDate": "2025-08-21T06:59:59.000Z",
+  "imageUrl": "",
+  "sourceUrl": "https://outonscreen.com/vqff/",
+  "ticketUrl": "https://outonscreen.com/vqff/",
+  "venue": {
+    "name": "Vancouver Queer Film Festival",
+    "address": "Various venues across Vancouver",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "",
+    "website": "https://outonscreen.com/vqff/",
+    "googleMapsUrl": ""
+  },
+  "categories": [
+    "film",
+    "festival",
+    "arts",
+    "lgbtq",
+    "queer",
+    "cultural",
+    "workshop",
+    "talk"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-15T16:14:16.837Z",
+  "sourceIdentifier": "vancouver-queer-film-festival"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/queerFilmFestivalEvents-results.json

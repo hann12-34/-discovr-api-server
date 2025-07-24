@@ -1,0 +1,450 @@
+Starting to run all Vancouver scrapers...
+Found 60 scrapers to run.
+
+
+===== SCRAPERS SUMMARY =====
+
+
+===== ERROR running scraper artGalleryEvents.js: Unexpected token 'catch' =====
+
+
+================================================================================
+
+
+===== ERROR running scraper biltmoreCabaretEvents.js: BiltmoreCabaretEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping chanCentre.js (not a valid scraper class).
+
+===== ERROR running scraper chanCentreEvents.js: ChanCentreEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping check_scrapers.js (not a valid scraper class).
+
+===== ERROR running scraper cherryBlossomFestEvents.js: CherryBlossomFestEvents is not a constructor =====
+
+
+================================================================================
+
+
+===== ERROR running scraper coastalJazzEvents.js: Unexpected token '{' =====
+
+
+================================================================================
+
+- Skipping coastalJazzFestival.js (not a valid scraper class).
+
+===== ERROR running scraper contemporaryArtGalleryEvents.js: ContemporaryArtGalleryEvents is not a constructor =====
+
+
+================================================================================
+
+
+===== ERROR running scraper danceFestivalEvents.js: DanceFestivalEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping doxaFilmFestivalEvents.js (not a valid scraper class).
+- Skipping fix_helper_imports.js (not a valid scraper class).
+- Skipping fix_underground_comedy.js (not a valid scraper class).
+- Skipping fortuneSoundClubBridge.js (not a valid scraper class).
+
+===== ERROR running scraper fringeFestivalEvents.js: FringeFestivalEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping gastownGrandPrixEvents.js (not a valid scraper class).
+- Skipping granvilleMarketEvents.js (not a valid scraper class).
+- Skipping helloBCEvents.js (not a valid scraper class).
+- Skipping helloBCEventsScraper.js (not a valid scraper class).
+- Skipping hrMacMillanSpaceCentreEvents.js (not a valid scraper class).
+- Skipping junctionPublicMarket.js (not a valid scraper class).
+- Skipping metropolisEvents.js (not a valid scraper class).
+- Skipping museumOfVancouverEvents.js (not a valid scraper class).
+- Skipping orpheumEvents.js (not a valid scraper class).
+- Skipping queenElizabethTheatre.js (not a valid scraper class).
+- Skipping queenElizabethTheatreEvents.js (not a valid scraper class).
+- Skipping queerArtsFestivalEvents.js (not a valid scraper class).
+- Skipping quick_validation.js (not a valid scraper class).
+- Skipping redRoom.js (not a valid scraper class).
+
+===== ERROR running scraper rickshawTheatreEvents.js: RickshawTheatreEvents is not a constructor =====
+
+
+================================================================================
+
+
+===== ERROR running scraper scienceWorldEvents.js: ScienceWorldEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping scienceWorldVancouverEvents.js (not a valid scraper class).
+
+===== ERROR running scraper spaceCentreEvents.js: SpaceCentreEvents is not a constructor =====
+
+
+================================================================================
+
+🚀 Standardizing Vancouver scrapers exports...
+Found 59 potential scraper files
+✅ artGalleryEvents.js already exports an instance
+✅ biltmoreCabaretEvents.js already exports an instance
+✅ chanCentre.js already exports an instance
+✅ chanCentreEvents.js already exports an instance
+⚠️ Unknown export format in check_scrapers.js
+✅ cherryBlossomFestEvents.js already exports an instance
+✅ coastalJazzEvents.js already exports an instance
+✅ coastalJazzFestival.js already exports an instance
+✅ contemporaryArtGalleryEvents.js already exports an instance
+✅ danceFestivalEvents.js already exports an instance
+✅ doxaFilmFestivalEvents.js already exports an instance
+✅ fortuneSoundClubBridge.js already exports an instance
+✅ fringeFestivalEvents.js already exports an instance
+✅ gastownGrandPrixEvents.js already exports an instance
+✅ granvilleMarketEvents.js already exports an instance
+✅ helloBCEvents.js already exports an instance
+✅ helloBCEventsScraper.js already exports an instance
+✅ hrMacMillanSpaceCentreEvents.js already exports an instance
+✅ junctionPublicMarket.js already exports an instance
+✅ metropolisEvents.js already exports an instance
+✅ museumOfVancouverEvents.js already exports an instance
+✅ orpheumEvents.js already exports an instance
+✅ queenElizabethTheatre.js already exports an instance
+✅ queenElizabethTheatreEvents.js already exports an instance
+✅ queerArtsFestivalEvents.js already exports an instance
+⚠️ Unknown export format in quick_validation.js
+✅ redRoom.js already exports an instance
+✅ rickshawTheatreEvents.js already exports an instance
+⚠️ Unknown export format in run_all_scrapers.js
+⚠️ Unknown export format in run_all_scrapers_with_output.js
+✅ scienceWorldEvents.js already exports an instance
+✅ scienceWorldVancouverEvents.js already exports an instance
+✅ spaceCentreEvents.js already exports an instance
+✅ stanleyParkEvents.js already exports an instance
+✅ steamworksBrewingEvents.js already exports an instance
+✅ summerCinemaEvents.js already exports an instance
+⚠️ Unknown export format in test_fixed_scrapers.js
+⚠️ Unknown export format in test_priority_venues.js
+⚠️ Unknown export format in test_scrapers.js
+⚠️ Unknown export format in test_selected_scrapers.js
+⚠️ Unknown export format in test_single_venue.js
+✅ theCultchEvents.js already exports an instance
+✅ thePearlEvents.js already exports an instance
+✅ theRoxyEvents.js already exports an instance
+✅ theatreUnderTheStarsEvents.js already exports an instance
+✅ tourismVancouverEvents.js already exports an instance
+✅ ubcBotanicalGardenEvents.js already exports an instance
+✅ undergroundComedyClubEvents.js already exports an instance
+✅ vancouverAquariumEvents.js already exports an instance
+✅ vancouverArtGalleryEvents.js already exports an instance
+✅ vancouverCityEvents.js already exports an instance
+✅ vancouverCivicTheatres.js already exports an instance
+✅ vancouverFilmFestivalEvents.js already exports an instance
+✅ vancouverJazzFestEvents.js already exports an instance
+✅ vancouverMaritimeMuseumEvents.js already exports an instance
+✅ vancouverSymphonyEvents.js already exports an instance
+✅ veganMarketEvents.js already exports an instance
+✅ vogueTheatreEvents.js already exports an instance
+✅ westernFrontEvents.js already exports an instance
+
+📊 Export Standardization Summary:
+Total files checked: 59
+Files fixed: 0
+Files already standardized: 50
+Files that could not be fixed: 9
+
+Detailed results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/standardize_exports_results.json
+- Skipping standardize_scraper_exports.js (not a valid scraper class).
+
+===== ERROR running scraper stanleyParkEvents.js: StanleyParkEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping steamworksBrewingEvents.js (not a valid scraper class).
+- Skipping summerCinemaEvents.js (not a valid scraper class).
+🚀 Testing fixed scrapers...
+
+🔍 Testing undergroundComedyClubEvents.js...
+ERROR: ❌ Error testing undergroundComedyClubEvents.js: Cannot find module './utils/helpers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_fixed_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
+- Skipping test_fixed_scrapers.js (not a valid scraper class).
+🚀 Testing Priority Vancouver Venue Scrapers
+
+
+📍 Checking Commodore Ballroom...
+🔗 Website: https://www.commodoreballroom.com/shows
+❌ Scraper file not found: commodoreBallroomEvents.js
+
+📍 Checking Fox Cabaret...
+🔗 Website: https://www.foxcabaret.com/monthly-calendar
+❌ Scraper file not found: foxCabaret.js
+
+📍 Checking Fortune Sound Club...
+🔗 Website: https://www.fortunesoundclub.com/events
+❌ Scraper file not found: fortuneSoundClub.js
+
+📍 Checking Orpheum Theatre...
+🔗 Website: https://vancouvercivictheatres.com/events/
+❌ Scraper file not found: orpheumTheatre.js
+
+📍 Checking The Rickshaw Theatre...
+🔗 Website: https://www.rickshawtheatre.com/
+❌ Error importing rickshawTheatreEvents.js: RickshawTheatreEvents is not a constructor
+
+📍 Checking Rogers Arena...
+🔗 Website: https://www.rogersarena.com/
+❌ Scraper file not found: rogersArena.js
+
+📍 Checking The Vogue Theatre...
+🔗 Website: https://voguetheatre.com/events
+❌ Scraper file not found: vogueTheatre.js
+
+📍 Checking Queen Elizabeth Theatre...
+🔗 Website: https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/events
+✅ Successfully imported queenElizabethTheatre.js
+✅ Found scrape method in queenElizabethTheatre.js
+🔄 Running scraper for Queen Elizabeth Theatre...
+🔍 Starting Queen Elizabeth Theatre events scraper...
+✅ Added event: BRIT FLOYD: WISH YOU WERE HERE 50th Anniversary on 7/24/2025
+✅ Added event: Arif Lohar Live in Concert 2025 on 7/27/2025
+✅ Added event: FATHER JOHN MISTY on 7/31/2025
+✅ Added event: GOLDEN GIRLS The Laughs Continue on 8/5/2025
+✅ Added event: Sam Barber: North America Tour on 8/11/2025
+✅ Added event: LUCY DACUS - FOREVER IS A FEELING TOUR on 8/12/2025
+✅ Added event: Ethel Cain- The Willoughby Tucker Forever Tour on 8/15/2025
+✅ Added event: Disney Presents The Lion King (Touring) on 8/20/2025
+✅ Added event: Blue Rodeo: "Lost Together" - The 40th Anniversary Tour on 10/7/2025
+✅ Added event: Riverdance on 6/15/2025
+🎉 Successfully added 10 events from Queen Elizabeth Theatre
+- Skipping test_priority_venues.js (not a valid scraper class).
+🚀 Starting Vancouver scrapers test...
+Found 52 JavaScript files to test
+ERROR: ❌ Error importing artGalleryEvents.js: Unexpected token 'catch'
+ERROR: ❌ Error importing biltmoreCabaretEvents.js: BiltmoreCabaretEvents is not a constructor
+⏩ Skipping chanCentre.js: Not a valid scraper class
+ERROR: ❌ Error importing chanCentreEvents.js: ChanCentreEvents is not a constructor
+ERROR: ❌ Error importing cherryBlossomFestEvents.js: CherryBlossomFestEvents is not a constructor
+ERROR: ❌ Error importing coastalJazzEvents.js: Unexpected token '{'
+⏩ Skipping coastalJazzFestival.js: Not a valid scraper class
+ERROR: ❌ Error importing contemporaryArtGalleryEvents.js: ContemporaryArtGalleryEvents is not a constructor
+ERROR: ❌ Error importing danceFestivalEvents.js: DanceFestivalEvents is not a constructor
+⏩ Skipping doxaFilmFestivalEvents.js: Not a valid scraper class
+⏩ Skipping fortuneSoundClubBridge.js: Not a valid scraper class
+ERROR: ❌ Error importing fringeFestivalEvents.js: FringeFestivalEvents is not a constructor
+⏩ Skipping gastownGrandPrixEvents.js: Not a valid scraper class
+⏩ Skipping granvilleMarketEvents.js: Not a valid scraper class
+⏩ Skipping helloBCEvents.js: Not a valid scraper class
+⏩ Skipping helloBCEventsScraper.js: Not a valid scraper class
+⏩ Skipping hrMacMillanSpaceCentreEvents.js: Not a valid scraper class
+⏩ Skipping junctionPublicMarket.js: Not a valid scraper class
+⏩ Skipping metropolisEvents.js: Not a valid scraper class
+⏩ Skipping museumOfVancouverEvents.js: Not a valid scraper class
+⏩ Skipping orpheumEvents.js: Not a valid scraper class
+⏩ Skipping queenElizabethTheatre.js: Not a valid scraper class
+⏩ Skipping queenElizabethTheatreEvents.js: Not a valid scraper class
+⏩ Skipping queerArtsFestivalEvents.js: Not a valid scraper class
+⏩ Skipping quick_validation.js: Not a valid scraper class
+⏩ Skipping redRoom.js: Not a valid scraper class
+ERROR: ❌ Error importing rickshawTheatreEvents.js: RickshawTheatreEvents is not a constructor
+ERROR: ❌ Error importing scienceWorldEvents.js: ScienceWorldEvents is not a constructor
+⏩ Skipping scienceWorldVancouverEvents.js: Not a valid scraper class
+ERROR: ❌ Error importing spaceCentreEvents.js: SpaceCentreEvents is not a constructor
+⏩ Skipping standardize_scraper_exports.js: Not a valid scraper class
+ERROR: ❌ Error importing stanleyParkEvents.js: StanleyParkEvents is not a constructor
+⏩ Skipping steamworksBrewingEvents.js: Not a valid scraper class
+⏩ Skipping summerCinemaEvents.js: Not a valid scraper class
+ERROR: ❌ Error importing theCultchEvents.js: TheCultchEvents is not a constructor
+ERROR: ❌ Error importing thePearlEvents.js: ThePearlEvents is not a constructor
+ERROR: ❌ Error importing theRoxyEvents.js: TheRoxyEvents is not a constructor
+⏩ Skipping theatreUnderTheStarsEvents.js: Not a valid scraper class
+⏩ Skipping tourismVancouverEvents.js: Not a valid scraper class
+⏩ Skipping ubcBotanicalGardenEvents.js: Not a valid scraper class
+ERROR: ❌ Error importing undergroundComedyClubEvents.js: Cannot find module './utils/helpers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
+⏩ Skipping vancouverAquariumEvents.js: Not a valid scraper class
+⏩ Skipping vancouverArtGalleryEvents.js: Not a valid scraper class
+⏩ Skipping vancouverCityEvents.js: Not a valid scraper class
+⏩ Skipping vancouverCivicTheatres.js: Not a valid scraper class
+ERROR: ❌ Error importing vancouverFilmFestivalEvents.js: VancouverFilmFestivalEvents is not a constructor
+ERROR: ❌ Error importing vancouverJazzFestEvents.js: VancouverJazzFestEvents is not a constructor
+⏩ Skipping vancouverMaritimeMuseumEvents.js: Not a valid scraper class
+⏩ Skipping vancouverSymphonyEvents.js: Not a valid scraper class
+⏩ Skipping veganMarketEvents.js: Not a valid scraper class
+ERROR: ❌ Error importing vogueTheatreEvents.js: VogueTheatreEvents is not a constructor
+ERROR: ❌ Error importing westernFrontEvents.js: WesternFrontEvents is not a constructor
+
+📊 Test Summary:
+Total scrapers: 20
+Successful: 0
+Failed: 20
+Total events found: 0
+
+Detailed results saved to scraper_tests_results.json
+- Skipping test_scrapers.js (not a valid scraper class).
+🚀 Starting selected Vancouver scrapers test...
+- Skipping test_selected_scrapers.js (not a valid scraper class).
+🔍 Testing scraper: overview
+ERROR: ❌ Error: Cannot find module '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/overview'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_single_venue.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
+- Skipping test_single_venue.js (not a valid scraper class).
+
+===== ERROR running scraper theCultchEvents.js: TheCultchEvents is not a constructor =====
+
+
+================================================================================
+
+
+===== ERROR running scraper thePearlEvents.js: ThePearlEvents is not a constructor =====
+
+
+================================================================================
+
+
+===== ERROR running scraper theRoxyEvents.js: TheRoxyEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping theatreUnderTheStarsEvents.js (not a valid scraper class).
+- Skipping tourismVancouverEvents.js (not a valid scraper class).
+- Skipping ubcBotanicalGardenEvents.js (not a valid scraper class).
+
+===== ERROR running scraper undergroundComedyClubEvents.js: Cannot find module './utils/helpers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js =====
+
+
+================================================================================
+
+- Skipping vancouverAquariumEvents.js (not a valid scraper class).
+- Skipping vancouverArtGalleryEvents.js (not a valid scraper class).
+- Skipping vancouverCityEvents.js (not a valid scraper class).
+- Skipping vancouverCivicTheatres.js (not a valid scraper class).
+
+===== ERROR running scraper vancouverFilmFestivalEvents.js: VancouverFilmFestivalEvents is not a constructor =====
+
+
+================================================================================
+
+
+===== ERROR running scraper vancouverJazzFestEvents.js: VancouverJazzFestEvents is not a constructor =====
+
+
+================================================================================
+
+- Skipping vancouverMaritimeMuseumEvents.js (not a valid scraper class).
+- Skipping vancouverSymphonyEvents.js (not a valid scraper class).
+- Skipping veganMarketEvents.js (not a valid scraper class).
+
+===== ERROR running scraper vogueTheatreEvents.js: VogueTheatreEvents is not a constructor =====
+
+
+================================================================================
+
+
+===== ERROR running scraper westernFrontEvents.js: WesternFrontEvents is not a constructor =====
+
+
+================================================================================
+
+
+
+===== FINAL SUMMARY =====
+
+Successful scrapers:
+
+Scrapers with errors:
+- artGalleryEvents.js: Unexpected token 'catch'
+- biltmoreCabaretEvents.js: BiltmoreCabaretEvents is not a constructor
+- chanCentreEvents.js: ChanCentreEvents is not a constructor
+- cherryBlossomFestEvents.js: CherryBlossomFestEvents is not a constructor
+- coastalJazzEvents.js: Unexpected token '{'
+- contemporaryArtGalleryEvents.js: ContemporaryArtGalleryEvents is not a constructor
+- danceFestivalEvents.js: DanceFestivalEvents is not a constructor
+- fringeFestivalEvents.js: FringeFestivalEvents is not a constructor
+- rickshawTheatreEvents.js: RickshawTheatreEvents is not a constructor
+- scienceWorldEvents.js: ScienceWorldEvents is not a constructor
+- spaceCentreEvents.js: SpaceCentreEvents is not a constructor
+- stanleyParkEvents.js: StanleyParkEvents is not a constructor
+- theCultchEvents.js: TheCultchEvents is not a constructor
+- thePearlEvents.js: ThePearlEvents is not a constructor
+- theRoxyEvents.js: TheRoxyEvents is not a constructor
+- undergroundComedyClubEvents.js: Cannot find module './utils/helpers'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
+- vancouverFilmFestivalEvents.js: VancouverFilmFestivalEvents is not a constructor
+- vancouverJazzFestEvents.js: VancouverJazzFestEvents is not a constructor
+- vogueTheatreEvents.js: VogueTheatreEvents is not a constructor
+- westernFrontEvents.js: WesternFrontEvents is not a constructor
+
+Skipped scrapers:
+- chanCentre.js: Not a valid scraper class
+- check_scrapers.js: Not a valid scraper class
+- coastalJazzFestival.js: Not a valid scraper class
+- doxaFilmFestivalEvents.js: Not a valid scraper class
+- fix_helper_imports.js: Not a valid scraper class
+- fix_underground_comedy.js: Not a valid scraper class
+- fortuneSoundClubBridge.js: Not a valid scraper class
+- gastownGrandPrixEvents.js: Not a valid scraper class
+- granvilleMarketEvents.js: Not a valid scraper class
+- helloBCEvents.js: Not a valid scraper class
+- helloBCEventsScraper.js: Not a valid scraper class
+- hrMacMillanSpaceCentreEvents.js: Not a valid scraper class
+- junctionPublicMarket.js: Not a valid scraper class
+- metropolisEvents.js: Not a valid scraper class
+- museumOfVancouverEvents.js: Not a valid scraper class
+- orpheumEvents.js: Not a valid scraper class
+- queenElizabethTheatre.js: Not a valid scraper class
+- queenElizabethTheatreEvents.js: Not a valid scraper class
+- queerArtsFestivalEvents.js: Not a valid scraper class
+- quick_validation.js: Not a valid scraper class
+- redRoom.js: Not a valid scraper class
+- scienceWorldVancouverEvents.js: Not a valid scraper class
+- standardize_scraper_exports.js: Not a valid scraper class
+- steamworksBrewingEvents.js: Not a valid scraper class
+- summerCinemaEvents.js: Not a valid scraper class
+- test_fixed_scrapers.js: Not a valid scraper class
+- test_priority_venues.js: Not a valid scraper class
+- test_scrapers.js: Not a valid scraper class
+- test_selected_scrapers.js: Not a valid scraper class
+- test_single_venue.js: Not a valid scraper class
+- theatreUnderTheStarsEvents.js: Not a valid scraper class
+- tourismVancouverEvents.js: Not a valid scraper class
+- ubcBotanicalGardenEvents.js: Not a valid scraper class
+- vancouverAquariumEvents.js: Not a valid scraper class
+- vancouverArtGalleryEvents.js: Not a valid scraper class
+- vancouverCityEvents.js: Not a valid scraper class
+- vancouverCivicTheatres.js: Not a valid scraper class
+- vancouverMaritimeMuseumEvents.js: Not a valid scraper class
+- vancouverSymphonyEvents.js: Not a valid scraper class
+- veganMarketEvents.js: Not a valid scraper class
+
+All scrapers have been run.

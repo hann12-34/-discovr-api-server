@@ -1,0 +1,22 @@
+============================================================
+--- Attempting to run scraper: tourismVancouverEvents.js ---
+============================================================
+Scraper 'Tourism Vancouver Events' instantiated successfully. Running scrape()...
+🔍 Scraping events from Tourism Vancouver Events...
+Navigating to https://www.tourismvancouver.com/events/
+
+------------------------------------------------------------
+✅ Scraper 'Tourism Vancouver Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/tourismVancouverEvents-results.json
+
+STDERR:
+❌ Error scraping Tourism Vancouver Events: Error: net::ERR_CONNECTION_RESET at https://www.tourismvancouver.com/events/
+    at navigate (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Frame.js:184:27)
+    at async Deferred.race (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/util/Deferred.js:36:20)
+    at async CdpFrame.goto (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Frame.js:150:25)
+    at async CdpPage.goto (/Users/seongwoohan/CascadeProjects/discovr-api-server/node_modules/puppeteer-core/lib/cjs/puppeteer/api/Page.js:574:20)
+    at async TourismVancouverEventsScraper.scrape (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/tourismVancouverEvents.js:158:7)
+    at async runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:40:20)

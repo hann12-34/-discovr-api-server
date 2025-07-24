@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: folkFestEvents.js ---
+============================================================
+Scraper 'Vancouver Folk Music Festival' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver Folk Music Festival...
+Navigating to https://thefestival.bc.ca/lineup/
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Folk Music Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/folkFestEvents-results.json
+
+STDERR:
+Error scraping Vancouver Folk Music Festival: Navigation timeout of 15000 ms exceeded

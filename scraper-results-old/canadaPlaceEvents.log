@@ -1,0 +1,71 @@
+============================================================
+--- Attempting to run scraper: canadaPlaceEvents.js ---
+============================================================
+Scraper 'Canada Place Events' instantiated successfully. Running scrape()...
+Scraping Canada Place Events...
+Navigating to https://www.canadaplace.ca/events...
+Page loaded, extracting events...
+Extracting events from Canada Place website
+Took screenshot to /tmp/canada-place-debug.png for debugging
+Extracted 1 events from Canada Place using dynamic scraping
+First pass found 1 events
+Not enough events found. Exploring deeper...
+Found 4 potential event detail links to explore
+Found 4 potential event detail links to explore
+Found 4 potential events from text content
+Added event from text content: Port Day
+Added event from text content: Canada Together
+Added event from text content: Christmas at Canada Place
+Added event from text content: Zumba at Canada Place
+Exploring event link: https://www.canadaplace.ca/canadatogether
+Extracting event details from: https://www.canadaplace.ca/canadatogether
+Skipped duplicate event: Canadatogether
+Exploring event link: https://www.canadaplace.ca/zumba
+Extracting event details from: https://www.canadaplace.ca/zumba
+Skipped duplicate event: Zumba
+Exploring event link: https://www.canadaplace.ca/portday
+Extracting event details from: https://www.canadaplace.ca/portday
+Skipped duplicate event: Portday
+Exploring event link: https://www.canadaplace.ca/event/christmas-canada-place
+Extracting event details from: https://www.canadaplace.ca/event/christmas-canada-place
+Skipped duplicate event: Christmas Canada Place
+After deep exploration, found total of 5 events
+Processed event: Christmas at Canada Place (normalized: christmas at canada place)
+Processed event: Port Day (normalized: port day)
+Processed event: Canada Together (normalized: canada together)
+Processed event: Zumba at Canada Place (normalized: zumba at canada place)
+Found 4 valid events out of 4 total
+
+------------------------------------------------------------
+✅ Scraper 'Canada Place Events' finished successfully.
+   Processed 4 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "canada-place-christmas-at-canada-place-1755273685138",
+  "title": "Christmas at Canada Place",
+  "startDate": "2025-08-15T16:01:25.138Z",
+  "endDate": "2025-08-15T16:01:25.138Z",
+  "description": "Christmas at Canada Place at Canada Place",
+  "image": "",
+  "link": "https://www.canadaplace.ca/event/christmas-canada-place",
+  "sourceIdentifier": "canada-place",
+  "venue": {
+    "name": "Canada Place",
+    "address": "999 Canada Place, Vancouver, BC V6C 3E1",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2888,
+      "lng": -123.1111
+    }
+  },
+  "categories": [
+    "Entertainment",
+    "Holiday",
+    "Christmas"
+  ],
+  "lastUpdated": "2025-07-15T16:01:25.138Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/canadaPlaceEvents-results.json

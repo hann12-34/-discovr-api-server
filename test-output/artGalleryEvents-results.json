@@ -1,0 +1,1318 @@
+[
+  {
+    "id": "vag-book-tickets-2025-07-15",
+    "title": "Book Tickets",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.446Z",
+    "endDate": "2025-10-15T15:43:18.446Z",
+    "imageUrl": "",
+    "sourceUrl": "https://tickets.vanartgallery.bc.ca/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.452Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-get-a-pass-2025-07-15",
+    "title": "Get a Pass",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://tickets.vanartgallery.bc.ca/events/d5b49702-fdec-4a60-f9c3-81ceef80c86b",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-hours-locations-and-pricing-2025-07-15",
+    "title": "Hours, Locations & Pricing",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.453Z",
+    "endDate": "2025-10-15T15:43:18.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/visit",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-dine-2025-07-15",
+    "title": "Dine",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.1931gallerybistro.com/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-group-visits-2025-07-15",
+    "title": "Group Visits",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/visit#group-visits",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-whats-on-2025-07-15",
+    "title": "What’s On",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.453Z",
+    "endDate": "2025-10-15T15:43:18.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/exhibitions-and-events/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-current-exhibitions-2025-07-15",
+    "title": "Current Exhibitions",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.453Z",
+    "endDate": "2025-10-15T15:43:18.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/current-exhibitions/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-upcoming-exhibitions-2025-07-15",
+    "title": "Upcoming Exhibitions",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/upcoming-exhibitions/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-past-exhibitions-2025-07-15",
+    "title": "Past Exhibitions",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/past-exhibitions/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-events-and-public-programs-2025-07-15",
+    "title": "Events and Public Programs",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/events/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-featuredotani-workshop-monsters-in-my-head-2025-07-15",
+    "title": "FeaturedOtani Workshop: Monsters in My Head",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/exhibitions/otani-workshop-monsters-in-my-head/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-programs-2025-07-15",
+    "title": "Programs",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.453Z",
+    "endDate": "2025-10-15T15:43:18.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/exhibitions-and-events/#",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-lectures-and-talks-2025-07-15",
+    "title": "Lectures & Talks",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/lectures-talks/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-schools-2025-07-15",
+    "title": "Schools",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/schools/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-families-2025-07-15",
+    "title": "Families",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.453Z",
+    "endDate": "2026-07-16T00:00:00.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/family-programs/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-the-collection-2025-07-15",
+    "title": "The Collection",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.453Z",
+    "endDate": "2025-10-15T15:43:18.453Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/the-collection/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.453Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-recent-acquisitions-2025-07-15",
+    "title": "Recent Acquisitions",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/recent-acquisitions/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-rights-and-reproductions-2025-07-15",
+    "title": "Rights and Reproductions",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/research#rights-and-reproductions",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-provenance-research-2025-07-15",
+    "title": "Provenance Research",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/research#provenance-research",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-library-and-archives-2025-07-15",
+    "title": "Library & Archives",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/library-and-archives/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-membership-2025-07-15",
+    "title": "Membership",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.454Z",
+    "endDate": "2025-10-15T15:43:18.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/membership/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-volunteer-2025-07-15",
+    "title": "Volunteer",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/volunteer/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-donate-2025-07-15",
+    "title": "Donate",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/donate/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-about-us-2025-07-15",
+    "title": "About Us",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.454Z",
+    "endDate": "2025-10-15T15:43:18.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/about/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-history-2025-07-15",
+    "title": "History",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/history/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-vancouver-art-gallery-foundation-2025-07-15",
+    "title": "Vancouver Art Gallery Foundation",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/vancouver-art-gallery-foundation/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-annual-reports-2025-07-15",
+    "title": "Annual Reports",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/annual-reports/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-centre-for-global-asias-2025-07-15",
+    "title": "Centre for Global Asias",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.454Z",
+    "endDate": "2025-10-15T15:43:18.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/centre-for-global-asias/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-art-of-wellbeing-2025-07-15",
+    "title": "Art of Wellbeing",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/art-of-wellbeing/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-leadership-2025-07-15",
+    "title": "Leadership",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/leadership/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-careers-2025-07-15",
+    "title": "Careers",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.454Z",
+    "endDate": "2025-10-15T15:43:18.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=edc6caa0-c197-4173-b94d-2093a87ce4f0&ccId=19000101_000001&lang=en_CA",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-event-rentals-2025-07-15",
+    "title": "Event Rentals",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/event-rentals/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-media-room-2025-07-15",
+    "title": "Media Room",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/media-room/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-shop-2025-07-15",
+    "title": "Shop",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.454Z",
+    "endDate": "2025-10-15T15:43:18.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/shop/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-gallery-store-2025-07-15",
+    "title": "Gallery Store",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.454Z",
+    "endDate": "2025-10-15T15:43:18.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://shop.vanartgallery.bc.ca/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-art-rentals-and-sales-2025-07-15",
+    "title": "Art Rentals & Sales",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://artrentalandsales.com/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-future-gallery-2025-07-15",
+    "title": "Future Gallery",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.newvanartgallery.ca/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-visit-2025-07-15",
+    "title": "Visit",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/visit/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-learn-2025-07-15",
+    "title": "Learn",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/schools/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-support-2025-07-15",
+    "title": "SUPPORT",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/membership/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-about-2025-07-15",
+    "title": "About",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/about/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-contact-us-2025-07-15",
+    "title": "Contact Us",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.vanartgallery.bc.ca/contact-us",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-facebook-2025-07-15",
+    "title": "Facebook",
+    "description": "",
+    "startDate": "2025-07-15T15:43:18.454Z",
+    "endDate": "2025-10-15T15:43:18.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.facebook.com/VancouverArtGallery",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-linkedin-2025-07-15",
+    "title": "LinkedIn",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.linkedin.com/company/vancouver-art-gallery/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-instagram-2025-07-15",
+    "title": "Instagram",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.instagram.com/vanartgallery/",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-youtube-2025-07-15",
+    "title": "YouTube",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.youtube.com/vanartgallery",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  },
+  {
+    "id": "vag-vimeo-2025-07-15",
+    "title": "Vimeo",
+    "description": "",
+    "startDate": "2025-07-15T17:00:00.454Z",
+    "endDate": "2026-07-16T00:00:00.454Z",
+    "imageUrl": "",
+    "sourceUrl": "https://vimeo.com/vanartgallery",
+    "ticketUrl": "https://www.vanartgallery.bc.ca/visit",
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "address": "750 Hornby St",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 2H7",
+      "website": "https://www.vanartgallery.bc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/CXvHLUYfX5mcgU8L9"
+    },
+    "categories": [
+      "art",
+      "exhibition",
+      "culture"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T15:43:18.454Z",
+    "sourceIdentifier": "vancouver-art-gallery"
+  }
+]

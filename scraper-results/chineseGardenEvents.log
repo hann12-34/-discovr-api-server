@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: chineseGardenEvents.js ---
+============================================================
+Scraper 'Dr. Sun Yat-Sen Classical Chinese Garden' instantiated successfully. Running scrape()...
+🔍 Starting Chinese Garden events scraper...
+Navigating to: https://vancouverchinesegarden.com/whats-on/
+No structured events found. Looking for event mentions in text...
+Creating projected garden events
+✅ Added projected exhibition: Summer Splendor: Garden Arts Exhibition starting Thu Jul 10 2025
+✅ Added projected exhibition: Summer Splendor: Garden Arts Exhibition starting Sun Aug 10 2025
+✅ Added projected exhibition: Autumn Reflections: Cultural Heritage Exhibition starting Wed Sep 10 2025
+✅ Added projected exhibition: Autumn Reflections: Cultural Heritage Exhibition starting Fri Oct 10 2025
+✅ Added projected exhibition: Autumn Reflections: Cultural Heritage Exhibition starting Mon Nov 10 2025
+✅ Added projected exhibition: Winter Solitude: Garden Photography Exhibition starting Wed Dec 10 2025
+🎉 Successfully scraped 6 events from Chinese Garden
+
+------------------------------------------------------------
+✅ Scraper 'Dr. Sun Yat-Sen Classical Chinese Garden' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "chinese-garden-summer-splendor-garden-arts-exhibition-2025-07-10",
+  "title": "Summer Splendor: Garden Arts Exhibition",
+  "description": "Celebrate the height of summer with this special exhibition featuring traditional Chinese garden arts including brush painting, calligraphy, and tea culture. Visitors can enjoy demonstrations and participate in workshops throughout the duration of the exhibition.",
+  "startDate": "2025-07-10T17:00:00.000Z",
+  "endDate": "2025-08-01T00:00:00.000Z",
+  "venue": {
+    "name": "Dr. Sun Yat-Sen Classical Chinese Garden",
+    "id": "dr-sun-yat-sen-classical-chinese-garden",
+    "address": "578 Carrall St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2798,
+      "lng": -123.1045
+    },
+    "websiteUrl": "https://vancouverchinesegarden.com/",
+    "description": "The Dr. Sun Yat-Sen Classical Chinese Garden is the first Ming Dynasty-style garden built outside of China, offering a window into Chinese culture and history in the heart of Vancouver."
+  },
+  "category": "exhibition",
+  "categories": [
+    "cultural",
+    "exhibition",
+    "garden",
+    "chinese",
+    "heritage"
+  ],
+  "sourceURL": "https://vancouverchinesegarden.com/whats-on/",
+  "officialWebsite": "https://vancouverchinesegarden.com/whats-on/",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:33:27.475Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/chineseGardenEvents-results.json

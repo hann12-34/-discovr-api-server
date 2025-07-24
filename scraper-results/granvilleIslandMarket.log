@@ -1,0 +1,58 @@
+============================================================
+--- Attempting to run scraper: granvilleIslandMarket.js ---
+============================================================
+Scraper 'Granville Island Public Market' instantiated successfully. Running scrape()...
+🔍 Starting Granville Island Public Market scraper...
+✅ Added event: Granville Island Farmers Market on Thursday, July 10, 2025
+✅ Added event: Taste of BC: Seafood Festival on Saturday, July 19, 2025
+✅ Added event: Artisan Workshop Series: Handmade Paper Making on Friday, July 25, 2025
+✅ Added event: Farm to Table Dinner Series: Summer Harvest on Saturday, August 2, 2025
+✅ Added event: Kids' Culinary Adventure on Saturday, August 9, 2025
+✅ Added event: Market Music Series: Jazz on the Island on Saturday, August 16, 2025
+✅ Added event: Artisan Food Festival on Saturday, August 23, 2025
+🍎 Successfully created 7 Granville Island Public Market events
+
+------------------------------------------------------------
+✅ Scraper 'Granville Island Public Market' finished successfully.
+   Processed 7 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "granville-island-granville-island-farmers-market-2025-07-10",
+  "title": "Granville Island Farmers Market",
+  "description": "Experience the freshest local produce at the weekly Granville Island Farmers Market. Meet the farmers who grow your food as they bring their seasonal harvest directly to you. This outdoor market features organic vegetables, fruits, artisanal cheeses, freshly baked bread, local honey, preserves, and handcrafted items from over 40 regional producers. Learn about sustainable farming practices, discover unique heirloom varieties, and enjoy live acoustic music while you shop.\n\nEVENT DETAILS:\nDate: Thursday, July 10, 2025\nTime: 10:00 AM - 3:00 PM\nRecurrence: Weekly on Thursdays\nLocation: Triangle Square, Granville Island, Vancouver\nPrice: Free admission\n\nGranville Island is located in False Creek, under the Granville Street Bridge. It is accessible by car, public transit, or the False Creek Ferries and Aquabus. For more information, visit https://granvilleisland.com/",
+  "startDate": "2025-07-10T17:00:00.000Z",
+  "endDate": "2025-07-10T22:00:00.000Z",
+  "venue": {
+    "name": "Granville Island Public Market",
+    "id": "granville-island-market-vancouver",
+    "address": "1669 Johnston St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6H 3R9",
+    "coordinates": {
+      "lat": 49.2722,
+      "lng": -123.1347
+    },
+    "websiteUrl": "https://granvilleisland.com/public-market",
+    "description": "The Granville Island Public Market is the jewel in the crown of Granville Island, a vibrant cultural hub in the heart of Vancouver. The market features a fascinating array of colorful food stalls, artisanal products, and handcrafted goods, all showcasing the best of British Columbia. With over 50 independent food purveyors and day vendors, the Market provides visitors and locals alike with a wide range of gastronomic delights, from fresh seafood and produce to international specialties and desserts."
+  },
+  "category": "food and drink",
+  "categories": [
+    "granville island",
+    "public market",
+    "food",
+    "shopping",
+    "market",
+    "farmers market",
+    "local produce",
+    "shopping"
+  ],
+  "sourceURL": "https://granvilleisland.com/",
+  "officialWebsite": "https://granvilleisland.com/events/farmers-market-2025",
+  "image": "https://granvilleisland.com/wp-content/uploads/2025/05/farmers-market-2025.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T18:36:18.140Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/granvilleIslandMarket-results.json

@@ -1,0 +1,57 @@
+============================================================
+--- Attempting to run scraper: kitsilanoShowboat.js ---
+============================================================
+Scraper 'Kitsilano Showboat' instantiated successfully. Running scrape()...
+🔍 Starting Kitsilano Showboat scraper...
+✅ Added event: Kitsilano Showboat Opening Night: Vancouver Metropolitan Orchestra on Monday, June 23, 2025
+✅ Added event: Cultural Dance Showcase: Around the World in 80 Minutes on Monday, July 7, 2025
+✅ Added event: Jazz on the Beach: The Hot Jazz Jubilee on Monday, July 14, 2025
+✅ Added event: Family Night: Magician & Puppet Show on Monday, July 21, 2025
+✅ Added event: Vancouver Youth Symphony Orchestra Summer Concert on Monday, July 28, 2025
+✅ Added event: Showboat Season Finale: Community Talent Showcase on Monday, August 25, 2025
+🏖️ Successfully created 6 Kitsilano Showboat events
+
+------------------------------------------------------------
+✅ Scraper 'Kitsilano Showboat' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "kitsilano-showboat-kitsilano-showboat-opening-night-vancouver-metropolitan-orchestra-2025-06-24",
+  "title": "Kitsilano Showboat Opening Night: Vancouver Metropolitan Orchestra",
+  "description": "Join us for the grand opening night of Kitsilano Showboat's 90th season! The Vancouver Metropolitan Orchestra kicks off our summer of free entertainment with a special performance featuring classical favorites and popular film scores. Under the direction of Maestro Kenneth Hsieh, the orchestra will perform selections from Tchaikovsky, Dvořák, John Williams, and more. This beloved Vancouver summer tradition takes place at the historic outdoor stage at Kitsilano Beach with stunning views of English Bay and the North Shore mountains as your backdrop. Bring a blanket or beach chair and arrive early to secure your spot for this popular community event that marks the official start of summer in Vancouver.\n\nEVENT DETAILS:\nDate: Monday, June 23, 2025\nTime: 7:00 PM - 9:00 PM\nPrice: Free\nPerformers: Vancouver Metropolitan Orchestra, Maestro Kenneth Hsieh\n\nVenue Information: Kitsilano Showboat is located at the east side of Kitsilano Pool at Kitsilano Beach Park. Seating is on concrete bleachers, so bringing a cushion is recommended. In case of rain, performances may be cancelled - check the official website or social media for updates. There are no tickets or reservations; seating is first-come, first-served. Washroom facilities and concessions are available nearby.",
+  "startDate": "2025-06-24T02:00:00.000Z",
+  "endDate": "2025-06-24T04:00:00.000Z",
+  "venue": {
+    "name": "Kitsilano Showboat",
+    "id": "kitsilano-showboat-vancouver",
+    "address": "2300 Cornwall Ave",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6K 1B6",
+    "coordinates": {
+      "lat": 49.2757,
+      "lng": -123.1545
+    },
+    "websiteUrl": "https://www.kitsilanoshowboat.com/",
+    "description": "Kitsilano Showboat is a beloved Vancouver summer tradition since 1935. This outdoor performance venue located at Kitsilano Beach offers free entertainment with the beautiful backdrop of English Bay, the North Shore mountains, and spectacular sunsets. Run entirely by volunteers, the Showboat hosts a diverse program of musical performances, dance shows, and community events throughout the summer months."
+  },
+  "category": "entertainment",
+  "categories": [
+    "entertainment",
+    "outdoor",
+    "community",
+    "free",
+    "summer",
+    "music",
+    "classical",
+    "orchestra"
+  ],
+  "sourceURL": "https://www.kitsilanoshowboat.com/",
+  "officialWebsite": "https://www.kitsilanoshowboat.com/events/opening-night-2025/",
+  "image": "https://www.kitsilanoshowboat.com/wp-content/uploads/2025/05/opening-night-2025.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:09:46.305Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/kitsilanoShowboat-results.json

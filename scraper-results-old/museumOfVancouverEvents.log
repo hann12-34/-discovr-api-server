@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: museumOfVancouverEvents.js ---
+============================================================
+Scraper 'Museum of Vancouver Paddle Carving' instantiated successfully. Running scrape()...
+🔍 Starting Museum of Vancouver Paddle Carving scraper...
+Navigating to: https://museumofvancouver.ca/
+
+------------------------------------------------------------
+✅ Scraper 'Museum of Vancouver Paddle Carving' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/museumOfVancouverEvents-results.json
+
+STDERR:
+❌ Error in Museum of Vancouver Paddle Carving scraper: Navigation timeout of 60000 ms exceeded

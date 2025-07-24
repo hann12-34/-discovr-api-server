@@ -1,0 +1,763 @@
+{
+  "checked": 151,
+  "fixed": 0,
+  "alreadyStandardized": 137,
+  "couldNotFix": 14,
+  "details": [
+    {
+      "file": "anthropologyMuseumEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "arcDiningEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "artGalleryEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "barNoneClub.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "bardOnTheBeach.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "bardOnTheBeachEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "bcPlaceEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "bcPlaceStadium.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "billReidGalleryEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "biltmoreCabaret.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "biltmoreCabaretEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "broadwayVancouverEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "capilanoSuspensionBridge.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "carnavalDelSol.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "celebritiesNightclub.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "chanCentre.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "chanCentreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "check_scrapers.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "cherryBlossomFestEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "chineseGardenEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "coastalJazzEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "coastalJazzFestival.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "commodoreBallroomEvents.backup.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "commodoreBallroomEvents.fixed.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "commodoreBallroomEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "contemporaryArtGalleryEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "cultureCrawlEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "danceFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "doxaFilmFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "dragonBoatFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "festivalDEteEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "folkFestEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "fortuneSoundClub.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "fortuneSoundClubBridge.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "foxCabaret.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "fringeFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "gastownGrandPrixEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "gastownSundaySet.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "granvilleIsland.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "granvilleIslandEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "granvilleIslandMarket.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "granvilleMarketEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "harbourEventCentre.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "helloBCEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "helloBCEventsAdditional.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "helloBCEventsScraper.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "helloGoodbyeBarEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "hrMacMillanSpaceCentre.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "hrMacMillanSpaceCentreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "imperialTheatre.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "improvCentreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "index.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "irishHeather.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "japanMarketEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "junctionPublicMarket.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "khatsahlanoEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "kitsilanoShowboat.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "laowaiBar.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "levelsNightclub.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "list_all_scrapers.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "macMillanSpaceCentreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "malonesEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "maritimeMuseumEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "metropolisEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "moaUbcEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "museumOfAnthropology.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "museumOfAnthropologyEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "museumOfVancouver.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "museumOfVancouverEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "musqueamEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "orpheumEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "orpheumTheatre.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "orpheumTheatreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "pneEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "pneFair.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "pneSummerNightConcerts.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "polygonGallery.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "publicLibraryEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "queenElizabethTheatre.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "queenElizabethTheatreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "queerArtsFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "queerFilmFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "quick_validation.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "redRoom.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "redRoomEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "redRoomEvents_new.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "redRoom_OLD.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "richmondNightMarket.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "rickshawTheatreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "runToEndEndoEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "run_all_scrapers.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "run_all_scrapers_with_output.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "scienceWorld.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "scienceWorldEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "scienceWorldVancouverEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "shipyardsNightMarket.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "spaceCenter.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "spaceCentreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "squamishBeerFestival.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "stanleyPark.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "stanleyParkEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "steamworksBrewing.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "steamworksBrewingEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "summerCinemaEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "test_fixed_scrapers.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "test_priority_venues.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "test_scrapers.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "test_selected_scrapers.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "test_single_venue.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "theCentreVancouver.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "theCultchEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "thePearlEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "theRoxyEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "theatreUnderTheStars.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "theatreUnderTheStarsEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "tourismVancouverEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "ubcBotanicalGardenEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "validate_scrapers.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "vancouverAquarium.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverAquariumEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverArtAndLeisure.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverArtGallery.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverArtGalleryEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverAsianFilmFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverCityEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverCivicTheatres.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverConventionCentreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverFilmFestivalEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverFolkFest.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverFringe.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverInternationalFilmFestival.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverJazzFestEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverJazzFestival.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverMaritimeMuseumEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverMysteriesEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverPride.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverSymphony.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vancouverSymphonyEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "veganMarketEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "venueNightclub.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "verify-commodore-events.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "verify-events-count.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "verify-hellobc-events.js",
+      "action": "none",
+      "status": "unknown_format"
+    },
+    {
+      "file": "vogueTheatre.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vogueTheatreEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "vsffEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "westernFrontEvents.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "wiseHall.js",
+      "action": "none",
+      "status": "already_standardized"
+    },
+    {
+      "file": "yaletownJazz.js",
+      "action": "none",
+      "status": "already_standardized"
+    }
+  ]
+}

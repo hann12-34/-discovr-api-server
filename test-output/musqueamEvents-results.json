@@ -1,0 +1,36 @@
+[
+  {
+    "id": "musqueam-musqueam-canoe-races-2025-2025-08-09",
+    "title": "Musqueam Canoe Races 2025",
+    "description": "Annual canoe races hosted by the Musqueam Nation, featuring traditional canoe racing competitions and cultural celebrations.",
+    "startDate": "2025-08-09T17:00:00.000Z",
+    "endDate": "2025-08-11T00:00:00.000Z",
+    "venue": {
+      "name": "Musqueam Nation",
+      "id": "musqueam-nation",
+      "address": "6735 Salish Dr",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.229,
+        "lng": -123.2016
+      },
+      "websiteUrl": "https://www.musqueam.bc.ca/",
+      "description": "The Musqueam Indian Band is a First Nations government in the Canadian province of British Columbia and is the only Indian band whose reserve community lies within the boundaries of the City of Vancouver."
+    },
+    "category": "culture",
+    "categories": [
+      "culture",
+      "sports",
+      "indigenous",
+      "canoe-racing",
+      "festival"
+    ],
+    "sourceURL": "https://www.musqueam.bc.ca/event/canoe-races-2025/",
+    "officialWebsite": "https://www.musqueam.bc.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:42:46.342Z"
+  }
+]

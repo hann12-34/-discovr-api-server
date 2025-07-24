@@ -1,0 +1,249 @@
+============================================================
+--- Attempting to run scraper: vogueTheatre.js ---
+============================================================
+Scraper 'Vogue Theatre' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vogue Theatre...
+Scraping Ticketmaster for Vogue Theatre events...
+Trying Ticketmaster URL: https://www.ticketmaster.ca/search?q=vogue+theatre+vancouver
+Trying selector pattern: div[data-track="event card"]
+Trying selector pattern: .event-card
+Trying selector pattern: .event-listing
+Trying selector pattern: .event-item
+Trying selector pattern: .tm-grid-item
+Trying selector pattern: .event-tile
+Trying selector pattern: .listings-item
+Trying selector pattern: .event-row
+Trying selector pattern: .eds-event-card-content
+Trying selector pattern: .eds-l-pad-all
+Trying selector pattern: .search-event-card
+Trying selector pattern: li.js-event-list-item
+Trying selector pattern: li.event
+Trying selector pattern: .songkick-event
+Trying Ticketmaster URL: https://www.ticketmaster.ca/search?q=vogue+vancouver+events
+Trying selector pattern: div[data-track="event card"]
+Trying selector pattern: .event-card
+Trying selector pattern: .event-listing
+Trying selector pattern: .event-item
+Trying selector pattern: .tm-grid-item
+Trying selector pattern: .event-tile
+Trying selector pattern: .listings-item
+Trying selector pattern: .event-row
+Trying selector pattern: .eds-event-card-content
+Trying selector pattern: .eds-l-pad-all
+Trying selector pattern: .search-event-card
+Trying selector pattern: li.js-event-list-item
+Trying selector pattern: li.event
+Trying selector pattern: .songkick-event
+Trying Ticketmaster URL: https://www.ticketmaster.ca/search?q=vogue+granville+vancouver
+Trying selector pattern: div[data-track="event card"]
+Trying selector pattern: .event-card
+Trying selector pattern: .event-listing
+Trying selector pattern: .event-item
+Trying selector pattern: .tm-grid-item
+Trying selector pattern: .event-tile
+Trying selector pattern: .listings-item
+Trying selector pattern: .event-row
+Trying selector pattern: .eds-event-card-content
+Trying selector pattern: .eds-l-pad-all
+Trying selector pattern: .search-event-card
+Trying selector pattern: li.js-event-list-item
+Trying selector pattern: li.event
+Trying selector pattern: .songkick-event
+Trying Ticketmaster URL: https://www.livenation.com/venue/KovZpZa7kvVA/vogue-theatre-events
+Trying selector pattern: div[data-track="event card"]
+Trying selector pattern: .event-card
+Trying selector pattern: .event-listing
+Trying selector pattern: .event-item
+Trying selector pattern: .tm-grid-item
+Trying selector pattern: .event-tile
+Trying selector pattern: .listings-item
+Trying selector pattern: .event-row
+Trying selector pattern: .eds-event-card-content
+Trying selector pattern: .eds-l-pad-all
+Trying selector pattern: .search-event-card
+Trying selector pattern: li.js-event-list-item
+Trying selector pattern: li.event
+Trying selector pattern: .songkick-event
+Trying Ticketmaster URL: https://www.ticketweb.ca/search?q=vogue+theatre
+Trying selector pattern: div[data-track="event card"]
+Trying selector pattern: .event-card
+Trying selector pattern: .event-listing
+Trying selector pattern: .event-item
+Trying selector pattern: .tm-grid-item
+Trying selector pattern: .event-tile
+Trying selector pattern: .listings-item
+Trying selector pattern: .event-row
+Trying selector pattern: .eds-event-card-content
+Trying selector pattern: .eds-l-pad-all
+Trying selector pattern: .search-event-card
+Trying selector pattern: li.js-event-list-item
+Trying selector pattern: li.event
+Trying selector pattern: .songkick-event
+Trying Ticketmaster URL: https://www.eventbrite.ca/d/canada--vancouver/vogue-theatre/
+Trying selector pattern: div[data-track="event card"]
+Trying selector pattern: .event-card
+Found date text with selector p:contains("Mon,"): Mon, Jul 21, 7:00 PM
+Attempting to parse date: 'Mon, Jul 21, 7:00 PM'
+Matched EventBrite pattern for: Mon, Jul 21, 7:00 PM
+Found date text with selector p:contains("Mon,"): Mon, Jul 21, 7:00 PM
+Attempting to parse date: 'Mon, Jul 21, 7:00 PM'
+Matched EventBrite pattern for: Mon, Jul 21, 7:00 PM
+Found date text with selector p:contains("Fri,"): Fri, Jul 25, 7:00 PM
+Attempting to parse date: 'Fri, Jul 25, 7:00 PM'
+Matched EventBrite pattern for: Fri, Jul 25, 7:00 PM
+Found date text with selector p:contains("Fri,"): Fri, Jul 25, 7:00 PM
+Attempting to parse date: 'Fri, Jul 25, 7:00 PM'
+Matched EventBrite pattern for: Fri, Jul 25, 7:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Aug 17, 7:00 PM
+Attempting to parse date: 'Sun, Aug 17, 7:00 PM'
+Matched EventBrite pattern for: Sun, Aug 17, 7:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Aug 17, 7:00 PM
+Attempting to parse date: 'Sun, Aug 17, 7:00 PM'
+Matched EventBrite pattern for: Sun, Aug 17, 7:00 PM
+Found date text with selector p:contains("Thu,"): Thu, Aug 7, 7:30 PM
+Attempting to parse date: 'Thu, Aug 7, 7:30 PM'
+Matched EventBrite pattern for: Thu, Aug 7, 7:30 PM
+Found date text with selector p:contains("Thu,"): Thu, Aug 7, 7:30 PM
+Attempting to parse date: 'Thu, Aug 7, 7:30 PM'
+Matched EventBrite pattern for: Thu, Aug 7, 7:30 PM
+Found date text with selector p:contains("Fri,"): Fri, Aug 1, 10:30 PM
+Attempting to parse date: 'Fri, Aug 1, 10:30 PM'
+Matched EventBrite pattern for: Fri, Aug 1, 10:30 PM
+Found date text with selector p:contains("Fri,"): Fri, Aug 1, 10:30 PM
+Attempting to parse date: 'Fri, Aug 1, 10:30 PM'
+Matched EventBrite pattern for: Fri, Aug 1, 10:30 PM
+Found date text with selector p:contains("Sun,"): Sun, Jul 27, 7:00 PM
+Attempting to parse date: 'Sun, Jul 27, 7:00 PM'
+Matched EventBrite pattern for: Sun, Jul 27, 7:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Jul 27, 7:00 PM
+Attempting to parse date: 'Sun, Jul 27, 7:00 PM'
+Matched EventBrite pattern for: Sun, Jul 27, 7:00 PM
+Found date text with selector p:contains("Sat,"): Sat, Sep 6, 10:00 AM
+Attempting to parse date: 'Sat, Sep 6, 10:00 AM'
+Matched EventBrite pattern for: Sat, Sep 6, 10:00 AM
+Found date text with selector p:contains("Sat,"): Sat, Sep 6, 10:00 AM
+Attempting to parse date: 'Sat, Sep 6, 10:00 AM'
+Matched EventBrite pattern for: Sat, Sep 6, 10:00 AM
+Found date text with selector p:contains("Sun,"): Sun, Jul 27, 7:00 PM
+Attempting to parse date: 'Sun, Jul 27, 7:00 PM'
+Matched EventBrite pattern for: Sun, Jul 27, 7:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Jul 27, 7:00 PM
+Attempting to parse date: 'Sun, Jul 27, 7:00 PM'
+Matched EventBrite pattern for: Sun, Jul 27, 7:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Aug 24, 7:30 PM
+Attempting to parse date: 'Sun, Aug 24, 7:30 PM'
+Matched EventBrite pattern for: Sun, Aug 24, 7:30 PM
+Found date text with selector p:contains("Sun,"): Sun, Aug 24, 7:30 PM
+Attempting to parse date: 'Sun, Aug 24, 7:30 PM'
+Matched EventBrite pattern for: Sun, Aug 24, 7:30 PM
+Found date text with selector p:contains("Mon,"): Mon, Sep 8, 6:00 PM
+Attempting to parse date: 'Mon, Sep 8, 6:00 PM'
+Matched EventBrite pattern for: Mon, Sep 8, 6:00 PM
+Found date text with selector p:contains("Mon,"): Mon, Sep 8, 6:00 PM
+Attempting to parse date: 'Mon, Sep 8, 6:00 PM'
+Matched EventBrite pattern for: Mon, Sep 8, 6:00 PM
+Found date text with selector p:contains("Thu,"): Thu, Sep 11, 4:30 PM
+Attempting to parse date: 'Thu, Sep 11, 4:30 PM'
+Matched EventBrite pattern for: Thu, Sep 11, 4:30 PM
+Found date text with selector p:contains("Thu,"): Thu, Sep 11, 4:30 PM
+Attempting to parse date: 'Thu, Sep 11, 4:30 PM'
+Matched EventBrite pattern for: Thu, Sep 11, 4:30 PM
+Found date text with selector div:contains("PM"): Sales end soonLive at The Mezz - July 18thFriday at 7:00 PM33 W 8th AveSave this event: Live at The Mezz - July 18thShare this event: Live at The Mezz - July 18th
+Attempting to parse date: 'Sales end soonLive at The Mezz - July 18thFriday at 7:00 PM33 W 8th AveSave this event: Live at The Mezz - July 18thShare this event: Live at The Mezz - July 18th'
+Matched Month/Day pattern for: Sales end soonLive at The Mezz - July 18thFriday at 7:00 PM33 W 8th AveSave this event: Live at The Mezz - July 18thShare this event: Live at The Mezz - July 18th
+Found date text with selector div:contains("PM"): Sales end soonLive at The Mezz - July 18thFriday at 7:00 PM33 W 8th Ave
+Attempting to parse date: 'Sales end soonLive at The Mezz - July 18thFriday at 7:00 PM33 W 8th Ave'
+Matched Month/Day pattern for: Sales end soonLive at The Mezz - July 18thFriday at 7:00 PM33 W 8th Ave
+Found date text with selector p:contains("Fri,"): Fri, Jul 25, 6:30 PM + 2 more
+Attempting to parse date: 'Fri, Jul 25, 6:30 PM + 2 more'
+Matched EventBrite pattern for: Fri, Jul 25, 6:30 PM + 2 more
+Found date text with selector p:contains("Fri,"): Fri, Jul 25, 6:30 PM + 2 more
+Attempting to parse date: 'Fri, Jul 25, 6:30 PM + 2 more'
+Matched EventBrite pattern for: Fri, Jul 25, 6:30 PM + 2 more
+Found date text with selector p:contains("Tue,"): Tue, Jul 29, 7:00 PM
+Attempting to parse date: 'Tue, Jul 29, 7:00 PM'
+Matched EventBrite pattern for: Tue, Jul 29, 7:00 PM
+Found date text with selector p:contains("Tue,"): Tue, Jul 29, 7:00 PM
+Attempting to parse date: 'Tue, Jul 29, 7:00 PM'
+Matched EventBrite pattern for: Tue, Jul 29, 7:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Jul 27, 12:00 PM
+Attempting to parse date: 'Sun, Jul 27, 12:00 PM'
+Matched EventBrite pattern for: Sun, Jul 27, 12:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Jul 27, 12:00 PM
+Attempting to parse date: 'Sun, Jul 27, 12:00 PM'
+Matched EventBrite pattern for: Sun, Jul 27, 12:00 PM
+Found date text with selector p:contains("Fri,"): Fri, Jul 25, 5:00 PM
+Attempting to parse date: 'Fri, Jul 25, 5:00 PM'
+Matched EventBrite pattern for: Fri, Jul 25, 5:00 PM
+Found date text with selector p:contains("Fri,"): Fri, Jul 25, 5:00 PM
+Attempting to parse date: 'Fri, Jul 25, 5:00 PM'
+Matched EventBrite pattern for: Fri, Jul 25, 5:00 PM
+Found date text with selector p:contains("Tue,"): Tue, Jul 22, 6:00 PM
+Attempting to parse date: 'Tue, Jul 22, 6:00 PM'
+Matched EventBrite pattern for: Tue, Jul 22, 6:00 PM
+Found date text with selector p:contains("Tue,"): Tue, Jul 22, 6:00 PM
+Attempting to parse date: 'Tue, Jul 22, 6:00 PM'
+Matched EventBrite pattern for: Tue, Jul 22, 6:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Aug 31, 5:00 PM
+Attempting to parse date: 'Sun, Aug 31, 5:00 PM'
+Matched EventBrite pattern for: Sun, Aug 31, 5:00 PM
+Found date text with selector p:contains("Sun,"): Sun, Aug 31, 5:00 PM
+Attempting to parse date: 'Sun, Aug 31, 5:00 PM'
+Matched EventBrite pattern for: Sun, Aug 31, 5:00 PM
+Found date text with selector p:contains("Sat,"): Sat, Aug 2, 10:30 PM
+Attempting to parse date: 'Sat, Aug 2, 10:30 PM'
+Matched EventBrite pattern for: Sat, Aug 2, 10:30 PM
+Found date text with selector p:contains("Sat,"): Sat, Aug 2, 10:30 PM
+Attempting to parse date: 'Sat, Aug 2, 10:30 PM'
+Matched EventBrite pattern for: Sat, Aug 2, 10:30 PM
+Found date text with selector div:contains("PM"): Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre CompanySave this event: Olympic Village Comedy Classic (Produced By Jokers Canada)Share this event: Olympic Village Comedy Classic (Produced By Jokers Canada)
+Attempting to parse date: 'Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre CompanySave this event: Olympic Village Comedy Classic (Produced By Jokers Canada)Share this event: Olympic Village Comedy Classic (Produced By Jokers Canada)'
+Matched Month/Day pattern for: Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre CompanySave this event: Olympic Village Comedy Classic (Produced By Jokers Canada)Share this event: Olympic Village Comedy Classic (Produced By Jokers Canada)
+Could not parse date: Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre CompanySave this event: Olympic Village Comedy Classic (Produced By Jokers Canada)Share this event: Olympic Village Comedy Classic (Produced By Jokers Canada)
+Could not parse date for event: Olympic Village Comedy Classic (Produced By Jokers Canada)
+Found date text with selector div:contains("PM"): Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre Company
+Attempting to parse date: 'Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre Company'
+Matched Month/Day pattern for: Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre Company
+Could not parse date: Almost fullOlympic Village Comedy Classic (Produced By Jokers Canada)Saturday at 8:00 PMNewmont Stage at the BMO Theatre Centre, Arts Club Theatre Company
+Could not parse date for event: Olympic Village Comedy Classic (Produced By Jokers Canada)
+Found events using selector: .event-card
+Found 38 events at https://www.eventbrite.ca/d/canada--vancouver/vogue-theatre/
+Found 38 events from Ticketmaster
+
+------------------------------------------------------------
+✅ Scraper 'Vogue Theatre' finished successfully.
+   Processed 38 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vogue-musical-theatre-mondays-theatre-jazz-class-1753149600000",
+  "name": "Musical Theatre Mondays Theatre Jazz Class",
+  "title": "Musical Theatre Mondays Theatre Jazz Class",
+  "description": "Musical Theatre Mondays Theatre Jazz Class at Vogue Theatre",
+  "image": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1058309743%2F2723908740461%2F1%2Foriginal.20250623-012137?crop=focalpoint&fit=crop&w=512&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.0407196969697&fp-y=0.0960264900662&s=f4ecc51b67576b716e6b2a97a99ff711",
+  "date": "2025-07-22T02:00:00.000Z",
+  "startDate": "2025-07-22T02:00:00.000Z",
+  "endDate": "2025-07-22T05:00:00.000Z",
+  "season": "Summer",
+  "category": "Music",
+  "categories": [
+    "Music",
+    "Performance"
+  ],
+  "location": "Vogue Theatre",
+  "venue": {
+    "name": "Vogue Theatre",
+    "address": "918 Granville St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.281,
+      "lng": -123.121
+    }
+  },
+  "sourceURL": "https://www.eventbrite.com/e/musical-theatre-mondays-theatre-jazz-class-tickets-1322423697879?aff=ebdssbdestsearch",
+  "officialWebsite": "https://www.eventbrite.com/e/musical-theatre-mondays-theatre-jazz-class-tickets-1322423697879?aff=ebdssbdestsearch",
+  "tickets": "https://www.eventbrite.com/e/musical-theatre-mondays-theatre-jazz-class-tickets-1322423697879?aff=ebdssbdestsearch"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vogueTheatre-results.json

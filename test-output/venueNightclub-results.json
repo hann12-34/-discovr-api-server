@@ -1,0 +1,182 @@
+[
+  {
+    "id": "venue-nightclub-diplo---revolution-tour-2025-07-13",
+    "title": "Diplo - Revolution Tour",
+    "description": "Grammy Award-winning DJ and producer Diplo brings his Revolution Tour to VENUE Nightclub. Known for his genre-bending productions and high-energy performances, Diplo will deliver an unforgettable night of electronic dance music spanning his extensive catalog of hits and collaborations. Expect a cutting-edge audiovisual experience and the latest tracks from his recent releases.\n\nEVENT DETAILS:\nDate: Saturday, July 12, 2025\nDoors: 10:00 PM\nAge Restriction: 19+\nGenre: Electronic\nArtist Website: https://diplo.com/\n\nVENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.",
+    "startDate": "2025-07-13T05:00:00.000Z",
+    "endDate": "2025-07-13T10:00:00.000Z",
+    "venue": {
+      "name": "VENUE Nightclub",
+      "id": "venue-nightclub-vancouver",
+      "address": "881 Granville St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 1L1",
+      "coordinates": {
+        "lat": 49.2811198,
+        "lng": -123.1232201
+      },
+      "websiteUrl": "https://venuelive.ca/",
+      "description": "VENUE Nightclub is one of Vancouver's premier entertainment spots on the Granville Strip, known for its state-of-the-art sound system, lighting design, and diverse music programming. The space regularly hosts top DJs, live music performances, and special events in an upscale nightclub environment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "dance",
+      "club",
+      "entertainment",
+      "electronic"
+    ],
+    "sourceURL": "https://venuelive.ca/",
+    "officialWebsite": "https://venuelive.ca/events/diplo-revolution-tour/",
+    "image": "https://venuelive.ca/wp-content/uploads/2025/05/diplo-venue.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T20:00:32.331Z"
+  },
+  {
+    "id": "venue-nightclub-venue-saturdays-neon-dreams-2025-07-20",
+    "title": "VENUE Saturdays: Neon Dreams",
+    "description": "VENUE Nightclub's flagship weekend event returns with Neon Dreams! Experience Vancouver's premier nightlife destination with resident DJs spinning the hottest dance, hip-hop, and Top 40 tracks. Featuring state-of-the-art sound and lighting, bottle service, and the city's most energetic dance floor atmosphere.\n\nEVENT DETAILS:\nDate: Saturday, July 19, 2025\nDoors: 10:00 PM\nAge Restriction: 19+\nGenre: Mixed\n\n\nVENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.",
+    "startDate": "2025-07-20T05:00:00.000Z",
+    "endDate": "2025-07-20T10:00:00.000Z",
+    "venue": {
+      "name": "VENUE Nightclub",
+      "id": "venue-nightclub-vancouver",
+      "address": "881 Granville St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 1L1",
+      "coordinates": {
+        "lat": 49.2811198,
+        "lng": -123.1232201
+      },
+      "websiteUrl": "https://venuelive.ca/",
+      "description": "VENUE Nightclub is one of Vancouver's premier entertainment spots on the Granville Strip, known for its state-of-the-art sound system, lighting design, and diverse music programming. The space regularly hosts top DJs, live music performances, and special events in an upscale nightclub environment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "dance",
+      "club",
+      "entertainment",
+      "mixed"
+    ],
+    "sourceURL": "https://venuelive.ca/",
+    "officialWebsite": "https://venuelive.ca/events/venue-saturdays-neon-dreams/",
+    "image": "https://venuelive.ca/wp-content/uploads/2025/05/neon-dreams.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T20:00:32.331Z"
+  },
+  {
+    "id": "venue-nightclub-throwback-thursday-90s-2000s-dance-party-2025-07-25",
+    "title": "Throwback Thursday: 90s & 2000s Dance Party",
+    "description": "Step back in time with VENUE's Throwback Thursday! Dance to the iconic hits of the 90s and 2000s from artists like Britney Spears, *NSYNC, Backstreet Boys, Spice Girls, and more. Dust off your platform shoes and butterfly clips for a night of nostalgic anthems and guilty pleasures. Our resident DJs will keep the dance floor packed with all your favorite throwback jams.\n\nEVENT DETAILS:\nDate: Thursday, July 24, 2025\nDoors: 9:00 PM\nAge Restriction: 19+\nGenre: Pop/Dance\n\n\nVENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.",
+    "startDate": "2025-07-25T04:00:00.000Z",
+    "endDate": "2025-07-25T09:00:00.000Z",
+    "venue": {
+      "name": "VENUE Nightclub",
+      "id": "venue-nightclub-vancouver",
+      "address": "881 Granville St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 1L1",
+      "coordinates": {
+        "lat": 49.2811198,
+        "lng": -123.1232201
+      },
+      "websiteUrl": "https://venuelive.ca/",
+      "description": "VENUE Nightclub is one of Vancouver's premier entertainment spots on the Granville Strip, known for its state-of-the-art sound system, lighting design, and diverse music programming. The space regularly hosts top DJs, live music performances, and special events in an upscale nightclub environment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "dance",
+      "club",
+      "entertainment",
+      "pop/dance"
+    ],
+    "sourceURL": "https://venuelive.ca/",
+    "officialWebsite": "https://venuelive.ca/events/throwback-thursday/",
+    "image": "https://venuelive.ca/wp-content/uploads/2025/05/throwback.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T20:00:32.331Z"
+  },
+  {
+    "id": "venue-nightclub-disclosure-dj-set-2025-08-03",
+    "title": "Disclosure DJ Set",
+    "description": "UK electronic music duo Disclosure takes over VENUE Nightclub for an exclusive DJ set. Known for chart-topping hits like 'Latch' and 'You & Me,' the Grammy-nominated producers will deliver their signature blend of house, UK garage, and electronic music. This intimate club show offers a rare opportunity to experience Disclosure's masterful mixing skills in one of Vancouver's best sound systems.\n\nEVENT DETAILS:\nDate: Saturday, August 2, 2025\nDoors: 10:00 PM\nAge Restriction: 19+\nGenre: Electronic/House\nArtist Website: https://disclosureofficial.com/\n\nVENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.",
+    "startDate": "2025-08-03T05:00:00.000Z",
+    "endDate": "2025-08-03T10:00:00.000Z",
+    "venue": {
+      "name": "VENUE Nightclub",
+      "id": "venue-nightclub-vancouver",
+      "address": "881 Granville St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 1L1",
+      "coordinates": {
+        "lat": 49.2811198,
+        "lng": -123.1232201
+      },
+      "websiteUrl": "https://venuelive.ca/",
+      "description": "VENUE Nightclub is one of Vancouver's premier entertainment spots on the Granville Strip, known for its state-of-the-art sound system, lighting design, and diverse music programming. The space regularly hosts top DJs, live music performances, and special events in an upscale nightclub environment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "dance",
+      "club",
+      "entertainment",
+      "electronic/house"
+    ],
+    "sourceURL": "https://venuelive.ca/",
+    "officialWebsite": "https://venuelive.ca/events/disclosure-dj-set/",
+    "image": "https://venuelive.ca/wp-content/uploads/2025/06/disclosure-venue.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T20:00:32.331Z"
+  },
+  {
+    "id": "venue-nightclub-bass-drop-dubstep-night-2025-08-10",
+    "title": "Bass Drop: Dubstep Night",
+    "description": "VENUE's Bass Drop returns for a night of earth-shaking dubstep, trap, and bass music. Featuring local and international DJs known for their heavy drops and intense beats, this event transforms VENUE into a bass lover's paradise with enhanced sound systems specifically tuned for low-frequency impact. Prepare for a night of headbanging, rail-breaking energy.\n\nEVENT DETAILS:\nDate: Saturday, August 9, 2025\nDoors: 10:00 PM\nAge Restriction: 19+\nGenre: Bass/Dubstep\n\n\nVENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.",
+    "startDate": "2025-08-10T05:00:00.000Z",
+    "endDate": "2025-08-10T10:00:00.000Z",
+    "venue": {
+      "name": "VENUE Nightclub",
+      "id": "venue-nightclub-vancouver",
+      "address": "881 Granville St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6Z 1L1",
+      "coordinates": {
+        "lat": 49.2811198,
+        "lng": -123.1232201
+      },
+      "websiteUrl": "https://venuelive.ca/",
+      "description": "VENUE Nightclub is one of Vancouver's premier entertainment spots on the Granville Strip, known for its state-of-the-art sound system, lighting design, and diverse music programming. The space regularly hosts top DJs, live music performances, and special events in an upscale nightclub environment."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music",
+      "dance",
+      "club",
+      "entertainment",
+      "bass/dubstep"
+    ],
+    "sourceURL": "https://venuelive.ca/",
+    "officialWebsite": "https://venuelive.ca/events/bass-drop-dubstep-night/",
+    "image": "https://venuelive.ca/wp-content/uploads/2025/06/bass-drop.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T20:00:32.331Z"
+  }
+]

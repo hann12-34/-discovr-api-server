@@ -1,0 +1,223 @@
+[
+  {
+    "id": "bc-place-coldplay-music-of-the-spheres-world-tour-2025-07-26",
+    "title": "Coldplay: Music of the Spheres World Tour",
+    "description": "British rock band Coldplay brings their spectacular Music of the Spheres World Tour to Vancouver's BC Place. Known for their visually stunning and environmentally conscious performances, the band will showcase material from their latest album alongside classic hits from their extensive catalog. This tour features a groundbreaking sustainable approach to stadium shows, including kinetic dance floors and power bikes that allow fans to help power the show through renewable energy. The immersive concert experience combines breathtaking visuals, pyrotechnics, and LED wristbands for every attendee that synchronize with the music, creating a unified light display throughout the venue. Supporting acts include H.E.R. and local Vancouver artists.\n\nEVENT DETAILS:\nDate: Friday, July 25, 2025\nTime: 7:30 PM - 11:00 PM\nPrice: $75-$250\nTickets: Required, available through Ticketmaster or the BC Place box office\nPerformers: Coldplay, H.E.R.\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+    "startDate": "2025-07-26T02:30:00.000Z",
+    "endDate": "2025-07-26T06:00:00.000Z",
+    "venue": {
+      "name": "BC Place Stadium",
+      "id": "bc-place-stadium-vancouver",
+      "address": "777 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 4Y8",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1119
+      },
+      "websiteUrl": "https://www.bcplace.com/",
+      "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+    },
+    "category": "entertainment",
+    "categories": [
+      "events",
+      "entertainment",
+      "stadium",
+      "concert",
+      "music",
+      "live music"
+    ],
+    "sourceURL": "https://www.bcplace.com/",
+    "officialWebsite": "https://www.bcplace.com/events/coldplay-2025/",
+    "image": "https://www.bcplace.com/wp-content/uploads/2025/05/coldplay-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:53.045Z"
+  },
+  {
+    "id": "bc-place-vancouver-whitecaps-fc-vs-seattle-sounders-fc-2025-08-03",
+    "title": "Vancouver Whitecaps FC vs. Seattle Sounders FC",
+    "description": "Experience the intensity of one of Major League Soccer's most passionate rivalries as the Vancouver Whitecaps FC take on the Seattle Sounders FC in this Cascadia Cup match. The Whitecaps will be looking to secure crucial points in their playoff push against their Pacific Northwest rivals. This derby match always produces exciting soccer and an electric atmosphere as supporters groups from both sides create an unforgettable gameday experience. The match features pre-game activities for families in Terry Fox Plaza, special half-time entertainment, and post-match player autograph sessions for young fans. Support the 'Caps as they defend home turf in this critical Western Conference battle.\n\nEVENT DETAILS:\nDate: Saturday, August 2, 2025\nTime: 7:00 PM - 9:30 PM\nPrice: $29-$125\nTickets: Required, available through Ticketmaster or the BC Place box office\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+    "startDate": "2025-08-03T02:00:00.000Z",
+    "endDate": "2025-08-03T04:30:00.000Z",
+    "venue": {
+      "name": "BC Place Stadium",
+      "id": "bc-place-stadium-vancouver",
+      "address": "777 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 4Y8",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1119
+      },
+      "websiteUrl": "https://www.bcplace.com/",
+      "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+    },
+    "category": "entertainment",
+    "categories": [
+      "events",
+      "entertainment",
+      "stadium",
+      "sports",
+      "soccer",
+      "mls",
+      "football"
+    ],
+    "sourceURL": "https://www.bcplace.com/",
+    "officialWebsite": "https://www.bcplace.com/events/whitecaps-vs-sounders/",
+    "image": "https://www.bcplace.com/wp-content/uploads/2025/06/whitecaps-sounders-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:53.045Z"
+  },
+  {
+    "id": "bc-place-monster-jam-2025-08-10",
+    "title": "Monster Jam",
+    "description": "Monster Jam returns to BC Place for an adrenaline-charged weekend of monster truck action! Watch as world-class drivers compete in different skills challenges and racing competitions in 12,000-pound monster trucks that tear up the dirt in one of the most unexpected and entertaining motorsports competitions. Featured trucks include fan favorites Grave Digger, Megalodon, El Toro Loco, and more. The event includes a pre-show Pit Party where fans can see the massive trucks up close, meet the drivers, get autographs, and take pictures. This family-friendly event combines high-octane entertainment with impressive displays of extreme stunts and fierce competitions that push these enormous vehicles to their limits.\n\nEVENT DETAILS:\nDate: Saturday, August 9, 2025\nTime: 7:00 PM - 10:00 PM\nPrice: $35-$75\nTickets: Required, available through Ticketmaster or the BC Place box office\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+    "startDate": "2025-08-10T02:00:00.000Z",
+    "endDate": "2025-08-10T05:00:00.000Z",
+    "venue": {
+      "name": "BC Place Stadium",
+      "id": "bc-place-stadium-vancouver",
+      "address": "777 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 4Y8",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1119
+      },
+      "websiteUrl": "https://www.bcplace.com/",
+      "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+    },
+    "category": "entertainment",
+    "categories": [
+      "events",
+      "entertainment",
+      "stadium",
+      "motorsports",
+      "monster trucks",
+      "family event",
+      "motor sport"
+    ],
+    "sourceURL": "https://www.bcplace.com/",
+    "officialWebsite": "https://www.bcplace.com/events/monster-jam-2025/",
+    "image": "https://www.bcplace.com/wp-content/uploads/2025/06/monster-jam-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:53.045Z"
+  },
+  {
+    "id": "bc-place-bc-lions-vs-toronto-argonauts-2025-08-16",
+    "title": "BC Lions vs. Toronto Argonauts",
+    "description": "The BC Lions host the Toronto Argonauts in this exciting Canadian Football League regular season matchup. Watch as quarterback Nathan Rourke leads the Lions against the defending Grey Cup champions in what promises to be a thrilling contest between two of the CFL's most storied franchises. The game features the Lions' famous pre-game pyrotechnics show, half-time entertainment, and the always popular Felions Dance Team performances. Family-friendly activities include the Kids Zone with interactive football drills and face painting, while adult fans can enjoy local craft beer offerings at multiple concession locations throughout the stadium. Come early to catch the team warm-ups and stay late for the post-game autograph session on the field.\n\nEVENT DETAILS:\nDate: Friday, August 15, 2025\nTime: 7:00 PM - 10:00 PM\nPrice: $25-$110\nTickets: Required, available through Ticketmaster or the BC Place box office\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+    "startDate": "2025-08-16T02:00:00.000Z",
+    "endDate": "2025-08-16T05:00:00.000Z",
+    "venue": {
+      "name": "BC Place Stadium",
+      "id": "bc-place-stadium-vancouver",
+      "address": "777 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 4Y8",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1119
+      },
+      "websiteUrl": "https://www.bcplace.com/",
+      "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+    },
+    "category": "entertainment",
+    "categories": [
+      "events",
+      "entertainment",
+      "stadium",
+      "sports",
+      "football",
+      "cfl"
+    ],
+    "sourceURL": "https://www.bcplace.com/",
+    "officialWebsite": "https://www.bcplace.com/events/bc-lions-vs-argonauts/",
+    "image": "https://www.bcplace.com/wp-content/uploads/2025/07/bc-lions-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:53.045Z"
+  },
+  {
+    "id": "bc-place-vancouver-international-auto-show-2025-07-05",
+    "title": "Vancouver International Auto Show",
+    "description": "Western Canada's largest consumer automotive event transforms BC Place into a car lover's paradise. The Vancouver International Auto Show showcases the latest models from over 40 manufacturers, concept cars, exotic supercars, electric and alternative fuel vehicles, and custom creations. Special features include the Electric Avenue display highlighting the latest in EV technology, the Exotics Cafe with multi-million dollar hypercars, and the Classic Alley showcasing meticulously restored vintage automobiles. Interactive experiences include virtual reality driving simulators, off-road test tracks, and opportunities to test drive select new vehicles on city streets. Industry experts will be on hand to discuss the latest automotive trends and technologies during daily panel discussions.\n\nEVENT DETAILS:\nDates: Saturday, July 5, 2025 to Saturday, July 12, 2025\nHours: 10:00 AM - 8:00 PM\nPrice: $18-$25\nTickets: Required, available through Ticketmaster or the BC Place box office\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+    "startDate": "2025-07-05T17:00:00.000Z",
+    "endDate": "2025-07-13T03:00:00.000Z",
+    "venue": {
+      "name": "BC Place Stadium",
+      "id": "bc-place-stadium-vancouver",
+      "address": "777 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 4Y8",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1119
+      },
+      "websiteUrl": "https://www.bcplace.com/",
+      "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+    },
+    "category": "entertainment",
+    "categories": [
+      "events",
+      "entertainment",
+      "stadium",
+      "exhibition",
+      "auto show",
+      "cars",
+      "automotive"
+    ],
+    "sourceURL": "https://www.bcplace.com/",
+    "officialWebsite": "https://www.bcplace.com/events/vancouver-auto-show-2025/",
+    "image": "https://www.bcplace.com/wp-content/uploads/2025/05/auto-show-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:53.045Z"
+  },
+  {
+    "id": "bc-place-global-dance-festival-2025-08-24",
+    "title": "Global Dance Festival",
+    "description": "Experience Vancouver's largest indoor electronic dance music event as BC Place transforms into a massive nightclub featuring multiple stages, world-class sound systems, and spectacular light shows. The lineup includes international DJ superstars Tiësto, Armin van Buuren, Charlotte de Witte, and hometown hero Kaytranada, plus dozens more performers across four uniquely designed stages. The immersive production includes state-of-the-art visuals, pyrotechnics, confetti cannons, and aerial performers suspended from the stadium's retractable roof. This 19+ event will feature specialty bars, food vendors from across Vancouver, chill-out lounges, and interactive art installations. Festival-goers are encouraged to express themselves through creative outfits and costumes that add to the vibrant atmosphere.\n\nEVENT DETAILS:\nDates: Saturday, August 23, 2025 to Sunday, August 24, 2025\nHours: 6:00 PM - 2:00 AM\nPrice: $95-$250\nAge Restriction: 19+\nTickets: Required, available through Ticketmaster or the BC Place box office\nPerformers: Tiësto, Armin van Buuren, Charlotte de Witte, Kaytranada\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+    "startDate": "2025-08-24T01:00:00.000Z",
+    "endDate": "2025-08-24T09:00:00.000Z",
+    "venue": {
+      "name": "BC Place Stadium",
+      "id": "bc-place-stadium-vancouver",
+      "address": "777 Pacific Blvd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 4Y8",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1119
+      },
+      "websiteUrl": "https://www.bcplace.com/",
+      "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+    },
+    "category": "entertainment",
+    "categories": [
+      "events",
+      "entertainment",
+      "stadium",
+      "festival",
+      "electronic music",
+      "dance",
+      "edm",
+      "nightlife"
+    ],
+    "sourceURL": "https://www.bcplace.com/",
+    "officialWebsite": "https://www.bcplace.com/events/global-dance-festival/",
+    "image": "https://www.bcplace.com/wp-content/uploads/2025/07/dance-festival-2025.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:53.045Z"
+  }
+]

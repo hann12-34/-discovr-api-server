@@ -1,0 +1,73 @@
+[
+  {
+    "name": "_ga",
+    "value": "GA1.1.1067443706.1752506929",
+    "domain": ".thepolygon.ca",
+    "path": "/",
+    "expires": 1787066938.714292,
+    "size": 30,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_ga_B6LTWXLFYP",
+    "value": "GS2.1.s1752506929$o1$g1$t1752506938$j51$l0$h0",
+    "domain": ".thepolygon.ca",
+    "path": "/",
+    "expires": 1787066938.714154,
+    "size": 59,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_gat",
+    "value": "1",
+    "domain": ".thepolygon.ca",
+    "path": "/",
+    "expires": 1752506989,
+    "size": 5,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_fbp",
+    "value": "fb.1.1752506929687.644294224517293751",
+    "domain": ".thepolygon.ca",
+    "path": "/",
+    "expires": 1760282938,
+    "size": 41,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "sameSite": "Lax",
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_gid",
+    "value": "GA1.2.349080397.1752506929",
+    "domain": ".thepolygon.ca",
+    "path": "/",
+    "expires": 1752593338,
+    "size": 30,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  }
+]

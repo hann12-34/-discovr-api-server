@@ -1,0 +1,273 @@
+[
+  {
+    "id": "orpheum-vancouver-symphony-orchestra-beethovens-ninth-2025-07-13",
+    "title": "Vancouver Symphony Orchestra: Beethoven's Ninth",
+    "description": "Experience the power and majesty of Beethoven's monumental Ninth Symphony, featuring the iconic 'Ode to Joy'. Led by Music Director Otto Tausk, the Vancouver Symphony Orchestra is joined by the VSO Chorus and distinguished vocal soloists for this transcendent masterpiece. The program begins with Jocelyn Morlock's 'My Name is Amanda Todd', a poignant orchestral work that has garnered international acclaim. This concert promises an evening of profound emotion and musical brilliance in the perfect acoustic setting of the historic Orpheum Theatre.\n\nEVENT DETAILS:\nDate: Saturday, July 12, 2025\nTime: 8:00 PM - 10:30 PM\nPrice: $35-$125\nTickets: Required, available from the Orpheum Theatre box office or online\nPerformers: Vancouver Symphony Orchestra, VSO Chorus, Otto Tausk (conductor)\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+    "startDate": "2025-07-13T03:00:00.000Z",
+    "endDate": "2025-07-13T05:30:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2808,
+        "lng": -123.1214
+      },
+      "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+      "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+    },
+    "category": "performing arts",
+    "categories": [
+      "theatre",
+      "performing arts",
+      "concert",
+      "entertainment",
+      "classical music",
+      "orchestra",
+      "symphony",
+      "music"
+    ],
+    "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "officialWebsite": "https://www.vancouversymphony.ca/event/beethovens-ninth/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/05/beethoven-ninth.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:43:12.696Z"
+  },
+  {
+    "id": "orpheum-an-evening-with-david-sedaris-2025-07-19",
+    "title": "An Evening with David Sedaris",
+    "description": "Celebrated author and humorist David Sedaris returns to Vancouver for an evening of cutting wit, social satire, and incisive observations about the absurdities of everyday life. Known for his sardonic humor and quirky memoir pieces, Sedaris will read from his newest collection of essays, sharing his unique perspective on modern life, family dynamics, and his experiences traveling the world. The evening includes a Q&A session with the audience and a book signing following the performance.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 7:30 PM - 10:00 PM\nPrice: $45-$75\nTickets: Required, available from the Orpheum Theatre box office or online\nPerformers: David Sedaris\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+    "startDate": "2025-07-19T02:30:00.000Z",
+    "endDate": "2025-07-19T05:00:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2808,
+        "lng": -123.1214
+      },
+      "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+      "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+    },
+    "category": "performing arts",
+    "categories": [
+      "theatre",
+      "performing arts",
+      "concert",
+      "entertainment",
+      "literature",
+      "author",
+      "reading",
+      "humor",
+      "spoken word"
+    ],
+    "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "officialWebsite": "https://www.vancouvercivictheatres.com/events/david-sedaris-2025/",
+    "image": "https://www.vancouvercivictheatres.com/wp-content/uploads/2025/05/david-sedaris.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:43:12.696Z"
+  },
+  {
+    "id": "orpheum-film-with-live-orchestra-the-princess-bride-2025-07-27",
+    "title": "Film with Live Orchestra: The Princess Bride",
+    "description": "Relive the magic of the beloved classic 'The Princess Bride' with its unforgettable score performed live by a full orchestra. As the film plays on a giant screen, the orchestra brings Mark Knopfler's enchanting music to life, creating a unique and immersive cinematic experience. This special presentation combines the charm and wit of Rob Reiner's timeless romantic comedy adventure with the emotional impact of live musical accompaniment, making familiar scenes feel new again through the power of live performance.\n\nEVENT DETAILS:\nDate: Saturday, July 26, 2025\nTime: 7:00 PM - 9:30 PM\nPrice: $40-$85\nTickets: Required, available from the Orpheum Theatre box office or online\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+    "startDate": "2025-07-27T02:00:00.000Z",
+    "endDate": "2025-07-27T04:30:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2808,
+        "lng": -123.1214
+      },
+      "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+      "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+    },
+    "category": "performing arts",
+    "categories": [
+      "theatre",
+      "performing arts",
+      "concert",
+      "entertainment",
+      "film & music",
+      "cinema",
+      "orchestra",
+      "film score",
+      "movie"
+    ],
+    "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "officialWebsite": "https://www.vancouvercivictheatres.com/events/princess-bride-live-orchestra/",
+    "image": "https://www.vancouvercivictheatres.com/wp-content/uploads/2025/06/princess-bride-orchestra.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:43:12.696Z"
+  },
+  {
+    "id": "orpheum-international-guitar-night-2025-08-06",
+    "title": "International Guitar Night",
+    "description": "International Guitar Night returns to the Orpheum, bringing together the world's foremost acoustic guitarists for a night of solos, duets, and quartets that highlight the diversity of acoustic guitar music. This year's lineup features classical virtuoso Alexandra Whittingham (UK), flamenco master José Antonio Rodríguez (Spain), fingerstyle innovator Yasmin Williams (USA), and jazz guitarist Gilad Hekselman (Israel). Each artist brings their unique cultural perspective and technical brilliance to create an evening of global guitar excellence.\n\nEVENT DETAILS:\nDate: Tuesday, August 5, 2025\nTime: 8:00 PM - 10:30 PM\nPrice: $38-$65\nTickets: Required, available from the Orpheum Theatre box office or online\nPerformers: Alexandra Whittingham, José Antonio Rodríguez, Yasmin Williams, Gilad Hekselman\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+    "startDate": "2025-08-06T03:00:00.000Z",
+    "endDate": "2025-08-06T05:30:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2808,
+        "lng": -123.1214
+      },
+      "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+      "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+    },
+    "category": "performing arts",
+    "categories": [
+      "theatre",
+      "performing arts",
+      "concert",
+      "entertainment",
+      "music",
+      "guitar",
+      "instrumental",
+      "acoustic",
+      "world music"
+    ],
+    "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "officialWebsite": "https://www.vancouvercivictheatres.com/events/international-guitar-night-2025/",
+    "image": "https://www.vancouvercivictheatres.com/wp-content/uploads/2025/06/guitar-night.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:43:12.696Z"
+  },
+  {
+    "id": "orpheum-vancouver-bach-festival-mass-in-b-minor-2025-08-15",
+    "title": "Vancouver Bach Festival: Mass in B Minor",
+    "description": "Early Music Vancouver presents Bach's monumental Mass in B Minor, considered one of the greatest achievements in classical music history. This profound sacred work will be performed by internationally renowned soloists, the Pacific Baroque Orchestra, and the Vancouver Cantata Singers, all on period instruments under the direction of Alexander Weimann. Experience the spiritual depth and musical complexity of Bach's masterpiece in the splendid acoustic environment of the Orpheum Theatre.\n\nEVENT DETAILS:\nDate: Thursday, August 14, 2025\nTime: 7:30 PM - 10:00 PM\nPrice: $45-$85\nTickets: Required, available from the Orpheum Theatre box office or online\nPerformers: Pacific Baroque Orchestra, Vancouver Cantata Singers, Alexander Weimann (conductor)\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+    "startDate": "2025-08-15T02:30:00.000Z",
+    "endDate": "2025-08-15T05:00:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2808,
+        "lng": -123.1214
+      },
+      "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+      "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+    },
+    "category": "performing arts",
+    "categories": [
+      "theatre",
+      "performing arts",
+      "concert",
+      "entertainment",
+      "classical music",
+      "orchestra",
+      "symphony",
+      "music"
+    ],
+    "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "officialWebsite": "https://www.earlymusic.bc.ca/events/bach-mass-in-b-minor/",
+    "image": "https://www.earlymusic.bc.ca/wp-content/uploads/2025/06/bach-festival-b-minor.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:43:12.696Z"
+  },
+  {
+    "id": "orpheum-orpheum-theatre-heritage-tour-2025-08-23",
+    "title": "Orpheum Theatre Heritage Tour",
+    "description": "Discover the fascinating history and hidden secrets of the Orpheum Theatre in this guided behind-the-scenes tour. Explore this National Historic Site while learning about its 1927 origins as a vaudeville house, its stunning architecture and decor, and the famous performers who have graced its stage over nearly a century. The tour includes access to areas usually closed to the public, including the ornate lobbies, backstage areas, and orchestra pit. Photography is permitted, making this a perfect opportunity for architecture enthusiasts and history buffs.\n\nEVENT DETAILS:\nDate: Saturday, August 23, 2025\nTime: 11:00 AM - 12:30 PM\nRecurrence: Every Saturday\nPrice: $25 general, $20 seniors/students\nTickets: Required, available from the Orpheum Theatre box office or online\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+    "startDate": "2025-08-23T18:00:00.000Z",
+    "endDate": "2025-08-23T19:30:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2808,
+        "lng": -123.1214
+      },
+      "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+      "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+    },
+    "category": "performing arts",
+    "categories": [
+      "theatre",
+      "performing arts",
+      "concert",
+      "entertainment",
+      "tour",
+      "historic",
+      "architecture",
+      "heritage",
+      "educational"
+    ],
+    "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "officialWebsite": "https://www.vancouvercivictheatres.com/events/orpheum-heritage-tours/",
+    "image": "https://www.vancouvercivictheatres.com/wp-content/uploads/2025/06/orpheum-tour.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:43:12.697Z"
+  },
+  {
+    "id": "orpheum-distant-worlds-music-from-final-fantasy-2025-08-31",
+    "title": "Distant Worlds: Music from Final Fantasy",
+    "description": "The beloved music from the Final Fantasy video game series comes to life in this extraordinary orchestral concert. Distant Worlds features the music of Japanese composer Nobuo Uematsu performed by a full orchestra and choir, complemented by HD video projections from the game series' most memorable sequences. Conducted by Grammy Award-winner Arnie Roth, this immersive concert experience celebrates over 35 years of legendary gaming and musical innovation, appealing to both longtime fans and newcomers to the iconic series.\n\nEVENT DETAILS:\nDate: Saturday, August 30, 2025\nTime: 8:00 PM - 10:30 PM\nPrice: $50-$120\nTickets: Required, available from the Orpheum Theatre box office or online\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+    "startDate": "2025-08-31T03:00:00.000Z",
+    "endDate": "2025-08-31T05:30:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2808,
+        "lng": -123.1214
+      },
+      "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+      "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+    },
+    "category": "performing arts",
+    "categories": [
+      "theatre",
+      "performing arts",
+      "concert",
+      "entertainment",
+      "video game music",
+      "gaming",
+      "orchestra",
+      "soundtrack",
+      "multimedia"
+    ],
+    "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "officialWebsite": "https://www.vancouvercivictheatres.com/events/distant-worlds-2025/",
+    "image": "https://www.vancouvercivictheatres.com/wp-content/uploads/2025/07/final-fantasy.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:43:12.697Z"
+  }
+]

@@ -1,0 +1,886 @@
+[
+  {
+    "id": "the-improv-centre-pride-race-2025-08-01",
+    "title": "Pride Race",
+    "description": "**Special Pride Improv Show** Thursday, July 31st at 7:30pm 14A – May include suggestive language and/or scenes.",
+    "startDate": "2025-08-01T14:00:00.000Z",
+    "endDate": "2025-08-01T15:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=11034&qty=0",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/07/Pride-Race-2025-04.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:35.195Z"
+  },
+  {
+    "id": "the-improv-centre-slasher-vol-iii-2025-08-01",
+    "title": "Slasher – Vol. III",
+    "description": "**Special Pride Improv Show** Thursday, July 31st at 7:30pm 14A – May include suggestive language and/or scenes.",
+    "startDate": "2025-08-01T14:00:00.000Z",
+    "endDate": "2025-08-01T15:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=11034&qty=0",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/07/Pride-Race-2025-04.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:37.182Z"
+  },
+  {
+    "id": "the-improv-centre-the-bachelor-ish-2025-08-01",
+    "title": "The Bachelor-ish",
+    "description": "**Special Pride Improv Show** Thursday, July 31st at 7:30pm 14A – May include suggestive language and/or scenes.",
+    "startDate": "2025-08-01T14:00:00.000Z",
+    "endDate": "2025-08-01T15:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=11034&qty=0",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/07/Pride-Race-2025-04.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:39.041Z"
+  },
+  {
+    "id": "the-improv-centre-stand-up-at-the-improv-2025-06-23",
+    "title": "Stand Up at The Improv",
+    "description": "Sunday, June 22nd at 7:30pm 18A – Adult content and mature themes A live stand up comedy showcase featuring some of Vancouver’s most hilarious comedians!",
+    "startDate": "2025-06-23T05:00:00.000Z",
+    "endDate": "2025-06-23T06:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10957",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:40.374Z"
+  },
+  {
+    "id": "the-improv-centre-canada-eh-show-2025-06-23",
+    "title": "Canada ‘Eh Show",
+    "description": "Sunday, June 22nd at 7:30pm 18A – Adult content and mature themes A live stand up comedy showcase featuring some of Vancouver’s most hilarious comedians!",
+    "startDate": "2025-06-23T05:00:00.000Z",
+    "endDate": "2025-06-23T06:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10957",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:41.397Z"
+  },
+  {
+    "id": "the-improv-centre-twist-of-fate-2025-06-23",
+    "title": "Twist of Fate",
+    "description": "Sunday, June 22nd at 7:30pm 18A – Adult content and mature themes A live stand up comedy showcase featuring some of Vancouver’s most hilarious comedians!",
+    "startDate": "2025-06-23T05:00:00.000Z",
+    "endDate": "2025-06-23T06:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10957",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:42.380Z"
+  },
+  {
+    "id": "the-improv-centre-the-return-of-colin-mochrie-2025-04-01",
+    "title": "The Return of Colin Mochrie",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:43.468Z"
+  },
+  {
+    "id": "the-improv-centre-choose-day-fools-edition-2025-04-01",
+    "title": "Choose-Day: Fools Edition",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:44.448Z"
+  },
+  {
+    "id": "the-improv-centre-mothers-day-special-2025-04-01",
+    "title": "Mother’s Day Special",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:45.538Z"
+  },
+  {
+    "id": "the-improv-centre-house-teams-2025-04-01",
+    "title": "House Teams",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:46.486Z"
+  },
+  {
+    "id": "the-improv-centre-fathers-day-special-2025-04-01",
+    "title": "Father’s Day Special",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:47.606Z"
+  },
+  {
+    "id": "the-improv-centre-the-return-of-2025-04-01",
+    "title": "The Return of",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:48.874Z"
+  },
+  {
+    "id": "the-improv-centre-colin-mochrie-2025-04-01",
+    "title": "Colin Mochrie",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:50.280Z"
+  },
+  {
+    "id": "the-improv-centre-i-saw-you-2025-04-01",
+    "title": "I Saw You",
+    "description": "Tuesday, April 1st at 7:30pm PG – Some material may not be suitable for some audiences. Get ready for some mischievous fun in our special April Fools Day edition! YOU have the power to make things even trickier for our performers. Decide just how much chaos you want to stir up by drawing cards, shouting suggestions, and writing inspirations! It’s your chance to put our performers in all sorts of delightful trouble – and they’ll have to play along no matter what!",
+    "startDate": "2025-04-01T08:00:00.000Z",
+    "endDate": "2025-04-01T09:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2025/04/Colin-Shows-Page-Sq.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:51.726Z"
+  },
+  {
+    "id": "the-improv-centre-my-funny-valentines-day-show-2025-02-14",
+    "title": "My Funny Valentine’s Day Show",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:58.390Z"
+  },
+  {
+    "id": "the-improv-centre-the-heat-an-international-improv-comedy-showcase-2025-02-14",
+    "title": "The Heat: An International Improv Comedy Showcase",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:38:59.606Z"
+  },
+  {
+    "id": "the-improv-centre-gal-entines-day-2025-02-14",
+    "title": "Gal-entine’s Day",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:00.392Z"
+  },
+  {
+    "id": "the-improv-centre-date-night-2025-02-14",
+    "title": "Date Night",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:01.615Z"
+  },
+  {
+    "id": "the-improv-centre-my-funny-valentines-day-show-2025-02-14",
+    "title": "My Funny Valentine’s Day Show",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:02.461Z"
+  },
+  {
+    "id": "the-improv-centre-the-heat-an-international-improv-comedy-showcase-2025-02-14",
+    "title": "The Heat: An International Improv Comedy Showcase",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:03.674Z"
+  },
+  {
+    "id": "the-improv-centre-choo-choo-choose-day-2025-02-14",
+    "title": "Choo-Choo-Choose Day",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:04.529Z"
+  },
+  {
+    "id": "the-improv-centre-the-heat-an-international-improv-comedy-showcase-2025-02-14",
+    "title": "The Heat: An International Improv Comedy Showcase",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:05.683Z"
+  },
+  {
+    "id": "the-improv-centre-gal-entines-day-2025-02-14",
+    "title": "Gal-entine’s Day",
+    "description": "Friday, February 14th at 7:30pm & 9:30pm 14A – May include suggestive language and/or scenes. It’s time for flirtation and fun, sappy songs and smooches, and -of course – love and laughter! Bring your sweety or your best bud and help guide our performers into the sweet and spicy scenarios you want to see most!",
+    "startDate": "2025-02-14T22:00:00.000Z",
+    "endDate": "2025-02-14T23:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": "https://theimprovcentre.ca/wp-content/uploads/2024/10/Shows-Page-1080x1080-1.png",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:06.590Z"
+  },
+  {
+    "id": "the-improv-centre-hot-snack-comedy-presents-feast-2025-12-20",
+    "title": "Hot Snack Comedy Presents: FEAST",
+    "description": "Thursday, December 19th at 9:30pm 14A – May include suggestive language and/or scenes. Hot Snack invites you to the totally improvised holiday event of the season! The punchbowl’s 80% rum, the food’s overcooked, and there aren’t enough coat hooks. Someone just claimed to have changed your diapers, though you’ve never seen them. Join us for a night of hilarious conversations, quirky relationships, and holiday chaos. Expect gifts, snacks, and unsolicited advice—but no stress, because it’s not your family or coworkers!",
+    "startDate": "2025-12-20T03:00:00.000Z",
+    "endDate": "2025-12-20T04:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10660&qty=0",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:07.751Z"
+  },
+  {
+    "id": "the-improv-centre-merry-happy-jolly-2025-12-20",
+    "title": "Merry / Happy / Jolly",
+    "description": "Thursday, December 19th at 9:30pm 14A – May include suggestive language and/or scenes. Hot Snack invites you to the totally improvised holiday event of the season! The punchbowl’s 80% rum, the food’s overcooked, and there aren’t enough coat hooks. Someone just claimed to have changed your diapers, though you’ve never seen them. Join us for a night of hilarious conversations, quirky relationships, and holiday chaos. Expect gifts, snacks, and unsolicited advice—but no stress, because it’s not your family or coworkers!",
+    "startDate": "2025-12-20T03:00:00.000Z",
+    "endDate": "2025-12-20T04:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10660&qty=0",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:09.811Z"
+  },
+  {
+    "id": "the-improv-centre-nye-at-tic-2025-12-20",
+    "title": "NYE at TIC",
+    "description": "Thursday, December 19th at 9:30pm 14A – May include suggestive language and/or scenes. Hot Snack invites you to the totally improvised holiday event of the season! The punchbowl’s 80% rum, the food’s overcooked, and there aren’t enough coat hooks. Someone just claimed to have changed your diapers, though you’ve never seen them. Join us for a night of hilarious conversations, quirky relationships, and holiday chaos. Expect gifts, snacks, and unsolicited advice—but no stress, because it’s not your family or coworkers!",
+    "startDate": "2025-12-20T03:00:00.000Z",
+    "endDate": "2025-12-20T04:30:00.000Z",
+    "venue": {
+      "name": "The Improv Centre",
+      "id": "the-improv-centre",
+      "address": "1502 Duranleau St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2727,
+        "lng": -123.1348
+      },
+      "websiteUrl": "https://theimprovcentre.ca/",
+      "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "entertainment",
+      "improv",
+      "performance",
+      "theatre"
+    ],
+    "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10660&qty=0",
+    "officialWebsite": "https://theimprovcentre.ca/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:10.968Z"
+  }
+]

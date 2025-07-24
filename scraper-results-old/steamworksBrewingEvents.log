@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: steamworksBrewingEvents.js ---
+============================================================
+Scraper 'Steamworks Brewing Events' instantiated successfully. Running scrape()...
+Starting Steamworks Brewing Events scraper...
+Navigating to https://steamworks.com/events
+Extracting Steamworks Brewing events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Steamworks Brewing events
+Steamworks Brewing Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Steamworks Brewing Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/steamworksBrewingEvents-results.json

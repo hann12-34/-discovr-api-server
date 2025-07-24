@@ -1,0 +1,514 @@
+[
+  {
+    "id": "bar-none-friday-2025-07-18",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-07-19T05:00:00.000Z",
+    "endDate": "2025-07-19T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.760Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-07-19",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-07-20T05:00:00.000Z",
+    "endDate": "2025-07-20T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-friday-2025-07-25",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-07-26T05:00:00.000Z",
+    "endDate": "2025-07-26T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-07-26",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-07-27T05:00:00.000Z",
+    "endDate": "2025-07-27T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-friday-2025-08-01",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-08-02T05:00:00.000Z",
+    "endDate": "2025-08-02T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-08-02",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-08-03T05:00:00.000Z",
+    "endDate": "2025-08-03T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-friday-2025-08-08",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-08-09T05:00:00.000Z",
+    "endDate": "2025-08-09T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-08-09",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-08-10T05:00:00.000Z",
+    "endDate": "2025-08-10T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-friday-2025-08-15",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-08-16T05:00:00.000Z",
+    "endDate": "2025-08-16T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-08-16",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-08-17T05:00:00.000Z",
+    "endDate": "2025-08-17T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-friday-2025-08-22",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-08-23T05:00:00.000Z",
+    "endDate": "2025-08-23T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-08-23",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-08-24T05:00:00.000Z",
+    "endDate": "2025-08-24T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-friday-2025-08-29",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-08-30T05:00:00.000Z",
+    "endDate": "2025-08-30T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-08-30",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-08-31T05:00:00.000Z",
+    "endDate": "2025-08-31T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-friday-2025-09-05",
+    "title": "Bar None Friday Night",
+    "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+    "startDate": "2025-09-06T05:00:00.000Z",
+    "endDate": "2025-09-06T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  },
+  {
+    "id": "bar-none-saturday-2025-09-06",
+    "title": "Bar None Saturday Night",
+    "description": "Vancouver's premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.",
+    "startDate": "2025-09-07T05:00:00.000Z",
+    "endDate": "2025-09-07T10:00:00.000Z",
+    "venue": {
+      "name": "Bar None Club",
+      "id": "bar-none-club",
+      "address": "1222 Hamilton Street",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2S8",
+      "coordinates": {
+        "lat": 49.276,
+        "lng": -123.1231
+      },
+      "websiteUrl": "https://www.barnoneclub.com",
+      "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+    },
+    "category": "nightlife",
+    "categories": [
+      "nightlife",
+      "music"
+    ],
+    "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+    "officialWebsite": "https://www.barnoneclub.com",
+    "image": null,
+    "recurring": "weekly",
+    "lastUpdated": "2025-07-15T18:31:30.797Z"
+  }
+]

@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: biltmoreCabaretEvents.js ---
+============================================================
+Scraper 'The Biltmore Cabaret' instantiated successfully. Running scrape()...
+🔍 Scraping events from The Biltmore Cabaret...
+Navigating to https://www.biltmorecabaret.com/events/
+Could not find event elements with standard selectors, trying to proceed anyway
+Found 0 potential events
+Found 0 events from The Biltmore Cabaret
+
+------------------------------------------------------------
+✅ Scraper 'The Biltmore Cabaret' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/biltmoreCabaretEvents-results.json

@@ -1,0 +1,164 @@
+ERROR: Command failed: node test-single-scraper.js validate_scrapers.js
+
+❌ A critical error occurred in the test runner for validate_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47
+
+
+============================================================
+--- Attempting to run scraper: validate_scrapers.js ---
+============================================================
+🔍 Validating Vancouver scrapers structure...
+Found 116 potential scrapers to validate
+
+✅ anthropologyMuseumEvents.js - Valid scraper
+❌ arcDiningEvents.js - Invalid: not an instance, no scrape method
+❌ barNoneClub.js - Invalid: not an instance, no scrape method
+❌ bardOnTheBeach.js - Invalid: not an instance, no scrape method
+❌ bardOnTheBeachEvents.js - Invalid: not an instance, no scrape method
+❌ bcPlaceEvents.js - Invalid: not an instance, no scrape method
+❌ bcPlaceStadium.js - Invalid: not an instance, no scrape method
+❌ billReidGalleryEvents.js - Invalid: not an instance, no scrape method
+❌ biltmoreCabaret.js - Invalid: not an instance, no scrape method
+✅ biltmoreCabaretEvents.js - Valid scraper
+❌ broadwayVancouverEvents.js - Invalid: not an instance, no scrape method
+❌ canadaPlaceEvents.js - Invalid: not an instance, no scrape method
+❌ capilanoSuspensionBridge.js - Invalid: not an instance, no scrape method
+❌ carnavalDelSol.js - Invalid: not an instance, no scrape method
+❌ celebritiesNightclub.js - Invalid: not an instance, no scrape method
+❌ chanCentre.js - Invalid: not an instance, no scrape method
+✅ chanCentreEvents.js - Valid scraper
+✅ cherryBlossomFestEvents.js - Valid scraper
+❌ chineseGardenEvents.js - Invalid: not an instance, no scrape method
+❌ coastalJazzFestival.js - Invalid: not an instance, no scrape method
+✅ commodoreBallroomEvents.js - Valid scraper
+✅ contemporaryArtGalleryEvents.js - Valid scraper
+✅ cultureCrawlEvents.js - Valid scraper
+✅ danceFestivalEvents.js - Valid scraper
+❌ doxaFilmFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ dragonBoatFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ festivalDEteEvents.js - Invalid: not an instance, no scrape method
+✅ folkFestEvents.js - Valid scraper
+❌ fortuneSoundClub.js - Invalid: not an instance, no scrape method
+❌ fortuneSoundClubBridge.js - Invalid: not an instance, no scrape method
+❌ foxCabaret.js - Invalid: not an instance, no scrape method
+✅ fringeFestivalEvents.js - Valid scraper
+❌ gastownGrandPrixEvents.js - Invalid: not an instance, no scrape method
+❌ gastownSundaySet.js - Invalid: not an instance, no scrape method
+❌ granvilleIsland.js - Invalid: not an instance, no scrape method
+✅ granvilleIslandEvents.js - Valid scraper
+❌ granvilleIslandMarket.js - Invalid: not an instance, no scrape method
+❌ granvilleMarketEvents.js - Invalid: not an instance, no scrape method
+❌ harbourEventCentre.js - Invalid: not an instance, no scrape method
+❌ helloBCEvents.js - Invalid: not an instance, no scrape method
+❌ helloBCEventsAdditional.js - Invalid: not an instance, no scrape method
+❌ helloBCEventsScraper.js - Invalid: not an instance, no scrape method
+❌ helloGoodbyeBarEvents.js - Invalid: not an instance, no scrape method
+❌ hrMacMillanSpaceCentre.js - Invalid: not an instance, no scrape method
+❌ hrMacMillanSpaceCentreEvents.js - Invalid: not an instance, no scrape method
+❌ imperialTheatre.js - Invalid: not an instance, no scrape method
+❌ improvCentreEvents.js - Invalid: not an instance, no scrape method
+❌ index.js - Error: Cannot find module './rogersArenaEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/validate_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ irishHeather.js - Invalid: not an instance, no scrape method
+❌ japanMarketEvents.js - Invalid: not an instance, no scrape method
+❌ junctionPublicMarket.js - Invalid: not an instance, no scrape method
+❌ khatsahlanoEvents.js - Invalid: not an instance, no scrape method
+❌ kitsilanoShowboat.js - Invalid: not an instance, no scrape method
+❌ laowaiBar.js - Invalid: not an instance, no scrape method
+❌ levelsNightclub.js - Invalid: not an instance, no scrape method
+❌ malonesEvents.js - Invalid: not an instance, no scrape method
+❌ metropolisEvents.js - Invalid: not an instance, no scrape method
+❌ moaUbcEvents.js - Invalid: not an instance, no scrape method
+❌ museumOfAnthropology.js - Invalid: not an instance, no scrape method
+❌ museumOfAnthropologyEvents.js - Invalid: not an instance, no scrape method
+❌ museumOfVancouver.js - Invalid: not an instance, no scrape method
+❌ museumOfVancouverEvents.js - Invalid: not an instance, no scrape method
+❌ musqueamEvents.js - Invalid: not an instance, no scrape method
+❌ orpheumEvents.js - Invalid: not an instance, no scrape method
+❌ orpheumTheatre.js - Invalid: not an instance, no scrape method
+❌ pneFair.js - Invalid: not an instance, no scrape method
+❌ pneSummerNightConcerts.js - Invalid: not an instance, no scrape method
+❌ polygonGallery.js - Invalid: not an instance, no scrape method
+❌ queenElizabethTheatreEvents.js - Invalid: not an instance, no scrape method
+❌ queerArtsFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ queerFilmFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ redRoom.js - Invalid: not an instance, no scrape method
+❌ redRoomEvents.js - Invalid: not an instance, no scrape method
+❌ redRoomEvents_new.js - Invalid: not an instance, no scrape method
+❌ redRoom_OLD.js - Invalid: not an instance, no scrape method
+❌ richmondNightMarket.js - Invalid: not an instance, no scrape method
+❌ runToEndEndoEvents.js - Invalid: not an instance, no scrape method
+❌ scienceWorld.js - Invalid: not an instance, no scrape method
+❌ scienceWorldVancouverEvents.js - Invalid: not an instance, no scrape method
+❌ shipyardsNightMarket.js - Invalid: not an instance, no scrape method
+❌ spaceCenter.js - Invalid: not an instance, no scrape method
+❌ squamishBeerFestival.js - Invalid: not an instance, no scrape method
+❌ stanleyPark.js - Invalid: not an instance, no scrape method
+❌ steamworksBrewing.js - Invalid: not an instance, no scrape method
+❌ steamworksBrewingEvents.js - Invalid: not an instance, no scrape method
+❌ summerCinemaEvents.js - Invalid: not an instance, no scrape method
+❌ theCentreVancouver.js - Invalid: not an instance, no scrape method
+❌ theatreUnderTheStars.js - Invalid: not an instance, no scrape method
+❌ theatreUnderTheStarsEvents.js - Invalid: not an instance, no scrape method
+❌ tourismVancouverEvents.js - Invalid: not an instance, no scrape method
+❌ ubcBotanicalGardenEvents.js - Invalid: not an instance, no scrape method
+❌ undergroundComedyClubEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverAquarium.js - Invalid: not an instance, no scrape method
+❌ vancouverAquariumEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverArtAndLeisure.js - Invalid: not an instance, no scrape method
+❌ vancouverArtGallery.js - Invalid: not an instance, no scrape method
+❌ vancouverArtGalleryEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverAsianFilmFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverCityEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverCivicTheatres.js - Invalid: not an instance, no scrape method
+❌ vancouverConventionCentreEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverFolkFest.js - Invalid: not an instance, no scrape method
+❌ vancouverFringe.js - Invalid: not an instance, no scrape method
+❌ vancouverInternationalFilmFestival.js - Invalid: not an instance, no scrape method
+❌ vancouverJazzFestival.js - Invalid: not an instance, no scrape method
+❌ vancouverMaritimeMuseumEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverMysteriesEvents.js - Invalid: not an instance, no scrape method
+❌ vancouverPride.js - Invalid: not an instance, no scrape method
+❌ vancouverSymphony.js - Invalid: not an instance, no scrape method
+❌ vancouverSymphonyEvents.js - Invalid: not an instance, no scrape method
+❌ veganMarketEvents.js - Invalid: not an instance, no scrape method
+❌ venueNightclub.js - Invalid: not an instance, no scrape method
+❌ vogueTheatre.js - Invalid: not an instance, no scrape method
+❌ vsffEvents.js - Invalid: not an instance, no scrape method
+❌ wiseHall.js - Invalid: not an instance, no scrape method
+❌ yaletownJazz.js - Invalid: not an instance, no scrape method
+
+📊 Validation Summary:
+Total scrapers validated: 116
+Valid scrapers: 11
+Invalid scrapers: 105
+
+Detailed results saved to scraper_validation.json
+
+
+
+❌ A critical error occurred in the test runner for validate_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47

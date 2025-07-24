@@ -1,0 +1,1295 @@
+Found 140 potential scrapers to test.
+
+============================================================
+--- Attempting to run scraper: anthropologyMuseumEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from anthropologyMuseumEvents.js ---
+AnthropologyMuseumEvents is not a constructor
+TypeError: AnthropologyMuseumEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/anthropologyMuseumEvents.js:669:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: arcDiningEvents.js ---
+============================================================
+Scraper 'Arc Dining Garden Dinners' instantiated successfully. Running scrape()...
+🔍 Starting Arc Dining Garden Dinners scraper...
+Navigating to: https://www.arcdining.com/events
+✅ Saved debug screenshot to arc-dining-debug.png
+No structured event elements found. Extracting events from page content...
+❌ Error in Arc Dining Garden Dinners scraper: Cannot read properties of null (reading 'innerText')
+--- ✅ SUCCESS: arcDiningEvents.js ---
+Found 0 events.
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: artGalleryEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from artGalleryEvents.js ---
+ArtGalleryEvents is not a constructor
+TypeError: ArtGalleryEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/artGalleryEvents.js:459:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: barNoneClub.js ---
+============================================================
+Scraper 'Bar None Club' instantiated successfully. Running scrape()...
+🔍 Starting Bar None Club events scraper...
+✅ Added recurring Friday event on 7/18/2025
+✅ Added recurring Saturday event on 7/19/2025
+✅ Added recurring Friday event on 7/25/2025
+✅ Added recurring Saturday event on 7/26/2025
+✅ Added recurring Friday event on 8/1/2025
+✅ Added recurring Saturday event on 8/2/2025
+✅ Added recurring Friday event on 8/8/2025
+✅ Added recurring Saturday event on 8/9/2025
+✅ Added recurring Friday event on 8/15/2025
+✅ Added recurring Saturday event on 8/16/2025
+✅ Added recurring Friday event on 8/22/2025
+✅ Added recurring Saturday event on 8/23/2025
+✅ Added recurring Friday event on 8/29/2025
+✅ Added recurring Saturday event on 8/30/2025
+✅ Added recurring Friday event on 9/5/2025
+✅ Added recurring Saturday event on 9/6/2025
+🎉 Successfully scraped 16 events from Bar None Club
+--- ✅ SUCCESS: barNoneClub.js ---
+Found 16 events.
+Sample event:
+{
+  "id": "bar-none-friday-2025-07-18",
+  "title": "Bar None Friday Night",
+  "description": "Experience Bar None's premium Friday nightclub event featuring the hottest DJs and best dance music.",
+  "startDate": "2025-07-19T05:00:00.000Z",
+  "endDate": "2025-07-19T10:00:00.000Z",
+  "venue": {
+    "name": "Bar None Club",
+    "id": "bar-none-club",
+    "address": "1222 Hamilton Street",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 2S8",
+    "coordinates": {
+      "lat": 49.276,
+      "lng": -123.1231
+    },
+    "websiteUrl": "https://www.barnoneclub.com",
+    "description": "This nightlife pillar has proudly served Yaletown and Vancouver for almost 30 years. Located in a converted warehouse, the venue is highlighted by exposed wood beams and brick."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "music"
+  ],
+  "sourceURL": "https://www.barnoneclub.com/eventscalendar",
+  "officialWebsite": "https://www.barnoneclub.com",
+  "image": null,
+  "recurring": "weekly",
+  "lastUpdated": "2025-07-15T14:28:07.221Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: bardOnTheBeach.js ---
+============================================================
+Scraper 'Bard on the Beach Shakespeare Festival' instantiated successfully. Running scrape()...
+🔍 Starting Bard on the Beach scraper...
+✅ Added event: Macbeth on Wednesday, June 11, 2025
+✅ Added event: Cymbeline on Wednesday, June 11, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, June 12, 2025
+✅ Added event: Cymbeline on Thursday, June 12, 2025
+✅ Added event: Macbeth on Friday, June 13, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, June 13, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, June 14, 2025
+✅ Added event: Cymbeline on Saturday, June 14, 2025
+✅ Added event: Macbeth on Sunday, June 15, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, June 15, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, June 17, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, June 17, 2025
+✅ Added event: Macbeth on Wednesday, June 18, 2025
+✅ Added event: Cymbeline on Wednesday, June 18, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, June 19, 2025
+✅ Added event: Cymbeline on Thursday, June 19, 2025
+✅ Added event: Macbeth on Friday, June 20, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, June 20, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, June 21, 2025
+✅ Added event: Cymbeline on Saturday, June 21, 2025
+✅ Added event: Macbeth on Sunday, June 22, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, June 22, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, June 24, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, June 24, 2025
+✅ Added event: Macbeth on Wednesday, June 25, 2025
+✅ Added event: Cymbeline on Wednesday, June 25, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, June 26, 2025
+✅ Added event: Cymbeline on Thursday, June 26, 2025
+✅ Added event: Macbeth on Friday, June 27, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, June 27, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, June 28, 2025
+✅ Added event: Cymbeline on Saturday, June 28, 2025
+✅ Added event: Macbeth on Sunday, June 29, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, June 29, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, July 1, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, July 1, 2025
+✅ Added event: Macbeth on Wednesday, July 2, 2025
+✅ Added event: Cymbeline on Wednesday, July 2, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, July 3, 2025
+✅ Added event: Cymbeline on Thursday, July 3, 2025
+✅ Added event: Macbeth on Friday, July 4, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, July 4, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, July 5, 2025
+✅ Added event: Cymbeline on Saturday, July 5, 2025
+✅ Added event: Macbeth on Sunday, July 6, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, July 6, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, July 8, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, July 8, 2025
+✅ Added event: Macbeth on Wednesday, July 9, 2025
+✅ Added event: Cymbeline on Wednesday, July 9, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, July 10, 2025
+✅ Added event: Cymbeline on Thursday, July 10, 2025
+✅ Added event: Macbeth on Friday, July 11, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, July 11, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, July 12, 2025
+✅ Added event: Cymbeline on Saturday, July 12, 2025
+✅ Added event: Macbeth on Sunday, July 13, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, July 13, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, July 15, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, July 15, 2025
+✅ Added event: Macbeth on Wednesday, July 16, 2025
+✅ Added event: Cymbeline on Wednesday, July 16, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, July 17, 2025
+✅ Added event: Cymbeline on Thursday, July 17, 2025
+✅ Added event: Macbeth on Friday, July 18, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, July 18, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, July 19, 2025
+✅ Added event: Cymbeline on Saturday, July 19, 2025
+✅ Added event: Macbeth on Sunday, July 20, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, July 20, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, July 22, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, July 22, 2025
+✅ Added event: Macbeth on Wednesday, July 23, 2025
+✅ Added event: Cymbeline on Wednesday, July 23, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, July 24, 2025
+✅ Added event: Cymbeline on Thursday, July 24, 2025
+✅ Added event: Macbeth on Friday, July 25, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, July 25, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, July 26, 2025
+✅ Added event: Cymbeline on Saturday, July 26, 2025
+✅ Added event: Macbeth on Sunday, July 27, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, July 27, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, July 29, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, July 29, 2025
+✅ Added event: Macbeth on Wednesday, July 30, 2025
+✅ Added event: Cymbeline on Wednesday, July 30, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, July 31, 2025
+✅ Added event: Cymbeline on Thursday, July 31, 2025
+✅ Added event: Macbeth on Friday, August 1, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, August 1, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, August 2, 2025
+✅ Added event: Cymbeline on Saturday, August 2, 2025
+✅ Added event: Macbeth on Sunday, August 3, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, August 3, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, August 5, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, August 5, 2025
+✅ Added event: Macbeth on Wednesday, August 6, 2025
+✅ Added event: Cymbeline on Wednesday, August 6, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, August 7, 2025
+✅ Added event: Cymbeline on Thursday, August 7, 2025
+✅ Added event: Macbeth on Friday, August 8, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, August 8, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, August 9, 2025
+✅ Added event: Cymbeline on Saturday, August 9, 2025
+✅ Added event: Macbeth on Sunday, August 10, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, August 10, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, August 12, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, August 12, 2025
+✅ Added event: Macbeth on Wednesday, August 13, 2025
+✅ Added event: Cymbeline on Wednesday, August 13, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, August 14, 2025
+✅ Added event: Cymbeline on Thursday, August 14, 2025
+✅ Added event: Macbeth on Friday, August 15, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, August 15, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, August 16, 2025
+✅ Added event: Cymbeline on Saturday, August 16, 2025
+✅ Added event: Macbeth on Sunday, August 17, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, August 17, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, August 19, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, August 19, 2025
+✅ Added event: Macbeth on Wednesday, August 20, 2025
+✅ Added event: Cymbeline on Wednesday, August 20, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, August 21, 2025
+✅ Added event: Cymbeline on Thursday, August 21, 2025
+✅ Added event: Macbeth on Friday, August 22, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, August 22, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, August 23, 2025
+✅ Added event: Cymbeline on Saturday, August 23, 2025
+✅ Added event: Macbeth on Sunday, August 24, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, August 24, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, August 26, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, August 26, 2025
+✅ Added event: Macbeth on Wednesday, August 27, 2025
+✅ Added event: Cymbeline on Wednesday, August 27, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, August 28, 2025
+✅ Added event: Cymbeline on Thursday, August 28, 2025
+✅ Added event: Macbeth on Friday, August 29, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, August 29, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, August 30, 2025
+✅ Added event: Cymbeline on Saturday, August 30, 2025
+✅ Added event: Macbeth on Sunday, August 31, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, August 31, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, September 2, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, September 2, 2025
+✅ Added event: Macbeth on Wednesday, September 3, 2025
+✅ Added event: Cymbeline on Wednesday, September 3, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, September 4, 2025
+✅ Added event: Cymbeline on Thursday, September 4, 2025
+✅ Added event: Macbeth on Friday, September 5, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, September 5, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, September 6, 2025
+✅ Added event: Cymbeline on Saturday, September 6, 2025
+✅ Added event: Macbeth on Sunday, September 7, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, September 7, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, September 9, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, September 9, 2025
+✅ Added event: Macbeth on Wednesday, September 10, 2025
+✅ Added event: Cymbeline on Wednesday, September 10, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, September 11, 2025
+✅ Added event: Cymbeline on Thursday, September 11, 2025
+✅ Added event: Macbeth on Friday, September 12, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, September 12, 2025
+✅ Added event: A Midsummer Night's Dream on Saturday, September 13, 2025
+✅ Added event: Cymbeline on Saturday, September 13, 2025
+✅ Added event: Macbeth on Sunday, September 14, 2025
+✅ Added event: The Merry Wives of Windsor on Sunday, September 14, 2025
+✅ Added event: A Midsummer Night's Dream on Tuesday, September 16, 2025
+✅ Added event: The Merry Wives of Windsor on Tuesday, September 16, 2025
+✅ Added event: Macbeth on Wednesday, September 17, 2025
+✅ Added event: Cymbeline on Wednesday, September 17, 2025
+✅ Added event: A Midsummer Night's Dream on Thursday, September 18, 2025
+✅ Added event: Cymbeline on Thursday, September 18, 2025
+✅ Added event: Macbeth on Friday, September 19, 2025
+✅ Added event: The Merry Wives of Windsor on Friday, September 19, 2025
+🎉 Successfully created 174 Bard on the Beach events
+--- ✅ SUCCESS: bardOnTheBeach.js ---
+Found 174 events.
+Sample event:
+{
+  "id": "bard-on-beach-macbeth-2025-06-12-19-30",
+  "title": "Macbeth - Bard on the Beach",
+  "description": "Shakespeare's darkest tragedy explores the devastating effects of political ambition on those who seek power. When three witches prophesize that Macbeth will become King of Scotland, he and Lady Macbeth pursue that destiny with ruthless ambition. This gripping production examines the psychological and moral depths of the human soul in a haunting portrait of evil and its consequences.\n\nDirected by Emma Richardson\n\nPerformance: Wednesday, June 11, 2025 at 7:30 PM\n\nVenue: BMO Mainstage\n\nBring a picnic and enjoy Shakespeare by the sea with breathtaking views of mountains, sea and sky at beautiful Vanier Park.",
+  "startDate": "2025-06-12T02:30:00.000Z",
+  "endDate": "2025-06-12T05:15:00.000Z",
+  "venue": {
+    "name": "BMO Mainstage at Vanier Park",
+    "id": "vanier-park-vancouver",
+    "address": "1695 Whyte Ave",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6J 3V9",
+    "coordinates": {
+      "lat": 49.2763175,
+      "lng": -123.1452153
+    },
+    "websiteUrl": "https://bardonthebeach.org/",
+    "description": "Bard on the Beach Shakespeare Festival takes place in magnificent white tents in Vancouver's Vanier Park, on the waterfront with spectacular mountain and city views. The Festival runs from June through September each summer, and features productions of Shakespeare plays as well as related dramas and special events. The site includes two performance venues - the 742-seat BMO Mainstage and the intimate 262-seat Douglas Campbell Theatre tent - as well as a Village with concession, gift shop, and various amenities."
+  },
+  "category": "theatre",
+  "categories": [
+    "theatre",
+    "performance",
+    "arts",
+    "shakespeare",
+    "festival",
+    "outdoor"
+  ],
+  "sourceURL": "https://bardonthebeach.org/",
+  "officialWebsite": "https://bardonthebeach.org/tickets/",
+  "image": "https://bardonthebeach.org/wp-content/uploads/2025/01/macbeth-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:07.234Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: bardOnTheBeachEvents.js ---
+============================================================
+Scraper 'Bard on the Beach' instantiated successfully. Running scrape()...
+🔍 Starting Bard on the Beach events scraper...
+Navigating to: https://bardonthebeach.org/special-events/
+✅ Saved debug screenshot to bard-on-the-beach-debug.png
+⚠️ Using estimated festival dates: 6/8/2025 to 9/30/2025
+Looking for events with selector: .special-events .event
+Looking for events with selector: .event-list .event
+Looking for events with selector: .special-event-item
+Looking for events with selector: .event-card
+Looking for events with selector: .event-container
+Looking for events with selector: .events-container article
+Looking for events with selector: .event-listing
+Looking for events with selector: .bard-event
+Looking for events with selector: .wp-block-group
+Looking for events with selector: .wp-block-columns
+Looking for special event links...
+Found 6 potential event links with selector: a[href*="event"]
+Found potential event link: Special Events
+✅ Added event from link: Special Events on 6/8/2025
+Found potential event link: Special Events
+✅ Added event from link: Special Events on 6/27/2025
+Found potential event link: Bard Club
+✅ Added event from link: Bard Club on 7/16/2025
+Found potential event link: 2025 Stratford Trip
+✅ Added event from link: 2025 Stratford Trip on 8/4/2025
+Found potential event link: Relaxed Performance
+✅ Added event from link: Relaxed Performance on 8/23/2025
+Found potential event link: Bard Pride Day
+✅ Added event from link: Bard Pride Day on 9/11/2025
+🎉 Successfully scraped 6 events from Bard on the Beach
+--- ✅ SUCCESS: bardOnTheBeachEvents.js ---
+Found 6 events.
+Sample event:
+{
+  "id": "bard-on-the-beach-special-events-2025-06-09",
+  "title": "Special Events",
+  "description": "Special Events - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.",
+  "startDate": "2025-06-09T02:30:00.000Z",
+  "endDate": "2025-06-09T05:00:00.000Z",
+  "venue": {
+    "name": "Bard on the Beach",
+    "id": "bard-on-the-beach",
+    "address": "Vanier Park, 1695 Whyte Avenue",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2767,
+      "lng": -123.1434
+    },
+    "websiteUrl": "https://bardonthebeach.org/",
+    "description": "Bard on the Beach is Western Canada's largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park."
+  },
+  "category": "theatre",
+  "categories": [
+    "theatre",
+    "arts",
+    "performance",
+    "shakespeare",
+    "festival"
+  ],
+  "sourceURL": "https://bardonthebeach.org/special-events/",
+  "officialWebsite": "https://bardonthebeach.org/",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:11.192Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: bcPlaceEvents.js ---
+============================================================
+Scraper 'BC Place Events' instantiated successfully. Running scrape()...
+Starting BC Place Events scraper...
+Navigating to https://www.bcplace.com/events
+Extracting BC Place events...
+Primary event selectors not found, trying alternative selectors
+Found 1 BC Place events
+BC Place Events scraper finished
+--- ✅ SUCCESS: bcPlaceEvents.js ---
+Found 1 events.
+Sample event:
+{
+  "id": "bc-place-event-2025-07-16",
+  "title": "BC Place Event",
+  "description": "",
+  "startDate": "2025-07-16T02:00:00.000Z",
+  "endDate": "2025-07-16T05:00:00.000Z",
+  "image": "https://images.prismic.io/bcplace/aHGBOkMqNJQqH0Al_Untitleddesign-6-.png?auto=format,compress&rect=0,1,1990,898&w=1410&h=636",
+  "venue": {
+    "name": "BC Place",
+    "address": "777 Pacific Blvd, Vancouver, BC V6B 4Y8",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2767,
+      "lng": -123.1122
+    }
+  },
+  "categories": [
+    "Events",
+    "Entertainment"
+  ],
+  "sourceURL": "https://www.bcplace.com/events/2025/the-weeknd-after-hours-til-dawn",
+  "lastUpdated": "2025-07-15T14:28:23.667Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: bcPlaceStadium.js ---
+============================================================
+Scraper 'BC Place Stadium' instantiated successfully. Running scrape()...
+🔍 Starting BC Place Stadium scraper...
+✅ Added event: Coldplay: Music of the Spheres World Tour on Friday, July 25, 2025
+✅ Added event: Vancouver Whitecaps FC vs. Seattle Sounders FC on Saturday, August 2, 2025
+✅ Added event: Monster Jam on Saturday, August 9, 2025
+✅ Added event: BC Lions vs. Toronto Argonauts on Friday, August 15, 2025
+✅ Added event: Vancouver International Auto Show on Saturday, July 5, 2025
+✅ Added event: Global Dance Festival on Saturday, August 23, 2025
+🏟️ Successfully created 6 BC Place Stadium events
+--- ✅ SUCCESS: bcPlaceStadium.js ---
+Found 6 events.
+Sample event:
+{
+  "id": "bc-place-coldplay-music-of-the-spheres-world-tour-2025-07-26",
+  "title": "Coldplay: Music of the Spheres World Tour",
+  "description": "British rock band Coldplay brings their spectacular Music of the Spheres World Tour to Vancouver's BC Place. Known for their visually stunning and environmentally conscious performances, the band will showcase material from their latest album alongside classic hits from their extensive catalog. This tour features a groundbreaking sustainable approach to stadium shows, including kinetic dance floors and power bikes that allow fans to help power the show through renewable energy. The immersive concert experience combines breathtaking visuals, pyrotechnics, and LED wristbands for every attendee that synchronize with the music, creating a unified light display throughout the venue. Supporting acts include H.E.R. and local Vancouver artists.\n\nEVENT DETAILS:\nDate: Friday, July 25, 2025\nTime: 7:30 PM - 11:00 PM\nPrice: $75-$250\nTickets: Required, available through Ticketmaster or the BC Place box office\nPerformers: Coldplay, H.E.R.\n\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.",
+  "startDate": "2025-07-26T02:30:00.000Z",
+  "endDate": "2025-07-26T06:00:00.000Z",
+  "venue": {
+    "name": "BC Place Stadium",
+    "id": "bc-place-stadium-vancouver",
+    "address": "777 Pacific Blvd",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 4Y8",
+    "coordinates": {
+      "lat": 49.2767,
+      "lng": -123.1119
+    },
+    "websiteUrl": "https://www.bcplace.com/",
+    "description": "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
+  },
+  "category": "entertainment",
+  "categories": [
+    "events",
+    "entertainment",
+    "stadium",
+    "concert",
+    "music",
+    "live music"
+  ],
+  "sourceURL": "https://www.bcplace.com/",
+  "officialWebsite": "https://www.bcplace.com/events/coldplay-2025/",
+  "image": "https://www.bcplace.com/wp-content/uploads/2025/05/coldplay-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:23.749Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: billReidGalleryEvents.js ---
+============================================================
+Scraper 'Bill Reid Gallery' instantiated successfully. Running scrape()...
+🔍 Starting Bill Reid Gallery scraper...
+Navigating to: https://www.billreidgallery.ca/blogs/exhibitions-page
+✅ Saved debug screenshot
+Found 1 events on the page
+Visiting event page: https://www.billreidgallery.ca/blogs/exhibitions-page/kihl-yahda-christian-white-master-haida-artist
+✅ Added event: View Exhibition
+🎉 Successfully scraped 1 events from Bill Reid Gallery
+--- ✅ SUCCESS: billReidGalleryEvents.js ---
+Found 1 events.
+Sample event:
+{
+  "id": "bill-reid-gallery-view-exhibition-2025-02-01",
+  "title": "View Exhibition",
+  "description": "This exhibition is the first major solo exhibition of Haida artist Kihl ‘Yahda, Christian White. Guest curated by Sdahl Ḵ'awaas, Lucy Bell, also of the Haida Nation, the exhibition features artworks that span the entirety of Christian’s 50-year career, as well as collaborative works from several of his apprentices.",
+  "startDate": "2025-02-01T09:00:00.000Z",
+  "endDate": "2025-02-01T12:00:00.000Z",
+  "venue": {
+    "name": "Bill Reid Gallery",
+    "id": "bill-reid-gallery",
+    "address": "639 Hornby St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2849,
+      "lng": -123.1195
+    },
+    "websiteUrl": "https://www.billreidgallery.ca/",
+    "description": "The Bill Reid Gallery of Northwest Coast Art is a public gallery dedicated to contemporary Indigenous Northwest Coast Art."
+  },
+  "category": "exhibition",
+  "categories": [
+    "art",
+    "exhibition",
+    "indigenous",
+    "culture",
+    "gallery"
+  ],
+  "sourceURL": "https://www.billreidgallery.ca/blogs/exhibitions-page/kihl-yahda-christian-white-master-haida-artist",
+  "officialWebsite": "https://www.billreidgallery.ca/",
+  "image": "https://cdn.shopify.com/s/files/1/2457/3259/files/Vancouver_Art_Gallery_Vancouver_Art_Gallery_Receives_Historic__1_480x480.jpg?v=1724357634",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:28.171Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: biltmoreCabaret.js ---
+============================================================
+Scraper 'The Biltmore Cabaret' instantiated successfully. Running scrape()...
+🔍 Starting The Biltmore Cabaret scraper...
+✅ Added event: Lucy Dacus with Special Guests on Tuesday, July 15, 2025
+✅ Added event: Glory Days: 80s New Wave Dance Party on Friday, July 18, 2025
+✅ Added event: Vancouver Underground: Local Showcase on Wednesday, July 23, 2025
+✅ Added event: The Midnight with Special Guests on Tuesday, July 29, 2025
+✅ Added event: No Demands: Post-Punk Night on Friday, August 1, 2025
+✅ Added event: Omar Apollo - Intimate Show on Thursday, August 7, 2025
+🎸 Successfully created 6 The Biltmore Cabaret events
+--- ✅ SUCCESS: biltmoreCabaret.js ---
+Found 6 events.
+Sample event:
+{
+  "id": "biltmore-cabaret-lucy-dacus-with-special-guests-2025-07-16",
+  "title": "Lucy Dacus with Special Guests",
+  "description": "Acclaimed indie rock singer-songwriter Lucy Dacus returns to The Biltmore Cabaret in support of her critically celebrated new album. Known for her insightful lyrics and captivating live performances, Dacus brings her full band to deliver an intimate evening of storytelling and music. The show will feature songs from her latest release as well as fan favorites from her previous albums.\n\nEVENT DETAILS:\nDate: Tuesday, July 15, 2025\nDoors: 7:00 PM\nShow: 8:00 PM\nAge Restriction: 19+\nGenre: Indie Rock\nArtist Website: https://lucydacus.com/\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+  "startDate": "2025-07-16T03:00:00.000Z",
+  "endDate": "2025-07-16T06:30:00.000Z",
+  "venue": {
+    "name": "The Biltmore Cabaret",
+    "id": "biltmore-cabaret-vancouver",
+    "address": "2755 Prince Edward St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V5T 0A9",
+    "coordinates": {
+      "lat": 49.2614363,
+      "lng": -123.1018535
+    },
+    "websiteUrl": "https://www.thebiltmorecabaret.com/",
+    "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+  },
+  "category": "music",
+  "categories": [
+    "music",
+    "nightlife",
+    "entertainment",
+    "live music",
+    "indie rock"
+  ],
+  "sourceURL": "https://www.thebiltmorecabaret.com/",
+  "officialWebsite": "https://www.thebiltmorecabaret.com/events/lucy-dacus/",
+  "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/04/lucy-dacus.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:28.274Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: biltmoreCabaretEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from biltmoreCabaretEvents.js ---
+BiltmoreCabaretEvents is not a constructor
+TypeError: BiltmoreCabaretEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/biltmoreCabaretEvents.js:422:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: broadwayVancouverEvents.js ---
+============================================================
+Scraper 'Broadway Vancouver' instantiated successfully. Running scrape()...
+🔍 Starting Broadway Vancouver events scraper...
+Navigating to: https://vancouver.broadway.com/
+✅ Saved debug screenshot to broadway-vancouver-debug.png
+Looking for shows with selector: .show-card
+Looking for shows with selector: .show-item
+Looking for shows with selector: .production-item
+Looking for shows with selector: .production-card
+Looking for shows with selector: .show-block
+Looking for shows with selector: .show
+Looking for shows with selector: .event-item
+Looking for shows with selector: .event-card
+Looking for shows with selector: article.show
+Looking for shows with selector: .show-container
+Looking for show links...
+Found 81 potential show links with selector: a[href*="show"]
+Found potential show link: Shows
+✅ Added show from link: Shows on 8/14/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 9/28/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 11/12/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 12/27/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 2/10/2026
+🎉 Successfully scraped 5 events from Broadway Vancouver
+--- ✅ SUCCESS: broadwayVancouverEvents.js ---
+Found 5 events.
+Sample event:
+{
+  "id": "broadway-vancouver-shows-2025-08-15",
+  "title": "Shows",
+  "description": "Shows - Broadway Across Canada production at the Queen Elizabeth Theatre in Vancouver.",
+  "startDate": "2025-08-15T02:30:00.000Z",
+  "endDate": "2025-08-15T05:00:00.000Z",
+  "venue": {
+    "name": "Queen Elizabeth Theatre",
+    "id": "queen-elizabeth-theatre-vancouver",
+    "address": "630 Hamilton St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2799,
+      "lng": -123.1128
+    },
+    "websiteUrl": "https://vancouver.broadway.com/",
+    "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver and the primary venue for Broadway productions in Vancouver."
+  },
+  "category": "theatre",
+  "categories": [
+    "theatre",
+    "musical",
+    "broadway",
+    "performance",
+    "arts"
+  ],
+  "sourceURL": "https://vancouver.broadway.com/shows/",
+  "officialWebsite": "https://vancouver.broadway.com/",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:34.786Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: canadaPlaceEvents.js ---
+============================================================
+Scraper 'Canada Place Events' instantiated successfully. Running scrape()...
+Scraping Canada Place Events...
+Navigating to https://www.canadaplace.ca/events...
+Page loaded, extracting events...
+Extracting events from Canada Place website
+Took screenshot to /tmp/canada-place-debug.png for debugging
+Extracted 1 events from Canada Place using dynamic scraping
+First pass found 1 events
+Not enough events found. Exploring deeper...
+Found 4 potential event detail links to explore
+Found 4 potential event detail links to explore
+Found 4 potential events from text content
+Added event from text content: Port Day
+Added event from text content: Canada Together
+Added event from text content: Christmas at Canada Place
+Added event from text content: Zumba at Canada Place
+Exploring event link: https://www.canadaplace.ca/canadatogether
+Extracting event details from: https://www.canadaplace.ca/canadatogether
+Skipped duplicate event: Canadatogether
+Exploring event link: https://www.canadaplace.ca/zumba
+Extracting event details from: https://www.canadaplace.ca/zumba
+Skipped duplicate event: Zumba
+Exploring event link: https://www.canadaplace.ca/portday
+Extracting event details from: https://www.canadaplace.ca/portday
+Skipped duplicate event: Portday
+Exploring event link: https://www.canadaplace.ca/event/christmas-canada-place
+Extracting event details from: https://www.canadaplace.ca/event/christmas-canada-place
+Skipped duplicate event: Christmas Canada Place
+After deep exploration, found total of 5 events
+Processed event: Christmas at Canada Place (normalized: christmas at canada place)
+Processed event: Port Day (normalized: port day)
+Processed event: Canada Together (normalized: canada together)
+Processed event: Zumba at Canada Place (normalized: zumba at canada place)
+Found 4 valid events out of 4 total
+--- ✅ SUCCESS: canadaPlaceEvents.js ---
+Found 4 events.
+Sample event:
+{
+  "id": "canada-place-christmas-at-canada-place-1755268128332",
+  "title": "Christmas at Canada Place",
+  "startDate": "2025-08-15T14:28:48.332Z",
+  "endDate": "2025-08-15T14:28:48.332Z",
+  "description": "Christmas at Canada Place at Canada Place",
+  "image": "",
+  "link": "https://www.canadaplace.ca/event/christmas-canada-place",
+  "sourceIdentifier": "canada-place",
+  "venue": {
+    "name": "Canada Place",
+    "address": "999 Canada Place, Vancouver, BC V6C 3E1",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2888,
+      "lng": -123.1111
+    }
+  },
+  "categories": [
+    "Entertainment",
+    "Holiday",
+    "Christmas"
+  ],
+  "lastUpdated": "2025-07-15T14:28:48.332Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: capilanoSuspensionBridge.js ---
+============================================================
+Scraper 'Capilano Suspension Bridge Park' instantiated successfully. Running scrape()...
+🔍 Starting Capilano Suspension Bridge Park scraper...
+✅ Added event: Canyon Lights Winter Festival on Friday, January 10, 2025
+✅ Added event: Rainforest Ecology Tour on Tuesday, July 15, 2025
+✅ Added event: Indigenous Cultural Performances on Saturday, July 5, 2025
+✅ Added event: Photography Workshop: Capturing Nature on Saturday, July 19, 2025
+✅ Added event: Summer Solstice Celebration on Saturday, June 21, 2025
+✅ Added event: Kids' Treetop Adventure Camp on Monday, August 11, 2025
+🌲 Successfully created 6 Capilano Suspension Bridge Park events
+--- ✅ SUCCESS: capilanoSuspensionBridge.js ---
+Found 6 events.
+Sample event:
+{
+  "id": "capilano-canyon-lights-winter-festival-2025-01-11",
+  "title": "Canyon Lights Winter Festival",
+  "description": "Experience the magic of Canyon Lights, a winter festival that transforms the Capilano Suspension Bridge Park into a world of festive lights and visual enchantment. Hundreds of thousands of lights illuminate the suspension bridge, Treetops Adventure, Cliffwalk, and throughout the rainforest and canyon. This year's display features new light installations including a mesmerizing walk-through light tunnel, illuminated totem poles, and a multi-dimensional light show projected onto the canyon walls. Enjoy live holiday music, hot chocolate stations throughout the park, and appearances by holiday characters. The suspension bridge and Treetops Adventure viewing platforms provide spectacular perspectives of the light displays from above.\n\nEVENT DETAILS:\nDate: Friday, January 10, 2025\nTime: 4:00 PM - 9:00 PM\nRecurrence: Daily from November 2024 to January 19, 2025\nPrice: Regular admission rates apply, Annual Pass holders free\nTickets: Required, available online or at the park entrance\n\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.",
+  "startDate": "2025-01-11T00:00:00.000Z",
+  "endDate": "2025-01-11T05:00:00.000Z",
+  "venue": {
+    "name": "Capilano Suspension Bridge Park",
+    "id": "capilano-suspension-bridge-park",
+    "address": "3735 Capilano Road",
+    "city": "North Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V7R 4J1",
+    "coordinates": {
+      "lat": 49.3429,
+      "lng": -123.1139
+    },
+    "websiteUrl": "https://www.capbridge.com/",
+    "description": "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
+  },
+  "category": "attraction",
+  "categories": [
+    "attraction",
+    "outdoors",
+    "nature",
+    "tourism",
+    "winter festival",
+    "lights",
+    "holiday",
+    "family-friendly",
+    "seasonal"
+  ],
+  "sourceURL": "https://www.capbridge.com/",
+  "officialWebsite": "https://www.capbridge.com/events/canyon-lights-2025/",
+  "image": "https://www.capbridge.com/wp-content/uploads/2024/11/canyon-lights-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:48.420Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: carnavalDelSol.js ---
+============================================================
+Scraper 'Carnaval del Sol' instantiated successfully. Running scrape()...
+🔍 Starting Carnaval del Sol scraper...
+✅ Added event: Carnaval del Sol 2025 - Saturday
+✅ Added event: Carnaval del Sol 2025 - Sunday
+🎉 Successfully created 2 Carnaval del Sol events
+--- ✅ SUCCESS: carnavalDelSol.js ---
+Found 2 events.
+Sample event:
+{
+  "id": "carnaval-del-sol-saturday-2025-07-12",
+  "title": "Carnaval del Sol 2025 - Saturday",
+  "description": "Experience Latin America in Vancouver at Carnaval del Sol! The largest Latin festival in the Pacific Northwest returns to Vancouver with an exciting program featuring live music, dance performances, art exhibitions, cultural pavilions, kids' activities, and authentic food. Enjoy performances from Latin American artists across multiple stages, explore the diverse cultural pavilions representing different countries, sample delicious Latin cuisine, participate in interactive workshops, and experience the vibrant energy of this colorful celebration. This two-day outdoor festival brings together over 450 artists, 50 music and dance performances, and attracts more than 40,000 attendees.",
+  "startDate": "2025-07-12T17:00:00.000Z",
+  "endDate": "2025-07-13T05:00:00.000Z",
+  "venue": {
+    "name": "Concord Pacific Place",
+    "id": "concord-pacific-place",
+    "address": "88 Pacific Boulevard",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6Z 2R6",
+    "coordinates": {
+      "lat": 49.2767112,
+      "lng": -123.1083056
+    },
+    "websiteUrl": "https://www.carnavaldelsol.ca/",
+    "description": "Concord Pacific Place hosts Vancouver's Carnaval del Sol, the largest Latin American festival in the Pacific Northwest. This vibrant outdoor space transforms into a celebration of Latin American culture with multiple stages for live music and dance performances, cultural pavilions representing different countries, food vendors offering authentic Latin cuisine, and a variety of activities for all ages."
+  },
+  "category": "festival",
+  "categories": [
+    "festival",
+    "music",
+    "dance",
+    "latin",
+    "food",
+    "cultural",
+    "outdoor",
+    "family-friendly"
+  ],
+  "sourceURL": "https://www.carnavaldelsol.ca/",
+  "officialWebsite": "https://www.carnavaldelsol.ca/",
+  "image": "https://www.carnavaldelsol.ca/wp-content/uploads/2025/04/carnaval-main-stage.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:48.422Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: celebritiesNightclub.js ---
+============================================================
+Scraper 'Celebrities Nightclub' instantiated successfully. Running scrape()...
+🔍 Starting Celebrities Nightclub scraper...
+✅ Added event: PARADISE SATURDAYS on Saturday, July 5, 2025
+✅ Added event: FVDED Friday on Friday, July 11, 2025
+✅ Added event: DRAG ME TO HELL: Celestial Showdown on Thursday, July 17, 2025
+✅ Added event: Nina Kraviz: Techno Revolution Tour on Thursday, July 24, 2025
+✅ Added event: PRIDE WEEKEND: Love Revolution on Saturday, August 2, 2025
+🎧 Successfully created 5 Celebrities Nightclub events
+--- ✅ SUCCESS: celebritiesNightclub.js ---
+Found 5 events.
+Sample event:
+{
+  "id": "celebrities-nightclub-paradise-saturdays-2025-07-06",
+  "title": "PARADISE SATURDAYS",
+  "description": "Paradise Saturdays is Celebrities Nightclub's flagship weekly event featuring the best local DJs spinning house, progressive, and top 40 remixes. Experience the club's legendary atmosphere with stunning light shows, talented dancers, and special effects that have made Paradise a Vancouver nightlife tradition for over two decades.\n\nEVENT DETAILS:\nDate: Saturday, July 5, 2025\nTime: 10:00 PM\nDoors: 10:00 PM\nAge Restriction: 19+\nGenre: Dance/Electronic\nDJs: DJ Del Stamp, DJ Drew Allen\n\nCelebrities Nightclub is located at 1022 Davie Street in Vancouver's vibrant Davie Village.",
+  "startDate": "2025-07-06T05:00:00.000Z",
+  "endDate": "2025-07-06T10:00:00.000Z",
+  "venue": {
+    "name": "Celebrities Nightclub",
+    "id": "celebrities-nightclub-vancouver",
+    "address": "1022 Davie St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6E 1M3",
+    "coordinates": {
+      "lat": 49.2808878,
+      "lng": -123.1300321
+    },
+    "websiteUrl": "https://www.celebritiesnightclub.com/",
+    "description": "Celebrities Nightclub is an iconic Vancouver nightlife institution established in 1984. Located in the heart of the Davie Village, it's one of the city's longest-running and most popular LGBTQ+ friendly nightclubs, featuring state-of-the-art sound and lighting systems, multiple rooms, and themed nights that welcome everyone."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "music",
+    "dance",
+    "club",
+    "entertainment",
+    "dance/electronic",
+    "lgbtq+"
+  ],
+  "sourceURL": "https://www.celebritiesnightclub.com/",
+  "officialWebsite": "https://www.celebritiesnightclub.com/events/paradise-saturdays/",
+  "image": "https://www.celebritiesnightclub.com/wp-content/uploads/2025/01/paradise-saturdays.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:48.422Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: chanCentre.js ---
+============================================================
+Scraper 'Chan Centre for the Performing Arts' instantiated successfully. Running scrape()...
+🔍 Starting Chan Centre events scraper...
+🎉 Successfully scraped 0 Chan Centre events
+--- ✅ SUCCESS: chanCentre.js ---
+Found 0 events.
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: chanCentreEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from chanCentreEvents.js ---
+ChanCentreEvents is not a constructor
+TypeError: ChanCentreEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/chanCentreEvents.js:480:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: cherryBlossomFestEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from cherryBlossomFestEvents.js ---
+CherryBlossomFestEvents is not a constructor
+TypeError: CherryBlossomFestEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/cherryBlossomFestEvents.js:397:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: chineseGardenEvents.js ---
+============================================================
+Scraper 'Dr. Sun Yat-Sen Classical Chinese Garden' instantiated successfully. Running scrape()...
+🔍 Starting Chinese Garden events scraper...
+Navigating to: https://vancouverchinesegarden.com/whats-on/
+No structured events found. Looking for event mentions in text...
+Creating projected garden events
+✅ Added projected exhibition: Summer Splendor: Garden Arts Exhibition starting Thu Jul 10 2025
+✅ Added projected exhibition: Summer Splendor: Garden Arts Exhibition starting Sun Aug 10 2025
+✅ Added projected exhibition: Autumn Reflections: Cultural Heritage Exhibition starting Wed Sep 10 2025
+✅ Added projected exhibition: Autumn Reflections: Cultural Heritage Exhibition starting Fri Oct 10 2025
+✅ Added projected exhibition: Autumn Reflections: Cultural Heritage Exhibition starting Mon Nov 10 2025
+✅ Added projected exhibition: Winter Solitude: Garden Photography Exhibition starting Wed Dec 10 2025
+🎉 Successfully scraped 6 events from Chinese Garden
+--- ✅ SUCCESS: chineseGardenEvents.js ---
+Found 6 events.
+Sample event:
+{
+  "id": "chinese-garden-summer-splendor-garden-arts-exhibition-2025-07-10",
+  "title": "Summer Splendor: Garden Arts Exhibition",
+  "description": "Celebrate the height of summer with this special exhibition featuring traditional Chinese garden arts including brush painting, calligraphy, and tea culture. Visitors can enjoy demonstrations and participate in workshops throughout the duration of the exhibition.",
+  "startDate": "2025-07-10T17:00:00.000Z",
+  "endDate": "2025-08-01T00:00:00.000Z",
+  "venue": {
+    "name": "Dr. Sun Yat-Sen Classical Chinese Garden",
+    "id": "dr-sun-yat-sen-classical-chinese-garden",
+    "address": "578 Carrall St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2798,
+      "lng": -123.1045
+    },
+    "websiteUrl": "https://vancouverchinesegarden.com/",
+    "description": "The Dr. Sun Yat-Sen Classical Chinese Garden is the first Ming Dynasty-style garden built outside of China, offering a window into Chinese culture and history in the heart of Vancouver."
+  },
+  "category": "exhibition",
+  "categories": [
+    "cultural",
+    "exhibition",
+    "garden",
+    "chinese",
+    "heritage"
+  ],
+  "sourceURL": "https://vancouverchinesegarden.com/whats-on/",
+  "officialWebsite": "https://vancouverchinesegarden.com/whats-on/",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T14:28:51.975Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: coastalJazzEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from coastalJazzEvents.js ---
+Unexpected token '{'
+/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/coastalJazzEvents.js:276
+  extractFestivalDates(festivalInfo) {
+                                     ^
+
+SyntaxError: Unexpected token '{'
+    at wrapSafe (node:internal/modules/cjs/loader:1666:18)
+    at Module._compile (node:internal/modules/cjs/loader:1708:20)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: coastalJazzFestival.js ---
+============================================================
+Scraper 'Coastal Jazz Festival' instantiated successfully. Running scrape()...
+🔍 Starting Coastal Jazz Festival scraper...
+🎉 Successfully scraped 0 Coastal Jazz Festival events
+--- ✅ SUCCESS: coastalJazzFestival.js ---
+Found 0 events.
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: commodoreBallroomEvents.js ---
+============================================================
+Scraper 'commodoreBallroomEvents.js' instantiated successfully. Running scrape()...
+🔍 Scraping events from The Commodore Ballroom via Ticketmaster API...
+Saved API response to commodore-ticketmaster-response.json
+Found 74 events from Ticketmaster API
+Processing event: "Macy Gray - On How Life Is 25th Anniversary Tour", Date text: "2025-07-17T02:00:00Z"
+Processing event: "Cameron Whitcomb - Hundred Mile High Tour", Date text: "2025-07-18T02:00:00Z"
+Processing event: "Deltron 3030", Date text: "2025-07-19T03:00:00Z"
+Processing event: "Cameron Whitcomb - Hundred Mile High Tour", Date text: "2025-07-23T02:00:00Z"
+Processing event: "Mannequin Pussy", Date text: "2025-07-24T02:00:00Z"
+Processing event: "Mannequin Pussy", Date text: "2025-07-25T02:00:00Z"
+Processing event: "BOOM! Pro Wrestling", Date text: "2025-07-27T02:00:00Z"
+Processing event: "Cymande", Date text: "2025-07-28T02:00:00Z"
+Processing event: "The Damned", Date text: "2025-07-29T02:00:00Z"
+Processing event: "Man Up Pride: Live From The Commodore!", Date text: "2025-08-02T03:00:00Z"
+Processing event: "Rhythm Of The Night - 90s Pride Dance Party", Date text: "2025-08-03T04:00:00Z"
+Processing event: "Richy Mitch & The Coal Miners - Colorado's on Fire Again", Date text: "2025-08-07T02:00:00Z"
+Processing event: "Clutch", Date text: "2025-08-08T02:00:00Z"
+Processing event: "Flight Facilities", Date text: "2025-08-09T03:00:00Z"
+Processing event: "flipturn - THE BURNOUT DAYS TOUR", Date text: "2025-08-12T02:00:00Z"
+Processing event: "The Man In Black: Tribute To Johnny Cash", Date text: "2025-08-18T02:00:00Z"
+Processing event: "Billy Strings", Date text: "2025-08-20T02:30:00Z"
+Processing event: "Billy Strings", Date text: "2025-08-21T02:30:00Z"
+Processing event: "Navaan Sandhu", Date text: "2025-08-27T02:00:00Z"
+Processing event: "Christone "Kingfish" Ingram", Date text: "2025-08-29T02:00:00Z"
+Processing event: "The Budos Band with Say She She & DJ Keith McCafferty", Date text: "2025-08-30T02:30:00Z"
+Processing event: "Red Bull Dance Your Style Canada", Date text: "2025-09-06T02:00:00Z"
+Processing event: "ARMNHMR", Date text: "2025-09-07T06:00:00Z"
+Processing event: "X Ambassadors - The VHS(X) North American Tour", Date text: "2025-09-10T01:30:00Z"
+Processing event: "Descendents", Date text: "2025-09-14T01:30:00Z"
+Processing event: "Descendents", Date text: "2025-09-15T01:30:00Z"
+Processing event: "The Hives", Date text: "2025-09-17T02:00:00Z"
+Processing event: "Arc De Soleil: La Mirage Tour", Date text: "2025-09-18T02:00:00Z"
+Processing event: "The Wailers: Natural Mystic 30th Anniversary", Date text: "2025-09-20T03:00:00Z"
+Processing event: "The Waterboys", Date text: "2025-09-21T02:00:00Z"
+Processing event: "UB40 - The Relentless Tour 2025", Date text: "2025-09-22T02:00:00Z"
+Processing event: "Black Rebel Motorcycle Club", Date text: "2025-09-24T02:00:00Z"
+Processing event: "Sunny Day Real Estate - Tour 2025", Date text: "2025-09-25T02:00:00Z"
+Processing event: "Spacey Jane - If That Makes Sense Tour", Date text: "2025-09-27T02:00:00Z"
+Processing event: "Amble", Date text: "2025-09-28T02:00:00Z"
+Processing event: "Amble", Date text: "2025-09-29T02:00:00Z"
+Processing event: "BETWEEN FRIENDS - WOW! TOUR", Date text: "2025-09-30T02:00:00Z"
+Processing event: "Circle Jerks", Date text: "2025-10-01T02:00:00Z"
+Processing event: "Wilkinson", Date text: "2025-10-04T06:00:00Z"
+Processing event: "BUNT.", Date text: "2025-10-05T05:00:00Z"
+Processing event: "James", Date text: "2025-10-06T02:00:00Z"
+Processing event: "Counterparts + special guests", Date text: "2025-10-07T01:00:00Z"
+Processing event: "Wolf Alice North American Tour 2025", Date text: "2025-10-08T02:00:00Z"
+Processing event: "54-40", Date text: "2025-10-11T02:00:00Z"
+Processing event: "54-40", Date text: "2025-10-12T02:00:00Z"
+Processing event: "The Beta Band - The Three EPs Tour", Date text: "2025-10-13T02:00:00Z"
+Processing event: "Max McNown - Forever Ain't Long Enough Tour", Date text: "2025-10-16T02:00:00Z"
+Processing event: "Max McNown - Forever Ain't Long Enough Tour", Date text: "2025-10-17T02:00:00Z"
+Processing event: "Hazlett", Date text: "2025-10-18T01:30:00Z"
+Processing event: "The Wombats - Oh! The Ocean Tour", Date text: "2025-10-19T02:00:00Z"
+Processing event: "The Tallest Man On Earth", Date text: "2025-10-23T02:00:00Z"
+Processing event: "MATTHEW GOOD AND HIS BAND with I MOTHER EARTH", Date text: "2025-10-25T02:00:00Z"
+Processing event: "Geordie Kieffer: Hush Hush Canada Tour", Date text: "2025-10-26T02:30:00Z"
+Processing event: "Matthew Good Acoustic VIP Set Upgrade - Not a Concert Ticket", Date text: "2025-10-27T02:00:00Z"
+Processing event: "MATTHEW GOOD AND HIS BAND with I MOTHER EARTH", Date text: "2025-10-27T02:00:00Z"
+Processing event: "G FLIP - The Dream Ride Tour", Date text: "2025-10-28T02:00:00Z"
+Processing event: "Durand Jones & The Indications - Flowers Tour 2025", Date text: "2025-10-29T02:00:00Z"
+Processing event: "Sophie Ellis Bextor", Date text: "2025-10-31T02:00:00Z"
+Processing event: "LEISURE - WELCOME TO THE MOOD TOUR", Date text: "2025-11-02T02:00:00Z"
+Processing event: "Psychedelic Porn Crumpets", Date text: "2025-11-06T03:00:00Z"
+Processing event: "Wyatt Flores", Date text: "2025-11-09T03:00:00Z"
+Processing event: "Wyatt Flores", Date text: "2025-11-10T03:00:00Z"
+Processing event: "Set It Off: The Self Titled Tour", Date text: "2025-11-12T02:00:00Z"
+Processing event: "Sloan - A Tour de Force", Date text: "2025-11-16T03:00:00Z"
+Processing event: "The Beths", Date text: "2025-11-17T03:00:00Z"
+Processing event: "THRICE", Date text: "2025-11-18T02:00:00Z"
+Processing event: "THE DARKNESS: Dreams on Toast", Date text: "2025-11-19T03:00:00Z"
+Processing event: "Nick Mulvey: Dark Harvest World Tour", Date text: "2025-11-22T02:30:00Z"
+Processing event: "PUP", Date text: "2025-11-26T03:00:00Z"
+Processing event: "PUP", Date text: "2025-11-27T03:00:00Z"
+Processing event: "James Barker Band - Bud Light Buckle Up Tour", Date text: "2025-12-01T03:00:00Z"
+Processing event: "grandson: INERTIA Tour", Date text: "2025-12-04T03:00:00Z"
+Processing event: "Leon Thomas - Mutts Don't Heel Tour", Date text: "2025-12-17T03:00:00Z"
+Processing event: "Nothing More w/ Catch Your Breath, Archers and Doobie", Date text: "2026-03-10T00:30:00Z"
+Successfully processed 74 events from Commodore Ballroom
+--- ✅ SUCCESS: commodoreBallroomEvents.js ---
+Found 74 events.
+Sample event:
+{
+  "title": "Macy Gray - On How Life Is 25th Anniversary Tour",
+  "startDate": "2025-07-17T02:00:00.000Z",
+  "endDate": "2025-07-17T02:00:00.000Z",
+  "url": "https://www.ticketmaster.ca/macy-gray-on-how-life-is-vancouver-british-columbia-07-16-2025/event/1100626792DA1E51",
+  "imageUrl": "https://s1.ticketm.net/dam/a/90d/6d1db0ea-5f58-47ec-9016-ae90300e990d_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+  "venue": "Commodore Ballroom",
+  "organizer": "Live Nation",
+  "address": "868 Granville St, Vancouver, BC V6Z 1K3",
+  "slug": "macy-gray-on-how-life-is-25th-anniversary-tour",
+  "city": "vancouver",
+  "source": "commodore-ballroom"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: contemporaryArtGalleryEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from contemporaryArtGalleryEvents.js ---
+ContemporaryArtGalleryEvents is not a constructor
+TypeError: ContemporaryArtGalleryEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/contemporaryArtGalleryEvents.js:330:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: cultureCrawlEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from cultureCrawlEvents.js ---
+CultureCrawlEvents is not a constructor
+TypeError: CultureCrawlEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/cultureCrawlEvents.js:337:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: danceFestivalEvents.js ---
+============================================================
+--- ❌ ERROR running scraper from danceFestivalEvents.js ---
+DanceFestivalEvents is not a constructor
+TypeError: DanceFestivalEvents is not a constructor
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/danceFestivalEvents.js:524:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at runScrapers (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-all-scrapers-individually.js:33:29)
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: doxaFilmFestivalEvents.js ---
+============================================================
+Scraper 'DOXA Documentary Film Festival' instantiated successfully. Running scrape()...
+Scraping DOXA Film Festival Events...
+Looking for films/schedule page...
+Found 16 potential film/schedule links
+Exploring link: View the 2025 Program (https://www.doxafestival.ca/program)
+Found 0 potential films on View the 2025 Program
+Exploring link: Sign Up for News (https://mailchi.mp/doxafestival/subscribe)
+Found 0 potential films on Sign Up for News
+Exploring link: Donate (https://doxafestival.ca/donate)
+Found 0 potential films on Donate
+Exploring link: 2025 Program Announced (https://www.doxafestival.ca/news/2025/04/03/2025-program-announced)
+Found 0 potential films on 2025 Program Announced
+Exploring link: 2025 Program (https://www.doxafestival.ca/program)
+Found 0 potential films on 2025 Program
+Exploring link: Justice Forum (https://www.doxafestival.ca/justiceforum)
+Found 0 potential films on Justice Forum
+Exploring link: paraDOXA (https://www.doxafestival.ca/paradoxa)
+Found 0 potential films on paraDOXA
+Exploring link: Spotlights (https://www.doxafestival.ca/program/spotlights)
+Found 0 potential films on Spotlights
+Exploring link: Awards & Jury (https://www.doxafestival.ca/about/festival-awards)
+Found 0 potential films on Awards & Jury
+Exploring link: Download the 2025 Program (https://www.doxafestival.ca/sites/default/files/2025-04/DOXA2025_ProgramBook_v2_144ppi%20%281%29.pdf)
+Found 0 potential films on Download the 2025 Program
+Exploring link: Audience Survey (https://www.doxafestival.ca/survey)
+Found 0 potential films on Audience Survey
+Exploring link: Join Our Newsletter (https://mailchi.mp/doxafestival/subscribe)
+Found 0 potential films on Join Our Newsletter
+Exploring link:  (https://www.doxafestival.ca/)
+Found 0 potential films on 
+Exploring link: 2025 Program (https://www.doxafestival.ca/program)
+Found 0 potential films on 2025 Program
+Checking for festival dates on homepage...
+🎉 Successfully scraped 0 events from DOXA Documentary Film Festival
+--- ✅ SUCCESS: doxaFilmFestivalEvents.js ---
+Found 0 events.
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: dragonBoatFestivalEvents.js ---
+============================================================
+Scraper 'Concord Dragon Boat Festival' instantiated successfully. Running scrape()...
+🔍 Starting Concord Dragon Boat Festival scraper...
+Navigating to: https://concorddragonboatfestival.ca/
+✅ Saved debug screenshot to dragon-boat-debug.png
+✅ Festival dates: Fri Jun 20 2025 - Sun Jun 22 2025
+🎉 Successfully scraped 12 events from Concord Dragon Boat Festival
+--- ✅ SUCCESS: dragonBoatFestivalEvents.js ---
+Found 12 events.
+Sample event:
+{
+  "id": "dragon-boat-festival-concord-dragon-boat-festival-2025-06-20",
+  "title": "Concord Dragon Boat Festival",
+  "description": "The Concord Dragon Boat Festival is a vibrant celebration of culture, sport, and community in Vancouver. Watch exciting dragon boat races, enjoy cultural performances, taste delicious food, and experience the festive atmosphere at False Creek.",
+  "startDate": "2025-06-20T16:00:00.000Z",
+  "endDate": "2025-06-23T00:00:00.000Z",
+  "venue": {
+    "name": "False Creek",
+    "id": "false-creek-vancouver",
+    "address": "Creekside Park, 1455 Quebec St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2734,
+      "lng": -123.1044
+    },
+    "websiteUrl": "https://concorddragonboatfestival.ca/",
+    "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+  },
+  "category": "festival",
+  "categories": [
+    "festival",
+    "sports",
+    "cultural",
+    "outdoor",
+    "dragon-boat"
+  ],
+  "sourceURL": "https://concorddragonboatfestival.ca/",
+  "officialWebsite": "https://concorddragonboatfestival.ca/",
+  "image": null,
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T14:29:28.890Z"
+}
+------------------------------------------------------------
+
+============================================================
+--- Attempting to run scraper: festivalDEteEvents.js ---
+============================================================
+Scraper 'Festival d'Été - Le Centre Culturel' instantiated successfully. Running scrape()...
+🔍 Starting Festival d'Été events scraper...
+Navigating to: https://www.lecentreculturel.com/en/festival-d-ete

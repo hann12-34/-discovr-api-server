@@ -1,0 +1,172 @@
+[
+  {
+    "id": "hello-goodbye-bar-dj-alex-b-2025-07-06",
+    "title": "DJ Alex B",
+    "description": "DJ Alex B spinning deep house and tech house at Hello Goodbye Bar. Underground vibes in Yaletown.",
+    "startDate": "2025-07-06T04:00:00.000Z",
+    "endDate": "2025-07-06T07:00:00.000Z",
+    "venue": {
+      "name": "Hello Goodbye Bar",
+      "id": "hello-goodbye-bar",
+      "address": "110 Davie St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2738,
+        "lng": -123.1131
+      },
+      "websiteUrl": "https://hellogoodbyebar.com/",
+      "description": "Hello Goodbye is an underground bar in Yaletown, Vancouver, known for live DJ sets and cocktails."
+    },
+    "category": "nightlife",
+    "categories": [
+      "music",
+      "nightlife",
+      "bar",
+      "entertainment",
+      "dj"
+    ],
+    "sourceURL": "https://hellogoodbyebar.com/",
+    "officialWebsite": "https://hellogoodbyebar.com/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:37:56.926Z"
+  },
+  {
+    "id": "hello-goodbye-bar-weekend-vibes-2025-07-07",
+    "title": "Weekend Vibes",
+    "description": "Saturday night Weekend Vibes at Hello Goodbye Bar featuring resident DJs and special guests.",
+    "startDate": "2025-07-07T04:00:00.000Z",
+    "endDate": "2025-07-07T07:00:00.000Z",
+    "venue": {
+      "name": "Hello Goodbye Bar",
+      "id": "hello-goodbye-bar",
+      "address": "110 Davie St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2738,
+        "lng": -123.1131
+      },
+      "websiteUrl": "https://hellogoodbyebar.com/",
+      "description": "Hello Goodbye is an underground bar in Yaletown, Vancouver, known for live DJ sets and cocktails."
+    },
+    "category": "nightlife",
+    "categories": [
+      "music",
+      "nightlife",
+      "bar",
+      "entertainment",
+      "dj"
+    ],
+    "sourceURL": "https://hellogoodbyebar.com/",
+    "officialWebsite": "https://hellogoodbyebar.com/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:37:56.926Z"
+  },
+  {
+    "id": "hello-goodbye-bar-dj-overnite-2025-07-13",
+    "title": "DJ Overnite",
+    "description": "DJ Overnite brings soulful house and disco classics to Hello Goodbye Bar.",
+    "startDate": "2025-07-13T04:00:00.000Z",
+    "endDate": "2025-07-13T07:00:00.000Z",
+    "venue": {
+      "name": "Hello Goodbye Bar",
+      "id": "hello-goodbye-bar",
+      "address": "110 Davie St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2738,
+        "lng": -123.1131
+      },
+      "websiteUrl": "https://hellogoodbyebar.com/",
+      "description": "Hello Goodbye is an underground bar in Yaletown, Vancouver, known for live DJ sets and cocktails."
+    },
+    "category": "nightlife",
+    "categories": [
+      "music",
+      "nightlife",
+      "bar",
+      "entertainment",
+      "dj"
+    ],
+    "sourceURL": "https://hellogoodbyebar.com/",
+    "officialWebsite": "https://hellogoodbyebar.com/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:37:56.926Z"
+  },
+  {
+    "id": "hello-goodbye-bar-house-music-night-2025-07-14",
+    "title": "House Music Night",
+    "description": "House Music Night at Hello Goodbye Bar featuring the best house music in Vancouver.",
+    "startDate": "2025-07-14T04:00:00.000Z",
+    "endDate": "2025-07-14T07:00:00.000Z",
+    "venue": {
+      "name": "Hello Goodbye Bar",
+      "id": "hello-goodbye-bar",
+      "address": "110 Davie St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2738,
+        "lng": -123.1131
+      },
+      "websiteUrl": "https://hellogoodbyebar.com/",
+      "description": "Hello Goodbye is an underground bar in Yaletown, Vancouver, known for live DJ sets and cocktails."
+    },
+    "category": "nightlife",
+    "categories": [
+      "music",
+      "nightlife",
+      "bar",
+      "entertainment",
+      "dj"
+    ],
+    "sourceURL": "https://hellogoodbyebar.com/",
+    "officialWebsite": "https://hellogoodbyebar.com/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:37:56.926Z"
+  },
+  {
+    "id": "hello-goodbye-bar-dj-yurie-2025-07-20",
+    "title": "DJ Yurie",
+    "description": "DJ Yurie spinning the latest dance hits and electronic music at Hello Goodbye Bar.",
+    "startDate": "2025-07-20T04:00:00.000Z",
+    "endDate": "2025-07-20T07:00:00.000Z",
+    "venue": {
+      "name": "Hello Goodbye Bar",
+      "id": "hello-goodbye-bar",
+      "address": "110 Davie St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2738,
+        "lng": -123.1131
+      },
+      "websiteUrl": "https://hellogoodbyebar.com/",
+      "description": "Hello Goodbye is an underground bar in Yaletown, Vancouver, known for live DJ sets and cocktails."
+    },
+    "category": "nightlife",
+    "categories": [
+      "music",
+      "nightlife",
+      "bar",
+      "entertainment",
+      "dj"
+    ],
+    "sourceURL": "https://hellogoodbyebar.com/",
+    "officialWebsite": "https://hellogoodbyebar.com/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:37:56.926Z"
+  }
+]

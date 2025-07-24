@@ -1,0 +1,32 @@
+STDOUT:
+🧪 Testing API endpoints to find the correct one...
+✅ Successfully connected to API. Found 29 events.
+Sample event title: Tech Conference 2025
+
+🔍 Testing endpoint: /events
+❌ Failed for endpoint /events:
+Status: 404
+Message: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/v1/events</pre>\n</body>\n</html>\n"...
+
+🔍 Testing endpoint: /venues/events
+❌ Failed for endpoint /venues/events:
+Status: 404
+Message: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/v1/venues/events</pre>\n</body>\n</html>\n"...
+
+🔍 Testing endpoint: /venues/events/create
+❌ Failed for endpoint /venues/events/create:
+Status: 404
+Message: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/v1/venues/events/create</pre>\n</body>\n</html>\n"...
+
+🔍 Testing endpoint: /venue/events
+❌ Failed for endpoint /venue/events:
+Status: 404
+Message: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/v1/venue/events</pre>\n</body>\n</html>\n"...
+
+🔍 Testing endpoint: /venue/event
+❌ Failed for endpoint /venue/event:
+Status: 404
+Message: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /api/v1/venue/event</pre>\n</body>\n</html>\n"...
+
+
+STDERR:

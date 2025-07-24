@@ -1,0 +1,48 @@
+============================================================
+--- Attempting to run scraper: cultureCrawlEvents.js ---
+============================================================
+Scraper 'Eastside Culture Crawl' instantiated successfully. Running scrape()...
+🔍 Scraping events from Eastside Culture Crawl...
+Navigating to https://culturecrawl.ca/events
+Could not find event elements with standard selectors, trying to proceed anyway
+Found 0 potential events
+No events found on events page, checking homepage for festival dates
+Found festival date: November 20-23, 2025
+Found 1 events from Eastside Culture Crawl
+
+------------------------------------------------------------
+✅ Scraper 'Eastside Culture Crawl' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "culture-crawl-eastside-culture-crawl-festival-2025-11-20",
+  "title": "Eastside Culture Crawl Festival",
+  "description": "Explore Art",
+  "startDate": "2025-11-20T08:00:00.000Z",
+  "endDate": "2025-11-24T07:59:59.000Z",
+  "imageUrl": "https://culturecrawl.ca/_nuxt/img/eccs_2022_logo.405c761.png",
+  "sourceUrl": "https://culturecrawl.ca/",
+  "ticketUrl": "https://culturecrawl.ca/",
+  "venue": {
+    "name": "Eastside Culture Crawl",
+    "address": "1000 Parker Street",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6A 2H2",
+    "website": "https://culturecrawl.ca/",
+    "googleMapsUrl": "https://goo.gl/maps/ZppjKoGjahM7AVfS6"
+  },
+  "categories": [
+    "arts",
+    "visual-arts",
+    "festival",
+    "exhibition",
+    "community"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-15T16:02:45.123Z",
+  "sourceIdentifier": "culture-crawl"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/cultureCrawlEvents-results.json

@@ -1,0 +1,57 @@
+============================================================
+--- Attempting to run scraper: vancouverConventionCentreEvents.js ---
+============================================================
+Scraper 'Vancouver Convention Centre Events' instantiated successfully. Running scrape()...
+Scraping Vancouver Convention Centre Events...
+Navigating to events page...
+📄 Navigated to events page
+Attempting to navigate to July 2025 events page...
+📅 Navigated to July 2025 events page
+Screenshot saved as vancouver-convention-centre.png
+Attempting to extract events from page using grid layout...
+Found 4 events from grid/list layout
+🔍 Looking for event detail links...
+🔍 Looking for event detail links...
+🔍 Visiting event detail page for: 2025 International Convention
+🔍 Visiting event detail page for: International Conference on Machine Learning (ICML) 2025
+🔍 Visiting event detail page for: 9th Annual Live VMO Symphony Performance
+🔍 Visiting event detail page for: A Royal Evening with Dr. Zahi Hawass
+✅ Successfully processed details for 4 events
+⚠️ Failed to process details for 0 events
+📊 Total events: 4
+🎉 Successfully scraped 4 events from Vancouver Convention Centre Events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Convention Centre Events' finished successfully.
+   Processed 4 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vancouver-convention-centre-2025-international-convention-1751526000000",
+  "title": "2025 International Convention",
+  "description": "2025 International Convention at Vancouver Convention Centre - West Building",
+  "startDate": "2025-07-03T07:00:00.000Z",
+  "endDate": "2025-07-03T07:00:00.000Z",
+  "dateText": "3 JULY - 6 JULY, 2025",
+  "image": "",
+  "link": "https://www.vancouverconventioncentre.com/events/2025-international-convention",
+  "venue": {
+    "name": "Vancouver Convention Centre - West Building",
+    "address": "1055 Canada Pl, Vancouver, BC V6C 0C3",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2891,
+      "lng": -123.1161
+    }
+  },
+  "categories": [
+    "Conference",
+    "Event",
+    "Business"
+  ],
+  "sourceIdentifier": "vancouver-convention-centre",
+  "lastUpdated": "2025-07-15T18:50:46.888Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverConventionCentreEvents-results.json

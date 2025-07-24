@@ -1,0 +1,138 @@
+[
+  {
+    "id": "festival-d-ete-spectacles-2025-06-16",
+    "title": "SPECTACLES",
+    "description": "Festival d'Été event at Le Centre Culturel Francophone de Vancouver, celebrating French culture and arts.",
+    "startDate": "2025-06-16T02:00:00.000Z",
+    "endDate": "2025-06-16T04:00:00.000Z",
+    "venue": {
+      "name": "Le Centre Culturel Francophone de Vancouver",
+      "id": "le-centre-culturel-vancouver",
+      "address": "1551 West 7th Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2652,
+        "lng": -123.1392
+      },
+      "websiteUrl": "https://www.lecentreculturel.com/",
+      "description": "Le Centre Culturel Francophone de Vancouver is a cultural center promoting French language and culture through events, performances, and festivals."
+    },
+    "category": "cultural",
+    "categories": [
+      "cultural",
+      "french",
+      "festival",
+      "music",
+      "arts"
+    ],
+    "sourceURL": "https://www.lecentreculturel.com/en/spectacles",
+    "officialWebsite": "https://www.lecentreculturel.com/en/festival-d-ete",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:34:46.536Z"
+  },
+  {
+    "id": "festival-d-ete-nouvelle-scene-shows-2025-06-17",
+    "title": "Nouvelle Scene shows",
+    "description": "Festival d'Été event at Le Centre Culturel Francophone de Vancouver, celebrating French culture and arts.",
+    "startDate": "2025-06-17T02:00:00.000Z",
+    "endDate": "2025-06-17T04:00:00.000Z",
+    "venue": {
+      "name": "Le Centre Culturel Francophone de Vancouver",
+      "id": "le-centre-culturel-vancouver",
+      "address": "1551 West 7th Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2652,
+        "lng": -123.1392
+      },
+      "websiteUrl": "https://www.lecentreculturel.com/",
+      "description": "Le Centre Culturel Francophone de Vancouver is a cultural center promoting French language and culture through events, performances, and festivals."
+    },
+    "category": "cultural",
+    "categories": [
+      "cultural",
+      "french",
+      "festival",
+      "music",
+      "arts"
+    ],
+    "sourceURL": "https://www.lecentreculturel.com/en/spectacles-nouvellescene",
+    "officialWebsite": "https://www.lecentreculturel.com/en/festival-d-ete",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:34:46.536Z"
+  },
+  {
+    "id": "festival-d-ete-spectacles-2025-06-18",
+    "title": "SPECTACLES",
+    "description": "Festival d'Été event at Le Centre Culturel Francophone de Vancouver, celebrating French culture and arts.",
+    "startDate": "2025-06-18T02:00:00.000Z",
+    "endDate": "2025-06-18T04:00:00.000Z",
+    "venue": {
+      "name": "Le Centre Culturel Francophone de Vancouver",
+      "id": "le-centre-culturel-vancouver",
+      "address": "1551 West 7th Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2652,
+        "lng": -123.1392
+      },
+      "websiteUrl": "https://www.lecentreculturel.com/",
+      "description": "Le Centre Culturel Francophone de Vancouver is a cultural center promoting French language and culture through events, performances, and festivals."
+    },
+    "category": "cultural",
+    "categories": [
+      "cultural",
+      "french",
+      "festival",
+      "music",
+      "arts"
+    ],
+    "sourceURL": "https://www.lecentreculturel.com/en/spectacles",
+    "officialWebsite": "https://www.lecentreculturel.com/en/festival-d-ete",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:34:46.536Z"
+  },
+  {
+    "id": "festival-d-ete-nouvelle-scene-shows-2025-06-19",
+    "title": "Nouvelle Scene shows",
+    "description": "Festival d'Été event at Le Centre Culturel Francophone de Vancouver, celebrating French culture and arts.",
+    "startDate": "2025-06-19T02:00:00.000Z",
+    "endDate": "2025-06-19T04:00:00.000Z",
+    "venue": {
+      "name": "Le Centre Culturel Francophone de Vancouver",
+      "id": "le-centre-culturel-vancouver",
+      "address": "1551 West 7th Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2652,
+        "lng": -123.1392
+      },
+      "websiteUrl": "https://www.lecentreculturel.com/",
+      "description": "Le Centre Culturel Francophone de Vancouver is a cultural center promoting French language and culture through events, performances, and festivals."
+    },
+    "category": "cultural",
+    "categories": [
+      "cultural",
+      "french",
+      "festival",
+      "music",
+      "arts"
+    ],
+    "sourceURL": "https://www.lecentreculturel.com/en/spectacles-nouvellescene",
+    "officialWebsite": "https://www.lecentreculturel.com/en/festival-d-ete",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:34:46.537Z"
+  }
+]

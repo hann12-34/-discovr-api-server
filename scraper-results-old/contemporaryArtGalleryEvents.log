@@ -1,0 +1,21 @@
+============================================================
+--- Attempting to run scraper: contemporaryArtGalleryEvents.js ---
+============================================================
+Scraper 'Contemporary Art Gallery' instantiated successfully. Running scrape()...
+🔍 Scraping events from Contemporary Art Gallery...
+Navigating to https://cagvancouver.org/exhibitions/
+Extracting exhibition data...
+Found 0 potential exhibitions
+Checking events at: https://cagvancouver.org/whats-on/
+Checking events at: https://cagvancouver.org/events/
+Checking events at: https://cagvancouver.org/calendar/
+Checking events at: https://cagvancouver.org/programs/
+Checking events at: https://cagvancouver.org/current/
+Found 0 events from Contemporary Art Gallery
+
+------------------------------------------------------------
+✅ Scraper 'Contemporary Art Gallery' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/contemporaryArtGalleryEvents-results.json

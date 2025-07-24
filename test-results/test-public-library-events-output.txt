@@ -1,0 +1,28 @@
+STDOUT:
+
+
+STDERR:
+node:internal/modules/cjs/loader:1408
+  throw err;
+  ^
+
+Error: Cannot find module './scrapers/cities/vancouver/publicLibraryEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js:7:29)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-public-library-events.js'
+  ]
+}
+
+Node.js v24.2.0

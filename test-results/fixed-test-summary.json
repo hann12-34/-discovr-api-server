@@ -1,0 +1,29 @@
+{
+  "total": 2,
+  "success": 0,
+  "failed": 2,
+  "timedOut": 0,
+  "fixedPaths": 2,
+  "tests": [
+    {
+      "name": "test-metropolis-events-scraper.js",
+      "success": false,
+      "error": "Cannot find module: ../backup/metropolisEvents",
+      "stdout": "🔧 Running fixed test: test-metropolis-events-scraper.js\n",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module '../backup/metropolisEvents'\nRequire stack:\n- /private/var/folders/jl/4l0bbd5x5_j26957f2lvgs2h0000gn/T/fixed-test-scrapers/test-metropolis-events-scraper.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/private/var/folders/jl/4l0bbd5x5_j26957f2lvgs2h0000gn/T/fixed-test-scrapers/test-metropolis-events-scraper.js:8:27)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/private/var/folders/jl/4l0bbd5x5_j26957f2lvgs2h0000gn/T/fixed-test-scrapers/test-metropolis-events-scraper.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "modified": true,
+      "duration": 33
+    },
+    {
+      "name": "test-rickshaw-theatre-events.js",
+      "success": false,
+      "error": "Cannot find module: ../backup/rickshawTheatreEvents",
+      "stdout": "🔧 Running fixed test: test-rickshaw-theatre-events.js\n",
+      "stderr": "node:internal/modules/cjs/loader:1408\n  throw err;\n  ^\n\nError: Cannot find module '../backup/rickshawTheatreEvents'\nRequire stack:\n- /private/var/folders/jl/4l0bbd5x5_j26957f2lvgs2h0000gn/T/fixed-test-scrapers/test-rickshaw-theatre-events.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)\n    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)\n    at Module._load (node:internal/modules/cjs/loader:1215:37)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)\n    at Module.require (node:internal/modules/cjs/loader:1491:12)\n    at require (node:internal/modules/helpers:135:16)\n    at Object.<anonymous> (/private/var/folders/jl/4l0bbd5x5_j26957f2lvgs2h0000gn/T/fixed-test-scrapers/test-rickshaw-theatre-events.js:8:31)\n    at Module._compile (node:internal/modules/cjs/loader:1734:14) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/private/var/folders/jl/4l0bbd5x5_j26957f2lvgs2h0000gn/T/fixed-test-scrapers/test-rickshaw-theatre-events.js'\n  ]\n}\n\nNode.js v24.2.0\n",
+      "timedOut": false,
+      "modified": true,
+      "duration": 35
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+STDOUT:
+🔍 MongoDB Connection Tester v2
+==============================
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority
+Connecting with masteraccount:****23 to discovr-events
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority
+Connecting with masteraccount:****23 to discovr
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority
+Connecting with masteraccount:****23 to test
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority
+Connecting with masteraccount:****23 to default db
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority
+Connecting with discovr-api:****23 to discovr-events
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority
+Connecting with discovr-api:****23 to discovr
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority
+Connecting with discovr-api:****23 to test
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr-api:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority
+Connecting with discovr-api:****23 to default db
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority
+Connecting with masteraccount:****rd to discovr-events
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority
+Connecting with masteraccount:****rd to discovr
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority
+Connecting with masteraccount:****rd to test
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://masteraccount:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority
+Connecting with masteraccount:****rd to default db
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority
+Connecting with admin:****23 to discovr-events
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority
+Connecting with admin:****23 to discovr
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority
+Connecting with admin:****23 to test
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://admin:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority
+Connecting with admin:****23 to default db
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net/discovr-events?retryWrites=true&w=majority
+Connecting with discovr:****rd to discovr-events
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net/discovr?retryWrites=true&w=majority
+Connecting with discovr:****rd to discovr
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net/test?retryWrites=true&w=majority
+Connecting with discovr:****rd to test
+❌ MongoServerError: bad auth : Authentication failed.
+
+Trying: mongodb+srv://discovr:***@discovr.vzlnmqb.mongodb.net?retryWrites=true&w=majority
+Connecting with discovr:****rd to default db
+❌ MongoServerError: bad auth : Authentication failed.
+
+❌ All connection attempts failed
+Possible issues:
+1. None of the tested credentials are correct
+2. IP whitelist restrictions in MongoDB Atlas
+3. Network connectivity issues
+
+
+STDERR:

@@ -1,0 +1,50 @@
+============================================================
+--- Attempting to run scraper: vancouverFringe.js ---
+============================================================
+Scraper 'Vancouver Fringe Festival' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Fringe Festival scraper...
+Generated 29 performances for 8 shows
+🎭 Successfully created 29 Vancouver Fringe Festival events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Fringe Festival' finished successfully.
+   Processed 29 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "fringe-clown-apocalypse-2025-09-04-19-30",
+  "title": "\"Clown Apocalypse\" - Vancouver Fringe Festival",
+  "description": "When the world ends, only the clowns will survive. This hilarious and heartbreaking physical comedy follows three clowns as they navigate the wasteland of a post-apocalyptic society. Using minimal dialogue, masterful slapstick, and unexpected poignancy, 'Clown Apocalypse' finds humor in hopelessness and beauty in the absurd. Winner of Best Physical Comedy at the Toronto Fringe Festival.\n\nPERFORMANCE DETAILS:\nDate: Wednesday, September 3, 2025\nTime: 7:30 PM\nVenue: Performance Works\nDuration: 60 minutes\nCreator: Fool Hardy Productions\nOrigin: Toronto, ON\n\nPart of the 2025 Vancouver Fringe Festival. The Fringe showcases unconventional, independent theatrical productions with shows selected through a lottery system rather than a juried process, ensuring a diverse range of performances.",
+  "startDate": "2025-09-04T02:30:00.000Z",
+  "endDate": "2025-09-04T03:30:00.000Z",
+  "venue": {
+    "name": "Performance Works on Granville Island",
+    "id": "performance-works-granville-island",
+    "address": "1218 Cartwright St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6H 3R9",
+    "coordinates": {
+      "lat": 49.2709018,
+      "lng": -123.1346074
+    },
+    "websiteUrl": "https://vancouverfringe.com/venues/",
+    "description": "Performance Works is a versatile black box theatre space on Granville Island that hosts a variety of innovative Fringe performances."
+  },
+  "category": "theatre",
+  "categories": [
+    "theatre",
+    "performance",
+    "arts",
+    "fringe",
+    "festival",
+    "indie"
+  ],
+  "sourceURL": "https://vancouverfringe.com/",
+  "officialWebsite": "https://vancouverfringe.com/tickets/",
+  "image": "https://vancouverfringe.com/wp-content/uploads/2025/06/clown-apocalypse.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:25:58.401Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverFringe-results.json

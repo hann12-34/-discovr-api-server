@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: queenElizabethTheatre.js ---
+============================================================
+Scraper 'Queen Elizabeth Theatre' instantiated successfully. Running scrape()...
+🔍 Starting Queen Elizabeth Theatre events scraper...
+✅ Added event: BRIT FLOYD: WISH YOU WERE HERE 50th Anniversary on 7/24/2025
+✅ Added event: Arif Lohar Live in Concert 2025 on 7/27/2025
+✅ Added event: FATHER JOHN MISTY on 7/31/2025
+✅ Added event: GOLDEN GIRLS The Laughs Continue on 8/5/2025
+✅ Added event: Sam Barber: North America Tour on 8/11/2025
+✅ Added event: LUCY DACUS - FOREVER IS A FEELING TOUR on 8/12/2025
+✅ Added event: Ethel Cain- The Willoughby Tucker Forever Tour on 8/15/2025
+✅ Added event: Disney Presents The Lion King (Touring) on 8/20/2025
+✅ Added event: Blue Rodeo: "Lost Together" - The 40th Anniversary Tour on 10/7/2025
+✅ Added event: Riverdance on 6/15/2025
+🎉 Successfully added 10 events from Queen Elizabeth Theatre
+
+------------------------------------------------------------
+✅ Scraper 'Queen Elizabeth Theatre' finished successfully.
+   Processed 10 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "queen-elizabeth-brit-floyd-wish-you-were-here-50th-anniversary-2025-07-24",
+  "title": "BRIT FLOYD: WISH YOU WERE HERE 50th Anniversary",
+  "description": "Experience the world's greatest Pink Floyd tribute show as Brit Floyd celebrates the 50th anniversary of \"Wish You Were Here\" with a spectacular live production.",
+  "startDate": "2025-07-25T03:00:00.000Z",
+  "endDate": "2025-07-25T06:00:00.000Z",
+  "venue": {
+    "name": "Queen Elizabeth Theatre",
+    "id": "queen-elizabeth-theatre",
+    "address": "600 Hamilton St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 2P1",
+    "coordinates": {
+      "lat": 49.27775,
+      "lng": -123.117485
+    },
+    "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+  },
+  "category": "music",
+  "categories": [
+    "music",
+    "concert"
+  ],
+  "sourceURL": "https://www.ticketmaster.ca/brit-floyd-wish-you-were-here-vancouver-british-columbia-07-24-2025/event/11006234C8E546C0",
+  "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+  "image": "https://s1.ticketm.net/dam/a/64c/a979e0e2-4320-467f-b24d-4faa67b2864c_SOURCE",
+  "recurring": null,
+  "lastUpdated": "2025-07-15T16:13:19.321Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/queenElizabethTheatre-results.json

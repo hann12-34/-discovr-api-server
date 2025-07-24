@@ -1,0 +1,74 @@
+[
+  {
+    "id": "vag-featured-ongoing",
+    "title": "Featured",
+    "description": "Featured at Vancouver Art Gallery",
+    "startDate": null,
+    "endDate": null,
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "id": "vancouver-art-gallery",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "address": "750 Hornby St, Vancouver, BC V6Z 2H7"
+    },
+    "category": "arts",
+    "categories": [
+      "arts",
+      "event"
+    ],
+    "sourceURL": "https://www.vanartgallery.bc.ca/exhibitions-events",
+    "officialWebsite": "https://www.vanartgallery.bc.ca/",
+    "image": "https://www.vanartgallery.bc.ca/wp-content/uploads/2025/06/black-white.svg",
+    "lastUpdated": "2025-07-15T20:00:31.717Z"
+  },
+  {
+    "id": "vag-featured-ongoing",
+    "title": "Featured",
+    "description": "Featured at Vancouver Art Gallery",
+    "startDate": null,
+    "endDate": null,
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "id": "vancouver-art-gallery",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "address": "750 Hornby St, Vancouver, BC V6Z 2H7"
+    },
+    "category": "arts",
+    "categories": [
+      "arts",
+      "event"
+    ],
+    "sourceURL": "https://www.vanartgallery.bc.ca/exhibitions-events",
+    "officialWebsite": "https://www.vanartgallery.bc.ca/membership/",
+    "image": "https://www.vanartgallery.bc.ca/wp-content/smush-webp/2024/08/Otani_2_01_web-e1747152711128-768x954.jpg.webp",
+    "lastUpdated": "2025-07-15T20:00:31.717Z"
+  },
+  {
+    "id": "vag-404-ongoing",
+    "title": "404",
+    "description": "404",
+    "startDate": null,
+    "endDate": null,
+    "venue": {
+      "name": "Vancouver Art Gallery",
+      "id": "vancouver-art-gallery",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "address": "750 Hornby St, Vancouver, BC V6Z 2H7"
+    },
+    "category": "arts",
+    "categories": [
+      "arts",
+      "event"
+    ],
+    "sourceURL": "https://www.vanartgallery.bc.ca/exhibitions-events",
+    "officialWebsite": "https://www.vanartgallery.bc.ca/",
+    "image": "",
+    "lastUpdated": "2025-07-15T20:00:31.717Z"
+  }
+]

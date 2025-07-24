@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: summerCinemaEvents.js ---
+============================================================
+Scraper 'Summer Cinema' instantiated successfully. Running scrape()...
+🔍 Starting Summer Cinema scraper...
+Navigating to: https://summercinema.ca/
+✅ Saved debug screenshot to summer-cinema-debug.png
+No structured movie listings found, searching page content
+🎉 Successfully scraped 0 events from Summer Cinema
+
+------------------------------------------------------------
+✅ Scraper 'Summer Cinema' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/summerCinemaEvents-results.json

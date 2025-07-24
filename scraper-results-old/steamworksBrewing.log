@@ -1,0 +1,57 @@
+============================================================
+--- Attempting to run scraper: steamworksBrewing.js ---
+============================================================
+Scraper 'Steamworks Brewing' instantiated successfully. Running scrape()...
+🔍 Starting Steamworks Brewing scraper...
+✅ Added event: Summer Brewmaster's Dinner on Thursday, July 10, 2025
+✅ Added event: Cask Night: Summer Seasonal Release on Friday, July 18, 2025
+✅ Added event: Live Jazz & Craft Beer Sunday on Sunday, July 27, 2025
+✅ Added event: Steamworks Beer Festival on Saturday, August 9, 2025
+✅ Added event: Craft Beer & Chocolate Pairing Workshop on Thursday, August 14, 2025
+✅ Added event: History on Tap: Vancouver's Brewing Heritage on Thursday, August 21, 2025
+🍺 Successfully created 6 Steamworks Brewing events
+
+------------------------------------------------------------
+✅ Scraper 'Steamworks Brewing' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "steamworks-summer-brewmasters-dinner-2025-07-11",
+  "title": "Summer Brewmaster's Dinner",
+  "description": "Join Steamworks' Head Brewmaster and Executive Chef for an exclusive five-course dinner with expert beer pairings. Each dish is crafted to complement specific Steamworks brews, highlighting the complex flavors of both the food and beer. Throughout the evening, the Brewmaster will discuss the brewing process, ingredients, and unique characteristics of each beer, while the Chef explains the culinary concepts behind the pairings.\n\nEVENT DETAILS:\nDate: Thursday, July 10, 2025\nTime: 6:30 PM - 10:00 PM\nAge Restriction: 19+\nPrice: $95 per person\nTickets: Required, please book in advance\n\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\nFor more information and tickets, please visit https://steamworks.com/brew-pub/ or call (604) 689-2739.",
+  "startDate": "2025-07-11T01:30:00.000Z",
+  "endDate": "2025-07-11T05:00:00.000Z",
+  "venue": {
+    "name": "Steamworks Brewing Co. Brew Pub",
+    "id": "steamworks-brewing-vancouver",
+    "address": "375 Water St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 5C6",
+    "coordinates": {
+      "lat": 49.2847484,
+      "lng": -123.1106541
+    },
+    "websiteUrl": "https://steamworks.com/brew-pub/",
+    "description": "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
+  },
+  "category": "food and drink",
+  "categories": [
+    "brewery",
+    "craft beer",
+    "food and drink",
+    "gastown",
+    "food & beer",
+    "dining",
+    "pairing",
+    "culinary"
+  ],
+  "sourceURL": "https://steamworks.com/brew-pub/",
+  "officialWebsite": "https://steamworks.com/events/summer-brewmasters-dinner-2025/",
+  "image": "https://steamworks.com/wp-content/uploads/2025/05/brewmasters-dinner.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:15:16.713Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/steamworksBrewing-results.json

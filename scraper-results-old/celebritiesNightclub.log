@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: celebritiesNightclub.js ---
+============================================================
+Scraper 'Celebrities Nightclub' instantiated successfully. Running scrape()...
+🔍 Starting Celebrities Nightclub scraper...
+✅ Added event: PARADISE SATURDAYS on Saturday, July 5, 2025
+✅ Added event: FVDED Friday on Friday, July 11, 2025
+✅ Added event: DRAG ME TO HELL: Celestial Showdown on Thursday, July 17, 2025
+✅ Added event: Nina Kraviz: Techno Revolution Tour on Thursday, July 24, 2025
+✅ Added event: PRIDE WEEKEND: Love Revolution on Saturday, August 2, 2025
+🎧 Successfully created 5 Celebrities Nightclub events
+
+------------------------------------------------------------
+✅ Scraper 'Celebrities Nightclub' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "celebrities-nightclub-paradise-saturdays-2025-07-06",
+  "title": "PARADISE SATURDAYS",
+  "description": "Paradise Saturdays is Celebrities Nightclub's flagship weekly event featuring the best local DJs spinning house, progressive, and top 40 remixes. Experience the club's legendary atmosphere with stunning light shows, talented dancers, and special effects that have made Paradise a Vancouver nightlife tradition for over two decades.\n\nEVENT DETAILS:\nDate: Saturday, July 5, 2025\nTime: 10:00 PM\nDoors: 10:00 PM\nAge Restriction: 19+\nGenre: Dance/Electronic\nDJs: DJ Del Stamp, DJ Drew Allen\n\nCelebrities Nightclub is located at 1022 Davie Street in Vancouver's vibrant Davie Village.",
+  "startDate": "2025-07-06T05:00:00.000Z",
+  "endDate": "2025-07-06T10:00:00.000Z",
+  "venue": {
+    "name": "Celebrities Nightclub",
+    "id": "celebrities-nightclub-vancouver",
+    "address": "1022 Davie St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6E 1M3",
+    "coordinates": {
+      "lat": 49.2808878,
+      "lng": -123.1300321
+    },
+    "websiteUrl": "https://www.celebritiesnightclub.com/",
+    "description": "Celebrities Nightclub is an iconic Vancouver nightlife institution established in 1984. Located in the heart of the Davie Village, it's one of the city's longest-running and most popular LGBTQ+ friendly nightclubs, featuring state-of-the-art sound and lighting systems, multiple rooms, and themed nights that welcome everyone."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "music",
+    "dance",
+    "club",
+    "entertainment",
+    "dance/electronic",
+    "lgbtq+"
+  ],
+  "sourceURL": "https://www.celebritiesnightclub.com/",
+  "officialWebsite": "https://www.celebritiesnightclub.com/events/paradise-saturdays/",
+  "image": "https://www.celebritiesnightclub.com/wp-content/uploads/2025/01/paradise-saturdays.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:01:28.679Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/celebritiesNightclub-results.json

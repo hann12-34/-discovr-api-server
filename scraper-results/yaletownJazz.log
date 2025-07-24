@@ -1,0 +1,67 @@
+============================================================
+--- Attempting to run scraper: yaletownJazz.js ---
+============================================================
+Scraper 'Yaletown Jazz' instantiated successfully. Running scrape()...
+🔍 Starting Yaletown Jazz events scraper...
+✅ Added event: Ben MacRae's Grand Slam - Yaletown Jazz Series on 6/3/2025
+✅ Added event: Tom Arntzen and The Aviators - Yaletown Jazz Series on 6/4/2025
+✅ Added event: Tim Sars Quintet - Yaletown Jazz Series on 6/5/2025
+✅ Added event: White Rock Rhythm Kings - Yaletown Jazz Series on 6/10/2025
+✅ Added event: The Lawless Firm - Yaletown Jazz Series on 6/11/2025
+✅ Added event: Brad Shigeta's Swingtime Band - Yaletown Jazz Series on 6/12/2025
+✅ Added event: Casey Thomas-Burns Swing Band - Yaletown Jazz Series on 6/17/2025
+✅ Added event: Terminal City Brass Band - Yaletown Jazz Series on 6/18/2025
+✅ Added event: Jocelyn Waugh Hot 4 - Yaletown Jazz Series on 6/24/2025
+✅ Added event: Company B Jazz Band - Yaletown Jazz Series on 6/26/2025
+✅ Added event: Joe Abbott Swing Team - Yaletown Jazz Series on 6/30/2025
+✅ Added event: Brothers Arntzen - Yaletown Jazz Series on 7/1/2025
+✅ Added event: Dean Thiessen and the Good Apples - Yaletown Jazz Series on 7/2/2025
+✅ Added event: Checo Tohomaso & the VOC Sweet Soul Gospel Choir - Yaletown Jazz Series on 7/3/2025
+✅ Added event: Noah Gotfrit Quartet - Yaletown Jazz Series on 7/8/2025
+✅ Added event: Bonnie Northgraves Quintet - Yaletown Jazz Series on 7/9/2025
+✅ Added event: Josh Roberts Quintet - Yaletown Jazz Series on 7/10/2025
+✅ Added event: Djangoesque with Don Ogilvie - Yaletown Jazz Series on 7/15/2025
+✅ Added event: Lache Cercel & the Roma Jazz Ensemble - Yaletown Jazz Series on 7/16/2025
+🎉 Successfully scraped 19 Yaletown Jazz events
+
+------------------------------------------------------------
+✅ Scraper 'Yaletown Jazz' finished successfully.
+   Processed 19 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "yaletown-jazz-2025-06-04-ben-macraes-grand-slam",
+  "title": "Ben MacRae's Grand Slam - Yaletown Jazz Series",
+  "description": "Ben MacRae's Grand Slam brings lively jazz to Bill Curtis Square as part of the Yaletown Jazz series. Enjoy this free outdoor performance of energetic and engaging jazz music in the heart of Yaletown.",
+  "startDate": "2025-06-04T00:30:00.000Z",
+  "endDate": "2025-06-04T02:30:00.000Z",
+  "venue": {
+    "name": "Bill Curtis Square",
+    "id": "bill-curtis-square",
+    "address": "1198 Mainland St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 5P2",
+    "coordinates": {
+      "lat": 49.274753,
+      "lng": -123.12115
+    },
+    "websiteUrl": "https://yaletowninfo.com/whats-happening/music/",
+    "description": "Bill Curtis Square is an outdoor public space located in the heart of Vancouver's Yaletown district, behind the Yaletown-Roundhouse Station. The square regularly hosts community events, concerts, and performances, and features the historic Engine 374, which pulled the first transcontinental passenger train into Vancouver."
+  },
+  "category": "music",
+  "categories": [
+    "music",
+    "jazz",
+    "concert",
+    "outdoor",
+    "free"
+  ],
+  "sourceURL": "https://yaletowninfo.com/whats-happening/music/jazz/",
+  "officialWebsite": "https://yaletowninfo.com/whats-happening/music/",
+  "image": "https://yaletowninfo.com/wp-content/uploads/2019/02/Yaletown-music-program.jpg",
+  "recurring": null,
+  "lastUpdated": "2025-07-15T18:53:03.344Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/yaletownJazz-results.json

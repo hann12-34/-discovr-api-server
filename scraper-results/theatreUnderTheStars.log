@@ -1,0 +1,91 @@
+============================================================
+--- Attempting to run scraper: theatreUnderTheStars.js ---
+============================================================
+Scraper 'Theatre Under the Stars' instantiated successfully. Running scrape()...
+🔍 Starting Theatre Under the Stars scraper...
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Wednesday, July 2, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Thursday, July 3, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Friday, July 4, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Saturday, July 5, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Tuesday, July 8, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Wednesday, July 9, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Thursday, July 10, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Friday, July 11, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Saturday, July 12, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Tuesday, July 15, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Wednesday, July 16, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Thursday, July 17, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Friday, July 18, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Saturday, July 19, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Tuesday, July 22, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Wednesday, July 23, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Thursday, July 24, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Friday, July 25, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Saturday, July 26, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Tuesday, July 29, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Wednesday, July 30, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Thursday, July 31, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Friday, August 1, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Saturday, August 2, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Tuesday, August 5, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Wednesday, August 6, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Thursday, August 7, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Friday, August 8, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Saturday, August 9, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Tuesday, August 12, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Wednesday, August 13, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Thursday, August 14, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Friday, August 15, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Saturday, August 16, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Tuesday, August 19, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Wednesday, August 20, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Thursday, August 21, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Friday, August 22, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Saturday, August 23, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Tuesday, August 26, 2025
+✅ Added event: Mamma Mia! - Theatre Under the Stars on Wednesday, August 27, 2025
+✅ Added event: Newsies - Theatre Under the Stars on Thursday, August 28, 2025
+🎉 Successfully created 42 Theatre Under the Stars events
+
+------------------------------------------------------------
+✅ Scraper 'Theatre Under the Stars' finished successfully.
+   Processed 42 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "tuts-mamma-mia-2025-07-03",
+  "title": "Mamma Mia! - Theatre Under the Stars",
+  "description": "Theatre Under the Stars presents the hit musical \"Mamma Mia!\" at the beautiful Malkin Bowl in Stanley Park. Set on a Greek island paradise, this sunny, funny tale of love, friendship and identity is told through the timeless hits of ABBA. On the eve of her wedding, a daughter's quest to discover the identity of her father brings three men from her mother's past back to the island they last visited 20 years ago. This enchanting outdoor production in Stanley Park will have you dancing in your seat under the summer stars!\n\nPerformance Date: Wednesday, July 2, 2025 at 8:00 PM\n\nExperience the magic of outdoor musical theatre at Vancouver's Malkin Bowl in Stanley Park. Bring a blanket for cooler evenings and arrive early to enjoy the beautiful surroundings before the show.",
+  "startDate": "2025-07-03T03:00:00.000Z",
+  "endDate": "2025-07-03T05:30:00.000Z",
+  "venue": {
+    "name": "Malkin Bowl in Stanley Park",
+    "id": "malkin-bowl-stanley-park",
+    "address": "610 Pipeline Road, Stanley Park",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6G 1Z4",
+    "coordinates": {
+      "lat": 49.2982155,
+      "lng": -123.1397601
+    },
+    "websiteUrl": "https://www.tuts.ca/",
+    "description": "The Malkin Bowl is an outdoor theatre venue nestled in Vancouver's Stanley Park, home to Theatre Under the Stars (TUTS) summer productions. This enchanting open-air venue is surrounded by towering trees and lush greenery, creating a magical atmosphere for theatrical performances. With a history dating back to 1940, TUTS at Malkin Bowl has become a beloved Vancouver summer tradition, presenting professional musical theatre productions under the stars."
+  },
+  "category": "theatre",
+  "categories": [
+    "theatre",
+    "musical",
+    "performance",
+    "arts",
+    "outdoor",
+    "family-friendly"
+  ],
+  "sourceURL": "https://www.tuts.ca/",
+  "officialWebsite": "https://www.tuts.ca/tickets",
+  "image": "https://www.tuts.ca/wp-content/uploads/2025/05/mamma-mia-tuts.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:47:24.990Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/theatreUnderTheStars-results.json

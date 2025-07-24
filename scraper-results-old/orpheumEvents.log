@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: orpheumEvents.js ---
+============================================================
+Scraper 'Orpheum Theatre Events' instantiated successfully. Running scrape()...
+Starting Orpheum Theatre Events scraper...
+Navigating to https://vancouversymphony.ca/events-and-tickets/
+Extracting Orpheum Theatre events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Orpheum Theatre events
+Orpheum Theatre Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Orpheum Theatre Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/orpheumEvents-results.json

@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: chanCentreEvents.js ---
+============================================================
+Scraper 'Chan Centre for the Performing Arts' instantiated successfully. Running scrape()...
+🔍 Scraping events from Chan Centre for the Performing Arts...
+Navigating to https://chancentre.com/events/
+
+------------------------------------------------------------
+✅ Scraper 'Chan Centre for the Performing Arts' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/chanCentreEvents-results.json
+
+STDERR:
+Error scraping Chan Centre for the Performing Arts: Navigation timeout of 20000 ms exceeded

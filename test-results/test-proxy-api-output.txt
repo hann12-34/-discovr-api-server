@@ -1,0 +1,14 @@
+STDOUT:
+🧪 Testing API connections...
+
+🔄 Testing cloud API...
+✅ Cloud API working! Returned 47 events
+
+🔄 Testing proxy API...
+
+⚠️ Make sure your proxy server is running:
+   node proxy-api-server.js
+
+
+STDERR:
+❌ Proxy API error: 

@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: doxaFilmFestivalEvents.js ---
+============================================================
+Scraper 'DOXA Documentary Film Festival' instantiated successfully. Running scrape()...
+Scraping DOXA Film Festival Events...
+Looking for films/schedule page...
+
+------------------------------------------------------------
+✅ Scraper 'DOXA Documentary Film Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/doxaFilmFestivalEvents-results.json
+
+STDERR:
+❌ Error scraping DOXA Documentary Film Festival: Navigation timeout of 45000 ms exceeded

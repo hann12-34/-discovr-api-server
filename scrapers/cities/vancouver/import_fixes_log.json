@@ -1,0 +1,1272 @@
+{
+  "timestamp": "2025-07-15T03:16:02.407Z",
+  "directory": "/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver",
+  "summary": {
+    "total": 0,
+    "fixed": 0,
+    "skipped": 252,
+    "errors": 0
+  },
+  "files": [
+    {
+      "file": "anthropologyMuseumEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "arcDiningEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "artGalleryEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "barNoneClub.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "bardOnTheBeach.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "bardOnTheBeachEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "bcPlaceEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "bcPlaceStadium.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "billReidGalleryEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "biltmoreCabaret.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "biltmoreCabaretEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "broadwayVancouverEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "capilanoSuspensionBridge.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "carnavalDelSol.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "celebritiesNightclub.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "chanCentre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "chanCentreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "cherryBlossomFestEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "chineseGardenEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "coastalJazzEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "coastalJazzFestival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "commodoreBallroomEvents.backup.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "commodoreBallroomEvents.fixed.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "commodoreBallroomEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "contemporaryArtGalleryEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "cultureCrawlEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "danceFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "doxaFilmFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "dragonBoatFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "festivalDEteEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "folkFestEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "fortuneSoundClub.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "fortuneSoundClubBridge.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "foxCabaret.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "fringeFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "gastownGrandPrixEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "gastownSundaySet.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "granvilleIsland.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "granvilleIslandEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "granvilleIslandMarket.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "granvilleMarketEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "harbourEventCentre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "helloBCEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "helloBCEventsAdditional.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "helloBCEventsScraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "helloGoodbyeBarEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "hrMacMillanSpaceCentre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "hrMacMillanSpaceCentreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "imperialTheatre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "improvCentreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "index.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "irishHeather.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "japanMarketEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "junctionPublicMarket.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "khatsahlanoEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "kitsilanoShowboat.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "laowaiBar.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "levelsNightclub.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "macMillanSpaceCentreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "malonesEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "maritimeMuseumEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "master_scraper_runner.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "metropolisEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "moaUbcEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "museumOfAnthropology.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "museumOfAnthropologyEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "museumOfVancouver.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "museumOfVancouverEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "musqueamEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "orpheumEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "orpheumTheatre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "orpheumTheatreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "pneEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "pneFair.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "pneSummerNightConcerts.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "polygonGallery.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "publicLibraryEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "queenElizabethTheatre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "queenElizabethTheatreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "queerArtsFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "queerFilmFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "redRoom.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "redRoomEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "redRoomEvents_new.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "redRoom_OLD.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "richmondNightMarket.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "rickshawTheatreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "rogersArena.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "rogersArenaEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "rogersArenaEventsImproved.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "runToEndEndoEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "scienceWorld.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "scienceWorldEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "scienceWorldVancouverEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "shipyardsNightMarket.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "spaceCenter.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "spaceCentreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "squamishBeerFestival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "standardize_scraper_exports.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "stanleyPark.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "stanleyParkEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "steamworksBrewing.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "steamworksBrewingEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "summerCinemaEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-api-endpoints.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-arc-dining-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-art-gallery-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-art-gallery-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-bard-on-the-beach-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-barnone-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-bill-reid-gallery.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-biltmore-cabaret-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-broadway-vancouver-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-carnaval-del-sol-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-chan-centre-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-chan-centre-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-cherry-blossom-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-chinese-garden-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-coastal-jazz-and-new-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-coastal-jazz-festival-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-coastal-jazz-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-commodore-ballroom-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-commodore-ballroom-fixed.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-commodore-ballroom.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-commodore-fixed.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-commodore.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-contemporary-art-gallery.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-culture-crawl-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-dance-festival-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-destination-vancouver.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-doxa-film-festival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-dragon-boat-festival-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-festival-dete-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-folk-fest-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-fortune-bridge.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-fortune-sound-club copy.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-fortune-sound-club.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-fox-cabaret-calendar.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-fox-cabaret-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-fox-cabaret.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-fringe-festival-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-gastown-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-granville-island-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-granville-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-hello-goodbye-bar-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-hellobc-real-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-hellobc-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-improv-centre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-japan-market-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-jazz-fest-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-junction-market-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-latest-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-macmillan-space-centre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-malones-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-maritime-museum-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-metropolis-events-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-mongo-connection-v2.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-mongo-connection.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-mongo-fortune-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-mov-debug.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-mov-integration.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-mov-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-museum-of-anthropology.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-museum-vancouver-no-fallback.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-museum-vancouver-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-new-scrapers-only.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-new-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-new-vancouver-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-new-venue-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-no-fallbacks.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-orpheum-theatre-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-pearl-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-pne-concerts-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-pne-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-pne-fair-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-proxy-api.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-public-library-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-qet-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-queer-arts-festival-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-queer-film-festival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-red-room-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-richmond-market-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-rickshaw-theatre-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-rogers-arena-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-roxy-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-run-to-end-endo-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-science-world-detailed.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-science-world-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-science-world-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-science-world.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-scraper-data.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-server.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-shipyards-night-market-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-space-centre-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-squamish-beer-festival-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-stanley-park-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-theatre-under-the-stars-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-today-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-tourism-vancouver-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-underground-comedy-club.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vancouver-asian-film-festival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vancouver-city-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vancouver-civic-theatres-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vancouver-film-festival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vancouver-mysteries-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vancouver-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vegan-market-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-venue-scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vogue-theatre-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-vsff-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-western-front-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "test-yaletown-jazz-scraper.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "theCentreVancouver.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "theatreUnderTheStars.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "theatreUnderTheStarsEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "tourismVancouverEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "ubcBotanicalGardenEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "status": "skipped",
+      "reason": "Already has correct import"
+    },
+    {
+      "file": "validate_scrapers.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverAquarium.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverAquariumEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverArtAndLeisure.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverArtGallery.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverArtGalleryEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverAsianFilmFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverCityEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverCivicTheatres.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverConventionCentreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverFilmFestivalEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverFolkFest.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverFringe.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverInternationalFilmFestival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverJazzFestEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverJazzFestival.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverMaritimeMuseumEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverMysteriesEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverPride.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverSymphony.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vancouverSymphonyEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "veganMarketEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "venueNightclub.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "verify-commodore-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "verify-events-count.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "verify-hellobc-events.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vogueTheatre.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vogueTheatreEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "vsffEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "westernFrontEvents.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "wiseHall.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    },
+    {
+      "file": "yaletownJazz.js",
+      "status": "skipped",
+      "reason": "Does not use helper functions"
+    }
+  ]
+}

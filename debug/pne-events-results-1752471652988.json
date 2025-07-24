@@ -1,0 +1,35 @@
+[
+  {
+    "id": "pne-pne-fair-20250817",
+    "title": "PNE Fair",
+    "description": "The annual PNE Fair - Vancouver's favorite end-of-summer tradition with rides, games, shows, food, exhibits, and entertainment for all ages.",
+    "startDate": "2025-08-17T07:00:00.000Z",
+    "endDate": "2025-09-02T07:00:00.000Z",
+    "imageUrl": "https://www.pne.ca/wp-content/uploads/2024/01/pne-main-image.jpg",
+    "url": "https://www.pne.ca/fair/",
+    "recurring": true,
+    "category": "fair",
+    "tags": [],
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "location": "2901 E Hastings St, Vancouver, BC V5K 5J1",
+      "latitude": 49.2827,
+      "longitude": -123.0357,
+      "googleMapsUrl": "https://goo.gl/maps/YQ8NhF3wLcMBtJFY9",
+      "website": "https://www.pne.ca",
+      "description": "Pacific National Exhibition venue in Vancouver hosting events, fairs, and exhibitions.",
+      "address": {
+        "street": "2901 E Hastings St",
+        "city": "Vancouver",
+        "state": "BC",
+        "postalCode": "V5K 5J1",
+        "country": "Canada"
+      }
+    },
+    "source": {
+      "name": "PNE",
+      "url": "https://www.pne.ca/events/",
+      "sourceIdentifier": "pne-vancouver"
+    }
+  }
+]

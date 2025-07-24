@@ -1,0 +1,874 @@
+ERROR: Command failed: node test-single-scraper.js list_all_scrapers.js
+❌ Error testing undergroundComedyClubEvents.js: No scrape method found
+
+❌ A critical error occurred in the test runner for list_all_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47
+
+
+============================================================
+--- Attempting to run scraper: list_all_scrapers.js ---
+============================================================
+Found 147 JavaScript files in the directory.
+🔍 Starting helper import fixes...
+Found 252 JavaScript files to check
+⏩ Skipping anthropologyMuseumEvents.js: Does not use helper functions
+⏩ Skipping arcDiningEvents.js: Does not use helper functions
+⏩ Skipping artGalleryEvents.js: Does not use helper functions
+⏩ Skipping barNoneClub.js: Does not use helper functions
+⏩ Skipping bardOnTheBeach.js: Does not use helper functions
+⏩ Skipping bardOnTheBeachEvents.js: Does not use helper functions
+⏩ Skipping bcPlaceEvents.js: Does not use helper functions
+⏩ Skipping bcPlaceStadium.js: Does not use helper functions
+⏩ Skipping billReidGalleryEvents.js: Does not use helper functions
+⏩ Skipping biltmoreCabaret.js: Does not use helper functions
+⏩ Skipping biltmoreCabaretEvents.js: Does not use helper functions
+⏩ Skipping broadwayVancouverEvents.js: Does not use helper functions
+⏩ Skipping canadaPlaceEvents.js: Does not use helper functions
+⏩ Skipping capilanoSuspensionBridge.js: Does not use helper functions
+⏩ Skipping carnavalDelSol.js: Does not use helper functions
+⏩ Skipping celebritiesNightclub.js: Does not use helper functions
+⏩ Skipping chanCentre.js: Does not use helper functions
+⏩ Skipping chanCentreEvents.js: Does not use helper functions
+⏩ Skipping cherryBlossomFestEvents.js: Does not use helper functions
+⏩ Skipping chineseGardenEvents.js: Does not use helper functions
+⏩ Skipping coastalJazzEvents.js: Does not use helper functions
+⏩ Skipping coastalJazzFestival.js: Does not use helper functions
+⏩ Skipping commodoreBallroomEvents.backup.js: Does not use helper functions
+⏩ Skipping commodoreBallroomEvents.fixed.js: Does not use helper functions
+⏩ Skipping commodoreBallroomEvents.js: Does not use helper functions
+⏩ Skipping contemporaryArtGalleryEvents.js: Does not use helper functions
+⏩ Skipping cultureCrawlEvents.js: Does not use helper functions
+⏩ Skipping danceFestivalEvents.js: Does not use helper functions
+⏩ Skipping doxaFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping dragonBoatFestivalEvents.js: Does not use helper functions
+⏩ Skipping festivalDEteEvents.js: Does not use helper functions
+⏩ Skipping folkFestEvents.js: Does not use helper functions
+⏩ Skipping fortuneSoundClub.js: Does not use helper functions
+⏩ Skipping fortuneSoundClubBridge.js: Does not use helper functions
+⏩ Skipping foxCabaret.js: Does not use helper functions
+⏩ Skipping fringeFestivalEvents.js: Does not use helper functions
+⏩ Skipping gastownGrandPrixEvents.js: Does not use helper functions
+⏩ Skipping gastownSundaySet.js: Does not use helper functions
+⏩ Skipping granvilleIsland.js: Does not use helper functions
+⏩ Skipping granvilleIslandEvents.js: Does not use helper functions
+⏩ Skipping granvilleIslandMarket.js: Does not use helper functions
+⏩ Skipping granvilleMarketEvents.js: Does not use helper functions
+⏩ Skipping harbourEventCentre.js: Does not use helper functions
+⏩ Skipping helloBCEvents.js: Does not use helper functions
+⏩ Skipping helloBCEventsAdditional.js: Does not use helper functions
+⏩ Skipping helloBCEventsScraper.js: Does not use helper functions
+⏩ Skipping helloGoodbyeBarEvents.js: Does not use helper functions
+⏩ Skipping hrMacMillanSpaceCentre.js: Does not use helper functions
+⏩ Skipping hrMacMillanSpaceCentreEvents.js: Does not use helper functions
+⏩ Skipping imperialTheatre.js: Does not use helper functions
+⏩ Skipping improvCentreEvents.js: Does not use helper functions
+⏩ Skipping index.js: Does not use helper functions
+⏩ Skipping irishHeather.js: Does not use helper functions
+⏩ Skipping japanMarketEvents.js: Does not use helper functions
+⏩ Skipping junctionPublicMarket.js: Does not use helper functions
+⏩ Skipping khatsahlanoEvents.js: Does not use helper functions
+⏩ Skipping kitsilanoShowboat.js: Does not use helper functions
+⏩ Skipping laowaiBar.js: Does not use helper functions
+⏩ Skipping levelsNightclub.js: Does not use helper functions
+⏩ Skipping macMillanSpaceCentreEvents.js: Does not use helper functions
+⏩ Skipping malonesEvents.js: Does not use helper functions
+⏩ Skipping maritimeMuseumEvents.js: Does not use helper functions
+⏩ Skipping master_scraper_runner.js: Does not use helper functions
+⏩ Skipping metropolisEvents.js: Does not use helper functions
+⏩ Skipping moaUbcEvents.js: Does not use helper functions
+⏩ Skipping museumOfAnthropology.js: Does not use helper functions
+⏩ Skipping museumOfAnthropologyEvents.js: Does not use helper functions
+⏩ Skipping museumOfVancouver.js: Does not use helper functions
+⏩ Skipping museumOfVancouverEvents.js: Does not use helper functions
+⏩ Skipping musqueamEvents.js: Does not use helper functions
+⏩ Skipping orpheumEvents.js: Does not use helper functions
+⏩ Skipping orpheumTheatre.js: Does not use helper functions
+⏩ Skipping orpheumTheatreEvents.js: Does not use helper functions
+⏩ Skipping pneEvents.js: Does not use helper functions
+⏩ Skipping pneFair.js: Does not use helper functions
+⏩ Skipping pneSummerNightConcerts.js: Does not use helper functions
+⏩ Skipping polygonGallery.js: Does not use helper functions
+⏩ Skipping publicLibraryEvents.js: Does not use helper functions
+⏩ Skipping queenElizabethTheatre.js: Does not use helper functions
+⏩ Skipping queenElizabethTheatreEvents.js: Does not use helper functions
+⏩ Skipping queerArtsFestivalEvents.js: Does not use helper functions
+⏩ Skipping queerFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping quick_validation.js: Does not use helper functions
+⏩ Skipping redRoom.js: Does not use helper functions
+⏩ Skipping redRoomEvents.js: Does not use helper functions
+⏩ Skipping redRoomEvents_new.js: Does not use helper functions
+⏩ Skipping redRoom_OLD.js: Does not use helper functions
+⏩ Skipping richmondNightMarket.js: Does not use helper functions
+⏩ Skipping rickshawTheatreEvents.js: Does not use helper functions
+⏩ Skipping runToEndEndoEvents.js: Does not use helper functions
+⏩ Skipping scienceWorld.js: Does not use helper functions
+⏩ Skipping scienceWorldEvents.js: Does not use helper functions
+⏩ Skipping scienceWorldVancouverEvents.js: Does not use helper functions
+⏩ Skipping shipyardsNightMarket.js: Does not use helper functions
+⏩ Skipping spaceCenter.js: Does not use helper functions
+⏩ Skipping spaceCentreEvents.js: Does not use helper functions
+⏩ Skipping squamishBeerFestival.js: Does not use helper functions
+⏩ Skipping standardize_scraper_exports.js: Does not use helper functions
+⏩ Skipping stanleyPark.js: Does not use helper functions
+⏩ Skipping stanleyParkEvents.js: Does not use helper functions
+⏩ Skipping steamworksBrewing.js: Does not use helper functions
+⏩ Skipping steamworksBrewingEvents.js: Does not use helper functions
+⏩ Skipping summerCinemaEvents.js: Does not use helper functions
+⏩ Skipping test-api-endpoints.js: Does not use helper functions
+⏩ Skipping test-arc-dining-scraper.js: Does not use helper functions
+⏩ Skipping test-art-gallery-events.js: Does not use helper functions
+⏩ Skipping test-art-gallery-scraper.js: Does not use helper functions
+⏩ Skipping test-bard-on-the-beach-scraper.js: Does not use helper functions
+⏩ Skipping test-barnone-scraper.js: Does not use helper functions
+⏩ Skipping test-bill-reid-gallery.js: Does not use helper functions
+⏩ Skipping test-biltmore-cabaret-events.js: Does not use helper functions
+⏩ Skipping test-broadway-vancouver-scraper.js: Does not use helper functions
+⏩ Skipping test-carnaval-del-sol-scraper.js: Does not use helper functions
+⏩ Skipping test-chan-centre-events.js: Does not use helper functions
+⏩ Skipping test-chan-centre-scraper.js: Does not use helper functions
+⏩ Skipping test-cherry-blossom-events.js: Does not use helper functions
+⏩ Skipping test-chinese-garden-scraper.js: Does not use helper functions
+⏩ Skipping test-coastal-jazz-and-new-scrapers.js: Does not use helper functions
+⏩ Skipping test-coastal-jazz-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-coastal-jazz-scraper.js: Does not use helper functions
+⏩ Skipping test-commodore-ballroom-events.js: Does not use helper functions
+⏩ Skipping test-commodore-ballroom-fixed.js: Does not use helper functions
+⏩ Skipping test-commodore-ballroom.js: Does not use helper functions
+⏩ Skipping test-commodore-fixed.js: Does not use helper functions
+⏩ Skipping test-commodore.js: Does not use helper functions
+⏩ Skipping test-contemporary-art-gallery.js: Does not use helper functions
+⏩ Skipping test-culture-crawl-events.js: Does not use helper functions
+⏩ Skipping test-dance-festival-events.js: Does not use helper functions
+⏩ Skipping test-destination-vancouver.js: Does not use helper functions
+⏩ Skipping test-doxa-film-festival.js: Does not use helper functions
+⏩ Skipping test-dragon-boat-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-festival-dete-scraper.js: Does not use helper functions
+⏩ Skipping test-folk-fest-events.js: Does not use helper functions
+⏩ Skipping test-fortune-bridge.js: Does not use helper functions
+⏩ Skipping test-fortune-sound-club copy.js: Does not use helper functions
+⏩ Skipping test-fortune-sound-club.js: Does not use helper functions
+⏩ Skipping test-fox-cabaret-calendar.js: Does not use helper functions
+⏩ Skipping test-fox-cabaret-scraper.js: Does not use helper functions
+⏩ Skipping test-fox-cabaret.js: Does not use helper functions
+⏩ Skipping test-fringe-festival-events.js: Does not use helper functions
+⏩ Skipping test-gastown-scraper.js: Does not use helper functions
+⏩ Skipping test-granville-island-events.js: Does not use helper functions
+⏩ Skipping test-granville-scraper.js: Does not use helper functions
+⏩ Skipping test-hello-goodbye-bar-scraper.js: Does not use helper functions
+⏩ Skipping test-hellobc-real-scraper.js: Does not use helper functions
+⏩ Skipping test-hellobc-scrapers.js: Does not use helper functions
+⏩ Skipping test-improv-centre.js: Does not use helper functions
+⏩ Skipping test-japan-market-scraper.js: Does not use helper functions
+⏩ Skipping test-jazz-fest-events.js: Does not use helper functions
+⏩ Skipping test-junction-market-scraper.js: Does not use helper functions
+⏩ Skipping test-latest-scrapers.js: Does not use helper functions
+⏩ Skipping test-macmillan-space-centre.js: Does not use helper functions
+⏩ Skipping test-malones-scraper.js: Does not use helper functions
+⏩ Skipping test-maritime-museum-events.js: Does not use helper functions
+⏩ Skipping test-metropolis-events-scraper.js: Does not use helper functions
+⏩ Skipping test-mongo-connection-v2.js: Does not use helper functions
+⏩ Skipping test-mongo-connection.js: Does not use helper functions
+⏩ Skipping test-mongo-fortune-events.js: Does not use helper functions
+⏩ Skipping test-mov-debug.js: Does not use helper functions
+⏩ Skipping test-mov-integration.js: Does not use helper functions
+⏩ Skipping test-mov-scraper.js: Does not use helper functions
+⏩ Skipping test-museum-of-anthropology.js: Does not use helper functions
+⏩ Skipping test-museum-vancouver-no-fallback.js: Does not use helper functions
+⏩ Skipping test-museum-vancouver-scraper.js: Does not use helper functions
+⏩ Skipping test-new-scrapers-only.js: Does not use helper functions
+⏩ Skipping test-new-scrapers.js: Does not use helper functions
+⏩ Skipping test-new-vancouver-scrapers.js: Does not use helper functions
+⏩ Skipping test-new-venue-scrapers.js: Does not use helper functions
+⏩ Skipping test-no-fallbacks.js: Does not use helper functions
+⏩ Skipping test-orpheum-theatre-events.js: Does not use helper functions
+⏩ Skipping test-pearl-scraper.js: Does not use helper functions
+⏩ Skipping test-pne-concerts-scraper.js: Does not use helper functions
+⏩ Skipping test-pne-events.js: Does not use helper functions
+⏩ Skipping test-pne-fair-scraper.js: Does not use helper functions
+⏩ Skipping test-proxy-api.js: Does not use helper functions
+⏩ Skipping test-public-library-events.js: Does not use helper functions
+⏩ Skipping test-qet-scraper.js: Does not use helper functions
+⏩ Skipping test-queer-arts-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-queer-film-festival.js: Does not use helper functions
+⏩ Skipping test-red-room-scraper.js: Does not use helper functions
+⏩ Skipping test-richmond-market-scraper.js: Does not use helper functions
+⏩ Skipping test-rickshaw-theatre-events.js: Does not use helper functions
+⏩ Skipping test-roxy-scraper.js: Does not use helper functions
+⏩ Skipping test-run-to-end-endo-scraper.js: Does not use helper functions
+⏩ Skipping test-science-world-detailed.js: Does not use helper functions
+⏩ Skipping test-science-world-events.js: Does not use helper functions
+⏩ Skipping test-science-world-scraper.js: Does not use helper functions
+⏩ Skipping test-science-world.js: Does not use helper functions
+⏩ Skipping test-scraper-data.js: Does not use helper functions
+⏩ Skipping test-scrapers.js: Does not use helper functions
+⏩ Skipping test-server.js: Does not use helper functions
+⏩ Skipping test-shipyards-night-market-scraper.js: Does not use helper functions
+⏩ Skipping test-space-centre-events.js: Does not use helper functions
+⏩ Skipping test-squamish-beer-festival-scraper.js: Does not use helper functions
+⏩ Skipping test-stanley-park-events.js: Does not use helper functions
+⏩ Skipping test-theatre-under-the-stars-scraper.js: Does not use helper functions
+⏩ Skipping test-today-scrapers.js: Does not use helper functions
+⏩ Skipping test-tourism-vancouver-scraper.js: Does not use helper functions
+⏩ Skipping test-underground-comedy-club.js: Does not use helper functions
+⏩ Skipping test-vancouver-asian-film-festival.js: Does not use helper functions
+⏩ Skipping test-vancouver-city-scraper.js: Does not use helper functions
+⏩ Skipping test-vancouver-civic-theatres-scraper.js: Does not use helper functions
+⏩ Skipping test-vancouver-film-festival.js: Does not use helper functions
+⏩ Skipping test-vancouver-mysteries-scraper.js: Does not use helper functions
+⏩ Skipping test-vancouver-scrapers.js: Does not use helper functions
+⏩ Skipping test-vegan-market-scraper.js: Does not use helper functions
+⏩ Skipping test-venue-scrapers.js: Does not use helper functions
+⏩ Skipping test-vogue-theatre-events.js: Does not use helper functions
+⏩ Skipping test-vsff-scraper.js: Does not use helper functions
+⏩ Skipping test-western-front-events.js: Does not use helper functions
+⏩ Skipping test-yaletown-jazz-scraper.js: Does not use helper functions
+⏩ Skipping theCentreVancouver.js: Does not use helper functions
+⏩ Skipping theCultchEvents.js: Does not use helper functions
+⏩ Skipping thePearlEvents.js: Does not use helper functions
+⏩ Skipping theRoxyEvents.js: Does not use helper functions
+⏩ Skipping theatreUnderTheStars.js: Does not use helper functions
+⏩ Skipping theatreUnderTheStarsEvents.js: Does not use helper functions
+⏩ Skipping tourismVancouverEvents.js: Does not use helper functions
+⏩ Skipping ubcBotanicalGardenEvents.js: Does not use helper functions
+✓ undergroundComedyClubEvents.js already has correct import
+⏩ Skipping validate_scrapers.js: Does not use helper functions
+⏩ Skipping vancouverAquarium.js: Does not use helper functions
+⏩ Skipping vancouverAquariumEvents.js: Does not use helper functions
+⏩ Skipping vancouverArtAndLeisure.js: Does not use helper functions
+⏩ Skipping vancouverArtGallery.js: Does not use helper functions
+⏩ Skipping vancouverArtGalleryEvents.js: Does not use helper functions
+⏩ Skipping vancouverAsianFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping vancouverCityEvents.js: Does not use helper functions
+⏩ Skipping vancouverCivicTheatres.js: Does not use helper functions
+⏩ Skipping vancouverConventionCentreEvents.js: Does not use helper functions
+⏩ Skipping vancouverFilmFestivalEvents.js: Does not use helper functions
+⏩ Skipping vancouverFolkFest.js: Does not use helper functions
+⏩ Skipping vancouverFringe.js: Does not use helper functions
+⏩ Skipping vancouverInternationalFilmFestival.js: Does not use helper functions
+⏩ Skipping vancouverJazzFestEvents.js: Does not use helper functions
+⏩ Skipping vancouverJazzFestival.js: Does not use helper functions
+⏩ Skipping vancouverMaritimeMuseumEvents.js: Does not use helper functions
+⏩ Skipping vancouverMysteriesEvents.js: Does not use helper functions
+⏩ Skipping vancouverPride.js: Does not use helper functions
+⏩ Skipping vancouverSymphony.js: Does not use helper functions
+⏩ Skipping vancouverSymphonyEvents.js: Does not use helper functions
+⏩ Skipping veganMarketEvents.js: Does not use helper functions
+⏩ Skipping venueNightclub.js: Does not use helper functions
+⏩ Skipping verify-commodore-events.js: Does not use helper functions
+⏩ Skipping verify-events-count.js: Does not use helper functions
+⏩ Skipping verify-hellobc-events.js: Does not use helper functions
+⏩ Skipping vogueTheatre.js: Does not use helper functions
+⏩ Skipping vogueTheatreEvents.js: Does not use helper functions
+⏩ Skipping vsffEvents.js: Does not use helper functions
+⏩ Skipping westernFrontEvents.js: Does not use helper functions
+⏩ Skipping wiseHall.js: Does not use helper functions
+⏩ Skipping yaletownJazz.js: Does not use helper functions
+
+📊 Import Fix Summary:
+Total files checked: 0
+Files fixed: 0
+Files skipped: 252
+Errors: 0
+
+Detailed results saved to import_fixes_log.json
+Fixed duplicate variable declarations in undergroundComedyClubEvents.js
+🚀 Starting Vancouver scraper run at 2025-07-15T16:09:49.755Z
+
+🔍 Running scraper: commodoreBallroomEvents.js
+🎬 Starting Object...
+🔍 Scraping events from The Commodore Ballroom via Ticketmaster API...
+🔍 Testing key scrapers to validate fixes...
+
+Testing undergroundComedyClubEvents.js...
+✅ Successfully imported undergroundComedyClubEvents.js
+❌ undergroundComedyClubEvents.js does not have a scrape method
+🚀 Standardizing Vancouver scrapers exports...
+Found 151 potential scraper files
+🔧 Fixing export format for anthropologyMuseumEvents.js...
+✅ Successfully fixed anthropologyMuseumEvents.js
+🔧 Fixing export format for arcDiningEvents.js...
+✅ Successfully fixed arcDiningEvents.js
+🔧 Fixing export format for artGalleryEvents.js...
+✅ Successfully fixed artGalleryEvents.js
+🔧 Fixing export format for barNoneClub.js...
+✅ Successfully fixed barNoneClub.js
+🔧 Fixing export format for bardOnTheBeach.js...
+✅ Successfully fixed bardOnTheBeach.js
+🔧 Fixing export format for bardOnTheBeachEvents.js...
+✅ Successfully fixed bardOnTheBeachEvents.js
+🔧 Fixing export format for bcPlaceEvents.js...
+✅ Successfully fixed bcPlaceEvents.js
+🔧 Fixing export format for bcPlaceStadium.js...
+✅ Successfully fixed bcPlaceStadium.js
+🔧 Fixing export format for billReidGalleryEvents.js...
+✅ Successfully fixed billReidGalleryEvents.js
+🔧 Fixing export format for biltmoreCabaret.js...
+✅ Successfully fixed biltmoreCabaret.js
+🔧 Fixing export format for biltmoreCabaretEvents.js...
+✅ Successfully fixed biltmoreCabaretEvents.js
+🔧 Fixing export format for broadwayVancouverEvents.js...
+✅ Successfully fixed broadwayVancouverEvents.js
+🔧 Fixing export format for canadaPlaceEvents.js...
+✅ Successfully fixed canadaPlaceEvents.js
+🔧 Fixing export format for capilanoSuspensionBridge.js...
+✅ Successfully fixed capilanoSuspensionBridge.js
+🔧 Fixing export format for carnavalDelSol.js...
+✅ Successfully fixed carnavalDelSol.js
+🔧 Fixing export format for celebritiesNightclub.js...
+✅ Successfully fixed celebritiesNightclub.js
+🔧 Fixing export format for chanCentre.js...
+✅ Successfully fixed chanCentre.js
+🔧 Fixing export format for chanCentreEvents.js...
+✅ Successfully fixed chanCentreEvents.js
+⚠️ Unknown export format in check_scrapers.js
+🔧 Fixing export format for cherryBlossomFestEvents.js...
+✅ Successfully fixed cherryBlossomFestEvents.js
+🔧 Fixing export format for chineseGardenEvents.js...
+✅ Successfully fixed chineseGardenEvents.js
+🔧 Fixing export format for coastalJazzEvents.js...
+✅ Successfully fixed coastalJazzEvents.js
+🔧 Fixing export format for coastalJazzFestival.js...
+✅ Successfully fixed coastalJazzFestival.js
+🔧 Fixing export format for commodoreBallroomEvents.backup.js...
+✅ Successfully fixed commodoreBallroomEvents.backup.js
+🔧 Fixing export format for commodoreBallroomEvents.fixed.js...
+✅ Successfully fixed commodoreBallroomEvents.fixed.js
+🔧 Fixing export format for commodoreBallroomEvents.js...
+✅ Successfully fixed commodoreBallroomEvents.js
+🔧 Fixing export format for contemporaryArtGalleryEvents.js...
+✅ Successfully fixed contemporaryArtGalleryEvents.js
+🔧 Fixing export format for cultureCrawlEvents.js...
+✅ Successfully fixed cultureCrawlEvents.js
+🔧 Fixing export format for danceFestivalEvents.js...
+✅ Successfully fixed danceFestivalEvents.js
+🔧 Fixing export format for doxaFilmFestivalEvents.js...
+✅ Successfully fixed doxaFilmFestivalEvents.js
+🔧 Fixing export format for dragonBoatFestivalEvents.js...
+✅ Successfully fixed dragonBoatFestivalEvents.js
+🔧 Fixing export format for festivalDEteEvents.js...
+✅ Successfully fixed festivalDEteEvents.js
+🔧 Fixing export format for folkFestEvents.js...
+✅ Successfully fixed folkFestEvents.js
+🔧 Fixing export format for fortuneSoundClub.js...
+✅ Successfully fixed fortuneSoundClub.js
+🔧 Fixing export format for fortuneSoundClubBridge.js...
+✅ Successfully fixed fortuneSoundClubBridge.js
+🔧 Fixing export format for foxCabaret.js...
+✅ Successfully fixed foxCabaret.js
+🔧 Fixing export format for fringeFestivalEvents.js...
+✅ Successfully fixed fringeFestivalEvents.js
+🔧 Fixing export format for gastownGrandPrixEvents.js...
+✅ Successfully fixed gastownGrandPrixEvents.js
+🔧 Fixing export format for gastownSundaySet.js...
+✅ Successfully fixed gastownSundaySet.js
+🔧 Fixing export format for granvilleIsland.js...
+✅ Successfully fixed granvilleIsland.js
+🔧 Fixing export format for granvilleIslandEvents.js...
+✅ Successfully fixed granvilleIslandEvents.js
+🔧 Fixing export format for granvilleIslandMarket.js...
+✅ Successfully fixed granvilleIslandMarket.js
+🔧 Fixing export format for granvilleMarketEvents.js...
+✅ Successfully fixed granvilleMarketEvents.js
+🔧 Fixing export format for harbourEventCentre.js...
+✅ Successfully fixed harbourEventCentre.js
+🔧 Fixing export format for helloBCEvents.js...
+✅ Successfully fixed helloBCEvents.js
+🔧 Fixing export format for helloBCEventsAdditional.js...
+✅ Successfully fixed helloBCEventsAdditional.js
+🔧 Fixing export format for helloBCEventsScraper.js...
+✅ Successfully fixed helloBCEventsScraper.js
+🔧 Fixing export format for helloGoodbyeBarEvents.js...
+✅ Successfully fixed helloGoodbyeBarEvents.js
+🔧 Fixing export format for hrMacMillanSpaceCentre.js...
+✅ Successfully fixed hrMacMillanSpaceCentre.js
+🔧 Fixing export format for hrMacMillanSpaceCentreEvents.js...
+✅ Successfully fixed hrMacMillanSpaceCentreEvents.js
+🔧 Fixing export format for imperialTheatre.js...
+✅ Successfully fixed imperialTheatre.js
+🔧 Fixing export format for improvCentreEvents.js...
+✅ Successfully fixed improvCentreEvents.js
+🔧 Fixing export format for index.js...
+✅ Successfully fixed index.js
+🔧 Fixing export format for irishHeather.js...
+✅ Successfully fixed irishHeather.js
+🔧 Fixing export format for japanMarketEvents.js...
+✅ Successfully fixed japanMarketEvents.js
+🔧 Fixing export format for junctionPublicMarket.js...
+✅ Successfully fixed junctionPublicMarket.js
+🔧 Fixing export format for khatsahlanoEvents.js...
+✅ Successfully fixed khatsahlanoEvents.js
+🔧 Fixing export format for kitsilanoShowboat.js...
+✅ Successfully fixed kitsilanoShowboat.js
+🔧 Fixing export format for laowaiBar.js...
+✅ Successfully fixed laowaiBar.js
+🔧 Fixing export format for levelsNightclub.js...
+✅ Successfully fixed levelsNightclub.js
+⚠️ Unknown export format in list_all_scrapers.js
+🔧 Fixing export format for macMillanSpaceCentreEvents.js...
+✅ Successfully fixed macMillanSpaceCentreEvents.js
+🔧 Fixing export format for malonesEvents.js...
+✅ Successfully fixed malonesEvents.js
+🔧 Fixing export format for maritimeMuseumEvents.js...
+✅ Successfully fixed maritimeMuseumEvents.js
+🔧 Fixing export format for metropolisEvents.js...
+✅ Successfully fixed metropolisEvents.js
+🔧 Fixing export format for moaUbcEvents.js...
+✅ Successfully fixed moaUbcEvents.js
+🔧 Fixing export format for museumOfAnthropology.js...
+✅ Successfully fixed museumOfAnthropology.js
+🔧 Fixing export format for museumOfAnthropologyEvents.js...
+✅ Successfully fixed museumOfAnthropologyEvents.js
+🔧 Fixing export format for museumOfVancouver.js...
+✅ Successfully fixed museumOfVancouver.js
+🔧 Fixing export format for museumOfVancouverEvents.js...
+✅ Successfully fixed museumOfVancouverEvents.js
+🔧 Fixing export format for musqueamEvents.js...
+✅ Successfully fixed musqueamEvents.js
+🔧 Fixing export format for orpheumEvents.js...
+✅ Successfully fixed orpheumEvents.js
+🔧 Fixing export format for orpheumTheatre.js...
+✅ Successfully fixed orpheumTheatre.js
+🔧 Fixing export format for orpheumTheatreEvents.js...
+✅ Successfully fixed orpheumTheatreEvents.js
+🔧 Fixing export format for pneEvents.js...
+✅ Successfully fixed pneEvents.js
+🔧 Fixing export format for pneFair.js...
+✅ Successfully fixed pneFair.js
+🔧 Fixing export format for pneSummerNightConcerts.js...
+✅ Successfully fixed pneSummerNightConcerts.js
+🔧 Fixing export format for polygonGallery.js...
+✅ Successfully fixed polygonGallery.js
+🔧 Fixing export format for publicLibraryEvents.js...
+✅ Successfully fixed publicLibraryEvents.js
+🔧 Fixing export format for queenElizabethTheatre.js...
+✅ Successfully fixed queenElizabethTheatre.js
+🔧 Fixing export format for queenElizabethTheatreEvents.js...
+✅ Successfully fixed queenElizabethTheatreEvents.js
+🔧 Fixing export format for queerArtsFestivalEvents.js...
+✅ Successfully fixed queerArtsFestivalEvents.js
+🔧 Fixing export format for queerFilmFestivalEvents.js...
+✅ Successfully fixed queerFilmFestivalEvents.js
+⚠️ Unknown export format in quick_validation.js
+🔧 Fixing export format for redRoom.js...
+✅ Successfully fixed redRoom.js
+🔧 Fixing export format for redRoomEvents.js...
+✅ Successfully fixed redRoomEvents.js
+🔧 Fixing export format for redRoomEvents_new.js...
+✅ Successfully fixed redRoomEvents_new.js
+🔧 Fixing export format for redRoom_OLD.js...
+✅ Successfully fixed redRoom_OLD.js
+🔧 Fixing export format for richmondNightMarket.js...
+✅ Successfully fixed richmondNightMarket.js
+🔧 Fixing export format for rickshawTheatreEvents.js...
+✅ Successfully fixed rickshawTheatreEvents.js
+🔧 Fixing export format for runToEndEndoEvents.js...
+✅ Successfully fixed runToEndEndoEvents.js
+⚠️ Unknown export format in run_all_scrapers.js
+⚠️ Unknown export format in run_all_scrapers_with_output.js
+🔧 Fixing export format for scienceWorld.js...
+✅ Successfully fixed scienceWorld.js
+🔧 Fixing export format for scienceWorldEvents.js...
+✅ Successfully fixed scienceWorldEvents.js
+🔧 Fixing export format for scienceWorldVancouverEvents.js...
+✅ Successfully fixed scienceWorldVancouverEvents.js
+🔧 Fixing export format for shipyardsNightMarket.js...
+✅ Successfully fixed shipyardsNightMarket.js
+🔧 Fixing export format for spaceCenter.js...
+✅ Successfully fixed spaceCenter.js
+🔧 Fixing export format for spaceCentreEvents.js...
+✅ Successfully fixed spaceCentreEvents.js
+🔧 Fixing export format for squamishBeerFestival.js...
+✅ Successfully fixed squamishBeerFestival.js
+🔧 Fixing export format for stanleyPark.js...
+✅ Successfully fixed stanleyPark.js
+🔧 Fixing export format for stanleyParkEvents.js...
+✅ Successfully fixed stanleyParkEvents.js
+🔧 Fixing export format for steamworksBrewing.js...
+✅ Successfully fixed steamworksBrewing.js
+🔧 Fixing export format for steamworksBrewingEvents.js...
+✅ Successfully fixed steamworksBrewingEvents.js
+🔧 Fixing export format for summerCinemaEvents.js...
+✅ Successfully fixed summerCinemaEvents.js
+⚠️ Unknown export format in test_fixed_scrapers.js
+⚠️ Unknown export format in test_priority_venues.js
+⚠️ Unknown export format in test_scrapers.js
+⚠️ Unknown export format in test_selected_scrapers.js
+⚠️ Unknown export format in test_single_venue.js
+🔧 Fixing export format for theCentreVancouver.js...
+✅ Successfully fixed theCentreVancouver.js
+🔧 Fixing export format for theCultchEvents.js...
+✅ Successfully fixed theCultchEvents.js
+🔧 Fixing export format for thePearlEvents.js...
+✅ Successfully fixed thePearlEvents.js
+🔧 Fixing export format for theRoxyEvents.js...
+✅ Successfully fixed theRoxyEvents.js
+🔧 Fixing export format for theatreUnderTheStars.js...
+✅ Successfully fixed theatreUnderTheStars.js
+🔧 Fixing export format for theatreUnderTheStarsEvents.js...
+✅ Successfully fixed theatreUnderTheStarsEvents.js
+🔧 Fixing export format for tourismVancouverEvents.js...
+✅ Successfully fixed tourismVancouverEvents.js
+🔧 Fixing export format for ubcBotanicalGardenEvents.js...
+✅ Successfully fixed ubcBotanicalGardenEvents.js
+🔧 Fixing export format for undergroundComedyClubEvents.js...
+✅ Successfully fixed undergroundComedyClubEvents.js
+⚠️ Unknown export format in validate_scrapers.js
+🔧 Fixing export format for vancouverAquarium.js...
+✅ Successfully fixed vancouverAquarium.js
+🔧 Fixing export format for vancouverAquariumEvents.js...
+✅ Successfully fixed vancouverAquariumEvents.js
+🔧 Fixing export format for vancouverArtAndLeisure.js...
+✅ Successfully fixed vancouverArtAndLeisure.js
+🔧 Fixing export format for vancouverArtGallery.js...
+✅ Successfully fixed vancouverArtGallery.js
+🔧 Fixing export format for vancouverArtGalleryEvents.js...
+✅ Successfully fixed vancouverArtGalleryEvents.js
+🔧 Fixing export format for vancouverAsianFilmFestivalEvents.js...
+✅ Successfully fixed vancouverAsianFilmFestivalEvents.js
+🔧 Fixing export format for vancouverCityEvents.js...
+✅ Successfully fixed vancouverCityEvents.js
+🔧 Fixing export format for vancouverCivicTheatres.js...
+✅ Successfully fixed vancouverCivicTheatres.js
+🔧 Fixing export format for vancouverConventionCentreEvents.js...
+✅ Successfully fixed vancouverConventionCentreEvents.js
+🔧 Fixing export format for vancouverFilmFestivalEvents.js...
+✅ Successfully fixed vancouverFilmFestivalEvents.js
+🔧 Fixing export format for vancouverFolkFest.js...
+✅ Successfully fixed vancouverFolkFest.js
+🔧 Fixing export format for vancouverFringe.js...
+✅ Successfully fixed vancouverFringe.js
+🔧 Fixing export format for vancouverInternationalFilmFestival.js...
+✅ Successfully fixed vancouverInternationalFilmFestival.js
+🔧 Fixing export format for vancouverJazzFestEvents.js...
+✅ Successfully fixed vancouverJazzFestEvents.js
+🔧 Fixing export format for vancouverJazzFestival.js...
+✅ Successfully fixed vancouverJazzFestival.js
+🔧 Fixing export format for vancouverMaritimeMuseumEvents.js...
+✅ Successfully fixed vancouverMaritimeMuseumEvents.js
+🔧 Fixing export format for vancouverMysteriesEvents.js...
+✅ Successfully fixed vancouverMysteriesEvents.js
+🔧 Fixing export format for vancouverPride.js...
+✅ Successfully fixed vancouverPride.js
+🔧 Fixing export format for vancouverSymphony.js...
+✅ Successfully fixed vancouverSymphony.js
+🔧 Fixing export format for vancouverSymphonyEvents.js...
+✅ Successfully fixed vancouverSymphonyEvents.js
+🔧 Fixing export format for veganMarketEvents.js...
+✅ Successfully fixed veganMarketEvents.js
+🔧 Fixing export format for venueNightclub.js...
+✅ Successfully fixed venueNightclub.js
+⚠️ Unknown export format in verify-commodore-events.js
+⚠️ Unknown export format in verify-events-count.js
+⚠️ Unknown export format in verify-hellobc-events.js
+🔧 Fixing export format for vogueTheatre.js...
+✅ Successfully fixed vogueTheatre.js
+🔧 Fixing export format for vogueTheatreEvents.js...
+✅ Successfully fixed vogueTheatreEvents.js
+🔧 Fixing export format for vsffEvents.js...
+✅ Successfully fixed vsffEvents.js
+🔧 Fixing export format for westernFrontEvents.js...
+✅ Successfully fixed westernFrontEvents.js
+🔧 Fixing export format for wiseHall.js...
+✅ Successfully fixed wiseHall.js
+🔧 Fixing export format for yaletownJazz.js...
+✅ Successfully fixed yaletownJazz.js
+
+📊 Export Standardization Summary:
+Total files checked: 151
+Files fixed: 137
+Files already standardized: 0
+Files that could not be fixed: 14
+
+Detailed results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/standardize_exports_results.json
+🚀 Testing fixed scrapers...
+
+🔍 Testing undergroundComedyClubEvents.js...
+✅ Successfully imported undergroundComedyClubEvents.js
+🚀 Testing Priority Vancouver Venue Scrapers
+
+
+📍 Checking Commodore Ballroom...
+🔗 Website: https://www.commodoreballroom.com/shows
+✅ Successfully imported commodoreBallroomEvents.js
+✅ Found scrape method in commodoreBallroomEvents.js
+🔄 Running scraper for Commodore Ballroom...
+🔍 Scraping events from The Commodore Ballroom via Ticketmaster API...
+🚀 Starting Vancouver scrapers test...
+Found 252 JavaScript files to test
+⏩ Skipping anthropologyMuseumEvents.js: Not a valid scraper class
+
+🔍 Testing Arc Dining Garden Dinners scraper...
+🔍 Starting Arc Dining Garden Dinners scraper...
+🚀 Starting selected Vancouver scrapers test...
+🔍 Testing scraper: list_all_scrapers.js
+✅ Successfully imported list_all_scrapers.js
+Scraper name: unknown
+❌ list_all_scrapers.js does not have a scrape method
+🔍 Validating Vancouver scrapers structure...
+Found 140 potential scrapers to validate
+
+✅ anthropologyMuseumEvents.js - Valid scraper
+❌ arcDiningEvents.js - Invalid: not an instance, no scrape method
+❌ artGalleryEvents.js - Error: Unexpected token 'catch'
+❌ barNoneClub.js - Invalid: not an instance, no scrape method
+❌ bardOnTheBeach.js - Invalid: not an instance, no scrape method
+❌ bardOnTheBeachEvents.js - Invalid: not an instance, no scrape method
+❌ bcPlaceEvents.js - Invalid: not an instance, no scrape method
+❌ bcPlaceStadium.js - Invalid: not an instance, no scrape method
+❌ billReidGalleryEvents.js - Invalid: not an instance, no scrape method
+❌ biltmoreCabaret.js - Invalid: not an instance, no scrape method
+✅ biltmoreCabaretEvents.js - Valid scraper
+❌ broadwayVancouverEvents.js - Invalid: not an instance, no scrape method
+❌ canadaPlaceEvents.js - Invalid: not an instance, no scrape method
+❌ capilanoSuspensionBridge.js - Invalid: not an instance, no scrape method
+❌ carnavalDelSol.js - Invalid: not an instance, no scrape method
+❌ celebritiesNightclub.js - Invalid: not an instance, no scrape method
+❌ chanCentre.js - Invalid: not an instance, no scrape method
+✅ chanCentreEvents.js - Valid scraper
+Found 256 potential scrapers to check
+❌ check_scrapers.js - Invalid: no scrape method
+✅ cherryBlossomFestEvents.js - Valid scraper
+❌ chineseGardenEvents.js - Invalid: not an instance, no scrape method
+❌ coastalJazzEvents.js - Error: Unexpected token '{'
+❌ coastalJazzFestival.js - Invalid: not an instance, no scrape method
+✅ commodoreBallroomEvents.backup.js - Valid scraper
+✅ commodoreBallroomEvents.fixed.js - Valid scraper
+✅ commodoreBallroomEvents.js - Valid scraper
+✅ contemporaryArtGalleryEvents.js - Valid scraper
+✅ cultureCrawlEvents.js - Valid scraper
+✅ danceFestivalEvents.js - Valid scraper
+❌ doxaFilmFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ dragonBoatFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ festivalDEteEvents.js - Invalid: not an instance, no scrape method
+✅ folkFestEvents.js - Valid scraper
+❌ fortuneSoundClub.js - Invalid: not an instance, no scrape method
+❌ fortuneSoundClubBridge.js - Invalid: not an instance, no scrape method
+❌ foxCabaret.js - Invalid: not an instance, no scrape method
+✅ fringeFestivalEvents.js - Valid scraper
+❌ gastownGrandPrixEvents.js - Invalid: not an instance, no scrape method
+❌ gastownSundaySet.js - Invalid: not an instance, no scrape method
+❌ granvilleIsland.js - Invalid: not an instance, no scrape method
+✅ granvilleIslandEvents.js - Valid scraper
+❌ granvilleIslandMarket.js - Invalid: not an instance, no scrape method
+❌ granvilleMarketEvents.js - Invalid: not an instance, no scrape method
+❌ harbourEventCentre.js - Invalid: not an instance, no scrape method
+❌ helloBCEvents.js - Invalid: not an instance, no scrape method
+❌ helloBCEventsAdditional.js - Invalid: not an instance, no scrape method
+❌ helloBCEventsScraper.js - Invalid: not an instance, no scrape method
+❌ helloGoodbyeBarEvents.js - Invalid: not an instance, no scrape method
+❌ hrMacMillanSpaceCentre.js - Invalid: not an instance, no scrape method
+❌ hrMacMillanSpaceCentreEvents.js - Invalid: not an instance, no scrape method
+❌ imperialTheatre.js - Invalid: not an instance, no scrape method
+❌ improvCentreEvents.js - Invalid: not an instance, no scrape method
+❌ index.js - Error: Cannot find module './rogersArenaEvents'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/index.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/validate_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/list_all_scrapers.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+❌ irishHeather.js - Invalid: not an instance, no scrape method
+❌ japanMarketEvents.js - Invalid: not an instance, no scrape method
+❌ junctionPublicMarket.js - Invalid: not an instance, no scrape method
+❌ khatsahlanoEvents.js - Invalid: not an instance, no scrape method
+❌ kitsilanoShowboat.js - Invalid: not an instance, no scrape method
+❌ laowaiBar.js - Invalid: not an instance, no scrape method
+❌ levelsNightclub.js - Invalid: not an instance, no scrape method
+❌ list_all_scrapers.js - Invalid: no scrape method
+✅ macMillanSpaceCentreEvents.js - Valid scraper
+❌ malonesEvents.js - Invalid: not an instance, no scrape method
+✅ maritimeMuseumEvents.js - Valid scraper
+❌ metropolisEvents.js - Invalid: not an instance, no scrape method
+❌ moaUbcEvents.js - Invalid: not an instance, no scrape method
+❌ museumOfAnthropology.js - Invalid: not an instance, no scrape method
+❌ museumOfAnthropologyEvents.js - Invalid: not an instance, no scrape method
+❌ museumOfVancouver.js - Invalid: not an instance, no scrape method
+❌ museumOfVancouverEvents.js - Invalid: not an instance, no scrape method
+❌ musqueamEvents.js - Invalid: not an instance, no scrape method
+❌ orpheumEvents.js - Invalid: not an instance, no scrape method
+❌ orpheumTheatre.js - Invalid: not an instance, no scrape method
+✅ orpheumTheatreEvents.js - Valid scraper
+✅ pneEvents.js - Valid scraper
+❌ pneFair.js - Invalid: not an instance, no scrape method
+❌ pneSummerNightConcerts.js - Invalid: not an instance, no scrape method
+❌ polygonGallery.js - Invalid: not an instance, no scrape method
+✅ publicLibraryEvents.js - Valid scraper
+❌ queenElizabethTheatre.js - Invalid: not an instance, no scrape method
+❌ queenElizabethTheatreEvents.js - Invalid: not an instance, no scrape method
+❌ queerArtsFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ queerFilmFestivalEvents.js - Invalid: not an instance, no scrape method
+❌ quick_validation.js - Invalid: no scrape method
+❌ redRoom.js - Invalid: not an instance, no scrape method
+❌ redRoomEvents.js - Invalid: not an instance, no scrape method
+❌ redRoomEvents_new.js - Invalid: not an instance, no scrape method
+❌ redRoom_OLD.js - Invalid: not an instance, no scrape method
+❌ richmondNightMarket.js - Invalid: not an instance, no scrape method
+✅ rickshawTheatreEvents.js - Valid scraper
+❌ runToEndEndoEvents.js - Invalid: not an instance, no scrape method
+❌ scienceWorld.js - Invalid: not an instance, no scrape method
+✅ scienceWorldEvents.js - Valid scraper
+❌ scienceWorldVancouverEvents.js - Invalid: not an instance, no scrape method
+❌ shipyardsNightMarket.js - Invalid: not an instance, no scrape method
+❌ spaceCenter.js - Invalid: not an instance, no scrape method
+✅ spaceCentreEvents.js - Valid scraper
+❌ squamishBeerFestival.js - Invalid: not an instance, no scrape method
+✅ stanleyPark.js - Valid scraper
+❌ stanleyParkEvents.js - Error: StanleyParkEvents is not a constructor
+✅ steamworksBrewing.js - Valid scraper
+✅ steamworksBrewingEvents.js - Valid scraper
+✅ summerCinemaEvents.js - Valid scraper
+✅ theCentreVancouver.js - Valid scraper
+❌ theCultchEvents.js - Error: TheCultchEvents is not a constructor
+❌ thePearlEvents.js - Error: ThePearlEvents is not a constructor
+❌ theRoxyEvents.js - Error: TheRoxyEvents is not a constructor
+✅ theatreUnderTheStars.js - Valid scraper
+✅ theatreUnderTheStarsEvents.js - Valid scraper
+✅ tourismVancouverEvents.js - Valid scraper
+✅ ubcBotanicalGardenEvents.js - Valid scraper
+❌ undergroundComedyClubEvents.js - Invalid: not an instance, no scrape method
+✅ vancouverAquarium.js - Valid scraper
+✅ vancouverAquariumEvents.js - Valid scraper
+✅ vancouverArtAndLeisure.js - Valid scraper
+✅ vancouverArtGallery.js - Valid scraper
+✅ vancouverArtGalleryEvents.js - Valid scraper
+✅ vancouverAsianFilmFestivalEvents.js - Valid scraper
+✅ vancouverCityEvents.js - Valid scraper
+✅ vancouverCivicTheatres.js - Valid scraper
+✅ vancouverConventionCentreEvents.js - Valid scraper
+❌ vancouverFilmFestivalEvents.js - Error: VancouverFilmFestivalEvents is not a constructor
+✅ vancouverFolkFest.js - Valid scraper
+✅ vancouverFringe.js - Valid scraper
+✅ vancouverInternationalFilmFestival.js - Valid scraper
+❌ vancouverJazzFestEvents.js - Error: VancouverJazzFestEvents is not a constructor
+✅ vancouverJazzFestival.js - Valid scraper
+✅ vancouverMaritimeMuseumEvents.js - Valid scraper
+✅ vancouverMysteriesEvents.js - Valid scraper
+✅ vancouverPride.js - Valid scraper
+✅ vancouverSymphony.js - Valid scraper
+✅ vancouverSymphonyEvents.js - Valid scraper
+✅ veganMarketEvents.js - Valid scraper
+✅ venueNightclub.js - Valid scraper
+✅ vogueTheatre.js - Valid scraper
+❌ vogueTheatreEvents.js - Error: VogueTheatreEvents is not a constructor
+✅ vsffEvents.js - Valid scraper
+❌ westernFrontEvents.js - Error: WesternFrontEvents is not a constructor
+✅ wiseHall.js - Valid scraper
+✅ yaletownJazz.js - Valid scraper
+
+📊 Validation Summary:
+Total scrapers validated: 140
+Valid scrapers: 54
+Invalid scrapers: 86
+
+Detailed results saved to scraper_validation.json
+
+===== WORKING SCRAPERS =====
+These are scrapers with valid scrape() methods that ran successfully:
+
+Scraper File                                      | Events | Status
+--------------------------------------------------------------------------------
+fortuneSoundClub.js                                | 69     | OK
+fortuneSoundClubBridge.js                          | 69     | OK
+foxCabaret.js                                      | 32     | OK
+celebritiesNightclub.js                            | 25     | OK
+biltmoreCabaret.js                                 | 20     | OK
+malonesEvents.js                                   | 15     | OK
+harbourEventCentre.js                              | 14     | OK
+barNoneClub.js                                     | 11     | OK
+canadaPlaceEvents.js                               | 10     | OK
+gastownSundaySet.js                                | 4      | OK
+billReidGalleryEvents.js                           | 1      | OK
+arcDiningEvents.js                                 | 0      | OK
+bardOnTheBeach.js                                  | 0      | OK
+bardOnTheBeachEvents.js                            | 0      | OK
+bcPlaceEvents.js                                   | 0      | OK
+bcPlaceStadium.js                                  | 0      | OK
+broadwayVancouverEvents.js                         | 0      | OK
+capilanoSuspensionBridge.js                        | 0      | OK
+carnavalDelSol.js                                  | 0      | OK
+chanCentre.js                                      | 0      | OK
+chineseGardenEvents.js                             | 0      | OK
+coastalJazzFestival.js                             | 0      | OK
+doxaFilmFestivalEvents.js                          | 0      | OK
+dragonBoatFestivalEvents.js                        | 0      | OK
+festivalDEteEvents.js                              | 0      | OK
+gastownGrandPrixEvents.js                          | 0      | OK
+granvilleIsland.js                                 | 0      | OK
+granvilleIslandMarket.js                           | 0      | OK
+granvilleMarketEvents.js                           | 0      | OK
+helloBCEvents.js                                   | 0      | OK
+helloBCEventsAdditional.js                         | 0      | OK
+helloBCEventsScraper.js                            | 0      | OK
+helloGoodbyeBarEvents.js                           | 0      | OK
+hrMacMillanSpaceCentre.js                          | 0      | OK
+hrMacMillanSpaceCentreEvents.js                    | 0      | OK
+imperialTheatre.js                                 | 0      | OK
+improvCentreEvents.js                              | 0      | OK
+irishHeather.js                                    | 0      | OK
+japanMarketEvents.js                               | 0      | OK
+junctionPublicMarket.js                            | 0      | OK
+khatsahlanoEvents.js                               | 0      | OK
+kitsilanoShowboat.js                               | 0      | OK
+laowaiBar.js                                       | 0      | OK
+levelsNightclub.js                                 | 0      | OK
+metropolisEvents.js                                | 0      | OK
+moaUbcEvents.js                                    | 0      | OK
+museumOfAnthropology.js                            | 0      | OK
+museumOfAnthropologyEvents.js                      | 0      | OK
+museumOfVancouver.js                               | 0      | OK
+museumOfVancouverEvents.js                         | 0      | OK
+musqueamEvents.js                                  | 0      | OK
+orpheumEvents.js                                   | 0      | OK
+orpheumTheatre.js                                  | 0      | OK
+pneFair.js                                         | 0      | OK
+pneSummerNightConcerts.js                          | 0      | OK
+polygonGallery.js                                  | 0      | OK
+queenElizabethTheatre.js                           | 0      | OK
+queenElizabethTheatreEvents.js                     | 0      | OK
+queerArtsFestivalEvents.js                         | 0      | OK
+queerFilmFestivalEvents.js                         | 0      | OK
+redRoom.js                                         | 0      | OK
+redRoomEvents.js                                   | 0      | OK
+redRoomEvents_new.js                               | 0      | OK
+redRoom_OLD.js                                     | 0      | OK
+richmondNightMarket.js                             | 0      | OK
+runToEndEndoEvents.js                              | 0      | OK
+scienceWorld.js                                    | 0      | OK
+scienceWorldVancouverEvents.js                     | 0      | OK
+shipyardsNightMarket.js                            | 0      | OK
+spaceCenter.js                                     | 0      | OK
+squamishBeerFestival.js                            | 0      | OK
+undergroundComedyClubEvents.js                     | 0      | Error: Identifier 'dateSelectors' has already been declared
+
+===== POTENTIAL SCRAPERS WITH ISSUES =====
+These appear to be scrapers but have issues:
+
+===== NON-SCRAPER JS FILES =====
+75 JavaScript files are not valid scrapers (helper files, utilities, etc.)
+
+Complete inventory written to scraper_inventory.json
+
+
+❌ Error testing undergroundComedyClubEvents.js: No scrape method found
+
+❌ A critical error occurred in the test runner for list_all_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47

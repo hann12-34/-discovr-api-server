@@ -1,0 +1,61 @@
+============================================================
+--- Attempting to run scraper: vsffEvents.js ---
+============================================================
+Scraper 'Vancouver Short Film Festival' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Short Film Festival scraper...
+Navigating to: https://www.vsff.com/
+✅ Saved debug screenshot to vsff-debug.png
+✅ Found festival dates in text: Fri Jun 13 2025 to Sun Jun 15 2025
+Looking for program items with selector: .program
+Looking for program items with selector: .screenings
+Looking for program items with selector: .schedule
+Looking for program items with selector: .films
+Looking for program items with selector: #schedule
+Looking for program items with selector: #program
+Looking for program items with selector: .film-blocks
+Looking for program items with selector: .screening-blocks
+Creating general festival day events
+✅ Added opening night gala event on 6/13/2025, 7:00:00 PM
+✅ Added awards ceremony event on 6/15/2025, 6:30:00 PM
+🎉 Successfully scraped 2 events from Vancouver Short Film Festival
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Short Film Festival' finished successfully.
+   Processed 2 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vsff-opening-night-gala-2025-06-14",
+  "title": "VSFF: Opening Night Gala",
+  "description": "Join us for the Vancouver Short Film Festival Opening Night Gala! Celebrate the start of the festival with special screenings, filmmaker Q&As, and networking with the local film community.",
+  "startDate": "2025-06-14T02:00:00.000Z",
+  "endDate": "2025-06-14T05:00:00.000Z",
+  "venue": {
+    "name": "Vancouver Short Film Festival",
+    "id": "vancouver-short-film-festival",
+    "address": "Vancity Theatre, 1181 Seymour St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2768,
+      "lng": -123.124
+    },
+    "websiteUrl": "https://www.vsff.com/",
+    "description": "The Vancouver Short Film Festival celebrates the vibrant community of short film, video, and animation artists in British Columbia through an annual showcase."
+  },
+  "category": "film",
+  "categories": [
+    "film",
+    "festival",
+    "gala",
+    "opening-night",
+    "arts"
+  ],
+  "sourceURL": "https://www.vsff.com/",
+  "officialWebsite": "https://www.vsff.com/",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:28:17.278Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vsffEvents-results.json

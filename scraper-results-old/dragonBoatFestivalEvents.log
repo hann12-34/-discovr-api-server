@@ -1,0 +1,50 @@
+============================================================
+--- Attempting to run scraper: dragonBoatFestivalEvents.js ---
+============================================================
+Scraper 'Concord Dragon Boat Festival' instantiated successfully. Running scrape()...
+🔍 Starting Concord Dragon Boat Festival scraper...
+Navigating to: https://concorddragonboatfestival.ca/
+✅ Saved debug screenshot to dragon-boat-debug.png
+✅ Festival dates: Fri Jun 20 2025 - Sun Jun 22 2025
+🎉 Successfully scraped 12 events from Concord Dragon Boat Festival
+
+------------------------------------------------------------
+✅ Scraper 'Concord Dragon Boat Festival' finished successfully.
+   Processed 12 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "dragon-boat-festival-concord-dragon-boat-festival-2025-06-20",
+  "title": "Concord Dragon Boat Festival",
+  "description": "The Concord Dragon Boat Festival is a vibrant celebration of culture, sport, and community in Vancouver. Watch exciting dragon boat races, enjoy cultural performances, taste delicious food, and experience the festive atmosphere at False Creek.",
+  "startDate": "2025-06-20T16:00:00.000Z",
+  "endDate": "2025-06-23T00:00:00.000Z",
+  "venue": {
+    "name": "False Creek",
+    "id": "false-creek-vancouver",
+    "address": "Creekside Park, 1455 Quebec St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2734,
+      "lng": -123.1044
+    },
+    "websiteUrl": "https://concorddragonboatfestival.ca/",
+    "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+  },
+  "category": "festival",
+  "categories": [
+    "festival",
+    "sports",
+    "cultural",
+    "outdoor",
+    "dragon-boat"
+  ],
+  "sourceURL": "https://concorddragonboatfestival.ca/",
+  "officialWebsite": "https://concorddragonboatfestival.ca/",
+  "image": null,
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:03:49.372Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/dragonBoatFestivalEvents-results.json

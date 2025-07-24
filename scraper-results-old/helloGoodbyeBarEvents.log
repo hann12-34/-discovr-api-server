@@ -1,0 +1,118 @@
+============================================================
+--- Attempting to run scraper: helloGoodbyeBarEvents.js ---
+============================================================
+Scraper 'Hello Goodbye Bar' instantiated successfully. Running scrape()...
+🔍 Starting Hello Goodbye Bar scraper...
+Navigating to: https://hellogoodbyebar.com/
+✅ Saved debug screenshot to hello-goodbye-bar-debug.png
+Analyzing page content for events...
+Page content snippet: Skip to Main Content
+About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the entrance to Yaletown's boutique nightlife experience.
+Nights
+The Room
+This underground bar features live DJs, VIP bottle service and an atmosphere that is unmatched. The artful design creates a comfortable and intimate escape from the  ordinary nightlife experience. Whether you’re looking for a night out with some friends or need a venue to host a corporate event, we hope to ...
+Found 226 text elements on page
+Sample text elements:
+1. Skip to Main Content
+About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidd...
+2. Skip to Main Content
+About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidd...
+3. top of page
+4. About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the...
+5. About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the...
+6. About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the...
+7. About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the...
+8. About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the...
+9. About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the...
+10. About
+Nights
+Reservations
+Book a Table
+Through an unmarked door and down a hidden stairwell lies the...
+Looking for event sections on the page...
+Found 40 potential event sections
+Extracting events from Hello Goodbye Bar website...
+Found 5 events on Hello Goodbye Bar website
+Created event: DJ Alex B on July 5, 2025
+Created event: Weekend Vibes on July 6, 2025
+Created event: DJ Overnite on July 12, 2025
+Created event: House Music Night on July 13, 2025
+Created event: DJ Yurie on July 19, 2025
+🎉 Successfully scraped 5 events from Hello Goodbye Bar
+
+------------------------------------------------------------
+✅ Scraper 'Hello Goodbye Bar' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "hello-goodbye-bar-dj-alex-b-2025-07-06",
+  "title": "DJ Alex B",
+  "description": "DJ Alex B spinning deep house and tech house at Hello Goodbye Bar. Underground vibes in Yaletown.",
+  "startDate": "2025-07-06T04:00:00.000Z",
+  "endDate": "2025-07-06T07:00:00.000Z",
+  "venue": {
+    "name": "Hello Goodbye Bar",
+    "id": "hello-goodbye-bar",
+    "address": "110 Davie St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2738,
+      "lng": -123.1131
+    },
+    "websiteUrl": "https://hellogoodbyebar.com/",
+    "description": "Hello Goodbye is an underground bar in Yaletown, Vancouver, known for live DJ sets and cocktails."
+  },
+  "category": "nightlife",
+  "categories": [
+    "music",
+    "nightlife",
+    "bar",
+    "entertainment",
+    "dj"
+  ],
+  "sourceURL": "https://hellogoodbyebar.com/",
+  "officialWebsite": "https://hellogoodbyebar.com/",
+  "image": null,
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:07:59.516Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/helloGoodbyeBarEvents-results.json

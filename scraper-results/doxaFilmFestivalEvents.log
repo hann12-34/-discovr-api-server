@@ -1,0 +1,44 @@
+============================================================
+--- Attempting to run scraper: doxaFilmFestivalEvents.js ---
+============================================================
+Scraper 'DOXA Documentary Film Festival' instantiated successfully. Running scrape()...
+Scraping DOXA Film Festival Events...
+Looking for films/schedule page...
+Found 16 potential film/schedule links
+Exploring link: View the 2025 Program (https://www.doxafestival.ca/program)
+Found 0 potential films on View the 2025 Program
+Exploring link: Sign Up for News (https://mailchi.mp/doxafestival/subscribe)
+Found 0 potential films on Sign Up for News
+Exploring link: Donate (https://doxafestival.ca/donate)
+Found 0 potential films on Donate
+Exploring link: 2025 Program Announced (https://www.doxafestival.ca/news/2025/04/03/2025-program-announced)
+Found 0 potential films on 2025 Program Announced
+Exploring link: 2025 Program (https://www.doxafestival.ca/program)
+Found 0 potential films on 2025 Program
+Exploring link: Justice Forum (https://www.doxafestival.ca/justiceforum)
+Found 0 potential films on Justice Forum
+Exploring link: paraDOXA (https://www.doxafestival.ca/paradoxa)
+Found 0 potential films on paraDOXA
+Exploring link: Spotlights (https://www.doxafestival.ca/program/spotlights)
+Found 0 potential films on Spotlights
+Exploring link: Awards & Jury (https://www.doxafestival.ca/about/festival-awards)
+Found 0 potential films on Awards & Jury
+Exploring link: Download the 2025 Program (https://www.doxafestival.ca/sites/default/files/2025-04/DOXA2025_ProgramBook_v2_144ppi%20%281%29.pdf)
+Found 0 potential films on Download the 2025 Program
+Exploring link: Audience Survey (https://www.doxafestival.ca/survey)
+Found 0 potential films on Audience Survey
+Exploring link: Join Our Newsletter (https://mailchi.mp/doxafestival/subscribe)
+Found 0 potential films on Join Our Newsletter
+Exploring link:  (https://www.doxafestival.ca/)
+Found 0 potential films on 
+Exploring link: 2025 Program (https://www.doxafestival.ca/program)
+Found 0 potential films on 2025 Program
+Checking for festival dates on homepage...
+🎉 Successfully scraped 0 events from DOXA Documentary Film Festival
+
+------------------------------------------------------------
+✅ Scraper 'DOXA Documentary Film Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/doxaFilmFestivalEvents-results.json

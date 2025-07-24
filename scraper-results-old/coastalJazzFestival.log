@@ -1,0 +1,13 @@
+============================================================
+--- Attempting to run scraper: coastalJazzFestival.js ---
+============================================================
+Scraper 'Coastal Jazz Festival' instantiated successfully. Running scrape()...
+🔍 Starting Coastal Jazz Festival scraper...
+🎉 Successfully scraped 0 Coastal Jazz Festival events
+
+------------------------------------------------------------
+✅ Scraper 'Coastal Jazz Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/coastalJazzFestival-results.json

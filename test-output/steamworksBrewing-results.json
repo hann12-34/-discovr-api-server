@@ -1,0 +1,230 @@
+[
+  {
+    "id": "steamworks-summer-brewmasters-dinner-2025-07-11",
+    "title": "Summer Brewmaster's Dinner",
+    "description": "Join Steamworks' Head Brewmaster and Executive Chef for an exclusive five-course dinner with expert beer pairings. Each dish is crafted to complement specific Steamworks brews, highlighting the complex flavors of both the food and beer. Throughout the evening, the Brewmaster will discuss the brewing process, ingredients, and unique characteristics of each beer, while the Chef explains the culinary concepts behind the pairings.\n\nEVENT DETAILS:\nDate: Thursday, July 10, 2025\nTime: 6:30 PM - 10:00 PM\nAge Restriction: 19+\nPrice: $95 per person\nTickets: Required, please book in advance\n\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\nFor more information and tickets, please visit https://steamworks.com/brew-pub/ or call (604) 689-2739.",
+    "startDate": "2025-07-11T01:30:00.000Z",
+    "endDate": "2025-07-11T05:00:00.000Z",
+    "venue": {
+      "name": "Steamworks Brewing Co. Brew Pub",
+      "id": "steamworks-brewing-vancouver",
+      "address": "375 Water St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5C6",
+      "coordinates": {
+        "lat": 49.2847484,
+        "lng": -123.1106541
+      },
+      "websiteUrl": "https://steamworks.com/brew-pub/",
+      "description": "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
+    },
+    "category": "food and drink",
+    "categories": [
+      "brewery",
+      "craft beer",
+      "food and drink",
+      "gastown",
+      "food & beer",
+      "dining",
+      "pairing",
+      "culinary"
+    ],
+    "sourceURL": "https://steamworks.com/brew-pub/",
+    "officialWebsite": "https://steamworks.com/events/summer-brewmasters-dinner-2025/",
+    "image": "https://steamworks.com/wp-content/uploads/2025/05/brewmasters-dinner.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:42.209Z"
+  },
+  {
+    "id": "steamworks-cask-night-summer-seasonal-release-2025-07-19",
+    "title": "Cask Night: Summer Seasonal Release",
+    "description": "Steamworks' popular monthly Cask Night returns with a special summer seasonal release. Be among the first to taste our limited edition Raspberry Wheat Ale, cask-conditioned for optimal flavor and served at traditional cellar temperature. Our brewing team will be on hand to discuss the inspiration behind this refreshing seasonal creation and the unique characteristics of cask-conditioned ales.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 5:00 PM - 9:00 PM\nRecurrence: Monthly Cask Series\nAge Restriction: 19+\nPrice: Pay as you go\n\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\nFor more information and tickets, please visit https://steamworks.com/brew-pub/ or call (604) 689-2739.",
+    "startDate": "2025-07-19T00:00:00.000Z",
+    "endDate": "2025-07-19T04:00:00.000Z",
+    "venue": {
+      "name": "Steamworks Brewing Co. Brew Pub",
+      "id": "steamworks-brewing-vancouver",
+      "address": "375 Water St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5C6",
+      "coordinates": {
+        "lat": 49.2847484,
+        "lng": -123.1106541
+      },
+      "websiteUrl": "https://steamworks.com/brew-pub/",
+      "description": "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
+    },
+    "category": "food and drink",
+    "categories": [
+      "brewery",
+      "craft beer",
+      "food and drink",
+      "gastown",
+      "beer release",
+      "beer tasting",
+      "cask ale"
+    ],
+    "sourceURL": "https://steamworks.com/brew-pub/",
+    "officialWebsite": "https://steamworks.com/events/cask-night-july-2025/",
+    "image": "https://steamworks.com/wp-content/uploads/2025/06/cask-night.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:44:42.209Z"
+  },
+  {
+    "id": "steamworks-live-jazz-craft-beer-sunday-2025-07-27",
+    "title": "Live Jazz & Craft Beer Sunday",
+    "description": "Unwind with smooth jazz and smooth brews at Steamworks' Live Jazz Sunday. The Cameron Chu Quartet performs a mix of jazz standards and original compositions while you enjoy our award-winning craft beers and weekend brunch menu. The perfect way to cap off your weekend with stunning waterfront views, great music, and exceptional beer in Vancouver's historic Gastown district.\n\nEVENT DETAILS:\nDate: Sunday, July 27, 2025\nTime: 1:00 PM - 4:00 PM\nRecurrence: Weekly on Sundays\nAge Restriction: All ages welcome\nPrice: No cover charge\nPerformers: Cameron Chu Quartet\n\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\nFor more information and tickets, please visit https://steamworks.com/brew-pub/ or call (604) 689-2739.",
+    "startDate": "2025-07-27T20:00:00.000Z",
+    "endDate": "2025-07-27T23:00:00.000Z",
+    "venue": {
+      "name": "Steamworks Brewing Co. Brew Pub",
+      "id": "steamworks-brewing-vancouver",
+      "address": "375 Water St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5C6",
+      "coordinates": {
+        "lat": 49.2847484,
+        "lng": -123.1106541
+      },
+      "websiteUrl": "https://steamworks.com/brew-pub/",
+      "description": "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
+    },
+    "category": "food and drink",
+    "categories": [
+      "brewery",
+      "craft beer",
+      "food and drink",
+      "gastown",
+      "live music",
+      "music",
+      "jazz",
+      "entertainment"
+    ],
+    "sourceURL": "https://steamworks.com/brew-pub/",
+    "officialWebsite": "https://steamworks.com/events/live-jazz-sundays/",
+    "image": "https://steamworks.com/wp-content/uploads/2025/04/jazz-sunday.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:44:42.210Z"
+  },
+  {
+    "id": "steamworks-steamworks-beer-festival-2025-08-09",
+    "title": "Steamworks Beer Festival",
+    "description": "Celebrate craft beer culture at the annual Steamworks Beer Festival! This day-long event features over 20 craft breweries from across British Columbia, including rare and exclusive releases from Steamworks' barrel aging program. Enjoy beer sampling, brewery tours, live music, beer-inspired food pairings, brewing demonstrations, and games. A must-attend event for craft beer enthusiasts and casual fans alike.\n\nEVENT DETAILS:\nDate: Saturday, August 9, 2025\nTime: 12:00 PM - 8:00 PM\nAge Restriction: 19+\nPrice: $45 (includes festival glass and 10 sample tokens)\nTickets: Required, please book in advance\n\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\nFor more information and tickets, please visit https://steamworks.com/brew-pub/ or call (604) 689-2739.",
+    "startDate": "2025-08-09T19:00:00.000Z",
+    "endDate": "2025-08-10T03:00:00.000Z",
+    "venue": {
+      "name": "Steamworks Brewing Co. Brew Pub",
+      "id": "steamworks-brewing-vancouver",
+      "address": "375 Water St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5C6",
+      "coordinates": {
+        "lat": 49.2847484,
+        "lng": -123.1106541
+      },
+      "websiteUrl": "https://steamworks.com/brew-pub/",
+      "description": "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
+    },
+    "category": "food and drink",
+    "categories": [
+      "brewery",
+      "craft beer",
+      "food and drink",
+      "gastown",
+      "festival",
+      "beer festival",
+      "outdoor",
+      "tasting"
+    ],
+    "sourceURL": "https://steamworks.com/brew-pub/",
+    "officialWebsite": "https://steamworks.com/events/beer-festival-2025/",
+    "image": "https://steamworks.com/wp-content/uploads/2025/05/beer-festival.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:42.210Z"
+  },
+  {
+    "id": "steamworks-craft-beer-chocolate-pairing-workshop-2025-08-15",
+    "title": "Craft Beer & Chocolate Pairing Workshop",
+    "description": "Discover the delightful world of craft beer and chocolate pairings in this interactive workshop led by Steamworks' Cicerone and a master chocolatier from Vancouver's own Beta5 Chocolates. Learn how different beer styles complement various chocolate types while enjoying guided tastings of six precision-paired combinations. Participants will receive recipes, pairing notes, and a take-home gift of specialty chocolates.\n\nEVENT DETAILS:\nDate: Thursday, August 14, 2025\nTime: 7:00 PM - 9:00 PM\nAge Restriction: 19+\nPrice: $55 per person\nTickets: Required, please book in advance\n\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\nFor more information and tickets, please visit https://steamworks.com/brew-pub/ or call (604) 689-2739.",
+    "startDate": "2025-08-15T02:00:00.000Z",
+    "endDate": "2025-08-15T04:00:00.000Z",
+    "venue": {
+      "name": "Steamworks Brewing Co. Brew Pub",
+      "id": "steamworks-brewing-vancouver",
+      "address": "375 Water St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5C6",
+      "coordinates": {
+        "lat": 49.2847484,
+        "lng": -123.1106541
+      },
+      "websiteUrl": "https://steamworks.com/brew-pub/",
+      "description": "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
+    },
+    "category": "food and drink",
+    "categories": [
+      "brewery",
+      "craft beer",
+      "food and drink",
+      "gastown",
+      "workshop",
+      "tasting",
+      "chocolate",
+      "education",
+      "pairing"
+    ],
+    "sourceURL": "https://steamworks.com/brew-pub/",
+    "officialWebsite": "https://steamworks.com/events/beer-chocolate-pairing/",
+    "image": "https://steamworks.com/wp-content/uploads/2025/06/beer-chocolate.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:42.210Z"
+  },
+  {
+    "id": "steamworks-history-on-tap-vancouvers-brewing-heritage-2025-08-22",
+    "title": "History on Tap: Vancouver's Brewing Heritage",
+    "description": "Step back in time with 'History on Tap,' an evening exploring Vancouver's rich brewing history from the 1800s to present day. Hosted in collaboration with the Vancouver Historical Society, this event features a fascinating presentation by beer historian Joe Thompson, historic brewery artifacts on display, and a specially curated flight of beers inspired by historic Vancouver recipes. Includes a commemorative booklet about local brewing history.\n\nEVENT DETAILS:\nDate: Thursday, August 21, 2025\nTime: 6:30 PM - 9:00 PM\nAge Restriction: 19+\nPrice: $35 per person\nTickets: Required, please book in advance\n\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\nFor more information and tickets, please visit https://steamworks.com/brew-pub/ or call (604) 689-2739.",
+    "startDate": "2025-08-22T01:30:00.000Z",
+    "endDate": "2025-08-22T04:00:00.000Z",
+    "venue": {
+      "name": "Steamworks Brewing Co. Brew Pub",
+      "id": "steamworks-brewing-vancouver",
+      "address": "375 Water St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 5C6",
+      "coordinates": {
+        "lat": 49.2847484,
+        "lng": -123.1106541
+      },
+      "websiteUrl": "https://steamworks.com/brew-pub/",
+      "description": "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
+    },
+    "category": "food and drink",
+    "categories": [
+      "brewery",
+      "craft beer",
+      "food and drink",
+      "gastown",
+      "educational",
+      "history",
+      "beer history",
+      "learning"
+    ],
+    "sourceURL": "https://steamworks.com/brew-pub/",
+    "officialWebsite": "https://steamworks.com/events/history-on-tap/",
+    "image": "https://steamworks.com/wp-content/uploads/2025/06/history-on-tap.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:42.210Z"
+  }
+]

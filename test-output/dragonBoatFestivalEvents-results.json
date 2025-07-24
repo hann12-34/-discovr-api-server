@@ -1,0 +1,388 @@
+[
+  {
+    "id": "dragon-boat-festival-concord-dragon-boat-festival-2025-06-20",
+    "title": "Concord Dragon Boat Festival",
+    "description": "The Concord Dragon Boat Festival is a vibrant celebration of culture, sport, and community in Vancouver. Watch exciting dragon boat races, enjoy cultural performances, taste delicious food, and experience the festive atmosphere at False Creek.",
+    "startDate": "2025-06-20T16:00:00.000Z",
+    "endDate": "2025-06-23T00:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "festival",
+    "categories": [
+      "festival",
+      "sports",
+      "cultural",
+      "outdoor",
+      "dragon-boat"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-dragon-boat-races-opening-day-2025-06-20",
+    "title": "Dragon Boat Races - Opening Day",
+    "description": "Watch exciting dragon boat races with teams competing in various divisions. Cheer on the paddlers as they battle to the finish line in this thrilling water sport competition.",
+    "startDate": "2025-06-20T16:00:00.000Z",
+    "endDate": "2025-06-20T19:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "sports",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "sports"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-cultural-performances-opening-day-2025-06-20",
+    "title": "Cultural Performances - Opening Day",
+    "description": "Experience diverse cultural performances including traditional Chinese dance, music, martial arts demonstrations and more at the festival main stage.",
+    "startDate": "2025-06-20T20:00:00.000Z",
+    "endDate": "2025-06-20T23:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "cultural",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "cultural"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-festival-night-market-opening-day-2025-06-21",
+    "title": "Festival Night Market - Opening Day",
+    "description": "Enjoy the evening Dragon Boat Festival Night Market featuring food vendors, crafts, and entertainment. Experience the vibrant atmosphere as the festival transforms after dark.",
+    "startDate": "2025-06-21T00:00:00.000Z",
+    "endDate": "2025-06-21T04:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "market",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "market"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-dragon-boat-races-day-2-2025-06-21",
+    "title": "Dragon Boat Races - Day 2",
+    "description": "Watch exciting dragon boat races with teams competing in various divisions. Cheer on the paddlers as they battle to the finish line in this thrilling water sport competition.",
+    "startDate": "2025-06-21T16:00:00.000Z",
+    "endDate": "2025-06-21T19:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "sports",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "sports"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-cultural-performances-day-2-2025-06-21",
+    "title": "Cultural Performances - Day 2",
+    "description": "Experience diverse cultural performances including traditional Chinese dance, music, martial arts demonstrations and more at the festival main stage.",
+    "startDate": "2025-06-21T20:00:00.000Z",
+    "endDate": "2025-06-21T23:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "cultural",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "cultural"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-festival-night-market-day-2-2025-06-22",
+    "title": "Festival Night Market - Day 2",
+    "description": "Enjoy the evening Dragon Boat Festival Night Market featuring food vendors, crafts, and entertainment. Experience the vibrant atmosphere as the festival transforms after dark.",
+    "startDate": "2025-06-22T00:00:00.000Z",
+    "endDate": "2025-06-22T04:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "market",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "market"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-dragon-boat-races-final-day-2025-06-22",
+    "title": "Dragon Boat Races - Final Day",
+    "description": "Watch exciting dragon boat races with teams competing in various divisions. Cheer on the paddlers as they battle to the finish line in this thrilling water sport competition.",
+    "startDate": "2025-06-22T16:00:00.000Z",
+    "endDate": "2025-06-22T19:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "sports",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "sports"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-cultural-performances-final-day-2025-06-22",
+    "title": "Cultural Performances - Final Day",
+    "description": "Experience diverse cultural performances including traditional Chinese dance, music, martial arts demonstrations and more at the festival main stage.",
+    "startDate": "2025-06-22T20:00:00.000Z",
+    "endDate": "2025-06-22T23:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "cultural",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "cultural"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-festival-night-market-final-day-2025-06-23",
+    "title": "Festival Night Market - Final Day",
+    "description": "Enjoy the evening Dragon Boat Festival Night Market featuring food vendors, crafts, and entertainment. Experience the vibrant atmosphere as the festival transforms after dark.",
+    "startDate": "2025-06-23T00:00:00.000Z",
+    "endDate": "2025-06-23T04:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "market",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "market"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-dragon-boat-races-day-4-2025-06-23",
+    "title": "Dragon Boat Races - Day 4",
+    "description": "Watch exciting dragon boat races with teams competing in various divisions. Cheer on the paddlers as they battle to the finish line in this thrilling water sport competition.",
+    "startDate": "2025-06-23T16:00:00.000Z",
+    "endDate": "2025-06-23T19:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "sports",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "sports"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  },
+  {
+    "id": "dragon-boat-festival-cultural-performances-day-4-2025-06-23",
+    "title": "Cultural Performances - Day 4",
+    "description": "Experience diverse cultural performances including traditional Chinese dance, music, martial arts demonstrations and more at the festival main stage.",
+    "startDate": "2025-06-23T20:00:00.000Z",
+    "endDate": "2025-06-23T23:00:00.000Z",
+    "venue": {
+      "name": "False Creek",
+      "id": "false-creek-vancouver",
+      "address": "Creekside Park, 1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1044
+      },
+      "websiteUrl": "https://concorddragonboatfestival.ca/",
+      "description": "False Creek is a short inlet in the heart of Vancouver that separates downtown from the rest of the city, hosting many events including the annual Dragon Boat Festival."
+    },
+    "category": "cultural",
+    "categories": [
+      "festival",
+      "dragon-boat",
+      "cultural"
+    ],
+    "sourceURL": "https://concorddragonboatfestival.ca/",
+    "officialWebsite": "https://concorddragonboatfestival.ca/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:34:41.804Z"
+  }
+]

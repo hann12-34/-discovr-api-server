@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: helloBCEventsAdditional.js ---
+============================================================
+Scraper 'HelloBC Additional Events' instantiated successfully. Running scrape()...
+🔍 Starting HelloBC Additional Events scraper...
+✅ Added event: Steveston Salmon Festival on Tuesday, July 1, 2025
+✅ Added event: Squamish Constellation Festival on Friday, July 25, 2025 to Sunday, July 27, 2025
+✅ Added event: Abbotsford Tulip Festival on Tuesday, April 15, 2025 to Saturday, May 10, 2025
+✅ Added event: Victoria Day Parade on Monday, May 19, 2025
+✅ Added event: Okanagan Spring Wine Festival on Thursday, May 1, 2025 to Sunday, May 11, 2025
+🏞️ Successfully created 5 HelloBC additional events
+
+------------------------------------------------------------
+✅ Scraper 'HelloBC Additional Events' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "hellobc-add-steveston-salmon-festival-2025-07-01",
+  "title": "Steveston Salmon Festival",
+  "description": "Known as 'Canada's biggest little birthday party,' the Steveston Salmon Festival celebrates both Canada Day and the community's rich fishing heritage. This beloved Richmond tradition features a grand parade through Steveston Village, a salmon barbecue where over 1,200 pounds of wild salmon are grilled over open alder wood fires, and a Japanese cultural fair honoring the area's significant Japanese-Canadian history. The festival grounds at Steveston Park include multiple stages with live music ranging from folk to rock, cultural performances, children's activities and games, a trade show featuring local artisans, and a food fair showcasing diverse cuisines. The Horticultural Show displays prize-winning flowers, vegetables, and floral arrangements from local gardeners, while the Youth Festival provides opportunities for young performers to showcase their talents. The day culminates with a spectacular fireworks display over the Fraser River, celebrating both Canada's birthday and Steveston's maritime heritage in a quintessentially Canadian community gathering that has been running for over 75 years.\n\nEVENT DETAILS:\nDate: Tuesday, July 1, 2025\nTime: 10:00 AM - 11:00 PM\n\nLocation: Steveston Village\nAddress: 4111 Moncton Street, Richmond, BC V7E 3A8\nPrice: Free (some activities may have fees)\nTickets: Not required for general admission\n\nFor more information and updates, visit the official HelloBC event listing at https://www.hellobc.com/events/steveston-salmon-festival-2025/",
+  "startDate": "2025-07-01T17:00:00.000Z",
+  "endDate": "2025-07-02T06:00:00.000Z",
+  "venue": {
+    "name": "Steveston Village",
+    "id": "richmond-steveston-village",
+    "address": "4111 Moncton Street",
+    "city": "Richmond",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V7E 3A8",
+    "coordinates": {
+      "lat": 49.127,
+      "lng": -123.1807
+    }
+  },
+  "category": "cultural festival",
+  "categories": [
+    "festival",
+    "event",
+    "tourism",
+    "british columbia",
+    "cultural festival",
+    "canada day",
+    "community",
+    "food",
+    "cultural",
+    "family"
+  ],
+  "sourceURL": "https://www.hellobc.com/things-to-do/events/",
+  "officialWebsite": "https://www.hellobc.com/events/steveston-salmon-festival-2025/",
+  "image": "https://www.hellobc.com/content/uploads/2023/06/steveston-salmon-festival-richmond-bc-2048x1365.jpg",
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:06:41.017Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/helloBCEventsAdditional-results.json

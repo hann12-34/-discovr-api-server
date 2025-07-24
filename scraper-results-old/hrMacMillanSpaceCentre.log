@@ -1,0 +1,57 @@
+============================================================
+--- Attempting to run scraper: hrMacMillanSpaceCentre.js ---
+============================================================
+Scraper 'H.R. MacMillan Space Centre' instantiated successfully. Running scrape()...
+🔍 Starting H.R. MacMillan Space Centre scraper...
+✅ Added event: Cosmic Nights: Exoplanets & Alien Worlds on Saturday, July 12, 2025
+✅ Added event: Summer Space Camp: Junior Astronauts (Ages 6-8) on Monday, July 14, 2025 - Friday, July 18, 2025
+✅ Added event: Planetarium Feature: 'Origins: The Birth of Our Universe' on Tuesday, July 1, 2025 - Sunday, August 31, 2025
+✅ Added event: Space Explorers Club: Apollo Anniversary Celebration on Sunday, July 20, 2025
+✅ Added event: Astronomy Lecture Series: The Future of Mars Exploration on Friday, July 25, 2025
+🔭 Successfully created 5 H.R. MacMillan Space Centre events
+
+------------------------------------------------------------
+✅ Scraper 'H.R. MacMillan Space Centre' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "space-centre-cosmic-nights-exoplanets-alien-worlds-2025-07-13",
+  "title": "Cosmic Nights: Exoplanets & Alien Worlds",
+  "description": "Join us for a special 19+ evening at the Space Centre focused on exoplanets and the search for alien life. This adults-only event transforms the Space Centre into an after-hours science lounge featuring expert talks, planetarium shows, telescope viewing (weather permitting), and interactive demonstrations. Dr. Sara Rodriguez, exoplanet researcher from UBC's Department of Physics and Astronomy, will deliver the keynote presentation on recent discoveries from the James Webb Space Telescope and what they tell us about potentially habitable worlds beyond our solar system. The evening includes a special planetarium show 'Worlds Beyond' that takes audiences on a tour of the most fascinating exoplanets discovered to date, from scorching hot gas giants to potentially Earth-like rocky worlds. Throughout the night, enjoy themed cocktails from our licensed bar, explore the exhibits without crowds, and participate in hands-on activities including spectroscopy demonstrations showing how scientists detect elements in exoplanet atmospheres. The observatory will be open for guided stargazing through our telescopes, weather permitting.\n\nEVENT DETAILS:\nDate: Saturday, July 12, 2025\nTime: 7:00 PM - 11:00 PM\nVenue: H.R. MacMillan Space Centre, 1100 Chestnut St, Vancouver\nPrice: $35 ($30 for members)\nAge: 19+\nTickets: Required, available online through the Space Centre website or at the door\n\nVenue Information: The H.R. MacMillan Space Centre is located in Vanier Park, adjacent to the Museum of Vancouver. The facility includes the Planetarium Star Theatre with its digital projection system, the Cosmic Courtyard hands-on activity area, and the Gordon MacMillan Southam Observatory (open on clear nights). The Space Centre is wheelchair accessible and offers a gift shop with space-themed merchandise and educational items.",
+  "startDate": "2025-07-13T02:00:00.000Z",
+  "endDate": "2025-07-13T06:00:00.000Z",
+  "venue": {
+    "name": "H.R. MacMillan Space Centre",
+    "id": "hr-macmillan-space-centre",
+    "address": "1100 Chestnut St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6J 3J9",
+    "coordinates": {
+      "lat": 49.2764,
+      "lng": -123.1446
+    },
+    "websiteUrl": "https://www.spacecentre.ca/",
+    "description": "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonders of space to Earth, while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
+  },
+  "category": "science",
+  "categories": [
+    "science",
+    "education",
+    "astronomy",
+    "space",
+    "special event",
+    "adult",
+    "nightlife",
+    "after hours",
+    "science"
+  ],
+  "sourceURL": "https://www.spacecentre.ca/",
+  "officialWebsite": "https://www.spacecentre.ca/event/cosmic-nights-exoplanets-2025/",
+  "image": "https://www.spacecentre.ca/wp-content/uploads/2025/06/cosmic-nights-exoplanets.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:08:00.705Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/hrMacMillanSpaceCentre-results.json

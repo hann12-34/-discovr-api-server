@@ -1,0 +1,42 @@
+============================================================
+--- Attempting to run scraper: bcPlaceEvents.js ---
+============================================================
+Scraper 'BC Place Events' instantiated successfully. Running scrape()...
+Starting BC Place Events scraper...
+Navigating to https://www.bcplace.com/events
+Extracting BC Place events...
+Primary event selectors not found, trying alternative selectors
+Found 1 BC Place events
+BC Place Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'BC Place Events' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "bc-place-event-2025-07-16",
+  "title": "BC Place Event",
+  "description": "",
+  "startDate": "2025-07-16T02:00:00.000Z",
+  "endDate": "2025-07-16T05:00:00.000Z",
+  "image": "https://images.prismic.io/bcplace/aHZ8ZEMqNJQqH7gY_0715-Static_Social-X_800x419_TheWeeknd_2025_Regional_BCPlace_0715.jpg?auto=format%2Ccompress&rect=0%2C29%2C800%2C361&w=1410&h=636",
+  "venue": {
+    "name": "BC Place",
+    "address": "777 Pacific Blvd, Vancouver, BC V6B 4Y8",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2767,
+      "lng": -123.1122
+    }
+  },
+  "categories": [
+    "Events",
+    "Entertainment"
+  ],
+  "sourceURL": "https://www.bcplace.com/events/2025/the-weeknd-after-hours-til-dawn",
+  "lastUpdated": "2025-07-15T18:31:51.832Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/bcPlaceEvents-results.json

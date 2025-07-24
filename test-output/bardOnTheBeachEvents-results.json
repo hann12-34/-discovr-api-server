@@ -1,0 +1,206 @@
+[
+  {
+    "id": "bard-on-the-beach-special-events-2025-06-09",
+    "title": "Special Events",
+    "description": "Special Events - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.",
+    "startDate": "2025-06-09T02:30:00.000Z",
+    "endDate": "2025-06-09T05:00:00.000Z",
+    "venue": {
+      "name": "Bard on the Beach",
+      "id": "bard-on-the-beach",
+      "address": "Vanier Park, 1695 Whyte Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1434
+      },
+      "websiteUrl": "https://bardonthebeach.org/",
+      "description": "Bard on the Beach is Western Canada's largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "arts",
+      "performance",
+      "shakespeare",
+      "festival"
+    ],
+    "sourceURL": "https://bardonthebeach.org/special-events/",
+    "officialWebsite": "https://bardonthebeach.org/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:37.201Z"
+  },
+  {
+    "id": "bard-on-the-beach-special-events-2025-06-28",
+    "title": "Special Events",
+    "description": "Special Events - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.",
+    "startDate": "2025-06-28T02:30:00.000Z",
+    "endDate": "2025-06-28T05:00:00.000Z",
+    "venue": {
+      "name": "Bard on the Beach",
+      "id": "bard-on-the-beach",
+      "address": "Vanier Park, 1695 Whyte Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1434
+      },
+      "websiteUrl": "https://bardonthebeach.org/",
+      "description": "Bard on the Beach is Western Canada's largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "arts",
+      "performance",
+      "shakespeare",
+      "festival"
+    ],
+    "sourceURL": "https://bardonthebeach.org/special-events/",
+    "officialWebsite": "https://bardonthebeach.org/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:37.202Z"
+  },
+  {
+    "id": "bard-on-the-beach-bard-club-2025-07-17",
+    "title": "Bard Club",
+    "description": "Bard Club - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.",
+    "startDate": "2025-07-17T02:30:00.000Z",
+    "endDate": "2025-07-17T05:00:00.000Z",
+    "venue": {
+      "name": "Bard on the Beach",
+      "id": "bard-on-the-beach",
+      "address": "Vanier Park, 1695 Whyte Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1434
+      },
+      "websiteUrl": "https://bardonthebeach.org/",
+      "description": "Bard on the Beach is Western Canada's largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "arts",
+      "performance",
+      "shakespeare",
+      "festival"
+    ],
+    "sourceURL": "https://bardonthebeach.org/special-events/bard-club/",
+    "officialWebsite": "https://bardonthebeach.org/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:37.202Z"
+  },
+  {
+    "id": "bard-on-the-beach-2025-stratford-trip-2025-08-05",
+    "title": "2025 Stratford Trip",
+    "description": "2025 Stratford Trip - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.",
+    "startDate": "2025-08-05T02:30:00.000Z",
+    "endDate": "2025-08-05T05:00:00.000Z",
+    "venue": {
+      "name": "Bard on the Beach",
+      "id": "bard-on-the-beach",
+      "address": "Vanier Park, 1695 Whyte Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1434
+      },
+      "websiteUrl": "https://bardonthebeach.org/",
+      "description": "Bard on the Beach is Western Canada's largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "arts",
+      "performance",
+      "shakespeare",
+      "festival"
+    ],
+    "sourceURL": "https://bardonthebeach.org/special-events/2025-stratford-trip/",
+    "officialWebsite": "https://bardonthebeach.org/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:37.202Z"
+  },
+  {
+    "id": "bard-on-the-beach-relaxed-performance-2025-08-24",
+    "title": "Relaxed Performance",
+    "description": "Relaxed Performance - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.",
+    "startDate": "2025-08-24T02:30:00.000Z",
+    "endDate": "2025-08-24T05:00:00.000Z",
+    "venue": {
+      "name": "Bard on the Beach",
+      "id": "bard-on-the-beach",
+      "address": "Vanier Park, 1695 Whyte Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1434
+      },
+      "websiteUrl": "https://bardonthebeach.org/",
+      "description": "Bard on the Beach is Western Canada's largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "arts",
+      "performance",
+      "shakespeare",
+      "festival"
+    ],
+    "sourceURL": "https://bardonthebeach.org/special-events/relaxed-performance/",
+    "officialWebsite": "https://bardonthebeach.org/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:37.202Z"
+  },
+  {
+    "id": "bard-on-the-beach-bard-pride-day-2025-09-12",
+    "title": "Bard Pride Day",
+    "description": "Bard Pride Day - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.",
+    "startDate": "2025-09-12T02:30:00.000Z",
+    "endDate": "2025-09-12T05:00:00.000Z",
+    "venue": {
+      "name": "Bard on the Beach",
+      "id": "bard-on-the-beach",
+      "address": "Vanier Park, 1695 Whyte Avenue",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2767,
+        "lng": -123.1434
+      },
+      "websiteUrl": "https://bardonthebeach.org/",
+      "description": "Bard on the Beach is Western Canada's largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "arts",
+      "performance",
+      "shakespeare",
+      "festival"
+    ],
+    "sourceURL": "https://bardonthebeach.org/special-events/bard-pride-day/",
+    "officialWebsite": "https://bardonthebeach.org/",
+    "image": null,
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:31:37.203Z"
+  }
+]

@@ -1,0 +1,47 @@
+============================================================
+--- Attempting to run scraper: granvilleIslandEvents.js ---
+============================================================
+Scraper 'Granville Island Events' instantiated successfully. Running scrape()...
+🔍 Scraping events from Granville Island Events...
+Navigating to https://granvilleisland.com/events
+Could not find event elements using standard selectors, trying to proceed anyway
+Extracting events data...
+Found 8 potential events
+Found 8 events from Granville Island Events
+
+------------------------------------------------------------
+✅ Scraper 'Granville Island Events' finished successfully.
+   Processed 8 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "granville-island-rebirth-2025-06-05",
+  "title": "Rebirth",
+  "description": "\"Rebirth\" is a pottery exhibition by Ami Li Chuan, which is about a group of creatures and plants that settle down on another planet and start a new life there. Amy’s creatures have adapted to the harsh environment with AI technology and strange outfits. The theme of “Rebirth” raises the question: what is the meaning […]",
+  "startDate": "2025-06-05T07:00:00.000Z",
+  "endDate": "2025-06-06T06:59:59.000Z",
+  "imageUrl": "https://granvilleisland.com/wp-content/uploads/2025/06/Amy-Chang.webp",
+  "sourceUrl": "https://granvilleisland.com/event/rebirth",
+  "ticketUrl": "https://granvilleisland.com/event/rebirth",
+  "venue": {
+    "name": "Granville Island",
+    "address": "1689 Johnston Street",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6H 3R9",
+    "website": "https://granvilleisland.com/",
+    "googleMapsUrl": "https://goo.gl/maps/io5j2JzQhQqKCWDY9"
+  },
+  "categories": [
+    "arts",
+    "festival",
+    "market",
+    "entertainment",
+    "family"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-15T18:36:16.935Z",
+  "sourceIdentifier": "granville-island"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/granvilleIslandEvents-results.json

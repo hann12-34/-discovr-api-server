@@ -1,0 +1,53 @@
+============================================================
+--- Attempting to run scraper: carnavalDelSol.js ---
+============================================================
+Scraper 'Carnaval del Sol' instantiated successfully. Running scrape()...
+🔍 Starting Carnaval del Sol scraper...
+✅ Added event: Carnaval del Sol 2025 - Saturday
+✅ Added event: Carnaval del Sol 2025 - Sunday
+🎉 Successfully created 2 Carnaval del Sol events
+
+------------------------------------------------------------
+✅ Scraper 'Carnaval del Sol' finished successfully.
+   Processed 2 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "carnaval-del-sol-saturday-2025-07-12",
+  "title": "Carnaval del Sol 2025 - Saturday",
+  "description": "Experience Latin America in Vancouver at Carnaval del Sol! The largest Latin festival in the Pacific Northwest returns to Vancouver with an exciting program featuring live music, dance performances, art exhibitions, cultural pavilions, kids' activities, and authentic food. Enjoy performances from Latin American artists across multiple stages, explore the diverse cultural pavilions representing different countries, sample delicious Latin cuisine, participate in interactive workshops, and experience the vibrant energy of this colorful celebration. This two-day outdoor festival brings together over 450 artists, 50 music and dance performances, and attracts more than 40,000 attendees.",
+  "startDate": "2025-07-12T17:00:00.000Z",
+  "endDate": "2025-07-13T05:00:00.000Z",
+  "venue": {
+    "name": "Concord Pacific Place",
+    "id": "concord-pacific-place",
+    "address": "88 Pacific Boulevard",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6Z 2R6",
+    "coordinates": {
+      "lat": 49.2767112,
+      "lng": -123.1083056
+    },
+    "websiteUrl": "https://www.carnavaldelsol.ca/",
+    "description": "Concord Pacific Place hosts Vancouver's Carnaval del Sol, the largest Latin American festival in the Pacific Northwest. This vibrant outdoor space transforms into a celebration of Latin American culture with multiple stages for live music and dance performances, cultural pavilions representing different countries, food vendors offering authentic Latin cuisine, and a variety of activities for all ages."
+  },
+  "category": "festival",
+  "categories": [
+    "festival",
+    "music",
+    "dance",
+    "latin",
+    "food",
+    "cultural",
+    "outdoor",
+    "family-friendly"
+  ],
+  "sourceURL": "https://www.carnavaldelsol.ca/",
+  "officialWebsite": "https://www.carnavaldelsol.ca/",
+  "image": "https://www.carnavaldelsol.ca/wp-content/uploads/2025/04/carnaval-main-stage.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:33:13.086Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/carnavalDelSol-results.json

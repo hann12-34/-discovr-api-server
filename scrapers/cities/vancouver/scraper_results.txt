@@ -1,0 +1,59 @@
+Starting to run all Vancouver scrapers...
+Found 139 scrapers to run.
+
+
+===== SCRAPERS SUMMARY =====
+
+- Skipping anthropologyMuseumEvents.js (not a valid scraper class).
+- Skipping arcDiningEvents.js (not a valid scraper class).
+- Skipping artGalleryEvents.js (not a valid scraper class).
+- Skipping barNoneClub.js (not a valid scraper class).
+- Skipping bardOnTheBeach.js (not a valid scraper class).
+- Skipping bardOnTheBeachEvents.js (not a valid scraper class).
+- Skipping bcPlaceEvents.js (not a valid scraper class).
+- Skipping bcPlaceStadium.js (not a valid scraper class).
+
+
+===== RUNNING SCRAPER: billReidGalleryEvents.js =====
+
+🔍 Starting Bill Reid Gallery scraper...
+Navigating to: https://www.billreidgallery.ca/blogs/exhibitions-page
+✅ Saved debug screenshot
+Found 1 events on the page
+Visiting event page: https://www.billreidgallery.ca/blogs/exhibitions-page/kihl-yahda-christian-white-master-haida-artist
+✅ Added event: View Exhibition
+🎉 Successfully scraped 1 events from Bill Reid Gallery
+
+===== RESULT: billReidGalleryEvents.js: Found 1 events =====
+
+================================================================================
+
+- Skipping biltmoreCabaret.js (not a valid scraper class).
+- Skipping biltmoreCabaretEvents.js (not a valid scraper class).
+- Skipping broadwayVancouverEvents.js (not a valid scraper class).
+
+
+===== RUNNING SCRAPER: canadaPlaceEvents.js =====
+
+Scraping Canada Place Events...
+Navigating to https://www.canadaplace.ca/events...
+Page loaded, extracting events...
+Extracting events from Canada Place website
+Took screenshot to /tmp/canada-place-debug.png for debugging
+Extracted 1 events from Canada Place using dynamic scraping
+First pass found 1 events
+Not enough events found. Exploring deeper...
+Found 4 potential event detail links to explore
+Found 4 potential event detail links to explore
+Found 4 potential events from text content
+Added event from text content: Port Day
+Added event from text content: Canada Together
+Added event from text content: Christmas at Canada Place
+Added event from text content: Zumba at Canada Place
+Exploring event link: https://www.canadaplace.ca/canadatogether
+Extracting event details from: https://www.canadaplace.ca/canadatogether
+Skipped duplicate event: Canadatogether
+Exploring event link: https://www.canadaplace.ca/zumba
+Extracting event details from: https://www.canadaplace.ca/zumba
+Skipped duplicate event: Zumba
+Exploring event link: https://www.canadaplace.ca/portday

@@ -1,0 +1,60 @@
+============================================================
+--- Attempting to run scraper: gastownSundaySet.js ---
+============================================================
+Scraper 'Gastown Sunday Set' instantiated successfully. Running scrape()...
+🔍 Starting Gastown Sunday Set scraper...
+📅 Generated 12 Sunday dates for events
+✅ Created event: Gastown Sunday Set - June 15
+✅ Created event: Gastown Sunday Set - June 22
+✅ Created event: Gastown Sunday Set - June 29
+✅ Created event: Gastown Sunday Set - July 6
+✅ Created event: Gastown Sunday Set - July 13
+✅ Created event: Gastown Sunday Set - July 20
+✅ Created event: Gastown Sunday Set - July 27
+✅ Created event: Gastown Sunday Set - August 3
+✅ Created event: Gastown Sunday Set - August 10
+✅ Created event: Gastown Sunday Set - August 17
+✅ Created event: Gastown Sunday Set - August 24
+✅ Created event: Gastown Sunday Set - August 31
+🎉 Successfully generated 12 events for Gastown Sunday Set
+
+------------------------------------------------------------
+✅ Scraper 'Gastown Sunday Set' finished successfully.
+   Processed 12 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "gastown-sunday-set-2025-06-15",
+  "title": "Gastown Sunday Set - June 15",
+  "description": "A car-free series featuring a weekly setlist of music, food, art, shopping, and movement happening every Sunday from 10am to 6pm on Water Street.",
+  "startDate": "2025-06-15T17:00:00.000Z",
+  "endDate": "2025-06-16T01:00:00.000Z",
+  "venue": {
+    "name": "Gastown",
+    "id": "gastown",
+    "address": "Water Street (Richards to Columbia)",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B",
+    "coordinates": {
+      "lat": 49.2839,
+      "lng": -123.1089
+    },
+    "websiteUrl": "https://gastown.org/sundayset/"
+  },
+  "category": "community",
+  "categories": [
+    "community",
+    "music",
+    "art",
+    "food",
+    "shopping"
+  ],
+  "sourceURL": "https://gastown.org/sundayset/",
+  "officialWebsite": "https://gastown.org/sundayset/",
+  "image": "https://gastown.org/wp-content/uploads/2025/05/GastownSundaySet-Banner.jpg",
+  "recurring": "weekly",
+  "lastUpdated": "2025-07-15T16:05:39.708Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/gastownSundaySet-results.json

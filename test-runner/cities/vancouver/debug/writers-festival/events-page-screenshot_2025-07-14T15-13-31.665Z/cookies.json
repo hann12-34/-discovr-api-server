@@ -1,0 +1,59 @@
+[
+  {
+    "name": "_ga",
+    "value": "GA1.1.1757495032.1752506010",
+    "domain": ".writersfest.bc.ca",
+    "path": "/",
+    "expires": 1787066009.813988,
+    "size": 30,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_fbp",
+    "value": "fb.2.1752506009899.11895340550117225",
+    "domain": ".writersfest.bc.ca",
+    "path": "/",
+    "expires": 1760282010,
+    "size": 40,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "sameSite": "Lax",
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_ga_6W8752YVPT",
+    "value": "GS2.1.s1752506009$o1$g0$t1752506009$j60$l0$h0",
+    "domain": ".writersfest.bc.ca",
+    "path": "/",
+    "expires": 1787066009.813823,
+    "size": 59,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  },
+  {
+    "name": "_gcl_au",
+    "value": "1.1.2037569484.1752506010",
+    "domain": ".writersfest.bc.ca",
+    "path": "/",
+    "expires": 1760282009,
+    "size": 32,
+    "httpOnly": false,
+    "secure": false,
+    "session": false,
+    "priority": "Medium",
+    "sameParty": false,
+    "sourceScheme": "Secure"
+  }
+]

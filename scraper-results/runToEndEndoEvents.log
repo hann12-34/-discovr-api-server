@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: runToEndEndoEvents.js ---
+============================================================
+Scraper 'Run to End Endo Vancouver' instantiated successfully. Running scrape()...
+🔍 Starting Run to End Endo events scraper...
+Navigating to: https://raceroster.com/events/2025/103627/the-endo-networks-run-to-end-endo-2025/page/vancouver-bc
+✅ Saved debug screenshot to run-to-end-endo-debug.png
+Looking for event date...
+✅ Parsed event date from text: Sun Jun 15 2025
+✅ Found race distances in text: 5k, 5km, walk
+Creating events for 3 race distances
+✅ Added 5k event at 9:00:00 AM on Sun Jun 15 2025
+✅ Added 5km event at 9:30:00 AM on Sun Jun 15 2025
+✅ Added walk event at 10:00:00 AM on Sun Jun 15 2025
+🎉 Successfully scraped 3 events from Run to End Endo
+
+------------------------------------------------------------
+✅ Scraper 'Run to End Endo Vancouver' finished successfully.
+   Processed 3 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "run-to-end-endo-5k-2025-06-15",
+  "title": "Run to End Endo: 5k",
+  "description": "Join The Endo Network's Run to End Endo 5k in Vancouver to raise awareness and funds for endometriosis support, research, and education. This event welcomes all ages and abilities, with participants running or walking to support the cause.",
+  "startDate": "2025-06-15T16:00:00.000Z",
+  "endDate": "2025-06-15T17:00:00.000Z",
+  "venue": {
+    "name": "Stanley Park",
+    "id": "stanley-park-vancouver",
+    "address": "Stanley Park Dr",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.3019,
+      "lng": -123.1401
+    },
+    "websiteUrl": "https://raceroster.com/events/2025/103627/the-endo-networks-run-to-end-endo-2025",
+    "description": "Stanley Park is a 1,001-acre public park in Vancouver, featuring beautiful trails, beaches, and views of the city skyline and mountains."
+  },
+  "category": "sports",
+  "categories": [
+    "sports",
+    "running",
+    "fundraiser",
+    "charity",
+    "health"
+  ],
+  "sourceURL": "https://raceroster.com/events/2025/103627/the-endo-networks-run-to-end-endo-2025/page/vancouver-bc",
+  "officialWebsite": "https://raceroster.com/events/2025/103627/the-endo-networks-run-to-end-endo-2025/page/vancouver-bc",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:44:11.348Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/runToEndEndoEvents-results.json

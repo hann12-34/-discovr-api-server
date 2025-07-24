@@ -1,0 +1,19 @@
+============================================================
+--- Attempting to run scraper: museumOfVancouverEvents.js ---
+============================================================
+Scraper 'Museum of Vancouver Paddle Carving' instantiated successfully. Running scrape()...
+🔍 Starting Museum of Vancouver Paddle Carving scraper...
+Navigating to: https://museumofvancouver.ca/
+✅ Saved debug screenshot to museum-vancouver-debug.png
+Navigating to events page...
+Found 0 potential paddle-related event links
+No specific event pages found, searching main page for workshop information
+No events found in Museum of Vancouver. Returning empty array as required.
+🎉 Successfully scraped 0 events from Museum of Vancouver
+
+------------------------------------------------------------
+✅ Scraper 'Museum of Vancouver Paddle Carving' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/museumOfVancouverEvents-results.json

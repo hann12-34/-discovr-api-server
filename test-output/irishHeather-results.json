@@ -1,0 +1,192 @@
+[
+  {
+    "id": "irish-heather-traditional-irish-session-2025-07-07",
+    "title": "Traditional Irish Session",
+    "description": "Join us for our weekly Traditional Irish Music Session at The Irish Heather. Local musicians gather to play authentic Irish tunes in a casual, welcoming environment. From lively jigs and reels to soulful ballads, experience the rich musical heritage of Ireland while enjoying our selection of Irish whiskies and craft beers. Musicians of all skill levels are welcome to participate, and guests are encouraged to sing along.\n\nEVENT DETAILS:\nDate: Sunday, July 6, 2025\nTime: 6:00 PM - 9:00 PM\nRecurrence: Weekly on Sundays\nAge Restriction: All ages until 10 PM, 19+ after\nPrice: No cover\n\nLocation: The Irish Heather is located at 248 E Georgia St in Vancouver's Chinatown district.\n\nFor more information and reservations, please visit https://www.irishheather.com/ or call (604) 688-9779.",
+    "startDate": "2025-07-07T01:00:00.000Z",
+    "endDate": "2025-07-07T04:00:00.000Z",
+    "venue": {
+      "name": "The Irish Heather",
+      "id": "irish-heather-vancouver",
+      "address": "248 E Georgia St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 1Z7",
+      "coordinates": {
+        "lat": 49.2789244,
+        "lng": -123.0979366
+      },
+      "websiteUrl": "https://www.irishheather.com/",
+      "description": "The Irish Heather is a beloved gastropub located in Vancouver's Chinatown, offering authentic Irish hospitality, an extensive whiskey selection, and traditional pub fare with a modern twist. A Vancouver institution since 1997, it provides a warm, inviting atmosphere with dark wood furnishings, a copper-topped bar, and Irish memorabilia decorating the walls. The pub is known for its community events, live music sessions, and whiskey tastings."
+    },
+    "category": "food and drink",
+    "categories": [
+      "pub",
+      "irish",
+      "gastropub",
+      "food and drink",
+      "music",
+      "live music",
+      "irish music",
+      "traditional"
+    ],
+    "sourceURL": "https://www.irishheather.com/",
+    "officialWebsite": "https://www.irishheather.com/events/trad-session/",
+    "image": "https://www.irishheather.com/wp-content/uploads/2025/01/trad-session.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:39:30.774Z"
+  },
+  {
+    "id": "irish-heather-whiskey-wednesday-redbreast-tasting-2025-07-17",
+    "title": "Whiskey Wednesday: Redbreast Tasting",
+    "description": "Experience the finest single pot still Irish whiskeys at our Redbreast Tasting event. Our whiskey expert will guide you through a flight of Redbreast expressions, including the 12 Year, 15 Year, Lustau Edition, and the coveted 21 Year. Learn about the unique production methods, rich history, and distinctive characteristics of these acclaimed whiskeys while enjoying perfectly paired small bites from our kitchen.\n\nEVENT DETAILS:\nDate: Wednesday, July 16, 2025\nTime: 7:00 PM - 9:00 PM\nRecurrence: Monthly Whiskey Tasting Series\nAge Restriction: 19+\nPrice: $55 per person\nTickets: Required, please book in advance\n\nLocation: The Irish Heather is located at 248 E Georgia St in Vancouver's Chinatown district.\n\nFor more information and reservations, please visit https://www.irishheather.com/ or call (604) 688-9779.",
+    "startDate": "2025-07-17T02:00:00.000Z",
+    "endDate": "2025-07-17T04:00:00.000Z",
+    "venue": {
+      "name": "The Irish Heather",
+      "id": "irish-heather-vancouver",
+      "address": "248 E Georgia St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 1Z7",
+      "coordinates": {
+        "lat": 49.2789244,
+        "lng": -123.0979366
+      },
+      "websiteUrl": "https://www.irishheather.com/",
+      "description": "The Irish Heather is a beloved gastropub located in Vancouver's Chinatown, offering authentic Irish hospitality, an extensive whiskey selection, and traditional pub fare with a modern twist. A Vancouver institution since 1997, it provides a warm, inviting atmosphere with dark wood furnishings, a copper-topped bar, and Irish memorabilia decorating the walls. The pub is known for its community events, live music sessions, and whiskey tastings."
+    },
+    "category": "food and drink",
+    "categories": [
+      "pub",
+      "irish",
+      "gastropub",
+      "food and drink",
+      "tasting",
+      "whiskey",
+      "spirits",
+      "education"
+    ],
+    "sourceURL": "https://www.irishheather.com/",
+    "officialWebsite": "https://www.irishheather.com/events/whiskey-wednesday-redbreast/",
+    "image": "https://www.irishheather.com/wp-content/uploads/2025/03/redbreast-tasting.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:30.774Z"
+  },
+  {
+    "id": "irish-heather-pub-quiz-night-2025-07-23",
+    "title": "Pub Quiz Night",
+    "description": "Put your knowledge to the test at The Irish Heather's monthly Pub Quiz Night! Form teams of up to 6 people and compete in rounds covering general knowledge, sports, music, history, and, of course, Irish culture. Our quiz master will challenge your wits while you enjoy special food and drink promotions throughout the evening. Prizes for the winning team include gift certificates and bragging rights until the next month's competition.\n\nEVENT DETAILS:\nDate: Tuesday, July 22, 2025\nTime: 7:30 PM - 10:00 PM\nRecurrence: Monthly, last Tuesday\nAge Restriction: 19+\nPrice: $5 entry fee per person\n\nLocation: The Irish Heather is located at 248 E Georgia St in Vancouver's Chinatown district.\n\nFor more information and reservations, please visit https://www.irishheather.com/ or call (604) 688-9779.",
+    "startDate": "2025-07-23T02:30:00.000Z",
+    "endDate": "2025-07-23T05:00:00.000Z",
+    "venue": {
+      "name": "The Irish Heather",
+      "id": "irish-heather-vancouver",
+      "address": "248 E Georgia St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 1Z7",
+      "coordinates": {
+        "lat": 49.2789244,
+        "lng": -123.0979366
+      },
+      "websiteUrl": "https://www.irishheather.com/",
+      "description": "The Irish Heather is a beloved gastropub located in Vancouver's Chinatown, offering authentic Irish hospitality, an extensive whiskey selection, and traditional pub fare with a modern twist. A Vancouver institution since 1997, it provides a warm, inviting atmosphere with dark wood furnishings, a copper-topped bar, and Irish memorabilia decorating the walls. The pub is known for its community events, live music sessions, and whiskey tastings."
+    },
+    "category": "food and drink",
+    "categories": [
+      "pub",
+      "irish",
+      "gastropub",
+      "food and drink",
+      "entertainment",
+      "trivia",
+      "games",
+      "competition"
+    ],
+    "sourceURL": "https://www.irishheather.com/",
+    "officialWebsite": "https://www.irishheather.com/events/pub-quiz-night/",
+    "image": "https://www.irishheather.com/wp-content/uploads/2025/04/pub-quiz.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:39:30.774Z"
+  },
+  {
+    "id": "irish-heather-oyster-guinness-festival-2025-08-02",
+    "title": "Oyster & Guinness Festival",
+    "description": "The Irish Heather's annual Oyster & Guinness Festival returns for a weekend celebration of this classic pairing. Featuring fresh oysters from local suppliers and perfectly poured pints of Guinness, this event highlights the marriage of briny sea flavors with the rich, creamy stout. Enjoy oyster shucking demonstrations, Guinness pouring competitions, and live Celtic music throughout the weekend. Special menu items will include oyster stew, Guinness bread, and more.\n\nEVENT DETAILS:\nDate: Saturday, August 2, 2025\nTime: 12:00 PM - 10:00 PM\nAge Restriction: All ages until 10 PM, 19+ after\nPrice: No cover, pay as you go for food and drinks\n\nLocation: The Irish Heather is located at 248 E Georgia St in Vancouver's Chinatown district.\n\nFor more information and reservations, please visit https://www.irishheather.com/ or call (604) 688-9779.",
+    "startDate": "2025-08-02T19:00:00.000Z",
+    "endDate": "2025-08-04T05:00:00.000Z",
+    "venue": {
+      "name": "The Irish Heather",
+      "id": "irish-heather-vancouver",
+      "address": "248 E Georgia St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 1Z7",
+      "coordinates": {
+        "lat": 49.2789244,
+        "lng": -123.0979366
+      },
+      "websiteUrl": "https://www.irishheather.com/",
+      "description": "The Irish Heather is a beloved gastropub located in Vancouver's Chinatown, offering authentic Irish hospitality, an extensive whiskey selection, and traditional pub fare with a modern twist. A Vancouver institution since 1997, it provides a warm, inviting atmosphere with dark wood furnishings, a copper-topped bar, and Irish memorabilia decorating the walls. The pub is known for its community events, live music sessions, and whiskey tastings."
+    },
+    "category": "food and drink",
+    "categories": [
+      "pub",
+      "irish",
+      "gastropub",
+      "food and drink",
+      "food festival",
+      "festival",
+      "seafood",
+      "beer"
+    ],
+    "sourceURL": "https://www.irishheather.com/",
+    "officialWebsite": "https://www.irishheather.com/events/oyster-guinness-festival/",
+    "image": "https://www.irishheather.com/wp-content/uploads/2025/05/oyster-guinness.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:39:30.774Z"
+  },
+  {
+    "id": "irish-heather-long-table-dinner-irish-harvest-2025-08-14",
+    "title": "Long Table Dinner: Irish Harvest",
+    "description": "Join us for our popular Long Table Dinner Series featuring a traditional Irish harvest feast. Guests will share a communal dining experience at our signature long tables, enjoying a family-style meal prepared by our Executive Chef. The menu highlights seasonal produce and Irish classics with a modern twist, paired with selected Irish beers and whiskeys. This intimate dinner event encourages conversation and connection in the tradition of Irish hospitality.\n\nEVENT DETAILS:\nDate: Wednesday, August 13, 2025\nTime: 6:30 PM - 10:00 PM\nRecurrence: Quarterly Dinner Series\nAge Restriction: 19+\nPrice: $75 per person (includes multi-course meal and welcome drink)\nTickets: Required, please book in advance\n\nLocation: The Irish Heather is located at 248 E Georgia St in Vancouver's Chinatown district.\n\nFor more information and reservations, please visit https://www.irishheather.com/ or call (604) 688-9779.",
+    "startDate": "2025-08-14T01:30:00.000Z",
+    "endDate": "2025-08-14T05:00:00.000Z",
+    "venue": {
+      "name": "The Irish Heather",
+      "id": "irish-heather-vancouver",
+      "address": "248 E Georgia St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 1Z7",
+      "coordinates": {
+        "lat": 49.2789244,
+        "lng": -123.0979366
+      },
+      "websiteUrl": "https://www.irishheather.com/",
+      "description": "The Irish Heather is a beloved gastropub located in Vancouver's Chinatown, offering authentic Irish hospitality, an extensive whiskey selection, and traditional pub fare with a modern twist. A Vancouver institution since 1997, it provides a warm, inviting atmosphere with dark wood furnishings, a copper-topped bar, and Irish memorabilia decorating the walls. The pub is known for its community events, live music sessions, and whiskey tastings."
+    },
+    "category": "food and drink",
+    "categories": [
+      "pub",
+      "irish",
+      "gastropub",
+      "food and drink",
+      "dining",
+      "special dinner",
+      "culinary",
+      "communal dining"
+    ],
+    "sourceURL": "https://www.irishheather.com/",
+    "officialWebsite": "https://www.irishheather.com/events/long-table-irish-harvest/",
+    "image": "https://www.irishheather.com/wp-content/uploads/2025/06/long-table.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:39:30.774Z"
+  }
+]

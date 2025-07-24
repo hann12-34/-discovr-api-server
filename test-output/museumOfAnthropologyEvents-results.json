@@ -1,0 +1,30 @@
+[
+  {
+    "id": "museum-of-anthropology-current-2025-01-01",
+    "title": "Current",
+    "description": "Dancing Down the Eyelashes of the Sun",
+    "startDate": "2025-01-01T08:00:00.000Z",
+    "endDate": "2026-01-01T07:59:59.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://moa.ubc.ca/exhibition/nuxalk-strong/",
+    "ticketUrl": "https://moa.ubc.ca/exhibition/nuxalk-strong/",
+    "venue": {
+      "name": "Museum of Anthropology at UBC",
+      "address": "6393 NW Marine Drive",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V6T 1Z2",
+      "website": "https://moa.ubc.ca/",
+      "googleMapsUrl": "https://goo.gl/maps/KvzfRMYMNAQpzcbR7"
+    },
+    "categories": [
+      "arts",
+      "museum",
+      "cultural"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-07-15T18:42:36.984Z",
+    "sourceIdentifier": "museum-of-anthropology"
+  }
+]

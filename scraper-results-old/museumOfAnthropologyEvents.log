@@ -1,0 +1,52 @@
+============================================================
+--- Attempting to run scraper: museumOfAnthropologyEvents.js ---
+============================================================
+Scraper 'Museum of Anthropology' instantiated successfully. Running scrape()...
+🔍 Scraping events from Museum of Anthropology...
+Navigating to https://moa.ubc.ca/events/
+Skipping event "Memories of the Sun: Cultural Reflections on Light, Memory + Renewal" due to missing or invalid date: ""
+Skipping event "Native Youth Program Tours + Interpretation" due to missing or invalid date: ""
+Skipping event "Memories of the Sun: Cultural Reflections on Light, Memory + Renewal" due to missing or invalid date: ""
+Skipping event "Native Youth Program Tours + Interpretation" due to missing or invalid date: ""
+Skipping event "Cultural Interpreter Tours" due to missing or invalid date: ""
+Skipping event "MOA Ceramics Artist-in-Residence: Wei Cheng" due to missing or invalid date: ""
+Checking for events at: https://moa.ubc.ca/calendar/
+Checking for events at: https://moa.ubc.ca/upcoming-events/
+Checking for events at: https://moa.ubc.ca/exhibitions/
+Checking for exhibitions at: https://moa.ubc.ca/exhibitions/
+Found 1 events from Museum of Anthropology
+
+------------------------------------------------------------
+✅ Scraper 'Museum of Anthropology' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "museum-of-anthropology-current-2025-01-01",
+  "title": "Current",
+  "description": "Dancing Down the Eyelashes of the Sun",
+  "startDate": "2025-01-01T08:00:00.000Z",
+  "endDate": "2026-01-01T07:59:59.000Z",
+  "imageUrl": "",
+  "sourceUrl": "https://moa.ubc.ca/exhibition/nuxalk-strong/",
+  "ticketUrl": "https://moa.ubc.ca/exhibition/nuxalk-strong/",
+  "venue": {
+    "name": "Museum of Anthropology at UBC",
+    "address": "6393 NW Marine Drive",
+    "city": "Vancouver",
+    "province": "BC",
+    "country": "Canada",
+    "postalCode": "V6T 1Z2",
+    "website": "https://moa.ubc.ca/",
+    "googleMapsUrl": "https://goo.gl/maps/KvzfRMYMNAQpzcbR7"
+  },
+  "categories": [
+    "arts",
+    "museum",
+    "cultural"
+  ],
+  "isFallback": false,
+  "lastUpdated": "2025-07-15T16:11:39.393Z",
+  "sourceIdentifier": "museum-of-anthropology"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/museumOfAnthropologyEvents-results.json

@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: harbourEventCentre.js ---
+============================================================
+Scraper 'Harbour Event Centre' instantiated successfully. Running scrape()...
+🔍 Starting Harbour Event Centre scraper...
+✅ Added event: Vancouver Bass Festival: Opening Night on Friday, July 18, 2025
+✅ Added event: Summer White Party on Saturday, July 26, 2025
+✅ Added event: Vancouver Tech Summit After Party on Friday, July 11, 2025
+✅ Added event: Warehouse: Techno Night on Friday, July 4, 2025
+🎭 Successfully created 4 Harbour Event Centre events
+
+------------------------------------------------------------
+✅ Scraper 'Harbour Event Centre' finished successfully.
+   Processed 4 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "harbour-event-vancouver-bass-festival-opening-night-2025-07-19",
+  "title": "Vancouver Bass Festival: Opening Night",
+  "description": "Experience the powerful sounds of bass music as Vancouver Bass Festival kicks off its three-day celebration at Harbour Event Centre. The opening night features international headliners and local bass music talent pushing the boundaries of dubstep, drum & bass, and trap music. With the venue's powerful sound system and immersive lighting design, attendees will feel every beat in this high-energy dance event that draws bass music enthusiasts from across the Pacific Northwest. Special festival production elements include enhanced visuals, CO2 cannons, and custom stage design.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 10:00 PM - 3:00 AM\nVenue: Harbour Event Centre, 750 Pacific Blvd, Vancouver\nPrice: $45-$75\nAge Restriction: 19+\nTickets: Required, available online in advance\nPerformers: Excision, The Blessed Madonna, Truth, The Librarian\n\nVenue Information: Harbour Event Centre is located in downtown Vancouver near BC Place Stadium. The venue features multiple levels, state-of-the-art sound systems, and full bar service. Valid government-issued photo ID is required for entry to all 19+ events.",
+  "startDate": "2025-07-19T05:00:00.000Z",
+  "endDate": "2025-07-19T10:00:00.000Z",
+  "venue": {
+    "name": "Harbour Event Centre",
+    "id": "harbour-event-centre-vancouver",
+    "address": "750 Pacific Blvd",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 5E7",
+    "coordinates": {
+      "lat": 49.2772,
+      "lng": -123.1165
+    },
+    "websiteUrl": "https://www.harboureventcentre.com/",
+    "description": "Harbour Event Centre is a versatile entertainment venue located in downtown Vancouver near BC Place. This multi-level complex features state-of-the-art sound and lighting systems, multiple bars, VIP areas, and can accommodate everything from electronic dance music events to corporate functions, concerts, and private celebrations."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "entertainment",
+    "events",
+    "music",
+    "electronic",
+    "bass music",
+    "edm",
+    "festival"
+  ],
+  "sourceURL": "https://www.harboureventcentre.com/",
+  "officialWebsite": "https://www.harboureventcentre.com/events/bass-festival/",
+  "image": "https://www.harboureventcentre.com/wp-content/uploads/2025/06/bass-festival-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:06:37.512Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/harbourEventCentre-results.json

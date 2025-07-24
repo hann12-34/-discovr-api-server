@@ -1,0 +1,103 @@
+============================================================
+--- Attempting to run scraper: commodoreBallroomEvents.js ---
+============================================================
+Scraper 'undefined' instantiated successfully. Running scrape()...
+🔍 Scraping events from The Commodore Ballroom via Ticketmaster API...
+Saved API response to commodore-ticketmaster-response.json
+Found 75 events from Ticketmaster API
+Processing event: "Macy Gray - On How Life Is 25th Anniversary Tour", Date text: "2025-07-17T02:00:00Z"
+Processing event: "Cameron Whitcomb - Hundred Mile High Tour", Date text: "2025-07-18T02:00:00Z"
+Processing event: "Deltron 3030", Date text: "2025-07-19T03:00:00Z"
+Processing event: "Cameron Whitcomb - Hundred Mile High Tour", Date text: "2025-07-23T02:00:00Z"
+Processing event: "Mannequin Pussy", Date text: "2025-07-24T02:00:00Z"
+Processing event: "Mannequin Pussy", Date text: "2025-07-25T02:00:00Z"
+Processing event: "BOOM! Pro Wrestling", Date text: "2025-07-27T02:00:00Z"
+Processing event: "Cymande", Date text: "2025-07-28T02:00:00Z"
+Processing event: "The Damned", Date text: "2025-07-29T02:00:00Z"
+Processing event: "Man Up Pride: Live From The Commodore!", Date text: "2025-08-02T03:00:00Z"
+Processing event: "Rhythm Of The Night - 90s Pride Dance Party", Date text: "2025-08-03T04:00:00Z"
+Processing event: "Richy Mitch & The Coal Miners - Colorado's on Fire Again", Date text: "2025-08-07T02:00:00Z"
+Processing event: "Clutch", Date text: "2025-08-08T02:00:00Z"
+Processing event: "Flight Facilities", Date text: "2025-08-09T03:00:00Z"
+Processing event: "flipturn - THE BURNOUT DAYS TOUR", Date text: "2025-08-12T02:00:00Z"
+Processing event: "The Man In Black: Tribute To Johnny Cash", Date text: "2025-08-18T02:00:00Z"
+Processing event: "Billy Strings", Date text: "2025-08-20T02:30:00Z"
+Processing event: "Billy Strings", Date text: "2025-08-21T02:30:00Z"
+Processing event: "Navaan Sandhu", Date text: "2025-08-27T02:00:00Z"
+Processing event: "Christone "Kingfish" Ingram", Date text: "2025-08-29T02:00:00Z"
+Processing event: "The Budos Band with Say She She & DJ Keith McCafferty", Date text: "2025-08-30T02:30:00Z"
+Processing event: "Hanumankind - OTW Tour: North America 2025", Date text: "2025-09-04T02:00:00Z"
+Processing event: "Red Bull Dance Your Style Canada", Date text: "2025-09-06T02:00:00Z"
+Processing event: "ARMNHMR", Date text: "2025-09-07T06:00:00Z"
+Processing event: "X Ambassadors - The VHS(X) North American Tour", Date text: "2025-09-10T01:30:00Z"
+Processing event: "Descendents", Date text: "2025-09-14T01:30:00Z"
+Processing event: "Descendents", Date text: "2025-09-15T01:30:00Z"
+Processing event: "The Hives", Date text: "2025-09-17T02:00:00Z"
+Processing event: "Arc De Soleil: La Mirage Tour", Date text: "2025-09-18T02:00:00Z"
+Processing event: "The Wailers: Natural Mystic 30th Anniversary", Date text: "2025-09-20T03:00:00Z"
+Processing event: "The Waterboys", Date text: "2025-09-21T02:00:00Z"
+Processing event: "UB40 - The Relentless Tour 2025", Date text: "2025-09-22T02:00:00Z"
+Processing event: "Black Rebel Motorcycle Club", Date text: "2025-09-24T02:00:00Z"
+Processing event: "Sunny Day Real Estate - Tour 2025", Date text: "2025-09-25T02:00:00Z"
+Processing event: "Spacey Jane - If That Makes Sense Tour", Date text: "2025-09-27T02:00:00Z"
+Processing event: "Amble", Date text: "2025-09-28T02:00:00Z"
+Processing event: "Amble", Date text: "2025-09-29T02:00:00Z"
+Processing event: "BETWEEN FRIENDS - WOW! TOUR", Date text: "2025-09-30T02:00:00Z"
+Processing event: "Circle Jerks", Date text: "2025-10-01T02:00:00Z"
+Processing event: "Wilkinson", Date text: "2025-10-04T06:00:00Z"
+Processing event: "BUNT.", Date text: "2025-10-05T05:00:00Z"
+Processing event: "James", Date text: "2025-10-06T02:00:00Z"
+Processing event: "Counterparts + special guests", Date text: "2025-10-07T01:00:00Z"
+Processing event: "Wolf Alice North American Tour 2025", Date text: "2025-10-08T02:00:00Z"
+Processing event: "54-40", Date text: "2025-10-11T02:00:00Z"
+Processing event: "54-40", Date text: "2025-10-12T02:00:00Z"
+Processing event: "The Beta Band - The Three EPs Tour", Date text: "2025-10-13T02:00:00Z"
+Processing event: "Max McNown - Forever Ain't Long Enough Tour", Date text: "2025-10-16T02:00:00Z"
+Processing event: "Max McNown - Forever Ain't Long Enough Tour", Date text: "2025-10-17T02:00:00Z"
+Processing event: "Hazlett", Date text: "2025-10-18T01:30:00Z"
+Processing event: "The Wombats - Oh! The Ocean Tour", Date text: "2025-10-19T02:00:00Z"
+Processing event: "The Tallest Man On Earth", Date text: "2025-10-23T02:00:00Z"
+Processing event: "MATTHEW GOOD AND HIS BAND with I MOTHER EARTH", Date text: "2025-10-25T02:00:00Z"
+Processing event: "Geordie Kieffer: Hush Hush Canada Tour", Date text: "2025-10-26T02:30:00Z"
+Processing event: "Matthew Good Acoustic VIP Set Upgrade - Not a Concert Ticket", Date text: "2025-10-27T02:00:00Z"
+Processing event: "MATTHEW GOOD AND HIS BAND with I MOTHER EARTH", Date text: "2025-10-27T02:00:00Z"
+Processing event: "G FLIP - The Dream Ride Tour", Date text: "2025-10-28T02:00:00Z"
+Processing event: "Durand Jones & The Indications - Flowers Tour 2025", Date text: "2025-10-29T02:00:00Z"
+Processing event: "Sophie Ellis Bextor", Date text: "2025-10-31T02:00:00Z"
+Processing event: "LEISURE - WELCOME TO THE MOOD TOUR", Date text: "2025-11-02T02:00:00Z"
+Processing event: "Psychedelic Porn Crumpets", Date text: "2025-11-06T03:00:00Z"
+Processing event: "Wyatt Flores", Date text: "2025-11-09T03:00:00Z"
+Processing event: "Wyatt Flores", Date text: "2025-11-10T03:00:00Z"
+Processing event: "Set It Off: The Self Titled Tour", Date text: "2025-11-12T02:00:00Z"
+Processing event: "Sloan - A Tour de Force", Date text: "2025-11-16T03:00:00Z"
+Processing event: "The Beths", Date text: "2025-11-17T03:00:00Z"
+Processing event: "THRICE", Date text: "2025-11-18T02:00:00Z"
+Processing event: "THE DARKNESS: Dreams on Toast", Date text: "2025-11-19T03:00:00Z"
+Processing event: "Nick Mulvey: Dark Harvest World Tour", Date text: "2025-11-22T02:30:00Z"
+Processing event: "PUP", Date text: "2025-11-26T03:00:00Z"
+Processing event: "PUP", Date text: "2025-11-27T03:00:00Z"
+Processing event: "James Barker Band - Bud Light Buckle Up Tour", Date text: "2025-12-01T03:00:00Z"
+Processing event: "grandson: INERTIA Tour", Date text: "2025-12-04T03:00:00Z"
+Processing event: "Leon Thomas - Mutts Don't Heel Tour", Date text: "2025-12-17T03:00:00Z"
+Processing event: "Nothing More w/ Catch Your Breath, Archers and Doobie", Date text: "2026-03-10T00:30:00Z"
+Successfully processed 75 events from Commodore Ballroom
+
+------------------------------------------------------------
+✅ Scraper 'undefined' finished successfully.
+   Processed 75 events.
+------------------------------------------------------------
+
+Sample event: {
+  "title": "Macy Gray - On How Life Is 25th Anniversary Tour",
+  "startDate": "2025-07-17T02:00:00.000Z",
+  "endDate": "2025-07-17T02:00:00.000Z",
+  "url": "https://www.ticketmaster.ca/macy-gray-on-how-life-is-vancouver-british-columbia-07-16-2025/event/1100626792DA1E51",
+  "imageUrl": "https://s1.ticketm.net/dam/a/90d/6d1db0ea-5f58-47ec-9016-ae90300e990d_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+  "venue": "Commodore Ballroom",
+  "organizer": "Live Nation",
+  "address": "868 Granville St, Vancouver, BC V6Z 1K3",
+  "slug": "macy-gray-on-how-life-is-25th-anniversary-tour",
+  "city": "vancouver",
+  "source": "commodore-ballroom"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/commodoreBallroomEvents-results.json

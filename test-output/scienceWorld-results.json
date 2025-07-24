@@ -1,0 +1,236 @@
+[
+  {
+    "id": "science-world-after-dark-adult-evening---molecular-gastronomy-2025-07-19",
+    "title": "After Dark: Adult Evening - Molecular Gastronomy",
+    "description": "Experience Science World after hours at this 19+ event combining science, cocktails, and culinary innovation. This special evening focuses on the fascinating world of molecular gastronomy, where cooking meets chemistry. Enjoy live demonstrations from renowned local chefs who use scientific techniques to transform familiar ingredients into extraordinary culinary creations. Interactive stations throughout the venue allow guests to experiment with spherification, gelification, and other molecular techniques while enjoying specialty cocktails designed for the event. All exhibits remain open for exploration, creating a unique adults-only museum experience that blends education, entertainment, and epicurean adventure.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 7:00 PM - 11:00 PM\nPrice: $45 ($38 for members)\nAge Restriction: 19+\nTickets: Required, available through Science World website or box office\n\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.",
+    "startDate": "2025-07-19T02:00:00.000Z",
+    "endDate": "2025-07-19T06:00:00.000Z",
+    "venue": {
+      "name": "Science World at TELUS World of Science",
+      "id": "science-world-vancouver",
+      "address": "1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 3Z7",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1034
+      },
+      "websiteUrl": "https://www.scienceworld.ca/",
+      "description": "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "museum",
+      "family-friendly",
+      "adult event",
+      "after hours",
+      "19+",
+      "nightlife",
+      "cocktails"
+    ],
+    "sourceURL": "https://www.scienceworld.ca/",
+    "officialWebsite": "https://www.scienceworld.ca/event/after-dark-molecular-gastronomy/",
+    "image": "https://www.scienceworld.ca/wp-content/uploads/2025/06/after-dark-molecular.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:12.560Z"
+  },
+  {
+    "id": "science-world-robot-takeover-artificial-intelligence-exhibition-2025-07-01",
+    "title": "Robot Takeover: Artificial Intelligence Exhibition",
+    "description": "Explore the fascinating world of artificial intelligence and robotics in this immersive new exhibition at Science World. 'Robot Takeover' demystifies AI through interactive exhibits that demonstrate how machine learning works, the ethical implications of AI development, and how robots perceive and interact with their environment. Visitors can engage with cutting-edge robots, program simple AI systems, play games against computer opponents, and learn about the Canadian researchers leading innovations in this field. The exhibition includes a special section on AI in everyday life, showing how these technologies already influence everything from smartphone assistants to medical diagnostics, traffic management, and online shopping recommendations.\n\nEVENT DETAILS:\nRunning from Tuesday, July 1, 2025 to Wednesday, December 31, 2025\nHours: 10:00 AM - 5:00 PM daily\nPrice: Included with admission\nTickets: Required, available through Science World website or box office\n\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.",
+    "startDate": "2025-07-01T17:00:00.000Z",
+    "endDate": "2026-01-01T01:00:00.000Z",
+    "venue": {
+      "name": "Science World at TELUS World of Science",
+      "id": "science-world-vancouver",
+      "address": "1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 3Z7",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1034
+      },
+      "websiteUrl": "https://www.scienceworld.ca/",
+      "description": "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "museum",
+      "family-friendly",
+      "exhibition",
+      "interactive",
+      "technology",
+      "robots",
+      "ai"
+    ],
+    "sourceURL": "https://www.scienceworld.ca/",
+    "officialWebsite": "https://www.scienceworld.ca/exhibition/robot-takeover/",
+    "image": "https://www.scienceworld.ca/wp-content/uploads/2025/05/robot-exhibition.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:12.561Z"
+  },
+  {
+    "id": "science-world-wonder-weekend-astronomy-exploration-2025-07-12",
+    "title": "Wonder Weekend: Astronomy Exploration",
+    "description": "Bring the whole family to this special weekend celebration of astronomy and space science. Activities include solar telescope viewing (weather permitting), virtual reality space explorations, scale model solar system walks, comet-making demonstrations using dry ice, and rocket launch simulations. Special guests include astronomers from the University of British Columbia and representatives from the Royal Astronomical Society of Canada, who will share their expertise and answer questions about our universe. The Wonder Weekend series offers enhanced programming around specific scientific themes, with Astronomy Exploration featuring twice as many hands-on activities as a regular visit. All activities are included with general admission to Science World.\n\nEVENT DETAILS:\nDates: Saturday, July 12, 2025 to Sunday, July 13, 2025\nTime: 10:00 AM - 5:00 PM\nPrice: Included with admission\n\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.",
+    "startDate": "2025-07-12T17:00:00.000Z",
+    "endDate": "2025-07-14T00:00:00.000Z",
+    "venue": {
+      "name": "Science World at TELUS World of Science",
+      "id": "science-world-vancouver",
+      "address": "1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 3Z7",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1034
+      },
+      "websiteUrl": "https://www.scienceworld.ca/",
+      "description": "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "museum",
+      "family-friendly",
+      "family",
+      "weekend",
+      "kids",
+      "astronomy",
+      "space"
+    ],
+    "sourceURL": "https://www.scienceworld.ca/",
+    "officialWebsite": "https://www.scienceworld.ca/event/wonder-weekend-astronomy/",
+    "image": "https://www.scienceworld.ca/wp-content/uploads/2025/06/astronomy-weekend.jpg",
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:44:12.561Z"
+  },
+  {
+    "id": "science-world-omnimax-film-oceans-our-blue-planet-2025-07-05",
+    "title": "OMNIMAX Film: 'Oceans: Our Blue Planet'",
+    "description": "Journey across the world's oceans in this breathtaking OMNIMAX® film that brings the underwater world to life on Science World's giant dome screen. 'Oceans: Our Blue Planet' takes viewers on an extraordinary trip to the deepest, most mysterious parts of our oceans, revealing incredible creatures and behaviors captured for the first time on film. Using breakthrough filming technologies developed specifically for this production, the documentary provides unprecedented views of previously unexplored marine habitats. The immersive OMNIMAX® experience surrounds the audience with stunning visuals and powerful sound, creating the sensation of diving alongside dolphins, whale sharks, and other magnificent sea creatures while learning about the importance of ocean conservation.\n\nEVENT DETAILS:\nDate: Saturday, July 5, 2025\nTime: 11:00 AM - 12:00 PM\nRecurrence: Multiple showtimes daily\nPrice: $8 in addition to general admission\nTickets: Required, available through Science World website or box office\n\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.",
+    "startDate": "2025-07-05T18:00:00.000Z",
+    "endDate": "2025-07-05T19:00:00.000Z",
+    "venue": {
+      "name": "Science World at TELUS World of Science",
+      "id": "science-world-vancouver",
+      "address": "1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 3Z7",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1034
+      },
+      "websiteUrl": "https://www.scienceworld.ca/",
+      "description": "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "museum",
+      "family-friendly",
+      "film",
+      "documentary",
+      "omnimax",
+      "oceans",
+      "nature"
+    ],
+    "sourceURL": "https://www.scienceworld.ca/",
+    "officialWebsite": "https://www.scienceworld.ca/omnimax/oceans/",
+    "image": "https://www.scienceworld.ca/wp-content/uploads/2025/05/oceans-omnimax.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:12.561Z"
+  },
+  {
+    "id": "science-world-teen-science-social-climate-action-2025-07-26",
+    "title": "Teen Science Social: Climate Action",
+    "description": "Designed by teens for teens, this evening event provides a space for youth ages 13-18 to connect over their interest in science and climate activism. The program includes workshops on climate science, discussions with environmental experts and youth activists, hands-on experiments demonstrating the science behind climate change, and collaborative brainstorming sessions focused on developing local solutions. Participants will enjoy exclusive after-hours access to Science World exhibits, pizza dinner, and opportunities to network with like-minded peers and science professionals. This supportive environment encourages teens to explore STEM subjects while developing leadership skills and environmental awareness. Pre-registration is required as space is limited to ensure a quality experience.\n\nEVENT DETAILS:\nDate: Friday, July 25, 2025\nTime: 5:00 PM - 9:00 PM\nPrice: $20\nAge Restriction: 13-18 years\nTickets: Required, available through Science World website or box office\n\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.",
+    "startDate": "2025-07-26T00:00:00.000Z",
+    "endDate": "2025-07-26T04:00:00.000Z",
+    "venue": {
+      "name": "Science World at TELUS World of Science",
+      "id": "science-world-vancouver",
+      "address": "1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 3Z7",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1034
+      },
+      "websiteUrl": "https://www.scienceworld.ca/",
+      "description": "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "museum",
+      "family-friendly",
+      "teen program",
+      "youth",
+      "climate",
+      "environment",
+      "workshop"
+    ],
+    "sourceURL": "https://www.scienceworld.ca/",
+    "officialWebsite": "https://www.scienceworld.ca/event/teen-science-social/",
+    "image": "https://www.scienceworld.ca/wp-content/uploads/2025/06/teen-climate-social.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:12.561Z"
+  },
+  {
+    "id": "science-world-science-of-cocktails-fundraiser-2025-08-21",
+    "title": "Science of Cocktails Fundraiser",
+    "description": "Vancouver's most unique charity event returns for its tenth year, transforming Science World into the city's most spectacular laboratory of libations. This signature fundraiser features over 30 bar stations where the city's top bartenders and chefs create molecular mixology cocktails and complementary cuisine. Guests explore the venue while enjoying unlimited drinks and food, interactive science demonstrations related to the chemistry of cocktails, and special experiences available only during this event. Live entertainment, silent auctions, and exclusive access to all Science World galleries round out this unforgettable evening. All proceeds support Science World's Class Field Trip program, providing free science education opportunities to underserved schools across British Columbia.\n\nEVENT DETAILS:\nDate: Wednesday, August 20, 2025\nTime: 7:00 PM - 11:00 PM\nPrice: $165 General, $295 VIP\nAge Restriction: 19+\nTickets: Required, available through Science World website or box office\n\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.",
+    "startDate": "2025-08-21T02:00:00.000Z",
+    "endDate": "2025-08-21T06:00:00.000Z",
+    "venue": {
+      "name": "Science World at TELUS World of Science",
+      "id": "science-world-vancouver",
+      "address": "1455 Quebec St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6A 3Z7",
+      "coordinates": {
+        "lat": 49.2734,
+        "lng": -123.1034
+      },
+      "websiteUrl": "https://www.scienceworld.ca/",
+      "description": "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
+    },
+    "category": "science",
+    "categories": [
+      "science",
+      "education",
+      "museum",
+      "family-friendly",
+      "fundraiser",
+      "charity",
+      "cocktails",
+      "gala",
+      "19+"
+    ],
+    "sourceURL": "https://www.scienceworld.ca/",
+    "officialWebsite": "https://www.scienceworld.ca/event/science-of-cocktails/",
+    "image": "https://www.scienceworld.ca/wp-content/uploads/2025/07/science-of-cocktails.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:44:12.561Z"
+  }
+]

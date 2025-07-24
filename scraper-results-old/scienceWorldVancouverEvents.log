@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: scienceWorldVancouverEvents.js ---
+============================================================
+Scraper 'Science World Vancouver Events' instantiated successfully. Running scrape()...
+Starting Science World Vancouver Events scraper...
+Navigating to https://www.scienceworld.ca/events/
+Extracting Science World Vancouver events...
+Event cards not found, using alternative selector
+Found 0 Science World Vancouver events
+Science World Vancouver Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Science World Vancouver Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/scienceWorldVancouverEvents-results.json

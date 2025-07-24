@@ -1,0 +1,434 @@
+[
+  {
+    "id": "vso-beethovens-emperor-concerto-2025-09-20",
+    "title": "Beethoven's Emperor Concerto",
+    "description": "Otto Tausk conducts the VSO in a program featuring acclaimed pianist Jan Lisiecki performing Beethoven's majestic 'Emperor' Concerto. The program opens with Jocelyn Morlock's captivating 'Oiseaux Bleus et Sauvages' and concludes with Dvořák's spirited Symphony No. 8, a work brimming with Czech folk melodies and pastoral charm.\n\nPROGRAM:\nJOCELYN MORLOCK: Oiseaux Bleus et Sauvages<br>BEETHOVEN: Piano Concerto No. 5 in E-flat Major, Op. 73 'Emperor'<br>DVOŘÁK: Symphony No. 8 in G Major, Op. 88\n\nARTISTS:\nConductor: Otto Tausk\nJan Lisiecki, piano\n\nPERFORMANCE DETAILS:\nDate: Friday, September 19, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours",
+    "startDate": "2025-09-20T03:00:00.000Z",
+    "endDate": "2025-09-20T05:00:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/beethoven-emperor.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-beethovens-emperor-concerto-2025-09-21",
+    "title": "Beethoven's Emperor Concerto",
+    "description": "Otto Tausk conducts the VSO in a program featuring acclaimed pianist Jan Lisiecki performing Beethoven's majestic 'Emperor' Concerto. The program opens with Jocelyn Morlock's captivating 'Oiseaux Bleus et Sauvages' and concludes with Dvořák's spirited Symphony No. 8, a work brimming with Czech folk melodies and pastoral charm.\n\nPROGRAM:\nJOCELYN MORLOCK: Oiseaux Bleus et Sauvages<br>BEETHOVEN: Piano Concerto No. 5 in E-flat Major, Op. 73 'Emperor'<br>DVOŘÁK: Symphony No. 8 in G Major, Op. 88\n\nARTISTS:\nConductor: Otto Tausk\nJan Lisiecki, piano\n\nPERFORMANCE DETAILS:\nDate: Saturday, September 20, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours",
+    "startDate": "2025-09-21T03:00:00.000Z",
+    "endDate": "2025-09-21T05:00:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/beethoven-emperor.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-beethovens-emperor-concerto-2025-09-21",
+    "title": "Beethoven's Emperor Concerto",
+    "description": "Otto Tausk conducts the VSO in a program featuring acclaimed pianist Jan Lisiecki performing Beethoven's majestic 'Emperor' Concerto. The program opens with Jocelyn Morlock's captivating 'Oiseaux Bleus et Sauvages' and concludes with Dvořák's spirited Symphony No. 8, a work brimming with Czech folk melodies and pastoral charm.\n\nPROGRAM:\nJOCELYN MORLOCK: Oiseaux Bleus et Sauvages<br>BEETHOVEN: Piano Concerto No. 5 in E-flat Major, Op. 73 'Emperor'<br>DVOŘÁK: Symphony No. 8 in G Major, Op. 88\n\nARTISTS:\nConductor: Otto Tausk\nJan Lisiecki, piano\n\nPERFORMANCE DETAILS:\nDate: Sunday, September 21, 2025\nTime: 2:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours",
+    "startDate": "2025-09-21T21:00:00.000Z",
+    "endDate": "2025-09-21T23:00:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/beethoven-emperor.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-mozart-mahler-2025-10-11",
+    "title": "Mozart & Mahler",
+    "description": "Guest conductor Gemma New leads the VSO in a powerful program pairing Mozart's elegant Piano Concerto No. 21 featuring soloist Inon Barnatan with Mahler's profoundly moving Symphony No. 4, featuring soprano Dorothea Röschmann in the ethereal final movement.\n\nPROGRAM:\nMOZART: Piano Concerto No. 21 in C Major, K. 467<br>MAHLER: Symphony No. 4 in G Major\n\nARTISTS:\nConductor: Gemma New\nInon Barnatan, piano; Dorothea Röschmann, soprano\n\nPERFORMANCE DETAILS:\nDate: Friday, October 10, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours 15 minutes",
+    "startDate": "2025-10-11T03:00:00.000Z",
+    "endDate": "2025-10-11T05:15:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/mozart-mahler.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-mozart-mahler-2025-10-12",
+    "title": "Mozart & Mahler",
+    "description": "Guest conductor Gemma New leads the VSO in a powerful program pairing Mozart's elegant Piano Concerto No. 21 featuring soloist Inon Barnatan with Mahler's profoundly moving Symphony No. 4, featuring soprano Dorothea Röschmann in the ethereal final movement.\n\nPROGRAM:\nMOZART: Piano Concerto No. 21 in C Major, K. 467<br>MAHLER: Symphony No. 4 in G Major\n\nARTISTS:\nConductor: Gemma New\nInon Barnatan, piano; Dorothea Röschmann, soprano\n\nPERFORMANCE DETAILS:\nDate: Saturday, October 11, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours 15 minutes",
+    "startDate": "2025-10-12T03:00:00.000Z",
+    "endDate": "2025-10-12T05:15:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/mozart-mahler.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-tchaikovskys-violin-concerto-2025-11-08",
+    "title": "Tchaikovsky's Violin Concerto",
+    "description": "James Gaffigan conducts the VSO with star violinist Augustin Hadelich in Tchaikovsky's technically demanding and emotionally expressive Violin Concerto. The program begins with Gabriela Lena Frank's 'Elegia Andina' and concludes with Rachmaninoff's lush and melodic Symphony No. 2.\n\nPROGRAM:\nGABRIELA LENA FRANK: Elegía Andina<br>TCHAIKOVSKY: Violin Concerto in D Major, Op. 35<br>RACHMANINOFF: Symphony No. 2 in E minor, Op. 27\n\nARTISTS:\nConductor: James Gaffigan\nAugustin Hadelich, violin\n\nPERFORMANCE DETAILS:\nDate: Friday, November 7, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours 20 minutes",
+    "startDate": "2025-11-08T04:00:00.000Z",
+    "endDate": "2025-11-08T06:20:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/tchaikovsky-violin.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-tchaikovskys-violin-concerto-2025-11-09",
+    "title": "Tchaikovsky's Violin Concerto",
+    "description": "James Gaffigan conducts the VSO with star violinist Augustin Hadelich in Tchaikovsky's technically demanding and emotionally expressive Violin Concerto. The program begins with Gabriela Lena Frank's 'Elegia Andina' and concludes with Rachmaninoff's lush and melodic Symphony No. 2.\n\nPROGRAM:\nGABRIELA LENA FRANK: Elegía Andina<br>TCHAIKOVSKY: Violin Concerto in D Major, Op. 35<br>RACHMANINOFF: Symphony No. 2 in E minor, Op. 27\n\nARTISTS:\nConductor: James Gaffigan\nAugustin Hadelich, violin\n\nPERFORMANCE DETAILS:\nDate: Saturday, November 8, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours 20 minutes",
+    "startDate": "2025-11-09T04:00:00.000Z",
+    "endDate": "2025-11-09T06:20:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/tchaikovsky-violin.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-vivaldis-four-seasons-2025-12-06",
+    "title": "Vivaldi's Four Seasons",
+    "description": "Concertmaster Nicholas Wright leads the VSO string section in this special presentation of Vivaldi's beloved 'Four Seasons,' interspersed with Astor Piazzolla's innovative 'Four Seasons of Buenos Aires,' creating a fascinating dialogue between Baroque and tango traditions.\n\nPROGRAM:\nVIVALDI: The Four Seasons, Op. 8, Nos. 1-4<br>PIAZZOLLA: The Four Seasons of Buenos Aires\n\nARTISTS:\nConductor: Nicholas Wright\nNicholas Wright, violin\n\nPERFORMANCE DETAILS:\nDate: Friday, December 5, 2025\nTime: 8:00 PM\nVenue: Chan Centre for the Performing Arts\nDuration: Approximately 1 hours 50 minutes",
+    "startDate": "2025-12-06T04:00:00.000Z",
+    "endDate": "2025-12-06T05:50:00.000Z",
+    "venue": {
+      "name": "Chan Centre for the Performing Arts",
+      "id": "chan-centre-ubc-vancouver",
+      "address": "6265 Crescent Rd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6T 1Z1",
+      "coordinates": {
+        "lat": 49.2696444,
+        "lng": -123.2565745
+      },
+      "websiteUrl": "https://chancentre.com/",
+      "description": "The Chan Centre for the Performing Arts at UBC is a magnificent performance facility renowned for its exceptional acoustics and intimate ambiance. The Chan Centre houses the Chan Shun Concert Hall, a 1,185-seat theatre with superb acoustics, making it ideal for musical performances."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/vivaldi-seasons.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-vivaldis-four-seasons-2025-12-06",
+    "title": "Vivaldi's Four Seasons",
+    "description": "Concertmaster Nicholas Wright leads the VSO string section in this special presentation of Vivaldi's beloved 'Four Seasons,' interspersed with Astor Piazzolla's innovative 'Four Seasons of Buenos Aires,' creating a fascinating dialogue between Baroque and tango traditions.\n\nPROGRAM:\nVIVALDI: The Four Seasons, Op. 8, Nos. 1-4<br>PIAZZOLLA: The Four Seasons of Buenos Aires\n\nARTISTS:\nConductor: Nicholas Wright\nNicholas Wright, violin\n\nPERFORMANCE DETAILS:\nDate: Saturday, December 6, 2025\nTime: 2:00 PM\nVenue: Chan Centre for the Performing Arts\nDuration: Approximately 1 hours 50 minutes",
+    "startDate": "2025-12-06T22:00:00.000Z",
+    "endDate": "2025-12-06T23:50:00.000Z",
+    "venue": {
+      "name": "Chan Centre for the Performing Arts",
+      "id": "chan-centre-ubc-vancouver",
+      "address": "6265 Crescent Rd",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6T 1Z1",
+      "coordinates": {
+        "lat": 49.2696444,
+        "lng": -123.2565745
+      },
+      "websiteUrl": "https://chancentre.com/",
+      "description": "The Chan Centre for the Performing Arts at UBC is a magnificent performance facility renowned for its exceptional acoustics and intimate ambiance. The Chan Centre houses the Chan Shun Concert Hall, a 1,185-seat theatre with superb acoustics, making it ideal for musical performances."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/vivaldi-seasons.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.825Z"
+  },
+  {
+    "id": "vso-holsts-the-planets-2025-12-13",
+    "title": "Holst's The Planets",
+    "description": "Otto Tausk conducts the VSO in a cosmic journey through Holst's monumental suite 'The Planets,' featuring the ethereal voices of the VSO Women's Chorus. The concert opens with Kaija Saariaho's mesmerizing 'Ciel d'hiver' and John Adams' pulsating 'Short Ride in a Fast Machine.'\n\nPROGRAM:\nKAIJA SAARIAHO: Ciel d'hiver<br>JOHN ADAMS: Short Ride in a Fast Machine<br>HOLST: The Planets, Op. 32\n\nARTISTS:\nConductor: Otto Tausk\nVSO Women's Chorus\n\nPERFORMANCE DETAILS:\nDate: Friday, December 12, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours 5 minutes",
+    "startDate": "2025-12-13T04:00:00.000Z",
+    "endDate": "2025-12-13T06:05:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/holst-planets.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.826Z"
+  },
+  {
+    "id": "vso-holsts-the-planets-2025-12-14",
+    "title": "Holst's The Planets",
+    "description": "Otto Tausk conducts the VSO in a cosmic journey through Holst's monumental suite 'The Planets,' featuring the ethereal voices of the VSO Women's Chorus. The concert opens with Kaija Saariaho's mesmerizing 'Ciel d'hiver' and John Adams' pulsating 'Short Ride in a Fast Machine.'\n\nPROGRAM:\nKAIJA SAARIAHO: Ciel d'hiver<br>JOHN ADAMS: Short Ride in a Fast Machine<br>HOLST: The Planets, Op. 32\n\nARTISTS:\nConductor: Otto Tausk\nVSO Women's Chorus\n\nPERFORMANCE DETAILS:\nDate: Saturday, December 13, 2025\nTime: 8:00 PM\nVenue: Orpheum Theatre\nDuration: Approximately 2 hours 5 minutes",
+    "startDate": "2025-12-14T04:00:00.000Z",
+    "endDate": "2025-12-14T06:05:00.000Z",
+    "venue": {
+      "name": "Orpheum Theatre",
+      "id": "orpheum-theatre-vancouver",
+      "address": "601 Smithe St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 3L4",
+      "coordinates": {
+        "lat": 49.2809242,
+        "lng": -123.1204763
+      },
+      "websiteUrl": "https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/",
+      "description": "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/holst-planets.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.826Z"
+  },
+  {
+    "id": "vso-surrey-nights-brahms-sibelius-2025-10-23",
+    "title": "Surrey Nights: Brahms & Sibelius",
+    "description": "The VSO brings a powerful program to Surrey featuring Sibelius' majestic Symphony No. 2 and Brahms' dramatic Piano Concerto No. 1 with acclaimed pianist Saleem Ashkar.\n\nPROGRAM:\nBRAHMS: Piano Concerto No. 1 in D minor, Op. 15<br>SIBELIUS: Symphony No. 2 in D Major, Op. 43\n\nARTISTS:\nConductor: Otto Tausk\nSaleem Ashkar, piano\n\nPERFORMANCE DETAILS:\nDate: Wednesday, October 22, 2025\nTime: 8:00 PM\nVenue: Bell Performing Arts Centre\nDuration: Approximately 2 hours 10 minutes",
+    "startDate": "2025-10-23T03:00:00.000Z",
+    "endDate": "2025-10-23T05:10:00.000Z",
+    "venue": {
+      "name": "Bell Performing Arts Centre",
+      "id": "bell-performing-arts-centre-surrey",
+      "address": "6250 144 St",
+      "city": "Surrey",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V3X 1A1",
+      "coordinates": {
+        "lat": 49.1146399,
+        "lng": -122.8254438
+      },
+      "websiteUrl": "https://bellperformingartscentre.com/",
+      "description": "The Bell Performing Arts Centre is a 1,052-seat theatre in Surrey featuring excellent acoustics and sightlines, designed for concerts, theatre, and dance performances."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "classical",
+      "orchestra",
+      "symphony",
+      "concert",
+      "performance"
+    ],
+    "sourceURL": "https://www.vancouversymphony.ca/",
+    "officialWebsite": "https://www.vancouversymphony.ca/tickets/",
+    "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/06/brahms-sibelius.jpg",
+    "ticketsRequired": true,
+    "lastUpdated": "2025-07-15T18:52:23.826Z"
+  }
+]

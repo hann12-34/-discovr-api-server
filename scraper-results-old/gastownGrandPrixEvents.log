@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: gastownGrandPrixEvents.js ---
+============================================================
+Scraper 'Global Relay Gastown Grand Prix' instantiated successfully. Running scrape()...
+🔍 Starting Global Relay Gastown Grand Prix scraper...
+Navigating to: https://globalrelayggp.org/
+
+------------------------------------------------------------
+✅ Scraper 'Global Relay Gastown Grand Prix' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/gastownGrandPrixEvents-results.json
+
+STDERR:
+❌ Error in Global Relay Gastown Grand Prix scraper: Navigation timeout of 60000 ms exceeded

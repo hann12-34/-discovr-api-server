@@ -1,0 +1,13 @@
+============================================================
+--- Attempting to run scraper: vancouverCivicTheatres.js ---
+============================================================
+Scraper 'Vancouver Civic Theatres' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Civic Theatres scraper...
+🎉 Successfully scraped 0 Vancouver Civic Theatres events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Civic Theatres' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverCivicTheatres-results.json

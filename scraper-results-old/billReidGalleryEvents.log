@@ -1,0 +1,52 @@
+============================================================
+--- Attempting to run scraper: billReidGalleryEvents.js ---
+============================================================
+Scraper 'Bill Reid Gallery' instantiated successfully. Running scrape()...
+🔍 Starting Bill Reid Gallery scraper...
+Navigating to: https://www.billreidgallery.ca/blogs/exhibitions-page
+✅ Saved debug screenshot
+Found 1 events on the page
+Visiting event page: https://www.billreidgallery.ca/blogs/exhibitions-page/kihl-yahda-christian-white-master-haida-artist
+✅ Added event: View Exhibition
+🎉 Successfully scraped 1 events from Bill Reid Gallery
+
+------------------------------------------------------------
+✅ Scraper 'Bill Reid Gallery' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "bill-reid-gallery-view-exhibition-2025-02-01",
+  "title": "View Exhibition",
+  "description": "This exhibition is the first major solo exhibition of Haida artist Kihl ‘Yahda, Christian White. Guest curated by Sdahl Ḵ'awaas, Lucy Bell, also of the Haida Nation, the exhibition features artworks that span the entirety of Christian’s 50-year career, as well as collaborative works from several of his apprentices.",
+  "startDate": "2025-02-01T09:00:00.000Z",
+  "endDate": "2025-02-01T12:00:00.000Z",
+  "venue": {
+    "name": "Bill Reid Gallery",
+    "id": "bill-reid-gallery",
+    "address": "639 Hornby St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2849,
+      "lng": -123.1195
+    },
+    "websiteUrl": "https://www.billreidgallery.ca/",
+    "description": "The Bill Reid Gallery of Northwest Coast Art is a public gallery dedicated to contemporary Indigenous Northwest Coast Art."
+  },
+  "category": "exhibition",
+  "categories": [
+    "art",
+    "exhibition",
+    "indigenous",
+    "culture",
+    "gallery"
+  ],
+  "sourceURL": "https://www.billreidgallery.ca/blogs/exhibitions-page/kihl-yahda-christian-white-master-haida-artist",
+  "officialWebsite": "https://www.billreidgallery.ca/",
+  "image": "https://cdn.shopify.com/s/files/1/2457/3259/files/Vancouver_Art_Gallery_Vancouver_Art_Gallery_Receives_Historic__1_480x480.jpg?v=1724357634",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:00:47.447Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/billReidGalleryEvents-results.json

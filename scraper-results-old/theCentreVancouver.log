@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: theCentreVancouver.js ---
+============================================================
+Scraper 'The Centre in Vancouver' instantiated successfully. Running scrape()...
+🔍 Starting The Centre in Vancouver scraper...
+✅ Added event: Jann Arden: The Mixtape Tour on Tuesday, July 15, 2025
+✅ Added event: An Evening with David Sedaris on Tuesday, July 22, 2025
+✅ Added event: Vancouver Symphony Orchestra: Film Music Spectacular on Tuesday, August 5, 2025
+✅ Added event: Margaret Atwood: New Perspectives on Tuesday, August 12, 2025
+✅ Added event: Choir! Choir! Choir!: Epic Sing-Along on Wednesday, August 27, 2025
+🎭 Successfully created 5 Centre in Vancouver events
+
+------------------------------------------------------------
+✅ Scraper 'The Centre in Vancouver' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "the-centre-jann-arden-the-mixtape-tour-2025-07-16",
+  "title": "Jann Arden: The Mixtape Tour",
+  "description": "Canadian music icon Jann Arden brings her 'The Mixtape Tour' to The Centre in Vancouver, celebrating four decades of hit songs and stories. This intimate evening showcases Arden's powerful vocals and remarkable songwriting in a career-spanning performance that weaves together her biggest hits with personal anecdotes and insights from her storied career. The multi-platinum, award-winning singer-songwriter will perform classics like 'Could I Be Your Girl,' 'Insensitive,' and 'Good Mother' alongside tracks from her latest album. Known for her disarming wit and honest reflections, Arden's stage banter is as captivating as her music, creating a warm connection with the audience. The show features Arden's full band and special production elements that enhance the musical journey without overshadowing the intimacy that has made her live performances legendary. This tour follows Arden's induction into the Canadian Music Hall of Fame and celebrates her continued evolution as one of Canada's most beloved performers.\n\nEVENT DETAILS:\nDate: Tuesday, July 15, 2025\nTime: 8:00 PM - 10:30 PM\nVenue: The Centre in Vancouver, 777 Homer St, Vancouver\nPrice: $49.50 - $125\nPerformers: Jann Arden\nTickets: Available through The Centre's box office, by phone at 604-555-7777, or online at thecentrevancouver.com\n\nVenue Information: The Centre in Vancouver is located in downtown Vancouver at 777 Homer Street. The venue is easily accessible by public transit (a short walk from Granville, Vancouver City Centre, or Yaletown SkyTrain stations) and paid parking is available at nearby lots. The theatre offers concessions and a full bar service that opens one hour before show time.",
+  "startDate": "2025-07-16T03:00:00.000Z",
+  "endDate": "2025-07-16T05:30:00.000Z",
+  "venue": {
+    "name": "The Centre in Vancouver",
+    "id": "the-centre-vancouver",
+    "address": "777 Homer St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 2W1",
+    "coordinates": {
+      "lat": 49.2797,
+      "lng": -123.1181
+    },
+    "websiteUrl": "https://thecentrevancouver.com/",
+    "description": "The Centre in Vancouver (formerly the Centre for Performing Arts) is a 1,800-seat theatre located in the heart of downtown Vancouver. This beautifully restored venue features state-of-the-art acoustics, excellent sightlines, and hosts a variety of performances including concerts, comedy shows, theatrical productions, and special events."
+  },
+  "category": "performance",
+  "categories": [
+    "performance",
+    "theatre",
+    "arts",
+    "concert",
+    "music",
+    "concert",
+    "canadian",
+    "singer-songwriter"
+  ],
+  "sourceURL": "https://thecentrevancouver.com/",
+  "officialWebsite": "https://thecentrevancouver.com/events/jann-arden-the-mixtape-tour/",
+  "image": "https://thecentrevancouver.com/wp-content/uploads/2025/05/jann-arden-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:18:46.265Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/theCentreVancouver-results.json

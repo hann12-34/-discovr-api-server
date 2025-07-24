@@ -1,0 +1,331 @@
+[
+  {
+    "id": "queen-elizabeth-brit-floyd-wish-you-were-here-50th-anniversary-2025-07-24",
+    "title": "BRIT FLOYD: WISH YOU WERE HERE 50th Anniversary",
+    "description": "Experience the world's greatest Pink Floyd tribute show as Brit Floyd celebrates the 50th anniversary of \"Wish You Were Here\" with a spectacular live production.",
+    "startDate": "2025-07-25T03:00:00.000Z",
+    "endDate": "2025-07-25T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/brit-floyd-wish-you-were-here-vancouver-british-columbia-07-24-2025/event/11006234C8E546C0",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": "https://s1.ticketm.net/dam/a/64c/a979e0e2-4320-467f-b24d-4faa67b2864c_SOURCE",
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.321Z"
+  },
+  {
+    "id": "queen-elizabeth-arif-lohar-live-in-concert-2025-2025-07-27",
+    "title": "Arif Lohar Live in Concert 2025",
+    "description": "Legendary Pakistani folk singer Arif Lohar performs live with special guests Roach Killa and Deep Jandu.",
+    "startDate": "2025-07-28T02:00:00.000Z",
+    "endDate": "2025-07-28T05:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "folk"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/arif-lohar-live-in-concert-2025-vancouver-british-columbia-07-27-2025/event/110062B900B4491D",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": null,
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-father-john-misty-2025-07-31",
+    "title": "FATHER JOHN MISTY",
+    "description": "Father John Misty performs with special guest Hamilton Leithauser in this intimate and powerful live show.",
+    "startDate": "2025-08-01T03:00:00.000Z",
+    "endDate": "2025-08-01T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "indie"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/father-john-misty-vancouver-british-columbia-07-31-2025/event/11006236DE3E352D",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": "https://s1.ticketm.net/dam/a/1c2/356d7a8a-09a0-4884-b5d2-58ffcc5791c2_SOURCE",
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-golden-girls-the-laughs-continue-2025-08-05",
+    "title": "GOLDEN GIRLS The Laughs Continue",
+    "description": "The unauthorized parody brings your favorite golden girls to life in this hilarious new show that audiences have been loving across the country.",
+    "startDate": "2025-08-06T02:30:00.000Z",
+    "endDate": "2025-08-06T05:30:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "comedy",
+    "categories": [
+      "comedy",
+      "theatre",
+      "performance"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/golden-girls-the-laughs-continue-vancouver-british-columbia-08-05-2025/event/11006229F57F353C",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": null,
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-sam-barber-north-america-tour-2025-08-11",
+    "title": "Sam Barber: North America Tour",
+    "description": "Sam Barber performs with special guests Jonah Kagen and Clover County as part of his North American tour.",
+    "startDate": "2025-08-12T03:00:00.000Z",
+    "endDate": "2025-08-12T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "folk"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/sam-barber-north-america-tour-vancouver-british-columbia-08-11-2025/event/11006237A10A372A",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": null,
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-lucy-dacus-forever-is-a-feeling-tour-2025-08-12",
+    "title": "LUCY DACUS - FOREVER IS A FEELING TOUR",
+    "description": "Lucy Dacus performs with special guest Julia Jacklin as part of her Forever Is A Feeling Tour.",
+    "startDate": "2025-08-13T03:00:00.000Z",
+    "endDate": "2025-08-13T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "indie"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/lucy-dacus-forever-is-a-feeling-vancouver-british-columbia-08-12-2025/event/11006237F560467F",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": null,
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-ethel-cain-the-willoughby-tucker-forever-tour-2025-08-15",
+    "title": "Ethel Cain- The Willoughby Tucker Forever Tour",
+    "description": "Ethel Cain performs with special guest 9Million as part of her Willoughby Tucker Forever Tour.",
+    "startDate": "2025-08-16T03:00:00.000Z",
+    "endDate": "2025-08-16T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "alternative"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/ethel-cain-the-willoughby-tucker-forever-vancouver-british-columbia-08-15-2025/event/110062394A643822",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": null,
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-disney-presents-the-lion-king-touring-2025-08-20",
+    "title": "Disney Presents The Lion King (Touring)",
+    "description": "The Tony Award-winning Broadway sensation \"The Lion King\" returns to Vancouver. More than 100 million people around the world have experienced the phenomenon of Disney's THE LION KING, and now you can too.",
+    "startDate": "2025-08-21T02:30:00.000Z",
+    "endDate": "2025-08-21T05:30:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "theatre",
+    "categories": [
+      "theatre",
+      "musical",
+      "family"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/disney-presents-the-lion-king-touring-vancouver-british-columbia-08-20-2025/event/1100622A91D41620",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": "https://s1.ticketm.net/dam/a/5dd/08d40acd-17d2-4772-8c01-5b8c9f095dd_SOURCE",
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-blue-rodeo-lost-together-the-40th-anniversary-tour-2025-10-07",
+    "title": "Blue Rodeo: \"Lost Together\" - The 40th Anniversary Tour",
+    "description": "Blue Rodeo celebrates their 40th anniversary with the Lost Together tour, performing their classic hits and fan favorites.",
+    "startDate": "2025-10-08T03:00:00.000Z",
+    "endDate": "2025-10-08T06:00:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "music",
+    "categories": [
+      "music",
+      "concert",
+      "country"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/blue-rodeo-lost-together-the-40th-vancouver-british-columbia-10-07-2025/event/110062BD91572E4F",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": null,
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  },
+  {
+    "id": "queen-elizabeth-riverdance-2025-06-15",
+    "title": "Riverdance",
+    "description": "Riverdance, as you've never seen it before! The 25th Anniversary production is a powerful and stirring reinvention of this beloved favorite, celebrated the world over for its Grammy Award-winning score and the thrilling energy and passion of its Irish and international dance.",
+    "startDate": "2025-06-16T02:30:00.000Z",
+    "endDate": "2025-06-16T05:30:00.000Z",
+    "venue": {
+      "name": "Queen Elizabeth Theatre",
+      "id": "queen-elizabeth-theatre",
+      "address": "600 Hamilton St",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "postalCode": "V6B 2P1",
+      "coordinates": {
+        "lat": 49.27775,
+        "lng": -123.117485
+      },
+      "websiteUrl": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+      "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts."
+    },
+    "category": "dance",
+    "categories": [
+      "dance",
+      "performance",
+      "cultural"
+    ],
+    "sourceURL": "https://www.ticketmaster.ca/riverdance-vancouver-british-columbia-06-15-2025/event/110061729DDF22E9",
+    "officialWebsite": "https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/",
+    "image": "https://s1.ticketm.net/dam/a/6f9/562c0065-8877-40b1-8bb2-de390a4b36f9_SOURCE",
+    "recurring": null,
+    "lastUpdated": "2025-07-15T16:13:19.333Z"
+  }
+]

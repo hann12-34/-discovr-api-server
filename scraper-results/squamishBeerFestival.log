@@ -1,0 +1,52 @@
+============================================================
+--- Attempting to run scraper: squamishBeerFestival.js ---
+============================================================
+Scraper 'Squamish Beer Festival' instantiated successfully. Running scrape()...
+🔍 Starting Squamish Beer Festival 2025 scraper...
+✅ Added event: 9th Annual Squamish Beer Festival
+🎉 Successfully scraped Squamish Beer Festival 2025 event
+
+------------------------------------------------------------
+✅ Scraper 'Squamish Beer Festival' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "squamish-beer-festival-2025",
+  "title": "9th Annual Squamish Beer Festival",
+  "description": "Experience the 9th Annual Squamish Beer Festival! The ultimate craft beer celebration in Canada's adventure playground. Raise a glass to the best of BC—craft beverages, mouthwatering eats, and local talent—all set against the stunning backdrop of Squamish.\n\n### Live Entertainment Schedule:\n\n* **Phantom** - 1:00 PM - Phantom is a rising act from the Sea to Sky region, chosen through a public vote as part of the 'Squamish Arts Presents' competition. With a bold, genre-blending sound and a loyal hometown following, Phantom represents the next wave of emerging BC artists.\n\n* **Old Soul Rebel** - 1:50 PM - Old Soul Rebel is a dynamic alt-soul/rock duo featuring Lola Whyte of the Squamish Nation and Leo D.E. Johnson of East Vancouver. Known for their gritty, explosive sound and unapologetically powerful performances, Old Soul Rebel has become a staple on major Canadian festival stages.\n\n* **Logan Staats** - 3:00 PM - Logan Staats hails from Six Nations of the Grand River, and has earned a reputation as one of Canada's cultural tastemakers, a land defender and one of our premiere storytellers. As an artist, he pairs gritty and compelling songwriting with raw, authentic and high energy performances.\n\n* **Shred Kelly** - 4:30 PM - Shred Kelly is a festival favourite known for their infectious blend of alt-folk, rock, and danceable anthems. Hailing from Fernie, BC, the band has toured across North America and Europe, earning a reputation for raucous, joy-filled live shows that keep audiences moving.\n\n\nThe festival features:\n\n* Craft beer tastings from top BC breweries\n* Delicious food from local vendors\n* Live music throughout the day\n* Local makers market with handcrafted goods\n* Bike parking available\n\nThis is a 19+ event. Valid ID required for entry. No minors permitted on site.",
+  "startDate": "2025-06-21T20:00:00.000Z",
+  "endDate": "2025-06-22T01:00:00.000Z",
+  "venue": {
+    "name": "Loggers Sports Grounds",
+    "id": "loggers-sports-grounds-squamish",
+    "address": "39555 Loggers Ln",
+    "city": "Squamish",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V8B 0H9",
+    "coordinates": {
+      "lat": 49.7182662,
+      "lng": -123.1437648
+    },
+    "websiteUrl": "https://squamishbeerfestival.com/",
+    "description": "Located in the heart of Squamish, the Loggers Sports Grounds is a versatile outdoor venue that hosts various community events, sports competitions, and festivals. Set against the stunning backdrop of the Coast Mountains, this spacious venue features wide-open grounds and excellent facilities for large gatherings."
+  },
+  "category": "festival",
+  "categories": [
+    "festival",
+    "beer",
+    "food",
+    "music",
+    "outdoor"
+  ],
+  "sourceURL": "https://squamishbeerfestival.com/",
+  "officialWebsite": "https://squamishbeerfestival.com/",
+  "image": "https://squamishbeerfestival.com/wp-content/uploads/2025/01/squamish-beer-festival-2025-header.jpg",
+  "recurring": null,
+  "ticketsRequired": true,
+  "ticketsUrl": "https://squamishbeerfestival.com/tickets/",
+  "ageRestriction": "19+",
+  "lastUpdated": "2025-07-15T18:44:40.078Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/squamishBeerFestival-results.json

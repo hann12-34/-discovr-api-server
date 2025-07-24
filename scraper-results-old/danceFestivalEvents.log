@@ -1,0 +1,15 @@
+============================================================
+--- Attempting to run scraper: danceFestivalEvents.js ---
+============================================================
+Scraper 'Vancouver International Dance Festival' instantiated successfully. Running scrape()...
+🔍 Scraping events from Vancouver International Dance Festival...
+Navigating to https://vidf.ca/performances/
+Found 0 potential performances
+Found 0 total events from Vancouver International Dance Festival
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver International Dance Festival' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/danceFestivalEvents-results.json

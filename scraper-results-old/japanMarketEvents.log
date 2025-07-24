@@ -1,0 +1,60 @@
+============================================================
+--- Attempting to run scraper: japanMarketEvents.js ---
+============================================================
+Scraper 'Japan Market Vancouver' instantiated successfully. Running scrape()...
+🔍 Starting Japan Market events scraper...
+Navigating to: https://japanmarket.ca/
+✅ Saved debug screenshot to japan-market-debug.png
+Looking for events with selector: .event-section
+Looking for events with selector: .market-dates
+Looking for events with selector: .upcoming-events
+Looking for events with selector: .event-list
+Looking for events with selector: .events-container
+Looking for events with selector: .calendar-section
+Looking for events with selector: #events
+Looking for events with selector: .market-schedule
+Looking for events with selector: .market-events
+Looking for date mentions in text...
+✅ Added Japan Market event from text date: Sun Sep 28 2025
+🎉 Successfully scraped 1 events from Japan Market
+
+------------------------------------------------------------
+✅ Scraper 'Japan Market Vancouver' finished successfully.
+   Processed 1 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "japan-market-vancouver-2025-09-28",
+  "title": "Japan Market Vancouver - September 28",
+  "description": "Japan Market Vancouver showcases authentic Japanese food, crafts, and culture. Explore a variety of Japanese products, enjoy delicious food, and experience Japanese cultural elements in a vibrant market atmosphere.",
+  "startDate": "2025-09-28T18:00:00.000Z",
+  "endDate": "2025-09-29T01:00:00.000Z",
+  "venue": {
+    "name": "Japan Market Vancouver",
+    "id": "japan-market-vancouver",
+    "address": "Various locations in Vancouver",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2827,
+      "lng": -123.1207
+    },
+    "websiteUrl": "https://japanmarket.ca/",
+    "description": "Japan Market Vancouver brings authentic Japanese food, products, and culture to Vancouver through regularly scheduled market events."
+  },
+  "category": "market",
+  "categories": [
+    "market",
+    "food",
+    "culture",
+    "japanese",
+    "shopping"
+  ],
+  "sourceURL": "https://japanmarket.ca/",
+  "officialWebsite": "https://japanmarket.ca/",
+  "image": null,
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T16:09:40.464Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/japanMarketEvents-results.json

@@ -1,0 +1,16 @@
+============================================================
+--- Attempting to run scraper: vancouverMysteriesEvents.js ---
+============================================================
+Scraper 'Vancouver Mysteries Theatre' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Mysteries Theatre scraper...
+Navigating to: https://vancouvermysteries.com/
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Mysteries Theatre' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverMysteriesEvents-results.json
+
+STDERR:
+❌ Error in Vancouver Mysteries Theatre scraper: Navigation timeout of 60000 ms exceeded

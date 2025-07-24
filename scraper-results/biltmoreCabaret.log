@@ -1,0 +1,54 @@
+============================================================
+--- Attempting to run scraper: biltmoreCabaret.js ---
+============================================================
+Scraper 'The Biltmore Cabaret' instantiated successfully. Running scrape()...
+🔍 Starting The Biltmore Cabaret scraper...
+✅ Added event: Lucy Dacus with Special Guests on Tuesday, July 15, 2025
+✅ Added event: Glory Days: 80s New Wave Dance Party on Friday, July 18, 2025
+✅ Added event: Vancouver Underground: Local Showcase on Wednesday, July 23, 2025
+✅ Added event: The Midnight with Special Guests on Tuesday, July 29, 2025
+✅ Added event: No Demands: Post-Punk Night on Friday, August 1, 2025
+✅ Added event: Omar Apollo - Intimate Show on Thursday, August 7, 2025
+🎸 Successfully created 6 The Biltmore Cabaret events
+
+------------------------------------------------------------
+✅ Scraper 'The Biltmore Cabaret' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "biltmore-cabaret-lucy-dacus-with-special-guests-2025-07-16",
+  "title": "Lucy Dacus with Special Guests",
+  "description": "Acclaimed indie rock singer-songwriter Lucy Dacus returns to The Biltmore Cabaret in support of her critically celebrated new album. Known for her insightful lyrics and captivating live performances, Dacus brings her full band to deliver an intimate evening of storytelling and music. The show will feature songs from her latest release as well as fan favorites from her previous albums.\n\nEVENT DETAILS:\nDate: Tuesday, July 15, 2025\nDoors: 7:00 PM\nShow: 8:00 PM\nAge Restriction: 19+\nGenre: Indie Rock\nArtist Website: https://lucydacus.com/\n\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.",
+  "startDate": "2025-07-16T03:00:00.000Z",
+  "endDate": "2025-07-16T06:30:00.000Z",
+  "venue": {
+    "name": "The Biltmore Cabaret",
+    "id": "biltmore-cabaret-vancouver",
+    "address": "2755 Prince Edward St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V5T 0A9",
+    "coordinates": {
+      "lat": 49.2614363,
+      "lng": -123.1018535
+    },
+    "websiteUrl": "https://www.thebiltmorecabaret.com/",
+    "description": "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
+  },
+  "category": "music",
+  "categories": [
+    "music",
+    "nightlife",
+    "entertainment",
+    "live music",
+    "indie rock"
+  ],
+  "sourceURL": "https://www.thebiltmorecabaret.com/",
+  "officialWebsite": "https://www.thebiltmorecabaret.com/events/lucy-dacus/",
+  "image": "https://www.thebiltmorecabaret.com/wp-content/uploads/2025/04/lucy-dacus.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:32:35.973Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/biltmoreCabaret-results.json

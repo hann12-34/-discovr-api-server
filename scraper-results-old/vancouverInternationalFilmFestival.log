@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: vancouverInternationalFilmFestival.js ---
+============================================================
+Scraper 'Vancouver International Film Festival' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver International Film Festival scraper...
+✅ Added event: VIFF 2025: Opening Night Gala & Reception on Thursday, September 25, 2025
+✅ Added event: Canadian Film Day: Emerging Voices Showcase on Tuesday, September 30, 2025
+✅ Added event: Masterclass: The Art of Cinematography with Roger Deakins on Thursday, October 2, 2025
+✅ Added event: International Focus: Contemporary Korean Cinema on Saturday, October 4, 2025
+✅ Added event: VIFF 2025: Closing Night Film & Awards Ceremony on Friday, October 10, 2025
+🎬 Successfully created 5 Vancouver International Film Festival events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver International Film Festival' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "viff-viff-2025-opening-night-gala-reception-2025-09-26",
+  "title": "VIFF 2025: Opening Night Gala & Reception",
+  "description": "The 44th annual Vancouver International Film Festival kicks off with the Canadian premiere of an acclaimed international feature film, followed by a gala reception with filmmakers in attendance. This red carpet event brings together film industry professionals, media, and cinema enthusiasts to celebrate the start of one of North America's largest film festivals. The opening film selection showcases the festival's commitment to presenting innovative and thought-provoking cinema from around the world. Following the screening, ticket holders are invited to the exclusive opening reception featuring local cuisine, craft cocktails, and opportunities to mingle with filmmakers and special guests. This prestigious event sets the tone for the 16-day celebration of cinema that follows.\n\nEVENT DETAILS:\nDate: Thursday, September 25, 2025\nTime: 7:00 PM - 11:00 PM\nVenue: Vancouver Playhouse, 600 Hamilton St, Vancouver, BC V6B 2P1\nPrice: $75\nTickets: Required, available through VIFF box office or website\n\nThe Vancouver International Film Festival runs from September 25 to October 10, 2025, with screenings and events at multiple venues across downtown Vancouver. Festival passes and ticket packages are available with discounts for students, seniors, and VIFF+ members.",
+  "startDate": "2025-09-26T02:00:00.000Z",
+  "endDate": "2025-09-26T06:00:00.000Z",
+  "venue": {
+    "name": "Vancouver Playhouse",
+    "id": "viff-vancouver",
+    "address": "600 Hamilton St, Vancouver, BC V6B 2P1",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 3M7",
+    "coordinates": {
+      "lat": 49.2774,
+      "lng": -123.1252
+    },
+    "websiteUrl": "https://www.viff.org/",
+    "description": "The Vancouver International Film Festival (VIFF) is among the five largest film festivals in North America, screening films from more than 70 countries on 10 screens. VIFF's programming includes the world's best cinema, from cutting-edge documentaries to narrative features, Canadian and international shorts, as well as creator talks, live performances and other events that complement the film screenings."
+  },
+  "category": "film",
+  "categories": [
+    "film festival",
+    "cinema",
+    "arts",
+    "culture",
+    "gala",
+    "premiere",
+    "opening night"
+  ],
+  "sourceURL": "https://www.viff.org/",
+  "officialWebsite": "https://www.viff.org/festival/opening-night-2025/",
+  "image": "https://www.viff.org/wp-content/uploads/2025/08/opening-gala-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:25:59.479Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverInternationalFilmFestival-results.json

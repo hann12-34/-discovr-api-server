@@ -1,0 +1,47 @@
+============================================================
+--- Attempting to run scraper: undergroundComedyClubEvents.js ---
+============================================================
+Scraper 'Underground Comedy Club' instantiated successfully. Running scrape()...
+🔍 Starting Underground Comedy Club scraper...
+Navigating to: https://www.ugcomedy.com/
+✅ Saved debug screenshot
+Found 15 potential show links
+Processing show link 1/15: https://www.jumpcomedy.com/b/Underground
+Skipping link: https://www.jumpcomedy.com/b/Underground - Missing required data
+Processing show link 2/15: https://www.jumpcomedy.com/b/Underground
+Skipping link: https://www.jumpcomedy.com/b/Underground - Missing required data
+Processing show link 3/15: https://tickets.ugcomedy.com/
+Skipping link: https://tickets.ugcomedy.com/ - Missing required data
+Processing show link 4/15: https://tickets.ugcomedy.com/e/weekends
+Skipping link: https://tickets.ugcomedy.com/e/weekends - Missing required data
+Processing show link 5/15: https://tickets.ugcomedy.com/e/weekends
+Skipping link: https://tickets.ugcomedy.com/e/weekends - Missing required data
+Processing show link 6/15: https://www.jumpcomedy.com/e/new-jokes-and-crowd-work
+Skipping link: https://www.jumpcomedy.com/e/new-jokes-and-crowd-work - Missing required data
+Processing show link 7/15: https://www.jumpcomedy.com/e/new-jokes-and-crowd-work
+Skipping link: https://www.jumpcomedy.com/e/new-jokes-and-crowd-work - Missing required data
+Processing show link 8/15: https://tickets.ugcomedy.com/e/trueenough
+Skipping link: https://tickets.ugcomedy.com/e/trueenough - Missing required data
+Processing show link 9/15: https://tickets.ugcomedy.com/e/trueenough
+Skipping link: https://tickets.ugcomedy.com/e/trueenough - Missing required data
+Processing show link 10/15: https://tickets.ugcomedy.com/e/comedygems
+Skipping link: https://tickets.ugcomedy.com/e/comedygems - Missing required data
+Processing show link 11/15: https://www.jumpcomedy.com/e/comedygems
+Skipping link: https://www.jumpcomedy.com/e/comedygems - Missing required data
+Processing show link 12/15: https://www.jumpcomedy.com/b/Underground
+Skipping link: https://www.jumpcomedy.com/b/Underground - Missing required data
+Processing show link 13/15: http://tickets.ugcomedy.com/
+Skipping link: http://tickets.ugcomedy.com/ - Missing required data
+Processing show link 14/15: https://www.eventbrite.com/e/underground-comedy-club-9-pm-pro-show-tickets-648338637317
+Skipping link: https://www.eventbrite.com/e/underground-comedy-club-9-pm-pro-show-tickets-648338637317 - Missing required data
+Processing show link 15/15: mailto: info@ugcomedy.com
+
+------------------------------------------------------------
+✅ Scraper 'Underground Comedy Club' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/undergroundComedyClubEvents-results.json
+
+STDERR:
+❌ Error scraping Underground Comedy Club: net::ERR_ABORTED at mailto: info@ugcomedy.com

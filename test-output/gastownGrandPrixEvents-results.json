@@ -1,0 +1,35 @@
+[
+  {
+    "id": "gastown-grand-prix-global-relay-gastown-grand-prix-2025-2025-07-10",
+    "title": "Global Relay Gastown Grand Prix 2025",
+    "description": "The Global Relay Gastown Grand Prix is part of BC Superweek, featuring professional cycling races in the historic Gastown neighborhood of Vancouver. This prestigious event attracts top cyclists from around the world to compete on a challenging 1.2km circuit.",
+    "startDate": "2025-07-10T00:00:00.000Z",
+    "endDate": "2025-07-10T06:00:00.000Z",
+    "venue": {
+      "name": "Gastown",
+      "id": "gastown-vancouver",
+      "address": "Water Street, Gastown",
+      "city": "Vancouver",
+      "state": "BC",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 49.2846,
+        "lng": -123.1086
+      },
+      "websiteUrl": "https://globalrelayggp.org/",
+      "description": "Historic Gastown district in downtown Vancouver"
+    },
+    "category": "sports",
+    "categories": [
+      "sports",
+      "cycling",
+      "race",
+      "outdoor"
+    ],
+    "sourceURL": "https://globalrelayggp.org/",
+    "officialWebsite": "https://globalrelayggp.org/",
+    "image": null,
+    "ticketsRequired": false,
+    "lastUpdated": "2025-07-15T18:35:33.788Z"
+  }
+]

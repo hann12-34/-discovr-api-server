@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: wiseHall.js ---
+============================================================
+Scraper 'WISE Hall' instantiated successfully. Running scrape()...
+🔍 Starting WISE Hall scraper...
+✅ Added event: Vancouver Folk Music Festival: WISE Hall Sessions on Tuesday, July 8, 2025
+✅ Added event: East Van Community Dance: Swing Night on Saturday, July 12, 2025
+✅ Added event: WISE Words: Poetry Slam & Open Mic on Tuesday, July 15, 2025
+✅ Added event: East Vancouver Record Fair on Saturday, July 19, 2025
+✅ Added event: Community Documentary Screening: 'The Heart of East Van' on Tuesday, July 22, 2025
+✅ Added event: WISE Wellness: Community Yoga & Meditation Day on Saturday, July 26, 2025
+🏛️ Successfully created 6 WISE Hall events
+
+------------------------------------------------------------
+✅ Scraper 'WISE Hall' finished successfully.
+   Processed 6 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "wise-hall-vancouver-folk-music-festival-wise-hall-sessions-2025-07-09",
+  "title": "Vancouver Folk Music Festival: WISE Hall Sessions",
+  "description": "As part of the expanded Vancouver Folk Music Festival, WISE Hall hosts an intimate evening of acoustic performances featuring established and emerging folk artists. This special showcase brings the festival experience to East Vancouver with performances by Canadian folk icon Sarah Harmer, Indigenous duo Twin Flames, and local rising stars The Broken Islands. The WISE Hall's cozy atmosphere creates a perfect setting for the storytelling traditions of folk music, allowing for meaningful connections between artists and audience. The evening includes a short presentation on the history of folk music in Vancouver and the cultural significance of community venues like WISE Hall in nurturing grassroots music scenes. Doors open early for a pre-show community potluck dinner in the Hall's lower lounge.\n\nEVENT DETAILS:\nDate: Tuesday, July 8, 2025\nTime: 7:00 PM - 11:00 PM\nVenue: WISE Hall, 1882 Adanac St, Vancouver\nPrice: $25\nTickets: Required, available online or at the door\nFeaturing: Sarah Harmer, Twin Flames, The Broken Islands\n\nThe WISE Hall is a wheelchair accessible venue located in East Vancouver. The main hall is on the second floor accessible by stairs or elevator, with washrooms on both floors. The venue is easily reached by public transit (via #14 Hastings or #4 Powell buses) and bike racks are available outside.",
+  "startDate": "2025-07-09T02:00:00.000Z",
+  "endDate": "2025-07-09T06:00:00.000Z",
+  "venue": {
+    "name": "WISE Hall",
+    "id": "wise-hall-vancouver",
+    "address": "1882 Adanac St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V5L 2E2",
+    "coordinates": {
+      "lat": 49.277,
+      "lng": -123.0695
+    },
+    "websiteUrl": "https://www.wisehall.ca/",
+    "description": "The WISE Hall (Welsh, Irish, Scottish, English) is a community hall and performance venue in East Vancouver, operated as a non-profit society since 1958. This historic venue hosts live music, community events, dance parties, workshops, and cultural celebrations in a welcoming environment that bridges generations and cultures."
+  },
+  "category": "community",
+  "categories": [
+    "community",
+    "east vancouver",
+    "local",
+    "music",
+    "concert",
+    "folk",
+    "acoustic"
+  ],
+  "sourceURL": "https://www.wisehall.ca/",
+  "officialWebsite": "https://www.wisehall.ca/events/folk-festival-sessions/",
+  "image": "https://www.wisehall.ca/wp-content/uploads/2025/05/folk-festival-sessions.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:28:19.599Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/wiseHall-results.json

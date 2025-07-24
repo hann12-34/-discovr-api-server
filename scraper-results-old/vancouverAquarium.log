@@ -1,0 +1,58 @@
+============================================================
+--- Attempting to run scraper: vancouverAquarium.js ---
+============================================================
+Scraper 'Vancouver Aquarium' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Aquarium scraper...
+✅ Added event: Ocean After Hours on Friday, July 11, 2025
+✅ Added event: Marine Conservation Workshop: Protecting Our Oceans on Saturday, July 19, 2025
+✅ Added event: World Oceans Day Celebration on Saturday, July 26, 2025
+✅ Added event: Tiny Bubbles: Preschool Program on Tuesday, August 5, 2025
+✅ Added overnight event: Sleep with the Sharks: Family Overnight Adventure on Friday, August 15, 2025
+✅ Added event: Sustainable Seafood Symposium on Saturday, August 23, 2025
+✅ Added event: Behind the Scenes: Marine Mammal Care on Saturday, August 30, 2025
+🐋 Successfully created 7 Vancouver Aquarium events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Aquarium' finished successfully.
+   Processed 7 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "vancouver-aquarium-ocean-after-hours-2025-07-12",
+  "title": "Ocean After Hours",
+  "description": "Experience the Vancouver Aquarium in a whole new light at our adults-only evening event. Ocean After Hours transforms the aquarium into a sophisticated venue with themed cocktails, live music, and special animal presentations. Explore the galleries without crowds, enjoy sustainable seafood canapés from local chefs, and engage with marine educators stationed throughout the exhibits. Each event features a different ocean conservation theme with guest speakers and interactive displays.\n\nEVENT DETAILS:\nDate: Friday, July 11, 2025\nTime: 7:00 PM - 11:00 PM\nRecurrence: Monthly, second Friday\nPrice: $45 general, $35 members\nAge Restriction: 19+\nTickets: Required, please book in advance\n\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.",
+  "startDate": "2025-07-12T02:00:00.000Z",
+  "endDate": "2025-07-12T06:00:00.000Z",
+  "venue": {
+    "name": "Vancouver Aquarium",
+    "id": "vancouver-aquarium",
+    "address": "845 Avison Way",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6G 3E2",
+    "coordinates": {
+      "lat": 49.3004,
+      "lng": -123.1309
+    },
+    "websiteUrl": "https://www.vanaqua.org/",
+    "description": "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
+  },
+  "category": "attraction",
+  "categories": [
+    "aquarium",
+    "marine life",
+    "education",
+    "adults",
+    "nightlife",
+    "social",
+    "19+",
+    "evening event"
+  ],
+  "sourceURL": "https://www.vanaqua.org/",
+  "officialWebsite": "https://www.vanaqua.org/visit/events/ocean-after-hours",
+  "image": "https://www.vanaqua.org/wp-content/uploads/2025/06/ocean-after-hours.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:20:55.758Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverAquarium-results.json

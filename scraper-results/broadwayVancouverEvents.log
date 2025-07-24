@@ -1,0 +1,71 @@
+============================================================
+--- Attempting to run scraper: broadwayVancouverEvents.js ---
+============================================================
+Scraper 'Broadway Vancouver' instantiated successfully. Running scrape()...
+🔍 Starting Broadway Vancouver events scraper...
+Navigating to: https://vancouver.broadway.com/
+✅ Saved debug screenshot to broadway-vancouver-debug.png
+Looking for shows with selector: .show-card
+Looking for shows with selector: .show-item
+Looking for shows with selector: .production-item
+Looking for shows with selector: .production-card
+Looking for shows with selector: .show-block
+Looking for shows with selector: .show
+Looking for shows with selector: .event-item
+Looking for shows with selector: .event-card
+Looking for shows with selector: article.show
+Looking for shows with selector: .show-container
+Looking for show links...
+Found 81 potential show links with selector: a[href*="show"]
+Found potential show link: Shows
+✅ Added show from link: Shows on 8/14/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 9/28/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 11/12/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 12/27/2025
+Found potential show link: About the show
+✅ Added show from link: About the show on 2/10/2026
+🎉 Successfully scraped 5 events from Broadway Vancouver
+
+------------------------------------------------------------
+✅ Scraper 'Broadway Vancouver' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "broadway-vancouver-shows-2025-08-15",
+  "title": "Shows",
+  "description": "Shows - Broadway Across Canada production at the Queen Elizabeth Theatre in Vancouver.",
+  "startDate": "2025-08-15T02:30:00.000Z",
+  "endDate": "2025-08-15T05:00:00.000Z",
+  "venue": {
+    "name": "Queen Elizabeth Theatre",
+    "id": "queen-elizabeth-theatre-vancouver",
+    "address": "630 Hamilton St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2799,
+      "lng": -123.1128
+    },
+    "websiteUrl": "https://vancouver.broadway.com/",
+    "description": "The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver and the primary venue for Broadway productions in Vancouver."
+  },
+  "category": "theatre",
+  "categories": [
+    "theatre",
+    "musical",
+    "broadway",
+    "performance",
+    "arts"
+  ],
+  "sourceURL": "https://vancouver.broadway.com/shows/",
+  "officialWebsite": "https://vancouver.broadway.com/",
+  "image": null,
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:32:54.653Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/broadwayVancouverEvents-results.json

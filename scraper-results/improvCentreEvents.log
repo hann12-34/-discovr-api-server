@@ -1,0 +1,160 @@
+============================================================
+--- Attempting to run scraper: improvCentreEvents.js ---
+============================================================
+Scraper 'The Improv Centre' instantiated successfully. Running scrape()...
+🔍 Starting The Improv Centre scraper...
+Navigating to: https://theimprovcentre.ca/shows/
+✅ Saved debug screenshot
+Looking for shows from H3 headings...
+Extracting shows from H3 headings...
+Extracted 54 shows from headings
+Visiting show page: https://theimprovcentre.ca/shows/
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(749,791)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(749,791)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(749,791)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(734,795)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(734,795)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(734,795)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(734,795)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=11034&qty=0
+✅ Added event: Pride Race
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=11034&qty=0
+✅ Added event: Slasher – Vol. III
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=11034&qty=0
+✅ Added event: The Bachelor-ish
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10957
+✅ Added event: Stand Up at The Improv
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10957
+✅ Added event: Canada ‘Eh Show
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10957
+✅ Added event: Twist of Fate
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: The Return of Colin Mochrie
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: Choose-Day: Fools Edition
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: Mother’s Day Special
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: House Teams
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: Father’s Day Special
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: The Return of
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: Colin Mochrie
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?performance=10834
+✅ Added event: I Saw You
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(794,810,729)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(794,810,729)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(794,810,729)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=0&search=P_SEQ%20IN(794,810,729)
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: My Funny Valentine’s Day Show
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: The Heat: An International Improv Comedy Showcase
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: Gal-entine’s Day
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: Date Night
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: My Funny Valentine’s Day Show
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: The Heat: An International Improv Comedy Showcase
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: Choo-Choo-Choose Day
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: The Heat: An International Improv Comedy Showcase
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=786
+✅ Added event: Gal-entine’s Day
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10660&qty=0
+✅ Added event: Hot Snack Comedy Presents: FEAST
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10660&qty=0
+✅ Added event: Merry / Happy / Jolly
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10660&qty=0
+✅ Added event: NYE at TIC
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=775
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=734
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=734
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=734
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/login?event=734
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/tmEvent/tmEvent768.html
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/tmEvent/tmEvent768.html
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/tmEvent/tmEvent768.html
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/tmEvent/tmEvent768.html
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10108&qty=0
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10108&qty=0
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10108&qty=0
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10108&qty=0
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10108&qty=0
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10108&qty=0
+⚠️ Could not parse date from: Upcoming show - check website for dates
+Visiting show page: https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=10108&qty=0
+⚠️ Could not parse date from: Upcoming show - check website for dates
+🎉 Successfully scraped 26 events from The Improv Centre
+
+------------------------------------------------------------
+✅ Scraper 'The Improv Centre' finished successfully.
+   Processed 26 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "the-improv-centre-pride-race-2025-08-01",
+  "title": "Pride Race",
+  "description": "**Special Pride Improv Show** Thursday, July 31st at 7:30pm 14A – May include suggestive language and/or scenes.",
+  "startDate": "2025-08-01T14:00:00.000Z",
+  "endDate": "2025-08-01T15:30:00.000Z",
+  "venue": {
+    "name": "The Improv Centre",
+    "id": "the-improv-centre",
+    "address": "1502 Duranleau St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2727,
+      "lng": -123.1348
+    },
+    "websiteUrl": "https://theimprovcentre.ca/",
+    "description": "The Improv Centre is Vancouver's premier improvisational theatre company, featuring comedy shows, classes, and corporate workshops."
+  },
+  "category": "comedy",
+  "categories": [
+    "comedy",
+    "entertainment",
+    "improv",
+    "performance",
+    "theatre"
+  ],
+  "sourceURL": "https://tickets.theimprovcentre.ca/TheatreManager/1/online?bestavail=11034&qty=0",
+  "officialWebsite": "https://theimprovcentre.ca/",
+  "image": "https://theimprovcentre.ca/wp-content/uploads/2025/07/Pride-Race-2025-04.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T18:38:35.195Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/improvCentreEvents-results.json

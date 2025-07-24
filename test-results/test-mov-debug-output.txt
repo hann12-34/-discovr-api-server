@@ -1,0 +1,94 @@
+STDOUT:
+Analyzing Museum of Vancouver website structure...
+Response Status: 200
+Saved HTML to mov-debug.html
+Page Title:  Events & Programs — MOV | Museum of Vancouver
+
+=== Checking for event containers ===
+.summary-item: 0
+.eventlist: 0
+.event-item: 0
+.event-list: 0
+.events-list: 0
+.summary-title-link: 0
+.summary-content: 0
+.events-collection: 0
+.event-collection: 0
+.collection-type-events: 0
+article: 0
+.sqs-block: 21
+First .sqs-block example:
+<div class="sqs-block-content">
+
+<div class="sqs-html-content">
+  <h1 style="white-space:pre-wrap;">Upcoming Events &amp; Programs</h1>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>...
+
+=== Looking for event links ===
+Found 12 potential event links
+Link 1:
+  Text: Feature Exhibitions
+  Href: /feature-exhibitions
+  Parent: DIV with class "Mobile-overlay-folder"
+Link 2:
+  Text: Virtual Exhibitions
+  Href: /virtual-exhibitions
+  Parent: DIV with class "Mobile-overlay-folder"
+Link 3:
+  Text: Upcoming Exhibitions
+  Href: /upcoming-exhibitions
+  Parent: DIV with class "Mobile-overlay-folder"
+Link 4:
+  Text: Past Exhibitions
+  Href: /past-exhibitions
+  Parent: DIV with class "Mobile-overlay-folder"
+Link 5:
+  Text: Events & Programs
+  Href: /events-programs
+  Parent: DIV with class "Mobile-overlay-folder"
+Link 6:
+  Text: Explore
+  Href: /current-exhibition
+  Parent: SPAN with class "Header-nav-item Header-nav-item--folder"
+Link 7:
+  Text: Feature Exhibitions
+  Href: /feature-exhibitions
+  Parent: SPAN with class "Header-nav-folder"
+Link 8:
+  Text: Virtual Exhibitions
+  Href: /virtual-exhibitions
+  Parent: SPAN with class "Header-nav-folder"
+Link 9:
+  Text: Upcoming Exhibitions
+  Href: /upcoming-exhibitions
+  Parent: SPAN with class "Header-nav-folder"
+Link 10:
+  Text: Past Exhibitions
+  Href: /past-exhibitions
+  Parent: SPAN with class "Header-nav-folder"
+
+
+STDERR:

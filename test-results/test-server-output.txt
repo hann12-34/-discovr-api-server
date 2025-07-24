@@ -1,0 +1,7 @@
+STDOUT:
+Test server running on port 8080
+PORT env var: undefined
+NODE_ENV: undefined
+
+
+STDERR:

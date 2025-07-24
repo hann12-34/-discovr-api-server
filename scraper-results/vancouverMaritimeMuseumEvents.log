@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: vancouverMaritimeMuseumEvents.js ---
+============================================================
+Scraper 'Vancouver Maritime Museum Events' instantiated successfully. Running scrape()...
+Starting Vancouver Maritime Museum Events scraper...
+Navigating to https://vanmaritime.com/events/
+Extracting Vancouver Maritime Museum events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Vancouver Maritime Museum events
+Vancouver Maritime Museum Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Maritime Museum Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverMaritimeMuseumEvents-results.json

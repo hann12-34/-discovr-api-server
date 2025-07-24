@@ -1,0 +1,243 @@
+{
+  "successful": [],
+  "errors": [],
+  "skipped": [
+    {
+      "file": "artGalleryEvents.js",
+      "reason": "Import failed: Unexpected token 'catch'"
+    },
+    {
+      "file": "biltmoreCabaretEvents.js",
+      "reason": "Import failed: BiltmoreCabaretEvents is not a constructor"
+    },
+    {
+      "file": "chanCentre.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "chanCentreEvents.js",
+      "reason": "Import failed: ChanCentreEvents is not a constructor"
+    },
+    {
+      "file": "cherryBlossomFestEvents.js",
+      "reason": "Import failed: CherryBlossomFestEvents is not a constructor"
+    },
+    {
+      "file": "coastalJazzEvents.js",
+      "reason": "Import failed: Unexpected token '{'"
+    },
+    {
+      "file": "coastalJazzFestival.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "contemporaryArtGalleryEvents.js",
+      "reason": "Import failed: ContemporaryArtGalleryEvents is not a constructor"
+    },
+    {
+      "file": "danceFestivalEvents.js",
+      "reason": "Import failed: DanceFestivalEvents is not a constructor"
+    },
+    {
+      "file": "doxaFilmFestivalEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "fix_helper_imports.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "fix_underground_comedy.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "fortuneSoundClubBridge.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "fringeFestivalEvents.js",
+      "reason": "Import failed: FringeFestivalEvents is not a constructor"
+    },
+    {
+      "file": "gastownGrandPrixEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "granvilleMarketEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "helloBCEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "helloBCEventsScraper.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "hrMacMillanSpaceCentreEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "junctionPublicMarket.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "metropolisEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "museumOfVancouverEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "orpheumEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "queenElizabethTheatre.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "queenElizabethTheatreEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "queerArtsFestivalEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "quick_validation.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "redRoom.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "rickshawTheatreEvents.js",
+      "reason": "Import failed: RickshawTheatreEvents is not a constructor"
+    },
+    {
+      "file": "scienceWorldEvents.js",
+      "reason": "Import failed: ScienceWorldEvents is not a constructor"
+    },
+    {
+      "file": "scienceWorldVancouverEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "spaceCentreEvents.js",
+      "reason": "Import failed: SpaceCentreEvents is not a constructor"
+    },
+    {
+      "file": "standardize_scraper_exports.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "stanleyParkEvents.js",
+      "reason": "Import failed: StanleyParkEvents is not a constructor"
+    },
+    {
+      "file": "steamworksBrewingEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "summerCinemaEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "test_fixed_scrapers.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "test_priority_venues.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "test_scrapers.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "test_selected_scrapers.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "test_single_venue.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "theCultchEvents.js",
+      "reason": "Import failed: TheCultchEvents is not a constructor"
+    },
+    {
+      "file": "thePearlEvents.js",
+      "reason": "Import failed: ThePearlEvents is not a constructor"
+    },
+    {
+      "file": "theRoxyEvents.js",
+      "reason": "Import failed: TheRoxyEvents is not a constructor"
+    },
+    {
+      "file": "theatreUnderTheStarsEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "tourismVancouverEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "ubcBotanicalGardenEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "reason": "Import failed: Cannot find module './utils/helpers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/check_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js"
+    },
+    {
+      "file": "vancouverAquariumEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "vancouverArtGalleryEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "vancouverCityEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "vancouverCivicTheatres.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "vancouverFilmFestivalEvents.js",
+      "reason": "Import failed: VancouverFilmFestivalEvents is not a constructor"
+    },
+    {
+      "file": "vancouverJazzFestEvents.js",
+      "reason": "Import failed: VancouverJazzFestEvents is not a constructor"
+    },
+    {
+      "file": "vancouverMaritimeMuseumEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "vancouverSymphonyEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "veganMarketEvents.js",
+      "reason": "Not a function"
+    },
+    {
+      "file": "vogueTheatreEvents.js",
+      "reason": "Import failed: VogueTheatreEvents is not a constructor"
+    },
+    {
+      "file": "westernFrontEvents.js",
+      "reason": "Import failed: WesternFrontEvents is not a constructor"
+    }
+  ],
+  "timestamp": "2025-07-18T00:53:04.492Z"
+}

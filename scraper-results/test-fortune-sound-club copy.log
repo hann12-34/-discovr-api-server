@@ -1,0 +1,7 @@
+ERROR: Command failed: node test-single-scraper.js test-fortune-sound-club copy.js
+Scraper file not found: /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club
+
+
+
+
+Scraper file not found: /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-fortune-sound-club

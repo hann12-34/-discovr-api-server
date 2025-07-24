@@ -1,0 +1,16 @@
+STDOUT:
+Testing Science World scraper...
+Response status: 200
+Page title: Upcoming Events - Science World
+Selector ".event" found 0 elements
+Selector ".event-card" found 0 elements
+Selector ".event-item" found 0 elements
+Selector "article" found 0 elements
+Selector ".events-list" found 0 elements
+Selector ".event-listing" found 0 elements
+Selector ".swiper-slide" found 0 elements
+Selector ".programmes-item" found 0 elements
+Selector ".programme-card" found 0 elements
+
+
+STDERR:

@@ -1,0 +1,56 @@
+============================================================
+--- Attempting to run scraper: museumOfVancouver.js ---
+============================================================
+Scraper 'Museum of Vancouver' instantiated successfully. Running scrape()...
+🔍 Starting Museum of Vancouver scraper...
+✅ Added event: Paddle Carving Workshop with Coast Salish Artists on Saturday, July 19, 2025
+✅ Added event: Urban Innovation: Vancouver's Climate Adaptation Exhibition Opening on Thursday, July 24, 2025
+✅ Added event: Night at the Museum: Neon Vancouver After Dark on Friday, August 8, 2025
+✅ Added event: Family Sunday: Indigenous Plants and Medicines on Sunday, August 17, 2025
+✅ Added event: Curator's Tour: Hidden Treasures of the MOV Collection on Friday, August 22, 2025
+🏛️ Successfully created 5 Museum of Vancouver events
+
+------------------------------------------------------------
+✅ Scraper 'Museum of Vancouver' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "mov-paddle-carving-workshop-with-coast-salish-artists-2025-07-19",
+  "title": "Paddle Carving Workshop with Coast Salish Artists",
+  "description": "Learn the traditional art of paddle carving in this hands-on workshop led by celebrated Coast Salish artists. Participants will create their own miniature cedar paddle while learning about the cultural significance, techniques, and designs used by Indigenous peoples of the Pacific Northwest. The workshop begins with a gallery tour of the Museum's Indigenous collection, focusing on traditional watercraft and tools, followed by a demonstration of carving techniques. Participants will then work on their own paddle project under expert guidance, learning about wood selection, traditional carving tools, and finishing methods. All materials are provided, and no previous woodworking experience is necessary. This workshop is suitable for adults and youth ages 16+ and is part of the Museum's commitment to meaningful engagement with Indigenous knowledge and practices.\n\nEVENT DETAILS:\nDate: Saturday, July 19, 2025\nTime: 10:00 AM - 4:00 PM\nVenue: Museum of Vancouver, 1100 Chestnut St, Vancouver\nPrice: $125 (includes museum admission)\nAge Restriction: 16+\nTickets: Required, available through the Museum of Vancouver website or at the admission desk\n\nVenue Information: The Museum of Vancouver is located in Vanier Park, near Kitsilano Beach, and is easily accessible by public transit or car with parking available on-site. The museum is wheelchair accessible and offers a gift shop and café.",
+  "startDate": "2025-07-19T17:00:00.000Z",
+  "endDate": "2025-07-19T23:00:00.000Z",
+  "venue": {
+    "name": "Museum of Vancouver",
+    "id": "museum-of-vancouver",
+    "address": "1100 Chestnut St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6J 3J9",
+    "coordinates": {
+      "lat": 49.2763,
+      "lng": -123.1452
+    },
+    "websiteUrl": "https://www.museumofvancouver.ca/",
+    "description": "Located in Vanier Park, the Museum of Vancouver connects Vancouverites to their city and its history through exhibitions and programs that explore the social, cultural, and natural history of the region. The museum holds more than 65,000 artifacts, including the Neon Vancouver Collection, and offers a mix of permanent and temporary exhibitions that examine Vancouver's past, present, and future."
+  },
+  "category": "culture",
+  "categories": [
+    "museum",
+    "culture",
+    "education",
+    "workshop",
+    "indigenous",
+    "workshop",
+    "crafts",
+    "cultural"
+  ],
+  "sourceURL": "https://www.museumofvancouver.ca/",
+  "officialWebsite": "https://museumofvancouver.ca/paddle-carving-2025",
+  "image": "https://www.museumofvancouver.ca/wp-content/uploads/2025/05/paddle-carving-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:11:40.599Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/museumOfVancouver-results.json

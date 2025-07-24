@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: vancouverSymphonyEvents.js ---
+============================================================
+Scraper 'Vancouver Symphony Orchestra Events' instantiated successfully. Running scrape()...
+Starting Vancouver Symphony Orchestra Events scraper...
+Navigating to https://www.vancouversymphony.ca/concerts-tickets/
+Extracting Vancouver Symphony Orchestra events...
+Primary event selectors not found, trying alternative selectors
+Found 0 Vancouver Symphony Orchestra events
+Vancouver Symphony Orchestra Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Symphony Orchestra Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverSymphonyEvents-results.json

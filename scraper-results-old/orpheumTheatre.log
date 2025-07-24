@@ -1,0 +1,58 @@
+============================================================
+--- Attempting to run scraper: orpheumTheatre.js ---
+============================================================
+Scraper 'Orpheum Theatre' instantiated successfully. Running scrape()...
+🔍 Starting Orpheum Theatre scraper...
+✅ Added event: Vancouver Symphony Orchestra: Beethoven's Ninth on Saturday, July 12, 2025
+✅ Added event: An Evening with David Sedaris on Friday, July 18, 2025
+✅ Added event: Film with Live Orchestra: The Princess Bride on Saturday, July 26, 2025
+✅ Added event: International Guitar Night on Tuesday, August 5, 2025
+✅ Added event: Vancouver Bach Festival: Mass in B Minor on Thursday, August 14, 2025
+✅ Added event: Orpheum Theatre Heritage Tour on Saturday, August 23, 2025
+✅ Added event: Distant Worlds: Music from Final Fantasy on Saturday, August 30, 2025
+🎭 Successfully created 7 Orpheum Theatre events
+
+------------------------------------------------------------
+✅ Scraper 'Orpheum Theatre' finished successfully.
+   Processed 7 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "orpheum-vancouver-symphony-orchestra-beethovens-ninth-2025-07-13",
+  "title": "Vancouver Symphony Orchestra: Beethoven's Ninth",
+  "description": "Experience the power and majesty of Beethoven's monumental Ninth Symphony, featuring the iconic 'Ode to Joy'. Led by Music Director Otto Tausk, the Vancouver Symphony Orchestra is joined by the VSO Chorus and distinguished vocal soloists for this transcendent masterpiece. The program begins with Jocelyn Morlock's 'My Name is Amanda Todd', a poignant orchestral work that has garnered international acclaim. This concert promises an evening of profound emotion and musical brilliance in the perfect acoustic setting of the historic Orpheum Theatre.\n\nEVENT DETAILS:\nDate: Saturday, July 12, 2025\nTime: 8:00 PM - 10:30 PM\nPrice: $35-$125\nTickets: Required, available from the Orpheum Theatre box office or online\nPerformers: Vancouver Symphony Orchestra, VSO Chorus, Otto Tausk (conductor)\n\nVenue: The historic Orpheum Theatre is located at 601 Smithe Street in downtown Vancouver, easily accessible by public transit. The venue is wheelchair accessible with services for patrons with special needs available upon request.",
+  "startDate": "2025-07-13T03:00:00.000Z",
+  "endDate": "2025-07-13T05:30:00.000Z",
+  "venue": {
+    "name": "Orpheum Theatre",
+    "id": "orpheum-theatre-vancouver",
+    "address": "601 Smithe St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 3L4",
+    "coordinates": {
+      "lat": 49.2808,
+      "lng": -123.1214
+    },
+    "websiteUrl": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+    "description": "The Orpheum Theatre is a magnificent National Historic Site and one of Vancouver's most elegant landmarks. Built in 1927 as a vaudeville house, this opulent venue features a grand interior with gold leaf, murals, intricate plasterwork, and a spectacular crystal chandelier. Now home to the Vancouver Symphony Orchestra, the Orpheum hosts a wide range of performances including classical concerts, contemporary music, dance, film screenings, and special events in its 2,688-seat auditorium."
+  },
+  "category": "performing arts",
+  "categories": [
+    "theatre",
+    "performing arts",
+    "concert",
+    "entertainment",
+    "classical music",
+    "orchestra",
+    "symphony",
+    "music"
+  ],
+  "sourceURL": "https://www.vancouvercivictheatres.com/venues/orpheum/",
+  "officialWebsite": "https://www.vancouversymphony.ca/event/beethovens-ninth/",
+  "image": "https://www.vancouversymphony.ca/wp-content/uploads/2025/05/beethoven-ninth.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:13:11.525Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/orpheumTheatre-results.json

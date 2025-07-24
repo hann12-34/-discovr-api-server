@@ -1,0 +1,131 @@
+{
+  "timestamp": "2025-07-18T00:53:04.476Z",
+  "directory": "/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup",
+  "summary": {
+    "total": 17,
+    "successful": 1,
+    "failed": 2,
+    "eventsTotal": 10
+  },
+  "scrapers": [
+    {
+      "file": "fortuneSoundClub.js",
+      "success": false,
+      "name": "fortuneSoundClub",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "biltmoreCabaret.js",
+      "success": false,
+      "name": "biltmoreCabaret",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "celebritiesNightclub.js",
+      "success": false,
+      "name": "celebritiesNightclub",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "harbourEventCentre.js",
+      "success": false,
+      "name": "harbourEventCentre",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "barNoneClub.js",
+      "success": false,
+      "name": "barNoneClub",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "success": false,
+      "name": "canadaPlaceEvents",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "gastownSundaySet.js",
+      "success": false,
+      "name": "gastownSundaySet",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "success": false,
+      "name": "undergroundComedyClubEvents",
+      "events": 0,
+      "error": "Import error: Cannot find module './utils/helpers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_selected_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js"
+    },
+    {
+      "file": "commodoreBallroom.js",
+      "success": false,
+      "name": "commodoreBallroom",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "orpheumTheatre.js",
+      "success": false,
+      "name": "orpheumTheatre",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "queenElizabethTheatre.js",
+      "success": true,
+      "name": "Queen Elizabeth Theatre",
+      "events": 10,
+      "error": null
+    },
+    {
+      "file": "rickshawTheatre.js",
+      "success": false,
+      "name": "rickshawTheatre",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "vancouverArtGallery.js",
+      "success": false,
+      "name": "vancouverArtGallery",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "vancouverJazzFestival.js",
+      "success": false,
+      "name": "vancouverJazzFestival",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "vancouverSymphony.js",
+      "success": false,
+      "name": "vancouverSymphony",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "vogueTheatre.js",
+      "success": false,
+      "name": "vogueTheatre",
+      "events": 0,
+      "error": "File does not exist"
+    },
+    {
+      "file": "helloBCEventsScraper.js",
+      "success": false,
+      "name": "HelloBC Events",
+      "events": 0,
+      "error": "Timeout after 30 seconds"
+    }
+  ]
+}

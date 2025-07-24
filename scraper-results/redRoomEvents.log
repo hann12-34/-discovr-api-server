@@ -1,0 +1,73 @@
+============================================================
+--- Attempting to run scraper: redRoomEvents.js ---
+============================================================
+Scraper 'Red Room' instantiated successfully. Running scrape()...
+🔍 Starting Red Room events scraper...
+✅ Created weekly event: CANCUN NITES - Latin Music & Top 40 on 7/18/2025
+✅ Created weekly event: SUBCULTURE - Bass Music Saturdays on 7/19/2025
+Navigating to: https://redroomvancouver.com/
+✅ Saved debug screenshot to redroom-debug.png
+✅ Found image for Cancun Nites: https://redroomvancouver.com/wp-content/uploads/2023/09/cancun-nites-4.jpg
+✅ Found image for Subculture: https://redroomvancouver.com/wp-content/uploads/sb-facebook-feed-images/178864748799337_1030857892417515-0-250.jpg
+Looking for special events with selector: .event-list .event-item
+Looking for special events with selector: .upcoming-events .event
+Looking for special events with selector: .event-card
+Looking for special events with selector: article.event
+Looking for special events with selector: .shows-container .show
+Looking for special events with selector: .event-container
+Looking for special events with selector: .eventlist-event
+Looking for special events with selector: a[href*="event"]
+Found 7 potential special events with selector: a[href*="event"]
+✅ Found potential special event: Special Event at Red Room
+✅ Found potential special event: Special Event at Red Room
+Looking for special events with selector: .special-event
+Looking for special events with selector: .ticket-link
+Looking for special events with selector: a.button:contains("Tickets")
+🎉 Successfully scraped 4 events from Red Room Vancouver
+
+------------------------------------------------------------
+✅ Scraper 'Red Room' finished successfully.
+   Processed 4 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "red-room-cancun-nites-2025-07-18",
+  "title": "CANCUN NITES - Latin Music & Top 40",
+  "description": "Every Friday for more than 18 years, VLF is providing the most energetic and longest running latin event in Vancouver. Latin Music & Top 40 presented by Vancouver Latin Fever at Red Room Vancouver. 398 Richards St. / 9PM - 3AM",
+  "startDate": "2025-07-19T04:00:00.615Z",
+  "endDate": "2025-07-18T10:00:00.615Z",
+  "venue": {
+    "name": "Red Room",
+    "id": "red-room-vancouver",
+    "address": "398 Richards St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6B 2Z3",
+    "coordinates": {
+      "lat": 49.2839,
+      "lng": -123.1126
+    },
+    "websiteUrl": "https://redroomvancouver.com/",
+    "description": "The Red Room is an underground nightclub and music venue in downtown Vancouver known for its intimate atmosphere."
+  },
+  "category": "nightlife",
+  "categories": [
+    "nightlife",
+    "music",
+    "latin",
+    "dance",
+    "weekly"
+  ],
+  "sourceURL": "https://redroomvancouver.com/",
+  "officialWebsite": "https://redroomvancouver.com/",
+  "image": "https://redroomvancouver.com/wp-content/uploads/2023/09/cancun-nites-4.jpg",
+  "ticketsRequired": true,
+  "isRecurring": true,
+  "recurringDay": "Friday",
+  "lastUpdated": "2025-07-15T18:43:50.615Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/redRoomEvents-results.json
+
+STDERR:
+❌ Error with selector a.button:contains("Tickets"): SyntaxError: Failed to execute 'querySelectorAll' on 'Document': 'a.button:contains("Tickets")' is not a valid selector.

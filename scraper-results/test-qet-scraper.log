@@ -1,0 +1,52 @@
+ERROR: Command failed: node test-single-scraper.js test-qet-scraper.js
+
+❌ A critical error occurred in the test runner for test-qet-scraper.js:
+Error: Cannot find module './cities/vancouver/queenElizabethTheatre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js:7:20)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js',
+    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'
+  ]
+}
+
+
+============================================================
+--- Attempting to run scraper: test-qet-scraper.js ---
+============================================================
+
+
+
+❌ A critical error occurred in the test runner for test-qet-scraper.js:
+Error: Cannot find module './cities/vancouver/queenElizabethTheatre'
+Require stack:
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Module._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1491:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js:7:20)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/test-qet-scraper.js',
+    '/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js'
+  ]
+}

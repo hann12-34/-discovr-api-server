@@ -1,0 +1,55 @@
+============================================================
+--- Attempting to run scraper: vancouverFolkFest.js ---
+============================================================
+Scraper 'Vancouver Folk Music Festival' instantiated successfully. Running scrape()...
+🔍 Starting Vancouver Folk Music Festival scraper...
+✅ Added event: Vancouver Folk Music Festival 2025 - Friday on Friday, July 18, 2025
+✅ Added event: Vancouver Folk Music Festival 2025 - Saturday on Saturday, July 19, 2025
+✅ Added event: Vancouver Folk Music Festival 2025 - Sunday on Sunday, July 20, 2025
+✅ Added event: Vancouver Folk Music Festival 2025 - Weekend Pass on Friday, July 18, 2025 to Sunday, July 20, 2025
+✅ Added event: Folk Festival Preview Concert: Emerging Artists Showcase on Friday, July 11, 2025
+🎵 Successfully created 5 Vancouver Folk Music Festival events
+
+------------------------------------------------------------
+✅ Scraper 'Vancouver Folk Music Festival' finished successfully.
+   Processed 5 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "folk-fest-vancouver-folk-music-festival-2025---friday-2025-07-18",
+  "title": "Vancouver Folk Music Festival 2025 - Friday",
+  "description": "The opening day of the 48th annual Vancouver Folk Music Festival features an exceptional lineup of folk, roots, and world music artists across seven stages at beautiful Jericho Beach Park. Friday's performances include internationally renowned headliners and exciting emerging artists, showcasing musical traditions from around the world. The festival site opens at 4:00pm with performances beginning at 5:00pm and continuing into the evening. Early attendees can explore the artisan market, global food village, and community zone with interactive workshops and family-friendly activities. The festival's commitment to environmental sustainability continues with zero-waste initiatives, reusable cup programs, and free water refill stations throughout the grounds. Friday tickets provide access to all performances and activities that day, with main stage headliners beginning at 7:00pm. The festival site offers spectacular views of English Bay and the North Shore mountains, creating a magical backdrop for this celebration of music and community.\n\nEVENT DETAILS:\nDate: Friday, July 18, 2025\nTime: 4:00 PM - 11:00 PM\nVenue: Jericho Beach Park, 3941 Point Grey Road, Vancouver\nPrice: $75 (Early Bird: $65, Youth: $35)\nTickets: Required, available online through the festival website\n\nFestival Information: The Vancouver Folk Music Festival takes place at Jericho Beach Park, featuring seven stages, an artisan market, global food village, family activities, and spectacular ocean and mountain views. The festival site is accessible by public transit, bicycle (with free bike valet), or limited paid parking nearby. Gates open one hour before performances begin each day.",
+  "startDate": "2025-07-18T23:00:00.000Z",
+  "endDate": "2025-07-19T06:00:00.000Z",
+  "venue": {
+    "name": "Jericho Beach Park",
+    "id": "jericho-beach-park",
+    "address": "3941 Point Grey Road",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "postalCode": "V6R 1B5",
+    "coordinates": {
+      "lat": 49.2721,
+      "lng": -123.1927
+    },
+    "websiteUrl": "https://thefestival.bc.ca/",
+    "description": "The Vancouver Folk Music Festival is a beloved cultural institution that has been bringing folk and global music to Vancouver's Jericho Beach Park since 1978. The festival features multiple stages with performances by acclaimed and emerging artists from around the world in a beautiful oceanside setting."
+  },
+  "category": "music",
+  "categories": [
+    "music",
+    "festival",
+    "folk",
+    "outdoor",
+    "concert",
+    "live music",
+    "friday"
+  ],
+  "sourceURL": "https://thefestival.bc.ca/",
+  "officialWebsite": "https://thefestival.bc.ca/festival-2025/friday/",
+  "image": "https://thefestival.bc.ca/wp-content/uploads/2025/03/folk-fest-friday-2025.jpg",
+  "ticketsRequired": true,
+  "lastUpdated": "2025-07-15T16:25:57.339Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/vancouverFolkFest-results.json

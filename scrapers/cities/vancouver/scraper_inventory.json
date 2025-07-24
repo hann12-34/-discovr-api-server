@@ -1,0 +1,595 @@
+{
+  "scrapers": [],
+  "potentialScrapers": [],
+  "nonScrapers": [
+    {
+      "file": "anthropologyMuseumEvents.js",
+      "reason": "Import error: AnthropologyMuseumEvents is not a constructor"
+    },
+    {
+      "file": "arcDiningEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "artGalleryEvents.js",
+      "reason": "Import error: Unexpected token 'catch'"
+    },
+    {
+      "file": "barNoneClub.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "bardOnTheBeach.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "bardOnTheBeachEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "bcPlaceEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "bcPlaceStadium.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "billReidGalleryEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "biltmoreCabaret.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "biltmoreCabaretEvents.js",
+      "reason": "Import error: BiltmoreCabaretEvents is not a constructor"
+    },
+    {
+      "file": "broadwayVancouverEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "canadaPlaceEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "capilanoSuspensionBridge.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "carnavalDelSol.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "celebritiesNightclub.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "chanCentre.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "chanCentreEvents.js",
+      "reason": "Import error: ChanCentreEvents is not a constructor"
+    },
+    {
+      "file": "cherryBlossomFestEvents.js",
+      "reason": "Import error: CherryBlossomFestEvents is not a constructor"
+    },
+    {
+      "file": "chineseGardenEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "coastalJazzEvents.js",
+      "reason": "Import error: Unexpected token '{'"
+    },
+    {
+      "file": "coastalJazzFestival.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "commodoreBallroomEvents.backup.js",
+      "reason": "Import error: CommodoreBallroomEvents is not a constructor"
+    },
+    {
+      "file": "commodoreBallroomEvents.fixed.js",
+      "reason": "Import error: CommodoreBallroomEvents is not a constructor"
+    },
+    {
+      "file": "commodoreBallroomEvents.js",
+      "reason": "Import error: CommodoreBallroomEvents is not a constructor"
+    },
+    {
+      "file": "contemporaryArtGalleryEvents.js",
+      "reason": "Import error: ContemporaryArtGalleryEvents is not a constructor"
+    },
+    {
+      "file": "cultureCrawlEvents.js",
+      "reason": "Import error: CultureCrawlEvents is not a constructor"
+    },
+    {
+      "file": "danceFestivalEvents.js",
+      "reason": "Import error: DanceFestivalEvents is not a constructor"
+    },
+    {
+      "file": "doxaFilmFestivalEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "dragonBoatFestivalEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "festivalDEteEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "fix_helper_imports.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "fix_underground_comedy.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "folkFestEvents.js",
+      "reason": "Import error: FolkFestEvents is not a constructor"
+    },
+    {
+      "file": "fortuneSoundClub.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "fortuneSoundClubBridge.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "foxCabaret.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "fringeFestivalEvents.js",
+      "reason": "Import error: FringeFestivalEvents is not a constructor"
+    },
+    {
+      "file": "gastownGrandPrixEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "gastownSundaySet.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "granvilleIsland.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "granvilleIslandEvents.js",
+      "reason": "Import error: GranvilleIslandEvents is not a constructor"
+    },
+    {
+      "file": "granvilleIslandMarket.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "granvilleMarketEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "harbourEventCentre.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "helloBCEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "helloBCEventsAdditional.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "helloBCEventsScraper.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "helloGoodbyeBarEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "hrMacMillanSpaceCentre.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "hrMacMillanSpaceCentreEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "imperialTheatre.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "improvCentreEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "irishHeather.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "japanMarketEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "junctionPublicMarket.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "khatsahlanoEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "kitsilanoShowboat.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "laowaiBar.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "levelsNightclub.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "macMillanSpaceCentreEvents.js",
+      "reason": "Import error: MacMillanSpaceCentreEvents is not a constructor"
+    },
+    {
+      "file": "malonesEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "maritimeMuseumEvents.js",
+      "reason": "Import error: MaritimeMuseumEvents is not a constructor"
+    },
+    {
+      "file": "master_scraper_runner.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "metropolisEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "moaUbcEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "museumOfAnthropology.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "museumOfAnthropologyEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "museumOfVancouver.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "museumOfVancouverEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "musqueamEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "orpheumEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "orpheumTheatre.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "orpheumTheatreEvents.js",
+      "reason": "Import error: OrpheumTheatreEvents is not a constructor"
+    },
+    {
+      "file": "pneEvents.js",
+      "reason": "Import error: PNEEvents is not a constructor"
+    },
+    {
+      "file": "pneFair.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "pneSummerNightConcerts.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "polygonGallery.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "publicLibraryEvents.js",
+      "reason": "Import error: PublicLibraryEvents is not a constructor"
+    },
+    {
+      "file": "queenElizabethTheatre.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "queenElizabethTheatreEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "queerArtsFestivalEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "queerFilmFestivalEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "quick_validation.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "redRoom.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "redRoomEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "redRoomEvents_new.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "redRoom_OLD.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "richmondNightMarket.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "rickshawTheatreEvents.js",
+      "reason": "Import error: RickshawTheatreEvents is not a constructor"
+    },
+    {
+      "file": "runToEndEndoEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "scienceWorld.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "scienceWorldEvents.js",
+      "reason": "Import error: ScienceWorldEvents is not a constructor"
+    },
+    {
+      "file": "scienceWorldVancouverEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "shipyardsNightMarket.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "spaceCenter.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "spaceCentreEvents.js",
+      "reason": "Import error: SpaceCentreEvents is not a constructor"
+    },
+    {
+      "file": "squamishBeerFestival.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "standardize_scraper_exports.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "stanleyPark.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "stanleyParkEvents.js",
+      "reason": "Import error: StanleyParkEvents is not a constructor"
+    },
+    {
+      "file": "steamworksBrewing.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "steamworksBrewingEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "summerCinemaEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "test_fixed_scrapers.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "test_priority_venues.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "test_scrapers.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "test_selected_scrapers.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "test_single_venue.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "theCentreVancouver.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "theCultchEvents.js",
+      "reason": "Import error: TheCultchEvents is not a constructor"
+    },
+    {
+      "file": "thePearlEvents.js",
+      "reason": "Import error: ThePearlEvents is not a constructor"
+    },
+    {
+      "file": "theRoxyEvents.js",
+      "reason": "Import error: TheRoxyEvents is not a constructor"
+    },
+    {
+      "file": "theatreUnderTheStars.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "theatreUnderTheStarsEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "tourismVancouverEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "ubcBotanicalGardenEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "undergroundComedyClubEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "validate_scrapers.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverAquarium.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverAquariumEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverArtAndLeisure.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverArtGallery.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverArtGalleryEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverAsianFilmFestivalEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverCityEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverCivicTheatres.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverConventionCentreEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverFilmFestivalEvents.js",
+      "reason": "Import error: VancouverFilmFestivalEvents is not a constructor"
+    },
+    {
+      "file": "vancouverFolkFest.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverFringe.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverInternationalFilmFestival.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverJazzFestEvents.js",
+      "reason": "Import error: VancouverJazzFestEvents is not a constructor"
+    },
+    {
+      "file": "vancouverJazzFestival.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverMaritimeMuseumEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverMysteriesEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverPride.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverSymphony.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vancouverSymphonyEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "veganMarketEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "venueNightclub.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vogueTheatre.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "vogueTheatreEvents.js",
+      "reason": "Import error: VogueTheatreEvents is not a constructor"
+    },
+    {
+      "file": "vsffEvents.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "westernFrontEvents.js",
+      "reason": "Import error: WesternFrontEvents is not a constructor"
+    },
+    {
+      "file": "wiseHall.js",
+      "reason": "Not a class constructor"
+    },
+    {
+      "file": "yaletownJazz.js",
+      "reason": "Not a class constructor"
+    }
+  ],
+  "timestamp": "2025-07-15T16:18:42.278Z"
+}

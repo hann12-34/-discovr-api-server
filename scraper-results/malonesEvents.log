@@ -1,0 +1,93 @@
+============================================================
+--- Attempting to run scraper: malonesEvents.js ---
+============================================================
+Scraper 'Malone's Bar' instantiated successfully. Running scrape()...
+🔍 Starting Malone's Bar scraper...
+Navigating to: https://www.malones.bc.ca/
+✅ Saved debug screenshot to malones-debug.png
+Searching for events on homepage...
+Looking for event elements...
+Page text length: 1789 characters
+Found 1 elements with selector: .events-container
+No structured events found, extracting from page content...
+No events found on main page
+Looking for events page links...
+Found 3 potential event links
+Visiting events page: https://www.malones.bc.ca/events
+Looking for event elements...
+Page text length: 1657 characters
+Found 124 elements with selector: .event-item
+Found 1 elements with selector: .events-container
+No structured events found, extracting from page content...
+Trying direct event extraction...
+Extracting Malone's events using specific selectors...
+No event articles found, checking for individual events...
+Page content length: 1657 characters
+Found event keywords, adding Malone's regular events...
+✅ Found 5 events using direct extraction
+Visiting events page: https://www.malones.bc.ca/events
+Looking for event elements...
+Page text length: 1657 characters
+Found 124 elements with selector: .event-item
+Found 1 elements with selector: .events-container
+No structured events found, extracting from page content...
+Trying direct event extraction...
+Extracting Malone's events using specific selectors...
+No event articles found, checking for individual events...
+Page content length: 1657 characters
+Found event keywords, adding Malone's regular events...
+✅ Found 5 events using direct extraction
+Visiting events page: https://www.malones.bc.ca/events
+Looking for event elements...
+Page text length: 1657 characters
+Found 124 elements with selector: .event-item
+Found 1 elements with selector: .events-container
+No structured events found, extracting from page content...
+Trying direct event extraction...
+Extracting Malone's events using specific selectors...
+No event articles found, checking for individual events...
+Page content length: 1657 characters
+Found event keywords, adding Malone's regular events...
+✅ Found 5 events using direct extraction
+🎉 Successfully scraped 15 events from Malone's Bar
+
+------------------------------------------------------------
+✅ Scraper 'Malone's Bar' finished successfully.
+   Processed 15 events.
+------------------------------------------------------------
+
+Sample event: {
+  "id": "malones-bar-wednesday-dj-night-2025-07-04",
+  "title": "Wednesday DJ Night",
+  "description": "Join us every Wednesday for our signature DJ Night featuring local Vancouver DJs spinning the best music.",
+  "startDate": "2025-07-04T04:00:00.000Z",
+  "endDate": "2025-07-04T07:00:00.000Z",
+  "venue": {
+    "name": "Malone's Bar",
+    "id": "malones-bar",
+    "address": "608 W Pender St",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "coordinates": {
+      "lat": 49.2829,
+      "lng": -123.1139
+    },
+    "websiteUrl": "https://www.malones.bc.ca/",
+    "description": "Malone's Bar is a pub and sports bar in downtown Vancouver, offering drinks, food and live entertainment."
+  },
+  "category": "nightlife",
+  "categories": [
+    "bar",
+    "entertainment",
+    "nightlife",
+    "music",
+    "sports"
+  ],
+  "sourceURL": "https://www.malones.bc.ca/events",
+  "officialWebsite": "https://www.malones.bc.ca/",
+  "image": null,
+  "ticketsRequired": false,
+  "lastUpdated": "2025-07-15T18:41:02.738Z"
+}
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/malonesEvents-results.json

@@ -1,0 +1,17 @@
+============================================================
+--- Attempting to run scraper: hrMacMillanSpaceCentreEvents.js ---
+============================================================
+Scraper 'H.R. MacMillan Space Centre Events' instantiated successfully. Running scrape()...
+Starting H.R. MacMillan Space Centre Events scraper...
+Navigating to https://www.spacecentre.ca/events/
+Extracting H.R. MacMillan Space Centre events...
+Primary event selectors not found, trying alternative selectors
+Found 0 H.R. MacMillan Space Centre events
+H.R. MacMillan Space Centre Events scraper finished
+
+------------------------------------------------------------
+✅ Scraper 'H.R. MacMillan Space Centre Events' finished successfully.
+   Processed 0 events.
+------------------------------------------------------------
+
+Results saved to /Users/seongwoohan/CascadeProjects/discovr-api-server/test-output/hrMacMillanSpaceCentreEvents-results.json

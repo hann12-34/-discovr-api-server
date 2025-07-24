@@ -1,0 +1,183 @@
+ERROR: Command failed: node test-single-scraper.js validate_scrapers.js
+
+❌ A critical error occurred in the test runner for validate_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47
+
+
+============================================================
+--- Attempting to run scraper: validate_scrapers.js ---
+============================================================
+🔍 Validating Vancouver scrapers structure...
+Found 132 potential scrapers to validate
+
+❌ anthropologyMuseumEvents.js - Error: AnthropologyMuseumEvents is not a constructor
+✅ arcDiningEvents.js - Valid scraper
+❌ artGalleryEvents.js - Error: Unexpected token 'catch'
+✅ barNoneClub.js - Valid scraper
+✅ bardOnTheBeach.js - Valid scraper
+✅ bardOnTheBeachEvents.js - Valid scraper
+✅ bcPlaceEvents.js - Valid scraper
+✅ bcPlaceStadium.js - Valid scraper
+✅ billReidGalleryEvents.js - Valid scraper
+✅ biltmoreCabaret.js - Valid scraper
+❌ biltmoreCabaretEvents.js - Error: BiltmoreCabaretEvents is not a constructor
+✅ broadwayVancouverEvents.js - Valid scraper
+✅ canadaPlaceEvents.js - Valid scraper
+✅ capilanoSuspensionBridge.js - Valid scraper
+✅ carnavalDelSol.js - Valid scraper
+✅ celebritiesNightclub.js - Valid scraper
+✅ chanCentre.js - Valid scraper
+❌ chanCentreEvents.js - Error: ChanCentreEvents is not a constructor
+Found 247 potential scrapers to check
+❌ check_scrapers.js - Invalid: no scrape method
+❌ cherryBlossomFestEvents.js - Error: CherryBlossomFestEvents is not a constructor
+✅ chineseGardenEvents.js - Valid scraper
+❌ coastalJazzEvents.js - Error: Unexpected token '{'
+✅ coastalJazzFestival.js - Valid scraper
+❌ commodoreBallroomEvents.js - Error: CommodoreBallroomEvents is not a constructor
+❌ contemporaryArtGalleryEvents.js - Error: ContemporaryArtGalleryEvents is not a constructor
+❌ cultureCrawlEvents.js - Error: CultureCrawlEvents is not a constructor
+❌ danceFestivalEvents.js - Error: DanceFestivalEvents is not a constructor
+✅ doxaFilmFestivalEvents.js - Valid scraper
+✅ dragonBoatFestivalEvents.js - Valid scraper
+✅ festivalDEteEvents.js - Valid scraper
+❌ folkFestEvents.js - Error: FolkFestEvents is not a constructor
+✅ fortuneSoundClub.js - Valid scraper
+✅ fortuneSoundClubBridge.js - Valid scraper
+✅ foxCabaret.js - Valid scraper
+❌ fringeFestivalEvents.js - Error: FringeFestivalEvents is not a constructor
+✅ gastownGrandPrixEvents.js - Valid scraper
+✅ gastownSundaySet.js - Valid scraper
+✅ granvilleIsland.js - Valid scraper
+❌ granvilleIslandEvents.js - Error: GranvilleIslandEvents is not a constructor
+✅ granvilleIslandMarket.js - Valid scraper
+✅ granvilleMarketEvents.js - Valid scraper
+✅ harbourEventCentre.js - Valid scraper
+✅ helloBCEvents.js - Valid scraper
+✅ helloBCEventsAdditional.js - Valid scraper
+✅ helloBCEventsScraper.js - Valid scraper
+✅ helloGoodbyeBarEvents.js - Valid scraper
+✅ hrMacMillanSpaceCentre.js - Valid scraper
+✅ hrMacMillanSpaceCentreEvents.js - Valid scraper
+✅ imperialTheatre.js - Valid scraper
+✅ improvCentreEvents.js - Valid scraper
+❌ index.js - Error: CommodoreBallroomEvents is not a constructor
+✅ irishHeather.js - Valid scraper
+✅ japanMarketEvents.js - Valid scraper
+✅ junctionPublicMarket.js - Valid scraper
+✅ khatsahlanoEvents.js - Valid scraper
+✅ kitsilanoShowboat.js - Valid scraper
+✅ laowaiBar.js - Valid scraper
+✅ levelsNightclub.js - Valid scraper
+✅ malonesEvents.js - Valid scraper
+✅ metropolisEvents.js - Valid scraper
+✅ moaUbcEvents.js - Valid scraper
+✅ museumOfAnthropology.js - Valid scraper
+✅ museumOfAnthropologyEvents.js - Valid scraper
+✅ museumOfVancouver.js - Valid scraper
+✅ museumOfVancouverEvents.js - Valid scraper
+✅ musqueamEvents.js - Valid scraper
+✅ orpheumEvents.js - Valid scraper
+✅ orpheumTheatre.js - Valid scraper
+✅ pneFair.js - Valid scraper
+✅ pneSummerNightConcerts.js - Valid scraper
+✅ polygonGallery.js - Valid scraper
+✅ queenElizabethTheatre.js - Valid scraper
+✅ queenElizabethTheatreEvents.js - Valid scraper
+✅ queerArtsFestivalEvents.js - Valid scraper
+✅ queerFilmFestivalEvents.js - Valid scraper
+🔍 Testing key scrapers to validate fixes...
+
+Testing undergroundComedyClubEvents.js...
+✅ Successfully imported undergroundComedyClubEvents.js
+✅ Found scrape method in undergroundComedyClubEvents.js
+ℹ️ Scraper name: Underground Comedy Club
+❌ quick_validation.js - Invalid: no scrape method
+✅ redRoom.js - Valid scraper
+✅ redRoomEvents.js - Valid scraper
+✅ redRoomEvents_new.js - Valid scraper
+✅ redRoom_OLD.js - Valid scraper
+✅ richmondNightMarket.js - Valid scraper
+❌ rickshawTheatreEvents.js - Error: RickshawTheatreEvents is not a constructor
+✅ runToEndEndoEvents.js - Valid scraper
+✅ scienceWorld.js - Valid scraper
+❌ scienceWorldEvents.js - Error: ScienceWorldEvents is not a constructor
+✅ scienceWorldVancouverEvents.js - Valid scraper
+✅ shipyardsNightMarket.js - Valid scraper
+✅ spaceCenter.js - Valid scraper
+❌ spaceCentreEvents.js - Error: SpaceCentreEvents is not a constructor
+✅ squamishBeerFestival.js - Valid scraper
+✅ stanleyPark.js - Valid scraper
+❌ stanleyParkEvents.js - Error: StanleyParkEvents is not a constructor
+✅ steamworksBrewing.js - Valid scraper
+✅ steamworksBrewingEvents.js - Valid scraper
+✅ summerCinemaEvents.js - Valid scraper
+✅ theCentreVancouver.js - Valid scraper
+❌ theCultchEvents.js - Error: TheCultchEvents is not a constructor
+❌ thePearlEvents.js - Error: ThePearlEvents is not a constructor
+❌ theRoxyEvents.js - Error: TheRoxyEvents is not a constructor
+✅ theatreUnderTheStars.js - Valid scraper
+✅ theatreUnderTheStarsEvents.js - Valid scraper
+✅ tourismVancouverEvents.js - Valid scraper
+✅ ubcBotanicalGardenEvents.js - Valid scraper
+✅ undergroundComedyClubEvents.js - Valid scraper
+✅ vancouverAquarium.js - Valid scraper
+✅ vancouverAquariumEvents.js - Valid scraper
+✅ vancouverArtAndLeisure.js - Valid scraper
+✅ vancouverArtGallery.js - Valid scraper
+✅ vancouverArtGalleryEvents.js - Valid scraper
+✅ vancouverAsianFilmFestivalEvents.js - Valid scraper
+✅ vancouverCityEvents.js - Valid scraper
+✅ vancouverCivicTheatres.js - Valid scraper
+✅ vancouverConventionCentreEvents.js - Valid scraper
+❌ vancouverFilmFestivalEvents.js - Error: VancouverFilmFestivalEvents is not a constructor
+✅ vancouverFolkFest.js - Valid scraper
+✅ vancouverFringe.js - Valid scraper
+✅ vancouverInternationalFilmFestival.js - Valid scraper
+❌ vancouverJazzFestEvents.js - Error: VancouverJazzFestEvents is not a constructor
+✅ vancouverJazzFestival.js - Valid scraper
+✅ vancouverMaritimeMuseumEvents.js - Valid scraper
+✅ vancouverMysteriesEvents.js - Valid scraper
+✅ vancouverPride.js - Valid scraper
+✅ vancouverSymphony.js - Valid scraper
+✅ vancouverSymphonyEvents.js - Valid scraper
+✅ veganMarketEvents.js - Valid scraper
+✅ venueNightclub.js - Valid scraper
+✅ vogueTheatre.js - Valid scraper
+❌ vogueTheatreEvents.js - Error: VogueTheatreEvents is not a constructor
+✅ vsffEvents.js - Valid scraper
+❌ westernFrontEvents.js - Error: WesternFrontEvents is not a constructor
+✅ wiseHall.js - Valid scraper
+✅ yaletownJazz.js - Valid scraper
+
+📊 Validation Summary:
+Total scrapers validated: 132
+Valid scrapers: 105
+Invalid scrapers: 27
+
+Detailed results saved to scraper_validation.json
+
+
+
+❌ A critical error occurred in the test runner for validate_scrapers.js:
+Error: Scraper instance is invalid or does not have a scrape method.
+    at runTest (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:36:13)
+    at Object.<anonymous> (/Users/seongwoohan/CascadeProjects/discovr-api-server/test-single-scraper.js:68:1)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Module._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:152:5)
+    at node:internal/main/run_main_module:33:47
