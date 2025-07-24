@@ -234,7 +234,7 @@ async function startServer() {
             id: null,
             location: {
               address: 'Unknown Address',
-              coordinates: [null, null]
+              coordinates: [0.0, 0.0] // Use 0.0 to satisfy Swift's non-nullable Double requirement
             }
           };
 
