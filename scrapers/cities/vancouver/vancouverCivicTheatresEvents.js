@@ -1,5 +1,4 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 
 class VancouverCivicTheatresEvents {
@@ -23,103 +22,144 @@ class VancouverCivicTheatresEvents {
   async scrape() {
     console.log('🔍 Starting Vancouver Civic Theatres Events scraper...');
     const events = [];
+    let browser;
 
     try {
-      console.log(`Fetching ${this.url}`);
-      const response = await axios.get(this.url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        },
-        timeout: 30000
+      browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
       });
+
+      const page = await browser.newPage();
+      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
       
-      const $ = cheerio.load(response.data);
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 60000 });
       
-      // Look for event data in script tags or JSON
-      const scriptTags = $('script[type="application/json"], script[type="text/html"]');
-      console.log(`Found ${scriptTags.length} script tags`);
+      // Wait for the page to fully load
+      console.log('Waiting for page to load completely...');
+      await page.waitForSelector('body', { timeout: 30000 });
+      await new Promise(resolve => setTimeout(resolve, 3000));
       
-      // Also try basic selectors for any visible events
-      const selectors = [
-        '.event',
-        '.show',
-        '.performance',
-        '[data-event]',
-        '[class*="event"]',
-        '[class*="show"]',
-        'a[href*="event"]',
-        'a[href*="show"]'
-      ];
-      
-      let eventElements = $();
-      for (const selector of selectors) {
-        eventElements = $(selector);
-        if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} elements with selector: ${selector}`);
-          break;
+      // Look for any "Load More" or pagination buttons and click them
+      try {
+        const loadMoreButtons = await page.$$('button[class*="load"], .load-more, .show-more, .pagination a, .next');
+        console.log(`Found ${loadMoreButtons.length} potential load more buttons`);
+        
+        for (let i = 0; i < Math.min(loadMoreButtons.length, 3); i++) {
+          try {
+            await loadMoreButtons[i].click();
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            console.log(`Clicked load more button ${i + 1}`);
+          } catch (e) {
+            console.log(`Could not click button ${i + 1}:`, e.message);
+          }
         }
+      } catch (e) {
+        console.log('No load more buttons found');
       }
       
-      // If no events found with selectors, try to find links to individual shows
-      if (eventElements.length === 0) {
-        console.log('No events found with standard selectors, trying links...');
-        eventElements = $('a').filter((i, el) => {
-          const href = $(el).attr('href') || '';
-          const text = $(el).text().trim();
-          return (href.includes('show') || href.includes('event') || 
-                  text.length > 5 && text.length < 100 && 
-                  !text.toLowerCase().includes('home') &&
-                  !text.toLowerCase().includes('about'));
+      // Scroll down to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Try to get page content and find events with a simpler approach
+      const pageContent = await page.content();
+      const eventCount = (pageContent.match(/event/gi) || []).length;
+      const showCount = (pageContent.match(/show/gi) || []).length;
+      console.log(`Page contains ${eventCount} instances of 'event' and ${showCount} instances of 'show'`);
+      
+      // Extract events using a more comprehensive approach
+      const extractedEvents = await page.evaluate(() => {
+        const events = [];
+        
+        // Get all elements and filter for potential events
+        const allElements = document.querySelectorAll('*');
+        
+        allElements.forEach(element => {
+          try {
+            const classList = element.className || '';
+            const dataAttrs = Array.from(element.attributes || [])
+              .filter(attr => attr.name.startsWith('data-'))
+              .map(attr => attr.name + '=' + attr.value)
+              .join(' ');
+            
+            // Check if element looks like an event
+            const isEventLike = 
+              classList.includes('event') ||
+              classList.includes('show') ||
+              classList.includes('performance') ||
+              classList.includes('card') ||
+              dataAttrs.includes('event') ||
+              dataAttrs.includes('show') ||
+              dataAttrs.includes('title');
+            
+            if (isEventLike) {
+              // Try to extract title
+              let title = element.getAttribute('data-title') ||
+                         element.getAttribute('title') ||
+                         element.querySelector('h1, h2, h3, h4, .title')?.textContent?.trim() ||
+                         element.textContent?.trim()?.split('\n')[0];
+              
+              if (title && title.length > 3 && title.length < 200) {
+                // Extract date
+                let dateStr = element.getAttribute('data-date') ||
+                             element.querySelector('.date, time')?.textContent?.trim() || '';
+                
+                // Extract link
+                let link = element.getAttribute('href') ||
+                          element.querySelector('a')?.href || '';
+                
+                // Extract description
+                let description = element.getAttribute('data-description') ||
+                                element.querySelector('p, .description')?.textContent?.trim() || '';
+                
+                events.push({
+                  title: title.trim(),
+                  dateStr: dateStr,
+                  link: link,
+                  description: description
+                });
+              }
+            }
+          } catch (err) {
+            // Skip errors and continue
+          }
         });
-        console.log(`Found ${eventElements.length} potential event links`);
-      }
-      
-      eventElements.each((i, element) => {
+        
+        // Remove duplicates based on title
+        const uniqueEvents = [];
+        const seenTitles = new Set();
+        
+        events.forEach(event => {
+          if (!seenTitles.has(event.title)) {
+            seenTitles.add(event.title);
+            uniqueEvents.push(event);
+          }
+        });
+        
+        return uniqueEvents;
+      });
+
+      // Process extracted events
+      for (const eventData of extractedEvents) {
         try {
-          const $el = $(element);
-          
-          // Get title
-          let title = $el.find('h1, h2, h3, h4, .title, .event-title, .entry-title').first().text().trim() ||
-                     $el.text().trim().split('\n')[0];
-          
-          // Skip if no valid title
-          if (!title || title.length < 3 || title.length > 200) return;
-          
-          // Skip non-event content
-          const skipWords = ['home', 'about', 'contact', 'menu', 'search', 'navigation', 'subscribe', 'follow', 'upcoming', 'bring your next event'];
-          if (skipWords.some(word => title.toLowerCase().includes(word))) return;
-          
-          // Extract date
-          let dateStr = $el.find('.date, .event-date, .start-date, time, .datetime, .tribe-event-date').first().text().trim();
-          
-          // Look for date patterns if not found
-          if (!dateStr) {
-            const text = $el.text();
-            const datePattern = /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2}|\d{1,2}\/\d{1,2}\/\d{4}|\d{4}-\d{2}-\d{2}/i;
-            const match = text.match(datePattern);
-            if (match) dateStr = match[0];
-          }
-          
-          // Extract other data
-          const description = $el.find('p, .description, .event-description, .excerpt, .entry-content').first().text().trim();
-          let link = $el.find('a').first().attr('href') || this.url;
-          if (link && link.startsWith('/')) {
-            link = 'https://vancouvercivictheatres.com' + link;
-          }
-          const imageUrl = $el.find('img').first().attr('src') || '';
-          
           const event = {
             id: uuidv4(),
-            title: title,
-            description: description || '',
-            date: dateStr || 'Date TBA',
-            time: '7:30 PM', // Default theatre time
+            title: eventData.title,
+            description: eventData.description || '',
+            date: eventData.dateStr || 'Date TBA',
+            time: '7:30 PM',
             venue: this.venue,
             category: 'Theatre',
             price: 'Check website',
-            ticketUrl: link,
+            ticketUrl: eventData.link && eventData.link.startsWith('/') ? 
+                      'https://vancouvercivictheatres.com' + eventData.link : 
+                      (eventData.link || this.url),
             sourceUrl: this.url,
-            imageUrl: imageUrl,
+            imageUrl: eventData.imageUrl || '',
             organizer: this.venue.name,
             tags: ['Theatre', 'Live Performance', 'Vancouver'],
             source: 'vancouver-civic-theatres',
@@ -130,12 +170,16 @@ class VancouverCivicTheatresEvents {
           console.log(`✅ Added event: ${event.title}`);
           
         } catch (error) {
-          console.log(`Error processing element: ${error.message}`);
+          console.log(`Error processing event: ${error.message}`);
         }
-      });
+      }
 
     } catch (error) {
       console.error('Error scraping Vancouver Civic Theatres:', error.message);
+    } finally {
+      if (browser) {
+        await browser.close();
+      }
     }
 
     console.log(`🎉 Scraped ${events.length} events from Vancouver Civic Theatres`);
