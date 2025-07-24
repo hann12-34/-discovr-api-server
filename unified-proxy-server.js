@@ -12,6 +12,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const roxyScraper = require('./scrapers/roxyEvents.js');
+const orpheumScraper = require('./scrapers/orpheumEvents.js');
 
 const app = express();
 app.use(cors());
@@ -47,6 +49,32 @@ app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-e
 // Serve the unified admin interface
 app.get('/admin/unified', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'unified-admin.html'));
+});
+
+// Endpoint to trigger the Roxy scraper
+app.get('/scrape/roxy', async (req, res) => {
+  try {
+    console.log('Roxy scraper started');
+    const events = await roxyScraper.scrape();
+    console.log(`Roxy scraper finished, found ${events.length} events.`);
+    res.status(200).json({ message: 'Roxy scraper finished successfully.', event_count: events.length, events: events });
+  } catch (error) {
+    console.error('Error running Roxy scraper:', error);
+    res.status(500).json({ message: 'Error running Roxy scraper', error: error.message });
+  }
+});
+
+// Endpoint to trigger the Orpheum scraper
+app.get('/scrape/orpheum', async (req, res) => {
+  try {
+    console.log('Orpheum scraper started');
+    const events = await orpheumScraper.scrape();
+    console.log(`Orpheum scraper finished, found ${events.length} events.`);
+    res.status(200).json({ message: 'Orpheum scraper finished successfully.', event_count: events.length, events: events });
+  } catch (error) {
+    console.error('Error running Orpheum scraper:', error);
+    res.status(500).json({ message: 'Error running Orpheum scraper', error: error.message });
+  }
 });
 
 // Add route for featured events admin page
