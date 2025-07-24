@@ -12,8 +12,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const roxyScraper = require('./scrapers/roxy-scraper');
-const { scrapeCommodore } = require('./scrapers/commodore-scraper');
 
 const app = express();
 app.use(cors());
@@ -42,8 +40,6 @@ const cloudClient = new MongoClient(CLOUD_MONGODB_URI, {
     deprecationErrors: true,
   }
 });
-
-
 
 // Serve the admin UI, setting all-events-dashboard.html as the default page
 app.use('/admin', express.static(path.join(__dirname, 'public'), { index: 'all-events-dashboard.html' }));
@@ -228,48 +224,55 @@ async function startServer() {
           return res.status(404).json({ message: 'No events found' });
         }
 
-        // Ensure every event has an id field and venue is always an object (required by the mobile app)
+        // COMPREHENSIVE DATA NORMALIZATION (APPLIED: 2025-07-23)
         const validatedEvents = events.map(event => {
-          // Create a copy to avoid modifying the original
-          const validatedEvent = {...event};
-          
-          // Ensure id exists on every event
+          const validatedEvent = { ...event };
+
+          // 1. Normalize Venue and Location
+          let normalizedVenue = {
+            name: 'Unknown Venue',
+            id: null,
+            location: {
+              address: 'Unknown Address',
+              coordinates: [null, null]
+            }
+          };
+
+          if (event.venue) {
+            if (typeof event.venue === 'string') {
+              normalizedVenue.name = event.venue;
+            } else if (typeof event.venue === 'object' && event.venue !== null) {
+              normalizedVenue.name = event.venue.name || 'Unknown Venue';
+              normalizedVenue.id = event.venue.id || null;
+
+              if (typeof event.venue.location === 'string') {
+                normalizedVenue.location.address = event.venue.location;
+              } else if (typeof event.venue.location === 'object' && event.venue.location !== null) {
+                normalizedVenue.location.address = event.venue.location.address || 'Unknown Address';
+                let coords = event.venue.location.coordinates;
+                if (Array.isArray(coords) && coords.length === 2 && typeof coords[0] === 'number' && typeof coords[1] === 'number') {
+                  normalizedVenue.location.coordinates = coords;
+                }
+              }
+            }
+          } else if (event.location && typeof event.location === 'string') {
+            normalizedVenue.location.address = event.location;
+          }
+          validatedEvent.venue = normalizedVenue;
+
+          // 2. Ensure ID exists
           if (!validatedEvent.id) {
-            // Use _id if available, otherwise generate a unique id
             if (validatedEvent._id) {
               validatedEvent.id = validatedEvent._id.toString();
-            } else if (validatedEvent.name && validatedEvent.startDate) {
-              // Fallback: generate id from name and date
-              validatedEvent.id = `${validatedEvent.name}-${new Date(validatedEvent.startDate).toISOString()}`.replace(/[^a-z0-9]/gi, '-').toLowerCase();
             } else {
-              // Last resort: random id
               validatedEvent.id = `event-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
             }
           }
-          
-          // Fix venue format: ensure venue is always an object, not a string
-          if (typeof validatedEvent.venue === 'string') {
-            const venueName = validatedEvent.venue;
-            validatedEvent.venue = {
-              name: venueName,
-              id: venueName.toLowerCase().replace(/[^a-z0-9]/gi, '-'),
-              location: validatedEvent.location || { address: 'Vancouver, BC' }
-            };
-            console.log(`🔧 Fixed venue format for event: ${validatedEvent.title || validatedEvent.id} - converted string venue '${venueName}' to object`);
-          } else if (!validatedEvent.venue) {
-            // Handle missing venue
-            validatedEvent.venue = {
-              name: validatedEvent.location || 'Unknown Venue',
-              id: 'unknown-venue',
-              location: { address: validatedEvent.location || 'Vancouver, BC' }
-            };
-            console.log(`🔧 Added missing venue for event: ${validatedEvent.title || validatedEvent.id}`);
-          }
-          
-          // Mark as featured if in featured list
+
+          // 3. Mark as Featured
           const eventId = validatedEvent._id ? validatedEvent._id.toString() : validatedEvent.id;
           validatedEvent.featured = featuredIds.includes(eventId);
-          
+
           return validatedEvent;
         });
         
