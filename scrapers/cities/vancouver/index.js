@@ -18,6 +18,8 @@ const scienceWorldVancouverEvents = require('./scienceWorldVancouverEvents');
 // New scrapers
 const theatreUnderTheStarsEvents = require('./theatreUnderTheStarsEvents');
 const vancouverSymphonyEvents = require('./vancouverSymphonyEvents');
+const roxyVancouverEvents = require('./roxyVancouverEvents');
+const vancouverCivicTheatresEvents = require('./vancouverCivicTheatresEvents');
 const rogersArenaEvents = require('./rogersArenaEvents');
 // Improved Rogers Arena scraper
 const rogersArenaEventsImproved = require('./rogersArenaEventsImproved');
@@ -147,6 +149,8 @@ class VancouverScrapers {
     // this.register(carnavalDelSol);
     this.register(theatreUnderTheStarsEvents);
     this.register(vancouverSymphonyEvents);
+    this.register(roxyVancouverEvents);
+    this.register(vancouverCivicTheatresEvents);
     // this.register(rogersArenaEvents); // Commented out in favor of improved version
     this.register(rogersArenaEventsImproved); // Registering improved Rogers Arena scraper
     this.register(canadaPlaceEvents); // Registering Canada Place events scraper
