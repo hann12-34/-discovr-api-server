@@ -21,7 +21,7 @@ puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
 class RoxyEvents {
   constructor() {
     this.name = 'The Roxy Events';
-    this.url = 'https://www.roxyvan.com/';
+    this.url = 'https://www.roxyvan.com/events';
     this.baseUrl = 'https://www.roxyvan.com';
     
     // Venue information
@@ -37,7 +37,7 @@ class RoxyEvents {
         lat: 49.2798,
         lng: -123.1232
       },
-      websiteUrl: "https://www.roxyvan.com/",
+      websiteUrl: "https://www.roxyvan.com/events",
       description: "The Roxy is a legendary nightclub and live music venue in Vancouver's entertainment district. Known for its energetic atmosphere, live bands, and rock n' roll history, The Roxy has been a staple of Vancouver's nightlife since 1989. The venue hosts various musical acts, theme nights, and is famous for its late-night party scene with a mix of classic rock, top 40, and more."
     };
   }
