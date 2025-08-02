@@ -222,11 +222,23 @@ router.get('/events/all', async (req, res) => {
       return res.status(404).json({ message: 'No events found' });
     }
 
-    console.log(`✅ SUCCESS: Returning ${events.length} events for ${city}`);
+    // Normalize data types for app compatibility
+    const normalizedEvents = events.map(event => ({
+      ...event,
+      // Ensure price is always a string (app expects String, not number)
+      price: event.price ? String(event.price) : '',
+      // Ensure other potential numeric fields are strings if needed
+      id: event.id ? String(event.id) : '',
+      // Ensure dates are properly formatted
+      startDate: event.startDate ? new Date(event.startDate).toISOString() : null,
+      endDate: event.endDate ? new Date(event.endDate).toISOString() : null
+    }));
+
+    console.log(`✅ SUCCESS: Returning ${normalizedEvents.length} events for ${city}`);
     console.log('📝 COMPLETE DATA: Returning ALL events with NO filtering or limits');
     
     res.status(200).json({ 
-      events: events,
+      events: normalizedEvents,
       performance: {
         source: 'database',
         city: city,
