@@ -12,6 +12,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const Event = require('./models/Event');
+const { filterNavigationItems, isValidEventTitle } = require('./scrapers/utils/navigationFilter');
 const roxyScraper = require('./scrapers/cities/vancouver/roxyVancouverEvents.js');
 // const orpheumScraper = require('./scrapers/orpheumEvents.js'); // Commented out - file doesn't exist
 
@@ -25,11 +27,13 @@ const CLOUD_MONGODB_URI = process.env.MONGODB_URI;
 // Crash if the environment variable is not set
 if (!CLOUD_MONGODB_URI) {
   console.error('FATAL ERROR: MONGODB_URI environment variable is not set.');
+  console.error('Please set MONGODB_URI in your Cloud Run environment variables.');
   process.exit(1);
 }
 
-// Use environment variable for port (Render will provide this)
-const PORT = process.env.PORT || 3030;
+// Use environment variable for port (Cloud Run provides PORT=8080)
+const PORT = process.env.PORT || 8080; // Changed default to 8080 for Cloud Run
+console.log(`🚀 Server configured for PORT=${PORT} (Cloud Run compatible)`);
 
 // Admin UI path
 const ADMIN_UI_PATH = path.join(__dirname, '../discovr-admin-ui/admin');
@@ -237,17 +241,46 @@ async function startServer() {
       }
     });
     
-    // API endpoint to get ALL events (for the Discovr app)
+    // API endpoint to get ALL events (for the Discovr app) - PERFORMANCE OPTIMIZED
     app.get('/api/v1/venues/events/all', async (req, res) => {
-      console.log('📥 Received request for ALL events from cloud MongoDB');
+      console.log('🚀 OPTIMIZED: Received request for events with smart filtering');
       
       try {
+        const { 
+          city = 'Vancouver',
+          limit = 1000,
+          startDate,
+          category
+        } = req.query;
+        
+        console.log(`🔍 Query: city=${city}, limit=${limit}, upcoming events only`);
+        
         // Get featured events first
         const featuredEventIds = await collections.featured.find({}).toArray();
         const featuredIds = featuredEventIds.map(fe => fe.eventId);
         
-        // Get all events
-        let events = await collections.cloud.find({}).toArray();
+        // Build optimized query instead of loading ALL events
+        let query = {};
+        
+        // City filtering (case insensitive)
+        if (city && city !== 'all') {
+          query['venue.city'] = { $regex: city, $options: 'i' };
+        }
+        
+        // Date filtering - only upcoming events by default
+        const now = new Date();
+        query.startDate = { $gte: startDate ? new Date(startDate) : now };
+        
+        // Category filtering
+        if (category && category !== 'all') {
+          query.category = { $regex: category, $options: 'i' };
+        }
+        
+        // OPTIMIZED DATABASE QUERY - only get what we need
+        let events = await collections.cloud.find(query)
+          .sort({ startDate: 1 })
+          .limit(parseInt(limit))
+          .toArray();
         
         if (!events || events.length === 0) {
           console.log('⚠️ No events found in database');
@@ -299,12 +332,29 @@ async function startServer() {
             }
           }
 
-          // 3. Mark as Featured
+          // 3. Enhanced Navigation/Non-Event Filtering
+          if (validatedEvent.title && typeof validatedEvent.title === 'string') {
+            let cleanedTitle = validatedEvent.title.trim();
+
+            // Use enhanced navigation filter to catch non-event items
+            if (!isValidEventTitle(cleanedTitle)) {
+              return null; // Filter out non-event items
+            }
+
+            // Remove city prefixes like "Vancouver - "
+            cleanedTitle = cleanedTitle.replace(/^(Vancouver|Calgary|Toronto|Montreal) - /i, '');
+            // Remove price patterns like "CAD57.97 - CAD64.12"
+            cleanedTitle = cleanedTitle.replace(/CAD\d+\.\d+ - CAD\d+\.\d+/i, '');
+            
+            validatedEvent.title = cleanedTitle.trim();
+          }
+
+          // 4. Mark as Featured
           const eventId = validatedEvent._id ? validatedEvent._id.toString() : validatedEvent.id;
           validatedEvent.featured = featuredIds.includes(eventId);
 
           return validatedEvent;
-        });
+        }).filter(Boolean); // Filter out null events
         
         // Sort events to put featured ones first
         validatedEvents.sort((a, b) => {
@@ -322,9 +372,17 @@ async function startServer() {
           return new Date(a.startDate || a.date || 0) - new Date(b.startDate || b.date || 0);
         });
         
-        console.log(`📤 Returning ${validatedEvents.length} events (${featuredIds.length} featured)`);
-        console.log('📝 Formatting response as object with events key to match app expectations');
-        res.status(200).json({ events: validatedEvents });
+        console.log(`✅ SUCCESS: Returning ${validatedEvents.length} events for ${city} (${featuredIds.length} featured)`);
+        console.log('📝 PERFORMANCE: Database query optimized - fast response without loading ALL events');
+        res.status(200).json({ 
+          events: validatedEvents,
+          performance: {
+            source: 'database',
+            city: city,
+            optimized: true,
+            response_time_target: '<1s'
+          }
+        });
       } catch (error) {
         console.error('❌ Error serving events:', error.message);
         res.status(500).json({ error: 'Failed to fetch events' });
