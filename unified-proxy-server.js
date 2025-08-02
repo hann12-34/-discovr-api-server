@@ -241,46 +241,39 @@ async function startServer() {
       }
     });
     
-    // API endpoint to get ALL events (for the Discovr app) - PERFORMANCE OPTIMIZED
+    // API endpoint to get ALL events (for the Discovr app) - ALWAYS RETURNS ALL EVENTS - NO LIMITS OR FILTERING
     app.get('/api/v1/venues/events/all', async (req, res) => {
-      console.log('🚀 OPTIMIZED: Received request for events with smart filtering');
+      console.log('🚀 Received request for ALL events - NO filtering or limits will be applied');
       
       try {
         const { 
-          city = 'Vancouver',
-          limit = 1000,
-          startDate,
-          category
+          city = 'all',  // Default to 'all' instead of 'Vancouver'
+          category = 'all'  // Default to 'all'
         } = req.query;
         
-        console.log(`🔍 Query: city=${city}, limit=${limit}, upcoming events only`);
+        console.log(`🔍 Query: city=${city}, category=${category}, ALL EVENTS (no filtering, no limits)`);
         
         // Get featured events first
         const featuredEventIds = await collections.featured.find({}).toArray();
         const featuredIds = featuredEventIds.map(fe => fe.eventId);
         
-        // Build optimized query instead of loading ALL events
+        // Build minimal query - NO FILTERING BY DEFAULT
         let query = {};
         
-        // City filtering (case insensitive)
+        // City filtering ONLY if explicitly requested (case insensitive)
         if (city && city !== 'all') {
           query['venue.city'] = { $regex: city, $options: 'i' };
         }
         
-        // Date filtering - only upcoming events by default
-        const now = new Date();
-        query.startDate = { $gte: startDate ? new Date(startDate) : now };
-        
-        // Category filtering
+        // Category filtering ONLY if explicitly requested
         if (category && category !== 'all') {
           query.category = { $regex: category, $options: 'i' };
         }
         
-        // OPTIMIZED DATABASE QUERY - only get what we need
+        // NO LIMIT, NO DATE FILTERING - Get ALL events
         let events = await collections.cloud.find(query)
           .sort({ startDate: 1 })
-          .limit(parseInt(limit))
-          .toArray();
+          .toArray(); // Return ALL events with no limit
         
         if (!events || events.length === 0) {
           console.log('⚠️ No events found in database');
@@ -373,14 +366,15 @@ async function startServer() {
         });
         
         console.log(`✅ SUCCESS: Returning ${validatedEvents.length} events for ${city} (${featuredIds.length} featured)`);
-        console.log('📝 PERFORMANCE: Database query optimized - fast response without loading ALL events');
+        console.log('📝 COMPLETE DATA: Returning ALL events with NO filtering or limits');
         res.status(200).json({ 
           events: validatedEvents,
           performance: {
             source: 'database',
             city: city,
-            optimized: true,
-            response_time_target: '<1s'
+            complete_data: true,
+            no_filtering: true,
+            no_limit: true
           }
         });
       } catch (error) {
