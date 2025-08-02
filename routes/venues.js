@@ -225,8 +225,8 @@ router.get('/events/all', async (req, res) => {
     // Normalize data types for app compatibility
     const normalizedEvents = events.map(event => ({
       ...event,
-      // Ensure price is always a string (app expects String, not number)
-      price: event.price ? String(event.price) : '',
+      // Ensure price is always a string (handle falsy values like 0)
+      price: event.price !== undefined && event.price !== null ? String(event.price) : '',
       // Ensure other potential numeric fields are strings if needed
       id: event.id ? String(event.id) : '',
       // Ensure dates are properly formatted
