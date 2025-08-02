@@ -222,19 +222,27 @@ router.get('/events/all', async (req, res) => {
       return res.status(404).json({ message: 'No events found' });
     }
 
-    // Normalize data types for app compatibility
-    const normalizedEvents = events.map(event => ({
-      ...event,
-      // Ensure price is ALWAYS present and a string (handle missing, null, undefined, or falsy values)
-      price: (event.price !== undefined && event.price !== null && event.price !== '') 
-        ? String(event.price) 
-        : 'See website for details',
-      // Ensure other potential numeric fields are strings if needed
-      id: event.id ? String(event.id) : '',
-      // Ensure dates are properly formatted
-      startDate: event.startDate ? new Date(event.startDate).toISOString() : null,
-      endDate: event.endDate ? new Date(event.endDate).toISOString() : null
-    }));
+    // Normalize data types for app compatibility - ENSURE EVERY EVENT HAS PRICE FIELD
+    const normalizedEvents = events.map(event => {
+      // Create a new normalized event object
+      const normalizedEvent = {
+        ...event,
+        // Ensure other potential numeric fields are strings if needed
+        id: event.id ? String(event.id) : '',
+        // Ensure dates are properly formatted
+        startDate: event.startDate ? new Date(event.startDate).toISOString() : null,
+        endDate: event.endDate ? new Date(event.endDate).toISOString() : null
+      };
+      
+      // EXPLICITLY ensure price field ALWAYS exists as a string - NO EXCEPTIONS
+      if (event.price !== undefined && event.price !== null && event.price !== '') {
+        normalizedEvent.price = String(event.price);
+      } else {
+        normalizedEvent.price = 'See website for details';
+      }
+      
+      return normalizedEvent;
+    });
 
     console.log(`✅ SUCCESS: Returning ${normalizedEvents.length} events for ${city}`);
     console.log('📝 COMPLETE DATA: Returning ALL events with NO filtering or limits');
