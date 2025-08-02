@@ -346,6 +346,19 @@ async function startServer() {
           const eventId = validatedEvent._id ? validatedEvent._id.toString() : validatedEvent.id;
           validatedEvent.featured = featuredIds.includes(eventId);
 
+          // 5. CRITICAL: Ensure price field ALWAYS exists as a string - NO EXCEPTIONS
+          // This prevents 422 decoding errors in the Swift app
+          if (validatedEvent.price !== undefined && validatedEvent.price !== null && validatedEvent.price !== '') {
+            validatedEvent.price = String(validatedEvent.price);
+          } else {
+            validatedEvent.price = 'See website for details';
+          }
+
+          // 6. Ensure other fields are properly typed
+          validatedEvent.id = validatedEvent.id ? String(validatedEvent.id) : '';
+          validatedEvent.startDate = validatedEvent.startDate ? new Date(validatedEvent.startDate).toISOString() : null;
+          validatedEvent.endDate = validatedEvent.endDate ? new Date(validatedEvent.endDate).toISOString() : null;
+
           return validatedEvent;
         }).filter(Boolean); // Filter out null events
         
