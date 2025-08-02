@@ -185,76 +185,59 @@ router.get('/:venueId/events', devAuthBypass, async (req, res) => {
  * @access  Public
  */
 router.get('/events/all', async (req, res) => {
+  console.log('🚀 Received request for ALL events - NO filtering or limits will be applied');
+  
   try {
-    const logger = scrapeLogger.child({ route: 'all-venue-events' });
-    logger.info('Fetching events from all venues');
+    const { 
+      city = 'all',  // Default to 'all'
+      category = 'all'  // Default to 'all'
+    } = req.query;
     
-    const allEvents = [];
-    const results = {};
+    console.log(`🔍 Query: city=${city}, category=${category}, ALL EVENTS (no filtering, no limits)`);
     
-    // Process venues sequentially to avoid overwhelming websites
-    for (const [venueId, scraper] of Object.entries(venueScrapers)) {
-      try {
-        logger.info(`Scraping events for venue: ${venueId}`);
-        const events = await scraper.scrape();
-        
-        if (events && events.length > 0) {
-          allEvents.push(...events);
-          results[venueId] = {
-            success: true,
-            count: events.length
-          };
-        } else {
-          results[venueId] = {
-            success: true,
-            count: 0
-          };
-        }
-      } catch (error) {
-        logger.error({ error }, `Error scraping venue ${venueId}: ${error.message}`);
-        results[venueId] = {
-          success: false,
-          error: error.message
-        };
-      }
+    // Get MongoDB connection from app context
+    const mongoose = require('mongoose');
+    const Event = mongoose.model('Event') || require('../models/Event');
+    
+    // Build minimal query - NO FILTERING BY DEFAULT
+    let query = {};
+    
+    // City filtering ONLY if explicitly requested (case insensitive)
+    if (city && city !== 'all') {
+      query['venue.city'] = { $regex: city, $options: 'i' };
     }
     
-    // Format all events using our standardized format
-    const standardizedEvents = formatEventsForDatabase(allEvents, 'All Venues');
+    // Category filtering ONLY if explicitly requested
+    if (category && category !== 'all') {
+      query.category = { $regex: category, $options: 'i' };
+    }
     
-    // Format events for API response
-    const formattedEvents = standardizedEvents.map(event => ({
-      title: event.title,
-      startDate: event.startDate ? new Date(event.startDate).toISOString() : null,
-      endDate: event.endDate ? new Date(event.endDate).toISOString() : null,
-      venue: {
-        name: event.venue?.name,
-        address: event.venue?.address,
-        city: event.venue?.city,
-        state: event.venue?.state
-      },
-      sourceURL: event.sourceURL,
-      imageURL: event.imageURL,
-      description: event.description,
-      location: event.location,
-      type: event.type,
-      category: event.category
-    }));
+    // NO LIMIT, NO DATE FILTERING - Get ALL events
+    let events = await Event.find(query)
+      .sort({ startDate: 1 })
+      .lean(); // Return ALL events with no limit
     
-    logger.info(`Found ${allEvents.length} total events across all venues`);
+    if (!events || events.length === 0) {
+      console.log('⚠️ No events found in database');
+      return res.status(404).json({ message: 'No events found' });
+    }
+
+    console.log(`✅ SUCCESS: Returning ${events.length} events for ${city}`);
+    console.log('📝 COMPLETE DATA: Returning ALL events with NO filtering or limits');
     
-    res.json({
-      success: true,
-      count: allEvents.length,
-      results,
-      events: formattedEvents
+    res.status(200).json({ 
+      events: events,
+      performance: {
+        source: 'database',
+        city: city,
+        complete_data: true,
+        no_filtering: true,
+        no_limit: true
+      }
     });
   } catch (error) {
-    scrapeLogger.error({ error }, `Error getting all venue events: ${error.message}`);
-    res.status(500).json({
-      success: false,
-      message: 'Error retrieving venue events'
-    });
+    console.error('❌ Error serving events:', error.message);
+    res.status(500).json({ error: 'Failed to fetch events' });
   }
 });
 
