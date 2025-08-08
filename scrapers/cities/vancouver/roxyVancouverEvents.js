@@ -10,7 +10,7 @@ class RoxyVancouverEvents {
       name: "The Roxy",
       id: "roxy-vancouver",
       address: "932 Granville St",
-      city: city,
+      city: "Vancouver",
       state: "BC",
       country: "Canada",
       postalCode: "V6Z 1L2",
@@ -31,7 +31,7 @@ class RoxyVancouverEvents {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         },
         timeout: 30000
-      };
+      });
 
       const $ = cheerio.load(response.data);
 
@@ -115,7 +115,7 @@ class RoxyVancouverEvents {
         } catch (error) {
           console.log(`Error processing element: ${error.message}`);
         }
-      };
+      });
 
     } catch (error) {
       console.error('Error scraping Roxy Vancouver:', error.message);
