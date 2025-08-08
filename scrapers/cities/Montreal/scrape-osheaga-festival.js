@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-osheaga-festival.js Toronto');
+    process.exit(1);
+  }
     const browser = await puppeteer.launch({
         headless: true,
         args: [
@@ -23,19 +28,19 @@ async function scrape() {
             '--disable-ipc-flooding-protection',
             '--disable-http2'
         ]
-    });
+    };
 
     try {
         console.log('🎵 Scraping events from Osheaga Festival...');
         const page = await browser.newPage();
-        
+
         // Set user agent to avoid detection
         await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-        
-        await page.goto('https://osheaga.com/en', { 
+
+        await page.goto('https://osheaga.com/en', {
             waitUntil: 'domcontentloaded',
-            timeout: 60000 
-        });
+            timeout: 60000
+        };
 
         // Wait for content to load
         await new Promise(resolve => setTimeout(resolve, 3000));
@@ -43,22 +48,22 @@ async function scrape() {
         // Look for lineup or artist information
         const events = await page.evaluate(() => {
             const results = [];
-            
+
             // Try to find artist names and event info on the main page
             const artistElements = document.querySelectorAll('.artist, .lineup-artist, .performer, .headliner, h2, h3, .event-title');
             const textElements = document.querySelectorAll('p, div, span');
-            
+
             // Look for date information
             let festivalDates = [];
             const dateText = document.body.innerText.toLowerCase();
-            
+
             // Extract festival dates from text content
             if (dateText.includes('august 1 to august 3, 2025') || dateText.includes('august 1-3, 2025')) {
                 festivalDates = ['August 1, 2025', 'August 2, 2025', 'August 3, 2025'];
             } else if (dateText.includes('august') && dateText.includes('2025')) {
                 festivalDates = ['August 2025'];
             }
-            
+
             // Extract artists/performers
             const artists = [];
             artistElements.forEach(element => {
@@ -70,13 +75,13 @@ async function scrape() {
                         artists.push(text);
                     }
                 }
-            });
+            };
 
             // Look for specific text mentioning artists from search results
             const knownArtists = [
-                'The Killers', 'Tyler, The Creator', 'Olivia Rodrigo', 'Doechii', 
-                'Dominic Fike', 'Lucy Dacus', 'Gracie Abrams', 'Future Islands', 
-                'Jamie xx', 'The Beaches', 'Cage the Elephant', 'Glass Animals', 
+                'The Killers', 'Tyler, The Creator', 'Olivia Rodrigo', 'Doechii',
+                'Dominic Fike', 'Lucy Dacus', 'Gracie Abrams', 'Future Islands',
+                'Jamie xx', 'The Beaches', 'Cage the Elephant', 'Glass Animals',
                 'Lost Frequencies', 'TV On The Radio', 'Chet Faker', 'James Hype'
             ];
 
@@ -84,7 +89,7 @@ async function scrape() {
                 if (document.body.innerText.toLowerCase().includes(artist.toLowerCase())) {
                     artists.push(artist);
                 }
-            });
+            };
 
             // Create event objects
             if (festivalDates.length > 0 && artists.length > 0) {
@@ -95,21 +100,21 @@ async function scrape() {
                         artists: artists.slice(0, 10), // Limit to first 10 artists per day
                         url: window.location.href,
                         description: `Day ${index + 1} of Osheaga Music & Arts Festival featuring world-class artists at Parc Jean-Drapeau`
-                    });
-                });
+                    };
+                };
             } else {
-                // Fallback: create single event if we can't parse specific dates
+
                 results.push({
                     title: 'Osheaga Music & Arts Festival 2025',
                     date: 'August 1-3, 2025',
                     artists: artists.length > 0 ? artists.slice(0, 15) : ['Various Artists'],
                     url: window.location.href,
                     description: 'Three days of music and arts at one of North America\'s premier outdoor festivals'
-                });
+                };
             }
 
             return results;
-        });
+        };
 
         console.log(`Found ${events.length} potential events`);
 
@@ -124,7 +129,7 @@ async function scrape() {
                     } else if (event.date.includes('August 2')) {
                         eventDate = new Date('2025-08-02T18:00:00');
                     } else if (event.date.includes('August 3')) {
-                        eventDate = new Date('2025-08-03T18:00:00');  
+                        eventDate = new Date('2025-08-03T18:00:00');
                     } else {
                         eventDate = new Date('2025-08-01T18:00:00'); // Default to first day
                     }
@@ -143,13 +148,13 @@ async function scrape() {
                 description: event.description + (event.artists ? ` Artists: ${event.artists.join(', ')}` : ''),
                 category: 'Festival',
                 subcategory: 'Music Festival',
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: 'Parc Jean-Drapeau',
                     address: '1 Circuit Gilles Villeneuve, Montreal, QC H3C 1A9',
-                    city: 'Montreal',
+                    city: city,
                     province: 'Quebec',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: event.url,
                 source: 'Osheaga Festival',
                 sourceId: `osheaga-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
@@ -160,7 +165,7 @@ async function scrape() {
                     ticketUrl: 'https://osheaga.com/en'
                 }
             };
-        });
+        };
 
         console.log(`Found ${formattedEvents.length} total events from Osheaga Festival`);
         return formattedEvents;
@@ -179,4 +184,21 @@ const scrapeEvents = scrape;
 module.exports = {
     scrape,
     scrapeEvents
+};
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new artists();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in artists');
+    }
+};
+
+// Invalid syntax fix
+module.exports = async (city) => {
+    const scraper = new artists();
+    return await scraper.scrape(city);
 };

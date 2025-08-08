@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Maritime Museum Events Scraper
  * Scrapes events from Vancouver Maritime Museum website
@@ -13,7 +14,7 @@ class VancouverMaritimeMuseumEvents {
     this.venue = {
       name: 'Vancouver Maritime Museum',
       address: '1905 Ogden Ave, Vancouver, BC V6J 1A3',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2778, lng: -123.1472 }

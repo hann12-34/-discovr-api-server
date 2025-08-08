@@ -1,11 +1,3 @@
-/**
- * Scraper for Royal Botanical Gardens (RBG) events in Toronto
- * 
- * Fetches events from RBG website
- * Follows the strict no fallback date policy
- * Uses consistent event schema with MongoDB insertion
- */
-
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
@@ -17,7 +9,7 @@ const RBG_BASE_URL = 'https://www.rbg.ca';
 const RBG_VENUE = {
   name: "Royal Botanical Gardens",
   address: "680 Plains Road West, Burlington, ON L7T 4H4",
-  city: "Burlington",
+  city: city,
   province: "Ontario",
   postalCode: "L7T 4H4"
 };
@@ -33,7 +25,7 @@ if (!uri) {
  * Generate a unique ID for the event based on venue, title and date
  * @param {string} venue - Venue name
  * @param {string} title - Event title
- * @param {Date} date - Event date 
+ * @param {Date} date - Event date
  * @returns {string} MD5 hash of venue name, title and date
  */
 function generateEventId(venue, title, date) {
@@ -49,7 +41,7 @@ function generateEventId(venue, title, date) {
  */
 function extractCategory(title, description) {
   const combinedText = `${title} ${description}`.toLowerCase();
-  
+
   // Define category keywords
   const categoryKeywords = {
     'Nature & Garden': ['garden', 'plant', 'flower', 'nature', 'botanical', 'bloom', 'horticulture', 'landscape', 'tree', 'forest', 'ecosystem', 'conservation'],
@@ -61,11 +53,11 @@ function extractCategory(title, description) {
     'Festival & Celebration': ['festival', 'celebration', 'holiday', 'seasonal', 'christmas', 'halloween', 'easter', 'thanksgiving'],
     'Tour & Guided': ['tour', 'guided', 'walk', 'explore', 'discovery', 'hiking', 'visit']
   };
-  
+
   // Default category
   let bestCategory = 'Nature & Garden'; // Default for RBG events
   let highestScore = 0;
-  
+
   // Check for matches in each category
   for (const [category, keywords] of Object.entries(categoryKeywords)) {
     let score = 0;
@@ -75,14 +67,14 @@ function extractCategory(title, description) {
       const matches = combinedText.match(regex) || [];
       score += matches.length;
     }
-    
+
     // Check if this category is better than the current best
     if (score > highestScore) {
       highestScore = score;
       bestCategory = category;
     }
   }
-  
+
   return bestCategory;
 }
 
@@ -93,30 +85,30 @@ function extractCategory(title, description) {
  */
 function extractPrice(text) {
   if (!text) return 'See website for details';
-  
+
   const lowerText = text.toLowerCase();
-  
+
   // Check for free admission
   if (lowerText.includes('free') && !lowerText.includes('free with')) {
     return 'Free';
   }
-  
+
   // Look for price patterns
-  const priceRegex = /\$\s*(\d+(?:\.\d{2})?)(?:\s*-\s*\$\s*(\d+(?:\.\d{2})?))?/g;
+  const priceRegex = /\$\s*(\d+(?:\.\d{2}?)(?:\s*-\s*\$\s*(\d+(?:\.\d{2}?))?/g;
   const matches = [...text.matchAll(priceRegex)];
-  
+
   if (matches.length > 0) {
     const firstMatch = matches[0];
     const minPrice = firstMatch[1];
     const maxPrice = firstMatch[2];
-    
+
     if (minPrice && maxPrice) {
       return `$${minPrice} - $${maxPrice}`;
     } else if (minPrice) {
       return `$${minPrice}`;
     }
   }
-  
+
   return 'See website for details';
 }
 
@@ -127,12 +119,12 @@ function extractPrice(text) {
  */
 function normalizeUrl(url) {
   if (!url) return '';
-  
+
   // Check if URL is already absolute
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url;
   }
-  
+
   // Handle relative URLs
   if (url.startsWith('/')) {
     return `${RBG_BASE_URL}${url}`;
@@ -161,7 +153,7 @@ function getMonthIndex(month) {
     'november': 10, 'nov': 10,
     'december': 11, 'dec': 11
   };
-  
+
   return months[month.toLowerCase()] ?? -1;
 }
 
@@ -182,23 +174,23 @@ function applyTimeToDate(date, timeText, type) {
     }
     return date;
   }
-  
+
   // Extract time using regex
-  const timeRegex = /(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)/i;
+  const timeRegex = /(\d{1,2}(?::(\d{2}?\s*(am|pm|a\.m\.|p\.m\.)/i;
   const match = timeText.match(timeRegex);
-  
+
   if (match) {
     let hours = parseInt(match[1], 10);
     const minutes = match[2] ? parseInt(match[2], 10) : 0;
     const period = match[3].toLowerCase();
-    
+
     // Convert to 24-hour format
     if ((period === 'pm' || period === 'p.m.') && hours < 12) {
       hours += 12;
     } else if ((period === 'am' || period === 'a.m.') && hours === 12) {
       hours = 0;
     }
-    
+
     date.setHours(hours, minutes, 0, 0);
   } else {
     // If no match, use default times
@@ -208,7 +200,7 @@ function applyTimeToDate(date, timeText, type) {
       date.setHours(17, 0, 0, 0);
     }
   }
-  
+
   return date;
 }
 
@@ -220,97 +212,97 @@ function applyTimeToDate(date, timeText, type) {
  */
 function parseEventDates(dateText, timeText = '') {
   if (!dateText) return null;
-  
+
   // Clean up the date text
   dateText = dateText.trim();
-  
+
   const currentYear = new Date().getFullYear();
-  
+
   // Extract time information if it's part of dateText
-  const timeParts = timeText.match(/\b(\d{1,2}(?::\d{2})?)\s*(?:am|pm|a\.m\.|p\.m\.)\s*(?:to|-|–)\s*(\d{1,2}(?::\d{2})?)\s*(?:am|pm|a\.m\.|p\.m\.)/i) || [];
+  const timeParts = timeText.match(/\b(\d{1,2}(?::\d{2}?)\s*(?:am|pm|a\.m\.|p\.m\.)\s*(?:to|-|–)\s*(\d{1,2}(?::\d{2}?)\s*(?:am|pm|a\.m\.|p\.m\.)/i) || [];
   const startTime = timeParts[1] || '';
   const endTime = timeParts[2] || '';
-  
+
   // Case 1: Date range with month names (e.g., "January 1 - February 2, 2023")
-  let match = dateText.match(/([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?\s*(?:-|to|–)\s*([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?(?:\s*,\s*(\d{4}))?/i);
+  let match = dateText.match(/([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?\s*(?:-|to|–)\s*([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?(?:\s*,\s*(\d{4}?/i);
   if (match) {
     const startMonth = getMonthIndex(match[1]);
     const startDay = parseInt(match[2], 10);
     const endMonth = getMonthIndex(match[3]);
     const endDay = parseInt(match[4], 10);
     const year = match[5] ? parseInt(match[5], 10) : currentYear;
-    
+
     if (startMonth !== -1 && endMonth !== -1 && !isNaN(startDay) && !isNaN(endDay)) {
       let startYear = year;
       let endYear = year;
-      
+
       // Handle year boundary (December to January)
       if (startMonth > endMonth) {
         endYear = startYear + 1;
       }
-      
+
       // Create date objects
       const startDate = new Date(startYear, startMonth, startDay);
       const endDate = new Date(endYear, endMonth, endDay);
-      
+
       // Set times
       applyTimeToDate(startDate, startTime, 'start');
       applyTimeToDate(endDate, endTime || startTime, 'end');
-      
+
       // Make end date end of day if same as start date
       if (startDate.getTime() === endDate.getTime()) {
         endDate.setHours(23, 59, 59, 999);
       }
-      
+
       return { startDate, endDate };
     }
   }
-  
+
   // Case 2: Single date with year (e.g., "January 1, 2023")
-  match = dateText.match(/([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?(?:\s*,\s*(\d{4}))?/i);
+  match = dateText.match(/([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?(?:\s*,\s*(\d{4}?/i);
   if (match) {
     const month = getMonthIndex(match[1]);
     const day = parseInt(match[2], 10);
     const year = match[3] ? parseInt(match[3], 10) : currentYear;
-    
+
     if (month !== -1 && !isNaN(day)) {
       // Create date objects
       const startDate = new Date(year, month, day);
       const endDate = new Date(year, month, day);
-      
+
       // Set times
       applyTimeToDate(startDate, startTime, 'start');
-      
+
       if (endTime) {
         applyTimeToDate(endDate, endTime, 'end');
       } else {
         // Default to end of day
         endDate.setHours(23, 59, 59, 999);
       }
-      
+
       return { startDate, endDate };
     }
   }
-  
+
   // Case 3: Month and year only (e.g., "January 2023")
-  match = dateText.match(/([A-Za-z]+)\s+(\d{4})/i);
+  match = dateText.match(/([A-Za-z]+)\s+(\d{4}/i);
   if (match) {
     const month = getMonthIndex(match[1]);
     const year = parseInt(match[2], 10);
-    
+
     if (month !== -1 && !isNaN(year)) {
       // Create date objects - assume full month
       const startDate = new Date(year, month, 1);
       const endDate = new Date(year, month + 1, 0); // Last day of month
-      
+
       // Set times
       applyTimeToDate(startDate, startTime, 'start');
       applyTimeToDate(endDate, endTime, 'end');
-      
+
       return { startDate, endDate };
     }
   }
-  
+
   return null;
 }
 
@@ -327,38 +319,43 @@ function parseEventDates(dateText, timeText = '') {
  * @returns {Promise<boolean>} - Promise that resolves to true if event was added
  */
 async function processEventCandidate(title, dateText, timeText, description, eventUrl, imageUrl, eventsCollection, processedEventIds) {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-rbg-events.js Toronto');
+    process.exit(1);
+  }
   try {
     // Skip if missing title or date text
     if (!title || !dateText) {
       console.log(`⚠️ Skipping event - missing title or date text`);
       return false;
     }
-    
+
     // Parse dates
     const dates = parseEventDates(dateText, timeText);
     if (!dates) {
       console.log(`⚠️ Skipping event "${title}" - could not parse date: ${dateText}`);
       return false;
     }
-    
+
     // Generate event ID
     const eventId = generateEventId(RBG_VENUE.name, title, dates.startDate);
-    
+
     // Skip if already processed
     if (processedEventIds.has(eventId)) {
       console.log(`⚠️ Skipping duplicate event: ${title}`);
       return false;
     }
-    
+
     // Mark as processed
     processedEventIds.add(eventId);
-    
+
     // Extract price from description
     const price = extractPrice(description);
-    
+
     // Extract category
     const category = extractCategory(title, description);
-    
+
     // Create event object
     const event = {
       _id: eventId,
@@ -366,14 +363,14 @@ async function processEventCandidate(title, dateText, timeText, description, eve
       description: description,
       startDate: dates.startDate,
       endDate: dates.endDate,
-      venue: RBG_VENUE,
+      venue: { ...RegExp.venue: { ...RegExp.venue: RBG_VENUE,, city }, city },,
       url: normalizeUrl(eventUrl),
       imageUrl: normalizeUrl(imageUrl),
       price: price,
       category: category,
       scrapedAt: new Date()
     };
-    
+
     // Insert into MongoDB
     try {
       await eventsCollection.updateOne(
@@ -381,7 +378,7 @@ async function processEventCandidate(title, dateText, timeText, description, eve
         { $set: event },
         { upsert: true }
       );
-      
+
       console.log(`✅ Added/updated event: ${title}`);
       return true;
     } catch (err) {
@@ -405,21 +402,21 @@ async function processStructuredEvent(eventData, eventsCollection, processedEven
   try {
     // Extract basic event details
     const title = eventData.name || '';
-    
+
     if (!title) {
       console.log(`⚠️ Skipping structured event - missing title`);
       return false;
     }
-    
+
     // Extract dates
     let startDate = null;
     let endDate = null;
-    
+
     // Try to parse startDate
     if (eventData.startDate) {
       startDate = new Date(eventData.startDate);
     }
-    
+
     // Try to parse endDate
     if (eventData.endDate) {
       endDate = new Date(eventData.endDate);
@@ -428,30 +425,30 @@ async function processStructuredEvent(eventData, eventsCollection, processedEven
       endDate = new Date(startDate);
       endDate.setHours(23, 59, 59, 999);
     }
-    
+
     // Skip if we couldn't parse dates
     if (!startDate || !endDate) {
       console.log(`⚠️ Skipping structured event "${title}" - missing valid dates`);
       return false;
     }
-    
+
     // Generate event ID
     const eventId = generateEventId(RBG_VENUE.name, title, startDate);
-    
+
     // Skip if already processed
     if (processedEventIds.has(eventId)) {
       console.log(`⚠️ Skipping duplicate structured event: ${title}`);
       return false;
     }
-    
+
     // Mark as processed
     processedEventIds.add(eventId);
-    
+
     // Extract other details
     const description = eventData.description || '';
     const imageUrl = eventData.image || '';
     const eventUrl = eventData.url || '';
-    
+
     // Extract price
     let price = 'See website for details';
     if (eventData.offers) {
@@ -463,18 +460,18 @@ async function processStructuredEvent(eventData, eventsCollection, processedEven
           return `$${offer.price}`;
         }
         return null;
-      }).filter(Boolean);
-      
+      }.filter(Boolean);
+
       if (priceInfo.length > 0) {
         price = priceInfo.join(' - ');
       } else if (offers.some(offer => offer.availability === 'http://schema.org/Free')) {
         price = 'Free';
       }
     }
-    
+
     // Extract category
     const category = extractCategory(title, description);
-    
+
     // Create event object
     const event = {
       _id: eventId,
@@ -482,14 +479,14 @@ async function processStructuredEvent(eventData, eventsCollection, processedEven
       description: description,
       startDate: startDate,
       endDate: endDate,
-      venue: RBG_VENUE,
+      venue: { ...RegExp.venue: { ...RegExp.venue: RBG_VENUE,, city }, city },,
       url: normalizeUrl(eventUrl),
       imageUrl: normalizeUrl(imageUrl),
       price: price,
       category: category,
       scrapedAt: new Date()
     };
-    
+
     // Insert into MongoDB
     try {
       await eventsCollection.updateOne(
@@ -497,7 +494,7 @@ async function processStructuredEvent(eventData, eventsCollection, processedEven
         { $set: event },
         { upsert: true }
       );
-      
+
       console.log(`✅ Added/updated structured event: ${title}`);
       return true;
     } catch (err) {
@@ -519,35 +516,35 @@ async function processStructuredEvent(eventData, eventsCollection, processedEven
 async function fetchEventsFromURL(eventsCollection, processedEventIds) {
   try {
     console.log(`🔍 Fetching events from ${RBG_EVENTS_URL}...`);
-    const response = await axios.get(RBG_EVENTS_URL, { timeout: 30000 });
+    const response = await axios.get(RBG_EVENTS_URL, { timeout: 30000 };
     const html = response.data;
     const $ = cheerio.load(html);
-    
+
     let addedEvents = 0;
-    
+
     // Method 1: Look for event links
     console.log('📋 Searching for event links...');
     const eventLinks = $('a[href*="event"], a[href*="program"]').toArray();
     console.log(`Found ${eventLinks.length} potential event links`);
-    
+
     for (let i = 0; i < eventLinks.length; i++) {
       try {
         const linkElement = $(eventLinks[i]);
         const href = linkElement.attr('href') || '';
         const linkText = linkElement.text().trim();
-        
+
         if (!linkText || linkText.length < 3) continue;
-        
+
         // Look for date patterns in surrounding text
         const parent = linkElement.parent();
         const parentText = parent.text();
         const nextSibling = linkElement.next();
         const nextText = nextSibling.text();
-        
+
         // Try to extract date from various sources
-        const dateRegex1 = /([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?(?:\s*-\s*[A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?)?(?:,\s*\d{4})?)/g;
-        const dateRegex2 = /\b(\d{1,2}\s+[A-Za-z]+(?:\s+to\s+\d{1,2}\s+[A-Za-z]+)?(?:,\s*\d{4})?)/g;
-        
+        const dateRegex1 = /([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?(?:\s*-\s*[A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?)?(?:,\s*\d{4}?)/g;
+        const dateRegex2 = /\b(\d{1,2}\s+[A-Za-z]+(?:\s+to\s+\d{1,2}\s+[A-Za-z]+)?(?:,\s*\d{4}?)/g;
+
         let dateText = '';
         let match = parentText.match(dateRegex1) || parentText.match(dateRegex2);
         if (match) {
@@ -558,7 +555,7 @@ async function fetchEventsFromURL(eventsCollection, processedEventIds) {
             dateText = match[0];
           }
         }
-        
+
         if (dateText) {
           const description = parentText || nextText || '';
           const success = await processEventCandidate(
@@ -571,29 +568,29 @@ async function fetchEventsFromURL(eventsCollection, processedEventIds) {
             eventsCollection,
             processedEventIds
           );
-          
+
           if (success) addedEvents++;
         }
       } catch (error) {
         console.error(`Error processing event link: ${error.message}`);
       }
     }
-    
+
     // Method 2: Look for structured data (JSON-LD)
     console.log('📋 Searching for structured data...');
     const structuredDataElements = $('script[type="application/ld+json"]').toArray();
     console.log(`Found ${structuredDataElements.length} structured data elements`);
-    
+
     for (let i = 0; i < structuredDataElements.length; i++) {
       try {
         const jsonText = $(structuredDataElements[i]).html();
         if (!jsonText) continue;
-        
+
         const data = JSON.parse(jsonText);
-        
+
         // Handle arrays of structured data
         const events = Array.isArray(data) ? data : [data];
-        
+
         for (const item of events) {
           if (item['@type'] === 'Event') {
             const success = await processStructuredEvent(item, eventsCollection, processedEventIds);
@@ -604,10 +601,10 @@ async function fetchEventsFromURL(eventsCollection, processedEventIds) {
         console.error(`Error processing structured data: ${error.message}`);
       }
     }
-    
+
     console.log(`📊 Successfully added ${addedEvents} new RBG events`);
     return addedEvents;
-    
+
   } catch (error) {
     console.error(`❌ Error fetching events: ${error.message}`);
     return 0;
@@ -620,25 +617,25 @@ async function fetchEventsFromURL(eventsCollection, processedEventIds) {
  */
 async function scrapeRBGEvents() {
   const client = new MongoClient(uri);
-  
+
   try {
     console.log('🔗 Connecting to MongoDB...');
     await client.connect();
-    
+
     const db = client.db('discovr');
-    const eventsCollection = db.collection('events');
-    
+    const eventsCollection = dbs');
+
     // _id is unique by default, no need to create index
-    
+
     console.log('🚀 Starting RBG event scraping...');
-    
+
     const processedEventIds = new Set();
     const addedEvents = await fetchEventsFromURL(eventsCollection, processedEventIds);
-    
+
     console.log(`\n📈 Scraping completed!`);
     console.log(`📊 Total events processed: ${processedEventIds.size}`);
     console.log(`✅ New events added: ${addedEvents}`);
-    
+
   } catch (error) {
     console.error(`❌ Error in scrapeRBGEvents: ${error.message}`);
   } finally {
@@ -649,3 +646,7 @@ async function scrapeRBGEvents() {
 
 // Run the scraper
 scrapeRBGEvents().catch(console.error);
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeRBGEvents;

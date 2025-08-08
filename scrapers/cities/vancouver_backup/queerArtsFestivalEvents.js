@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Queer Arts Festival Vancouver Scraper
  * 
@@ -19,7 +20,7 @@ class QueerArtsFestivalScraper {
       name: 'Queer Arts Festival',
       id: 'queer-arts-festival',
       address: 'Various locations in Vancouver',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       coordinates: {

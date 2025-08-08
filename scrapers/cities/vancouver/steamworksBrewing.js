@@ -1,6 +1,6 @@
 /**
  * Steamworks Brewing Scraper
- * 
+ *
  * This scraper provides information about events at Steamworks Brewing in Vancouver
  * Source: https://steamworks.com/brew-pub/
  */
@@ -12,13 +12,13 @@ class SteamworksBrewingScraper {
     this.name = 'Steamworks Brewing';
     this.url = 'https://steamworks.com/brew-pub/';
     this.sourceIdentifier = 'steamworks-brewing';
-    
+
     // Venue information
     this.venue = {
       name: "Steamworks Brewing Co. Brew Pub",
       id: "steamworks-brewing-vancouver",
       address: "375 Water St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6B 5C6",
@@ -29,9 +29,9 @@ class SteamworksBrewingScraper {
       websiteUrl: "https://steamworks.com/brew-pub/",
       description: "Steamworks Brewing Co. is a landmark brewpub in Vancouver's historic Gastown district, known for its distinctive steam-powered brewing process and spectacular waterfront views. Housed in a 100-year-old brick and beam building, the spacious multi-level venue offers house-brewed craft beers, a diverse food menu, and a lively atmosphere for locals and tourists alike."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Summer Brewmaster's Dinner",
         description: "Join Steamworks' Head Brewmaster and Executive Chef for an exclusive five-course dinner with expert beer pairings. Each dish is crafted to complement specific Steamworks brews, highlighting the complex flavors of both the food and beer. Throughout the evening, the Brewmaster will discuss the brewing process, ingredients, and unique characteristics of each beer, while the Chef explains the culinary concepts behind the pairings.",
@@ -109,74 +109,74 @@ class SteamworksBrewingScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Steamworks Brewing scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `steamworks-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-        
+
         if (eventData.recurrence) {
           detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
         }
-        
+
         detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, please book in advance\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nLocation: Steamworks Brewing Co. is located at 375 Water Street in Vancouver's historic Gastown district, near Waterfront Station.\n\n`;
         detailedDescription += `For more information and tickets, please visit ${this.url} or call (604) 689-2739.`;
-        
+
         // Create categories
         const categories = ['brewery', 'craft beer', 'food and drink', 'gastown'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Live Music') {
           categories.push('music', 'jazz', 'entertainment');
         } else if (eventData.category === 'Beer Release') {
@@ -190,7 +190,7 @@ class SteamworksBrewingScraper {
         } else if (eventData.category === 'Educational') {
           categories.push('history', 'beer history', 'learning');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -202,19 +202,19 @@ class SteamworksBrewingScraper {
           category: 'food and drink',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🍺 Successfully created ${events.length} Steamworks Brewing events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Steamworks Brewing scraper: ${error.message}`);
       return events;
@@ -223,3 +223,13 @@ class SteamworksBrewingScraper {
 }
 
 module.exports = new SteamworksBrewingScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SteamworksBrewingScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SteamworksBrewingScraper = SteamworksBrewingScraper;

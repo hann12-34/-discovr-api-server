@@ -13,7 +13,7 @@ class QueenElizabethTheatreEvents {
     this.venue = {
       name: 'Queen Elizabeth Theatre',
       address: '630 Hamilton St, Vancouver, BC V6B 5N6',
-      city: 'Vancouver',
+      city: city,
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2798, lng: -123.1119 }
@@ -24,28 +24,28 @@ class QueenElizabethTheatreEvents {
    * Scrape events from Queen Elizabeth Theatre
    * @returns {Promise<Array>} Array of event objects
    */
-  async scrape() {
+  async scrape(city) {
     console.log(`Starting ${this.name} scraper...`);
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+    };
     const page = await browser.newPage();
-    
+
     // Set user agent to avoid detection
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-    
+
     // Set default timeout
     await page.setDefaultNavigationTimeout(30000);
-    
+
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' });
+      await page.goto(this.url, { waitUntil: 'networkidle2' };
 
       console.log('Extracting Queen Elizabeth Theatre events...');
       const events = await this.extractEvents(page);
       console.log(`Found ${events.length} Queen Elizabeth Theatre events`);
-      
+
       return events;
     } catch (error) {
       console.error(`Error in ${this.name} scraper:`, error);
@@ -63,24 +63,24 @@ class QueenElizabethTheatreEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('.event-item, .event-card, .event-listing', { timeout: 10000 })
+    await page.waitForSelector('-item, -card, -listing', { timeout: 10000 }
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      });
+      };
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
       // Try multiple potential selectors for event containers
       const eventSelectors = [
-        '.event-item', 
-        '.event-card', 
-        '.event-listing',
-        '.event-container',
-        '.event',
+        '-item',
+        '-card',
+        '-listing',
+        '-container',
+        '',
         '.performance-item',
-        'article.event'
+        'article'
       ];
-      
+
       // Find which selector works on this page
       let eventElements = [];
       for (const selector of eventSelectors) {
@@ -90,18 +90,18 @@ class QueenElizabethTheatreEvents {
           break;
         }
       }
-      
+
       if (eventElements.length === 0) {
         console.log('No event elements found with any selector');
         return [];
       }
-      
+
       return eventElements.map(event => {
         try {
           // Extract title
-          const titleSelectors = ['h2', 'h3', '.title', '.event-title', '.name'];
+          const titleSelectors = ['h2', 'h3', '.title', '-title', '.name'];
           let title = 'Queen Elizabeth Theatre Event';
-          
+
           for (const selector of titleSelectors) {
             const titleElement = event.querySelector(selector);
             if (titleElement && titleElement.textContent.trim()) {
@@ -109,11 +109,11 @@ class QueenElizabethTheatreEvents {
               break;
             }
           }
-          
+
           // Extract date
-          const dateSelectors = ['.date', '.event-date', 'time', '.datetime', '.calendar-date'];
+          const dateSelectors = ['.date', '-date', 'time', '.datetime', '.calendar-date'];
           let dateText = '';
-          
+
           for (const selector of dateSelectors) {
             const dateElement = event.querySelector(selector);
             if (dateElement) {
@@ -127,11 +127,11 @@ class QueenElizabethTheatreEvents {
               }
             }
           }
-          
+
           // Extract description
-          const descSelectors = ['.description', '.event-description', '.summary', '.excerpt', '.content'];
+          const descSelectors = ['.description', '-description', '.summary', '.excerpt', '.content'];
           let description = '';
-          
+
           for (const selector of descSelectors) {
             const descElement = event.querySelector(selector);
             if (descElement && descElement.textContent.trim()) {
@@ -139,21 +139,21 @@ class QueenElizabethTheatreEvents {
               break;
             }
           }
-          
+
           // Extract image
           let image = '';
           const imgElement = event.querySelector('img');
           if (imgElement && imgElement.src) {
             image = imgElement.src;
           }
-          
+
           // Extract link
           let link = '';
           const linkElement = event.querySelector('a');
           if (linkElement && linkElement.href) {
             link = linkElement.href;
           }
-          
+
           return {
             title,
             dateText,
@@ -166,22 +166,22 @@ class QueenElizabethTheatreEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }).filter(Boolean); // Remove any null entries
+      }.filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
     return Promise.all(events.map(async event => {
       const { startDate, endDate } = this.parseDates(event.dateText);
-      
+
       // Generate a unique ID based on title and date
-      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, { 
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      });
-      
+      };
+
       // Determine categories based on title
       const categories = this.determineCategories(event.title);
-      
+
       return {
         id: uniqueId,
         title: event.title,
@@ -194,9 +194,9 @@ class QueenElizabethTheatreEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    }));
+    };
   }
-  
+
   /**
    * Determine event categories based on title
    * @param {string} title - Event title
@@ -204,39 +204,39 @@ class QueenElizabethTheatreEvents {
    */
   determineCategories(title) {
     const lowerTitle = title.toLowerCase();
-    
+
     // Default category is Performing Arts
     const categories = ['Performing Arts', 'Arts & Culture'];
-    
-    if (lowerTitle.includes('opera') || 
-        lowerTitle.includes('symphony') || 
+
+    if (lowerTitle.includes('opera') ||
+        lowerTitle.includes('symphony') ||
         lowerTitle.includes('orchestra')) {
       categories.push('Classical Music');
     }
-    
-    if (lowerTitle.includes('ballet') || 
-        lowerTitle.includes('dance') || 
+
+    if (lowerTitle.includes('ballet') ||
+        lowerTitle.includes('dance') ||
         lowerTitle.includes('dancing')) {
       categories.push('Dance');
     }
-    
-    if (lowerTitle.includes('comedy') || 
+
+    if (lowerTitle.includes('comedy') ||
         lowerTitle.includes('comedian')) {
       categories.push('Comedy');
     }
-    
-    if (lowerTitle.includes('musical') || 
+
+    if (lowerTitle.includes('musical') ||
         lowerTitle.includes('theatre') ||
         lowerTitle.includes('theater')) {
       categories.push('Theatre');
     }
-    
-    if (lowerTitle.includes('concert') || 
-        lowerTitle.includes('music') || 
+
+    if (lowerTitle.includes('concert') ||
+        lowerTitle.includes('music') ||
         lowerTitle.includes('live')) {
       categories.push('Music');
     }
-    
+
     return categories;
   }
 
@@ -260,54 +260,53 @@ class QueenElizabethTheatreEvents {
           return { startDate: date, endDate: date };
         }
       }
-      
+
       // Look for date patterns with month names
-      const datePattern = /(\w+\.?\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?)/i;
+      const datePattern = /(\w+\.?\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?)/i;
       const match = dateText.match(datePattern);
-      
+
       if (match) {
         const currentYear = new Date().getFullYear();
-        let dateStr = match[1];
-        
+        let da = match[1];
+
         // Add year if not present
-        if (!dateStr.match(/\d{4}/)) {
-          dateStr = `${dateStr}, ${currentYear}`;
+        if (!da.match(/\d{4}/)) {
+          da = `${da}, ${currentYear}`;
         }
-        
-        const date = new Date(dateStr);
-        
+
+        const date = new Date(da);
+
         // Most theatre events start at 7:30 or 8:00 PM
         date.setHours(19, 30);
-        
+
         // Events typically last 2-3 hours
         const endDate = new Date(date.getTime() + (3 * 60 * 60 * 1000));
-        
+
         // Look for time information
-        const timePattern = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
         const timeMatch = dateText.match(timePattern);
-        
+
         if (timeMatch) {
           let hours = parseInt(timeMatch[1]);
           const minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
           const isPM = timeMatch[3].toLowerCase() === 'pm';
-          
+
           if (isPM && hours < 12) hours += 12;
           if (!isPM && hours === 12) hours = 0;
-          
+
           date.setHours(hours, minutes);
           endDate.setTime(date.getTime() + (3 * 60 * 60 * 1000));
         }
-        
+
         return { startDate: date, endDate };
       }
-      
-      // Try direct parsing as a fallback
+
       const date = new Date(dateText);
       if (!isNaN(date.getTime())) {
         const endDate = new Date(date.getTime() + (3 * 60 * 60 * 1000));
         return { startDate: date, endDate };
       }
-      
+
       // If all else fails, use current date
       const today = new Date();
       const endDate = new Date(today.getTime() + (3 * 60 * 60 * 1000));
@@ -322,3 +321,12 @@ class QueenElizabethTheatreEvents {
 }
 
 module.exports = new QueenElizabethTheatreEvents();
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new QueenElizabethTheatreEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.QueenElizabethTheatreEvents = QueenElizabethTheatreEvents;

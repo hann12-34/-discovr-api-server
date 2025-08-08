@@ -1,0 +1,277 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * Scraper for Lincoln Center in New York
+ * 
+ * This scraper extracts event data from Lincoln Center's official website
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+
+class LincolnCenter {
+    constructor() {
+        this.venueName = 'Lincoln Center';
+        this.venueId = 'lincoln-center';
+        this.baseUrl = 'https://www.lincolncenter.org';
+        this.eventsUrl = 'https://www.lincolncenter.org/calendar'; // Use calendar page with real event data
+        this.city = 'New York';
+        this.state = 'NY';
+        this.country = 'USA';
+        this.venue = {
+            name: 'Lincoln Center',
+            address: '10 Lincoln Center Plaza, New York, NY 10023',
+            coordinates: {
+                lat: 40.7723,
+                lng: -73.9836
+            }
+        };
+    }
+
+    /**
+     * Fetch and parse events from Lincoln Center
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async fetchEvents() {
+        try {
+            console.log(`🔍 Fetching events from ${this.venueName}...`);
+            
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                }
+            });
+            
+            if (response.status !== 200) {
+                throw new Error(`Failed to fetch events from ${this.venueName}. Status code: ${response.status}`);
+            }
+            
+            const $ = cheerio.load(response.data);
+            const events = [];
+            
+            // Parse Lincoln Center events using calendar page approach (from testing breakthrough)
+            // Target h2 and h3 elements that contain event-like content
+            $('h2, h3').each((index, element) => {
+                try {
+                    const $el = $(element);
+                    
+                    // Extract event title
+                    let title = $el.text().trim();
+                    
+                    console.log(`🔍 Processing Lincoln Center ${$el[0].tagName.toLowerCase()}[${index}]: "${title}"`);
+                    
+                    if (!title || title.length < 3) {
+                        console.log(`   ❌ Skipped: title too short or empty`);
+                        return;
+                    }
+                    
+                    // Skip obvious non-events based on calendar page analysis
+                    const skipTerms = [
+                        'be the first to know', 'explore our resident', 'fall 2025 season',
+                        'opening up the west side', 'newsletter', 'privacy', 'menu',
+                        'navigation', 'footer', 'header', 'search', 'filter'
+                    ];
+                    
+                    if (skipTerms.some(term => title.toLowerCase().includes(term))) {
+                        console.log(`   ❌ Skipped: appears to be navigation/system element`);
+                        return;
+                    }
+                    
+                    // Look for event-like keywords to identify real events
+                    const eventKeywords = ['concert', 'show', 'tour', 'live', 'performance', 'event', 'music', 'artist', 'philharmonic', 'chamber music', 'jazz', 'film', 'free events'];
+                    const isEventLike = eventKeywords.some(keyword => title.toLowerCase().includes(keyword));
+                    
+                    if (!isEventLike && !title.match(/^[A-Z][a-z]+\s+[A-Z][a-z]+/)) { // Also allow proper names
+                        console.log(`   ❌ Skipped: doesn't appear to be event-related`);
+                        return;
+                    }
+                    
+                    // Find associated date information - look for h4 elements with date patterns
+                    let dateText = '';
+                    
+                    // Look for h4 elements near this event that contain date patterns
+                    const datePattern = /\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s+\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}\s+at\s+\d{1,2}:/i;
+                    
+                    // Try 1: Look for h4 siblings or nearby elements
+                    $el.parent().find('h4').each((i, h4El) => {
+                        const h4Text = $(h4El).text().trim();
+                        if (h4Text && datePattern.test(h4Text)) {
+                            dateText = h4Text;
+                            return false; // Break the loop
+                        }
+                    });
+                    
+                    // Try 2: Look for any h4 in the document with date patterns (fallback)
+                    if (!dateText) {
+                        $('h4').each((i, h4El) => {
+                            const h4Text = $(h4El).text().trim();
+                            if (h4Text && datePattern.test(h4Text) && i < 10) { // Limit to first 10
+                                dateText = h4Text;
+                                return false; // Break the loop
+                            }
+                        });
+                    }
+                    
+                    // Try 3: Look for any following h4 in the document
+                    if (!dateText) {
+                        $dateEl = $el.nextAll('h4').first();
+                        if ($dateEl.length > 0) {
+                            dateText = $dateEl.text().trim();
+                        }
+                    }
+                    
+                    console.log(`   📅 Date text: "${dateText}"`);
+                    
+                    // TEMPORARY: Allow events without dates to be extracted
+                    if (!dateText) {
+                        console.log(`   ⚠️ No date found, but continuing with event extraction`);
+                        dateText = 'Date TBD'; // Placeholder date
+                    }
+                    
+                    // Extract time information (placeholder for now)
+                    const timeText = dateText; // Use dateText as fallback for timeText
+                    
+                    // Extract event link
+                    const eventLink = $el.find('a').attr('href');
+                    const fullEventUrl = eventLink ? 
+                        (eventLink.startsWith('http') ? eventLink : `${this.baseUrl}${eventLink}`) : null;
+                    
+                    // Extract description
+                    const description = $el.find('.event-description, .description, .summary, .details, .performance-description').text().trim();
+                    
+                    // Extract price information
+                    const priceText = $el.find('.price, .ticket-price, .cost, .tickets').text().trim();
+                    
+                    // Extract venue information (specific hall within Lincoln Center)
+                    const venueText = $el.find('.venue, .hall, .location, .theater').text().trim();
+                    
+                    // Extract artist/performer information
+                    const artistText = $el.find('.artist, .performer, .company, .orchestra').text().trim();
+                    
+                    // Parse date and time
+                    let startDate = null;
+                    if (dateText) {
+                        try {
+                            startDate = new Date(dateText);
+                            if (isNaN(startDate.getTime())) {
+                                startDate = null;
+                            }
+                        } catch (e) {
+                            console.warn(`Could not parse date: ${dateText}`);
+                        }
+                    }
+                    
+                    // Build full description
+                    let fullDescription = description || `Event at ${this.venueName}`;
+                    if (artistText) {
+                        fullDescription += ` featuring ${artistText}`;
+                    }
+                    if (venueText) {
+                        fullDescription += ` at ${venueText}`;
+                    }
+                    
+                    const event = {
+                        id: uuidv4(),
+                        title: title,
+                        description: fullDescription,
+                        startDate: startDate,
+                        endDate: null,
+                        venue: this.venueName,
+                        city: this.city,
+                        state: this.state,
+                        country: this.country,
+                        url: fullEventUrl,
+                        price: priceText || null,
+                        category: this.determineCategory(title, description),
+                        source: 'Lincoln Center Official',
+                        venueId: this.venueId,
+                        specificVenue: venueText || null,
+                        artist: artistText || null,
+                        date: dateText || 'Check Lincoln Center website for dates',
+                        time: timeText,
+                        location: this.venue.address,
+                        coordinates: this.venue.coordinates,
+                        rawDateText: dateText,
+                        rawTimeText: timeText,
+                        scrapedAt: new Date().toISOString()
+                    };
+                    
+                    events.push(event);
+                    
+                } catch (error) {
+                    console.error(`Error parsing event at index ${index}:`, error.message);
+                }
+            });
+            
+            console.log(`✅ ${this.venueName}: Found ${events.length} events`);
+            return events;
+            
+        } catch (error) {
+            console.error(`❌ Error fetching events from ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Determine event category based on title and description
+     * @param {string} title - Event title
+     * @param {string} description - Event description
+     * @returns {string} - Event category
+     */
+    determineCategory(title, description = '') {
+        const combined = `${title} ${description}`.toLowerCase();
+        
+        if (combined.includes('opera') || combined.includes('metropolitan opera')) {
+            return 'Opera';
+        } else if (combined.includes('ballet') || combined.includes('dance') || combined.includes('american ballet')) {
+            return 'Ballet/Dance';
+        } else if (combined.includes('symphony') || combined.includes('philharmonic') || combined.includes('orchestra') || combined.includes('classical')) {
+            return 'Classical Music';
+        } else if (combined.includes('jazz') || combined.includes('jazz at lincoln center')) {
+            return 'Jazz';
+        } else if (combined.includes('chamber music') || combined.includes('recital') || combined.includes('quartet')) {
+            return 'Chamber Music';
+        } else if (combined.includes('theater') || combined.includes('play') || combined.includes('drama')) {
+            return 'Theater';
+        } else if (combined.includes('film') || combined.includes('movie') || combined.includes('cinema')) {
+            return 'Film';
+        } else if (combined.includes('lecture') || combined.includes('talk') || combined.includes('discussion')) {
+            return 'Lecture/Talk';
+        } else if (combined.includes('family') || combined.includes('children') || combined.includes('kids')) {
+            return 'Family';
+        } else if (combined.includes('education') || combined.includes('workshop') || combined.includes('masterclass')) {
+            return 'Education';
+        }
+        
+        return 'Cultural Event';
+    }
+
+    /**
+     * Main scrape method that handles the scraping process
+     * @returns {Promise<Array>} Array of formatted events
+     */
+    async scrape() {
+        try {
+            const events = await this.fetchEvents();
+            
+            // Filter out events with invalid titles (temporarily allow events without proper dates)
+            const validEvents = events.filter(event => {
+                return event.title && 
+                       event.title.length >= 3 && 
+                       !event.title.toLowerCase().includes('subscription') &&
+                       !event.title.toLowerCase().includes('membership') &&
+                       !event.title.toLowerCase().includes('support');
+                       // Temporarily removed date validation to extract real events
+            });
+            
+            console.log(`🗽 ${this.venueName}: Returning ${validEvents.length} valid events`);
+            return validEvents;
+            
+        } catch (error) {
+            console.error(`❌ ${this.venueName} scraper failed:`, error.message);
+            return [];
+        }
+    }
+}
+
+module.exports = LincolnCenter;

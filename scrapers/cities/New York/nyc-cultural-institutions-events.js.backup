@@ -1,0 +1,346 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Cultural Institutions Events Scraper
+ * 
+ * Scrapes events from NYC's major cultural institutions and museums
+ * URL: https://www.nyculture.org
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCCulturalInstitutionsEvents {
+    constructor() {
+        this.venueName = 'NYC Cultural Institutions';
+        this.venueLocation = 'Various NYC Cultural Sites';
+        this.baseUrl = 'https://www.nyculture.org';
+        this.eventsUrl = 'https://www.nyculture.org';
+        this.category = 'Cultural Institutions & Museums';
+    }
+
+    /**
+     * Scrape events from NYC Cultural Institutions
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🏛️ Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for cultural institution-specific event containers
+            const eventSelectors = [
+                '.cultural-event', '.museum-event', '.exhibition',
+                '.event-item', '.event-card', '.event', '.institution-event',
+                '[class*="cultural"]', '[class*="museum"]', '[class*="event"]',
+                '.card', '.content-card', '.gallery-event', '.program'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .exhibition-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event dates/exhibition period
+                        let eventDates = '';
+                        const dateSelectors = [
+                            '.date', '.dates', '[class*="date"]', 
+                            'time', '.datetime', '.when', '.period', '.exhibition-period'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                eventDates = dateElement.text().trim();
+                                if (eventDates && eventDates.length < 150) break;
+                            }
+                        }
+
+                        // Look for institution/venue
+                        let institution = this.venueName;
+                        const institutionSelectors = ['.institution', '.museum', '.venue', '[class*="institution"]', '.location'];
+                        for (const instSelector of institutionSelectors) {
+                            const instElement = $el.find(instSelector).first();
+                            if (instElement.length > 0) {
+                                const instText = instElement.text().trim();
+                                if (instText && instText.length > 0) {
+                                    institution = instText.length > 60 ? instText.substring(0, 60) + '...' : instText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for neighborhood/borough
+                        let neighborhood = '';
+                        const neighborhoodSelectors = ['.neighborhood', '.borough', '.area', '[class*="neighborhood"]'];
+                        for (const neighSelector of neighborhoodSelectors) {
+                            const neighElement = $el.find(neighSelector).first();
+                            if (neighElement.length > 0) {
+                                neighborhood = neighElement.text().trim();
+                                if (neighborhood) break;
+                            }
+                        }
+
+                        // Look for artist/curator
+                        let artist = '';
+                        const artistSelectors = ['.artist', '.curator', '.featured-artist', '[class*="artist"]'];
+                        for (const artistSelector of artistSelectors) {
+                            const artistElement = $el.find(artistSelector).first();
+                            if (artistElement.length > 0) {
+                                artist = artistElement.text().trim();
+                                if (artist) break;
+                            }
+                        }
+
+                        // Look for event type/category
+                        let eventType = this.category;
+                        const typeSelectors = ['.type', '.category', '.program-type', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.length > 0) {
+                                    eventType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for admission/cost
+                        let admission = '';
+                        const admissionSelectors = ['.admission', '.cost', '.price', '[class*="admission"]'];
+                        for (const admissionSelector of admissionSelectors) {
+                            const admissionElement = $el.find(admissionSelector).first();
+                            if (admissionElement.length > 0) {
+                                const admissionText = admissionElement.text().trim();
+                                if (admissionText && (admissionText.includes('$') || admissionText.toLowerCase().includes('free'))) {
+                                    admission = admissionText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for age group/target audience
+                        let audience = '';
+                        const audienceSelectors = ['.audience', '.age-group', '.for', '[class*="audience"]'];
+                        for (const audienceSelector of audienceSelectors) {
+                            const audienceElement = $el.find(audienceSelector).first();
+                            if (audienceElement.length > 0) {
+                                audience = audienceElement.text().trim();
+                                if (audience) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: institution,
+                            location: this.venueLocation,
+                            date: eventDates || 'Check website for exhibition dates',
+                            category: eventType,
+                            neighborhood: neighborhood,
+                            artist: artist,
+                            admission: admission,
+                            audience: audience,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCCulturalInstitutionsEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for exhibition and program listings
+            $('table tr, .listing, .program-item, .exhibition-item').each((index, element) => {
+                if (index > 150) return false; // Limit processing
+                
+                const $row = $(element);
+                const text = $row.text().trim();
+                
+                if (text.length > 20 && text.length < 300) {
+                    const hasCulturalKeywords = text.match(/\b(exhibition|museum|gallery|art|culture|program|workshop|lecture|tour)\b/i);
+                    const hasInstitutionPattern = text.match(/\b(museum|gallery|center|institute|foundation|library|hall)\b/i);
+                    
+                    if (hasCulturalKeywords && hasInstitutionPattern) {
+                        // Extract event name and institution from table cells or structured data
+                        const cells = [];
+                        $row.find('td, .cell, .column').each((i, cell) => {
+                            const cellText = $(cell).text().trim();
+                            if (cellText && cellText.length > 0) {
+                                cells.push(cellText);
+                            }
+                        });
+                        
+                        const title = cells.length > 0 ? cells[0] : text.split('\n')[0]?.trim();
+                        
+                        if (title && this.isValidEvent(title)) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: cells.length > 1 ? cells[1] : this.venueName,
+                                location: this.venueLocation,
+                                date: cells.length > 2 ? cells[2] : 'Check website for program dates',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCCulturalInstitutionsEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Look for general cultural event information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasCulturalKeywords = text.match(/\b(exhibition|museum|gallery|cultural|art|program|workshop|lecture|performance)\b/i);
+                    const hasEventPattern = text.match(/\b(opens|opening|featuring|presents|showcasing|now through)\b/i);
+                    
+                    if (hasCulturalKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for program dates',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCCulturalInstitutionsEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid cultural institution keywords
+        const validKeywords = [
+            'exhibition', 'museum', 'gallery', 'art', 'cultural', 'program',
+            'workshop', 'lecture', 'performance', 'collection', 'artist'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCCulturalInstitutionsEvents;

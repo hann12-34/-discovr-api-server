@@ -1,6 +1,6 @@
 /**
  * Bard on the Beach Shakespeare Festival Scraper
- * 
+ *
  * This scraper provides information about the Bard on the Beach Shakespeare Festival events
  * Source: https://bardonthebeach.org/
  */
@@ -14,27 +14,27 @@ class BardOnTheBeachScraper {
     this.name = 'Bard on the Beach Shakespeare Festival';
     this.url = 'https://bardonthebeach.org/';
     this.sourceIdentifier = 'bard-on-the-beach';
-    
+
     this.venue = {
       name: 'Vanier Park',
       id: 'vanier-park-vancouver',
       address: '1695 Whyte Ave',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6J 3V9',
       coordinates: {
-        lat: 49.2763175, 
+        lat: 49.2763175,
         lng: -123.1452153
       },
       websiteUrl: 'https://bardonthebeach.org/',
       description: "Bard on the Beach Shakespeare Festival takes place in magnificent white tents in Vancouver's Vanier Park, on the waterfront with spectacular mountain and city views. The Festival runs from June through September each summer, and features productions of Shakespeare plays as well as related dramas and special events. The site includes two performance venues - the 742-seat BMO Mainstage and the intimate 262-seat Douglas Campbell Theatre tent - as well as a Village with concession, gift shop, and various amenities."
     };
-    
+
     // Festival season dates - typically runs June through September
     this.seasonStartDate = new Date('2025-06-12');
     this.seasonEndDate = new Date('2025-09-20');
-    
+
     // 2025 season plays (this would be updated each year)
     this.plays = [
       {
@@ -71,32 +71,32 @@ class BardOnTheBeachScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Bard on the Beach scraper...');
     const events = [];
-    
+
     try {
       // Generate performances for each play throughout the season
       // Each play typically has 3-4 performances per week
-      
+
       const currentDate = new Date(this.seasonStartDate);
-      
+
       // Performance schedule by day of week
       // 0 = Sunday, 1 = Monday, etc.
       const schedule = {
         // BMO Mainstage productions
         "A Midsummer Night's Dream": [2, 4, 6], // Tue, Thu, Sat
         "Macbeth": [3, 5, 0], // Wed, Fri, Sun
-        
+
         // Douglas Campbell Theatre productions
         "The Merry Wives of Windsor": [2, 5, 0], // Tue, Fri, Sun
         "Cymbeline": [3, 4, 6] // Wed, Thu, Sat
       };
-      
+
       // Show times by venue
       const showTimes = {
         "BMO Mainstage": {
@@ -108,64 +108,64 @@ class BardOnTheBeachScraper {
           weekend: 14 // 2:00pm for matinees
         }
       };
-      
+
       // Generate events for each day of the season
       while (currentDate <= this.seasonEndDate) {
         const dayOfWeek = currentDate.getDay();
-        
+
         // Process each play
         for (const play of this.plays) {
           // Check if this play performs on this day of week
           if (schedule[play.title].includes(dayOfWeek)) {
             // Create event date
             const eventDate = new Date(currentDate);
-            
+
             // Set appropriate time based on weekday/weekend
             const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
             const venue = play.venue;
             let hourDecimal = isWeekend ? showTimes[venue].weekend : showTimes[venue].weekday;
-            
+
             // Split decimal hours into hours and minutes
             const hours = Math.floor(hourDecimal);
             const minutes = Math.round((hourDecimal - hours) * 60);
-            
+
             eventDate.setHours(hours, minutes, 0);
-            
+
             // Create event end time
             const endDate = new Date(eventDate);
             endDate.setMinutes(endDate.getMinutes() + play.duration);
-            
+
             // Format date for ID
-            const dateString = currentDate.toISOString().split('T')[0];
+            const da = currentDate.toISOString().split('T')[0];
             const timeString = `${hours}-${minutes}`;
-            
+
             // Create unique ID with date and title
             const slugifiedTitle = play.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-            const eventId = `bard-on-beach-${slugifiedTitle}-${dateString}-${timeString}`;
-            
+            const eventId = `bard-on-beach-${slugifiedTitle}-${da}-${timeString}`;
+
             // Format time for display
             const timeFormat = new Intl.DateTimeFormat('en-US', {
-              hour: 'numeric', 
-              minute: 'numeric', 
+              hour: 'numeric',
+              minute: 'numeric',
               hour12: true
-            });
+            };
             const formattedTime = timeFormat.format(eventDate);
-            
+
             // Format date for display
             const dateFormat = new Intl.DateTimeFormat('en-US', {
               weekday: 'long',
               month: 'long',
               day: 'numeric',
               year: 'numeric'
-            });
+            };
             const formattedDate = dateFormat.format(eventDate);
-            
+
             // Create venue object with main venue and specific theatre
             const eventVenue = {
               ...this.venue,
               name: `${play.venue} at ${this.venue.name}`
             };
-            
+
             // Create event object
             const event = {
               id: eventId,
@@ -182,19 +182,19 @@ class BardOnTheBeachScraper {
               ticketsRequired: true,
               lastUpdated: new Date()
             };
-            
+
             events.push(event);
             console.log(`✅ Added event: ${play.title} on ${formattedDate}`);
           }
         }
-        
+
         // Move to next day
         currentDate.setDate(currentDate.getDate() + 1);
       }
-      
+
       console.log(`🎉 Successfully created ${events.length} Bard on the Beach events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Bard on the Beach scraper: ${error.message}`);
       return events;
@@ -203,3 +203,13 @@ class BardOnTheBeachScraper {
 }
 
 module.exports = new BardOnTheBeachScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new BardOnTheBeachScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.BardOnTheBeachScraper = BardOnTheBeachScraper;

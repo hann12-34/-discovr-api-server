@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * HelloBC Events Real Scraper
  * 
@@ -88,7 +89,7 @@ class HelloBCEventsScraper {
     const venue = {
       name: locationText,
       id: `hellobc-${slugify(locationText, { lower: true })}`,
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada'
     };

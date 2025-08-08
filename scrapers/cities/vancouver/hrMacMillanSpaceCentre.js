@@ -1,6 +1,6 @@
 /**
  * H.R. MacMillan Space Centre Scraper
- * 
+ *
  * This scraper provides information about events at the H.R. MacMillan Space Centre in Vancouver
  * Source: https://www.spacecentre.ca/
  */
@@ -12,13 +12,13 @@ class HRMacMillanSpaceCentreScraper {
     this.name = 'H.R. MacMillan Space Centre';
     this.url = 'https://www.spacecentre.ca/';
     this.sourceIdentifier = 'hr-macmillan-space-centre';
-    
+
     // Venue information
     this.venue = {
       name: "H.R. MacMillan Space Centre",
       id: "hr-macmillan-space-centre",
       address: "1100 Chestnut St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6J 3J9",
@@ -29,9 +29,9 @@ class HRMacMillanSpaceCentreScraper {
       websiteUrl: "https://www.spacecentre.ca/",
       description: "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonders of space to Earth, while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Cosmic Nights: Exoplanets & Alien Worlds",
         description: "Join us for a special 19+ evening at the Space Centre focused on exoplanets and the search for alien life. This adults-only event transforms the Space Centre into an after-hours science lounge featuring expert talks, planetarium shows, telescope viewing (weather permitting), and interactive demonstrations. Dr. Sara Rodriguez, exoplanet researcher from UBC's Department of Physics and Astronomy, will deliver the keynote presentation on recent discoveries from the James Webb Space Telescope and what they tell us about potentially habitable worlds beyond our solar system. The evening includes a special planetarium show 'Worlds Beyond' that takes audiences on a tour of the most fascinating exoplanets discovered to date, from scorching hot gas giants to potentially Earth-like rocky worlds. Throughout the night, enjoy themed cocktails from our licensed bar, explore the exhibits without crowds, and participate in hands-on activities including spectroscopy demonstrations showing how scientists detect elements in exoplanet atmospheres. The observatory will be open for guided stargazing through our telescopes, weather permitting.",
@@ -82,7 +82,7 @@ class HRMacMillanSpaceCentreScraper {
       },
       {
         title: "Astronomy Lecture Series: The Future of Mars Exploration",
-        description: "Join us for an engaging evening lecture featuring Dr. Christine Martinez, planetary geologist and member of NASA's Mars 2025 rover planning team. In this illustrated presentation, Dr. Martinez will discuss the latest discoveries from Mars missions and preview the exciting future of Martian exploration. The talk will cover recent findings from the Perseverance and Curiosity rovers, the successful Mars sample return mission, and plans for human exploration of the Red Planet in the 2030s. Dr. Martinez will share her firsthand experience working on Mars mission planning, including the challenges of identifying landing sites, designing experiments to search for signs of ancient life, and developing technologies that will eventually support human presence on Mars. Following the lecture, audience members will have the opportunity to ask questions and, weather permitting, observe Mars through telescopes set up by local astronomy club members in the plaza outside the Space Centre. This lecture is suitable for adults and interested teens and is part of our ongoing commitment to connecting the public with leading scientists and cutting-edge space research.",
+        description: "Join us for an engaging evening lecture featuring Dr. Christine Martinez, planetary geologist and member of NASA's Mars 2025 rover planning team. In this illustrated presentation, Dr. Martinez will discuss the latest discoveries from Mars missions and preview the exciting future of Martian exploration. The talk will cover recent findings from the Perseverance and Curiosity rovers, the successful Mars ually support human presence on Mars. Following the lecture, audience members will have the opportunity to ask questions and, weather permitting, observe Mars through telescopes set up by local astronomy club members in the plaza outside the Space Centre. This lecture is suitable for adults and interested teens and is part of our ongoing commitment to connecting the public with leading scientists and cutting-edge space research.",
         date: new Date("2025-07-25T19:00:00"),
         endTime: new Date("2025-07-25T21:00:00"),
         imageUrl: "https://www.spacecentre.ca/wp-content/uploads/2025/07/mars-lecture-series.jpg",
@@ -93,39 +93,39 @@ class HRMacMillanSpaceCentreScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting H.R. MacMillan Space Centre scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `space-centre-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         // Format date based on whether it's a single day or multi-day event
         let formattedDateRange = '';
-        if (eventData.date.toDateString() === eventData.endTime.toDateString()) {
+        if (eventData.date.toDaData.endTime.toDa()) {
           // Single day event
           formattedDateRange = `${dateFormat.format(eventData.date)}`;
         } else {
@@ -134,17 +134,17 @@ class HRMacMillanSpaceCentreScraper {
           const endDate = dateFormat.format(eventData.endTime);
           formattedDateRange = `${startDate} - ${endDate}`;
         }
-        
+
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         if (eventData.isRecurring) {
           detailedDescription += `Dates: ${formattedDateRange}\n`;
           detailedDescription += `Schedule: ${eventData.recurringSchedule}\n`;
-        } else if (eventData.date.toDateString() === eventData.endTime.toDateString()) {
+        } else if (eventData.date.toDaData.endTime.toDa()) {
           // Single day event
           detailedDescription += `Date: ${formattedDateRange}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
@@ -153,29 +153,29 @@ class HRMacMillanSpaceCentreScraper {
           detailedDescription += `Dates: ${formattedDateRange}\n`;
           detailedDescription += `Hours: ${formattedStartTime} - ${formattedEndTime} daily\n`;
         }
-        
+
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available online through the Space Centre website or at the door\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: The H.R. MacMillan Space Centre is located in Vanier Park, adjacent to the Museum of Vancouver. The facility includes the Planetarium Star Theatre with its digital projection system, the Cosmic Courtyard hands-on activity area, and the Gordon MacMillan Southam Observatory (open on clear nights). The Space Centre is wheelchair accessible and offers a gift shop with space-themed merchandise and educational items.`;
-        
+
         // Create categories
         const categories = ['science', 'education', 'astronomy', 'space'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.title.includes('Cosmic Nights')) {
           categories.push('adult', 'nightlife', 'after hours', 'science');
         } else if (eventData.title.includes('Space Camp')) {
@@ -187,7 +187,7 @@ class HRMacMillanSpaceCentreScraper {
         } else if (eventData.title.includes('Lecture')) {
           categories.push('talk', 'mars', 'science', 'educational');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -199,19 +199,19 @@ class HRMacMillanSpaceCentreScraper {
           category: 'science',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDateRange}`);
       }
-      
+
       console.log(`🔭 Successfully created ${events.length} H.R. MacMillan Space Centre events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in H.R. MacMillan Space Centre scraper: ${error.message}`);
       return events;
@@ -220,3 +220,13 @@ class HRMacMillanSpaceCentreScraper {
 }
 
 module.exports = new HRMacMillanSpaceCentreScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new HRMacMillanSpaceCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.HRMacMillanSpaceCentreScraper = HRMacMillanSpaceCentreScraper;

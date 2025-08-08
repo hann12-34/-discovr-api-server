@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-pocha-mtl.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🇰🇷 Scraping events from POCHA MTL Korean Festival...');
 
@@ -15,13 +20,13 @@ async function scrape() {
             description: 'Montreal\'s annual Korean festival celebrating cuisine, culture and K-Pop with Korean BBQ, pancakes, kogos, and K-Pop dance competitions.',
             category: 'Festival',
             subcategory: 'Cultural Festival',
-            venue: {
+            venue: { ...RegExp.venue: {
                 name: 'Korean Cultural Festival Grounds',
                 address: 'Montreal, QC',
-                city: 'Montreal',
+                city: city,
                 province: 'Quebec',
                 country: 'Canada'
-            },
+            }, city },,
             sourceUrl: 'https://www.asiasie.com/pochamtl',
             source: 'POCHA MTL',
             sourceId: 'pocha-mtl-2025-main',
@@ -32,7 +37,7 @@ async function scrape() {
                 isFree: true,
                 ticketUrl: 'https://www.asiasie.com/pochamtl'
             }
-        });
+        };
 
         // Specific events during POCHA MTL
         const pochaEvents = [
@@ -89,19 +94,19 @@ async function scrape() {
                 startDate: event.date,
                 endDate: endDate,
                 description: event.description,
-                category: event.type === 'food' || event.type === 'market' ? 'Food & Market' : 
-                          (event.type === 'music' ? 'Music' : 
+                category: event.type === 'food' || event.type === 'market' ? 'Food & Market' :
+                          (event.type === 'music' ? 'Music' :
                           (event.type === 'competition' ? 'Competition' : 'Cultural')),
                 subcategory: event.type === 'food' ? 'Food Festival' :
                             (event.type === 'music' ? 'K-Pop' :
                             (event.type === 'competition' ? 'Dance Competition' : 'Cultural Event')),
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: 'Korean Cultural Festival Grounds',
                     address: 'Montreal, QC',
-                    city: 'Montreal',
+                    city: city,
                     province: 'Quebec',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: 'https://www.asiasie.com/pochamtl',
                 source: 'POCHA MTL',
                 sourceId: `pocha-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
@@ -112,8 +117,8 @@ async function scrape() {
                     isFree: true,
                     ticketUrl: 'https://www.asiasie.com/pochamtl'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from POCHA MTL`);
         return events;
@@ -131,3 +136,7 @@ module.exports = {
     scrape,
     scrapeEvents
 };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

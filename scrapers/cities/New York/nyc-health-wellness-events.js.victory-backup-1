@@ -1,0 +1,337 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Health & Wellness Events Scraper
+ * 
+ * Scrapes health and wellness events from NYC medical and wellness centers
+ * URL: https://www.eventbrite.com/d/ny--new-york/health/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCHealthWellnessEvents {
+    constructor() {
+        this.venueName = 'NYC Health & Wellness Events';
+        this.venueLocation = 'Various NYC Health Centers & Clinics';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/health/';
+        this.category = 'Health & Wellness';
+    }
+
+    /**
+     * Scrape events from NYC Health & Wellness Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🏥 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for health/wellness-specific event containers
+            const eventSelectors = [
+                '.health-event', '.wellness-event', '.medical-event',
+                '.event-item', '.event-card', '.event', '.clinic-event',
+                '[class*="health"]', '[class*="wellness"]', '[class*="event"]',
+                '.card', '.content-card', '.seminar-event', '.screening-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .health-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for medical facility/venue
+                        let facility = this.venueLocation;
+                        const facilitySelectors = ['.facility', '.clinic', '.center', '[class*="facility"]', '.hospital'];
+                        for (const facilitySelector of facilitySelectors) {
+                            const facilityElement = $el.find(facilitySelector).first();
+                            if (facilityElement.length > 0) {
+                                const facilityText = facilityElement.text().trim();
+                                if (facilityText && facilityText.length > 0) {
+                                    facility = facilityText.length > 70 ? facilityText.substring(0, 70) + '...' : facilityText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for health specialty/focus
+                        let specialty = '';
+                        const specialtySelectors = ['.specialty', '.focus', '.area', '[class*="specialty"]'];
+                        for (const specSelector of specialtySelectors) {
+                            const specElement = $el.find(specSelector).first();
+                            if (specElement.length > 0) {
+                                specialty = specElement.text().trim();
+                                if (specialty) break;
+                            }
+                        }
+
+                        // Look for medical professional/presenter
+                        let presenter = '';
+                        const presenterSelectors = ['.doctor', '.presenter', '.speaker', '.physician', '[class*="doctor"]'];
+                        for (const presenterSelector of presenterSelectors) {
+                            const presenterElement = $el.find(presenterSelector).first();
+                            if (presenterElement.length > 0) {
+                                presenter = presenterElement.text().trim();
+                                if (presenter) break;
+                            }
+                        }
+
+                        // Look for cost/insurance
+                        let cost = '';
+                        const costSelectors = ['.cost', '.price', '.insurance', '[class*="cost"]'];
+                        for (const costSelector of costSelectors) {
+                            const costElement = $el.find(costSelector).first();
+                            if (costElement.length > 0) {
+                                const costText = costElement.text().trim();
+                                if (costText && (costText.includes('$') || costText.toLowerCase().includes('free') || costText.toLowerCase().includes('insurance'))) {
+                                    cost = costText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for age group/target audience
+                        let ageGroup = '';
+                        const ageSelectors = ['.age-group', '.target-age', '.audience', '[class*="age"]'];
+                        for (const ageSelector of ageSelectors) {
+                            const ageElement = $el.find(ageSelector).first();
+                            if (ageElement.length > 0) {
+                                ageGroup = ageElement.text().trim();
+                                if (ageGroup) break;
+                            }
+                        }
+
+                        // Look for appointment requirement
+                        let appointment = '';
+                        const appointmentSelectors = ['.appointment', '.registration', '.booking', '[class*="appointment"]'];
+                        for (const apptSelector of appointmentSelectors) {
+                            const apptElement = $el.find(apptSelector).first();
+                            if (apptElement.length > 0) {
+                                appointment = apptElement.text().trim();
+                                if (appointment) break;
+                            }
+                        }
+
+                        // Look for health topics/conditions
+                        let topics = '';
+                        const topicSelectors = ['.topics', '.conditions', '.health-focus', '[class*="topic"]'];
+                        for (const topicSelector of topicSelectors) {
+                            const topicElement = $el.find(topicSelector).first();
+                            if (topicElement.length > 0) {
+                                topics = topicElement.text().trim();
+                                if (topics) break;
+                            }
+                        }
+
+                        // Look for language/accessibility
+                        let language = '';
+                        const languageSelectors = ['.language', '.accessibility', '.translation', '[class*="language"]'];
+                        for (const langSelector of languageSelectors) {
+                            const langElement = $el.find(langSelector).first();
+                            if (langElement.length > 0) {
+                                language = langElement.text().trim();
+                                if (language) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: facility,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for health event schedule',
+                            category: this.category,
+                            specialty: specialty,
+                            presenter: presenter,
+                            cost: cost,
+                            ageGroup: ageGroup,
+                            appointment: appointment,
+                            topics: topics,
+                            language: language,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCHealthWellnessEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general health/wellness information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasHealthKeywords = text.match(/\b(health|wellness|medical|clinic|doctor|screening|seminar|workshop|consultation)\b/i);
+                    const hasEventPattern = text.match(/\b(event|seminar|screening|workshop|consultation|check-up|class|program)\b/i);
+                    
+                    if (hasHealthKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for health event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCHealthWellnessEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and facility
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid health/wellness keywords
+        const validKeywords = [
+            'health', 'wellness', 'medical', 'clinic', 'doctor', 'screening',
+            'seminar', 'workshop', 'consultation', 'check-up', 'class', 'program',
+            'event', 'vaccination', 'prevention', 'treatment', 'therapy'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new NYCHealthWellnessEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.NYCHealthWellnessEvents = NYCHealthWellnessEvents;

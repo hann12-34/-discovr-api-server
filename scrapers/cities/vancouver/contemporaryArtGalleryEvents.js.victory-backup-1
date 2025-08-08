@@ -1,0 +1,182 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+
+  async scrape() {
+    if (!this.enabled) {
+      console.log(`${this.name} scraper is disabled`);
+      return [];
+    }
+
+    console.log(`🔍 Scraping events from ${this.name}...`);
+    const events = [];
+    let browser;
+
+    try {
+      browser = await puppeteer.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
+
+      const page = await browser.newPage();
+
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
+
+      // Navigate to the events page
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 30000 });
+
+      // Extract exhibitions data
+      console.log('Extracting exhibition data...');
+      const exhibitionData = await page.evaluate(() => {
+        const exhibitions = [];
+
+        // Look for exhibition items
+        const exhibitionItems = Array.from(document.querySelectorAll('.exhibition-item, .exhibition, article, .exhibition-card, .grid-item'));
+
+        exhibitionItems.forEach(item => {
+          const title = item.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
+          if (!title) return;
+
+          const description = item.querySelector('p, .description, .excerpt')?.textContent.trim() || '';
+          const dateText = item.querySelector('.date, .dates, .exhibition-dates, time')?.textContent.trim() || '';
+          const imageElement = item.querySelector('img');
+          const imageUrl = imageElement ? imageElement.src : '';
+          const linkElement = item.querySelector('a[href]');
+          const link = linkElement ? new URL(linkElement.href, window.location.href).href : '';
+
+          if (title) {
+            exhibitions.push({
+              title,
+              description,
+              dateText,
+              imageUrl,
+              link
+            });
+          }
+        });
+
+        return exhibitions;
+      });
+
+      console.log(`Found ${exhibitionData.length} potential exhibitions`);
+
+      // Process each exhibition
+      for (const exhibition of exhibitionData) {
+        const { title, description, dateText, imageUrl, link } = exhibition;
+
+        // Skip items without titles
+        if (!title) continue;
+
+        // Parse date information
+        const dateInfo = this.parseDateRange(dateText);
+
+        // Skip events with no dates
+        if (!dateInfo.startDate || !dateInfo.endDate) {
+          console.log(`Skipping exhibition "${title}" due to invalid date: "${dateText}"`);
+          continue;
+        }
+
+        // Generate event ID
+        const eventId = this.generateEventId(title, dateInfo.startDate);
+
+        // Create event object
+        const event = this.createEventObject(
+          eventId,
+          title,
+          description,
+          dateInfo.startDate,
+          dateInfo.endDate,
+          imageUrl,
+          link
+        );
+
+        events.push(event);
+      }
+
+      // If no events found on the main page, check for any events page
+      if (events.length === 0) {
+        const eventPaths = ['/whats-on/', '/events/', '/calendar/', '/programs/', '/current/'];
+
+        for (const path of eventPaths) {
+          try {
+            const eventUrl = new URL(path, 'https://cagvancouver.org/').href;
+            console.log(`Checking events at: ${eventUrl}`);
+
+            await page.goto(eventUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+
+            const pageEvents = await page.evaluate(() => {
+              const events = [];
+              const eventItems = Array.from(document.querySelectorAll('-item, article, .card, .program-item'));
+
+              eventItems.forEach(item => {
+                const title = item.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
+                if (!title) return;
+
+                const description = item.querySelector('p, .description')?.textContent.trim() || '';
+                const dateText = item.querySelector('.date, time, -date')?.textContent.trim() || '';
+                const imageElement = item.querySelector('img');
+                const imageUrl = imageElement ? imageElement.src : '';
+                const linkElement = item.querySelector('a[href]');
+                const link = linkElement ? new URL(linkElement.href, window.location.href).href : '';
+
+                events.push({
+                  title,
+                  description,
+                  dateText,
+                  imageUrl,
+                  link
+                });
+              });
+
+              return events;
+            });
+
+            // Process events from this page
+            for (const eventData of pageEvents) {
+              const dateInfo = this.parseDateRange(eventData.dateText);
+
+              if (!dateInfo.startDate || !dateInfo.endDate) {
+                console.log(`Skipping event "${eventData.title}" due to invalid date: "${eventData.dateText}"`);
+                continue;
+              }
+
+              const eventId = this.generateEventId(eventData.title, dateInfo.startDate);
+
+              const event = this.createEventObject(
+                eventId,
+                eventData.title,
+                eventData.description,
+                dateInfo.startDate,
+                dateInfo.endDate,
+                eventData.imageUrl,
+                eventData.link
+              );
+
+              events.push(event);
+            }
+
+            // If we found events on this page, no need to check others
+            if (events.length > 0) break;
+
+          } catch (error) {
+            console.log(`Error accessing ${path}: ${error.message}`);
+            continue;
+          }
+        }
+      }
+
+      console.log(`Found ${events.length} events from ${this.name}`);
+
+    } catch (error) {
+      console.error(`Error scraping ${this.name}: ${error.message}`);
+    } finally {
+      if (browser) {
+        await browser.close();
+      }
+    }
+
+    return events;
+  }
+};
+
+module.exports = ContemporaryArtGalleryEvents;

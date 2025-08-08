@@ -13,7 +13,7 @@ class SteamworksBrewingEvents {
     this.venue = {
       name: 'Steamworks Brewing Company',
       address: '375 Water St, Vancouver, BC V6B 5C6',
-      city: 'Vancouver',
+      city: city,
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2849, lng: -123.1106 }
@@ -24,28 +24,28 @@ class SteamworksBrewingEvents {
    * Scrape events from Steamworks Brewing
    * @returns {Promise<Array>} Array of event objects
    */
-  async scrape() {
+  async scrape(city) {
     console.log(`Starting ${this.name} scraper...`);
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+    };
     const page = await browser.newPage();
-    
+
     // Set user agent to avoid detection
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-    
+
     // Set default timeout
     await page.setDefaultNavigationTimeout(30000);
-    
+
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' });
+      await page.goto(this.url, { waitUntil: 'networkidle2' };
 
       console.log('Extracting Steamworks Brewing events...');
       const events = await this.extractEvents(page);
       console.log(`Found ${events.length} Steamworks Brewing events`);
-      
+
       return events;
     } catch (error) {
       console.error(`Error in ${this.name} scraper:`, error);
@@ -63,23 +63,23 @@ class SteamworksBrewingEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('.event-item, .event-card, .event-post', { timeout: 10000 })
+    await page.waitForSelector('-item, -card, -post', { timeout: 10000 }
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      });
+      };
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
       // Try multiple potential selectors for event containers
       const eventSelectors = [
-        '.event-item', 
-        '.event-card', 
-        '.event-post',
-        'article.event',
-        '.events-container > div',
-        '.event-listing'
+        '-item',
+        '-card',
+        '-post',
+        'article',
+        's-container > div',
+        '-listing'
       ];
-      
+
       // Find which selector works on this page
       let eventElements = [];
       for (const selector of eventSelectors) {
@@ -89,18 +89,18 @@ class SteamworksBrewingEvents {
           break;
         }
       }
-      
+
       if (eventElements.length === 0) {
         console.log('No event elements found with any selector');
         return [];
       }
-      
+
       return eventElements.map(event => {
         try {
           // Extract title
-          const titleSelectors = ['.title', 'h2', 'h3', '.event-title', '.event-name'];
+          const titleSelectors = ['.title', 'h2', 'h3', '-title', '-name'];
           let title = 'Steamworks Brewing Event';
-          
+
           for (const selector of titleSelectors) {
             const titleElement = event.querySelector(selector);
             if (titleElement && titleElement.textContent.trim()) {
@@ -108,11 +108,11 @@ class SteamworksBrewingEvents {
               break;
             }
           }
-          
+
           // Extract date
-          const dateSelectors = ['.date', '.event-date', 'time', '.datetime', '.event-time'];
+          const dateSelectors = ['.date', '-date', 'time', '.datetime', '-time'];
           let dateText = '';
-          
+
           for (const selector of dateSelectors) {
             const dateElement = event.querySelector(selector);
             if (dateElement) {
@@ -126,11 +126,11 @@ class SteamworksBrewingEvents {
               }
             }
           }
-          
+
           // Extract description
-          const descSelectors = ['.description', '.event-description', '.summary', '.excerpt', '.content'];
+          const descSelectors = ['.description', '-description', '.summary', '.excerpt', '.content'];
           let description = '';
-          
+
           for (const selector of descSelectors) {
             const descElement = event.querySelector(selector);
             if (descElement && descElement.textContent.trim()) {
@@ -138,21 +138,21 @@ class SteamworksBrewingEvents {
               break;
             }
           }
-          
+
           // Extract image
           let image = '';
           const imgElement = event.querySelector('img');
           if (imgElement && imgElement.src) {
             image = imgElement.src;
           }
-          
+
           // Extract link
           let link = '';
           const linkElement = event.querySelector('a');
           if (linkElement && linkElement.href) {
             link = linkElement.href;
           }
-          
+
           return {
             title,
             dateText,
@@ -165,19 +165,19 @@ class SteamworksBrewingEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }).filter(Boolean); // Remove any null entries
+      }.filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
     return Promise.all(events.map(async event => {
       const { startDate, endDate } = this.parseDates(event.dateText);
-      
+
       // Generate a unique ID based on title and date
-      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, { 
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      });
-      
+      };
+
       return {
         id: uniqueId,
         title: event.title,
@@ -190,7 +190,7 @@ class SteamworksBrewingEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    }));
+    };
   }
 
   /**
@@ -213,23 +213,23 @@ class SteamworksBrewingEvents {
           return { startDate: date, endDate: date };
         }
       }
-      
+
       // Look for date patterns with month names
-      const datePattern = /(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?)\s*(?:to|-|–)?\s*(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?)?/i;
+      const datePattern = /(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4}?)\s*(?:to|-|–)?\s*(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4}?)?/i;
       const match = dateText.match(datePattern);
-      
+
       if (match) {
         const currentYear = new Date().getFullYear();
         let startDateText = match[1];
-        
+
         // Add year if not present
         if (!startDateText.match(/\d{4}/)) {
           startDateText = `${startDateText}, ${currentYear}`;
         }
-        
+
         let startDate = new Date(startDateText);
         let endDate;
-        
+
         // If there's an end date in the string
         if (match[2]) {
           let endDateText = match[2];
@@ -240,48 +240,47 @@ class SteamworksBrewingEvents {
         } else {
           endDate = new Date(startDate);
         }
-        
+
         // Look for time information
-        const timePattern = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
         const timeMatches = dateText.match(new RegExp(timePattern, 'gi'));
-        
+
         if (timeMatches && timeMatches.length >= 1) {
           const startTimeMatch = timeMatches[0].match(timePattern);
           if (startTimeMatch) {
             let hours = parseInt(startTimeMatch[1]);
             const minutes = startTimeMatch[2] ? parseInt(startTimeMatch[2]) : 0;
             const isPM = startTimeMatch[3].toLowerCase() === 'pm';
-            
+
             if (isPM && hours < 12) hours += 12;
             if (!isPM && hours === 12) hours = 0;
-            
+
             startDate.setHours(hours, minutes);
           }
-          
+
           if (timeMatches.length >= 2) {
             const endTimeMatch = timeMatches[1].match(timePattern);
             if (endTimeMatch) {
               let hours = parseInt(endTimeMatch[1]);
               const minutes = endTimeMatch[2] ? parseInt(endTimeMatch[2]) : 0;
               const isPM = endTimeMatch[3].toLowerCase() === 'pm';
-              
+
               if (isPM && hours < 12) hours += 12;
               if (!isPM && hours === 12) hours = 0;
-              
+
               endDate.setHours(hours, minutes);
             }
           }
         }
-        
+
         return { startDate, endDate };
       }
-      
-      // Try direct parsing as a fallback
+
       const date = new Date(dateText);
       if (!isNaN(date.getTime())) {
         return { startDate: date, endDate: date };
       }
-      
+
       // If all else fails, use current date
       const today = new Date();
       return { startDate: today, endDate: today };
@@ -294,3 +293,12 @@ class SteamworksBrewingEvents {
 }
 
 module.exports = new SteamworksBrewingEvents();
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SteamworksBrewingEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SteamworksBrewingEvents = SteamworksBrewingEvents;

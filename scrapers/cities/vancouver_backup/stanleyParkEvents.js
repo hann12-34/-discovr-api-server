@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Stanley Park Events Scraper
  * Scrapes events from Stanley Park and Vancouver Parks & Recreation
@@ -317,7 +318,7 @@ const StanleyParkEvents = {
     const venue = {
       name: 'Stanley Park',
       address: '2000 W Georgia St',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       postalCode: 'V6G 2Z9',

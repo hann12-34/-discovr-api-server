@@ -9,22 +9,22 @@ class PhoenixConcertTheatreScraper {
         this.country = 'Canada';
     }
 
-    async scrape() {
-        const browser = await puppeteer.launch({ 
+    async scrape(city) {
+        const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        };
+
         try {
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
+
             console.log(`🎭 Scraping ${this.name}...`);
-            
-            await page.goto(this.url, { 
+
+            await page.goto(this.url, {
                 waitUntil: 'networkidle2',
                 timeout: 30000
-            });
+            };
 
             await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -34,30 +34,30 @@ class PhoenixConcertTheatreScraper {
 
                 eventElements.forEach(element => {
                     try {
-                        const titleEl = element.querySelector('.title, .event-title, .show-title, h1, h2, h3, h4') || 
+                        const titleEl = element.querySelector('.title, .event-title, .show-title, h1, h2, h3, h4') ||
                                        element.querySelector('a[href*="event"], a[href*="show"], a[href*="concert"]');
-                        
-                        const dateEl = element.querySelector('.date, .event-date, time, [datetime]') || 
+
+                        const dateEl = element.querySelector('.date, .event-date, time, [datetime]') ||
                                       element.querySelector('.when, .day, .month');
-                        
+
                         const linkEl = element.querySelector('a[href]') || titleEl;
                         const imageEl = element.querySelector('img');
                         const priceEl = element.querySelector('.price, .cost, .ticket-price');
 
                         if (titleEl && titleEl.textContent?.trim()) {
                             const title = titleEl.textContent.trim();
-                            
-                            if (title.length < 3 || 
-                                title.toLowerCase().includes('home') || 
+
+                            if (title.length < 3 ||
+                                title.toLowerCase().includes('home') ||
                                 title.toLowerCase().includes('about')) {
                                 return;
                             }
 
                             let startDate = null;
                             let dateText = dateEl?.textContent?.trim();
-                            
+
                             if (dateText) {
-                                const dateMatch = dateText.match(/(\w+\s+\d{1,2}(?:,\s*\d{4})?|\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{2}-\d{2})/i);
+                                const dateMatch = dateText.match(/(\w+\s+\d{1,2}(?:,\s*\d{4}?|\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{2}-\d{2}/i);
                                 if (dateMatch) {
                                     const parsedDate = new Date(dateMatch[1]);
                                     if (!isNaN(parsedDate.getTime())) {
@@ -83,7 +83,7 @@ class PhoenixConcertTheatreScraper {
                                 venue: {
                                     name: 'Phoenix Concert Theatre',
                                     address: '410 Sherbourne St, Toronto, ON M4X 1K2',
-                                    city: 'Toronto',
+                                    city: city,
                                     province: 'Ontario',
                                     country: 'Canada',
                                     location: {
@@ -96,25 +96,25 @@ class PhoenixConcertTheatreScraper {
                                 url: linkEl?.href ? new URL(linkEl.href, window.location.origin).href : null,
                                 image: imageEl?.src ? new URL(imageEl.src, window.location.origin).href : null,
                                 source: 'Phoenix Concert Theatre',
-                                city: 'Toronto',
+                                city: city,
                                 province: 'Ontario',
                                 country: 'Canada',
                                 streetAddress: '410 Sherbourne St, Toronto, ON M4X 1K2'
-                            });
+                            };
                         }
                     } catch (error) {
                         console.log('Error processing event element:', error.message);
                     }
-                });
+                };
 
                 return events;
-            });
+            };
 
             if (events.length === 0) {
                 console.log('📅 No events found, creating representative concerts...');
-                
+
                 const concertTypes = [
-                    'Indie Band Concert', 'Rock Concert', 'Electronic Music Night', 
+                    'Indie Band Concert', 'Rock Concert', 'Electronic Music Night',
                     'Alternative Show', 'Local Artists Showcase', 'Tribute Band Night',
                     'Metal Concert', 'Punk Rock Show', 'Singer-Songwriter Night'
                 ];
@@ -122,7 +122,7 @@ class PhoenixConcertTheatreScraper {
                 concertTypes.forEach((type, index) => {
                     const futureDate = new Date();
                     futureDate.setDate(futureDate.getDate() + (index * 8) + Math.floor(Math.random() * 8));
-                    
+
                     events.push({
                         title: type,
                         description: `Experience live music at Toronto's historic Phoenix Concert Theatre featuring ${type.toLowerCase()}`,
@@ -130,7 +130,7 @@ class PhoenixConcertTheatreScraper {
                         venue: {
                             name: 'Phoenix Concert Theatre',
                             address: '410 Sherbourne St, Toronto, ON M4X 1K2',
-                            city: 'Toronto',
+                            city: city,
                             province: 'Ontario',
                             country: 'Canada',
                             location: {
@@ -142,12 +142,12 @@ class PhoenixConcertTheatreScraper {
                         price: '$30 - $60',
                         url: 'https://www.phoenixconcerttheatre.com/events',
                         source: 'Phoenix Concert Theatre',
-                        city: 'Toronto',
+                        city: city,
                         province: 'Ontario',
                         country: 'Canada',
                         streetAddress: '410 Sherbourne St, Toronto, ON M4X 1K2'
-                    });
-                });
+                    };
+                };
             }
 
             console.log(`✅ Found ${events.length} events from ${this.name}`);
@@ -162,4 +162,11 @@ class PhoenixConcertTheatreScraper {
     }
 }
 
-module.exports = PhoenixConcertTheatreScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new PhoenixConcertTheatreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.PhoenixConcertTheatreScraper = PhoenixConcertTheatreScraper;

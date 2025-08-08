@@ -1,6 +1,6 @@
 /**
  * PNE Summer Night Concerts 2025 Scraper
- * 
+ *
  * This scraper generates events for the PNE Fair's Summer Night Concerts series
  * from August 16 to September 1, 2025 at the Pacific Coliseum
  */
@@ -12,13 +12,13 @@ class PNESummerNightConcertsScraper {
     this.name = 'PNE Summer Night Concerts';
     this.url = 'https://www.pne.ca/snc/';
     this.sourceIdentifier = 'pne-summer-night-concerts';
-    
+
     // Define venue with proper object structure
     this.venue = {
       name: 'Pacific Coliseum at the PNE',
       id: 'pacific-coliseum-pne',
       address: '2901 E Hastings St',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V5K 0A1',
@@ -29,10 +29,10 @@ class PNESummerNightConcertsScraper {
       websiteUrl: 'https://www.pne.ca/snc/',
       description: "The Pacific Coliseum is an indoor arena located at Hastings Park in Vancouver, British Columbia. It is the largest venue at the Pacific National Exhibition (PNE) and hosts concerts, sporting events, and other large-scale entertainment during the annual PNE Fair. With a seating capacity of over 15,000, it provides a spacious venue for the popular Summer Night Concerts series that runs during the Fair."
     };
-    
+
     // Series description
     this.seriesDescription = "The PNE Fair's Summer Night Concerts series is an iconic staple in the Vancouver summer experience. These evening performances feature some of the biggest names in music spanning diverse genres from rock and pop to hip-hop and world music. Concert admission includes entry to the PNE Fair, allowing attendees to enjoy rides, exhibits, food, and entertainment before the show.";
-    
+
     // Concert schedule
     this.concerts = [
       {
@@ -123,43 +123,43 @@ class PNESummerNightConcertsScraper {
     if (performer === "To Be Announced") {
       return `pne-concert-${date}-tba`;
     }
-    
+
     const slugPerformer = performer.toLowerCase()
       .replace(/[^\w\s]/g, '')
       .replace(/\s+/g, '-');
-    
+
     return `pne-concert-${date}-${slugPerformer}`;
   }
-  
+
   /**
    * Create date object for concert time
-   * @param {string} dateStr - Date in YYYY-MM-DD format
+   * @param {string} da - Date in YYYY-MM-DD format
    * @returns {Object} - Start and end date objects
    */
-  createConcertDateTime(dateStr) {
+  createConcertDateTime(da) {
     // All concerts start at 7:30 PM and end around 10:00 PM
-    const startDate = new Date(`${dateStr}T19:30:00`);
-    const endDate = new Date(`${dateStr}T22:00:00`);
-    
+    const startDate = new Date(`${da}T19:30:00`);
+    const endDate = new Date(`${da}T22:00:00`);
+
     return { startDate, endDate };
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting PNE Summer Night Concerts scraper...');
     const events = [];
-    
+
     try {
       // Process each concert in the schedule
       for (const concert of this.concerts) {
         // Create date objects
         const { startDate, endDate } = this.createConcertDateTime(concert.date);
-        
+
         // Format event title
         const eventTitle = `${concert.performer} - PNE Summer Night Concert`;
-        
+
         // Create event object
         const event = {
           id: this.generateConcertId(concert.date, concert.performer),
@@ -178,14 +178,14 @@ class PNESummerNightConcertsScraper {
           ticketsUrl: 'https://www.ticketleader.ca/events/detail/snc2025',
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
-        console.log(`✅ Added concert: ${eventTitle} on ${startDate.toLocaleDateString()}`);
+        console.log(`✅ Added concert: ${eventTitle} on ${startDate.toLocaleDa`);
       }
-      
+
       console.log(`🎉 Successfully scraped ${events.length} PNE Summer Night Concerts`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in PNE Summer Night Concerts scraper: ${error.message}`);
       return events;
@@ -194,3 +194,13 @@ class PNESummerNightConcertsScraper {
 }
 
 module.exports = new PNESummerNightConcertsScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new PNESummerNightConcertsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.PNESummerNightConcertsScraper = PNESummerNightConcertsScraper;

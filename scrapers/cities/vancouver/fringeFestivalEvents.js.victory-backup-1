@@ -1,0 +1,111 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+
+  async scrape() {
+    if (!this.enabled) {
+      console.log(`${this.name} scraper is disabled`);
+      return [];
+    }
+
+    console.log(`🔍 Scraping events from ${this.name}...`);
+    const events = [];
+    let browser;
+
+    try {
+      browser = await puppeteer.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+
+      const page = await browser.newPage();
+      await page.setViewport({ width: 1280, height: 800 });
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
+
+      // Shorter timeout
+      page.setDefaultNavigationTimeout(15000);
+
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 15000 });
+
+      try {
+        await page.waitForSelector('.show-item, .show, -card, article', { timeout: 8000 });
+      } catch (error) {
+        console.log('Could not find show elements with standard selectors, trying to proceed anyway');
+      }
+
+      // Extract show data
+      const showsData = await page.evaluate(() => {
+        const shows = [];
+
+        // Try different selectors
+        const showElements = Array.from(document.querySelectorAll('.show-item, .show, -card, article, .performance-item'));
+
+        showElements.forEach(element => {
+          const title = element.querySelector('h2, h3, h4, .title, .show-title')?.textContent.trim() || '';
+          if (!title) return;
+
+          const description = element.querySelector('p, .description, .excerpt, .summary')?.textContent.trim() || '';
+          const dateText = element.querySelector('.date, .show-date, time')?.textContent.trim() || '';
+          const imageUrl = element.querySelector('img')?.src || '';
+          const sourceUrl = element.querySelector('a[href]')?.href || '';
+          const venueText = element.querySelector('.venue, .location')?.textContent.trim() || '';
+
+          shows.push({
+            title,
+            description,
+            dateText,
+            imageUrl,
+            sourceUrl,
+            venue: venueText
+          });
+        });
+
+        return shows;
+      });
+
+      console.log(`Found ${showsData.length} potential shows`);
+
+      // Process each show data
+      for (const showData of showsData) {
+        // Parse date information
+        const dateInfo = this.parseDateRange(showData.dateText);
+
+        // Skip shows with no valid dates
+        if (!dateInfo.startDate || !dateInfo.endDate) {
+          console.log(`Skipping show "${showData.title}" due to invalid date: "${showData.dateText}"`);
+          continue;
+        }
+
+        // Generate event ID
+        const eventId = this.generateEventId(showData.title, dateInfo.startDate);
+
+        // Create event object
+        const event = this.createEventObject(
+          eventId,
+          showData.title,
+          showData.description,
+          dateInfo.startDate,
+          dateInfo.endDate,
+          showData.imageUrl,
+          showData.sourceUrl,
+          showData.venue
+        );
+
+        // Add event to events array
+        events.push(event);
+      }
+
+      console.log(`Found ${events.length} events from ${this.name}`);
+
+    } catch (error) {
+      console.error(`Error scraping ${this.name}: ${error.message}`);
+    } finally {
+      if (browser) {
+        await browser.close();
+      }
+    }
+
+    return events;
+  }
+};
+
+module.exports = FringeFestivalEvents;

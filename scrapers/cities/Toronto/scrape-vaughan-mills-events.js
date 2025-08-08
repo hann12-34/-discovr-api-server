@@ -4,27 +4,27 @@ class VaughanMillsEventsScraper {
     constructor() {
         this.name = 'Vaughan Mills Events';
         this.url = 'https://www.vaughanmills.com/events';
-        this.city = 'Toronto'; // GTA area - categorized as Toronto for app purposes
+        this.city = city; // GTA area - categorized as Toronto for app purposes
         this.province = 'Ontario';
         this.country = 'Canada';
     }
 
-    async scrape() {
-        const browser = await puppeteer.launch({ 
+    async scrape(city) {
+        const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        };
+
         try {
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
+
             console.log(`🛍️ Scraping ${this.name} (Vaughan)...`);
-            
-            await page.goto(this.url, { 
+
+            await page.goto(this.url, {
                 waitUntil: 'networkidle2',
                 timeout: 30000
-            });
+            };
 
             await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -42,7 +42,7 @@ class VaughanMillsEventsScraper {
 
                         if (titleEl && titleEl.textContent?.trim()) {
                             const title = titleEl.textContent.trim();
-                            
+
                             if (title.length < 3) return;
 
                             let startDate = new Date();
@@ -59,7 +59,7 @@ class VaughanMillsEventsScraper {
                                 venue: {
                                     name: 'Vaughan Mills',
                                     address: '1 Bass Pro Mills Dr, Vaughan, ON L4K 5W4',
-                                    city: 'Vaughan',
+                                    city: city,
                                     province: 'Ontario',
                                     country: 'Canada',
                                     location: {
@@ -71,21 +71,20 @@ class VaughanMillsEventsScraper {
                                 price: 'Free',
                                 url: linkEl?.href || 'https://www.vaughanmills.com/events',
                                 source: 'Vaughan Mills Events',
-                                city: 'Toronto', // GTA categorized as Toronto
+                                city: city, // GTA categorized as Toronto
                                 province: 'Ontario',
                                 country: 'Canada',
                                 streetAddress: '1 Bass Pro Mills Dr, Vaughan, ON L4K 5W4'
-                            });
+                            };
                         }
                     } catch (error) {
                         console.log('Error processing event:', error.message);
                     }
-                });
+                };
 
                 return events;
-            });
+            };
 
-            // No fallback/sample events - comply with user rule
 
             console.log(`✅ Found ${events.length} events from ${this.name} (Vaughan)`);
             return events;
@@ -99,4 +98,11 @@ class VaughanMillsEventsScraper {
     }
 }
 
-module.exports = VaughanMillsEventsScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VaughanMillsEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VaughanMillsEventsScraper = VaughanMillsEventsScraper;

@@ -34,16 +34,16 @@ class MontrealScienceCentreEvents {
      */
     parseDate(dateStr) {
         if (!dateStr) return null;
-        
+
         try {
             const cleanDateStr = dateStr.trim();
-            
+
             // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }
-            
+
             // Handle French date formats
             const frenchMonths = {
                 'janvier': 'January', 'février': 'February', 'mars': 'March',
@@ -51,12 +51,12 @@ class MontrealScienceCentreEvents {
                 'juillet': 'July', 'août': 'August', 'septembre': 'September',
                 'octobre': 'October', 'novembre': 'November', 'décembre': 'December'
             };
-            
+
             let englishDateStr = cleanDateStr;
             for (const [french, english] of Object.entries(frenchMonths)) {
                 englishDateStr = englishDateStr.replace(new RegExp(french, 'gi'), english);
             }
-            
+
             const parsedDate = new Date(englishDateStr);
             return isNaN(parsedDate.getTime()) ? null : parsedDate;
         } catch (error) {
@@ -85,9 +85,9 @@ class MontrealScienceCentreEvents {
      */
     extractVenueInfo() {
         return {
-            name: 'Montreal Science Centre',
+            name: this.city, // Use city name for proper filtering (Montreal)
             address: '2 Rue de la Commune O, Montreal, QC H2Y 4B2',
-            city: 'Montreal',
+            city: city,
             province: 'QC',
             coordinates: this.getDefaultCoordinates()
         };
@@ -101,39 +101,39 @@ class MontrealScienceCentreEvents {
      */
     extractEventDetails($, eventElement) {
         const $event = $(eventElement);
-        
+
         // Extract title
         const title = this.cleanText(
             $event.find('h1, h2, h3, h4, .title, .event-title, .name, .exhibit-title').first().text() ||
             $event.find('a').first().text()
         );
-        
+
         if (!title || title.length < 3) return null;
-        
+
         // Extract date
         const dateText = $event.find('.date, .event-date, .when, time, .start-date').first().text();
         const eventDate = this.parseDate(dateText);
-        
+
         // Extract description
         const description = this.cleanText(
             $event.find('.description, .summary, .excerpt, .content, p').first().text()
         );
-        
+
         // Extract price
         const priceText = $event.find('.price, .cost, .ticket-price, .admission').text();
         const price = priceText ? this.cleanText(priceText) : 'Check website for pricing';
-        
+
         // Extract event URL
         const eventUrl = $event.find('a').first().attr('href');
         const fullEventUrl = eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `${this.baseUrl}${eventUrl}`) : null;
-        
+
         // Extract image
         const imageUrl = $event.find('img').first().attr('src');
         const fullImageUrl = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`) : null;
-        
+
         // Get venue info
         const venue = this.extractVenueInfo();
-        
+
         return {
             id: uuidv4(),
             name: title,
@@ -159,30 +159,30 @@ class MontrealScienceCentreEvents {
     async scrapeEvents() {
         try {
             console.log(`🔬 Scraping events from ${this.source}...`);
-            
+
             const events = [];
-            
+
             // Scrape special events
             await this.scrapeSpecialEvents(events);
-            
+
             // Scrape IMAX theater shows
             await this.scrapeImaxShows(events);
-            
+
             // Filter out duplicate events
             const uniqueEvents = this.removeDuplicateEvents(events);
-            
+
             // Filter for live events only (today or future)
             const liveEvents = this.filterLiveEvents(uniqueEvents);
-            
+
             console.log(`🎉 Successfully scraped ${liveEvents.length} unique events from ${this.source}`);
             return liveEvents;
-            
+
         } catch (error) {
             console.error(`❌ Error scraping ${this.source}:`, error.message);
             return [];
         }
     }
-    
+
     /**
      * Scrape special events from the special events page
      * @param {Array} events - Array to push events to
@@ -194,25 +194,25 @@ class MontrealScienceCentreEvents {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            });
-            
+            };
+
             const $ = cheerio.load(response.data);
-            
+
             // Look for event links in the special events page
             $('a').each((i, element) => {
                 const $link = $(element);
                 const href = $link.attr('href');
                 const linkText = this.cleanText($link.text());
-                
+
                 // Check if this looks like an event link
                 if (href && href.includes('/special-event/') && linkText && linkText.length > 3) {
                     // Extract date from the link context
-                    const dateMatch = linkText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[\s\.]?\s*(\d{1,2})[\s,]*(\d{4})/i);
+                    const dateMatch = linkText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[\s\.]?\s*(\d{1,2}[\s,]*(\d{4}/i);
                     const eventDate = dateMatch ? this.parseDate(dateMatch[0]) : null;
-                    
+
                     // Extract title (remove date from title)
-                    const title = linkText.replace(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[\s\.]?\s*(\d{1,2})[\s,]*(\d{4})/i, '').trim();
-                    
+                    const title = linkText.replace(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[\s\.]?\s*(\d{1,2}[\s,]*(\d{4}/i, '').trim();
+
                     if (title && title.length > 3) {
                         events.push({
                             id: uuidv4(),
@@ -225,16 +225,16 @@ class MontrealScienceCentreEvents {
                             url: href.startsWith('http') ? href : `${this.baseUrl}${href}`,
                             image: null,
                             scrapedAt: new Date()
-                        });
+                        };
                     }
                 }
-            });
-            
+            };
+
         } catch (error) {
             console.error('Error scraping special events:', error.message);
         }
     }
-    
+
     /**
      * Scrape IMAX theater shows
      * @param {Array} events - Array to push events to
@@ -247,24 +247,24 @@ class MontrealScienceCentreEvents {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            });
-            
+            };
+
             const $ = cheerio.load(response.data);
-            
+
             // Look for IMAX movie titles
             $('h1, h2, h3, h4').each((i, element) => {
                 const $heading = $(element);
                 const title = this.cleanText($heading.text());
-                
+
                 // Check if this looks like an IMAX movie title
                 if (title && title.length > 3 && !title.toLowerCase().includes('theatre') && !title.toLowerCase().includes('screen')) {
                     // Skip navigation and general headings
-                    if (title.toLowerCase().includes('imax') || 
-                        title.toLowerCase().includes('3d') || 
+                    if (title.toLowerCase().includes('imax') ||
+                        title.toLowerCase().includes('3d') ||
                         title.toLowerCase().includes('rex') ||
                         title.toLowerCase().includes('movie') ||
                         title.toLowerCase().includes('film')) {
-                        
+
                         events.push({
                             id: uuidv4(),
                             title: title,
@@ -276,16 +276,16 @@ class MontrealScienceCentreEvents {
                             url: imaxUrl,
                             image: null,
                             scrapedAt: new Date()
-                        });
+                        };
                     }
                 }
-            });
-            
+            };
+
         } catch (error) {
             console.error('Error scraping IMAX shows:', error.message);
         }
     }
-    
+
     /**
      * Filter events for live events only (today or future)
      * @param {Array} events - Array of events to filter
@@ -294,14 +294,14 @@ class MontrealScienceCentreEvents {
     filterLiveEvents(events) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         return events.filter(event => {
             if (!event.date) return true; // Include events without dates
             const eventDate = new Date(event.date);
             return eventDate >= today;
-        });
+        };
     }
-    
+
     /**
      * Remove duplicate events based on title and date
      * @param {Array} events - Array of events
@@ -310,30 +310,30 @@ class MontrealScienceCentreEvents {
     removeDuplicateEvents(events) {
         const seen = new Set();
         return events.filter(event => {
-            const key = `${event.title.toLowerCase()}-${event.date ? event.date.toDateString() : 'no-date'}`;
+            const key = `${event.title.toLowerCase()}-${event.date ? event.date.toDaeventDateText() : 'no-date'}`;
             if (seen.has(key)) return false;
             seen.add(key);
             return true;
-        });
+        };
     }
-    
+
     /**
      * Legacy scrape method for compatibility - kept for reference
      */
     async legacyScrapeEvents() {
         try {
             console.log('⚠️  Using legacy scraping method...');
-            
+
             const response = await axios.get(this.eventsUrl, {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            });
-            
+            };
+
             const $ = cheerio.load(response.data);
             const events = [];
-            
+
             // Look for common event selectors
             const eventSelectors = [
                 '.event',
@@ -349,7 +349,7 @@ class MontrealScienceCentreEvents {
                 '.card',
                 '.listing'
             ];
-            
+
             let eventElements = $();
             for (const selector of eventSelectors) {
                 const elements = $(selector);
@@ -359,21 +359,21 @@ class MontrealScienceCentreEvents {
                     break;
                 }
             }
-            
+
             if (eventElements.length === 0) {
                 console.log('⚠️  No events found with standard selectors, trying alternative approach...');
-                
+
                 // Try finding events by looking for elements with dates or exhibit names
                 eventElements = $('[class*="event"], [class*="exhibit"], [class*="activity"]').filter(function() {
                     const text = $(this).text().toLowerCase();
-                    return text.includes('2024') || text.includes('2025') || 
+                    return text.includes('2024') || text.includes('2025') ||
                            text.includes('exhibition') || text.includes('workshop') ||
                            text.includes('janvier') || text.includes('février');
-                });
+                };
             }
-            
+
             console.log(`📅 Processing ${eventElements.length} potential events...`);
-            
+
             eventElements.each((index, element) => {
                 try {
                     const eventData = this.extractEventDetails($, element);
@@ -384,13 +384,13 @@ class MontrealScienceCentreEvents {
                 } catch (error) {
                     console.error(`❌ Error extracting event ${index + 1}:`, error.message);
                 }
-            });
-            
+            };
+
             const uniqueEvents = this.removeDuplicateEvents(events);
             console.log(`🎉 Successfully scraped ${uniqueEvents.length} unique events from ${this.source}`);
-            
+
             return uniqueEvents;
-            
+
         } catch (error) {
             console.error(`❌ Error scraping ${this.source}:`, error.message);
             if (error.response) {
@@ -415,7 +415,7 @@ class MontrealScienceCentreEvents {
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     /**
@@ -426,25 +426,31 @@ class MontrealScienceCentreEvents {
      */
     async getEvents(startDate = null, endDate = null) {
         const events = await this.scrapeEvents();
-        
+
         if (!startDate && !endDate) {
             return events;
         }
-        
+
         return events.filter(event => {
             if (!event.date) return true;
-            
+
             const eventDate = new Date(event.date);
-            
+
             if (startDate && eventDate < startDate) return false;
             if (endDate && eventDate > endDate) return false;
-            
+
             return true;
-        });
+        };
     }
 }
 
-module.exports = MontrealScienceCentreEvents;
+// Export wrapper function for compatibility with sample runner
+const scrape = async (city) => {
+    const scraper = new MontrealScienceCentreEvents();
+    return await scraper.scrapeEvents();
+};
+
+module.exports = { scrape, MontrealScienceCentreEvents };
 
 // Test the scraper if run directly
 if (require.main === module) {
@@ -457,6 +463,17 @@ if (require.main === module) {
             console.log(`📍 Venue: ${event.venue.name}`);
             console.log(`💰 Price: ${event.price}`);
             console.log(`🔗 URL: ${event.url}`);
-        });
-    });
+        };
+    };
 }
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new MontrealScienceCentreEvents();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in MontrealScienceCentreEvents');
+    }
+};

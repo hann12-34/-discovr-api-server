@@ -9,22 +9,22 @@ class OakvilleCentreScraper {
         this.country = 'Canada';
     }
 
-    async scrape() {
-        const browser = await puppeteer.launch({ 
+    async scrape(city) {
+        const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        };
+
         try {
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
+
             console.log(`🌿 Scraping ${this.name} (Oakville)...`);
-            
-            await page.goto(this.url, { 
+
+            await page.goto(this.url, {
                 waitUntil: 'networkidle2',
                 timeout: 30000
-            });
+            };
 
             await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -42,7 +42,7 @@ class OakvilleCentreScraper {
 
                         if (titleEl && titleEl.textContent?.trim()) {
                             const title = titleEl.textContent.trim();
-                            
+
                             if (title.length < 3) return;
 
                             let startDate = new Date();
@@ -59,7 +59,7 @@ class OakvilleCentreScraper {
                                 venue: {
                                     name: 'Oakville Centre for the Performing Arts',
                                     address: '130 Navy St, Oakville, ON L6J 2Z4',
-                                    city: 'Oakville',
+                                    city: city,
                                     province: 'Ontario',
                                     country: 'Canada',
                                     location: {
@@ -71,21 +71,19 @@ class OakvilleCentreScraper {
                                 price: priceEl?.textContent?.trim() || '$45 - $85',
                                 url: linkEl?.href || 'https://www.oakvillecentre.ca/events',
                                 source: 'Oakville Centre for the Performing Arts',
-                                city: 'Toronto', // GTA categorized as Toronto
+                                city: city, // GTA categorized as Toronto
                                 province: 'Ontario',
                                 country: 'Canada',
                                 streetAddress: '130 Navy St, Oakville, ON L6J 2Z4'
-                            });
+                            };
                         }
                     } catch (error) {
                         console.log('Error processing event:', error.message);
                     }
-                });
+                };
 
                 return events;
-            });
-
-            // No fallback/sample events - comply with user rule
+            };
 
             console.log(`✅ Found ${events.length} events from ${this.name} (Oakville)`);
             return events;
@@ -99,4 +97,11 @@ class OakvilleCentreScraper {
     }
 }
 
-module.exports = OakvilleCentreScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new OakvilleCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.OakvilleCentreScraper = OakvilleCentreScraper;

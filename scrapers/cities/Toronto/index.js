@@ -101,21 +101,22 @@ const NativeEarthEvents = require('./scrape-native-earth-events');
 const TorontoLibraryEvents = require('./scrape-toronto-library-events');
 const TorontoReferenceLibrary = require('./scrape-toronto-reference-library-events');
 const OCADUEvents = require('./scrape-ocadu-events');
+const { processBatchWithCity } = require('../../../utils/auto-detect-city');
 
 class TorontoScrapers {
-    constructor() {
-        this.scrapers = [
+    constructor(scrapersToRun) {
+        const allScrapers = [
             // Core venues
             new MasseyHallEvents(),
             new MeridianHallEvents(),
             new RoyThomsonHallEvents(),
             new TorontoEventsOfficial(),
-            
+
             // Major event source scrapers
             new TorontoCaEvents(),
             new NowPlayingTorontoEvents(),
             new TodoCanadaTorontoEvents(),
-            
+
             // 🎭 NIGHTLIFE VENUES (High Volume) - Target: 200+ events
             new RebelNightclub(),
             new FictionClub(),
@@ -127,7 +128,7 @@ class TorontoScrapers {
             new XClubEvents(),
             new VertigoEvents(),
             new UVTorontoEvents(),
-            
+
             // 🏛️ MAJOR MUSEUMS & ATTRACTIONS (High Volume) - Target: 300+ events
             new ROMEvents(),
             new AGOEvents(),
@@ -139,14 +140,14 @@ class TorontoScrapers {
             new TextileMuseum(),
             new MOCAEvents(),
             new AgaKhanMuseum(),
-            
+
             // 🎪 FESTIVALS & CULTURAL EVENTS (High Volume) - Target: 200+ events
             new TIFFEvents(),
             new TorontoInternationalFilmFestival(),
             new TorontoPride(),
             new CaribaneFestival(),
             new HotDocsEvents(),
-            
+
             // 🏞️ OUTDOOR & PARKS (High Volume) - Target: 150+ events
             new TorontoZooEvents(),
             new HighParkEvents(),
@@ -155,7 +156,7 @@ class TorontoScrapers {
             new WaterfrontToronto(),
             new DownsviewParkEvents(),
             new OntarioPlaceEvents(),
-            
+
             // 🎵 MUSIC VENUES (High Volume) - Target: 100+ events
             new HorseshoeTavern(),
             new ElmocamboEvents(),
@@ -163,7 +164,7 @@ class TorontoScrapers {
             new GrossmansTable(),
             new LulaLounge(),
             new PoetryJazzCafe(),
-            
+
             // 🎭 NEW GTA MAJOR VENUES (High Volume) - Target: 200+ events
             new DanforthMusicHall(),
             new PhoenixConcertTheatre(),
@@ -177,39 +178,43 @@ class TorontoScrapers {
             new VaughanMillsEvents(),
             new RegentTheatreOshawa(),
             new PickeringCasinoEvents(),
-            
+
             // 🛍️ MARKETS & DISTRICTS (High Volume) - Target: 100+ events
             new DistilleryDistrict(),
             new StLawrenceMarket(),
             new StacktMarket(),
             new KensingtonMarket(),
             new GerrardIndiaBazaar(),
-            
+
             // 🍺 BREWERIES & BARS (Medium Volume) - Target: 50+ events
             new SteamWhistleEvents(),
             new HendersonBrewing(),
             new JunctionCraft(),
-            
+
             // 🎭 THEATRES & ARTS (Medium Volume) - Target: 100+ events
             new SoulpepperEvents(),
             new FactoryTheatre(),
             new SecondCityEvents(),
             new TheatreCentreEvents(),
             new NativeEarthEvents(),
-            
+
             // 📚 LIBRARIES & EDUCATION (Medium Volume) - Target: 50+ events
             new TorontoLibraryEvents(),
             new TorontoReferenceLibrary(),
             new OCADUEvents(),
-            
+
             // 🎓 UNIVERSITIES & COMMUNITY (High Volume) - Target: 150+ events
             new UniversityOfTorontoEvents(),
             new YorkUniversityEvents(),
             new AjaxCommunityEvents(),
         ];
-        
+
+        this.scrapers = scrapersToRun || allScrapers;
+
         console.log(`🎆 Toronto Scrapers initialized with ${this.scrapers.length} active scrapers!`);
-        console.log(`🎯 Target: 1000+ Toronto events across all categories`);
+        if (!scrapersToRun) {
+            console.log(`🎯 Target: 1000+ Toronto events across all categories`);
+        }
     }
 
     /**
@@ -222,31 +227,40 @@ class TorontoScrapers {
 
         for (const scraper of this.scrapers) {
             try {
-                console.log(`📍 Running scraper for ${scraper.venueName}...`);
-                const events = await scraper.fetchEvents();
-                
+                const source = scraper.source || 'Unknown Scraper';
+                console.log(`📍 Running scraper for ${source}...`);
+                const events = await scraper.scrape();
+
                 if (Array.isArray(events) && events.length > 0) {
-                    // Ensure all events have Toronto category
-                    events.forEach(event => {
-                        if (!event.categories) event.categories = [];
-                        if (!event.categories.includes('Toronto')) {
-                            event.categories.push('Toronto');
-                        }
-                    });
-                    
-                    allEvents.push(...events);
-                    console.log(`✅ Found ${events.length} events from ${scraper.venueName}`);
+                    // Ensure all events have Toronto city and venue info
+                    const processedEvents = events.map(event => ({
+                        ...event,
+                        city: city,
+                        venue: event.venue || (scraper.venue || { name: source }),
+                        categories: [...(event.categories || []), city].filter((v, i, a) => a.indexOf(v) === i)
+                    }));
+
+                    allEvents.push(...processedEvents);
+                    console.log(`✅ Found ${events.length} events from ${source}`);
                 } else {
-                    console.log(`⚠️ No events found from ${scraper.venueName}`);
+                    console.log(`⚠️ No events found from ${source}`);
                 }
             } catch (error) {
-                console.error(`❌ Error running scraper for ${scraper.venueName}:`, error.message);
+                const source = scraper.source || 'Unknown Scraper';
+                console.error(`❌ Error running scraper for ${source}:`, error.message);
             }
         }
 
         console.log(`🎉 Toronto scrapers found ${allEvents.length} events in total`);
         return allEvents;
     }
+}
+
+
+// AUTO-CITY DETECTION HELPER
+// Ensures all events from this city have proper venue.name
+function processEventsForCity(events, scraperName) {
+  return processBatchWithCity(events, __filename);
 }
 
 module.exports = new TorontoScrapers();

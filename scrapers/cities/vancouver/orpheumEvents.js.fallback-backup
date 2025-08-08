@@ -1,0 +1,844 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * Orpheum Theatre Events Scraper
+ * Scrapes events from Orpheum Theatre's website using puppeteer-extra with stealth plugin
+ */
+
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
+const { executablePath } = require('puppeteer');
+const { randomDelay, getRandomUserAgent, humanLikeScroll, randomMouseMovements, withRetry, emulateBrowserHistory } = require('../../utils/scraper-utils');
+const slugify = require('slugify');
+const fs = require('fs');
+const path = require('path');
+
+// Add stealth plugins to puppeteer
+puppeteer.use(StealthPlugin());
+puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
+
+class OrpheumEvents {
+  constructor() {
+    this.name = 'Orpheum Theatre Events';
+    this.url = 'https://vancouversymphony.ca/events-and-tickets/';
+    this.venue = {
+      name: 'Orpheum Theatre',
+      address: '601 Smithe St, Vancouver, BC V6B 3L4',
+      city: getCityFromArgs(),
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2802, lng: -123.1207 }
+    };
+  }
+  
+  /**
+   * Take a screenshot for debugging
+   */
+  async takeScreenshot(page, filename = 'orpheum-debug.png') {
+    try {
+      const screenshotPath = path.resolve(process.cwd(), filename);
+      await page.screenshot({ path: screenshotPath, fullPage: true });
+      console.log(`✅ Saved debug screenshot to ${filename}`);
+    } catch (error) {
+      console.warn(`Failed to take screenshot: ${error.message}`);
+    }
+  }
+
+  /**
+   * Save HTML content for debugging
+   */
+  async saveHtml(page, filename = 'orpheum-debug.html') {
+    try {
+      const content = await page.content();
+      const htmlPath = path.resolve(process.cwd(), filename);
+      fs.writeFileSync(htmlPath, content);
+      console.log(`✅ Saved debug HTML to ${filename}`);
+    } catch (error) {
+      console.warn(`Failed to save HTML: ${error.message}`);
+    }
+  }
+
+  /**
+   * Scrape events from Orpheum Theatre with enhanced stealth and resilience
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const events = [];
+    let browser;
+    
+    try {
+      // Generate a random user agent for enhanced stealth
+      const userAgent = getRandomUserAgent();
+      
+      // Launch browser with enhanced stealth mode
+      browser = await puppeteer.launch({
+        headless: "new",
+        executablePath: executablePath(),
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-infobars',
+          '--window-position=0,0',
+          '--ignore-certifcate-errors',
+          '--ignore-certifcate-errors-spki-list',
+          '--disable-features=IsolateOrigins,site-per-process',
+          '--disable-site-isolation-trials',
+          '--disable-web-security',
+          `--user-agent=${userAgent}`,
+        ],
+      });
+      
+      const page = await browser.newPage();
+      
+      // Configure viewport with randomized dimensions for additional stealth
+      const viewportWidth = 1920 + Math.floor(Math.random() * 100);
+      const viewportHeight = 1080 + Math.floor(Math.random() * 100);
+      await page.setViewport({
+        width: viewportWidth,
+        height: viewportHeight,
+        deviceScaleFactor: 1,
+      });
+      
+      // Set extra HTTP headers to appear more like a real browser
+      await page.setExtraHTTPHeaders({
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+      });
+      
+      // Set additional browser characteristics to appear more human
+      await emulateBrowserHistory(page);
+      
+      // Set cookies and local storage to appear as a returning visitor
+      await page.evaluateOnNewDocument(() => {
+        // Simulate localStorage with some items
+        Object.defineProperty(window, 'localStorage', {
+          value: {
+            getItem: (key) => key === 'visited' ? 'true' : null,
+            setItem: () => {},
+            removeItem: () => {},
+            clear: () => {},
+            length: 3,
+            key: () => null
+          }
+        });
+      });
+      
+      console.log(`Navigating to ${this.url}`);
+      
+      // Use retry mechanism for more reliable navigation
+      await withRetry(async () => {
+        await page.goto(this.url, { 
+          waitUntil: ['domcontentloaded', 'networkidle2'],
+          timeout: 60000 // Increase timeout for reliability
+        });
+        
+        // Add a short delay after page load to let JavaScript execute
+        await randomDelay(1500, 3500);
+      });
+      
+      // Take a screenshot for debugging
+      await this.takeScreenshot(page);
+      
+      // Perform human-like scrolling and mouse movements
+      await humanLikeScroll(page, 4, 600);
+      await randomMouseMovements(page);
+      
+      // Allow dynamic content to load with random delay
+      await randomDelay(2000, 4000);
+      
+      // Save HTML for analysis
+      await this.saveHtml(page);
+
+      console.log('Extracting Orpheum Theatre events...');
+      const extractedEvents = await this.extractEvents(page);
+      
+      // Add extracted events to our events array
+      events.push(...extractedEvents);
+      
+      console.log(`Found ${events.length} Orpheum Theatre events`);
+      
+      return events;
+    } catch (error) {
+      console.error(`Error in ${this.name} scraper:`, error);
+      return [];
+    } finally {
+      await browser.close();
+      console.log(`${this.name} scraper finished`);
+    }
+  }
+
+  /**
+   * Extract events from Orpheum Theatre website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Allow more time for JavaScript-rendered content to load
+    // Use setTimeout instead of waitForTimeout for older Puppeteer versions
+    await new Promise(resolve => setTimeout(resolve, 8000)); // Increased wait time for better rendering
+    
+    // Save a screenshot for debugging
+    await page.screenshot({ path: 'orpheum-debug.png', fullPage: true });
+    
+    // Save HTML for debugging
+    const pageContent = await page.content();
+    const fs = require('fs');
+    fs.writeFileSync('orpheum-debug.html', pageContent);
+    console.log('Saved debug files for analysis');
+    
+    // Scroll down the page to trigger lazy loading
+    await this.scrollPage(page);
+    
+    // Wait after scrolling
+    await new Promise(resolve => setTimeout(resolve, 3000));
+        // Try specific Vancouver Symphony Orchestra selectors first
+    console.log('Looking for VSO events with specific selectors...');
+    let hasEvents = await page.evaluate(() => {
+      // More specific VSO selectors based on their website structure
+      const vsoSelectors = [
+        // Menu items indicate that vso_event is the post type
+        '.vso_event', 
+        '[class*="vso_event"]',
+        // Check for concert listings
+        '.concert-listing',
+        '.concert-item', 
+        '.season-concert',
+        '.vso-concert',
+        '.performance',
+        // Standard VSO selectors
+        '.season-events .program',
+        '.season-events .event',
+        '.event-card',
+        '.event-list-item',
+        // Calendar related selectors
+        '.calendar-event',
+        '.full-calendar-item',
+        // WordPress blocks that might contain events
+        '.wp-block-group.has-background', 
+        '.elementor-post', 
+        '.tribe-events-calendar-list__event',
+        // Generic concert classes 
+        '.concert-card',
+        '.performance-listing'
+      ];
+      
+      for (const selector of vsoSelectors) {
+        const elements = document.querySelectorAll(selector);
+        if (elements.length > 0) {
+          console.log(`Found ${elements.length} elements with selector: ${selector}`);
+          return {selector, count: elements.length};
+        }
+      }
+      return {selector: null, count: 0};
+    });
+    
+    // If we still don't have events, look for link patterns
+    if (!hasEvents.selector) {
+      console.log('No specific event elements found, checking for event links...');
+      
+      // Try to find and navigate to events-related page
+      const eventLinks = await page.evaluate(() => {
+        const links = Array.from(document.querySelectorAll('a'));
+        return links
+          .filter(link => {
+            const text = (link.textContent || '').toLowerCase();
+            const href = (link.href || '').toLowerCase();
+            return text.includes('event') || 
+                   text.includes('concert') || 
+                   text.includes('performance') ||
+                   text.includes('schedule') || 
+                   text.includes('calendar') || 
+                   text.includes('season') ||
+                   href.includes('event') || 
+                   href.includes('concert') || 
+                   href.includes('schedule');
+          })
+          .map(link => ({
+            text: link.textContent.trim(),
+            href: link.href
+          }));
+      });
+      
+      if (eventLinks.length > 0) {
+        console.log(`Found ${eventLinks.length} potential event links`);
+        
+        // Sort links by relevance (prefer those with 'event' or 'concert' in URL)
+        const sortedLinks = eventLinks.sort((a, b) => {
+          const aScore = this.getLinkRelevanceScore(a);
+          const bScore = this.getLinkRelevanceScore(b);
+          return bScore - aScore;
+        });
+        
+        // Navigate to the most relevant event page
+        const targetLink = sortedLinks[0].href;
+        console.log(`Navigating to most relevant events page: ${targetLink}`);
+        
+        await page.goto(targetLink, { waitUntil: 'networkidle2' });
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        
+        // Scroll this page too
+        await this.scrollPage(page);
+        
+        // Save another screenshot after navigation
+        await page.screenshot({ path: 'orpheum-events-page.png', fullPage: true });
+        fs.writeFileSync('orpheum-events-page.html', await page.content());
+      }
+    }
+
+    // Extract events using multiple approaches for better results
+    console.log('Extracting events using multiple approaches...');
+    
+    // First approach: Try to find structured event elements
+    const eventsFromStructured = await page.evaluate((venueInfo) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        // VSO-specific selectors
+        '.season-events .program', 
+        '.event-card', 
+        '.performance-item',
+        '.concert-card',
+        '.performance-listing',
+        '.vso-event',
+        '.event-listing',
+        '.wp-block-jetpack-tiled-gallery__item',
+        '.wp-block-column:has(h3, h2, .date)',
+        '.program-row',
+        '.concert-item',
+        '.tribe-events-calendar-list__event',
+        // Generic content containers that might be used for events
+        'article:has(h2, h3, time)',
+        '.card:has(h2, h3, .date, time)',
+        '.grid-item:has(h2, h3, .date, time)',
+        '.wp-block-group:has(h2, h3, .date, time)',
+        '.elementor-post'
+      ];
+      
+      // Find which selector works on this page
+      let eventElements = [];
+      let usedSelector = '';
+      
+      for (const selector of eventSelectors) {
+        try {
+          const elements = document.querySelectorAll(selector);
+          if (elements && elements.length > 0) {
+            console.log(`Found ${elements.length} events with selector: ${selector}`);
+            eventElements = Array.from(elements);
+            usedSelector = selector;
+            break;
+          }
+        } catch (err) {
+          // Some complex selectors might not work in older browsers
+          continue;
+        }
+      }
+      
+      if (eventElements.length === 0) {
+        console.log('No event elements found with structured selectors');
+        return { events: [], usedSelector };
+      }
+      
+      // Process found events with the known selector
+      return {
+        events: eventElements.map(event => {
+          try {
+            // Extract title - try multiple selectors
+            const titleSelectors = ['h2', 'h3', '.title', '.event-title', '.name', '.heading', 'strong', 'b'];
+            let title = '';
+            
+            for (const selector of titleSelectors) {
+              const titleElement = event.querySelector(selector);
+              if (titleElement && titleElement.textContent.trim()) {
+                title = titleElement.textContent.trim();
+                // Remove any excessive whitespace and line breaks
+                title = title.replace(/\s+/g, ' ');
+                break;
+              }
+            }
+            
+            // If we still don't have a title, try to get it from aria-label or other attributes
+            if (!title) {
+              if (event.getAttribute('aria-label')) {
+                title = event.getAttribute('aria-label');
+              } else if (event.querySelector('[aria-label]')) {
+                title = event.querySelector('[aria-label]').getAttribute('aria-label');
+              }
+            }
+            
+            // Default title if nothing found
+            if (!title) title = 'Orpheum Theatre Concert';
+            
+            // Extract date - try multiple approaches
+            const dateSelectors = ['.date', '.event-date', 'time', '.datetime', '.calendar-date', '.meta-date', '.schedule-date'];
+            let dateText = '';
+            
+            // First try elements with dedicated date classes
+            for (const selector of dateSelectors) {
+              const dateElement = event.querySelector(selector);
+              if (dateElement) {
+                // Check for datetime attribute first
+                if (dateElement.getAttribute('datetime')) {
+                  dateText = dateElement.getAttribute('datetime');
+                  break;
+                } else if (dateElement.textContent.trim()) {
+                  dateText = dateElement.textContent.trim();
+                  break;
+                }
+              }
+            }
+            
+            // If no date found yet, look for date patterns in the text
+            if (!dateText) {
+              const fullText = event.textContent;
+              const datePattern = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-zA-Z]* \d{1,2}(st|nd|rd|th)?(,? \d{4})?|\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/i;
+              const dateMatch = fullText.match(datePattern);
+              if (dateMatch) {
+                dateText = dateMatch[0];
+              }
+            }
+            
+            // Extract description
+            const descSelectors = ['.description', '.event-description', '.summary', '.excerpt', '.content', '.details', 'p'];
+            let description = '';
+            
+            for (const selector of descSelectors) {
+              const elements = event.querySelectorAll(selector);
+              if (elements && elements.length > 0) {
+                // Combine all paragraph texts
+                const texts = Array.from(elements).map(el => el.textContent.trim()).filter(t => t);
+                if (texts.length > 0) {
+                  description = texts.join('\n\n');
+                  break;
+                }
+              }
+            }
+            
+            // If no description yet, use any paragraph that's not the title
+            if (!description) {
+              const paragraphs = event.querySelectorAll('p');
+              if (paragraphs.length > 0) {
+                const texts = Array.from(paragraphs)
+                  .map(p => p.textContent.trim())
+                  .filter(t => t && t !== title);
+                if (texts.length > 0) {
+                  description = texts.join('\n\n');
+                }
+              }
+            }
+            
+            // Extract image - try background images too
+            let image = '';
+            const imgElement = event.querySelector('img');
+            if (imgElement && imgElement.src) {
+              image = imgElement.src;
+            } else {
+              // Try background image
+              const elementWithBg = event.querySelector('[style*="background-image"]');
+              if (elementWithBg) {
+                const style = elementWithBg.getAttribute('style');
+                const bgMatch = style.match(/background-image:\s*url\(['"]?([^'"\)]+)['"]?\)/i);
+                if (bgMatch && bgMatch[1]) {
+                  image = bgMatch[1];
+                }
+              }
+            }
+            
+            // Extract link
+            let link = '';
+            const linkElement = event.querySelector('a[href]');
+            if (linkElement && linkElement.href) {
+              link = linkElement.href;
+            }
+            
+            return {
+              title,
+              dateText,
+              description,
+              image,
+              link,
+              venue: venueInfo
+            };
+          } catch (error) {
+            console.log(`Error processing event: ${error.message}`);
+            return null;
+          }
+        }).filter(Boolean), // Remove any null entries
+        usedSelector
+      };
+    }, this.venue);
+
+    // Second approach: Try to find events in any blocks that might contain event data
+    // This is a fallback if the first approach doesn't find enough events
+    const eventsFromContent = await page.evaluate((venueInfo) => {
+      // Look for any blocks that might contain event information
+      const contentBlocks = [
+        ...document.querySelectorAll('.wp-block-column'),
+        ...document.querySelectorAll('.elementor-widget-container'),
+        ...document.querySelectorAll('.wp-block-group'),
+        ...document.querySelectorAll('section'),
+        ...document.querySelectorAll('article')
+      ];
+      
+      const results = [];
+      
+      // Look for date patterns and headings in each block
+      for (const block of contentBlocks) {
+        try {
+          const fullText = block.textContent;
+          if (!fullText) continue;
+          
+          // Only process blocks that might contain event info
+          const hasEventTerms = /concert|performance|symphony|show|music|event/i.test(fullText);
+          if (!hasEventTerms) continue;
+          
+          // Look for date patterns
+          const datePattern = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-zA-Z]* \d{1,2}(st|nd|rd|th)?(,? \d{4})?|\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/i;
+          const dateMatch = fullText.match(datePattern);
+          
+          if (dateMatch) {
+            // This block contains a date, might be an event
+            
+            // Extract title from headings
+            let title = '';
+            const heading = block.querySelector('h1, h2, h3, h4, h5, h6');
+            if (heading) {
+              title = heading.textContent.trim();
+            } else {
+              // Try to find a strong text that might be a title
+              const strong = block.querySelector('strong, b');
+              if (strong) {
+                title = strong.textContent.trim();
+              } else {
+                // Get first line that's not the date
+                const lines = fullText.split('\n')
+                  .map(line => line.trim())
+                  .filter(line => line && !datePattern.test(line));
+                
+                if (lines.length > 0) {
+                  title = lines[0];
+                } else {
+                  title = 'Orpheum Concert';
+                }
+              }
+            }
+            
+            // Extract description (text that's not the title or date)
+            let description = fullText.replace(title, '').replace(dateMatch[0], '').trim();
+            
+            // Extract image
+            let image = '';
+            const img = block.querySelector('img');
+            if (img && img.src) {
+              image = img.src;
+            }
+            
+            // Extract link
+            let link = '';
+            const linkEl = block.querySelector('a[href]');
+            if (linkEl && linkEl.href) {
+              link = linkEl.href;
+            }
+            
+            results.push({
+              title,
+              dateText: dateMatch[0],
+              description,
+              image,
+              link,
+              venue: venueInfo
+            });
+          }
+        } catch (error) {
+          // Skip problematic blocks
+          continue;
+        }
+      }
+      
+      return results;
+    }, this.venue);
+    
+    // Combine events from both approaches and remove duplicates
+    let allEvents = [...eventsFromStructured.events];
+    
+    // Only add content events if structured events didn't find much
+    if (allEvents.length < 3) {
+      console.log(`Found ${eventsFromContent.length} additional events from content blocks`);
+      
+      // Add events from content approach, avoiding duplicates
+      for (const contentEvent of eventsFromContent) {
+        // Check if this is likely a duplicate
+        const isDuplicate = allEvents.some(existingEvent => 
+          existingEvent.title === contentEvent.title || 
+          (existingEvent.dateText && contentEvent.dateText && 
+           existingEvent.dateText === contentEvent.dateText)
+        );
+        
+        if (!isDuplicate) {
+          allEvents.push(contentEvent);
+        }
+      }
+    }
+    
+    console.log(`Combined total: ${allEvents.length} events found`);
+    
+    // Process dates and create final event objects
+    // Use try/catch for each event to prevent one bad event from breaking the whole scraper
+    const processedEvents = [];
+    
+    for (const event of allEvents) {
+      try {
+        const { startDate, endDate } = this.parseDates(event.dateText);
+        
+        // Skip events with invalid dates
+        if (!startDate || isNaN(startDate.getTime())) {
+          console.log(`Skipping event with invalid date: ${event.title}`);
+          continue;
+        }
+        
+        // Generate a unique ID based on title and date
+        const dateString = startDate ? startDate.toISOString().split('T')[0] : 'no-date';
+        const uniqueId = slugify(`orpheum-${event.title}-${dateString}`.substring(0, 100), { 
+          lower: true,
+          strict: true,
+          remove: /[*+~.(),'"!:@]/g
+        });
+        
+        processedEvents.push({
+          id: uniqueId,
+          title: event.title,
+          description: event.description,
+          startDate,
+          endDate,
+          image: event.image,
+          venue: this.venue,
+          categories: ['Music', 'Arts & Culture', 'Symphony', 'Classical'],
+          sourceURL: event.link || this.url,
+          lastUpdated: new Date()
+        });
+      } catch (error) {
+        console.error(`Error processing event: ${error.message}`);
+        // Continue with next event
+      }
+    }
+    
+    return processedEvents;
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      // Default to current date if no date text is available
+      const today = new Date();
+      return { startDate: today, endDate: today };
+    }
+
+    try {
+      // Try ISO format first (for datetime attributes)
+      if (dateText.match(/^\d{4}-\d{2}-\d{2}T/)) {
+        const date = new Date(dateText);
+        if (!isNaN(date.getTime())) {
+          return { startDate: date, endDate: date };
+        }
+      }
+      
+      // Look for date patterns with month names
+      const monthPattern = /(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* \d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?/i;
+      const monthMatches = dateText.match(new RegExp(monthPattern, 'gi'));
+      
+      if (monthMatches && monthMatches.length >= 1) {
+        const currentYear = new Date().getFullYear();
+        let startDateText = monthMatches[0];
+        
+        // Add year if not present
+        if (!startDateText.match(/\d{4}/)) {
+          startDateText = `${startDateText}, ${currentYear}`;
+        }
+        
+        let startDate = new Date(startDateText);
+        let endDate;
+        
+        if (monthMatches.length >= 2) {
+          let endDateText = monthMatches[1];
+          if (!endDateText.match(/\d{4}/)) {
+            endDateText = `${endDateText}, ${currentYear}`;
+          }
+          endDate = new Date(endDateText);
+        } else {
+          endDate = new Date(startDate);
+        }
+        
+        // Look for time information
+        const timePattern = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i;
+        const timeMatches = dateText.match(new RegExp(timePattern, 'gi'));
+        
+        if (timeMatches && timeMatches.length >= 1) {
+          const startTimeMatch = timeMatches[0].match(timePattern);
+          if (startTimeMatch) {
+            let hours = parseInt(startTimeMatch[1]);
+            const minutes = startTimeMatch[2] ? parseInt(startTimeMatch[2]) : 0;
+            const isPM = startTimeMatch[3].toLowerCase() === 'pm';
+            
+            if (isPM && hours < 12) hours += 12;
+            if (!isPM && hours === 12) hours = 0;
+            
+            startDate.setHours(hours, minutes);
+          }
+          
+          if (timeMatches.length >= 2) {
+            const endTimeMatch = timeMatches[1].match(timePattern);
+            if (endTimeMatch) {
+              let hours = parseInt(endTimeMatch[1]);
+              const minutes = endTimeMatch[2] ? parseInt(endTimeMatch[2]) : 0;
+              const isPM = endTimeMatch[3].toLowerCase() === 'pm';
+              
+              if (isPM && hours < 12) hours += 12;
+              if (!isPM && hours === 12) hours = 0;
+              
+              endDate.setHours(hours, minutes);
+            }
+          }
+        }
+        
+        return { startDate, endDate };
+      }
+      
+      // Try direct parsing as a fallback
+      const date = new Date(dateText);
+      if (!isNaN(date.getTime())) {
+        return { startDate: date, endDate: date };
+      }
+      
+      // If all else fails, use current date
+      const today = new Date();
+      return { startDate: today, endDate: today };
+    } catch (error) {
+      console.error('Error parsing dates:', error);
+      const today = new Date();
+      return { startDate: today, endDate: today };
+    }
+  }
+  
+  /**
+   * Scroll the page to trigger lazy loading with human-like behavior
+   * @param {Page} page - Puppeteer page object
+   */
+  /**
+   * Scroll the page to trigger lazy loading with human-like behavior
+   * @param {Page} page - Puppeteer page object
+   */
+  async scrollPage(page) {
+    // Get page height for intelligent scrolling
+    const pageHeight = await page.evaluate(() => document.body.scrollHeight);
+    
+    console.log(`Scrolling page with height ${pageHeight}px to load dynamic content...`);
+    
+    // Human-like scrolling pattern with random pauses
+    await page.evaluate(async () => {
+      const randomScrollDelay = (min, max) => {
+        const delay = Math.floor(Math.random() * (max - min + 1) + min);
+        return new Promise(resolve => setTimeout(resolve, delay));
+      };
+      
+      // Initial pause like a human would do
+      await randomScrollDelay(500, 1500);
+      
+      // Random number of scrolls (5-8) with varying distances
+      const scrollCount = Math.floor(Math.random() * 4) + 5;
+      
+      for (let i = 0; i < scrollCount; i++) {
+        // Random scroll distance between 300-800px
+        const scrollDistance = Math.floor(Math.random() * 500) + 300;
+        window.scrollBy(0, scrollDistance);
+        
+        // Random pause between scrolls (400-2000ms)
+        await randomScrollDelay(400, 2000);
+        
+        // Small chance (20%) to scroll back up slightly to simulate reading behavior
+        if (Math.random() < 0.2) {
+          window.scrollBy(0, -Math.floor(Math.random() * 200));
+          await randomScrollDelay(300, 800);
+        }
+      }
+      
+      // Final scroll to bottom to ensure all content is loaded
+      
+      if (monthMatches.length >= 2) {
+        let endDateText = monthMatches[1];
+        if (!endDateText.match(/\d{4}/)) {
+          endDateText = `${endDateText}, ${currentYear}`;
+        }
+        endDate = new Date(endDateText);
+      } else {
+        endDate = new Date(startDate);
+      }
+      
+      // Look for time information
+      const timePattern = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i;
+      const timeMatches = dateText.match(new RegExp(timePattern, 'gi'));
+      
+      if (timeMatches && timeMatches.length >= 1) {
+        const startTimeMatch = timeMatches[0].match(timePattern);
+        if (startTimeMatch) {
+          let hours = parseInt(startTimeMatch[1]);
+          const minutes = startTimeMatch[2] ? parseInt(startTimeMatch[2]) : 0;
+          const isPM = startTimeMatch[3].toLowerCase() === 'pm';
+          
+          if (isPM && hours < 12) hours += 12;
+          if (!isPM && hours === 12) hours = 0;
+          
+          startDate.setHours(hours, minutes);
+        }
+        
+        if (timeMatches.length >= 2) {
+          const endTimeMatch = timeMatches[1].match(timePattern);
+          if (endTimeMatch) {
+            let hours = parseInt(endTimeMatch[1]);
+            const minutes = endTimeMatch[2] ? parseInt(endTimeMatch[2]) : 0;
+            const isPM = endTimeMatch[3].toLowerCase() === 'pm';
+            
+            if (isPM && hours < 12) hours += 12;
+            if (!isPM && hours === 12) hours = 0;
+            
+            endDate.setHours(hours, minutes);
+          }
+        }
+      }
+      
+      return { startDate, endDate };
+    }
+    
+    // Try direct parsing as a fallback
+    const date = new Date(dateText);
+    if (!isNaN(date.getTime())) {
+      return { startDate: date, endDate: date };
+    }
+    if (text.includes('event') || href.includes('event')) score += 5;
+    if (text.includes('concert') || href.includes('concert')) score += 5;
+    if (text.includes('performance') || href.includes('performance')) score += 4;
+    if (text.includes('orpheum') || href.includes('orpheum')) score += 10;
+    if (text.includes('schedule') || href.includes('schedule')) score += 3;
+    if (text.includes('calendar') || href.includes('calendar')) score += 3;
+    if (text.includes('season') || href.includes('season')) score += 2;
+    
+    return score;
+  }
+}
+
+module.exports = OrpheumEvents;
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new OrpheumEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.OrpheumEvents = OrpheumEvents;

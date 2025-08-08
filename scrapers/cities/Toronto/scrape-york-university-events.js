@@ -9,22 +9,22 @@ class YorkUniversityEventsScraper {
         this.country = 'Canada';
     }
 
-    async scrape() {
-        const browser = await puppeteer.launch({ 
+    async scrape(city) {
+        const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        };
+
         try {
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
+
             console.log(`🦁 Scraping ${this.name} (North York)...`);
-            
-            await page.goto(this.url, { 
+
+            await page.goto(this.url, {
                 waitUntil: 'networkidle2',
                 timeout: 30000
-            });
+            };
 
             await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -41,7 +41,7 @@ class YorkUniversityEventsScraper {
 
                         if (titleEl && titleEl.textContent?.trim()) {
                             const title = titleEl.textContent.trim();
-                            
+
                             if (title.length < 3) return;
 
                             let startDate = new Date();
@@ -58,7 +58,7 @@ class YorkUniversityEventsScraper {
                                 venue: {
                                     name: 'York University',
                                     address: '4700 Keele St, North York, ON M3J 1P3',
-                                    city: 'Toronto',
+                                    city: city,
                                     province: 'Ontario',
                                     country: 'Canada',
                                     location: {
@@ -70,21 +70,20 @@ class YorkUniversityEventsScraper {
                                 price: 'Free',
                                 url: linkEl?.href || 'https://www.yorku.ca/events',
                                 source: 'York University Events',
-                                city: 'Toronto',
+                                city: city,
                                 province: 'Ontario',
                                 country: 'Canada',
                                 streetAddress: '4700 Keele St, North York, ON M3J 1P3'
-                            });
+                            };
                         }
                     } catch (error) {
                         console.log('Error processing event:', error.message);
                     }
-                });
+                };
 
                 return events;
-            });
+            };
 
-            // No fallback/sample events - comply with user rule
 
             console.log(`✅ Found ${events.length} events from ${this.name} (North York)`);
             return events;
@@ -98,4 +97,11 @@ class YorkUniversityEventsScraper {
     }
 }
 
-module.exports = YorkUniversityEventsScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new YorkUniversityEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.YorkUniversityEventsScraper = YorkUniversityEventsScraper;

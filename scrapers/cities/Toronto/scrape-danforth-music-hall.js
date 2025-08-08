@@ -1,176 +1,97 @@
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
 
-class DanforthMusicHallScraper {
-    constructor() {
-        this.name = 'Danforth Music Hall';
-        this.url = 'https://www.danforthmusichal.com/events';
-        this.city = 'Toronto';
-        this.province = 'Ontario';
-        this.country = 'Canada';
+class DanforthMusicHallScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'The Danforth Music Hall';
+        this.url = 'https://thedanforth.com/';
+        this.venue = {
+            name: 'The Danforth Music Hall',
+            address: '147 Danforth Ave, Toronto, ON M4K 1N2',
+            city: city,
+            province: 'ON',
+            country: 'Canada',
+            latitude: 43.6777,
+            longitude: -79.3657,
+            website: 'https://thedanforth.com/'
+        };
     }
 
-    async scrape() {
-        const browser = await puppeteer.launch({ 
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+    _generateEventId(title, startDate) {
+        const dateStr = startDate ? startDate.toISOString().split('T')[0] : 'nodate';
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    removeDuplicates(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.startDate ? event.startDate.toDaeventDateText() : 'no-date'}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        };
+    }
+
+    async scrape(city) {
+        this.log(`Scraping events from ${this.source}`);
         try {
-            const page = await browser.newPage();
-            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
-            console.log(`🎵 Scraping ${this.name}...`);
-            
-            await page.goto(this.url, { 
-                waitUntil: 'networkidle2',
-                timeout: 30000
-            });
+            const { data } = await axios.get(this.url, { timeout: 15000 };
+            const $ = cheerio.load(data);
+            const events = [];
 
-            // Wait for events to load
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            $('.list-view-details').each((_, el) => {
+                const title = this.cleanText($(el).find('h2.title a').text());
+                if (!title) return;
 
-            const events = await page.evaluate(() => {
-                const eventElements = document.querySelectorAll('.event-item, .show, .event, [class*="event"], [class*="show"]');
-                const events = [];
+                const eventUrl = $(el).find('h2.title a').attr('href');
+                const dateText = this.cleanText($(el).find('.dates').text());
 
-                eventElements.forEach(element => {
-                    try {
-                        // Try various selectors for event data
-                        const titleEl = element.querySelector('.event-title, .show-title, .title, h2, h3, h4') || 
-                                       element.querySelector('a[href*="event"], a[href*="show"]');
-                        
-                        const dateEl = element.querySelector('.date, .event-date, .show-date, time, [datetime]') || 
-                                      element.querySelector('.day, .month, .year');
-                        
-                        const venueEl = element.querySelector('.venue, .location, .place');
-                        
-                        const linkEl = element.querySelector('a[href]') || titleEl;
-                        
-                        const imageEl = element.querySelector('img');
-                        
-                        const priceEl = element.querySelector('.price, .cost, [class*="price"], [class*="cost"]');
+                // Date parsing logic
+                const startDate = dateText ? new Date(dateText) : null;
+                if (!startDate || isNaN(startDate.getTime()) || startDate < new Date()) {
+                    return; // Skip if date is invalid, in the past, or not found
+                }
 
-                        if (titleEl && (titleEl.textContent?.trim() || titleEl.getAttribute('alt'))) {
-                            const title = titleEl.textContent?.trim() || titleEl.getAttribute('alt') || 'Event at Danforth Music Hall';
-                            
-                            // Skip if this looks like navigation or generic text
-                            if (title.length < 3 || 
-                                title.toLowerCase().includes('home') || 
-                                title.toLowerCase().includes('about') ||
-                                title.toLowerCase().includes('contact')) {
-                                return;
-                            }
+                const eventId = this._generateEventId(title, startDate);
+                const categories = [this.city, 'Music', 'Concert'];
 
-                            let startDate = null;
-                            let dateText = dateEl?.textContent?.trim();
-                            
-                            if (dateText) {
-                                // Try to parse various date formats
-                                const dateMatch = dateText.match(/(\w+\s+\d{1,2}(?:,\s*\d{4})?|\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{2}-\d{2})/i);
-                                if (dateMatch) {
-                                    const parsedDate = new Date(dateMatch[1]);
-                                    if (!isNaN(parsedDate.getTime())) {
-                                        startDate = parsedDate.toISOString();
-                                    }
-                                }
-                            }
+                events.push({
+                    eventId,
+                    title,
+                    description: `See ${title} at The Danforth Music Hall.`,
+                    eventUrl,
+                    imageUrl: null, // No image in list view
+                    startDate,
+                    endDate: startDate, // Assuming single-day events
+                    categories,
+                    venue: this.venue,
+                    source: this.source,
+                    city: this.city,
+                };
+            };
 
-                            // Default to future dates if no date found
-                            if (!startDate) {
-                                const futureDate = new Date();
-                                futureDate.setDate(futureDate.getDate() + Math.floor(Math.random() * 60) + 1);
-                                startDate = futureDate.toISOString();
-                            }
-
-                            // Generate unique ID for the event
-                            const eventId = `danforth-music-hall-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${new Date(startDate).getTime()}`;
-
-                            events.push({
-                                id: eventId,
-                                title: title,
-                                description: element.textContent?.replace(/\s+/g, ' ')?.trim()?.substring(0, 500) || `Live performance at ${title}`,
-                                startDate: startDate,
-                                venue: {
-                                    name: 'Danforth Music Hall',
-                                    address: '147 Danforth Ave, Toronto, ON M4K 1N2',
-                                    city: 'Toronto',
-                                    province: 'Ontario',
-                                    country: 'Canada',
-                                    location: {
-                                        address: '147 Danforth Ave, Toronto, ON M4K 1N2',
-                                        coordinates: [-79.3657, 43.6777]
-                                    }
-                                },
-                                category: 'Music & Concerts',
-                                price: priceEl?.textContent?.trim() || 'Check website',
-                                url: linkEl?.href ? new URL(linkEl.href, window.location.origin).href : null,
-                                image: imageEl?.src ? new URL(imageEl.src, window.location.origin).href : null,
-                                source: 'Danforth Music Hall',
-                                city: 'Toronto',
-                                province: 'Ontario',
-                                country: 'Canada',
-                                streetAddress: '147 Danforth Ave, Toronto, ON M4K 1N2'
-                            });
-                        }
-                    } catch (error) {
-                        console.log('Error processing event element:', error.message);
-                    }
-                });
-
-                return events;
-            });
-
-            // If no events found with standard selectors, create some representative events
-            if (events.length === 0) {
-                console.log('📅 No events found, creating representative concerts...');
-                
-                const concertNames = [
-                    'Indie Rock Night', 'Electronic Dance Party', 'Hip Hop Showcase', 
-                    'Alternative Rock Concert', 'DJ Set & Dancing', 'Rock & Roll Revival',
-                    'Underground Music Night', 'Live Band Showcase', 'Music Festival Preview'
-                ];
-
-                concertNames.forEach((name, index) => {
-                    const futureDate = new Date();
-                    futureDate.setDate(futureDate.getDate() + (index * 7) + Math.floor(Math.random() * 7));
-                    
-                    events.push({
-                        title: name,
-                        description: `Live music performance featuring ${name.toLowerCase()} at Toronto's premier music venue`,
-                        startDate: futureDate.toISOString(),
-                        venue: {
-                            name: 'Danforth Music Hall',
-                            address: '147 Danforth Ave, Toronto, ON M4K 1N2',
-                            city: 'Toronto',
-                            province: 'Ontario',
-                            country: 'Canada',
-                            location: {
-                                address: '147 Danforth Ave, Toronto, ON M4K 1N2',
-                                coordinates: [-79.3657, 43.6777]
-                            }
-                        },
-                        category: 'Music & Concerts',
-                        price: '$25 - $45',
-                        url: 'https://www.danforthmusichal.com/events',
-                        source: 'Danforth Music Hall',
-                        city: 'Toronto',
-                        province: 'Ontario',
-                        country: 'Canada',
-                        streetAddress: '147 Danforth Ave, Toronto, ON M4K 1N2'
-                    });
-                });
-            }
-
-            console.log(`✅ Found ${events.length} events from ${this.name}`);
-            return events;
-
+            this.log(`Found ${events.length} events from ${this.source}.`);
+            return this.removeDuplicates(events);
         } catch (error) {
-            console.error(`❌ Error scraping ${this.name}:`, error.message);
+            this.log(`Error scraping ${this.source}: ${error.message}`);
+            if (axios.isAxiosError(error) && error.response) {
+                this.log(`Status: ${error.response.status} - ${error.response.statusText}`);
+            }
             return [];
-        } finally {
-            await browser.close();
         }
     }
 }
 
-module.exports = DanforthMusicHallScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new DanforthMusicHallScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.DanforthMusicHallScraper = DanforthMusicHallScraper;

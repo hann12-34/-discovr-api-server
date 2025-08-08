@@ -13,12 +13,13 @@ const eventbriteScraper = require('./sources/eventbrite');
 const meetupScraper = require('./sources/meetup');
 const localVenuesScraper = require('./sources/localVenues');
 const tourismBoardScraper = require('./sources/tourismBoard');
-const roxyScraper = require('./roxy-scraper');
+// const roxyScraper = require('./roxy-scraper'); // TODO: Fix - missing module
 const { scrape: scrapeRickshaw } = require('./rickshaw-scraper');
 const { scrape: scrapeCommodore } = require('./commodore-scraper');
 const { scrape: scrapeCultch } = require('./cultch-scraper');
 const { scrape: scrapePenthouse } = require('./penthouse-scraper');
-const { scrape: scrapeOrpheum } = require('./orpheum-scraper');
+// const orpheumScraper = require('./orpheum-scraper'); // TODO: Fix - missing module
+// const { scrape: scrapeOrpheum } = require('./orpheum-scraper');
 const { scrape: scrapePearl, sourceIdentifier: pearlSourceIdentifier } = require('./pearl-scraper');
 const { scrape: scrapeLivingRoom, sourceIdentifier: livingRoomSourceIdentifier } = require('./livingroom-scraper');
 const { scrape: scrapeVogue, sourceIdentifier: vogueSourceIdentifier } = require('./vogue-scraper');
@@ -49,12 +50,12 @@ class ScraperCoordinator {
       localVenuesScraper,
       tourismBoardScraper,
       cityScraper,
-      roxyScraper,
+      // roxyScraper, // TODO: Fix - missing module
       commodoreScraper,
       rickshawScraper,
       cultchScraper,
       penthouseScraper,
-      { scrape: scrapeOrpheum, sourceIdentifier: 'orpheum-theatre' },
+      // { scrape: scrapeOrpheum, sourceIdentifier: 'orpheum-theatre' },
       { scrape: scrapePearl, sourceIdentifier: pearlSourceIdentifier },
       livingRoomScraper,
       { scrape: scrapeVogue, sourceIdentifier: vogueSourceIdentifier },
@@ -99,44 +100,47 @@ class ScraperCoordinator {
    * @param {Object} options - Run options
    * @returns {Promise<Array>} - Array of saved events
    */
-  async runScrapers(options = {}) {
+    async runScrapers(options = {}) {
     if (this.isRunning) {
       console.log('Scraper run already in progress, skipping');
       return [];
     }
-    
+
     try {
       this.isRunning = true;
       console.log('Starting scraper run...');
-      
+
+      const scrapersToExecute = options.scrapers || this.scrapers;
+
       // Run all enabled scrapers in parallel
-      const scraperPromises = this.scrapers.map(scraper => scraper.scrape(options));
+      const scraperPromises = scrapersToExecute.map(scraper => scraper.scrape(options));
       const results = await Promise.allSettled(scraperPromises);
-      
+
       // Aggregate events from successful scrapers
       const allEvents = [];
       results.forEach((result, index) => {
+        const scraperIdentifier = scrapersToExecute[index].sourceIdentifier || `scraper_${index}`;
         if (result.status === 'fulfilled' && Array.isArray(result.value)) {
-          console.log(`${this.scrapers[index].sourceIdentifier} returned ${result.value.length} events`);
+          console.log(`${scraperIdentifier} returned ${result.value.length} events`);
           allEvents.push(...result.value);
         } else {
-          console.error(`${this.scrapers[index].sourceIdentifier} scraper failed:`, 
+          console.error(`${scraperIdentifier} scraper failed:`,
             result.reason ? result.reason.message : 'Unknown error');
         }
       });
-      
+
       console.log(`Total events before deduplication: ${allEvents.length}`);
-      
+
       // Deduplicate events
       const deduplicatedEvents = await deduplication.deduplicateEvents(allEvents);
-      
+
       console.log(`Events after deduplication: ${deduplicatedEvents.length}`);
-      
+
       // Save to MongoDB
       const savedEvents = await this.saveEventsToMongoDB(deduplicatedEvents);
-      
+
       console.log(`Scraper run complete. Saved ${savedEvents.length} events to MongoDB`);
-      
+
       return savedEvents;
     } catch (error) {
       console.error('Error running scrapers:', error);

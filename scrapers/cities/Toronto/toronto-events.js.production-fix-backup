@@ -1,0 +1,35 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+
+    parseDate(dateString) {
+        if (!dateString) return null;
+        
+        try {
+            // Try standard parsing
+            const date = new Date(dateString);
+            if (!isNaN(date.getTime())) {
+                return date.toISOString();
+            }
+            
+            return null;
+        } catch (error) {
+            return null;
+        }
+    }
+    
+    /**
+     * Normalize URL (convert relative to absolute)
+     * @param {string} url - URL from website
+     * @returns {string} Normalized URL
+     */
+    normalizeUrl(url) {
+        if (!url) return '';
+        
+        if (url.startsWith('http')) {
+            return url;
+        }
+        
+        return `${this.baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+    }
+}
+
+module.exports = TorontoEventsOfficial;

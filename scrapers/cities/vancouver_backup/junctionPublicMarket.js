@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Junction Public Market Scraper
  * 
@@ -18,7 +19,7 @@ class JunctionPublicMarketScraper {
       name: 'Junction Public Market',
       id: 'junction-public-market',
       address: '200 Granville St',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6C 1S4',

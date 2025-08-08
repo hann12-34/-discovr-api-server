@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Script to add Junction Craft Brewing events to the database
  * Based on typical events from https://www.junctioncraft.com/
@@ -12,21 +13,23 @@ const uri = process.env.MONGODB_URI;
 
 if (!uri) {
   console.error('❌ MONGODB_URI environment variable not set');
-  process.exit(1);
-}
+  process.exit(1) }
 
-async function addJunctionCraftEvents() {
+async function addJunctionCraftEvents(city = "Toronto") {
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-junction-craft-events.js Toronto');
+    process.exit(1) }
   const client = new MongoClient(uri);
-  
+
   try {
     await client.connect();
     console.log('✅ Connected to MongoDB cloud database');
-    
+
     const database = client.db();
-    const eventsCollection = database.collection('events');
-    
+    const eventsCollection = client.db('events').collection('events');
+
     console.log('🍺 Adding Junction Craft Brewing events to database...');
-    
+
     // List of Junction Craft Brewing events
     const junctionCraftEvents = [
       {
@@ -36,7 +39,7 @@ async function addJunctionCraftEvents() {
         description: "Test your knowledge at Junction Craft Brewing's weekly trivia night! Join our host as teams compete for brewery prizes, bragging rights, and beer specials. No registration required - just show up with your team or join one when you arrive. Enjoy craft beer from our rotating taps while exercising your brain with questions spanning pop culture, history, sports, science, and local Toronto trivia.",
         startDate: new Date("2025-07-17T23:00:00.000Z"), // July 17, 2025, 7:00 PM EST
         endDate: new Date("2025-07-18T02:00:00.000Z"), // July 17, 2025, 10:00 PM EST
-        categories: ["Games", "Beer", "Social", "Trivia", "Toronto"],
+        categories: ["Games", "Beer", "Social", "Trivia", city],
         price: "Free to participate",
         recurring: "Weekly on Thursdays"
       },
@@ -47,7 +50,7 @@ async function addJunctionCraftEvents() {
         description: "Enjoy the sounds of Toronto's vibrant indie music scene at Junction Craft Brewing's Live Music Saturday. This week features performances from local artists in an intimate taproom setting. Sip on award-winning craft beers while supporting local musicians. Food menu available throughout the event featuring brewery favorites and seasonal specials.",
         startDate: new Date("2025-07-19T23:00:00.000Z"), // July 19, 2025, 7:00 PM EST
         endDate: new Date("2025-07-20T02:00:00.000Z"), // July 19, 2025, 10:00 PM EST
-        categories: ["Music", "Beer", "Live Performance", "Indie", "Toronto"],
+        categories: ["Music", "Beer", "Live Performance", "Indie", city],
         price: "No cover charge"
       },
       {
@@ -57,7 +60,7 @@ async function addJunctionCraftEvents() {
         description: "As part of Toronto Craft Beer Week celebrations, Junction Craft Brewing hosts a special tap takeover featuring collaboration brews with five other local Toronto breweries. Sample exclusive small-batch beers, meet the brewers, and enjoy brewery tours throughout the evening. Food pairings available from our kitchen, designed to complement each special release beer.",
         startDate: new Date("2025-07-25T21:00:00.000Z"), // July 25, 2025, 5:00 PM EST
         endDate: new Date("2025-07-26T02:00:00.000Z"), // July 25, 2025, 10:00 PM EST
-        categories: ["Beer", "Festival", "Tasting", "Brewery", "Toronto"],
+        categories: ["Beer", "Festival", "Tasting", "Brewery", city],
         price: "$25 (includes 5 tasting tokens)"
       },
       {
@@ -67,7 +70,7 @@ async function addJunctionCraftEvents() {
         description: "Bring your favorite records to Junction Craft Brewing's Vinyl Night! Our resident DJ will be spinning patron-provided vinyl all evening, creating a community-curated soundtrack. Enjoy $5 off flights and special discounts on select pints while experiencing the warm analog sounds of vinyl in our industrial-chic taproom. Record enthusiasts and casual listeners alike are welcome to this laid-back evening celebrating music and craft beer.",
         startDate: new Date("2025-07-21T23:00:00.000Z"), // July 21, 2025, 7:00 PM EST
         endDate: new Date("2025-07-22T02:00:00.000Z"), // July 21, 2025, 10:00 PM EST
-        categories: ["Music", "Beer", "Social", "Vinyl", "Toronto"],
+        categories: ["Music", "Beer", "Social", "Vinyl", city],
         price: "Free entry",
         recurring: "Monthly on 3rd Monday"
       },
@@ -78,7 +81,7 @@ async function addJunctionCraftEvents() {
         description: "Expand your palate at Junction Craft Brewing's Beer & Food Pairing Workshop. Our head brewer and chef team up to guide participants through five thoughtfully paired beer and food combinations, explaining the flavor principles that make each match work. Learn about beer styles, brewing processes, and how different flavor components interact. Tickets include all beer samples, food pairings, and a take-home tasting guide.",
         startDate: new Date("2025-07-24T22:00:00.000Z"), // July 24, 2025, 6:00 PM EST
         endDate: new Date("2025-07-25T00:00:00.000Z"), // July 24, 2025, 8:00 PM EST
-        categories: ["Workshop", "Beer", "Food", "Tasting", "Toronto"],
+        categories: ["Workshop", "Beer", "Food", "Tasting", city],
         price: "$45 per person",
         recurring: "Monthly on last Thursday"
       },
@@ -89,14 +92,14 @@ async function addJunctionCraftEvents() {
         description: "Browse handmade goods from local artisans at Junction Craft Brewing's Community Craft Market. The brewery transforms into a showcase for Toronto's creative community, featuring jewelry, art, home goods, clothing, and more from independent makers. Grab a pint and explore the diverse offerings while chatting directly with the creators. The perfect opportunity to support local businesses while enjoying Junction's craft beverages in a festive atmosphere.",
         startDate: new Date("2025-07-27T16:00:00.000Z"), // July 27, 2025, 12:00 PM EST
         endDate: new Date("2025-07-27T21:00:00.000Z"), // July 27, 2025, 5:00 PM EST
-        categories: ["Market", "Shopping", "Beer", "Artisan", "Toronto"],
+        categories: ["Market", "Shopping", "Beer", "Artisan", city],
         price: "Free admission",
         recurring: "Last Sunday of each month"
       }
     ];
-    
+
     let addedCount = 0;
-    
+
     // Create properly formatted events and add to database
     for (const eventData of junctionCraftEvents) {
       const event = {
@@ -107,15 +110,15 @@ async function addJunctionCraftEvents() {
         endDate: eventData.endDate,
         url: eventData.url,
         imageUrl: eventData.imageUrl,
-        city: "Toronto",
-        cityId: "Toronto",
+        city: city,
+        cityId: city,
         location: "Toronto, Ontario",
         status: "active",
         categories: eventData.categories,
         venue: {
           name: "Junction Craft Brewing",
           address: "150 Symes Road",
-          city: "Toronto",
+          city: city,
           state: "Ontario",
           country: "Canada",
           coordinates: {
@@ -126,43 +129,40 @@ async function addJunctionCraftEvents() {
         price: eventData.price,
         tags: ["craft-beer", "brewery", "taproom", "the-junction", "local-business"]
       };
-      
+
       // Add recurring field if it exists
       if (eventData.recurring) {
-        event.recurring = eventData.recurring;
-      }
-      
+        event.recurring = eventData.recurring }
+
       // Check if event already exists
       const existingEvent = await eventsCollection.findOne({
         name: event.name,
         startDate: event.startDate
       });
-      
+
       if (!existingEvent) {
         await eventsCollection.insertOne(event);
         addedCount++;
-        console.log(`✅ Added event: ${event.name}`);
-      } else {
-        console.log(`⏭️ Event already exists: ${event.name}`);
-      }
+        console.log(`✅ Added event: ${event.name}`) } else {
+        console.log(`⏭️ Event already exists: ${event.name}`) }
     }
-    
+
     console.log(`\n📊 Added ${addedCount} new events from Junction Craft Brewing`);
-    
+
     // Verify Toronto events count
     const torontoEvents = await eventsCollection.find({
-      city: "Toronto"
+      city: city
     }).toArray();
-    
-    console.log(`📊 Total events with city="Toronto" now: ${torontoEvents.length}`);
-    
-  } catch (error) {
-    console.error('❌ Error adding Junction Craft Brewing events:', error);
-  } finally {
+
+    console.log(`📊 Total events with city="${city}" now: ${torontoEvents.length}`) } catch (error) {
+    console.error('❌ Error adding Junction Craft Brewing events:', error) } finally {
     await client.close();
-    console.log('🔌 Disconnected from MongoDB');
-  }
+    console.log('🔌 Disconnected from MongoDB') }
 }
 
 // Run the script
 addJunctionCraftEvents().catch(console.error);
+
+module.exports = async (city) => {
+    return await addJunctionCraftEvents(city);
+};

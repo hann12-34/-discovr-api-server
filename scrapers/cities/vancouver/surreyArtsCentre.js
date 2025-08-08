@@ -6,41 +6,41 @@ class SurreyArtsCentreScraper {
     this.source = 'Surrey Arts Centre';
   }
 
-  async scrape() {
+  async scrape(city) {
     console.log(`🎭 Scraping ${this.name}...`);
-    
+
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    
+    };
+
     try {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      
+
       // Navigate to Surrey Arts Centre events
       await page.goto('https://www.surrey.ca/arts-culture/surrey-arts-centre', {
         waitUntil: 'networkidle2',
         timeout: 30000
-      });
+      };
 
       const events = await page.evaluate(() => {
-        const eventElements = document.querySelectorAll('.event-item, .event-card, .event, .show, .performance, [class*="event"]');
+        const eventElements = document.querySelectorAll('-item, -card, , .show, .performance, [class*="event"]');
         const events = [];
-        
+
         eventElements.forEach((element, index) => {
           if (index >= 12) return;
-          
-          const title = element.querySelector('h1, h2, h3, .title, .event-title, .show-title, .name')?.textContent?.trim() ||
+
+          const title = element.querySelector('h1, h2, h3, .title, -title, .show-title, .name')?.textContent?.trim() ||
                        element.textContent?.trim()?.split('\n')[0] ||
                        `Surrey Arts Event ${index + 1}`;
-          
-          const date = element.querySelector('.date, .event-date, .show-date, .time, [class*="date"]')?.textContent?.trim() ||
+
+          const date = element.querySelector('.date, -date, .show-date, .time, [class*="date"]')?.textContent?.trim() ||
                       element.textContent?.match(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i)?.[0];
-          
+
           const description = element.querySelector('.description, .excerpt, .summary, p')?.textContent?.trim() ||
                              'Experience world-class performances and cultural events at Surrey Arts Centre.';
-          
+
           const price = element.querySelector('.price, .cost, .ticket, [class*="price"]')?.textContent?.trim() ||
                        element.textContent?.match(/\$[\d,]+/)?.[0] || '$25';
 
@@ -49,26 +49,26 @@ class SurreyArtsCentreScraper {
             description: description.substring(0, 500),
             date,
             price: typeof price === 'string' ? price : String(price)
-          });
-        });
-        
+          };
+        };
+
         return events;
-      });
+      };
 
       const processedEvents = [];
 
       for (const event of events) {
         let eventDate = new Date();
-        
+
         if (event.date) {
           const parsedDate = new Date(event.date);
           if (!isNaN(parsedDate.getTime())) {
             eventDate = parsedDate;
           }
         }
-        
+
         eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
-        
+
         const processedEvent = {
           title: event.title,
           description: event.description,
@@ -82,7 +82,7 @@ class SurreyArtsCentreScraper {
           venue: {
             name: 'Surrey Arts Centre',
             address: '13750 88 Ave, Surrey, BC V3W 3L1',
-            city: 'Surrey',
+            city: city,
             province: 'BC',
             country: 'Canada',
             location: {
@@ -90,7 +90,7 @@ class SurreyArtsCentreScraper {
               coordinates: [-122.8447, 49.1913]
             }
           },
-          city: 'Vancouver'
+          city: city
         };
 
         processedEvents.push(processedEvent);
@@ -119,9 +119,9 @@ class SurreyArtsCentreScraper {
         surreyEvents.forEach((event, index) => {
           const eventDate = new Date();
           eventDate.setDate(eventDate.getDate() + (index + 1) * 22);
-          
+
           processedEvents.push({
-            ...event,
+            ..,
             startDate: eventDate.toISOString(),
             endDate: eventDate.toISOString(),
             source: this.source,
@@ -131,7 +131,7 @@ class SurreyArtsCentreScraper {
             venue: {
               name: 'Surrey Arts Centre',
               address: '13750 88 Ave, Surrey, BC V3W 3L1',
-              city: 'Surrey',
+              city: city,
               province: 'BC',
               country: 'Canada',
               location: {
@@ -139,9 +139,9 @@ class SurreyArtsCentreScraper {
                 coordinates: [-122.8447, 49.1913]
               }
             },
-            city: 'Vancouver'
-          });
-        });
+            city: city
+          };
+        };
       }
 
       console.log(`✅ Found ${processedEvents.length} events from ${this.name}`);
@@ -157,3 +157,13 @@ class SurreyArtsCentreScraper {
 }
 
 module.exports = new SurreyArtsCentreScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SurreyArtsCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SurreyArtsCentreScraper = SurreyArtsCentreScraper;

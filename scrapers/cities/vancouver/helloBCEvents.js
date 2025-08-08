@@ -1,6 +1,6 @@
 /**
  * HelloBC Events Scraper
- * 
+ *
  * This scraper provides information about events from HelloBC (British Columbia's official tourism website)
  * Source: https://www.hellobc.com/things-to-do/events/
  */
@@ -14,14 +14,14 @@ class HelloBCEventsScraper {
     this.name = 'HelloBC Events';
     this.url = 'https://www.hellobc.com/things-to-do/events/';
     this.sourceIdentifier = 'hellobc-events';
-    
+
     // This isn't a traditional venue but rather a source/aggregator of events across BC
     // However, we'll create a "virtual venue" to maintain consistency with the scraper structure
     this.venue = {
       name: "HelloBC Events",
       id: "hellobc-events",
       address: "Multiple locations across British Columbia",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       websiteUrl: "https://www.hellobc.com/things-to-do/events/",
@@ -29,19 +29,19 @@ class HelloBCEventsScraper {
     };
 
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting HelloBC Events scraper...');
     const events = [];
-    
+
     try {
       // Get events from the main events page
       console.log('Fetching events from HelloBC website...');
       const mainPageEvents = await this.fetchEventsFromMainPage();
-      
+
       // Process each event to get detailed information
       for (const eventUrl of mainPageEvents) {
         try {
@@ -54,7 +54,7 @@ class HelloBCEventsScraper {
           console.error(`❌ Error processing event ${eventUrl}: ${eventError.message}`);
         }
       }
-      
+
       return events;
 
     } catch (error) {
@@ -78,16 +78,16 @@ class HelloBCEventsScraper {
       $('.js-event-card').each((i, element) => {
         // Get the event title
         const title = $(element).find('h4').text().trim();
-        
+
         // Skip if no title or if title looks like a social media button
         if (!title || title.includes('Share') || title.includes('Pin') || title.includes('Logo')) {
           return;
         }
-        
+
         // Find the link within the event card
         const link = $(element).closest('a');
         let href = link.attr('href');
-        
+
         // If no direct link, try to find a link within the card
         if (!href) {
           href = $(element).find('a').attr('href');
@@ -104,11 +104,11 @@ class HelloBCEventsScraper {
           if (href.includes('/events/') || href.includes('/event/')) {
             // Convert relative URLs to absolute
             const eventUrl = href.startsWith('http') ? href : `https://www.hellobc.com${href}`;
-            
+
             // Skip known non-event URLs
-            if (eventUrl.includes('pinterest.com') || 
-                eventUrl.includes('facebook.com') || 
-                eventUrl.includes('twitter.com') || 
+            if (eventUrl.includes('pinterest.com') ||
+                eventUrl.includes('facebook.com') ||
+                eventUrl.includes('twitter.com') ||
                 eventUrl.includes('instagram.com')) {
               return;
             }
@@ -120,7 +120,7 @@ class HelloBCEventsScraper {
             }
           }
         }
-      });
+      };
 
       console.log(`Found ${eventUrls.length} event links on the main page`);
 
@@ -130,30 +130,30 @@ class HelloBCEventsScraper {
         $('a').each((i, element) => {
           const href = $(element).attr('href');
           const text = $(element).text().trim();
-          
+
           // Skip empty links, social media links, or navigation links
-          if (!href || !text || 
-              href.includes('pinterest.com') || 
-              href.includes('facebook.com') || 
-              href.includes('twitter.com') || 
+          if (!href || !text ||
+              href.includes('pinterest.com') ||
+              href.includes('facebook.com') ||
+              href.includes('twitter.com') ||
               href.includes('instagram.com') ||
               text.length < 3) {
             return;
           }
-          
+
           // Look for event-like URLs
-          if ((href.includes('/events/') || href.includes('/event/')) && 
-              !href.endsWith('/events/') && 
+          if ((href.includes('/events/') || href.includes('/event/')) &&
+              !href.endsWith('/events/') &&
               !href.endsWith('/event/')) {
-            
+
             const eventUrl = href.startsWith('http') ? href : `https://www.hellobc.com${href}`;
-            
+
             if (!eventUrls.includes(eventUrl)) {
               eventUrls.push(eventUrl);
               console.log(`Found event (alternate method): ${text} at ${eventUrl}`);
             }
           }
-        });
+        };
 
         console.log(`Found ${eventUrls.length} event links with alternate selector`);
       }
@@ -165,18 +165,18 @@ class HelloBCEventsScraper {
           if (title && title.length > 3) {
             // Try to find a link associated with this event card
             let href = $(element).find('a').attr('href');
-            
+
             if (href) {
               const eventUrl = href.startsWith('http') ? href : `https://www.hellobc.com${href}`;
-              
+
               if (!eventUrls.includes(eventUrl)) {
                 eventUrls.push(eventUrl);
                 console.log(`Found event (box method): ${title} at ${eventUrl}`);
               }
             }
           }
-        });
-        
+        };
+
         console.log(`Found ${eventUrls.length} total event links after all methods`);
       }
 
@@ -203,26 +203,26 @@ class HelloBCEventsScraper {
       // Extract event details
       // First try to get the title from the h1, then try other heading elements
       let title = $('h1').first().text().trim();
-      
+
       // If no title found or it's too generic, try other heading elements
       if (!title || title.length < 3 || title.toLowerCase().includes('logo') || title.toLowerCase().includes('share')) {
         title = $('h2').first().text().trim() || $('h3').first().text().trim() || $('h4').first().text().trim();
       }
-      
+
       // If still no good title, try to get it from the meta tags
       if (!title || title.length < 3) {
-        title = $('meta[property="og:title"]').attr('content') || 
-                $('meta[name="title"]').attr('content') || 
+        title = $('meta[property="og:title"]').attr('content') ||
+                $('meta[name="title"]').attr('content') ||
                 $('title').text().trim();
       }
-      
+
       // Clean up the title
       title = title.replace('HelloBC', '').replace('| British Columbia', '').trim();
-      
+
       // If title is still not good, skip this event
-      if (!title || title.length < 3 || 
-          title.toLowerCase().includes('logo') || 
-          title.toLowerCase().includes('share') || 
+      if (!title || title.length < 3 ||
+          title.toLowerCase().includes('logo') ||
+          title.toLowerCase().includes('share') ||
           title.toLowerCase().includes('pin')) {
         console.log(`❌ Could not find a valid title for ${eventUrl}`);
         return null;
@@ -230,14 +230,14 @@ class HelloBCEventsScraper {
 
       // Try to find the event date
       let dateText = '';
-      
+
       // Look for date elements with specific classes or attributes
-      $('.date, .event-date, [itemprop="startDate"], .calendar-date, .event-time, time').each((i, element) => {
+      $('.date, -date, [itemprop="startDate"], .calendar-date, -time, time').each((i, element) => {
         const text = $(element).text().trim();
         if (text && !dateText && text.length > 3) {
           dateText = text;
         }
-      });
+      };
 
       // If we couldn't find a specific date element, look for date patterns in the text
       if (!dateText) {
@@ -254,7 +254,7 @@ class HelloBCEventsScraper {
       let startDate = new Date();
       let endDate = new Date();
       endDate.setHours(23, 59, 59);
-      
+
       // If we found a date, try to parse it
       if (dateText) {
         // Try to parse the date text
@@ -266,14 +266,14 @@ class HelloBCEventsScraper {
           endDate.setHours(23, 59, 59);
         } else {
           // Check if it's a date range
-          const dateRangeMatch = dateText.match(/([A-Za-z]+\s+\d{1,2})\s*[-–]\s*(\d{1,2})\s*,\s*(\d{4})/);
+          const dateRangeMatch = dateText.match(/([A-Za-z]+\s+\d{1,2}\s*[-–]\s*(\d{1,2}\s*,\s*(\d{4}/);
           if (dateRangeMatch) {
             const startDateText = `${dateRangeMatch[1]}, ${dateRangeMatch[3]}`;
             const endDateText = `${dateRangeMatch[2]}, ${dateRangeMatch[3]}`;
-            
+
             const parsedStartDate = new Date(startDateText);
             const parsedEndDate = new Date(endDateText);
-            
+
             if (!isNaN(parsedStartDate.getTime()) && !isNaN(parsedEndDate.getTime())) {
               startDate = parsedStartDate;
               endDate = parsedEndDate;
@@ -285,42 +285,42 @@ class HelloBCEventsScraper {
 
       // Extract description
       let description = '';
-      
+
       // First try to get the meta description
       const metaDescription = $('meta[name="description"]').attr('content') || $('meta[property="og:description"]').attr('content');
       if (metaDescription && metaDescription.length > 50) {
         description = metaDescription + '\n\n';
       }
-      
+
       // Then look for substantial paragraphs
-      $('p, [itemprop="description"], .description, .event-description').each((i, element) => {
+      $('p, [itemprop="description"], .description, -description').each((i, element) => {
         const text = $(element).text().trim();
         if (text && text.length > 50 && !text.includes('©') && !text.includes('copyright')) {
           description += text + '\n\n';
         }
-      });
-      
+      };
+
       // If description is still too short, try to get more content
       if (description.length < 100) {
-        $('.content, .event-content, article').each((i, element) => {
+        $('.content, -content, article').each((i, element) => {
           const text = $(element).text().trim();
           if (text && text.length > 100) {
             description += text + '\n\n';
           }
-        });
+        };
       }
 
       // Extract location
       let location = {
         name: '',
         address: '',
-        city: 'Vancouver', // Default to Vancouver if we can't find specific location
+        city: city, // Default to Vancouver if we can't find specific location
         state: 'BC',
         country: 'Canada'
       };
 
       // Look for location information
-      $('[itemprop="location"], .location, .venue, .address, .event-location').each((i, element) => {
+      $('[itemprop="location"], .location, .venue, .address, -location').each((i, element) => {
         const text = $(element).text().trim();
         if (text) {
           location.name = text;
@@ -331,8 +331,8 @@ class HelloBCEventsScraper {
             location.city = cityMatch[0];
           }
         }
-      });
-      
+      };
+
       // If we couldn't find a location name, use the title
       if (!location.name) {
         // Check if the event title contains a location
@@ -353,7 +353,7 @@ class HelloBCEventsScraper {
 
       // Extract image
       let imageUrl = null;
-      
+
       // First try to get the OpenGraph image
       const ogImage = $('meta[property="og:image"]').attr('content');
       if (ogImage) {
@@ -366,14 +366,14 @@ class HelloBCEventsScraper {
           const alt = $(element).attr('alt');
           const width = $(element).attr('width');
           const height = $(element).attr('height');
-          
+
           // Skip small images, icons, logos, and social media buttons
-          if (src && !imageUrl && 
-              !src.includes('logo') && 
-              !src.includes('icon') && 
-              !src.includes('share') && 
+          if (src && !imageUrl &&
+              !src.includes('logo') &&
+              !src.includes('icon') &&
+              !src.includes('share') &&
               !src.includes('social') &&
-              (!width || parseInt(width) > 200) && 
+              (!width || parseInt(width) > 200) &&
               (!height || parseInt(height) > 200)) {
             imageUrl = src.startsWith('http') ? src : `https://www.hellobc.com${src}`;
           } else if (srcset && !imageUrl) {
@@ -384,25 +384,25 @@ class HelloBCEventsScraper {
               imageUrl = lastSrc.startsWith('http') ? lastSrc : `https://www.hellobc.com${lastSrc}`;
             }
           }
-        });
+        };
       }
 
       // Extract categories
       const categories = ['festival', 'event', 'tourism', 'british columbia'];
-      
+
       // Look for category tags
-      $('.category, .tag, .event-type, .event-category').each((i, element) => {
+      $('.category, .tag, -type, -category').each((i, element) => {
         const category = $(element).text().trim().toLowerCase();
         if (category && !categories.includes(category)) {
           categories.push(category);
         }
-      });
+      };
 
       // Add city as a category
       if (location.city && !categories.includes(location.city.toLowerCase())) {
         categories.push(location.city.toLowerCase());
       }
-      
+
       // Add categories based on the title
       if (title.toLowerCase().includes('music') || title.toLowerCase().includes('concert')) {
         categories.push('music', 'concert');
@@ -418,13 +418,13 @@ class HelloBCEventsScraper {
       }
 
       // Generate a unique ID for the event
-      const slugifiedTitle = slugify(title, { lower: true, strict: true });
+      const slugifiedTitle = slugify(title, { lower: true, strict: true };
       const eventId = `hellobc-${slugifiedTitle}`;
 
       // Create venue object
       const venue = {
         name: location.name || 'Event Venue',
-        id: `${location.city.toLowerCase().replace(/\s+/g, '-')}-${slugify(location.name || 'venue', { lower: true, strict: true })}`,
+        id: `${location.city.toLowerCase().replace(/\s+/g, '-')}-${slugify(location.name || 'venue', { lower: true, strict: true }}`,
         address: location.address,
         city: location.city,
         state: location.state,
@@ -455,3 +455,13 @@ class HelloBCEventsScraper {
 }
 
 module.exports = new HelloBCEventsScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new HelloBCEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.HelloBCEventsScraper = HelloBCEventsScraper;

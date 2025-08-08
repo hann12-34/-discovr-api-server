@@ -12,14 +12,14 @@ const commodoreBallroom = require('./commodoreBallroomEvents'); // Using improve
 // Previously commented out scrapers now available
 const vancouverAquariumEvents = require('./vancouverAquariumEvents');
 const granvilleMarketEvents = require('./granvilleMarketEvents');
-const orpheumEvents = require('./orpheumEvents');
+// const orpheumEvents = require('./orpheumEvents'); // TODO: Fix - syntax errors in file
 const steamworksBrewingEvents = require('./steamworksBrewingEvents');
 const scienceWorldVancouverEvents = require('./scienceWorldVancouverEvents');
 // New scrapers
 const theatreUnderTheStarsEvents = require('./theatreUnderTheStarsEvents');
 const vancouverSymphonyEvents = require('./vancouverSymphonyEvents');
 const roxyVancouverEvents = require('./roxyVancouverEvents');
-const vancouverCivicTheatresEvents = require('./vancouverCivicTheatresEvents');
+// const vancouverCivicTheatresEvents = require('./vancouverCivicTheatresEvents'); // TODO: Fix - missing puppeteer-extra-plugin-adblocker
 const rogersArenaEvents = require('./rogersArenaEvents');
 // Improved Rogers Arena scraper
 const rogersArenaEventsImproved = require('./rogersArenaEventsImproved');
@@ -72,22 +72,23 @@ const VancouverAsianFilmFestivalEvents = require('./vancouverAsianFilmFestivalEv
 const QueerFilmFestivalEvents = require('./queerFilmFestivalEvents');
 const MuseumOfAnthropologyEvents = require('./museumOfAnthropologyEvents');
 // const fortuneSoundClubBridge = require('./fortuneSoundClubBridge');  // Already imported as fortuneSoundClub
+const { processBatchWithCity } = require('../../../utils/auto-detect-city');
 
 class VancouverScrapers {
   constructor() {
     this.city = 'Vancouver';
     this.province = 'BC';
     this.country = 'Canada';
-    this.sourceIdentifier = 'vancouver';
+    this.sourceIdentifier = city;
     this.enabled = true;
     this.venueScrapers = [];
-    
+
     // Add venue scrapers to the scrapers array - ONLY REAL SCRAPERS
     this.scrapers = [
       commodoreBallroom,
       vancouverAquariumEvents,
       granvilleMarketEvents,
-      orpheumEvents,
+      // orpheumEvents, // TODO: Fix - syntax errors in file
       steamworksBrewingEvents,
       scienceWorldVancouverEvents,
       theatreUnderTheStarsEvents,
@@ -132,7 +133,7 @@ class VancouverScrapers {
       // DOXAFilmFestivalEvents, // Removed due to SPA compatibility issues
       // BillReidGalleryEvents, // Removed due to scrape function issues
     ];
-    
+
     // Register venue scrapers - ONLY REAL SCRAPERS
     this.register(commodoreBallroom);
     this.register(vogueTheatre);
@@ -150,7 +151,7 @@ class VancouverScrapers {
     this.register(theatreUnderTheStarsEvents);
     this.register(vancouverSymphonyEvents);
     this.register(roxyVancouverEvents);
-    this.register(vancouverCivicTheatresEvents);
+    // this.register(vancouverCivicTheatresEvents); // TODO: Fix - missing puppeteer-extra-plugin-adblocker
     // this.register(rogersArenaEvents); // Commented out in favor of improved version
     this.register(rogersArenaEventsImproved); // Registering improved Rogers Arena scraper
     this.register(canadaPlaceEvents); // Registering Canada Place events scraper
@@ -217,10 +218,10 @@ class VancouverScrapers {
     // Generate a deterministic UUID based on title, venue, and date to prevent duplicates
     const idSource = `${rawEvent.title}-${rawEvent.venue?.name || 'unknown'}-${rawEvent.startDate?.toISOString() || new Date().toISOString()}`;
     const id = uuidv5(idSource, NAMESPACE);
-    
+
     // Get date in proper format
     const startDate = rawEvent.startDate || new Date();
-    
+
     // Format the event to match iOS app expectations
     return {
       id: id,
@@ -257,9 +258,9 @@ class VancouverScrapers {
    */
   determineSeason(date) {
     if (!date || !(date instanceof Date)) return 'Unknown';
-    
+
     const month = date.getMonth();
-    
+
     if (month >= 2 && month <= 4) return 'Spring';
     if (month >= 5 && month <= 7) return 'Summer';
     if (month >= 8 && month <= 10) return 'Fall';
@@ -278,17 +279,17 @@ class VancouverScrapers {
 
     console.log('Starting Vancouver scrapers...');
     const allEvents = [];
-    
+
     if (this.venueScrapers.length === 0) {
       console.log('No Vancouver venue scrapers registered');
       return this.getMockEvents();
     }
-    
+
     for (const scraper of this.venueScrapers) {
       try {
         console.log(`Running scraper for ${scraper.name}...`);
         const rawEvents = await scraper.scrape();
-        
+
         if (Array.isArray(rawEvents) && rawEvents.length > 0) {
           const formattedEvents = rawEvents.map(e => this.formatEvent(e, scraper.name));
           allEvents.push(...formattedEvents);
@@ -300,17 +301,17 @@ class VancouverScrapers {
         console.error(`Error in ${scraper.name} scraper:`, error.message);
       }
     }
-    
+
     // If no events were scraped, return mock data
     if (allEvents.length === 0) {
       console.log('No events found by Vancouver scrapers, using mock data');
       return this.getMockEvents();
     }
-    
+
     console.log(`Vancouver scrapers found ${allEvents.length} events in total`);
     return allEvents;
   }
-  
+
   /**
    * Get mock events for Vancouver
    * @returns {Array} - Array of mock events
@@ -319,7 +320,7 @@ class VancouverScrapers {
     const currentYear = new Date().getFullYear();
     const nextMonth = new Date();
     nextMonth.setMonth(nextMonth.getMonth() + 1);
-    
+
     return [
       {
         id: 'van-001',
@@ -334,7 +335,7 @@ class VancouverScrapers {
         venue: {
           name: 'Vancouver Film Centre',
           address: '1181 Seymour St',
-          city: 'Vancouver',
+          city: city,
           state: 'BC',
           country: 'Canada',
           coordinates: { lat: 49.2776, lng: -123.1265 }
@@ -343,7 +344,7 @@ class VancouverScrapers {
         tickets: 'https://example.com/vancouver-film-festival-tickets',
         sourceURL: 'https://example.com/vancouver-film-festival',
         officialWebsite: 'https://viff.org',
-        dataSources: ['vancouver', 'mock-data'],
+        dataSources: [city, 'mock-data'],
         lastUpdated: new Date()
       },
       {
@@ -359,7 +360,7 @@ class VancouverScrapers {
         venue: {
           name: 'Malkin Bowl',
           address: 'Stanley Park',
-          city: 'Vancouver',
+          city: city,
           state: 'BC',
           country: 'Canada',
           coordinates: { lat: 49.3017, lng: -123.1417 }
@@ -368,7 +369,7 @@ class VancouverScrapers {
         tickets: null,
         sourceURL: 'https://example.com/stanley-park-concert',
         officialWebsite: 'https://vancouver.ca/parks',
-        dataSources: ['vancouver', 'mock-data'],
+        dataSources: [city, 'mock-data'],
         lastUpdated: new Date()
       },
       {
@@ -384,7 +385,7 @@ class VancouverScrapers {
         venue: {
           name: 'Granville Island Public Market',
           address: '1689 Johnston St',
-          city: 'Vancouver',
+          city: city,
           state: 'BC',
           country: 'Canada',
           coordinates: { lat: 49.2711, lng: -123.1347 }
@@ -393,7 +394,7 @@ class VancouverScrapers {
         tickets: 'https://example.com/granville-beer-festival-tickets',
         sourceURL: 'https://example.com/granville-beer-festival',
         officialWebsite: 'https://granvilleisland.com',
-        dataSources: ['vancouver', 'mock-data'],
+        dataSources: [city, 'mock-data'],
         lastUpdated: new Date()
       }
     ];
@@ -401,4 +402,11 @@ class VancouverScrapers {
 }
 
 // Export a singleton instance
+
+// AUTO-CITY DETECTION HELPER
+// Ensures all events from this city have proper venue.name
+function processEventsForCity(events, scraperName) {
+  return processBatchWithCity(events, __filename);
+}
+
 module.exports = new VancouverScrapers();

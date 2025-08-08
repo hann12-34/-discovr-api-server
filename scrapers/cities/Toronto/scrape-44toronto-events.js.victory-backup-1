@@ -1,0 +1,123 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+
+class FortyFourTorontoEventsScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = '44 Toronto';
+        this.url = 'https://www.44toronto.com/events';
+        this.venue = {
+            name: '44 Toronto',
+            address: '44 Gerrard St W, Toronto, ON M5G 2K2',
+            city: this.city,
+            province: 'ON',
+            latitude: 43.6585,
+            longitude: -79.3831,
+        };
+    }
+
+    _generateEventId(title, startDate) {
+        const daeventDateText = startDate instanceof Date ? startDate.toISOString() : new Date(startDate).toISOString();
+        const data = `${this.venue.name}-${title}-${daeventDateText}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    _parseDateAndTime(dateText, timeText = '') {
+        if (!dateText) return null;
+        try {
+            dateText = dateText.trim().replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*/i, '');
+            const currentYear = new Date().getFullYear();
+            if (!dateText.includes(currentYear.toString()) && !dateText.includes((currentYear + 1).toString())) {
+                dateText = `${dateText}, ${currentYear}`;
+            }
+            let startDate = new Date(dateText);
+            if (isNaN(startDate.getTime())) {
+                this.log(`Could not parse date: "${dateText}"`);
+                return null;
+            }
+            let endDate = new Date(startDate);
+            endDate.setHours(endDate.getHours() + 4); // Default event duration
+            return { startDate, endDate };
+        } catch (error) {
+            this.log(`Error parsing date "${dateText}": ${error.message}`);
+            return null;
+        }
+    }
+
+    _extractCategories(title, description) {
+        const categories = [this.city, 'Nightlife', 'Music'];
+        const combinedText = `${title} ${description}`.toLowerCase();
+        if (combinedText.includes('dj')) categories.push('DJ');
+        if (combinedText.includes('live music')) categories.push('Live Music');
+        if (combinedText.includes('hip hop')) categories.push('Hip Hop');
+        if (combinedText.includes('r&b')) categories.push('R&B');
+        if (combinedText.includes('soca')) categories.push('Soca');
+        if (combinedText.includes('reggae')) categories.push('Reggae');
+        return [...new Set(categories)];
+    }
+
+    async scrape() {
+        this.log(`Scraping ${this.source} events...`);
+        try {
+            const { data } = await axios.get(this.url);
+            const $ = cheerio.load(data);
+            const events = [];
+
+            $('.summary-item').each((index, element) => {
+                const el = $(element);
+                const title = el.find('.summary-title-link').text().trim();
+                const eventUrl = `https://www.44toronto.com${el.find('.summary-title-link').attr('href')}`;
+                const dateText = el.find('.summary-thumbnail-container .summary-thumbnail-label').text().trim();
+                const imageUrl = el.find('.summary-thumbnail img').attr('data-src');
+
+                if (!title || !dateText) {
+                    this.log(`Skipping event with missing title or date: ${title}`);
+                    return;
+                }
+
+                const parsedDates = this._parseDateAndTime(dateText);
+                if (!parsedDates) {
+                    return;
+                }
+                const { startDate, endDate } = parsedDates;
+
+                const description = el.find('p, .description, .details, .event-description').first().text().trim() || 'Experience premium nightlife at 44 Toronto with world-class entertainment and sophisticated atmosphere.';
+
+                const event = {
+                    id: this._generateEventId(title, startDate),
+                    title,
+                    description,
+                    url: eventUrl,
+                    imageUrl,
+                    startDate,
+                    endDate,
+                    price: 'Varies',
+                    categories: this._extractCategories(title, description),
+                    venue: this.venue,
+                    source: this.source,
+                    scrapedAt: new Date(),
+                    isActive: true,
+                };
+                events.push(event);
+            });
+
+            this.log(`Found ${events.length} events for ${this.source}.`);
+            return events;
+        } catch (error) {
+            this.log(`Error scraping ${this.source}: ${error.message}`);
+            return [];
+        }
+    }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new FortyFourTorontoEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.FortyFourTorontoEventsScraper = FortyFourTorontoEventsScraper;

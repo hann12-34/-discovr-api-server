@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Rickshaw Theatre Events Scraper
  * Scrapes events from the Rickshaw Theatre in Vancouver
@@ -247,7 +248,7 @@ const RickshawTheatreEvents = {
       venue: {
         name: 'Rickshaw Theatre',
         address: '254 East Hastings Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6A 1P1',

@@ -1,6 +1,6 @@
 /**
  * PNE Fair 2025 Scraper
- * 
+ *
  * This scraper generates events for the annual PNE Fair
  * running from August 16 to September 1, 2025 at Hastings Park
  */
@@ -12,13 +12,13 @@ class PNEFairScraper {
     this.name = 'PNE Fair';
     this.url = 'https://www.pne.ca/fair2025/';
     this.sourceIdentifier = 'pne-fair';
-    
+
     // Define venue with proper object structure
     this.venue = {
       name: 'Hastings Park (PNE Fairgrounds)',
       id: 'hastings-park-pne',
       address: '2901 E Hastings St',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V5K 0A1',
@@ -29,10 +29,10 @@ class PNEFairScraper {
       websiteUrl: 'https://www.pne.ca/fair2025/',
       description: "Hastings Park is home to the annual Pacific National Exhibition (PNE) Fair, a Vancouver tradition since 1910. The 114-acre site hosts various attractions including Playland amusement park, the Pacific Coliseum, livestock buildings, garden displays, and exhibition spaces that transform into a vibrant fairground during the annual summer fair."
     };
-    
+
     // Fair description
     this.fairDescription = "The Pacific National Exhibition (PNE) Fair is Vancouver's largest annual fair, combining agricultural showcases, entertainment, marketplace vendors, and family attractions. The fair features daily shows, exhibits, food vendors, a marketplace, and special events throughout its run. A beloved end-of-summer tradition, the PNE Fair offers something for every age with midway rides, games, live entertainment, and diverse food options.";
-    
+
     // Special events and attractions during the fair
     this.specialEvents = [
       {
@@ -72,7 +72,7 @@ class PNEFairScraper {
         location: "BC Showcase Building"
       }
     ];
-    
+
     // Fair dates in 2025 (closed on August 18 and 25)
     this.operatingDays = [
       '2025-08-16', '2025-08-17',
@@ -90,20 +90,20 @@ class PNEFairScraper {
   generateFairDayId(date) {
     return `pne-fair-${date}`;
   }
-  
+
   /**
    * Create date objects for fair operating hours
-   * @param {string} dateStr - Date in YYYY-MM-DD format
+   * @param {string} da - Date in YYYY-MM-DD format
    * @returns {Object} - Start and end date objects
    */
-  createFairDateTime(dateStr) {
+  createFairDateTime(da) {
     // Fair runs 11am to 11pm each day
-    const startDate = new Date(`${dateStr}T11:00:00`);
-    const endDate = new Date(`${dateStr}T23:00:00`);
-    
+    const startDate = new Date(`${da}T11:00:00`);
+    const endDate = new Date(`${da}T23:00:00`);
+
     return { startDate, endDate };
   }
-  
+
   /**
    * Generate the description for a specific fair day
    * @param {string} date - Event date in YYYY-MM-DD format
@@ -112,45 +112,45 @@ class PNEFairScraper {
   generateDailyDescription(date) {
     // Format the date for display
     const dateObj = new Date(date);
-    const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-    
+    const formattedDate = dateObj.toLocaleDa('en-US', { weekday: 'long', month: 'long', day: 'numeric' };
+
     // Create description with both general fair info and special events
     let description = `Join us for the PNE Fair on ${formattedDate}! ${this.fairDescription}\n\n`;
     description += "Featured attractions and events today include:\n\n";
-    
+
     // Add information about special events
     this.specialEvents.forEach((event) => {
       description += `• ${event.title} - ${event.description} Located at ${event.location}. ${event.times}.\n\n`;
-    });
-    
+    };
+
     description += "The fair is open from 11:00am to 11:00pm. Tickets available online or at the gate.";
-    
+
     return description;
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting PNE Fair 2025 scraper...');
     const events = [];
-    
+
     try {
       // Create an event for each operating day
       for (const date of this.operatingDays) {
         // Create date objects
         const { startDate, endDate } = this.createFairDateTime(date);
-        
+
         // Format the date for the title
         const dateObj = new Date(date);
-        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        
+        const formattedDate = dateObj.toLocaleDa('en-US', { weekday: 'short', month: 'short', day: 'numeric' };
+
         // Format event title
         const eventTitle = `PNE Fair 2025 - ${formattedDate}`;
-        
+
         // Generate comprehensive description for this fair day
         const description = this.generateDailyDescription(date);
-        
+
         // Create event object
         const event = {
           id: this.generateFairDayId(date),
@@ -169,14 +169,14 @@ class PNEFairScraper {
           ticketsUrl: 'https://www.ticketleader.ca/events/detail/pnefair2025',
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventTitle}`);
       }
-      
+
       console.log(`🎉 Successfully scraped ${events.length} PNE Fair day events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in PNE Fair scraper: ${error.message}`);
       return events;
@@ -185,3 +185,13 @@ class PNEFairScraper {
 }
 
 module.exports = new PNEFairScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new PNEFairScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.PNEFairScraper = PNEFairScraper;

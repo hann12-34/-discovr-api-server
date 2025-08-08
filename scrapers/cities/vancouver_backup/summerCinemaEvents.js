@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Summer Cinema Events Scraper
  * 
@@ -344,7 +345,7 @@ class SummerCinemaEvents {
         name: venueName,
         id: `${this.sourceIdentifier}-${slugify(venueName.toLowerCase())}`,
         address,
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates,

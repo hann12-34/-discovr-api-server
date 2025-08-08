@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Symphony Orchestra Events Scraper
  * Scrapes events from Vancouver Symphony Orchestra's website
@@ -13,7 +14,7 @@ class VancouverSymphonyEvents {
     this.venue = {
       name: 'Vancouver Symphony Orchestra',
       address: '500-833 Seymour St, Vancouver, BC V6B 0G4',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2827, lng: -123.1207 }

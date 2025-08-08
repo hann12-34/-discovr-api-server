@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Red Room Vancouver Scraper
  * 
@@ -19,7 +20,7 @@ class RedRoomScraper {
       name: 'Red Room',
       id: 'red-room-vancouver',
       address: '398 Richards St',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 2Z3',

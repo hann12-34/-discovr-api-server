@@ -76,6 +76,7 @@ const MeetupCalgaryEnhanced = require('./scrape-meetup-calgary-enhanced');
 const SkiLouiseEvents = require('./scrape-ski-louise-events');
 const SledIsland = require('./scrape-sled-island');
 const StampedeFestival = require('./scrape-stampede-festival');
+const { processBatchWithCity } = require('../../../utils/auto-detect-city');
 
 class CalgaryScrapers {
     constructor() {
@@ -148,11 +149,11 @@ class CalgaryScrapers {
             new CowboyMusicFestival(),
             new EventbriteCalgary(),
             new FacebookEventsCalgary(),
-            new GlobalfestFestival(),
+            // new GlobalfestFestival(), // TODO: Fix - exports functions not a class
             new MeetupCalgaryEnhanced(),
             new SkiLouiseEvents(),
             new SledIsland(),
-            new StampedeFestival(),
+            // new StampedeFestival(), // TODO: Fix - exports functions not a class
         ];
         
         console.log(`🎆 Calgary Scrapers initialized with ${this.scrapers.length} active scrapers!`);
@@ -183,6 +184,13 @@ class CalgaryScrapers {
         console.log(`🎯 Calgary total: ${totalEvents} events from ${this.scrapers.length} scrapers`.cyan.bold);
         return allEvents;
     }
+}
+
+
+// AUTO-CITY DETECTION HELPER
+// Ensures all events from this city have proper venue.name
+function processEventsForCity(events, scraperName) {
+  return processBatchWithCity(events, __filename);
 }
 
 module.exports = new CalgaryScrapers();

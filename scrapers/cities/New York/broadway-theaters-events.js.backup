@@ -1,0 +1,141 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+/**
+ * Broadway Theaters Events Scraper
+ * Scrapes Broadway show events from Broadway.org and related sources
+ */
+class BroadwayTheatersEvents {
+    constructor() {
+        this.venueName = 'Broadway Theaters';
+        this.venueLocation = 'New York, NY';
+        this.baseUrl = 'https://www.broadway.org';
+        this.eventsUrl = 'https://www.broadway.org/shows/';
+        this.category = 'Broadway Shows & Theater';
+    }
+
+    /**
+     * Main scraping method to fetch events from Broadway Theaters
+     */
+    async scrape() {
+        console.log(`🎭 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.5',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Approach 1: Look for Broadway show containers
+            $('.show-card, .show-item, .production-card, .theater-card, .event-card').each((index, element) => {
+                const $el = $(element);
+                const title = $el.find('h1, h2, h3, h4, .title, .show-title, .production-title').first().text().trim() ||
+                            $el.find('a').first().text().trim();
+                const description = $el.find('p, .description, .summary, .show-description').first().text().trim();
+                const theater = $el.find('.theater, .venue, .location').text().trim();
+                const dateText = $el.find('.date, .show-date, .time, .when').text().trim();
+                
+                if (title && title.length > 5 && this.isValidEvent(title)) {
+                    events.push(this.createEvent(title, description, dateText, $el.find('a').first().attr('href'), theater));
+                }
+            });
+
+            // Approach 2: Look for Broadway content with theater keywords
+            $('div, section, article').each((index, element) => {
+                if (index > 100) return false;
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 40 && text.length < 250) {
+                    const hasBroadwayKeywords = text.match(/\b(Broadway|theater|theatre|musical|play|show|Times Square|Majestic|Palace|Lyceum|Shubert)\b/i);
+                    const hasShowKeywords = text.match(/\b(show|musical|play|performance|production|drama|comedy|revival|premiere|opening)\b/i);
+                    const hasTimeKeywords = text.match(/\b(2024|2025|tonight|tomorrow|weekend|upcoming|now playing|season|January|February|March|April|May|June|July|August|September|October|November|December)\b/i);
+                    
+                    if (hasBroadwayKeywords && hasShowKeywords && hasTimeKeywords) {
+                        const lines = text.split('\n').filter(line => line.trim().length > 15);
+                        const eventTitle = lines[0]?.trim() || text.split(' ').slice(0, 8).join(' ');
+                        
+                        if (eventTitle && eventTitle.length > 8 && this.isValidEvent(eventTitle)) {
+                            events.push(this.createEvent(eventTitle, text.substring(0, 180), '', '', ''));
+                        }
+                    }
+                }
+            });
+
+            // Approach 3: Look for show titles and production names
+            $('h1, h2, h3, h4, .headline, .show-name, .production-name').each((index, element) => {
+                if (index > 80) return false;
+                const $el = $(element);
+                const title = $el.text().trim();
+                const parentText = $el.parent().text().trim();
+                
+                if (title && title.length > 6 && title.length < 100 && this.isValidEvent(title)) {
+                    if (parentText.match(/\b(Broadway|theater|theatre|musical|play|show|tickets|performance)\b/i)) {
+                        events.push(this.createEvent(title, parentText.substring(0, 150), '', '', ''));
+                    }
+                }
+            });
+
+            console.log(`✅ ${this.venueName}: Found ${events.length} events`);
+            return events;
+            
+        } catch (error) {
+            console.log(`❌ Error scraping ${this.venueName}: ${error.message}`);
+            return [];
+        }
+    }
+
+    /**
+     * Check if the event title is valid and not navigation/generic content
+     */
+    isValidEvent(title) {
+        const invalidPatterns = [
+            /^(home|about|contact|tickets|schedule|calendar|events|shows|news|more|login|sign|search|menu|nav)$/i,
+            /^(buy|get|find|see|view|click|learn|discover|explore|visit|register)$/i,
+            /^(page|site|website|link|button|form|field|input|select|option)$/i,
+            /^(the|and|or|but|for|with|from|this|that|these|those|all|any|some)$/i,
+            /^(broadway|theater|theatre|musical|play|show|performance)$/i,
+            /^\s*$/,
+            /^.{1,4}$/,
+            /^.{200,}$/
+        ];
+        
+        return !invalidPatterns.some(pattern => pattern.test(title.trim()));
+    }
+
+    /**
+     * Create a standardized event object
+     */
+    createEvent(title, description, date, link, theater) {
+        return {
+            title: title.trim(),
+            venue: theater || this.venueName,
+            location: this.venueLocation,
+            date: date || 'Check website for showtimes',
+            category: this.category,
+            description: description || '',
+            link: link ? (link.startsWith('http') ? link : this.baseUrl + link) : this.eventsUrl,
+            source: 'BroadwayTheaters'
+        };
+    }
+
+    /**
+     * Alternative method name for backward compatibility
+     */
+    async fetchEvents() {
+        return await this.scrape();
+    }
+}
+
+module.exports = BroadwayTheatersEvents;

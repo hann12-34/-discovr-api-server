@@ -1,6 +1,6 @@
 /**
  * Vancouver Art & Leisure Scraper
- * 
+ *
  * This scraper provides information about events at Vancouver Art & Leisure
  * Source: https://www.val.city/
  */
@@ -12,13 +12,13 @@ class VancouverArtAndLeisureScraper {
     this.name = 'Vancouver Art & Leisure';
     this.url = 'https://www.val.city/';
     this.sourceIdentifier = 'vancouver-art-leisure';
-    
+
     // Venue information
     this.venue = {
       name: "Vancouver Art & Leisure",
       id: "vancouver-art-leisure",
       address: "281 Industrial Ave",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6A 2P2",
@@ -29,9 +29,9 @@ class VancouverArtAndLeisureScraper {
       websiteUrl: "https://www.val.city/",
       description: "Vancouver Art and Leisure (VAL) is an artist-run centre and creative community space that hosts exhibitions, performances, dance parties, and cultural events. Known for its inclusive atmosphere and support of underground arts and LGBTQ+ communities, VAL provides a platform for emerging artists and experimental work."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Chromatic: Immersive Art Exhibition",
         description: "Step into a multi-sensory installation where light, sound, and interactive elements create a fully immersive art experience. 'Chromatic' features work by ten local digital artists exploring the theme of synesthesia through projection mapping, responsive environments, and audio installations. Visitors can interact with the exhibits and influence the evolving audiovisual landscape.",
@@ -80,68 +80,68 @@ class VancouverArtAndLeisureScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Vancouver Art & Leisure scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `val-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available through website\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         // Create categories
         const categories = ['arts', 'culture', 'alternative'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Art') {
           categories.push('exhibition', 'immersive', 'digital art');
         } else if (eventData.category === 'Nightlife') {
@@ -151,7 +151,7 @@ class VancouverArtAndLeisureScraper {
         } else if (eventData.category === 'Workshop') {
           categories.push('life drawing', 'art class', 'figure drawing');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -163,19 +163,19 @@ class VancouverArtAndLeisureScraper {
           category: 'arts',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎨 Successfully created ${events.length} Vancouver Art & Leisure events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Vancouver Art & Leisure scraper: ${error.message}`);
       return events;
@@ -184,3 +184,13 @@ class VancouverArtAndLeisureScraper {
 }
 
 module.exports = new VancouverArtAndLeisureScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverArtAndLeisureScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VancouverArtAndLeisureScraper = VancouverArtAndLeisureScraper;

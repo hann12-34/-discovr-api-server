@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-ilesoniq-festival.js Toronto');
+    process.exit(1);
+  }
     const browser = await puppeteer.launch({
         headless: true,
         args: [
@@ -23,31 +28,31 @@ async function scrape() {
             '--disable-ipc-flooding-protection',
             '--disable-http2'
         ]
-    });
+    };
 
     try {
         console.log('🎧 Scraping events from ÎleSoniq Electronic Festival...');
         const page = await browser.newPage();
-        
+
         // Set user agent to avoid detection
         await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-        
+
         // Try official Parc Jean-Drapeau page first
-        await page.goto('https://www.parcjeandrapeau.com/en/ilesoniq-festival-music-electronic-montreal/', { 
+        await page.goto('https://www.parcjeandrapeau.com/en/ilesoniq-festival-music-electronic-montreal/', {
             waitUntil: 'domcontentloaded',
-            timeout: 60000 
-        });
+            timeout: 60000
+        };
 
         // Wait for content to load
         await new Promise(resolve => setTimeout(resolve, 3000));
 
         const events = await page.evaluate(() => {
             const results = [];
-            
+
             // Look for lineup or artist information
             const artistElements = document.querySelectorAll('.artist, .lineup-artist, .performer, .headliner, h2, h3, .event-title');
             const textContent = document.body.innerText.toLowerCase();
-            
+
             // Known EDM artists who frequently appear at IleSoniq (from search results)
             const knownEDMArtists = [
                 'Deadmau5', 'Martin Garrix', 'Tiësto', 'David Guetta', 'Calvin Harris',
@@ -66,14 +71,14 @@ async function scrape() {
                         artists.push(text);
                     }
                 }
-            });
+            };
 
             // Check for known EDM artists in page content
             knownEDMArtists.forEach(artist => {
                 if (textContent.includes(artist.toLowerCase())) {
                     artists.push(artist);
                 }
-            });
+            };
 
             // Look for festival dates
             let festivalDates = [];
@@ -93,21 +98,21 @@ async function scrape() {
                         artists: artists.slice(index * 8, (index + 1) * 8), // 8 artists per day
                         url: window.location.href,
                         description: `Day ${index + 1} of ÎleSoniq featuring world-class electronic music artists at Parc Jean-Drapeau`
-                    });
-                });
+                    };
+                };
             } else {
-                // Fallback: create single event
+
                 results.push({
                     title: 'ÎleSoniq Electronic Music Festival 2025',
                     date: 'August 8-9, 2025',
                     artists: artists.length > 0 ? artists.slice(0, 15) : ['Various EDM Artists'],
                     url: window.location.href,
                     description: 'Two days of electronic dance music at Montreal\'s premier EDM festival'
-                });
+                };
             }
 
             return results;
-        });
+        };
 
         console.log(`Found ${events.length} potential events`);
 
@@ -134,13 +139,13 @@ async function scrape() {
                 description: event.description + (event.artists ? ` Artists: ${event.artists.join(', ')}` : ''),
                 category: 'Festival',
                 subcategory: 'Electronic Music Festival',
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: 'Parc Jean-Drapeau',
                     address: '1 Circuit Gilles Villeneuve, Montreal, QC H3C 1A9',
-                    city: 'Montreal',
+                    city: city,
                     province: 'Quebec',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: event.url,
                 source: 'ÎleSoniq Festival',
                 sourceId: `ilesoniq-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
@@ -151,7 +156,7 @@ async function scrape() {
                     ticketUrl: 'https://www.parcjeandrapeau.com/en/ilesoniq-festival-music-electronic-montreal/'
                 }
             };
-        });
+        };
 
         console.log(`Found ${formattedEvents.length} total events from ÎleSoniq Festival`);
         return formattedEvents;
@@ -170,4 +175,21 @@ const scrapeEvents = scrape;
 module.exports = {
     scrape,
     scrapeEvents
+};
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new electronic();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in electronic');
+    }
+};
+
+// Invalid syntax fix
+module.exports = async (city) => {
+    const scraper = new electronic();
+    return await scraper.scrape(city);
 };

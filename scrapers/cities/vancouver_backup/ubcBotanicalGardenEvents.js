@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * UBC Botanical Garden Events Scraper
  * Scrapes events from UBC Botanical Garden website
@@ -13,7 +14,7 @@ class UBCBotanicalGardenEvents {
     this.venue = {
       name: 'UBC Botanical Garden',
       address: '6804 SW Marine Drive, Vancouver, BC V6T 1Z4',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2540, lng: -123.2459 }

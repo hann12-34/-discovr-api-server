@@ -1,0 +1,247 @@
+/**
+ * Eventbrite NYC Events Scraper
+ *
+ * Scrapes events from Eventbrite New York listings
+ * URL: https://www.eventbrite.com/d/ny--new-york/events/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class EventbriteNYC {
+    constructor() {
+        this.venueName = 'Eventbrite NYC';
+        this.venueLocation = 'New York City, NY';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/events/';
+        this.category = 'Community & Professional Events';
+    }
+
+    /**
+     * Scrape events from Eventbrite NYC
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🎟️ Scraping events from ${this.venueName}...`);
+
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            };
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Eventbrite uses various selectors for event cards
+            const eventSelectors = [
+                '[data-// realEvent removed by Universal 100% Engine
+                '.event-card',
+                '.search-event-card',
+                '.card',
+                '[class*="event"]',
+                '.listing'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+
+                    // Extract title
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, [data-// realEvent removed by Universal 100% Engine
+
+                    if (!title) {
+                        // Try link text
+                        title = $el.find('a').first().text().trim();
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for date information
+                        let dateText = '';
+                        const dateSelectors = [
+                            '[data-// realEvent removed by Universal 100% Engine
+                            '.date', '.event-date', '[class*="date"]',
+                            'time', '.datetime', '.when', '.schedule',
+                            '.meta', '.info', '[class*="time"]'
+                        ];
+
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateText = dateElement.text().trim();
+                                if (dateText && dateText.length < 100) break;
+                            }
+                        }
+
+                        // Look for venue/location
+                        let location = this.venueLocation;
+                        const locationSelectors = [
+                            '[data-// realEvent removed by Universal 100% Engine
+                            '.venue', '.location', '.where', '[class*="venue"]',
+                            '.address', '[class*="location"]'
+                        ];
+                        for (const locSelector of locationSelectors) {
+                            const locElement = $el.find(locSelector).first();
+                            if (locElement.length > 0) {
+                                const locText = locElement.text().trim();
+                                if (locText && locText.length > 0) {
+                                    location = locText.length > 50 ? locText.substring(0, 50) + '...' : locText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for price (free events are often community events)
+                        let isFree = false;
+                        const priceSelectors = ['.price', '.cost', '[class*="price"]', '[data-testid="price"]'];
+                        for (const priceSelector of priceSelectors) {
+                            const priceElement = $el.find(priceSelector).first();
+                            if (priceElement.length > 0) {
+                                const priceText = priceElement.text().toLowerCase();
+                                if (priceText.includes('free') || priceText.includes('$0')) {
+                                    isFree = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: this.venueName,
+                            location: location,
+                            date: dateText || 'Check website for dates',
+                            category: isFree ? 'Free Community Events' : this.category,
+                            link: eventLink || this.eventsUrl,
+                            source: 'EventbriteNYC'
+                        };
+
+                        events.push(event);
+                    }
+                };
+            };
+
+            // Also try to extract events from JSON-LD structured data if available
+            $('script[type="application/ld+json"]').each((index, element) => {
+                try {
+                    const jsonData = JSON.parse($(element).html());
+                    if (jsonData['@type'] === 'Event' || (Array.isArray(jsonData) && jsonData.some(item => item['@type'] === 'Event'))) {
+                        const eventData = Array.isArray(jsonData) ? jsonData.filter(item => item['@type'] === 'Event') : [jsonData];
+
+                        eventData.forEach(eventItem => {
+                            if (eventItem.name && this.isValidEvent(eventItem.name)) {
+                                const event = {
+                                    title: eventItem.name,
+                                    venue: this.venueName,
+                                    location: eventItem.location?.name || eventItem.location?.address?.addressLocality || this.venueLocation,
+                                    date: eventItem.startDate || 'Check website for dates',
+                                    category: this.category,
+                                    link: eventItem.url || this.eventsUrl,
+                                    source: 'EventbriteNYC'
+                                };
+
+                                events.push(event);
+                            }
+                        };
+                    }
+                } catch (e) {
+                    // Ignore JSON parsing errors
+                }
+            };
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = event.title.toLowerCase().trim();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        };
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 5 || title.length > 200) return false;
+
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie',
+            'newsletter', 'subscribe', 'follow', 'social', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'share',
+            'eventbrite', 'advertisement', 'sponsored'
+        ];
+
+        const titleLower = title.toLowerCase();
+        return !invalidKeywords.some(keyword => titleLower.includes(keyword));
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new EventbriteNYC();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.EventbriteNYC = EventbriteNYC;

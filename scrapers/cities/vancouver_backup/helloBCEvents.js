@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * HelloBC Events Scraper
  * 
@@ -21,7 +22,7 @@ class HelloBCEventsScraper {
       name: "HelloBC Events",
       id: "hellobc-events",
       address: "Multiple locations across British Columbia",
-      city: "Vancouver",
+      city: getCityFromArgs(),
       state: "BC",
       country: "Canada",
       websiteUrl: "https://www.hellobc.com/things-to-do/events/",
@@ -313,7 +314,7 @@ class HelloBCEventsScraper {
       let location = {
         name: '',
         address: '',
-        city: 'Vancouver', // Default to Vancouver if we can't find specific location
+        city: getCityFromArgs(), // Default to Vancouver if we can't find specific location
         state: 'BC',
         country: 'Canada'
       };

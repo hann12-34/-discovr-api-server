@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Fortune Sound Club Scraper Bridge
  * Reads events from the Python Fortune Sound Club scraper output
@@ -23,7 +24,7 @@ class FortuneSoundClubBridge {
     this.venue = {
       name: 'Fortune Sound Club',
       address: '147 E Pender St',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2801, lng: -123.1022 }

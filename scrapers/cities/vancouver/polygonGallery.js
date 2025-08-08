@@ -1,6 +1,6 @@
 /**
  * The Polygon Gallery Scraper
- * 
+ *
  * This scraper provides information about events at The Polygon Gallery in North Vancouver
  * Source: https://thepolygon.ca/
  */
@@ -12,13 +12,13 @@ class PolygonGalleryScraper {
     this.name = 'The Polygon Gallery';
     this.url = 'https://thepolygon.ca/';
     this.sourceIdentifier = 'polygon-gallery';
-    
+
     // Venue information
     this.venue = {
       name: "The Polygon Gallery",
       id: "polygon-gallery-vancouver",
       address: "101 Carrie Cates Ct",
-      city: "North Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V7M 3J4",
@@ -29,9 +29,9 @@ class PolygonGalleryScraper {
       websiteUrl: "https://thepolygon.ca/",
       description: "The Polygon Gallery is a contemporary art gallery situated on the waterfront of North Vancouver. The stunning, award-winning building showcases the work of acclaimed regional and international artists, primarily photography and media-based art. With a focus on thought-provoking exhibitions and public engagement, The Polygon Gallery has become a cultural landmark in the Lower Mainland's arts community."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Star Witnesses: Indigenous Perspectives on the Night Sky",
         description: "Star Witnesses brings together work by contemporary Indigenous artists from across Canada and internationally who use photography, video, sound, and installation to explore celestial knowledge and humanity's relationship with the cosmos. This landmark exhibition examines how Indigenous peoples have observed and documented the night sky for millennia, developing sophisticated astronomical knowledge systems that connect scientific observation with cultural practices, spiritual beliefs, and environmental stewardship. Featured artists include Joi T. Arcand (Cree), Nicholas Galanin (Tlingit/Unangax̂), Caroline Monnet (Anishinaabe/French), Alan Michelson (Mohawk), and Tarah Hogue (Métis/Dutch), among others. The works in this exhibition reveal how traditional star knowledge informs contemporary Indigenous identities and how these perspectives can help address modern environmental challenges. Through various media, the artists reframe astronomical narratives, challenge colonial structures of scientific authority, and assert the continuing relevance of Indigenous celestial teachings in understanding our place in the universe.",
@@ -91,43 +91,43 @@ class PolygonGalleryScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
   async scrape() {
     console.log('🔍 Starting The Polygon Gallery scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `polygon-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         if (eventData.isRecurring) {
           detailedDescription += `Exhibition Dates: ${formattedDate} - ${dateFormat.format(eventData.endTime)}\n`;
           detailedDescription += `Hours: ${eventData.recurringSchedule}\n`;
@@ -135,25 +135,25 @@ class PolygonGalleryScraper {
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         }
-        
+
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, North Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: ${eventData.ticketsRequired ? 'Required, available through The Polygon Gallery website or at the door' : 'Not required'}\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: The Polygon Gallery is located in Lower Lonsdale, North Vancouver, at the foot of Lonsdale Avenue on the waterfront. The gallery is easily accessible by SeaBus from downtown Vancouver (2-minute walk from Lonsdale Quay SeaBus terminal), by transit, or by car with nearby paid parking available. The facility is fully wheelchair accessible and features a gift shop with unique art books, prints, and design objects.`;
-        
+
         // Create categories
         const categories = ['art', 'gallery', 'culture'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.title.includes('Star Witnesses')) {
           categories.push('exhibition', 'indigenous', 'photography', 'astronomy');
         } else if (eventData.title.includes('Deckchair Cinema')) {
@@ -163,7 +163,7 @@ class PolygonGalleryScraper {
         } else if (eventData.title.includes('Family Workshop')) {
           categories.push('workshop', 'family', 'kids', 'education');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -175,19 +175,19 @@ class PolygonGalleryScraper {
           category: 'arts',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🖼️ Successfully created ${events.length} Polygon Gallery events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Polygon Gallery scraper: ${error.message}`);
       return events;
@@ -196,3 +196,13 @@ class PolygonGalleryScraper {
 }
 
 module.exports = new PolygonGalleryScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new PolygonGalleryScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.PolygonGalleryScraper = PolygonGalleryScraper;

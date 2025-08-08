@@ -6,8 +6,13 @@ const crypto = require('crypto');
  * Scrape Square One Shopping Centre events
  */
 async function scrapeSquareOneEvents(eventsCollection) {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-square-one.js Toronto');
+    process.exit(1);
+  }
   console.log('🔍 Fetching events from Square One Shopping Centre...');
-  
+
   // Known Square One events based on their events page
   const knownEvents = [
     {
@@ -93,7 +98,7 @@ async function scrapeSquareOneEvents(eventsCollection) {
   ];
 
   console.log('📋 Parsing event content...');
-  
+
   let addedCount = 0;
   const processedEventIds = new Set();
 
@@ -140,7 +145,7 @@ async function processEventCandidate(title, dateText, timeText, description, eve
 
   // Generate unique event ID
   const eventId = crypto.createHash('md5')
-    .update(`Square One${title}${parsedDates.startDate.toDateString()}`)
+    .update(`Square One${title}${parsedDates.startDate.toDaeventDateText()}`)
     .digest('hex');
 
   console.log(`🔑 Generated ID: ${eventId} for "${title}"`);
@@ -163,13 +168,13 @@ async function processEventCandidate(title, dateText, timeText, description, eve
     description: description || '',
     startDate: parsedDates.startDate,
     endDate: parsedDates.endDate,
-    venue: {
+    venue: { ...RegExp.venue: {
       name: location || 'Square One Shopping Centre',
       address: '100 City Centre Dr, Mississauga, ON L5B 2C9',
-      city: 'Mississauga',
+      city: city,
       province: 'Ontario',
       country: 'Canada'
-    },
+    }, city },,
     category: eventCategory,
     tags: generateTags(title, description, eventCategory),
     price: price,
@@ -189,7 +194,7 @@ async function processEventCandidate(title, dateText, timeText, description, eve
       event,
       { upsert: true }
     );
-    console.log(`✅ Added/updated event: ${title} (${parsedDates.startDate.toDateString()})`);
+    console.log(`✅ Added/updated event: ${title} (${parsedDates.startDate.toDaeventDateText()}`);
   } catch (error) {
     console.error(`❌ Error saving event "${title}":`, error.message);
   }
@@ -210,17 +215,17 @@ function parseDateAndTime(dateText, timeText) {
       if (parts.length === 2) {
         const startPart = parts[0].trim();
         const endPart = parts[1].trim();
-        
+
         // Extract year from the end part
-        const yearMatch = endPart.match(/(\d{4})/);
+        const yearMatch = endPart.match(/(\d{4}/);
         const year = yearMatch ? yearMatch[1] : new Date().getFullYear();
-        
+
         // If start part doesn't have year, add it
         let startDateStr = startPart;
         if (!startPart.includes(year)) {
           startDateStr = `${startPart}, ${year}`;
         }
-        
+
         startDate = new Date(startDateStr);
         endDate = new Date(endPart);
       }
@@ -235,44 +240,44 @@ function parseDateAndTime(dateText, timeText) {
       if (timeParts.length === 2) {
         const startTime = timeParts[0].trim();
         const endTime = timeParts[1].trim();
-        
+
         // Parse start time
-        const startTimeMatch = startTime.match(/(\d{1,2}):?(\d{0,2})\s*(AM|PM)?/i);
+        const startTimeMatch = startTime.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
         if (startTimeMatch) {
           let hours = parseInt(startTimeMatch[1]);
           const minutes = parseInt(startTimeMatch[2] || '0');
           const ampm = startTimeMatch[3];
-          
+
           if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
           if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-          
+
           startDate.setHours(hours, minutes, 0, 0);
         }
-        
+
         // Parse end time
-        const endTimeMatch = endTime.match(/(\d{1,2}):?(\d{0,2})\s*(AM|PM)?/i);
+        const endTimeMatch = endTime.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
         if (endTimeMatch) {
           let hours = parseInt(endTimeMatch[1]);
           const minutes = parseInt(endTimeMatch[2] || '0');
           const ampm = endTimeMatch[3];
-          
+
           if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
           if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-          
+
           endDate.setHours(hours, minutes, 0, 0);
         }
       }
     } else if (timeText && timeText !== 'Various times') {
       // Single time
-      const timeMatch = timeText.match(/(\d{1,2}):?(\d{0,2})\s*(AM|PM)?/i);
+      const timeMatch = timeText.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
       if (timeMatch) {
         let hours = parseInt(timeMatch[1]);
         const minutes = parseInt(timeMatch[2] || '0');
         const ampm = timeMatch[3];
-        
+
         if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
         if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-        
+
         startDate.setHours(hours, minutes, 0, 0);
         endDate.setHours(hours + 2, minutes, 0, 0); // Default 2 hour duration
       }
@@ -295,7 +300,7 @@ function parseDateAndTime(dateText, timeText) {
  */
 function categorizeEvent(title, description) {
   const text = `${title} ${description}`.toLowerCase();
-  
+
   if (text.includes('movie') || text.includes('film')) {
     return 'Entertainment';
   }
@@ -311,7 +316,7 @@ function categorizeEvent(title, description) {
   if (text.includes('shopping') || text.includes('retail')) {
     return 'Shopping';
   }
-  
+
   return 'Entertainment';
 }
 
@@ -321,7 +326,7 @@ function categorizeEvent(title, description) {
 function generateTags(title, description, category) {
   const tags = [category.toLowerCase()];
   const text = `${title} ${description}`.toLowerCase();
-  
+
   if (text.includes('free')) tags.push('free');
   if (text.includes('family')) tags.push('family-friendly');
   if (text.includes('outdoor')) tags.push('outdoor');
@@ -331,7 +336,7 @@ function generateTags(title, description, category) {
   if (text.includes('interactive')) tags.push('interactive');
   if (text.includes('immersive')) tags.push('immersive');
   if (text.includes('shopping')) tags.push('shopping');
-  
+
   return [...new Set(tags)]; // Remove duplicates
 }
 
@@ -340,24 +345,28 @@ module.exports = { scrapeSquareOneEvents };
 // Test runner
 if (require.main === module) {
   const { MongoClient } = require('mongodb');
-  
+
   async function testScraper() {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/discovr';
     const client = new MongoClient(mongoUri);
-    
+
     try {
       await client.connect();
       const db = client.db('discovr');
-      const eventsCollection = db.collection('events');
-      
+      const eventsCollection = dbs');
+
       const addedCount = await scrapeSquareOneEvents(eventsCollection);
-      console.log(`\n🎉 Test completed! Added ${addedCount} events.`);
+      console.log(`\n🎉 Test completed! s.`);
     } catch (error) {
       console.error('❌ Test failed:', error.message);
     } finally {
       await client.close();
     }
   }
-  
+
   testScraper();
 }
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeSquareOneEvents;

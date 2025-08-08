@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * The Cultch Events Scraper
  * Scrapes events from The Cultch in Vancouver
@@ -225,7 +226,7 @@ const TheCultchEvents = {
       venue: {
         name: 'The Cultch',
         address: '1895 Venables Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V5L 2H6',

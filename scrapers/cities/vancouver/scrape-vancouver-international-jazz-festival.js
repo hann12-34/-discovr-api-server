@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-vancouver-international-jazz-festival.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🎷 Scraping events from Vancouver International Jazz Festival...');
 
@@ -9,6 +14,7 @@ async function scrape() {
 
         // Main festival event
         events.push({
+            id: 'vancouver-jazz-2025-main',
             title: 'Vancouver International Jazz Festival 2025',
             startDate: new Date('2025-06-20T19:00:00'),
             endDate: new Date('2025-07-01T23:00:00'),
@@ -16,9 +22,10 @@ async function scrape() {
             category: 'Festival',
             subcategory: 'Jazz Festival',
             venue: {
-                name: 'Multiple Venues Citywide',
+                name: city,
+                venue: 'Multiple Venues Citywide',
                 address: 'Various locations, Vancouver, BC',
-                city: 'Vancouver',
+                city: city,
                 province: 'British Columbia',
                 country: 'Canada'
             },
@@ -31,7 +38,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://www.coastaljazz.ca/tickets'
             }
-        });
+        };
 
         // Specific Jazz Festival events
         const jazzEvents = [
@@ -94,11 +101,13 @@ async function scrape() {
         ];
 
         jazzEvents.forEach(event => {
-            const duration = event.type === 'brunch' ? 3 : 
+            const duration = event.type === 'brunch' ? 3 :
                             (event.type === 'outdoor' ? 4 : 2.5);
             const endDate = new Date(event.date.getTime() + duration * 60 * 60 * 1000);
 
+            const eventId = `jazz-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
             events.push({
+                id: eventId,
                 title: event.title,
                 startDate: event.date,
                 endDate: endDate,
@@ -108,17 +117,18 @@ async function scrape() {
                             (event.type === 'vocal' ? 'Jazz Vocals' :
                             (event.type === 'fusion' ? 'Jazz Fusion' : 'Jazz Performance')),
                 venue: {
-                    name: event.venue,
+                    name: city,
+                    venue: event.venue,
                     address: event.venue === 'David Lam Park' ? '1300 Pacific Blvd, Vancouver, BC' :
                             (event.venue === 'Chan Centre' ? '6265 Crescent Rd, Vancouver, BC' :
                             (event.venue === 'Queen Elizabeth Theatre' ? '650 Hamilton St, Vancouver, BC' : 'Vancouver, BC')),
-                    city: 'Vancouver',
+                    city: city,
                     province: 'British Columbia',
                     country: 'Canada'
                 },
                 sourceUrl: 'https://www.coastaljazz.ca/',
                 source: 'Vancouver International Jazz Festival',
-                sourceId: `jazz-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+                sourceId: eventId,
                 lastUpdated: new Date(),
                 tags: ['jazz', 'vancouver', event.type, 'music', 'festival', 'coastal-jazz'],
                 ticketInfo: {
@@ -126,8 +136,8 @@ async function scrape() {
                     isFree: event.title.includes('Free'),
                     ticketUrl: 'https://www.coastaljazz.ca/tickets'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from Vancouver Jazz Festival`);
         return events;
@@ -140,3 +150,7 @@ async function scrape() {
 
 const scrapeEvents = scrape;
 module.exports = { scrape, scrapeEvents };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

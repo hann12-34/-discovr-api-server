@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Contemporary Art Gallery Events Scraper
  * Scrapes events from Contemporary Art Gallery in Vancouver
@@ -124,7 +125,7 @@ const ContemporaryArtGalleryEvents = {
       venue: {
         name: 'Contemporary Art Gallery',
         address: '555 Nelson Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6B 6R5',

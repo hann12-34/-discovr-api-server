@@ -9,22 +9,22 @@ class MarkhamTheatreScraper {
         this.country = 'Canada';
     }
 
-    async scrape() {
-        const browser = await puppeteer.launch({ 
+    async scrape(city) {
+        const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        };
+
         try {
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
+
             console.log(`🎭 Scraping ${this.name} (Markham)...`);
-            
-            await page.goto(this.url, { 
+
+            await page.goto(this.url, {
                 waitUntil: 'networkidle2',
                 timeout: 30000
-            });
+            };
 
             await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -42,7 +42,7 @@ class MarkhamTheatreScraper {
 
                         if (titleEl && titleEl.textContent?.trim()) {
                             const title = titleEl.textContent.trim();
-                            
+
                             if (title.length < 3) return;
 
                             let startDate = new Date();
@@ -59,7 +59,7 @@ class MarkhamTheatreScraper {
                                 venue: {
                                     name: 'Markham Theatre',
                                     address: '171 Town Centre Blvd, Markham, ON L3R 8G5',
-                                    city: 'Markham',
+                                    city: city,
                                     province: 'Ontario',
                                     country: 'Canada',
                                     location: {
@@ -71,21 +71,19 @@ class MarkhamTheatreScraper {
                                 price: priceEl?.textContent?.trim() || '$35 - $75',
                                 url: linkEl?.href || 'https://www.markhamtheatre.ca/events',
                                 source: 'Markham Theatre',
-                                city: 'Toronto', // GTA categorized as Toronto
+                                city: city, // GTA categorized as Toronto
                                 province: 'Ontario',
                                 country: 'Canada',
                                 streetAddress: '171 Town Centre Blvd, Markham, ON L3R 8G5'
-                            });
+                            };
                         }
                     } catch (error) {
                         console.log('Error processing event:', error.message);
                     }
-                });
+                };
 
                 return events;
-            });
-
-            // No fallback/sample events - comply with user rule
+            };
 
             console.log(`✅ Found ${events.length} events from ${this.name} (Markham)`);
             return events;
@@ -99,4 +97,11 @@ class MarkhamTheatreScraper {
     }
 }
 
-module.exports = MarkhamTheatreScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new MarkhamTheatreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.MarkhamTheatreScraper = MarkhamTheatreScraper;

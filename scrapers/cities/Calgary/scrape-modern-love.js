@@ -1,6 +1,6 @@
 /**
  * Modern Love Calgary Scraper
- * 
+ *
  * This scraper extracts event information from Modern Love bar's events page.
  * It identifies recurring events and special nights at this Calgary live music venue.
  */
@@ -15,7 +15,7 @@ class ModernLoveScraper {
         this.venue = {
             name: 'Modern Love',
             address: '613 11 Ave SW',
-            city: 'Calgary',
+            city: city,
             state: 'Alberta',
             country: 'Canada',
             postalCode: 'T2R 0E1'
@@ -25,27 +25,27 @@ class ModernLoveScraper {
     async scrapeEvents() {
         try {
             console.log('🎵 Scraping Modern Love events...');
-            
+
             const response = await axios.get(this.targetUrl, {
                 timeout: 30000,
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-            });
+            };
 
             const $ = cheerio.load(response.data);
             const events = [];
 
             // Extract recurring events from the page
             const eventElements = $('h2, .event-title').toArray();
-            
+
             eventElements.forEach(element => {
                 const $element = $(element);
                 const title = this.cleanText($element.text());
-                
+
                 if (title && title.length > 3) {
                     const eventData = this.parseEventTitle(title);
-                    
+
                     if (eventData) {
                         events.push({
                             title: eventData.title,
@@ -57,24 +57,24 @@ class ModernLoveScraper {
                             source: 'Modern Love',
                             scrapedAt: new Date(),
                             tags: eventData.tags || []
-                        });
+                        };
                     }
                 }
-            });
+            };
 
             // Also extract from text content to catch all events
             const textContent = $('body').text();
             const additionalEvents = this.extractEventsFromText(textContent);
-            
+
             additionalEvents.forEach(event => {
                 if (!events.find(e => e.title === event.title)) {
                     events.push(event);
                 }
-            });
+            };
 
             // Remove duplicates
             const uniqueEvents = this.removeDuplicateEvents(events);
-            
+
             console.log(`🎉 Successfully scraped ${uniqueEvents.length} unique events from Modern Love`);
             return uniqueEvents;
 
@@ -149,16 +149,16 @@ class ModernLoveScraper {
                     source: 'Modern Love',
                     scrapedAt: new Date(),
                     tags: pattern.tags || []
-                });
+                };
             }
-        });
+        };
 
         return events;
     }
 
     parseEventTitle(title) {
         const cleanTitle = title.toUpperCase();
-        
+
         // Map event titles to structured data
         const eventMappings = {
             'MIDWEST MONDAYS': {
@@ -224,11 +224,11 @@ class ModernLoveScraper {
     getNextEventDate(dayOfWeek) {
         const now = new Date();
         const nextEvent = new Date(now);
-        
+
         // Get next occurrence of the specified day
         const daysUntilEvent = (dayOfWeek - now.getDay() + 7) % 7;
         nextEvent.setDate(now.getDate() + (daysUntilEvent === 0 ? 7 : daysUntilEvent));
-        
+
         return nextEvent;
     }
 
@@ -241,7 +241,7 @@ class ModernLoveScraper {
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     cleanText(text) {
@@ -250,3 +250,14 @@ class ModernLoveScraper {
 }
 
 module.exports = ModernLoveScraper;
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new ModernLoveScraper();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in ModernLoveScraper');
+    }
+};

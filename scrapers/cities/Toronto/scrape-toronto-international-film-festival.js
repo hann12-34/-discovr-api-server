@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-toronto-international-film-festival.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🎬 Scraping events from Toronto International Film Festival (TIFF)...');
 
@@ -18,7 +23,7 @@ async function scrape() {
             venue: {
                 name: 'Multiple TIFF Venues',
                 address: 'King Street West & Entertainment District, Toronto, ON',
-                city: 'Toronto',
+                city: city,
                 province: 'Ontario',
                 country: 'Canada'
             },
@@ -31,7 +36,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://tiff.net/tickets'
             }
-        });
+        };
 
         // Specific TIFF programming blocks
         const tiffEvents = [
@@ -103,10 +108,10 @@ async function scrape() {
                 category: 'Film',
                 subcategory: event.category,
                 venue: {
-                    name: event.title.includes('Gala') ? 'Princess of Wales Theatre' : 
+                    name: event.title.includes('Gala') ? 'Princess of Wales Theatre' :
                           (event.title.includes('Closing') ? 'Roy Thomson Hall' : 'TIFF Bell Lightbox'),
                     address: 'King Street West, Toronto, ON',
-                    city: 'Toronto',
+                    city: city,
                     province: 'Ontario',
                     country: 'Canada'
                 },
@@ -119,8 +124,8 @@ async function scrape() {
                     hasTickets: true,
                     ticketUrl: 'https://tiff.net/tickets'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from TIFF`);
         return events;
@@ -133,3 +138,7 @@ async function scrape() {
 
 const scrapeEvents = scrape;
 module.exports = { scrape, scrapeEvents };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

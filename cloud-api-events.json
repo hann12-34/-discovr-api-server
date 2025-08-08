@@ -1,846 +1,3669 @@
 [
   {
     "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Blood Brothers Brewing",
+      "address": "165 Geary Ave",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6734,
+        "lng": -79.4381
+      }
     },
-    "_id": "685f773275fd4b5c479fd5df",
-    "id": "48482bac-9e89-591b-9595-8fd2813ada0b",
-    "title": "4x4: Four Bands for Four Bucks",
-    "description": "4x4: Four Bands for Four Bucks at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-26T20:00:00.000Z",
-    "endDate": "2025-01-26T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Music",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/4x4-yhymp-cdw4d-2t7jn-6h22z",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
+    "dataSources": [],
+    "_id": "6890145a3f257ac7c53d132a",
+    "id": "7b84480a-1cba-41f6-b540-cd6a97dc1548",
+    "name": "Toronto - Craft Beer Tasting Night at Blood Brothers",
+    "description": "Join us for a special craft beer tasting night at Blood Brothers Brewery! Sample a selection of our 26 beers on tap, including seasonal specialties and brewery exclusives. Our beer experts will guide you through the tasting, explaining the brewing process and unique flavor profiles of each beer. Perfect for craft beer enthusiasts and curious newcomers alike.",
+    "startDate": "2025-07-25T18:00:00.000Z",
+    "endDate": "2025-07-25T22:00:00.000Z",
+    "url": "https://www.bloodbrothersbrewing.com/pages/tap-room",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0517/5811/4339/files/Group_2000x1000_crop_center.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Beer",
+      "Tasting",
+      "Craft Brewery",
+      "Food",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-28T15:12:28.003Z",
-    "__v": 0
+    "price": "$25 (includes flight of 5 beer samples)",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "geary-avenue",
+      "local-business"
+    ],
+    "recurring": "Monthly, last Friday",
+    "lastUpdated": "2025-08-04T06:01:37.325Z"
   },
   {
     "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Downsview Park",
+      "address": "70 Canuck Avenue",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.7334,
+        "lng": -79.4775
+      }
     },
-    "_id": "685f773275fd4b5c479fd5e2",
-    "id": "7af4ebec-ea18-5e23-bec8-ebafc3d08614",
-    "title": "Freeze the Fall",
-    "description": "Freeze the Fall at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-27T20:00:00.000Z",
-    "endDate": "2025-01-27T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/gles5cspwcyhzpb-h8px2-kznw4-x6n44",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-28T15:12:28.135Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773275fd4b5c479fd5e5",
-    "id": "dcb15695-896c-5ca9-bd82-5b2b1a790ad3",
-    "title": "Non-Stop Disco Party",
-    "description": "Non-Stop Disco Party at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-27T20:00:00.000Z",
-    "endDate": "2025-01-27T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Dance",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2023/nonstopdisco-j83nc-4nsf9-mac56-pgjs2-7lhze-79sk6-ze2yj-xrjzl-pk5zh-e9cb9-6hjrt-3wwnd-yt7eh-xpzhj-7rc57-9f4ns-gpnxd-ezxx7-tg8xz-jnhas-p5c9h-l9s74-wma9n-lkey8-h5542-ldcjf",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-28T15:12:28.272Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5e8",
-    "id": "0b5d96b6-df50-52dd-b111-2516bd3c7f6b",
-    "title": "Millennium",
-    "description": "The Sunday Service at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-28T20:00:00.000Z",
-    "endDate": "2025-01-28T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz-9grd9-dbkxm-mg8dc",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:17.215Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5eb",
-    "id": "7a09c451-390b-54ca-8ef6-28fa8be0a7ad",
-    "title": "The Sunday Service",
-    "description": "The Sunday Service at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-29T20:00:00.000Z",
-    "endDate": "2025-01-29T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/serv-karaw-cncjs-7c4yk-rm78j-26djh-zznpp-4k2lt-zyejx-dcb7c-99nzr-8e6ab-gjjcm-mnth3-dba9d-lr56t-fx6kf-pm67r-3fb3t-4ye8h-aelc7-wn7dc-7gsnh-cb97k-zcb3s-3c23n-w52bw-7agjz-9grd9-dbkxm-mg8dc",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-28T15:12:28.403Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5ee",
-    "id": "45e6d260-b1be-58d7-af9d-744fc9eecae0",
-    "title": "Pierre Bensusan",
-    "description": "Pierre Bensusan at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-02T20:00:00.000Z",
-    "endDate": "2025-01-02T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/bensusan",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:17.347Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5f1",
-    "id": "21bccc47-9c1b-5e55-8301-a73e3a469476",
-    "title": "New Constellations",
-    "description": "New Constellations at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-03T20:00:00.000Z",
-    "endDate": "2025-01-03T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/newconstellations",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:17.478Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5f4",
-    "id": "ec8c9471-a5f7-55cc-92dc-c30b1a526368",
-    "title": "Party Rock: A Tribute to the 2010s",
-    "description": "Party Rock: A Tribute to the 2010s at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-04T20:00:00.000Z",
-    "endDate": "2025-01-04T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Dance",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2023/partyrock-jxkwy-fjzpd-xdyrn-ra88c-b8ahj-wj5fy-t4g5e-cgfkf-bcw5a-k26h5-4n4bz-s9bsw-ygwdb-jyzgg-gtlfz-7bf4y-a32xd-z3nzy-gdj89-565hd-j4b5a-jhtw7-b3n9x-clf6m-cal2y-9pyzl-cr5m6",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:17.608Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5f7",
-    "id": "f779c577-52a6-58b4-a5fb-432c8e38a43c",
-    "title": "Midnight Cruiser",
-    "description": "Midnight Cruiser at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-05T20:00:00.000Z",
-    "endDate": "2025-01-05T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/midnightcruiser",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:17.739Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5fa",
-    "id": "3b61556f-015d-5815-a608-3a9420e2c7f9",
-    "title": "Guilty Pleasures: 90s-Now Dance Party",
-    "description": "Guilty Pleasures: 90s-Now Dance Party at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-05T20:00:00.000Z",
-    "endDate": "2025-01-05T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Dance",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2024/guiltypleasures-h2t3y-7rzgl-bljcd-dygmx-bgegb-tcp87-3rbaa-655ez-c3dw6-k2ns7-d4xyj-ynhy4",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:17.869Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773375fd4b5c479fd5fd",
-    "id": "3fa3d166-8bd0-561f-b6ac-19030cee3e18",
-    "title": "Gorillas In The West",
-    "description": "Gorillas In The West at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-11T20:00:00.000Z",
-    "endDate": "2025-01-11T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/gorillas",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:18.001Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773475fd4b5c479fd600",
-    "id": "ba87b7b9-aa69-53bc-855c-5ee29b26d141",
-    "title": "Pump Up The Jam: Throwback Dance Hits",
-    "description": "Pump Up The Jam: Throwback Dance Hits at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-11T20:00:00.000Z",
-    "endDate": "2025-01-11T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Dance",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2024/putj-9xf9p-8xa7l-7t5d3-g2hxz-5bhxy-2j994-68ze3-g5hns-4dnsk-rp3md-8lah4",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:18.137Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773475fd4b5c479fd603",
-    "id": "b2185ea0-4921-50d5-aa26-20b366cea972",
-    "title": "Erosion, Altered Dead, Wet Rot",
-    "description": "Erosion, Altered Dead, Wet Rot at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-12T20:00:00.000Z",
-    "endDate": "2025-01-12T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/erosion",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:18.270Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773475fd4b5c479fd606",
-    "id": "b57c92eb-c619-512c-9d45-d78b8d56454e",
-    "title": "Our Famous 90s vs 00s Summer Boat Cruise!",
-    "description": "Our Famous 90s vs 00s Summer Boat Cruise! at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-12T20:00:00.000Z",
-    "endDate": "2025-01-12T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/boatcruise",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:18.401Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773475fd4b5c479fd609",
-    "id": "15e589ad-f251-5650-85e9-86c4dba5603a",
-    "title": "90s vs 00s Night",
-    "description": "90s vs 00s Night at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-12T20:00:00.000Z",
-    "endDate": "2025-01-12T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2023/90svs00s-43dge-wn8ch-yjfmp-9df4z-9kp74-f3egg-cgw7r-42nrx-z447p-cg7nh-fs2zr-psjw3-8td45-89j7y-a8d7p-g377s-h6m9z-h6y6g-sgzm2-gerrb-lkpgk-5jjm9-ghm4e",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:18.589Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773475fd4b5c479fd60c",
-    "id": "cc98e991-f351-5e7d-9982-04f80f993ab3",
-    "title": "Star Collector",
-    "description": "Star Collector at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-18T20:00:00.000Z",
-    "endDate": "2025-01-18T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/zstar",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:18.798Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773475fd4b5c479fd60f",
-    "id": "728829d1-4200-51e2-8b54-55e5ecd8f334",
-    "title": "GOLDEN: 80s/90s/00s Hip Hop Dance Party",
-    "description": "GOLDEN: 80s/90s/00s Hip Hop Dance Party at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-18T20:00:00.000Z",
-    "endDate": "2025-01-18T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Dance",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2023/golden/may-mnweg-6jem6-5glmh-7eaej-klza4-z836s-5egap-n38yt-4kjex-wxy86-gwdtc-wag44-wx63w-ymxt9-zpda3-r4w3s-7b2zl-rhncy-s46w3-nbr46-7pjxh-jj4tf-lynde-5ee89-8a3sf-tya3h",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:19.369Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f773475fd4b5c479fd612",
-    "id": "0e0d5a83-f346-5a07-9e57-a9db2b79ba15",
-    "title": "The fin",
-    "description": "The fin at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-19T20:00:00.000Z",
-    "endDate": "2025-01-19T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/thefin",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
-    ],
-    "lastUpdated": "2025-06-29T07:15:19.666Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Moscone Center",
-      "address": "747 Howard St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e05b28b1bc68a236dd7",
-    "id": "eb-001",
-    "title": "Tech Conference 2025",
-    "description": "Join us for the biggest tech conference in Vancouver featuring keynotes from industry leaders.",
-    "image": "https://images.unsplash.com/photo-1540575467063-178a50c2df87",
-    "startDate": "2025-09-15T09:00:00.000Z",
-    "endDate": "2025-09-17T18:00:00.000Z",
-    "season": "Fall",
-    "location": "Moscone Center",
-    "category": "Technology",
-    "priceRange": "High",
-    "sourceURL": "https://example.com/tech-conference-2025",
-    "officialWebsite": "https://techconference2025.com",
-    "dataSources": [
-      "eventbrite"
-    ],
-    "lastUpdated": "2025-06-29T07:15:15.617Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Golden Gate Park",
-      "address": "Golden Gate Park",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e05b28b1bc68a236dda",
-    "id": "eb-002",
-    "title": "Summer Music Festival",
-    "description": "A weekend of amazing performances from top artists across multiple genres.",
-    "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3",
-    "startDate": "2025-07-10T10:00:00.000Z",
-    "endDate": "2025-07-12T23:00:00.000Z",
-    "season": "Summer",
-    "location": "Golden Gate Park",
-    "category": "Music",
-    "priceRange": "Moderate",
-    "sourceURL": "https://example.com/summer-music-festival",
-    "officialWebsite": "https://summermusicfest.com",
-    "dataSources": [
-      "eventbrite"
-    ],
-    "lastUpdated": "2025-06-29T07:15:15.755Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Ferry Building",
-      "address": "1 Ferry Building",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e05b28b1bc68a236ddd",
-    "id": "eb-003",
-    "title": "Wine Tasting Experience",
-    "description": "Sample premium wines from California's best vineyards with expert sommeliers.",
-    "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
-    "startDate": "2025-08-20T18:30:00.000Z",
-    "endDate": "2025-08-20T21:30:00.000Z",
-    "season": "Summer",
-    "location": "Ferry Building",
-    "category": "Food & Drink",
-    "priceRange": "Moderate",
-    "sourceURL": "https://example.com/wine-tasting",
-    "officialWebsite": "https://sfwinetasting.com",
-    "dataSources": [
-      "eventbrite"
-    ],
-    "lastUpdated": "2025-06-29T07:15:15.887Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "TechSpace SF",
-      "address": "25 Taylor Street",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e05b28b1bc68a236de0",
-    "id": "mu-001",
-    "title": "Vancouver JavaScript Meetup",
-    "description": "Join fellow JavaScript developers for an evening of talks, networking, and code sharing.",
-    "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
-    "startDate": "2025-07-05T18:30:00.000Z",
-    "endDate": "2025-07-05T21:00:00.000Z",
-    "season": "Summer",
-    "location": "TechSpace SF",
-    "category": "Technology",
-    "priceRange": "Free",
-    "sourceURL": "https://meetup.com/events/sf-javascript-meetup",
-    "officialWebsite": "",
-    "dataSources": [
-      "meetup"
-    ],
-    "lastUpdated": "2025-06-29T07:15:16.020Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Lands End Trail",
-      "address": "Lands End Trail Head",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e05b28b1bc68a236de3",
-    "id": "mu-002",
-    "title": "Hiking & Nature Photography",
-    "description": "A morning hike combined with nature photography tips and tricks from professional photographers.",
-    "image": "https://images.unsplash.com/photo-1520962880247-cfaf541c8724",
-    "startDate": "2025-08-12T09:00:00.000Z",
-    "endDate": "2025-08-12T13:00:00.000Z",
-    "season": "Summer",
-    "location": "Lands End Trail",
-    "category": "Sports & Fitness",
-    "priceRange": "Low",
-    "sourceURL": "https://meetup.com/events/hiking-photography-sf",
-    "officialWebsite": "",
-    "dataSources": [
-      "meetup"
-    ],
-    "lastUpdated": "2025-06-29T07:15:16.152Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "The Workshop Cafe",
-      "address": "180 Montgomery Street",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e05b28b1bc68a236de6",
-    "id": "mu-003",
-    "title": "Startup Networking Breakfast",
-    "description": "Connect with founders, investors, and tech professionals over coffee and breakfast.",
-    "image": "https://images.unsplash.com/photo-1556761175-b413da4baf72",
-    "startDate": "2025-09-03T08:00:00.000Z",
-    "endDate": "2025-09-03T10:00:00.000Z",
-    "season": "Fall",
-    "location": "The Workshop Cafe",
-    "category": "Business",
-    "priceRange": "Low",
-    "sourceURL": "https://meetup.com/events/startup-networking-sf",
-    "officialWebsite": "",
-    "dataSources": [
-      "meetup"
-    ],
-    "lastUpdated": "2025-06-29T07:15:16.291Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "SFJAZZ Center",
-      "address": "201 Franklin St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e06b28b1bc68a236de9",
-    "id": "lv-001",
-    "title": "Vancouver Jazz Festival",
-    "description": "Annual jazz festival featuring renowned artists from around the world.",
-    "image": "https://images.unsplash.com/photo-1511192336575-5a79af67a629",
-    "startDate": "2025-06-21T19:00:00.000Z",
-    "endDate": "2025-06-30T23:00:00.000Z",
-    "season": "Summer",
-    "location": "SFJAZZ Center",
-    "category": "Music",
-    "priceRange": "Moderate",
-    "sourceURL": "https://www.sfjazz.org/festival",
-    "officialWebsite": "https://www.sfjazz.org",
-    "dataSources": [
-      "localVenues"
-    ],
-    "lastUpdated": "2025-06-29T07:15:16.422Z",
-    "__v": 0
-  },
-  {
-    "venue": {
-      "name": "Dolores Park",
-      "address": "19th & Dolores St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
-    },
-    "_id": "685f7e06b28b1bc68a236dec",
-    "id": "lv-002",
-    "title": "Outdoor Movie Night: Classic Films",
-    "description": "Watch classic films under the stars in Dolores Park.",
-    "image": "https://images.unsplash.com/photo-1536440136628-849c177e76a1",
-    "startDate": "2025-07-25T20:00:00.000Z",
+    "dataSources": [],
+    "_id": "6890145a381a542f9297dffb",
+    "id": "d42facc0-149a-457b-ac59-7ffe4bd55dd0",
+    "name": "Toronto - Movies Under the Stars 2025 at Downsview Park",
+    "description": "Movies Under the Stars returns to Downsview Park this year! Our 9th annual movie program will be taking place at the lakeside. Bring a blanket or lawn chair and enjoy family-friendly films under the open sky. Free admission for all!",
+    "startDate": "2025-07-25T20:30:00.000Z",
     "endDate": "2025-07-25T23:00:00.000Z",
-    "season": "Summer",
-    "location": "Dolores Park",
-    "category": "Film & Media",
-    "priceRange": "Free",
-    "sourceURL": "https://doloresparkmovies.org",
-    "officialWebsite": "https://doloresparkmovies.org",
-    "dataSources": [
-      "localVenues"
+    "url": "https://downsviewpark.ca/events/movies-under-stars",
+    "imageUrl": "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-05/Revised-Movies-16x9-TITLE.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Movie",
+      "Outdoor",
+      "Family",
+      "Free",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-29T07:15:16.555Z",
-    "__v": 0
+    "price": "Free",
+    "tags": [
+      "park",
+      "outdoor",
+      "north-york",
+      "toronto-attractions",
+      "family-friendly"
+    ],
+    "recurring": "Every Friday from July to August",
+    "lastUpdated": "2025-08-04T06:01:37.325Z"
   },
   {
     "venue": {
-      "name": "Various Locations",
-      "address": "Vancouver",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Downsview Park",
+      "address": "70 Canuck Avenue",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.7334,
+        "lng": -79.4775
+      }
     },
-    "_id": "685f7e06b28b1bc68a236def",
-    "id": "lv-003",
-    "title": "SF Beer Week",
-    "description": "Celebrate craft beer with special tastings, releases, and events across the city.",
-    "image": "https://images.unsplash.com/photo-1535958636474-b021ee887b13",
-    "startDate": "2025-08-07T12:00:00.000Z",
-    "endDate": "2025-08-16T23:00:00.000Z",
-    "season": "Summer",
-    "location": "Various Locations",
-    "category": "Food & Drink",
-    "priceRange": "Varies",
-    "sourceURL": "https://sfbeerweek.org",
-    "officialWebsite": "https://sfbeerweek.org",
-    "dataSources": [
-      "localVenues"
+    "dataSources": [],
+    "_id": "6890145b381a542f9297dffc",
+    "id": "6cf4fffc-00ea-472d-aeb8-143822d450ba",
+    "name": "Toronto - Wild and Free Family Yoga (ENGLISH) at Downsview Park",
+    "description": "Experience the calming power of yoga while being surrounded by the natural beauty of the Park. This free family yoga program welcomes participants of all ages and abilities. Bring your own mat and water bottle.",
+    "startDate": "2025-08-23T10:00:00.000Z",
+    "endDate": "2025-08-23T11:00:00.000Z",
+    "url": "https://downsviewpark.ca/events/wild-and-free-family-yoga-english-1",
+    "imageUrl": "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-08/Website-Banner-16x9-Yoga-English.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Yoga",
+      "Wellness",
+      "Family",
+      "Outdoor",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-29T07:15:16.688Z",
-    "__v": 0
+    "price": "Free",
+    "tags": [
+      "park",
+      "outdoor",
+      "north-york",
+      "toronto-attractions",
+      "family-friendly"
+    ],
+    "recurring": "Weekly on Saturdays",
+    "lastUpdated": "2025-08-04T06:01:37.326Z"
   },
   {
     "venue": {
-      "name": "Golden Gate Park",
-      "address": "Golden Gate Park",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Downsview Park",
+      "address": "70 Canuck Avenue",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.7334,
+        "lng": -79.4775
+      }
     },
-    "_id": "685f7e06b28b1bc68a236df2",
-    "id": "tb-001",
-    "title": "Golden Gate Park 150th Anniversary Celebration",
-    "description": "A citywide celebration of Vancouver's iconic park with special exhibits, performances, and activities.",
-    "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
-    "startDate": "2025-10-15T10:00:00.000Z",
-    "endDate": "2025-10-17T18:00:00.000Z",
-    "season": "Fall",
-    "location": "Golden Gate Park",
-    "category": "Community",
-    "priceRange": "Free",
-    "sourceURL": "https://www.sftravel.com/events/golden-gate-park-150",
-    "officialWebsite": "https://goldengatepark150.com",
-    "dataSources": [
-      "tourismBoard"
+    "dataSources": [],
+    "_id": "6890145b381a542f9297dffd",
+    "id": "43433584-b173-4561-a8c0-c432b438d686",
+    "name": "Toronto - Wild and Free Family Yoga (FRENCH) at Downsview Park",
+    "description": "Expérimentez le pouvoir apaisant du yoga tout en étant entouré par la beauté naturelle du parc. Ce programme gratuit de yoga familial accueille les participants de tous âges et de toutes capacités. Apportez votre propre tapis et bouteille d'eau.",
+    "startDate": "2025-08-30T10:00:00.000Z",
+    "endDate": "2025-08-30T11:00:00.000Z",
+    "url": "https://downsviewpark.ca/events/wild-and-free-family-yoga-french",
+    "imageUrl": "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-08/Website-Banner-16x9-Yoga-French.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Yoga",
+      "French",
+      "Family",
+      "Outdoor",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-29T07:15:16.821Z",
-    "__v": 0
+    "price": "Free",
+    "tags": [
+      "park",
+      "outdoor",
+      "north-york",
+      "toronto-attractions",
+      "family-friendly"
+    ],
+    "recurring": "Weekly on Saturdays",
+    "lastUpdated": "2025-08-04T06:01:37.326Z"
   },
   {
     "venue": {
-      "name": "Presidio",
-      "address": "Presidio",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Blood Brothers Brewing",
+      "address": "165 Geary Ave",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6734,
+        "lng": -79.4381
+      }
     },
-    "_id": "685f7e06b28b1bc68a236df5",
-    "id": "tb-002",
-    "title": "California Coastal Wine Festival",
-    "description": "Sample premium wines from coastal vineyards across California with ocean views, gourmet food, and live music.",
-    "image": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb",
-    "startDate": "2025-08-22T14:00:00.000Z",
-    "endDate": "2025-08-23T21:00:00.000Z",
-    "season": "Summer",
-    "location": "Presidio",
-    "category": "Food & Drink",
-    "priceRange": "High",
-    "sourceURL": "https://www.visitcalifornia.com/events/coastal-wine-festival",
-    "officialWebsite": "https://californiacoastalwine.com",
-    "dataSources": [
-      "tourismBoard"
+    "dataSources": [],
+    "_id": "6890145b3f257ac7c53d132b",
+    "id": "76ff9f31-6e66-4b84-beae-99a7787e3d3f",
+    "name": "Toronto - Southern Smoke: BBQ & Beer Pairing",
+    "description": "Experience the perfect marriage of craft beer and southern BBQ at Blood Brothers Brewery. Our kitchen serves up 'Southern Comfort' dishes with all meats smoked in-house using oak staves from the very barrels we age our beer in. This special pairing event features a curated menu with recommended beer pairings to highlight the complementary flavors.",
+    "startDate": "2025-08-08T17:00:00.000Z",
+    "endDate": "2025-08-08T23:00:00.000Z",
+    "url": "https://www.bloodbrothersbrewing.com/pages/blood-brothers-food",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0517/5811/4339/files/Group_2000x1000_crop_center.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Beer",
+      "Food",
+      "Craft Brewery",
+      "BBQ",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-29T07:15:16.952Z",
-    "__v": 0
+    "price": "$40 (includes food and beer pairings)",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "geary-avenue",
+      "local-business"
+    ],
+    "recurring": "Monthly, second Friday",
+    "lastUpdated": "2025-08-04T06:01:37.326Z"
   },
   {
     "venue": {
-      "name": "Civic Center Plaza",
-      "address": "Civic Center Plaza",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Downsview Park",
+      "address": "70 Canuck Avenue",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.7334,
+        "lng": -79.4775
+      }
     },
-    "_id": "685f7e06b28b1bc68a236df8",
-    "id": "tb-003",
-    "title": "Vancouver Heritage Festival",
-    "description": "Celebrate the diverse cultural heritage of Vancouver with international food, performances, and cultural exhibits.",
-    "image": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
-    "startDate": "2025-11-08T11:00:00.000Z",
-    "endDate": "2025-11-09T20:00:00.000Z",
-    "season": "Fall",
-    "location": "Civic Center Plaza",
-    "category": "Community",
-    "priceRange": "Low",
-    "sourceURL": "https://www.sftravel.com/events/heritage-festival",
-    "officialWebsite": "https://sfheritagefestival.org",
-    "dataSources": [
-      "tourismBoard"
+    "dataSources": [],
+    "_id": "6890145b381a542f9297dffe",
+    "id": "e3ad2f2d-d6e6-4705-a102-181b030444f7",
+    "name": "Toronto - Downsview parkrun at Downsview Park",
+    "description": "Parkrun is a free, weekly, timed 5k run/jog/walk every Saturday at 9:00 am. Open to all ages and all abilities – each week a Tail Walker will be present, so you will never be last. This event is organized by parkrun volunteers.",
+    "startDate": "2025-07-20T13:00:00.000Z",
+    "endDate": "2025-07-20T14:30:00.000Z",
+    "url": "https://downsviewpark.ca/events/downsview-parkrun",
+    "imageUrl": "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2025-01/parkrun-canada.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Running",
+      "Fitness",
+      "Outdoors",
+      "Community",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-29T07:15:17.082Z",
-    "__v": 0
+    "price": "Free",
+    "tags": [
+      "park",
+      "outdoor",
+      "north-york",
+      "toronto-attractions",
+      "family-friendly"
+    ],
+    "recurring": "Every Saturday at 9:00 AM",
+    "lastUpdated": "2025-08-04T06:01:37.326Z"
   },
   {
     "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Blood Brothers Brewing",
+      "address": "165 Geary Ave",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6734,
+        "lng": -79.4381
+      }
     },
-    "_id": "6860227c9d15eccbd36b39c7",
-    "id": "0e0a9856-ebc7-5881-b6e9-b9e58327923d",
-    "title": "80s vs 90s Night",
-    "description": "80s vs 90s Night at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-19T20:00:00.000Z",
-    "endDate": "2025-01-19T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2024/80svs90s-92nhb-e4pxy-wlshy-getdr-622xp-z2b6d-66d94-wnlrd-4brxr-3zy8b-stan6-6lpb9-krygy-xl62f-2nlzd-39thp-tbfan",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
+    "dataSources": [],
+    "_id": "6890145b3f257ac7c53d132c",
+    "id": "342c4d83-cfe8-4e19-9ca8-a011a5cb26cf",
+    "name": "Toronto - New Release Party: Summer Sours Series",
+    "description": "Be among the first to taste Blood Brothers Brewing's new Summer Sours Series! This exclusive release party celebrates our limited-edition seasonal sours, featuring fruited varieties perfect for warm weather. Meet our brewers, learn about the souring process, and enjoy complimentary appetizers from our Southern Comfort kitchen with your ticket purchase.",
+    "startDate": "2025-08-15T18:00:00.000Z",
+    "endDate": "2025-08-15T23:00:00.000Z",
+    "url": "https://www.bloodbrothersbrewing.com/",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0517/5811/4339/files/Group_2000x1000_crop_center.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Beer",
+      "Release Party",
+      "Craft Brewery",
+      "Sour Beer",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-29T07:15:20.007Z",
-    "__v": 0
+    "price": "$30",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "geary-avenue",
+      "local-business"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.326Z"
   },
   {
     "venue": {
-      "name": "Fox Cabaret",
-      "address": "2321 Main St",
-      "city": "Vancouver",
-      "state": "BC",
-      "country": "Canada"
+      "name": "Downsview Park",
+      "address": "70 Canuck Avenue",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.7334,
+        "lng": -79.4775
+      }
     },
-    "_id": "6860227c9d15eccbd36b39ca",
-    "id": "72fb7964-64d6-5c4c-9c25-8dc42e6a1184",
-    "title": "Charlotte Lawrence",
-    "description": "Charlotte Lawrence at Fox Cabaret - An exciting event in Vancouver's Mount Pleasant neighborhood.",
-    "image": "https://scoutmagazine.ca/wp-content/uploads/2014/11/Fox-Cabaret-Comedy.jpg",
-    "startDate": "2025-01-25T20:00:00.000Z",
-    "endDate": "2025-01-25T23:00:00.000Z",
-    "season": "Winter",
-    "location": "Fox Cabaret",
-    "category": "Entertainment",
-    "sourceURL": "https://www.foxcabaret.com/",
-    "officialWebsite": "https://www.foxcabaret.com/monthly-calendar-list/2025/charlottelawrence",
-    "dataSources": [
-      "vancouver-Fox Cabaret"
+    "dataSources": [],
+    "_id": "6890145c381a542f9297dfff",
+    "id": "c2b2e557-fbcc-4bb3-b466-f9ff7e34d640",
+    "name": "Toronto - Jr. Forest Explorers: Creepy Crawlers at Downsview Park",
+    "description": "A FREE nature program for toddlers and their guardians. Connect with nature through hands-on outdoor activities focused on discovering the fascinating world of insects and other small creatures. Let's get those little hands dirty!",
+    "startDate": "2025-07-23T09:30:00.000Z",
+    "endDate": "2025-07-23T10:30:00.000Z",
+    "url": "https://downsviewpark.ca/events/jr-forest-explorers",
+    "imageUrl": "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-05/JFE-bugs_0.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Children",
+      "Nature",
+      "Education",
+      "Outdoors",
+      "Toronto"
     ],
-    "lastUpdated": "2025-06-29T07:15:20.137Z",
-    "__v": 0
+    "price": "Free",
+    "tags": [
+      "park",
+      "outdoor",
+      "north-york",
+      "toronto-attractions",
+      "family-friendly"
+    ],
+    "recurring": null,
+    "lastUpdated": "2025-08-04T06:01:37.327Z"
+  },
+  {
+    "venue": {
+      "name": "Downsview Park",
+      "address": "70 Canuck Avenue",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.7334,
+        "lng": -79.4775
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145c381a542f9297e000",
+    "id": "66ee79f9-9109-4d69-93e4-c290c9e975ec",
+    "name": "Toronto - VELD Music Festival at Downsview Park",
+    "description": "VELD Music Festival returns to Downsview Park! This premier electronic music festival features world-class DJs and artists performing across multiple stages. Experience amazing performances, festival activities, and an electric atmosphere in one of Toronto's biggest summer music events.",
+    "startDate": "2025-08-02T16:00:00.000Z",
+    "endDate": "2025-08-04T00:00:00.000Z",
+    "url": "https://downsviewpark.ca/events/veld-music-festival-2025",
+    "imageUrl": "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2025-05/veld-2025.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music Festival",
+      "Electronic",
+      "Concert",
+      "Entertainment",
+      "Toronto"
+    ],
+    "price": "$150-$300",
+    "tags": [
+      "park",
+      "outdoor",
+      "north-york",
+      "toronto-attractions",
+      "family-friendly"
+    ],
+    "recurring": null,
+    "lastUpdated": "2025-08-04T06:01:37.327Z"
+  },
+  {
+    "venue": {
+      "name": "Blood Brothers Brewing",
+      "address": "165 Geary Ave",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6734,
+        "lng": -79.4381
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145c3f257ac7c53d132d",
+    "id": "9e2c40c0-9ea4-4891-a94e-9d5e04c7f49c",
+    "name": "Toronto - Geary Avenue Summer Block Party",
+    "description": "Join the annual Geary Avenue Summer Block Party hosted at Blood Brothers Brewery! Celebrate Toronto's coolest street with local vendors, food trucks, live music, and plenty of craft beer. Our spacious patio and renovated historic taproom will be the center of the festivities. A family-friendly afternoon transforms into an evening block party for adults.",
+    "startDate": "2025-08-23T16:00:00.000Z",
+    "endDate": "2025-08-24T02:00:00.000Z",
+    "url": "https://www.bloodbrothersbrewing.com/",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0517/5811/4339/files/Group_2000x1000_crop_center.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Festival",
+      "Beer",
+      "Community",
+      "Music",
+      "Toronto"
+    ],
+    "price": "Free entry (pay as you go for food and drinks)",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "geary-avenue",
+      "local-business"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.327Z"
+  },
+  {
+    "venue": {
+      "name": "Four Seasons Centre for the Performing Arts",
+      "address": "145 Queen Street West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6503,
+        "lng": -79.3862
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145c079d5a9db00e008b",
+    "id": "21cf79a7-7e19-4865-86c8-9dc094a9d43d",
+    "name": "Toronto - Roméo et Juliette - Canadian Opera Company",
+    "description": "Charles Gounod's passionate adaptation of Shakespeare's timeless tragedy. Experience the heartbreaking tale of star-crossed lovers set to soaring French romantic music. This new production brings fresh perspective to one of opera's most beloved romances.",
+    "startDate": "2025-09-20T18:30:00.000Z",
+    "endDate": "2025-10-05T22:00:00.000Z",
+    "url": "https://www.coc.ca/tickets/2526-season",
+    "imageUrl": "https://www.coc.ca/Assets/COC+Assets/Images/2526/romeo-et-juliette/romeo-et-juliette-1300x860.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Opera",
+      "Performance",
+      "Classical",
+      "Theatre",
+      "Toronto"
+    ],
+    "price": "$50-250",
+    "tags": [
+      "opera",
+      "classical",
+      "performing-arts",
+      "culture",
+      "music"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.327Z"
+  },
+  {
+    "venue": {
+      "name": "Blood Brothers Brewing",
+      "address": "165 Geary Ave",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6734,
+        "lng": -79.4381
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145d3f257ac7c53d132e",
+    "id": "89ec8c22-544e-481b-b19b-597af6b74f1b",
+    "name": "Toronto - Barrel-Aged Beer Workshop",
+    "description": "Discover the art of barrel-aging beer at this educational workshop hosted by Blood Brothers Brewing. Learn how different barrels impart unique flavors to various beer styles, the aging process, and the science behind it. Includes a guided tasting of five barrel-aged beers and take-home tasting notes. Limited spots available for this intimate learning experience.",
+    "startDate": "2025-09-12T18:30:00.000Z",
+    "endDate": "2025-09-12T21:00:00.000Z",
+    "url": "https://www.bloodbrothersbrewing.com/pages/tap-room",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0517/5811/4339/files/Group_2000x1000_crop_center.png",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Workshop",
+      "Beer",
+      "Education",
+      "Craft Brewery",
+      "Toronto"
+    ],
+    "price": "$45 (includes guided tasting)",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "geary-avenue",
+      "local-business"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.327Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145d1fc7dbe2b1d524b7",
+    "id": "cb64e0cb-b3fa-4961-adca-d20117cc8f02",
+    "name": "Toronto - Dancing on the Square - Summer Series",
+    "description": "Every Wednesday in July and August, learn new dance moves and show off your style to a live band by the water's edge. Different dance styles are featured each week, from bachata to balfolk, with professional instructors to guide both beginners and experienced dancers. This free outdoor event has become a summer tradition at Toronto's waterfront.",
+    "startDate": "2025-07-16T23:00:00.000Z",
+    "endDate": "2025-08-27T23:00:00.000Z",
+    "url": "https://harbourfrontcentre.com/series/dancing-on-the-square-2025/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/dancing-on-the-square-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Dance",
+      "Music",
+      "Outdoor",
+      "Free",
+      "Toronto"
+    ],
+    "price": "Free (registration required)",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "recurring": "Weekly on Wednesdays",
+    "lastUpdated": "2025-08-04T06:01:37.327Z"
+  },
+  {
+    "venue": {
+      "name": "Drom Taberna",
+      "address": "458 Queen St W",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6481,
+        "lng": -79.4015
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145d258a422d50bac435",
+    "id": "bef461d8-72d6-4e7d-8821-b483b892198d",
+    "name": "Toronto - Antonio Monasterio Ensamble - Sunfest",
+    "description": "Antonio Monasterio Ensamble is a boundary-pushing Chilean group that blends jazz, chamber music, and global rhythms into a deeply emotional and cinematic sound on flugelhorn, electric guitar, oud, drums, bass, and piano. Led by composer and multi-instrumentalist Antonio Monasterio, the ensemble creates rich musical narratives that reflect both the intensity of modern life and the introspection of the natural world.",
+    "startDate": "2025-07-16T20:00:00.000Z",
+    "endDate": "2025-07-16T23:00:00.000Z",
+    "url": "https://www.dromtaberna.com/sunfest",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/59c1871ce3df28c160c5be84/1688582526355-KAQAUP1N2SDEU5NCJ8IR/Drom+Taberna+Sumerfolk",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Jazz",
+      "World Music",
+      "Concert",
+      "Toronto"
+    ],
+    "price": "$20-25",
+    "tags": [
+      "live-music",
+      "world-music",
+      "queen-west",
+      "sunfest",
+      "concert"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.327Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145d1fc7dbe2b1d524b8",
+    "id": "2672f259-cf51-4c61-a3a5-18fe1c71ac44",
+    "name": "Toronto - Bachata with Soul2Sole",
+    "description": "Spice up your night with the rhythms of bachata! Join professional dancers from Soul2Sole for an evening of learning and dancing this sensual Latin dance style originated from the Dominican Republic. Perfect for beginners and experienced dancers alike, this event features live music and instruction by the beautiful waterfront setting.",
+    "startDate": "2025-07-16T23:00:00.000Z",
+    "endDate": "2025-07-17T01:00:00.000Z",
+    "url": "https://harbourfrontcentre.com/event/bachata-with-soul2sole-dots-2025/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/bachata-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Dance",
+      "Latin",
+      "Instruction",
+      "Free",
+      "Toronto"
+    ],
+    "price": "Free (registration required)",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.328Z"
+  },
+  {
+    "venue": {
+      "name": "Four Seasons Centre for the Performing Arts",
+      "address": "145 Queen Street West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6503,
+        "lng": -79.3862
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145d079d5a9db00e008c",
+    "id": "e4941d6e-780e-4f96-891b-2d079ba03813",
+    "name": "Toronto - Orfeo ed Euridice - Canadian Opera Company",
+    "description": "Christoph Willibald Gluck's mythological masterpiece about love, loss, and the journey to the underworld. This groundbreaking work follows Orfeo as he descends into Hades to rescue his beloved Euridice, guided only by the power of his music.",
+    "startDate": "2025-10-09T18:30:00.000Z",
+    "endDate": "2025-10-25T22:00:00.000Z",
+    "url": "https://www.coc.ca/tickets/2526-season/orfeo-ed-euridice",
+    "imageUrl": "https://www.coc.ca/Assets/COC+Assets/Images/2526/orfeo/orfeo-1300x860.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Opera",
+      "Performance",
+      "Classical",
+      "Theatre",
+      "Toronto"
+    ],
+    "price": "$50-250",
+    "tags": [
+      "opera",
+      "classical",
+      "performing-arts",
+      "culture",
+      "music"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.328Z"
+  },
+  {
+    "venue": {
+      "name": "Junction Craft Brewing",
+      "address": "150 Symes Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6742,
+        "lng": -79.4775
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145d7768bb14c3f0fef1",
+    "id": "c3117927-ca22-405d-9568-4c871a96f44c",
+    "name": "Toronto - Trivia Night",
+    "description": "Test your knowledge at Junction Craft Brewing's weekly trivia night! Join our host as teams compete for brewery prizes, bragging rights, and beer specials. No registration required - just show up with your team or join one when you arrive. Enjoy craft beer from our rotating taps while exercising your brain with questions spanning pop culture, history, sports, science, and local Toronto trivia.",
+    "startDate": "2025-07-17T23:00:00.000Z",
+    "endDate": "2025-07-18T02:00:00.000Z",
+    "url": "https://www.junctioncraft.com/whatson",
+    "imageUrl": "https://static.wixstatic.com/media/d0b27f_53b4f3f045394e3d8295d32f2b72b379~mv2.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Games",
+      "Beer",
+      "Social",
+      "Trivia",
+      "Toronto"
+    ],
+    "price": "Free to participate",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "the-junction",
+      "local-business"
+    ],
+    "recurring": "Weekly on Thursdays",
+    "lastUpdated": "2025-08-04T06:01:37.328Z"
+  },
+  {
+    "venue": {
+      "name": "Drom Taberna",
+      "address": "458 Queen St W",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6481,
+        "lng": -79.4015
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e258a422d50bac436",
+    "id": "ce8c6e77-ba23-48cc-992f-4d4d3bcb6be4",
+    "name": "Toronto - PS5 Naples Jazz Ensemble - Sunfest",
+    "description": "PS5 is led by Pietro Santangelo who was born, lives and plays in Naples. Their compositions are inspired by the idea of natural biodiversity as an expression of contamination, coexistence and balance. Suggestive saxophone textures intertwine on a solid rhythmic equilibrium and move naturally along an imaginary line highlighting the ancestral connection between Africa and the Mediterranean Sea.",
+    "startDate": "2025-07-17T20:00:00.000Z",
+    "endDate": "2025-07-17T23:00:00.000Z",
+    "url": "https://www.dromtaberna.com/sunfest",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/59c1871ce3df28c160c5be84/1688582526355-KAQAUP1N2SDEU5NCJ8IR/PS5",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Jazz",
+      "Mediterranean",
+      "Concert",
+      "Toronto"
+    ],
+    "price": "$20-25",
+    "tags": [
+      "live-music",
+      "world-music",
+      "queen-west",
+      "sunfest",
+      "concert"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.328Z"
+  },
+  {
+    "venue": {
+      "name": "Drom Taberna",
+      "address": "458 Queen St W",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6481,
+        "lng": -79.4015
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e258a422d50bac437",
+    "id": "b2da5c4d-4508-4515-acb3-5af4bf49cffd",
+    "name": "Toronto - Diyet & The Love Soldiers - Sunfest",
+    "description": "Diyet & The Love Soldiers is alternative country, folk, roots and traditional with catchy melodies and stories deeply rooted in Diyet's Indigenous world view and northern life. Diyet sings in both English and Southern Tutchone (her native language) and plays bass guitar. She is backed by The Love Soldiers: husband and collaborator, Robert van Lieshout and Juno Award winning producer, Bob Hamilton.",
+    "startDate": "2025-07-18T20:00:00.000Z",
+    "endDate": "2025-07-18T23:00:00.000Z",
+    "url": "https://www.dromtaberna.com/sunfest",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/59c1871ce3df28c160c5be84/1688582526355-KAQAUP1N2SDEU5NCJ8IR/Diyet",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Folk",
+      "Indigenous",
+      "Concert",
+      "Toronto"
+    ],
+    "price": "$20-25",
+    "tags": [
+      "live-music",
+      "world-music",
+      "queen-west",
+      "sunfest",
+      "concert"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.328Z"
+  },
+  {
+    "venue": {
+      "name": "Thomas Fisher Rare Book Library",
+      "address": "120 St. George Street",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6646,
+        "lng": -79.3995
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e7dc4490c5012b07b",
+    "id": "e96c68fb-55b5-4e47-a211-4d02e558cd78",
+    "name": "Toronto - George Kiddell Memorial Lecture: What's Cooking in Guyana? A Conversation about Food Cultures",
+    "description": "This year's Kiddell Lecture on the History of the Book is a conversation about memory, storytelling, and identity around cookbooks and food cultures in Guyana. Join us for an enlightening discussion on how culinary traditions shape cultural heritage and community connections across generations.",
+    "startDate": "2025-09-18T18:30:00.000Z",
+    "endDate": "2025-09-18T20:00:00.000Z",
+    "url": "https://fisher.library.utoronto.ca/fisher-events/george-kiddell-memorial-lecture-whats-cooking-guyana-conversation-about-food-cultures",
+    "imageUrl": "https://fisher.library.utoronto.ca/sites/fisher.library.utoronto.ca/files/fisher-library.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Lecture",
+      "Culture",
+      "Food",
+      "History",
+      "Toronto"
+    ],
+    "price": "Free (Registration required)",
+    "tags": [
+      "university",
+      "library",
+      "academic",
+      "literature",
+      "books"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.328Z"
+  },
+  {
+    "venue": {
+      "name": "Junction Craft Brewing",
+      "address": "150 Symes Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6742,
+        "lng": -79.4775
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e7768bb14c3f0fef2",
+    "id": "68592365-472f-4e19-be2e-615274079e6b",
+    "name": "Toronto - Live Music Saturday - Local Indie Showcase",
+    "description": "Enjoy the sounds of Toronto's vibrant indie music scene at Junction Craft Brewing's Live Music Saturday. This week features performances from local artists in an intimate taproom setting. Sip on award-winning craft beers while supporting local musicians. Food menu available throughout the event featuring brewery favorites and seasonal specials.",
+    "startDate": "2025-07-19T23:00:00.000Z",
+    "endDate": "2025-07-20T02:00:00.000Z",
+    "url": "https://www.junctioncraft.com/whatson",
+    "imageUrl": "https://static.wixstatic.com/media/d0b27f_a7b7ae0c108e4c6fb0bc553df919ecff~mv2.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Beer",
+      "Live Performance",
+      "Indie",
+      "Toronto"
+    ],
+    "price": "No cover charge",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "the-junction",
+      "local-business"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.328Z"
+  },
+  {
+    "venue": {
+      "name": "Drom Taberna",
+      "address": "458 Queen St W",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6481,
+        "lng": -79.4015
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e258a422d50bac438",
+    "id": "9e526210-33ef-43e8-b526-16093b62e6e5",
+    "name": "Toronto - Empanadas Ilegales - Sunfest",
+    "description": "Empanadas Ilegales brings the vibrant rhythms and melodies of Latin America to Toronto's world music scene. This energetic ensemble combines traditional Latin American sounds with contemporary influences for an unforgettable night of music and dancing at Drom Taberna's Sunfest celebration.",
+    "startDate": "2025-07-19T20:00:00.000Z",
+    "endDate": "2025-07-19T23:00:00.000Z",
+    "url": "https://www.dromtaberna.com/sunfest",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/59c1871ce3df28c160c5be84/1688582526355-KAQAUP1N2SDEU5NCJ8IR/Empanadas",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Latin",
+      "World Music",
+      "Concert",
+      "Toronto"
+    ],
+    "price": "$20-25",
+    "tags": [
+      "live-music",
+      "world-music",
+      "queen-west",
+      "sunfest",
+      "concert"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.330Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e1fc7dbe2b1d524b9",
+    "id": "9d0bebc5-1dfb-4566-a8ce-8c248fe5b54b",
+    "name": "Toronto - Unity Fest",
+    "description": "Unity Fest celebrates hip-hop culture with dance battles, live performances, workshops, and activities for all ages. This day-long festival brings together Toronto's vibrant urban arts community for competitions, showcases, and interactive experiences. Featuring renowned DJs, MCs, breakdancers, and graffiti artists, Unity Fest is a cornerstone summer event at Harbourfront Centre.",
+    "startDate": "2025-07-19T16:00:00.000Z",
+    "endDate": "2025-07-20T02:00:00.000Z",
+    "url": "https://harbourfrontcentre.com/series/unityfest-2025/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/unityfest-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Festival",
+      "Hip-Hop",
+      "Dance",
+      "Music",
+      "Toronto"
+    ],
+    "price": "Various (some events free)",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.330Z"
+  },
+  {
+    "venue": {
+      "name": "Junction Craft Brewing",
+      "address": "150 Symes Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6742,
+        "lng": -79.4775
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e7768bb14c3f0fef3",
+    "id": "d296bd04-876c-4440-a953-e8aaf27d900f",
+    "name": "Toronto - Toronto Craft Beer Week Tap Takeover",
+    "description": "As part of Toronto Craft Beer Week celebrations, Junction Craft Brewing hosts a special tap takeover featuring collaboration brews with five other local Toronto breweries. Sample exclusive small-batch beers, meet the brewers, and enjoy brewery tours throughout the evening. Food pairings available from our kitchen, designed to complement each special release beer.",
+    "startDate": "2025-07-25T21:00:00.000Z",
+    "endDate": "2025-07-26T02:00:00.000Z",
+    "url": "https://www.junctioncraft.com/whatson",
+    "imageUrl": "https://static.wixstatic.com/media/d0b27f_bf4bd5ec3e324b229ec746d7cc8db125~mv2.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Beer",
+      "Festival",
+      "Tasting",
+      "Brewery",
+      "Toronto"
+    ],
+    "price": "$25 (includes 5 tasting tokens)",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "the-junction",
+      "local-business"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.330Z"
+  },
+  {
+    "venue": {
+      "name": "Thomas Fisher Rare Book Library",
+      "address": "120 St. George Street",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6646,
+        "lng": -79.3995
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e7dc4490c5012b07c",
+    "id": "94f63953-6f93-4fd7-99cf-f9178fd47d63",
+    "name": "Toronto - Johanna and Leon Katz Memorial Lecture: Maurice Vellekoop - \"I'm So Glad We Had This Time\"",
+    "description": "Illustrator and cartoonist Maurice Vellekoop will discuss how his award-winning graphic memoir, I'm So Glad We Had This Time Together, is in part a love letter to the author's hometown of Toronto. Explore the visual storytelling that captures Toronto's unique character and the artist's personal journey through its streets and communities.",
+    "startDate": "2025-10-16T18:30:00.000Z",
+    "endDate": "2025-10-16T20:00:00.000Z",
+    "url": "https://fisher.library.utoronto.ca/fisher-events/katz-memorial-lecture-maurice-vellekoop",
+    "imageUrl": "https://fisher.library.utoronto.ca/sites/fisher.library.utoronto.ca/files/vellekoop-lecture.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Lecture",
+      "Art",
+      "Literature",
+      "Toronto",
+      "Graphic Memoir"
+    ],
+    "price": "Free (Registration required)",
+    "tags": [
+      "university",
+      "library",
+      "academic",
+      "literature",
+      "books"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.330Z"
+  },
+  {
+    "venue": {
+      "name": "Drom Taberna",
+      "address": "458 Queen St W",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6481,
+        "lng": -79.4015
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e258a422d50bac439",
+    "id": "850845e2-0610-4041-975f-a22ed2aec9ae",
+    "name": "Toronto - Sunfest Festival Finale - Global Music Showcase",
+    "description": "Join us for the grand finale of Drom Taberna's Sunfest featuring a showcase of global music talent! This special closing night brings together musicians from around the world for a collaborative performance celebrating cultural diversity through music. Experience an unforgettable night of cross-cultural musical exchange in downtown Toronto.",
+    "startDate": "2025-07-20T19:00:00.000Z",
+    "endDate": "2025-07-20T23:30:00.000Z",
+    "url": "https://www.dromtaberna.com/sunfest",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/59c1871ce3df28c160c5be84/1688582526355-KAQAUP1N2SDEU5NCJ8IR/Finale",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Festival",
+      "World Music",
+      "Concert",
+      "Toronto"
+    ],
+    "price": "$25-30",
+    "tags": [
+      "live-music",
+      "world-music",
+      "queen-west",
+      "sunfest",
+      "concert"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.330Z"
+  },
+  {
+    "venue": {
+      "name": "Four Seasons Centre for the Performing Arts",
+      "address": "145 Queen Street West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6503,
+        "lng": -79.3862
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e079d5a9db00e008d",
+    "id": "eb2550f6-5bb9-448e-a050-36a3db5728d7",
+    "name": "Toronto - Centre Stage: Ensemble Studio Competition & Gala - Canadian Opera Company",
+    "description": "Experience the future stars of opera at the COC's annual Ensemble Studio Competition & Gala. Canada's finest young opera talents compete for cash prizes and positions in the prestigious COC Ensemble Studio training program, performing their signature arias with full orchestra.",
+    "startDate": "2025-10-23T18:00:00.000Z",
+    "endDate": "2025-10-23T22:00:00.000Z",
+    "url": "https://www.coc.ca/tickets/2526-season/centre-stage",
+    "imageUrl": "https://www.coc.ca/Assets/COC+Assets/Images/2526/centre-stage/centre-stage-1300x860.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Opera",
+      "Gala",
+      "Competition",
+      "Performance",
+      "Toronto"
+    ],
+    "price": "$75-200",
+    "tags": [
+      "opera",
+      "classical",
+      "performing-arts",
+      "culture",
+      "music"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.330Z"
+  },
+  {
+    "venue": {
+      "name": "Junction Craft Brewing",
+      "address": "150 Symes Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6742,
+        "lng": -79.4775
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145e7768bb14c3f0fef4",
+    "id": "67383c41-fc34-47b1-88f9-dad5dcab0a30",
+    "name": "Toronto - Vinyl Night at the Junction",
+    "description": "Bring your favorite records to Junction Craft Brewing's Vinyl Night! Our resident DJ will be spinning patron-provided vinyl all evening, creating a community-curated soundtrack. Enjoy $5 off flights and special discounts on select pints while experiencing the warm analog sounds of vinyl in our industrial-chic taproom. Record enthusiasts and casual listeners alike are welcome to this laid-back evening celebrating music and craft beer.",
+    "startDate": "2025-07-21T23:00:00.000Z",
+    "endDate": "2025-07-22T02:00:00.000Z",
+    "url": "https://www.junctioncraft.com/whatson",
+    "imageUrl": "https://static.wixstatic.com/media/d0b27f_a6bf592a124d4f86a46bd9c7fd381d7f~mv2.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Beer",
+      "Social",
+      "Vinyl",
+      "Toronto"
+    ],
+    "price": "Free entry",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "the-junction",
+      "local-business"
+    ],
+    "recurring": "Monthly on 3rd Monday",
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Thomas Fisher Rare Book Library",
+      "address": "120 St. George Street",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6646,
+        "lng": -79.3995
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f7dc4490c5012b07d",
+    "id": "ac42abb9-fae1-4b0d-a7f2-890b68d21100",
+    "name": "Toronto - John Seltzer and Mark Seltzer Memorial Lecture: Mark Andrews on \"Engineering a Book Collection\"",
+    "description": "Describing a collection of 7,000 books related to engineering is a daunting task. Rather than giving an account of the entire collection, in this lecture Mark Andrews will tell us the story of four of these books and how they came to be in the collection. Join us for this fascinating exploration of engineering literature and book collecting.",
+    "startDate": "2025-11-20T18:30:00.000Z",
+    "endDate": "2025-11-20T20:00:00.000Z",
+    "url": "https://fisher.library.utoronto.ca/fisher-events/john-seltzer-and-mark-seltzer-memorial-lecture-mark-andrews-engineering-book",
+    "imageUrl": "https://fisher.library.utoronto.ca/sites/fisher.library.utoronto.ca/files/seltzer-lecture.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Lecture",
+      "Books",
+      "Engineering",
+      "Collection",
+      "Toronto"
+    ],
+    "price": "Free (Registration required)",
+    "tags": [
+      "university",
+      "library",
+      "academic",
+      "literature",
+      "books"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Four Seasons Centre for the Performing Arts",
+      "address": "145 Queen Street West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6503,
+        "lng": -79.3862
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f079d5a9db00e008e",
+    "id": "446220ed-5cb4-4875-a392-a2e5559bfc55",
+    "name": "Toronto - Rigoletto - Canadian Opera Company",
+    "description": "Giuseppe Verdi's masterpiece of vengeance, sacrifice, and tragedy. Follow the story of the cursed court jester Rigoletto as he attempts to protect his beloved daughter from the Duke of Mantua's advances, only to become entangled in a web of corruption and revenge.",
+    "startDate": "2026-01-24T18:30:00.000Z",
+    "endDate": "2026-02-14T22:00:00.000Z",
+    "url": "https://www.coc.ca/tickets/2526-season/rigoletto",
+    "imageUrl": "https://www.coc.ca/Assets/COC+Assets/Images/2526/rigoletto/rigoletto-1300x860.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Opera",
+      "Performance",
+      "Classical",
+      "Theatre",
+      "Toronto"
+    ],
+    "price": "$50-250",
+    "tags": [
+      "opera",
+      "classical",
+      "performing-arts",
+      "culture",
+      "music"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Four Seasons Centre for the Performing Arts",
+      "address": "145 Queen Street West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6503,
+        "lng": -79.3862
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f079d5a9db00e008f",
+    "id": "6154a01f-adb3-4991-9db3-3da550dfa0da",
+    "name": "Toronto - The Barber of Seville - Canadian Opera Company",
+    "description": "Gioachino Rossini's sparkling comic masterpiece. This witty production follows the clever barber Figaro as he helps the love-struck Count Almaviva win the heart of the beautiful Rosina, outwitting her guardian Dr. Bartolo in a series of hilarious disguises and schemes.",
+    "startDate": "2026-02-05T18:30:00.000Z",
+    "endDate": "2026-02-21T22:00:00.000Z",
+    "url": "https://www.coc.ca/tickets/2526-season/the-barber-of-seville",
+    "imageUrl": "https://www.coc.ca/Assets/COC+Assets/Images/2526/barber/barber-1300x860.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Opera",
+      "Comedy",
+      "Performance",
+      "Classical",
+      "Toronto"
+    ],
+    "price": "$50-250",
+    "tags": [
+      "opera",
+      "classical",
+      "performing-arts",
+      "culture",
+      "music"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f1fc7dbe2b1d524ba",
+    "id": "396b1d73-8830-4d1e-afb5-501b7e2e029f",
+    "name": "Toronto - Harbourfront Farmers Market",
+    "description": "Every Saturday, enjoy the best in seasonal produce, meats and artisanal products from Ontario's farmers and small-batch producers. The Harbourfront Farmers Market offers visitors a chance to shop directly from local vendors in a picturesque waterfront setting. With a focus on sustainability and community, the market features organic options, ready-to-eat foods, and handcrafted goods.",
+    "startDate": "2025-07-19T13:00:00.000Z",
+    "endDate": "2025-07-19T18:00:00.000Z",
+    "url": "https://harbourfrontcentre.com/event/harbourfront-farmers-market/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/farmers-market-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Market",
+      "Food",
+      "Shopping",
+      "Free",
+      "Toronto"
+    ],
+    "price": "Free admission",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "recurring": "Weekly on Saturdays",
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Four Seasons Centre for the Performing Arts",
+      "address": "145 Queen Street West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6503,
+        "lng": -79.3862
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f079d5a9db00e0090",
+    "id": "99326bc3-5c60-40fe-9589-43fa0af1d39a",
+    "name": "Toronto - Bluebeard's Castle/Erwartung - Canadian Opera Company",
+    "description": "Experience Robert Lepage's groundbreaking double bill that revolutionized Canadian opera. Bartók's haunting psychological thriller Bluebeard's Castle is paired with Schoenberg's expressionist monodrama Erwartung in a visually stunning production that explores the depths of the human psyche.",
+    "startDate": "2026-04-25T18:30:00.000Z",
+    "endDate": "2026-05-16T22:00:00.000Z",
+    "url": "https://www.coc.ca/tickets/2526-season/bluebeards-castle-erwartung",
+    "imageUrl": "https://www.coc.ca/Assets/COC+Assets/Images/2526/bluebeard/bluebeard-1300x860.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Opera",
+      "Performance",
+      "Modern",
+      "Theatre",
+      "Toronto"
+    ],
+    "price": "$50-250",
+    "tags": [
+      "opera",
+      "classical",
+      "performing-arts",
+      "culture",
+      "music"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f1fc7dbe2b1d524bb",
+    "id": "ac857f1e-b51f-4cae-a724-ad38bcf07656",
+    "name": "Toronto - Underground Night Market",
+    "description": "Every Saturday night, join for late-night market vibes and browse indie food and drink vendors — all at $10 and under. The Underground Night Market transforms Harbourfront Centre into a vibrant evening bazaar featuring local entrepreneurs, artists, and food innovators. With DJs spinning tunes and the lakefront as a backdrop, it's the perfect way to experience Toronto's diverse culinary scene.",
+    "startDate": "2025-07-19T21:00:00.000Z",
+    "endDate": "2025-07-20T03:00:00.000Z",
+    "url": "https://harbourfrontcentre.com/event/undrgrndnghtmrkt/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/night-market-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Market",
+      "Food",
+      "Nightlife",
+      "Free",
+      "Toronto"
+    ],
+    "price": "Free admission (food/drinks for purchase)",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "recurring": "Weekly on Saturdays",
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Thomas Fisher Rare Book Library",
+      "address": "120 St. George Street",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6646,
+        "lng": -79.3995
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f7dc4490c5012b07e",
+    "id": "d6ad2ebe-5043-47af-a632-70f072438fb8",
+    "name": "Toronto - Fisher Library Exhibition Tour: Rare Books of the Scientific Revolution",
+    "description": "Join a guided tour of the Thomas Fisher Rare Book Library's special exhibition featuring extraordinary works from the Scientific Revolution. See first editions of works by Galileo, Newton, and other pioneers of modern science. The tour includes access to rarely displayed items and expert commentary on their historical significance.",
+    "startDate": "2025-08-12T14:00:00.000Z",
+    "endDate": "2025-08-12T15:30:00.000Z",
+    "url": "https://fisher.library.utoronto.ca/friends-fisher-events",
+    "imageUrl": "https://fisher.library.utoronto.ca/sites/fisher.library.utoronto.ca/files/fisher-exhibition.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Tour",
+      "Exhibition",
+      "Science",
+      "History",
+      "Toronto"
+    ],
+    "price": "Free (Registration required)",
+    "tags": [
+      "university",
+      "library",
+      "academic",
+      "literature",
+      "books"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.331Z"
+  },
+  {
+    "venue": {
+      "name": "Henderson Brewing Co.",
+      "address": "128A Sterling Rd.",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6543,
+        "lng": -79.4422
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f2d70913277031459",
+    "id": "540de5ca-36fd-4971-85b7-c003eaf1c482",
+    "name": "Toronto - FEASTIE Sip & Snack Festival",
+    "description": "A unique food and drink social bringing together the perfect harmony of elevated craft cocktails, beers & natural wines, diverse snack food offerings from Local-, BIPOC-, & Female-owned small businesses, live music, games, & entertainment. Plus, a specially curated dog area with local dog vendors makes this a pet-friendly event for the whole family.",
+    "startDate": "2025-07-19T17:00:00.000Z",
+    "endDate": "2025-07-20T01:00:00.000Z",
+    "url": "https://www.eventbrite.com/e/feastie-sip-snack-festival-tickets-1357325249359",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0371/5025/files/feastie-2025.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Festival",
+      "Food",
+      "Beer",
+      "Music",
+      "Toronto"
+    ],
+    "price": "$25-35",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "local-business",
+      "sterling-road"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Junction Craft Brewing",
+      "address": "150 Symes Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6742,
+        "lng": -79.4775
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f7768bb14c3f0fef5",
+    "id": "4c87fc70-cd05-4597-b2e9-eb01e11dfed1",
+    "name": "Toronto - Beer & Food Pairing Workshop",
+    "description": "Expand your palate at Junction Craft Brewing's Beer & Food Pairing Workshop. Our head brewer and chef team up to guide participants through five thoughtfully paired beer and food combinations, explaining the flavor principles that make each match work. Learn about beer styles, brewing processes, and how different flavor components interact. Tickets include all beer samples, food pairings, and a take-home tasting guide.",
+    "startDate": "2025-07-24T22:00:00.000Z",
+    "endDate": "2025-07-25T00:00:00.000Z",
+    "url": "https://www.junctioncraft.com/whatson",
+    "imageUrl": "https://static.wixstatic.com/media/d0b27f_debb02b8cf254d4eb7ea9d99a8a0d93e~mv2.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Workshop",
+      "Beer",
+      "Food",
+      "Tasting",
+      "Toronto"
+    ],
+    "price": "$45 per person",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "the-junction",
+      "local-business"
+    ],
+    "recurring": "Monthly on last Thursday",
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f1fc7dbe2b1d524bc",
+    "id": "de58eadc-086f-4835-b889-078fafcc6d0b",
+    "name": "Toronto - Free Flicks - Summer Outdoor Film Series",
+    "description": "Join us for free outdoor film screenings on Tuesdays all summer by the lake. Free Flicks brings the magic of cinema to Toronto's waterfront with a carefully curated selection of films for all ages. Bring a blanket or chair and enjoy movies under the stars with the stunning backdrop of Lake Ontario and the city skyline.",
+    "startDate": "2025-07-22T00:30:00.000Z",
+    "endDate": "2025-08-26T00:30:00.000Z",
+    "url": "https://harbourfrontcentre.com/series/free-flicks-2025/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/free-flicks-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Film",
+      "Outdoor",
+      "Free",
+      "Family",
+      "Toronto"
+    ],
+    "price": "Free (registration required)",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "recurring": "Weekly on Tuesdays",
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Four Seasons Centre for the Performing Arts",
+      "address": "145 Queen Street West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6503,
+        "lng": -79.3862
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f079d5a9db00e0091",
+    "id": "6aca8257-40c8-4f74-87d8-b1639d893905",
+    "name": "Toronto - Werther - Canadian Opera Company",
+    "description": "Jules Massenet's deeply romantic tragedy based on Goethe's novel. Follow the passionate poet Werther as he falls desperately in love with Charlotte, who is promised to another man. This heart-wrenching exploration of unrequited love features some of opera's most beautiful and emotionally charged music.",
+    "startDate": "2026-05-07T18:30:00.000Z",
+    "endDate": "2026-05-23T22:00:00.000Z",
+    "url": "https://www.coc.ca/tickets/2526-season/werther",
+    "imageUrl": "https://www.coc.ca/Assets/COC+Assets/Images/2526/werther/werther-1300x860.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Opera",
+      "Performance",
+      "Romance",
+      "Theatre",
+      "Toronto"
+    ],
+    "price": "$50-250",
+    "tags": [
+      "opera",
+      "classical",
+      "performing-arts",
+      "culture",
+      "music"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Junction Craft Brewing",
+      "address": "150 Symes Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6742,
+        "lng": -79.4775
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f7768bb14c3f0fef6",
+    "id": "73ce8c08-9a30-4f8c-9c41-73f4dc389b2c",
+    "name": "Toronto - Community Craft Market",
+    "description": "Browse handmade goods from local artisans at Junction Craft Brewing's Community Craft Market. The brewery transforms into a showcase for Toronto's creative community, featuring jewelry, art, home goods, clothing, and more from independent makers. Grab a pint and explore the diverse offerings while chatting directly with the creators. The perfect opportunity to support local businesses while enjoying Junction's craft beverages in a festive atmosphere.",
+    "startDate": "2025-07-27T16:00:00.000Z",
+    "endDate": "2025-07-27T21:00:00.000Z",
+    "url": "https://www.junctioncraft.com/whatson",
+    "imageUrl": "https://static.wixstatic.com/media/d0b27f_b8d1e4b34d214ea28a9c7c7575945342~mv2.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Market",
+      "Shopping",
+      "Beer",
+      "Artisan",
+      "Toronto"
+    ],
+    "price": "Free admission",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "the-junction",
+      "local-business"
+    ],
+    "recurring": "Last Sunday of each month",
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Thomas Fisher Rare Book Library",
+      "address": "120 St. George Street",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6646,
+        "lng": -79.3995
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f7dc4490c5012b07f",
+    "id": "83eabb28-198b-4dc5-838e-5b7b19a588c6",
+    "name": "Toronto - Friends of Fisher Annual Book Sale",
+    "description": "The annual Friends of Fisher Book Sale returns with a vast selection of donated and duplicate books from the library's collection. Find unique treasures spanning literature, history, science, art, and more at prices starting at just a few dollars. All proceeds support the Thomas Fisher Rare Book Library's acquisition and preservation efforts.",
+    "startDate": "2025-10-25T10:00:00.000Z",
+    "endDate": "2025-10-27T17:00:00.000Z",
+    "url": "https://fisher.library.utoronto.ca/friends-fisher-events",
+    "imageUrl": "https://fisher.library.utoronto.ca/sites/fisher.library.utoronto.ca/files/book-sale.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Book Sale",
+      "Fundraiser",
+      "Books",
+      "Community",
+      "Toronto"
+    ],
+    "price": "Free admission",
+    "tags": [
+      "university",
+      "library",
+      "academic",
+      "literature",
+      "books"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "6890145f1fc7dbe2b1d524bd",
+    "id": "99765929-bd6c-4f09-9507-dd0baa2adaa1",
+    "name": "Toronto - Big Hero 6 - Free Flicks Screening",
+    "description": "A band of high-tech heroes' adventure through the futuristic city of San Fransokyo. This Disney animated film follows Hiro Hamada, a robotics prodigy, and his healthcare companion robot Baymax as they form a superhero team. Bring the whole family for this heartwarming outdoor screening by the lake.",
+    "startDate": "2025-07-22T00:30:00.000Z",
+    "endDate": "2025-07-22T02:30:00.000Z",
+    "url": "https://harbourfrontcentre.com/event/big-hero-6-free-flicks-2025/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/big-hero-6-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Film",
+      "Animation",
+      "Outdoor",
+      "Free",
+      "Toronto"
+    ],
+    "price": "Free (registration required)",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Henderson Brewing Co.",
+      "address": "128A Sterling Rd.",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6543,
+        "lng": -79.4422
+      }
+    },
+    "dataSources": [],
+    "_id": "689014602d7091327703145a",
+    "id": "85435f79-c772-448a-a377-7b9d25fc30ee",
+    "name": "Toronto - Rush Day 2025",
+    "description": "Henderson Brewing is thrilled to welcome the worldwide Rush fan community to Toronto, Canada for our 3rd Annual Rush-inspired day of music, beer, and celebration! This day-long celebration features Rush tribute bands, limited-edition Rush-themed beer releases, memorabilia vendors, and appearances by special guests connected to the legendary Canadian rock band.",
+    "startDate": "2025-08-23T16:00:00.000Z",
+    "endDate": "2025-08-24T00:00:00.000Z",
+    "url": "https://shophendersonbrewing.com/products/rush-day-2025",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0371/5025/files/rush-day-2025.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Beer",
+      "Festival",
+      "Rock",
+      "Toronto"
+    ],
+    "price": "$45",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "local-business",
+      "sterling-road"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.332Z"
+  },
+  {
+    "venue": {
+      "name": "Henderson Brewing Co.",
+      "address": "128A Sterling Rd.",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6543,
+        "lng": -79.4422
+      }
+    },
+    "dataSources": [],
+    "_id": "689014602d7091327703145b",
+    "id": "7b30315d-0c10-4339-a5d8-e1e5f72718d5",
+    "name": "Toronto - Picklefest™ Food & Drink Festival - Saturday",
+    "description": "Featuring over 50 vendors offering all things pickled and fermented with fully licensed beverage selections! This all-ages event promises pickle-infused fun rain or shine. Sample and purchase unique pickled products, enjoy pickle-themed foods and drinks, participate in pickling demonstrations, and more. Kids under 12 attend for FREE!",
+    "startDate": "2025-09-20T15:00:00.000Z",
+    "endDate": "2025-09-20T22:00:00.000Z",
+    "url": "https://picklefestcanada.com/products/picklefest-food-drink-festival-2025-toronto",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0371/5025/files/picklefest-2025.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Food",
+      "Festival",
+      "Beer",
+      "Family",
+      "Toronto"
+    ],
+    "price": "$15-20",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "local-business",
+      "sterling-road"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Harbourfront Centre",
+      "address": "235 Queens Quay West",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6389,
+        "lng": -79.3808
+      }
+    },
+    "dataSources": [],
+    "_id": "689014601fc7dbe2b1d524be",
+    "id": "a2aa5216-18d8-4094-b7d8-627bfc56fc1b",
+    "name": "Toronto - Summer Music in the Garden",
+    "description": "Enjoy an intimate live music experience by the waterfront in Toronto's Music Garden. This concert series features diverse musical traditions performed by accomplished musicians in the unique setting of a garden designed by renowned cellist Yo-Yo Ma and landscape designer Julie Moir Messervy, inspired by Bach's Suite No. 1 in G Major for unaccompanied cello.",
+    "startDate": "2025-07-24T23:00:00.000Z",
+    "endDate": "2025-08-28T23:00:00.000Z",
+    "url": "https://harbourfrontcentre.com/series/summer-music-in-the-garden-2025/",
+    "imageUrl": "https://harbourfrontcentre.com/wp-content/uploads/2024/06/summer-music-garden-1600x900.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Concert",
+      "Garden",
+      "Free",
+      "Toronto"
+    ],
+    "price": "Free",
+    "tags": [
+      "waterfront",
+      "arts",
+      "culture",
+      "family-friendly",
+      "outdoor"
+    ],
+    "recurring": "Weekly on Thursdays",
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Henderson Brewing Co.",
+      "address": "128A Sterling Rd.",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6543,
+        "lng": -79.4422
+      }
+    },
+    "dataSources": [],
+    "_id": "689014602d7091327703145c",
+    "id": "68ce7e01-850f-435d-b4ee-bfc473f9bdea",
+    "name": "Toronto - Picklefest™ Food & Drink Festival - Sunday",
+    "description": "Day two of Toronto's pickle paradise! Featuring over 50 vendors offering all things pickled and fermented with fully licensed beverage selections! This all-ages event promises pickle-infused fun rain or shine. Sample and purchase unique pickled products, enjoy pickle-themed foods and drinks, participate in pickling demonstrations, and more. Kids under 12 attend for FREE!",
+    "startDate": "2025-09-21T16:00:00.000Z",
+    "endDate": "2025-09-21T21:00:00.000Z",
+    "url": "https://picklefestcanada.com/products/picklefest-food-drink-festival-2025-toronto",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0371/5025/files/picklefest-2025.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Food",
+      "Festival",
+      "Beer",
+      "Family",
+      "Toronto"
+    ],
+    "price": "$15-20",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "local-business",
+      "sterling-road"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Henderson Brewing Co.",
+      "address": "128A Sterling Rd.",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6543,
+        "lng": -79.4422
+      }
+    },
+    "dataSources": [],
+    "_id": "689014612d7091327703145d",
+    "id": "1dfc6963-c2f2-4871-a1de-bcc6125405b0",
+    "name": "Toronto - Euchre Night @ Henderson Brewing",
+    "description": "Euchre and beer… always a winning pair! Join fellow card enthusiasts for a fun evening of euchre in Henderson's taproom. Registration is required to join the Euchre group. Paid entry includes one beer token. Perfect for both experienced players and those looking to learn this classic Canadian card game.",
+    "startDate": "2025-07-15T23:00:00.000Z",
+    "endDate": "2025-07-16T01:00:00.000Z",
+    "url": "https://www.eventbrite.ca/e/tuesday-night-euchre-at-henderson-tickets-649173163407",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0371/5025/files/euchre-night.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Games",
+      "Beer",
+      "Social",
+      "Cards",
+      "Toronto"
+    ],
+    "price": "$10 (includes one beer)",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "local-business",
+      "sterling-road"
+    ],
+    "recurring": "Every Other Tuesday",
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Henderson Brewing Co.",
+      "address": "128A Sterling Rd.",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6543,
+        "lng": -79.4422
+      }
+    },
+    "dataSources": [],
+    "_id": "689014612d7091327703145e",
+    "id": "2040a50e-068f-4137-be98-0809ccbf98c6",
+    "name": "Toronto - Island Oysters Pop-Up - Shuck Fifty Sundays",
+    "description": "Join us for \"Shuck Fifty Sundays\" presented by Island Oysters and Henderson Brewing Co. Enjoy a selection of East Coast Oysters for $1.50 each, available from 1pm until sold out every Sunday. Get briny with us and crush a Sunday afternoon with $1.50 oysters, frosty brews, board games, pizza and great vibes!",
+    "startDate": "2025-07-20T17:00:00.000Z",
+    "endDate": "2025-07-20T22:00:00.000Z",
+    "url": "https://shophendersonbrewing.com/pages/events-calendar",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0371/5025/files/island-oysters.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Food",
+      "Beer",
+      "Social",
+      "Seafood",
+      "Toronto"
+    ],
+    "price": "$1.50 per oyster",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "local-business",
+      "sterling-road"
+    ],
+    "recurring": "Every Sunday",
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Mascot Brewery - Etobicoke",
+      "address": "37 Advance Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.651,
+        "lng": -79.526
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146129455ac25db2a647",
+    "id": "67a2f74c-4220-4f5d-8108-f7a64cb22a7e",
+    "name": "Toronto - Mascot Playdate: Kids Tie-Dye Workshop",
+    "description": "A 60-minute Kids Tie-Dye workshop at Mascot Brewery's Etobicoke location! Children ages 6-12 will transform plain white t-shirts into vibrant masterpieces in this hands-on, creative workshop. Participants will learn basic tie-dye techniques, colour theory, and pattern creation. The workshop includes all necessary materials: a white cotton t-shirt, professional-grade fabric dyes, supplies, step-by-step instruction, and take-home care instructions. Parents can enjoy food and drinks at the brewery while their kids participate in this fun, creative activity.",
+    "startDate": "2025-06-29T15:00:00.000Z",
+    "endDate": "2025-06-29T17:00:00.000Z",
+    "url": "https://mascotbrewery.com/blogs/upcoming-events/mascot-playdate-kids-tie-dye-workshop",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/kids-tie-dye.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Workshop",
+      "Family",
+      "Kids",
+      "Arts",
+      "Toronto"
+    ],
+    "price": "Tickets required",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "local-business",
+      "food"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Mascot Brewery - Multiple Locations",
+      "address": "220 King St W & 37 Advance Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.6479,
+        "lng": -79.3893
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146229455ac25db2a648",
+    "id": "9350c05b-34f9-48d4-aa35-643b7cb63679",
+    "name": "Toronto - Canada Day Summer Patio Party",
+    "description": "Join Mascot Brewery for their official summer patio and beer garden kick-off party celebrating Canada Day weekend! This sunny day party features drink specials, delicious food, beer buckets, DJs, local vendors, and more. Taking place at both King St and Etobicoke locations, choose between a chill vibe in the suburbs or a more amplified experience downtown. Free entry with RSVP to guarantee your spot at either location. Come celebrate summer in Toronto with good drinks, food, music, and vibes!",
+    "startDate": "2025-06-28T16:00:00.000Z",
+    "endDate": "2025-06-29T02:00:00.000Z",
+    "url": "https://mascotbrewery.com/blogs/upcoming-events/home-opener-canada-day-summer-patio-party",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/summer-patio-party.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Party",
+      "Beer",
+      "Patio",
+      "Music",
+      "Toronto"
+    ],
+    "price": "Free with RSVP",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "local-business",
+      "food"
+    ],
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Mascot Brewery - Etobicoke",
+      "address": "37 Advance Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.651,
+        "lng": -79.526
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146329455ac25db2a649",
+    "id": "51bdff04-31be-48b0-921a-198cdcca4008",
+    "name": "Toronto - Trivia Night at Mascot Brewery",
+    "description": "Put your knowledge to the test at Mascot Brewery's weekly Trivia Night! Hosted by the incredible team at Tremendous Trivia, this event features questions spanning pop culture, history, sports stats, and more. Gather your smartest friends, enjoy craft beers and delicious food, and compete for brewery prizes and bragging rights. Tables fill up quickly, so reservations are recommended for this popular weekly event at Mascot's Etobicoke location.",
+    "startDate": "2025-07-15T23:00:00.000Z",
+    "endDate": "2025-07-16T01:00:00.000Z",
+    "url": "https://mascotbrewery.com/blogs/upcoming-events/trivia-night-at-etobicoke",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/trivia-night.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Games",
+      "Beer",
+      "Trivia",
+      "Social",
+      "Toronto"
+    ],
+    "price": "Free to participate",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "local-business",
+      "food"
+    ],
+    "recurring": "Weekly on Tuesdays",
+    "lastUpdated": "2025-08-04T06:01:37.333Z"
+  },
+  {
+    "venue": {
+      "name": "Mascot Brewery - Etobicoke",
+      "address": "37 Advance Road",
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 43.651,
+        "lng": -79.526
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146329455ac25db2a64a",
+    "id": "863847ed-c964-4797-9ea1-cfe13d1106e9",
+    "name": "Toronto - Crates & Crafts - DJ Night",
+    "description": "Experience Mascot Brewery's weekly curated DJ night, Crates & Crafts! Every Friday at their Etobicoke location, enjoy a chill craft beer experience featuring some of Toronto's hottest DJs spinning all the classics from old soul, hip-hop, funk, R&B, and everything in between. This nostalgic evening combines great music with exceptional craft beer in a relaxed atmosphere. Perfect for unwinding after the work week with friends, good vibes, and great sounds. Reservations recommended as this popular event tends to fill up quickly.",
+    "startDate": "2025-07-18T23:00:00.000Z",
+    "endDate": "2025-07-19T03:00:00.000Z",
+    "url": "https://mascotbrewery.com/blogs/upcoming-events/crates-crafts",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/crates-and-crafts.jpg",
+    "city": "Toronto",
+    "cityId": "Toronto",
+    "location": "Toronto, Ontario",
+    "status": "active",
+    "categories": [
+      "Music",
+      "Beer",
+      "DJ",
+      "Nightlife",
+      "Toronto"
+    ],
+    "price": "No cover charge",
+    "tags": [
+      "craft-beer",
+      "brewery",
+      "taproom",
+      "local-business",
+      "food"
+    ],
+    "recurring": "Weekly on Fridays",
+    "lastUpdated": "2025-08-04T06:01:37.334Z"
+  },
+  {
+    "venue": {
+      "name": "Bloor West Village",
+      "address": "Bloor West Village, Toronto, ON",
+      "googleMapsUrl": "https://goo.gl/maps/8JYiLESzB3ayct2G7",
+      "officialWebsite": "https://www.bloorwestvillagebia.com/"
+    },
+    "dataSources": [],
+    "_id": "6890146954ce39086f5da3bb",
+    "id": "d2ff555f6952f6a605e2256ab32a9902",
+    "title": "Swansea Summer Music Series",
+    "description": "Join us for Swansea Summer Music Series at Bloor West Village. See website for more details.",
+    "categories": [
+      "Music",
+      "Seasonal"
+    ],
+    "date": {
+      "start": "2025-08-05T16:00:00.000Z",
+      "end": "2025-08-06T00:00:00.000Z"
+    },
+    "imageUrl": "https://www.bloorwestvillagebia.com/wp-content/uploads/2025/07/Music_Dinner-e1753888740373.png",
+    "url": "https://www.bloorwestvillagebia.com/event/swansea-summer-music-series/",
+    "price": "See website for details",
+    "createdAt": "2025-08-04T02:01:12.421Z",
+    "updatedAt": "2025-08-04T02:01:12.421Z",
+    "lastUpdated": "2025-08-04T06:01:37.334Z"
+  },
+  {
+    "venue": {
+      "name": "OCAD University",
+      "address": "100 McCaul St, Toronto, ON M5T 1W1",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5T 1W1",
+      "coordinates": {
+        "latitude": 43.6532,
+        "longitude": -79.3911
+      }
+    },
+    "dataSources": [],
+    "_id": "689014696ad6f2526882f5af",
+    "id": "74831b5400705e8027843e7c6855fbdc",
+    "title": "Toronto - Sarah Young\n        \n        \n          View work »",
+    "description": "Visit the OCAD University website for more details.",
+    "categories": [
+      "art",
+      "design",
+      "education",
+      "exhibition",
+      "culture",
+      "toronto"
+    ],
+    "startDate": "2025-08-04T02:01:13.191Z",
+    "endDate": "2025-08-11T02:01:13.191Z",
+    "imageUrl": "https://www.ocadu.ca/sites/default/files/styles/square_large/public/2025-04/Screenshot%202025-04-08%20at%202.20.51%E2%80%AFPM.png.webp?itok=3ter7uoH",
+    "officialWebsite": "https://eportfolio.ocadu.ca/work/details/324bd160-c022-4dc6-9110-e6a799ce3a92?eid=2e93b4dc-6254-4df1-9657-681cf65aede4",
+    "price": "See website for details",
+    "sourceURL": "https://www.ocadu.ca/whats-on",
+    "lastUpdated": "2025-08-04T02:01:13.198Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "68901469aaed6f9179fe0d83",
+    "id": "7805210f1cdff963c86e12d30a528881",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-14T11:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1583963399733-TLL36ZAU83GLVGP9DGCW/Saturday+March+14th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:23.656Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-14T07:00:00.000Z",
+    "title": "Toronto - Who What Where - Saturday March 14th - Lost And Found",
+    "url": "https://www.lost577.com/events/satmar14",
+    "lastUpdated": "2025-08-04T06:01:37.334Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146aaaed6f9179fe0d84",
+    "id": "01cd6bd5ed1f9a64a46bee79e973227b",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-13T11:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1583963338387-6XZX2WXRIQ81DS451WDE/Friday+March+13th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:25.370Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-13T07:00:00.000Z",
+    "title": "Toronto - To Be Announced - Friday March 13th - Lost And Found",
+    "url": "https://www.lost577.com/events/frimar13",
+    "lastUpdated": "2025-08-04T06:01:37.334Z"
+  },
+  {
+    "venue": {
+      "name": "Bloor West Village",
+      "address": "Bloor West Village, Toronto, ON",
+      "googleMapsUrl": "https://goo.gl/maps/8JYiLESzB3ayct2G7",
+      "officialWebsite": "https://www.bloorwestvillagebia.com/"
+    },
+    "dataSources": [],
+    "_id": "6890146a54ce39086f5da3bc",
+    "id": "15ccb006787ff82c419d732658ac9643",
+    "title": "Bloor West Village Community Treasure Hunt: Tastes, Tales & Treasure",
+    "description": "Join us for Bloor West Village Community Treasure Hunt: Tastes, Tales & Treasure at Bloor West Village. See website for more details.",
+    "categories": [
+      "Community"
+    ],
+    "date": {
+      "start": "2025-08-16T16:00:00.000Z",
+      "end": "2025-08-17T00:00:00.000Z"
+    },
+    "imageUrl": "https://www.bloorwestvillagebia.com/wp-content/uploads/2025/07/Registration-open.png",
+    "url": "https://www.bloorwestvillagebia.com/event/bloor-west-scavenger-hunt-tastes-tales-treasure/",
+    "price": "See website for details",
+    "createdAt": "2025-08-04T02:01:13.857Z",
+    "updatedAt": "2025-08-04T02:01:13.857Z",
+    "lastUpdated": "2025-08-04T06:01:37.334Z"
+  },
+  {
+    "venue": {
+      "name": "OCAD University",
+      "address": "100 McCaul St, Toronto, ON M5T 1W1",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5T 1W1",
+      "coordinates": {
+        "latitude": 43.6532,
+        "longitude": -79.3911
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146a6ad6f2526882f5b0",
+    "id": "1619f4ca7478004113553bcab68d5246",
+    "title": "Toronto - Amara King\n        \n        \n          View work »",
+    "description": "Visit the OCAD University website for more details.",
+    "categories": [
+      "art",
+      "design",
+      "education",
+      "exhibition",
+      "culture",
+      "toronto"
+    ],
+    "startDate": "2025-08-04T02:01:13.991Z",
+    "endDate": "2025-08-11T02:01:13.991Z",
+    "imageUrl": "https://www.ocadu.ca/sites/default/files/styles/square_large/public/2025-04/Screenshot%202025-04-08%20at%202.21.56%E2%80%AFPM.png.webp?itok=ahGHnzr3",
+    "officialWebsite": "https://eportfolio.ocadu.ca/work/details/72be052b-336e-44e2-a754-f86706bcdee0?eid=60be00e2-d2e8-44c8-b869-0f5b37442293",
+    "price": "See website for details",
+    "sourceURL": "https://www.ocadu.ca/whats-on",
+    "lastUpdated": "2025-08-04T02:01:13.991Z"
+  },
+  {
+    "venue": {
+      "name": "Bloor West Village",
+      "address": "Bloor West Village, Toronto, ON",
+      "googleMapsUrl": "https://goo.gl/maps/8JYiLESzB3ayct2G7",
+      "officialWebsite": "https://www.bloorwestvillagebia.com/"
+    },
+    "dataSources": [],
+    "_id": "6890146a54ce39086f5da3bd",
+    "id": "0db6719dd145389e18dd5dedf25a05ec",
+    "title": "BWV Toronto Ukrainian Festival",
+    "description": "Join us for BWV Toronto Ukrainian Festival at Bloor West Village. See website for more details.",
+    "categories": [
+      "Festival",
+      "Cultural"
+    ],
+    "date": {
+      "start": "2025-09-12T16:00:00.000Z",
+      "end": "2025-09-13T00:00:00.000Z"
+    },
+    "imageUrl": "https://www.bloorwestvillagebia.com/wp-content/uploads/2025/02/Ukrainian-Street-Fest.png",
+    "url": "https://www.bloorwestvillagebia.com/event/bwv-toronto-ukrainian-festival/",
+    "price": "See website for details",
+    "createdAt": "2025-08-04T02:01:14.288Z",
+    "updatedAt": "2025-08-04T02:01:14.288Z",
+    "lastUpdated": "2025-08-04T06:01:37.335Z"
+  },
+  {
+    "venue": {
+      "name": "OCAD University",
+      "address": "100 McCaul St, Toronto, ON M5T 1W1",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5T 1W1",
+      "coordinates": {
+        "latitude": 43.6532,
+        "longitude": -79.3911
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146a6ad6f2526882f5b1",
+    "id": "a50f91ac0e9274922bba2807cee64930",
+    "title": "Toronto - Douglas Free\n        \n        \n          View work »",
+    "description": "Visit the OCAD University website for more details.",
+    "categories": [
+      "art",
+      "design",
+      "education",
+      "exhibition",
+      "culture",
+      "toronto"
+    ],
+    "startDate": "2025-08-04T02:01:14.434Z",
+    "endDate": "2025-08-11T02:01:14.434Z",
+    "imageUrl": "https://www.ocadu.ca/sites/default/files/styles/square_large/public/2025-04/Screenshot%202025-04-08%20at%202.22.52%E2%80%AFPM.png.webp?itok=v5mdp7cf",
+    "officialWebsite": "https://eportfolio.ocadu.ca/work/details/9614974e-4856-42be-894a-943a622af8b6?eid=648959b9-f7f4-4cca-a6eb-827b8d1e6c92",
+    "price": "See website for details",
+    "sourceURL": "https://www.ocadu.ca/whats-on",
+    "lastUpdated": "2025-08-04T02:01:14.438Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146aaaed6f9179fe0d85",
+    "id": "d3f4d8ba18c004a9b8a4f54458634e82",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-12T11:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1583963293594-6Y8J1W5KCDBB8IIMJM5X/Thursday+March+12th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:27.533Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-12T07:00:00.000Z",
+    "title": "Toronto - Hide & Seek - Thursday March 12th - Lost And Found",
+    "url": "https://www.lost577.com/events/thursmarch12",
+    "lastUpdated": "2025-08-04T06:01:37.335Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146aaaed6f9179fe0d86",
+    "id": "9216df883e6b4a35155a7dee3aa9614e",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-09T11:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1583343892274-KA9XKJ19TOP6P5K3JNC0/MAR9.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:29.925Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-09T07:00:00.000Z",
+    "title": "Toronto - The Wilderness - Monday March 9th - Lost And Found",
+    "url": "https://www.lost577.com/events/monmar9",
+    "lastUpdated": "2025-08-04T06:01:37.335Z"
+  },
+  {
+    "venue": {
+      "name": "OCAD University",
+      "address": "100 McCaul St, Toronto, ON M5T 1W1",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5T 1W1",
+      "coordinates": {
+        "latitude": 43.6532,
+        "longitude": -79.3911
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146a6ad6f2526882f5b2",
+    "id": "dc56fce2293e1ed5641a2463b905c564",
+    "title": "Toronto - Jinhan Guo\n        \n        \n          View work »",
+    "description": "Visit the OCAD University website for more details.",
+    "categories": [
+      "art",
+      "design",
+      "education",
+      "exhibition",
+      "culture",
+      "toronto"
+    ],
+    "startDate": "2025-08-04T02:01:14.683Z",
+    "endDate": "2025-08-11T02:01:14.683Z",
+    "imageUrl": "https://www.ocadu.ca/sites/default/files/styles/square_large/public/2025-04/Screenshot%202025-04-08%20at%202.23.42%E2%80%AFPM.png.webp?itok=X9LrULoH",
+    "officialWebsite": "https://eportfolio.ocadu.ca/work/details/3b301ea0-371a-4042-a682-e1805e61a3d6?eid=e717c4c5-3302-474e-93fc-d0000f627221",
+    "price": "See website for details",
+    "sourceURL": "https://www.ocadu.ca/whats-on",
+    "lastUpdated": "2025-08-04T02:01:14.683Z"
+  },
+  {
+    "venue": {
+      "name": "OCAD University",
+      "address": "100 McCaul St, Toronto, ON M5T 1W1",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5T 1W1",
+      "coordinates": {
+        "latitude": 43.6532,
+        "longitude": -79.3911
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146a6ad6f2526882f5b3",
+    "id": "c39ab5589e02db665b28c0f6eb8ca339",
+    "title": "Toronto - Sid Sharp\n        \n        \n          View work »",
+    "description": "Visit the OCAD University website for more details.",
+    "categories": [
+      "art",
+      "design",
+      "education",
+      "exhibition",
+      "culture",
+      "toronto"
+    ],
+    "startDate": "2025-08-04T02:01:14.831Z",
+    "endDate": "2025-08-11T02:01:14.831Z",
+    "imageUrl": "https://www.ocadu.ca/sites/default/files/styles/square_large/public/2025-04/Screenshot%202025-04-08%20at%202.24.32%E2%80%AFPM.png.webp?itok=YBJ6zmQM",
+    "officialWebsite": "https://eportfolio.ocadu.ca/work/details/cf0b6020-ac7a-45bd-9d1e-bad9bf0ba69f?eid=be94d855-27b9-4230-a1bc-1fd9baa2aee6",
+    "price": "See website for details",
+    "sourceURL": "https://www.ocadu.ca/whats-on",
+    "lastUpdated": "2025-08-04T02:01:14.832Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146baaed6f9179fe0d87",
+    "id": "e3471a874aea462500c6e286fec34a1b",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-07T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1583185934761-2X70KJURBY67PNLN5JE0/Saturday+March+7th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:31.261Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-07T08:00:00.000Z",
+    "title": "Toronto - Who What Where - Saturday March 7th - Lost And Found",
+    "url": "https://www.lost577.com/events/satfeb7",
+    "lastUpdated": "2025-08-04T06:01:37.335Z"
+  },
+  {
+    "venue": {
+      "name": "OCAD University",
+      "address": "100 McCaul St, Toronto, ON M5T 1W1",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5T 1W1",
+      "coordinates": {
+        "latitude": 43.6532,
+        "longitude": -79.3911
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146b6ad6f2526882f5b4",
+    "id": "7853a042645efb47cb1f2d573df69e62",
+    "title": "Toronto - Valeria Suing\n        \n        \n          View work »",
+    "description": "Visit the OCAD University website for more details.",
+    "categories": [
+      "art",
+      "design",
+      "education",
+      "exhibition",
+      "culture",
+      "toronto"
+    ],
+    "startDate": "2025-08-04T02:01:15.067Z",
+    "endDate": "2025-08-11T02:01:15.067Z",
+    "imageUrl": "https://www.ocadu.ca/sites/default/files/styles/square_large/public/2025-04/Screenshot%202025-04-08%20at%202.06.42%E2%80%AFPM.png.webp?itok=0EdWs6Jc",
+    "officialWebsite": "https://eportfolio.ocadu.ca/work/details/473a5c05-b346-4d9d-9df1-76123191142a?eid=e9728214-eaa3-4641-b061-1dac044d4998",
+    "price": "See website for details",
+    "sourceURL": "https://www.ocadu.ca/whats-on",
+    "lastUpdated": "2025-08-04T02:01:15.067Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146baaed6f9179fe0d88",
+    "id": "1963f809d2ee4dee8e4c52d0e36753c1",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-06T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1583185875761-Q9FQQHS1IE295LEOAUT7/Friday+March+6th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:31.538Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-06T08:00:00.000Z",
+    "title": "Toronto - To Be Announced - Friday March 6th - Lost And Found",
+    "url": "https://www.lost577.com/events/frifeb28-62t3b",
+    "lastUpdated": "2025-08-04T06:01:37.336Z"
+  },
+  {
+    "venue": {
+      "name": "OCAD University",
+      "address": "100 McCaul St, Toronto, ON M5T 1W1",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5T 1W1",
+      "coordinates": {
+        "latitude": 43.6532,
+        "longitude": -79.3911
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146b6ad6f2526882f5b5",
+    "id": "e18ff4bfc9b503ecd5254a687ca0e1c9",
+    "title": "Toronto - Ryan Boyd\n        \n        \n          View work »",
+    "description": "Visit the OCAD University website for more details.",
+    "categories": [
+      "art",
+      "design",
+      "education",
+      "exhibition",
+      "culture",
+      "toronto"
+    ],
+    "startDate": "2025-08-04T02:01:15.835Z",
+    "endDate": "2025-08-11T02:01:15.835Z",
+    "imageUrl": "https://www.ocadu.ca/sites/default/files/styles/square_large/public/2025-04/Screenshot%202025-04-08%20at%202.14.48%E2%80%AFPM.png.webp?itok=lukY9eNK",
+    "officialWebsite": "https://eportfolio.ocadu.ca/work/details/7d14bd49-6478-44e7-933b-4c965f339722?eid=dcdb93e7-0c47-41d4-937f-98fc55288937",
+    "price": "See website for details",
+    "sourceURL": "https://www.ocadu.ca/whats-on",
+    "lastUpdated": "2025-08-04T02:01:15.835Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146baaed6f9179fe0d89",
+    "id": "5641437eabc5813de8be398e6db80632",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-05T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1583262111251-AGRTM2GINSDXPSZAHZ7U/Thursday+March+5th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:31.967Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-05T08:00:00.000Z",
+    "title": "Toronto - Hide & Seek - Thursday March 5th - Lost And Found",
+    "url": "https://www.lost577.com/events/thursmarch5",
+    "lastUpdated": "2025-08-04T06:01:37.336Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146caaed6f9179fe0d8a",
+    "id": "b366b388c5080cd00befac21e5f5c8dc",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-03-02T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1582673454472-U6K653M3699RUU0US4SD/IMG_7679.JPG",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:32.145Z",
+    "source": "Lost 577",
+    "startDate": "2020-03-02T08:00:00.000Z",
+    "title": "Toronto - The Wilderness - Monday March 2nd - Lost And Found",
+    "url": "https://www.lost577.com/events/monmar2",
+    "lastUpdated": "2025-08-04T06:01:37.336Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146caaed6f9179fe0d8b",
+    "id": "26f6330872d5e4cd5fef849ed351ec7c",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-29T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1582739527404-EB2MV54IXQBTPRUMECFQ/Saturday+February+29th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:32.421Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-29T08:00:00.000Z",
+    "title": "Toronto - Who What Where - Saturday February 29th - Lost And Found",
+    "url": "https://www.lost577.com/events/satfeb29",
+    "lastUpdated": "2025-08-04T06:01:37.336Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146caaed6f9179fe0d8c",
+    "id": "5e65e358d4a47a6579ad7d2f49da7ae3",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-28T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1582578263489-4E43Y2MSN51HZDLDKJ4F/Friday+February+28th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:34.014Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-28T08:00:00.000Z",
+    "title": "Toronto - To Be Announced - Friday February 28th - Lost And Found",
+    "url": "https://www.lost577.com/events/frifeb28",
+    "lastUpdated": "2025-08-04T06:01:37.336Z"
+  },
+  {
+    "venue": {
+      "name": "High Park",
+      "address": "1873 Bloor St W, Toronto, ON M6R 2Z3",
+      "googleMapsUrl": "https://goo.gl/maps/HjMkEnQt9ajWsJX87",
+      "officialWebsite": "https://www.toronto.ca/explore-enjoy/parks-gardens-beaches/gardens-and-horticulture/gardens-parks/high-park/"
+    },
+    "dataSources": [],
+    "_id": "6890146c562e14ef8280afcd",
+    "id": "80ca3ce37b69e89b114d79016e9dfb2f",
+    "title": "Cherry Blossoms in High Park 2025",
+    "description": "Experience the beauty of cherry blossoms (sakura) in High Park. The Japanese Cherry Trees typically bloom for a short period in late April to early May, depending on weather conditions. During the peak bloom, thousands of visitors come to High Park to witness the spectacular sight of pink and white blossoms.",
+    "categories": [
+      "Nature",
+      "Cherry Blossoms"
+    ],
+    "date": {
+      "start": "2025-04-25T07:00:00.000Z",
+      "end": "2025-05-15T07:00:00.000Z"
+    },
+    "imageUrl": "https://www.toronto.ca/wp-content/uploads/2019/03/95de-cherry-blossom-banner.jpg",
+    "url": "https://www.toronto.ca/explore-enjoy/festivals-events/cherry-blossoms/",
+    "price": "Free (Park admission is free)",
+    "createdAt": "2025-08-04T02:01:16.409Z",
+    "updatedAt": "2025-08-04T02:01:16.409Z",
+    "lastUpdated": "2025-08-04T06:01:37.336Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146caaed6f9179fe0d8d",
+    "id": "fbd927bc81f5c34dc2e549024f9da239",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-27T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1582578308579-QTVEZMZV036Q5L3Z4UO5/25c7df2d-0651-4796-9ede-3d7583619b24.JPG",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:35.224Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-27T08:00:00.000Z",
+    "title": "Toronto - Hide & Seek - Thursday February 27th - Lost And Found",
+    "url": "https://www.lost577.com/events/thursfeb27",
+    "lastUpdated": "2025-08-04T06:01:37.338Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146caaed6f9179fe0d8e",
+    "id": "0b5af077d29fd9da49b42615c0a676ff",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-24T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1582578198487-OJTPGD5QKVE7CVMOMW6S/FEB24.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:35.373Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-24T08:00:00.000Z",
+    "title": "Toronto - The Wilderness - Monday February 24th - Lost And Found",
+    "url": "https://www.lost577.com/events/monfeb24",
+    "lastUpdated": "2025-08-04T06:01:37.338Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d8f",
+    "id": "3d91bc2b091b4f826f37665d8027cfa1",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-22T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581914805535-0K9NASL4BPN2M3IV8P0N/Saturday+February+22ND+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:35.494Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-22T08:00:00.000Z",
+    "title": "Toronto - Who What Where - Saturday February 22nd - Lost And Found",
+    "url": "https://www.lost577.com/events/satfeb22",
+    "lastUpdated": "2025-08-04T06:01:37.338Z"
+  },
+  {
+    "venue": {
+      "name": "Ontario Place",
+      "address": "955 Lake Shore Blvd W, Toronto, ON M6K 3B9",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M6K 3B9",
+      "coordinates": {
+        "latitude": 43.6286,
+        "longitude": -79.4155
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d89b0134e8a98ed9b",
+    "id": "a61f124b56a50d81c514c1c4bc74d9bc",
+    "title": "Ontario Place Event",
+    "description": "Visit the Ontario Place website for more details.",
+    "categories": [
+      "toronto",
+      "outdoors",
+      "entertainment",
+      "culture"
+    ],
+    "startDate": "2001-07-27T17:00:00.000Z",
+    "endDate": "1970-01-01T00:00:00.000Z",
+    "imageUrl": "https://ontarioplace.com/wp-content/uploads/2025/06/DSC03502-edited-1.jpg",
+    "officialWebsite": "https://ontarioplace.com/en/event/yoga-in-trillium-park-15/",
+    "price": "See website for details",
+    "sourceURL": "https://ontarioplace.com/en/events/",
+    "lastUpdated": "2025-08-04T02:01:17.027Z",
+    "city": "Toronto",
+    "location": "Toronto, USA"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d90",
+    "id": "d0997c76b778f23a228ea5237ba04cbc",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-21T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581914762226-V14Q3EGYIGRB0IJ0BHEH/Friday+February+21st%2C+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:35.696Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-21T08:00:00.000Z",
+    "title": "Toronto - To Be Announced - Friday February 21st - Lost And Found",
+    "url": "https://www.lost577.com/events/frifeb21",
+    "lastUpdated": "2025-08-04T06:01:37.338Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d91",
+    "id": "d8ca062d5ff9ffa989234a6fa61b80e9",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-20T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581914100484-HXRFHVX8ZVLF0UGW1322/Thursday+February+20th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:35.781Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-20T08:00:00.000Z",
+    "title": "Toronto - Hide & Seek - Thursday February 20th - Lost And Found",
+    "url": "https://www.lost577.com/events/thursfeb20",
+    "lastUpdated": "2025-08-04T06:01:37.339Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d92",
+    "id": "d5ecb8e4b48b47459d3352f9d365589e",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-17T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581067189532-B2PV9HCAN2HG7SHE5YBZ/IMG_6013.JPG",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:35.971Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-17T08:00:00.000Z",
+    "title": "Toronto - The Wilderness - Monday February 17th - Lost And Found",
+    "url": "https://www.lost577.com/events/monfeb17",
+    "lastUpdated": "2025-08-04T06:01:37.339Z"
+  },
+  {
+    "venue": {
+      "name": "Ontario Place",
+      "address": "955 Lake Shore Blvd W, Toronto, ON M6K 3B9",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M6K 3B9",
+      "coordinates": {
+        "latitude": 43.6286,
+        "longitude": -79.4155
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d89b0134e8a98ed9c",
+    "id": "a58aa79da97ea743a37f45de77b5bc6e",
+    "title": "Ontario Place Event",
+    "description": "Visit the Ontario Place website for more details.",
+    "categories": [
+      "toronto",
+      "outdoors",
+      "entertainment",
+      "culture"
+    ],
+    "startDate": "2025-08-04T02:01:17.484Z",
+    "endDate": "2025-09-04T02:01:17.484Z",
+    "imageUrl": "https://ontarioplace.com/wp-content/uploads/2025/06/DSC03502-edited-1.jpg",
+    "officialWebsite": "https://ontarioplace.com/en/event/yoga-in-trillium-park-15/",
+    "price": "See website for details",
+    "sourceURL": "https://ontarioplace.com/en/events/",
+    "lastUpdated": "2025-08-04T02:01:17.484Z",
+    "city": "Toronto",
+    "location": "Toronto, USA"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d93",
+    "id": "30f96c18ab5bd72e0f979ad6db5f204f",
+    "categories": [
+      "Special Events",
+      "Weekend Events"
+    ],
+    "description": "Family Day Long Weekend - A Lost And Found Special Event",
+    "endDate": "2020-02-16T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1579811584747-YA5A0MHZP6QDI11FB479/Sunday+February+16th+2019_Extravaganza.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:36.136Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-16T08:00:00.000Z",
+    "title": "Toronto - Extravaganza - Sunday February 16th - Lost And Found",
+    "url": "https://www.lost577.com/events/sundayfeb16",
+    "lastUpdated": "2025-08-04T06:01:37.339Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d94",
+    "id": "648e1c9b864905304e53bbdf2b585802",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-15T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581067089153-PSIMNQLIVY4SIALBQFUM/Saturday+January+15th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:36.204Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-15T08:00:00.000Z",
+    "title": "Toronto - Who What Where - Saturday February 15th - Lost And Found",
+    "url": "https://www.lost577.com/events/satfeb15",
+    "lastUpdated": "2025-08-04T06:01:37.339Z"
+  },
+  {
+    "venue": {
+      "name": "Ontario Place",
+      "address": "955 Lake Shore Blvd W, Toronto, ON M6K 3B9",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M6K 3B9",
+      "coordinates": {
+        "latitude": 43.6286,
+        "longitude": -79.4155
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d89b0134e8a98ed9d",
+    "id": "456ba0ada9372d36e7f6b74e04305242",
+    "title": "Ontario Place Event",
+    "description": "Indigenous Sounds Now amplifies the voices of Indigenous musicians from the Anishinaabe, Mohawk and Cree Nations. With a sonically diverse line-up of Indigenous musicians and JUNO Award nominees, Indigenous Sounds Now delivers a fusion of Indigenous culture with pop, blues, roots, and rock. Be sure to join us as we listen and dance to this […]\nIndigenous Sounds Now amplifies the voices of Indigenous musicians from the Anishinaabe, Mohawk and Cree Nations. With a sonically diverse line-up of Indigenous musicians and JUNO Award nominees, Indigenous Sounds Now delivers a fusion of Indigenous culture with pop, blues, roots, and rock. Be sure to join us as we listen and dance to this […]",
+    "categories": [
+      "toronto",
+      "outdoors",
+      "entertainment",
+      "culture",
+      "music"
+    ],
+    "startDate": "2001-07-27T23:00:00.000Z",
+    "endDate": "1970-01-01T00:00:00.000Z",
+    "imageUrl": "https://ontarioplace.com/wp-content/uploads/2024/05/DSC4074.jpg",
+    "officialWebsite": "https://ontarioplace.com/en/event/indigenous-sounds-now-at-summerseries-in-trillium-park/",
+    "price": "See website for details",
+    "sourceURL": "https://ontarioplace.com/en/events/",
+    "lastUpdated": "2025-08-04T02:01:17.589Z",
+    "city": "Toronto",
+    "location": "Toronto, USA"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d95",
+    "id": "ef1494f91352103e0a66f3e4847862b4",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-14T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581067053541-EM56I5XYABAV0SWTZXWU/Friday+February+14th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:36.285Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-14T08:00:00.000Z",
+    "title": "Toronto - To Be Announced - Friday February 14th - Lost And Found",
+    "url": "https://www.lost577.com/events/frifeb14",
+    "lastUpdated": "2025-08-04T06:01:37.339Z"
+  },
+  {
+    "venue": {
+      "name": "Ontario Place",
+      "address": "955 Lake Shore Blvd W, Toronto, ON M6K 3B9",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M6K 3B9",
+      "coordinates": {
+        "latitude": 43.6286,
+        "longitude": -79.4155
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d89b0134e8a98ed9e",
+    "id": "6e16ed979084363a2d9d98aba15d9c29",
+    "title": "Ontario Place Event",
+    "description": "Visit the Ontario Place website for more details.",
+    "categories": [
+      "toronto",
+      "outdoors",
+      "entertainment",
+      "culture"
+    ],
+    "startDate": "2025-08-04T02:01:17.693Z",
+    "endDate": "2025-09-04T02:01:17.693Z",
+    "imageUrl": "https://ontarioplace.com/wp-content/uploads/2024/05/DSC4074.jpg",
+    "officialWebsite": "https://ontarioplace.com/en/event/indigenous-sounds-now-at-summerseries-in-trillium-park/",
+    "price": "See website for details",
+    "sourceURL": "https://ontarioplace.com/en/events/",
+    "lastUpdated": "2025-08-04T02:01:17.694Z",
+    "city": "Toronto",
+    "location": "Toronto, USA"
+  },
+  {
+    "venue": {
+      "name": "Old Town Toronto",
+      "address": "St. Lawrence Market Neighbourhood, Toronto, ON",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5E 1C3",
+      "coordinates": {
+        "latitude": 43.6505,
+        "longitude": -79.3705
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d237e286e271513c9",
+    "id": "10fc7862673099f5f2d77365ca6d08b2",
+    "title": "Toronto - Taste the Caribbean Food Festival",
+    "description": "Visit the Old Town Toronto website for more details about this event.",
+    "categories": [
+      "toronto",
+      "old town",
+      "st lawrence",
+      "community",
+      "culture",
+      "food",
+      "festival"
+    ],
+    "startDate": "2003-08-03T07:00:00.000Z",
+    "endDate": "2003-08-04T06:59:59.000Z",
+    "imageUrl": "https://oldtowntoronto.ca/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==",
+    "officialWebsite": "https://oldtowntoronto.ca/event/taste-the-caribbean-food-festival-2/",
+    "price": "See website for details",
+    "sourceURL": "https://oldtowntoronto.ca/events/",
+    "lastUpdated": "2025-08-04T02:01:17.714Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d96",
+    "id": "f70bd880f2bef709c526c365e563e4a6",
+    "categories": [
+      "Nightlife",
+      "Special Events"
+    ],
+    "description": "Featuring Special Guest DJ T Jizzle (Nav’s Official DJ)",
+    "endDate": "2020-02-13T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581067014483-JOC0O303Z6NGM0V11N5L/Thursday+February+13th%2C+2020.JPG",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:36.355Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-13T08:00:00.000Z",
+    "title": "Toronto - Hide & Seek - Thursday February 13th - Lost And Found (Copy)",
+    "url": "https://www.lost577.com/events/thursjan13",
+    "lastUpdated": "2025-08-04T06:01:37.340Z"
+  },
+  {
+    "venue": {
+      "name": "Ontario Place",
+      "address": "955 Lake Shore Blvd W, Toronto, ON M6K 3B9",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M6K 3B9",
+      "coordinates": {
+        "latitude": 43.6286,
+        "longitude": -79.4155
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d89b0134e8a98ed9f",
+    "id": "4c27bf0bc7e3feda0e2fa89c83272229",
+    "title": "Ontario Place Event",
+    "description": "Indigenous Sounds Now amplifies the voices of Indigenous musicians from the Anishinaabe, Mohawk and Cree Nations. With a sonically diverse line-up of Indigenous musicians and JUNO Award nominees, Indigenous Sounds Now delivers a fusion of Indigenous culture with pop, blues, roots, and rock. Be sure to join us as we listen and dance to this […]",
+    "categories": [
+      "toronto",
+      "outdoors",
+      "entertainment",
+      "culture",
+      "music"
+    ],
+    "startDate": "2025-08-04T02:01:17.786Z",
+    "endDate": "2025-09-04T02:01:17.786Z",
+    "imageUrl": "",
+    "officialWebsite": "https://ontarioplace.com/en/events/",
+    "price": "See website for details",
+    "sourceURL": "https://ontarioplace.com/en/events/",
+    "lastUpdated": "2025-08-04T02:01:17.786Z",
+    "city": "Toronto",
+    "location": "Toronto, USA"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d97",
+    "id": "dc7ddce495df4536d1af3478465eb485",
+    "categories": [
+      "Music"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-10T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581066955243-VWAY9VGFJW5AKADJ6A9Y/IMG_6012.JPG",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:36.422Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-10T08:00:00.000Z",
+    "title": "Toronto - The Wilderness - Monday February 10th - Lost And Found",
+    "url": "https://www.lost577.com/events/monfeb10",
+    "lastUpdated": "2025-08-04T06:01:37.340Z"
+  },
+  {
+    "venue": {
+      "name": "Second City Toronto",
+      "address": "1 York St, Toronto, ON M5J 0E9",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5J 0E9",
+      "url": "https://secondcity.com"
+    },
+    "dataSources": [],
+    "_id": "6890146d3ae5e5664b23eba9",
+    "id": "6e0b00fb1aa19cf420525fa928627d7d",
+    "title": "Toronto - Duel Citizens",
+    "description": "Join us at Second City Toronto for this special event. See website for more details.",
+    "categories": [
+      "Toronto",
+      "Comedy",
+      "Entertainment",
+      "Special Event"
+    ],
+    "startDate": "2025-08-04T03:00:00.000Z",
+    "endDate": "2025-10-04T05:00:00.000Z",
+    "imageUrl": "",
+    "officialWebsite": "https://www.secondcity.com",
+    "price": "See website for details",
+    "location": "Toronto, Ontario",
+    "sourceURL": "https://www.secondcity.com/shows/toronto/",
+    "lastUpdated": "2025-08-04T02:01:17.816Z"
+  },
+  {
+    "venue": {
+      "name": "Old Town Toronto",
+      "address": "St. Lawrence Market Neighbourhood, Toronto, ON",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5E 1C3",
+      "coordinates": {
+        "latitude": 43.6505,
+        "longitude": -79.3705
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d237e286e271513ca",
+    "id": "82f025ec8c3cc0feabb4e5a7cafcf46d",
+    "title": "Toronto - I Heart Market Street Music Series presents Benjamin Barrile",
+    "description": "Visit the Old Town Toronto website for more details about this event.",
+    "categories": [
+      "toronto",
+      "old town",
+      "st lawrence",
+      "community",
+      "culture",
+      "shopping",
+      "music",
+      "art"
+    ],
+    "startDate": "2001-08-05T18:30:00.000Z",
+    "endDate": "2001-08-05T20:30:00.000Z",
+    "imageUrl": "https://oldtowntoronto.ca/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==",
+    "officialWebsite": "https://oldtowntoronto.ca/event/i-heart-market-street-music-series-presents-benjamin-barrile-3/",
+    "price": "See website for details",
+    "sourceURL": "https://oldtowntoronto.ca/events/",
+    "lastUpdated": "2025-08-04T02:01:17.816Z"
+  },
+  {
+    "venue": {
+      "name": "Ontario Place",
+      "address": "955 Lake Shore Blvd W, Toronto, ON M6K 3B9",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M6K 3B9",
+      "coordinates": {
+        "latitude": 43.6286,
+        "longitude": -79.4155
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d89b0134e8a98eda0",
+    "id": "4044472319f0eb982a5e175b5a49a573",
+    "title": "Ontario Place Event",
+    "description": "Visit the Ontario Place website for more details.",
+    "categories": [
+      "toronto",
+      "outdoors",
+      "entertainment",
+      "culture"
+    ],
+    "startDate": "2001-07-28T02:30:00.000Z",
+    "endDate": "1970-01-01T00:00:00.000Z",
+    "imageUrl": "https://ontarioplace.com/wp-content/uploads/2025/05/Budweiser-2025-cyndi-Lauper.jpg",
+    "officialWebsite": "https://ontarioplace.com/en/event/cyndi-lauper-girls-just-wanna-have-fun-farewell-tour/",
+    "price": "See website for details",
+    "sourceURL": "https://ontarioplace.com/en/events/",
+    "lastUpdated": "2025-08-04T02:01:17.839Z",
+    "city": "Toronto",
+    "location": "Toronto, USA"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146daaed6f9179fe0d98",
+    "id": "4947d5718f3e1ef4e337d47473e55c07",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-08T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581066904850-1ON24O9U45OC4AO2ZJL8/Saturday+January+8th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:36.550Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-08T08:00:00.000Z",
+    "title": "Toronto - Who What Where - Saturday February 8th - Lost And Found",
+    "url": "https://www.lost577.com/events/satfeb8",
+    "lastUpdated": "2025-08-04T06:01:37.340Z"
+  },
+  {
+    "venue": {
+      "name": "Second City Toronto",
+      "address": "1 York St, Toronto, ON M5J 0E9",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5J 0E9",
+      "url": "https://secondcity.com"
+    },
+    "dataSources": [],
+    "_id": "6890146d3ae5e5664b23ebaa",
+    "id": "eca29af1c900138ed0f5e36e09c38dd3",
+    "title": "Toronto - Not Safe For Work",
+    "description": "Join us at Second City Toronto for this special event. See website for more details.",
+    "categories": [
+      "Toronto",
+      "Comedy",
+      "Entertainment",
+      "Special Event"
+    ],
+    "startDate": "2025-08-04T03:00:00.000Z",
+    "endDate": "2025-10-04T05:00:00.000Z",
+    "imageUrl": "",
+    "officialWebsite": "https://www.secondcity.com",
+    "price": "See website for details",
+    "location": "Toronto, Ontario",
+    "sourceURL": "https://www.secondcity.com/shows/toronto/",
+    "lastUpdated": "2025-08-04T02:01:17.887Z"
+  },
+  {
+    "venue": {
+      "name": "Old Town Toronto",
+      "address": "St. Lawrence Market Neighbourhood, Toronto, ON",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5E 1C3",
+      "coordinates": {
+        "latitude": 43.6505,
+        "longitude": -79.3705
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d237e286e271513cb",
+    "id": "5e219c9ef93859c233de5a23dec4adfb",
+    "title": "Toronto - I Heart Market Street Music Series presents Flo Olavarria",
+    "description": "Visit the Old Town Toronto website for more details about this event.",
+    "categories": [
+      "toronto",
+      "old town",
+      "st lawrence",
+      "community",
+      "culture",
+      "shopping",
+      "music",
+      "art"
+    ],
+    "startDate": "2001-08-06T00:00:00.000Z",
+    "endDate": "2001-08-06T02:00:00.000Z",
+    "imageUrl": "https://oldtowntoronto.ca/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==",
+    "officialWebsite": "https://oldtowntoronto.ca/event/i-heart-market-street-music-series-presents-flo-olavarria-2/",
+    "price": "See website for details",
+    "sourceURL": "https://oldtowntoronto.ca/events/",
+    "lastUpdated": "2025-08-04T02:01:17.887Z"
+  },
+  {
+    "venue": {
+      "name": "Lost 577",
+      "address": "577 King St W, Toronto, ON M5V 1M1",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5V 1M1",
+      "url": "https://www.lost577.com"
+    },
+    "dataSources": [],
+    "_id": "6890146eaaed6f9179fe0d99",
+    "id": "cb3be9efb5d6c07330b070a33bdf05c2",
+    "categories": [
+      "Music",
+      "Weekend Events"
+    ],
+    "description": "Join us at Lost 577 for an unforgettable night of music and entertainment.",
+    "endDate": "2020-02-07T12:00:00.000Z",
+    "imageUrl": "https://images.squarespace-cdn.com/content/v1/5b2dbbc05cfd790c4a220d4e/1581066860224-5SP7XS7M1F4N32H71MR8/Friday+February+7th+2020.jpg",
+    "isActive": true,
+    "price": "Contact venue",
+    "scrapedAt": "2025-08-04T06:01:36.612Z",
+    "source": "Lost 577",
+    "startDate": "2020-02-07T08:00:00.000Z",
+    "title": "Toronto - To Be Announced - Friday February 7th - Lost And Found",
+    "url": "https://www.lost577.com/events/frifeb7",
+    "lastUpdated": "2025-08-04T06:01:37.341Z"
+  },
+  {
+    "venue": {
+      "name": "Ontario Place",
+      "address": "955 Lake Shore Blvd W, Toronto, ON M6K 3B9",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M6K 3B9",
+      "coordinates": {
+        "latitude": 43.6286,
+        "longitude": -79.4155
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d89b0134e8a98eda1",
+    "id": "555999aefacf98760970d0ac53c8a7f0",
+    "title": "Ontario Place Event",
+    "description": "Visit the Ontario Place website for more details.",
+    "categories": [
+      "toronto",
+      "outdoors",
+      "entertainment",
+      "culture"
+    ],
+    "startDate": "2025-08-04T02:01:17.931Z",
+    "endDate": "2025-09-04T02:01:17.931Z",
+    "imageUrl": "https://ontarioplace.com/wp-content/uploads/2025/05/Budweiser-2025-cyndi-Lauper.jpg",
+    "officialWebsite": "https://ontarioplace.com/en/event/cyndi-lauper-girls-just-wanna-have-fun-farewell-tour/",
+    "price": "See website for details",
+    "sourceURL": "https://ontarioplace.com/en/events/",
+    "lastUpdated": "2025-08-04T02:01:17.931Z",
+    "city": "Toronto",
+    "location": "Toronto, USA"
+  },
+  {
+    "venue": {
+      "name": "Second City Toronto",
+      "address": "1 York St, Toronto, ON M5J 0E9",
+      "city": "Toronto",
+      "region": "Ontario",
+      "country": "Canada",
+      "postalCode": "M5J 0E9",
+      "url": "https://secondcity.com"
+    },
+    "dataSources": [],
+    "_id": "6890146d3ae5e5664b23ebab",
+    "id": "b209cb0a12ab7a6fd5275ede243fdef6",
+    "title": "Toronto - Rudolph Runs Wild",
+    "description": "Join us at Second City Toronto for this special event. See website for more details.",
+    "categories": [
+      "Toronto",
+      "Comedy",
+      "Entertainment",
+      "Special Event"
+    ],
+    "startDate": "2025-08-04T03:00:00.000Z",
+    "endDate": "2025-10-04T05:00:00.000Z",
+    "imageUrl": "",
+    "officialWebsite": "https://www.secondcity.com",
+    "price": "See website for details",
+    "location": "Toronto, Ontario",
+    "sourceURL": "https://www.secondcity.com/shows/toronto/",
+    "lastUpdated": "2025-08-04T02:01:17.958Z"
+  },
+  {
+    "venue": {
+      "name": "Old Town Toronto",
+      "address": "St. Lawrence Market Neighbourhood, Toronto, ON",
+      "city": "Toronto",
+      "province": "ON",
+      "country": "Canada",
+      "postalCode": "M5E 1C3",
+      "coordinates": {
+        "latitude": 43.6505,
+        "longitude": -79.3705
+      }
+    },
+    "dataSources": [],
+    "_id": "6890146d237e286e271513cc",
+    "id": "50c6c9db16377734f6a80bd4d1da1953",
+    "title": "Toronto - Fitness Classes In St. James Park (Yoga/Pilates)",
+    "description": "Visit the Old Town Toronto website for more details about this event.",
+    "categories": [
+      "toronto",
+      "old town",
+      "st lawrence",
+      "community",
+      "culture"
+    ],
+    "startDate": "2001-08-06T01:00:00.000Z",
+    "endDate": "2001-08-06T03:00:00.000Z",
+    "imageUrl": "https://oldtowntoronto.ca/data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==",
+    "officialWebsite": "https://oldtowntoronto.ca/event/fitness-classes-in-st-james-park-yoga-pilates-2/",
+    "price": "See website for details",
+    "sourceURL": "https://oldtowntoronto.ca/events/",
+    "lastUpdated": "2025-08-04T02:01:17.962Z"
   }
 ]

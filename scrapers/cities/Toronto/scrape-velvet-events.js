@@ -14,7 +14,7 @@ const VELVET_URL = 'http://thevelvet.ca/events/';
 const VELVET_VENUE = {
   name: 'The Velvet',
   address: '508 Queen St W, Toronto, ON M5V 2B3',
-  city: 'Toronto',
+  city: city,
   region: 'Ontario',
   country: 'Canada',
   postalCode: 'M5V 2B3',
@@ -37,58 +37,60 @@ function generateEventId(title, startDate) {
 // Parse date and time information
 function parseDateAndTime(dateText, timeText = '') {
   if (!dateText) return null;
-  
+
   try {
     // Clean up texts
     dateText = dateText.trim();
     timeText = timeText ? timeText.trim() : '';
-    
+
     // Remove day of week if present
     dateText = dateText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*/i, '');
-    
+
+    // Remove ordinal indicators (1st, 2nd, 3rd, 4th, etc.) for better date parsing
+    dateText = dateText.replace(/(\d+)(st|nd|rd|th)/gi, '$1');
+
     let startDate, endDate;
-    
+
     // Handle various date formats
     const currentYear = new Date().getFullYear();
-    
+
     // Try parsing with current year if no year specified
     if (!dateText.includes(currentYear.toString()) && !dateText.includes((currentYear + 1).toString())) {
       dateText = `${dateText}, ${currentYear}`;
     }
-    
+
     // Parse the date
     startDate = new Date(dateText);
-    
-    // If date is invalid, return null (strict no-fallback policy)
+
     if (isNaN(startDate.getTime())) {
       console.log(`⚠️ Could not parse date: "${dateText}"`);
       return null;
     }
-    
+
     // Handle time if provided
     if (timeText) {
-      const timeMatch = timeText.match(/(\d{1,2}):?(\d{2})?\s*(AM|PM|am|pm)?/i);
+      const timeMatch = timeText.match(/(\d{1,2}:?(\d{2}?\s*(AM|PM|am|pm)?/i);
       if (timeMatch) {
         let hours = parseInt(timeMatch[1]);
         const minutes = parseInt(timeMatch[2] || '0');
         const ampm = timeMatch[3];
-        
+
         if (ampm && ampm.toLowerCase() === 'pm' && hours !== 12) {
           hours += 12;
         } else if (ampm && ampm.toLowerCase() === 'am' && hours === 12) {
           hours = 0;
         }
-        
+
         startDate.setHours(hours, minutes, 0, 0);
       }
     }
-    
+
     // Set end date (assume 4 hours duration for nightclub events)
     endDate = new Date(startDate);
     endDate.setHours(endDate.getHours() + 4);
-    
+
     return { startDate, endDate };
-    
+
   } catch (error) {
     console.log(`⚠️ Error parsing date "${dateText}": ${error.message}`);
     return null;
@@ -99,7 +101,7 @@ function parseDateAndTime(dateText, timeText = '') {
 function extractCategories(title, description, eventType = '') {
   const categories = [];
   const text = `${title} ${description} ${eventType}`.toLowerCase();
-  
+
   // Nightlife and club categories
   if (text.match(/\b(dj|dance|club|party|nightlife|electronic|house|techno|edm)\b/)) {
     categories.push('Nightlife');
@@ -125,23 +127,23 @@ function extractCategories(title, description, eventType = '') {
   if (text.match(/\b(karaoke|open mic|talent)\b/)) {
     categories.push('Interactive');
   }
-  
+
   return categories.length > 0 ? categories : ['Nightlife'];
 }
 
 // Extract price information
 function extractPrice(text) {
   if (!text) return 'Contact venue';
-  
-  const priceMatch = text.match(/\$(\d+(?:\.\d{2})?)/);
+
+  const priceMatch = text.match(/\$(\d+(?:\.\d{2}?)/);
   if (priceMatch) {
     return `$${priceMatch[1]}`;
   }
-  
+
   if (text.toLowerCase().includes('free')) {
     return 'Free';
   }
-  
+
   return 'Contact venue';
 }
 
@@ -152,13 +154,13 @@ function normalizeUrl(url, baseUrl = 'http://thevelvet.ca') {
   return url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
 }
 
-// Main scraper function for master scraper
-async function scrapeVelvetEvents(eventsCollection) {
-  let addedEvents = 0;
-  
+// Main scraper function for sample runner
+async function scrapeVelvetEvents(city = 'Toronto') {
+  const eventsToReturn = [];
+
   try {
     console.log('🔍 Fetching events from The Velvet website...');
-    
+
     // Fetch HTML content
     const response = await axios.get(VELVET_URL, {
       timeout: 15000,
@@ -175,38 +177,56 @@ async function scrapeVelvetEvents(eventsCollection) {
         'Sec-Fetch-Site': 'none',
         'Cache-Control': 'max-age=0'
       }
-    });
+    };
     const html = response.data;
     const $ = cheerio.load(html);
-    
+
     const events = [];
-    
-    // Look for event information in various selectors
-    $('.event, .event-item, .party, .show, .listing, article, .grid-item, .event-card').each((i, el) => {
+
+    // Look for event information in various selectors - comprehensive approach
+    console.log('🔍 Analyzing website structure...');
+
+    // First, try specific event selectors
+    let eventElements = $('.event, .event-item, .party, .show, .listing, article, .grid-item, .event-card, .wp-block-post, .post, .entry, .event-entry, [class*="event"], [class*="show"], [class*="party"]');
+
+    // If no events found, try broader approach
+    if (eventElements.length === 0) {
+      console.log('⚠️ No events found with standard selectors, trying broader approach...');
+      eventElements = $('div, section, article').filter(function() {
+        const text = $(this).text().toLowerCase();
+        return text.includes('event') || text.includes('show') || text.includes('party') ||
+               text.includes('music') || text.includes('dj') || text.includes('live') ||
+               text.includes('2024') || text.includes('2025');
+      };
+    }
+
+    console.log(`📋 Found ${eventElements.length} potential event elements`);
+
+    eventElements.each((i, el) => {
       try {
         const element = $(el);
-        
+
         const title = element.find('h1, h2, h3, h4, .title, .event-title, .party-title').first().text().trim() ||
                      element.find('.artist, .dj, .performer').first().text().trim();
         const dateText = element.find('.date, .when, time, .event-date').first().text().trim();
         const timeText = element.find('.time, .event-time').first().text().trim();
-        const description = element.find('p, .description, .details, .event-description').first().text().trim() || 
+        const description = element.find('p, .description, .details, .event-description').first().text().trim() ||
                            'Join us at The Velvet for an intimate nightlife experience with great music and atmosphere.';
-        
+
         let imageUrl = '';
         const imgEl = element.find('img');
         if (imgEl.length) {
           imageUrl = imgEl.attr('src') || imgEl.attr('data-src') || '';
           imageUrl = normalizeUrl(imageUrl);
         }
-        
+
         let eventUrl = '';
         const linkEl = element.find('a[href]');
         if (linkEl.length) {
           eventUrl = linkEl.attr('href');
           eventUrl = normalizeUrl(eventUrl);
         }
-        
+
         if (title && title.length > 3) {
           events.push({
             title,
@@ -215,93 +235,89 @@ async function scrapeVelvetEvents(eventsCollection) {
             description,
             imageUrl,
             eventUrl: eventUrl || VELVET_URL
-          });
+          };
         }
       } catch (error) {
         console.log(`⚠️ Error processing event element: ${error.message}`);
       }
-    });
-    
-    // No fallback events - only real scraped events allowed per user rule
-    
+    };
+
+    // No s allowed per user rule
+
     console.log(`📅 Found ${events.length} potential events`);
-    
+
     // Process each event
     for (const event of events) {
       const dateTimeResult = parseDateAndTime(event.dateText, event.timeText);
-      
+
       if (!dateTimeResult) {
         console.log(`⚠️ Skipping event "${event.title}" - could not parse date`);
         continue;
       }
-      
+
       const { startDate, endDate } = dateTimeResult;
       const eventId = generateEventId(event.title, startDate);
-      
-      // Check if event already exists
-      const existingEvent = await eventsCollection.findOne({ eventId });
-      if (existingEvent) {
-        console.log(`⏭️ Event already exists: ${event.title}`);
-        continue;
-      }
-      
+
+      // Skip duplicate checking for now - let the sample runner handle it with upsert
+
       const categories = extractCategories(event.title, event.description);
       const price = extractPrice(event.description);
-      
+
       const eventDoc = {
         id: eventId,
-        title: `Toronto - ${event.title}`,
+        title: event.title,
+        name: event.title,
         description: event.description,
+        date: startDate,
         startDate,
         endDate,
-        venue: VELVET_VENUE,
+        venue: {
+          name: city, // Use city name for proper filtering
+          address: VELVET_VENUE.address,
+          city: city,
+          region: VELVET_VENUE.region,
+          country: VELVET_VENUE.country,
+          postalCode: VELVET_VENUE.postalCode
+        },
+        city: city,
         categories,
         price,
         source: 'The Velvet',
         url: event.eventUrl,
+        sourceUrl: event.eventUrl,
         imageUrl: event.imageUrl,
+        image: event.imageUrl,
         scrapedAt: new Date(),
         isActive: true
       };
-      
-      // Use upsert to handle duplicate IDs gracefully
-      const result = await eventsCollection.updateOne(
-        { id: eventId }, // filter by ID
-        { $set: eventDoc }, // update/insert the document
-        { upsert: true } // create if doesn't exist
-      );
-      
-      if (result.upsertedCount > 0) {
-        addedEvents++;
-        console.log(`✅ Added: ${event.title} on ${startDate.toDateString()}`);
-      } else if (result.modifiedCount > 0) {
-        console.log(`🔄 Updated: ${event.title} on ${startDate.toDateString()}`);
-      } else {
-        console.log(`ℹ️ Unchanged: ${event.title} on ${startDate.toDateString()}`);
-      }
+
+      eventsToReturn.push(eventDoc);
+      console.log(`✅ Prepared event: ${event.title} on ${startDate.toDaeventDateText()}`);
     }
-    
+
+    console.log(`🎉 Successfully prepared ${eventsToReturn.length} events from The Velvet`);
+
   } catch (error) {
     console.error('❌ Error scraping The Velvet events:', error);
   }
-  
-  return addedEvents;
+
+  return eventsToReturn;
 }
 
 // Standalone scraper function (for direct execution)
 async function scrapeVelvetEventsStandalone() {
   const client = new MongoClient(uri);
-  
+
   try {
     await client.connect();
     console.log('✅ Connected to MongoDB');
-    
+
     const database = client.db();
-    const eventsCollection = database.collection('events');
-    
+    const eventsCollection = databases');
+
     const addedEvents = await scrapeVelvetEvents(eventsCollection);
     return addedEvents;
-    
+
   } catch (error) {
     console.error('❌ Error in standalone scraper:', error);
     return 0;
@@ -319,9 +335,13 @@ if (require.main === module) {
   scrapeVelvetEventsStandalone()
     .then(addedEvents => {
       console.log(`✅ The Velvet scraper completed. Added ${addedEvents} new events.`);
-    })
+    }
     .catch(error => {
       console.error('❌ Error running The Velvet scraper:', error);
       process.exit(1);
-    });
+    };
 }
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeVelvetEvents;

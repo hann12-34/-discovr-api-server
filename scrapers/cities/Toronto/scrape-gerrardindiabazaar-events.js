@@ -45,7 +45,7 @@ function generateEventId(title, startDate) {
 function extractCategories(title, description) {
   const categories = [];
   const combinedText = `${title} ${description}`.toLowerCase();
-  
+
   // Define category keywords
   const categoryMapping = {
     'festival': 'Festival',
@@ -78,7 +78,7 @@ function extractCategories(title, description) {
     'charity': 'Charity',
     'fundraiser': 'Charity'
   };
-  
+
   // Check for category matches
   Object.keys(categoryMapping).forEach(keyword => {
     if (combinedText.includes(keyword)) {
@@ -87,118 +87,118 @@ function extractCategories(title, description) {
         categories.push(category);
       }
     }
-  });
-  
+  };
+
   // Default category if none found
   if (categories.length === 0) {
     categories.push('Community');
   }
-  
+
   return categories;
 }
 
 /**
  * Parse date string to extract start and end dates
- * @param {string} dateString - Date string to parse
+ * @param {string} daeventDateText - Date string to parse
  * @returns {Object|null} - Object with startDate and endDate or null if parsing failed
  */
-function parseEventDates(dateString) {
-  if (!dateString) return null;
-  
+function parseEventDates(daeventDateText) {
+  if (!daeventDateText) return null;
+
   try {
     // Clean up the date string
-    dateString = dateString.replace(/\s+/g, ' ').trim();
-    
+    daeventDateText = daeventDateText.replace(/\s+/g, ' ').trim();
+
     const currentYear = new Date().getFullYear();
-    
+
     // Check for date ranges with time like "August 15, 2025 @ 10:00 am - 5:00 pm"
-    const fullRangeRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,\s*(\d{4})?\s*@?\s*(\d{1,2}):(\d{2})\s*([ap]m)\s*-\s*(\d{1,2}):(\d{2})\s*([ap]m)/i;
-    const fullRangeMatch = dateString.match(fullRangeRegex);
-    
+    const fullRangeRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?,\s*(\d{4}?\s*@?\s*(\d{1,2}:(\d{2}\s*([ap]m)\s*-\s*(\d{1,2}:(\d{2}\s*([ap]m)/i;
+    const fullRangeMatch = daeventDateText.match(fullRangeRegex);
+
     if (fullRangeMatch) {
       const month = fullRangeMatch[1];
       const day = parseInt(fullRangeMatch[2], 10);
       const year = fullRangeMatch[3] ? parseInt(fullRangeMatch[3], 10) : currentYear;
-      
+
       let startHour = parseInt(fullRangeMatch[4], 10);
       const startMinute = parseInt(fullRangeMatch[5], 10);
       const startAmPm = fullRangeMatch[6].toLowerCase();
-      
+
       let endHour = parseInt(fullRangeMatch[7], 10);
       const endMinute = parseInt(fullRangeMatch[8], 10);
       const endAmPm = fullRangeMatch[9].toLowerCase();
-      
+
       // Convert to 24-hour format
       if (startAmPm === 'pm' && startHour < 12) startHour += 12;
       if (startAmPm === 'am' && startHour === 12) startHour = 0;
-      
+
       if (endAmPm === 'pm' && endHour < 12) endHour += 12;
       if (endAmPm === 'am' && endHour === 12) endHour = 0;
-      
+
       const startDate = new Date(year, getMonthIndex(month), day, startHour, startMinute);
       const endDate = new Date(year, getMonthIndex(month), day, endHour, endMinute);
-      
+
       return { startDate, endDate };
     }
-    
+
     // Check for date ranges like "August 15 - August 17, 2025"
-    const dateRangeRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?\s*-\s*([A-Za-z]+)?\s*(\d{1,2})(?:st|nd|rd|th)?,\s*(\d{4})/i;
-    const dateRangeMatch = dateString.match(dateRangeRegex);
-    
+    const dateRangeRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?\s*-\s*([A-Za-z]+)?\s*(\d{1,2}(?:st|nd|rd|th)?,\s*(\d{4}/i;
+    const dateRangeMatch = daeventDateText.match(dateRangeRegex);
+
     if (dateRangeMatch) {
       const startMonth = dateRangeMatch[1];
       const startDay = parseInt(dateRangeMatch[2], 10);
       const endMonth = dateRangeMatch[3] || startMonth;
       const endDay = parseInt(dateRangeMatch[4], 10);
       const year = parseInt(dateRangeMatch[5], 10);
-      
+
       const startDate = new Date(year, getMonthIndex(startMonth), startDay, 10, 0); // Default to 10 AM
       const endDate = new Date(year, getMonthIndex(endMonth), endDay, 22, 0); // Default to 10 PM
-      
+
       return { startDate, endDate };
     }
-    
+
     // Check for single dates with time like "August 15, 2025 @ 7:00 pm"
-    const singleDateTimeRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,\s*(\d{4})?\s*@?\s*(\d{1,2}):(\d{2})\s*([ap]m)/i;
-    const singleDateTimeMatch = dateString.match(singleDateTimeRegex);
-    
+    const singleDateTimeRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?,\s*(\d{4}?\s*@?\s*(\d{1,2}:(\d{2}\s*([ap]m)/i;
+    const singleDateTimeMatch = daeventDateText.match(singleDateTimeRegex);
+
     if (singleDateTimeMatch) {
       const month = singleDateTimeMatch[1];
       const day = parseInt(singleDateTimeMatch[2], 10);
       const year = singleDateTimeMatch[3] ? parseInt(singleDateTimeMatch[3], 10) : currentYear;
-      
+
       let hour = parseInt(singleDateTimeMatch[4], 10);
       const minute = parseInt(singleDateTimeMatch[5], 10);
       const ampm = singleDateTimeMatch[6].toLowerCase();
-      
+
       // Convert to 24-hour format
       if (ampm === 'pm' && hour < 12) hour += 12;
       if (ampm === 'am' && hour === 12) hour = 0;
-      
+
       const startDate = new Date(year, getMonthIndex(month), day, hour, minute);
-      
+
       // Set end time to 3 hours after start time for events
       const endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 3);
-      
+
       return { startDate, endDate };
     }
-    
+
     // Check for single dates like "August 15, 2025"
-    const singleDateRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,\s*(\d{4})/i;
-    const singleDateMatch = dateString.match(singleDateRegex);
-    
+    const singleDateRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?,\s*(\d{4}/i;
+    const singleDateMatch = daeventDateText.match(singleDateRegex);
+
     if (singleDateMatch) {
       const month = singleDateMatch[1];
       const day = parseInt(singleDateMatch[2], 10);
       const year = parseInt(singleDateMatch[3], 10);
-      
+
       const startDate = new Date(year, getMonthIndex(month), day, 10, 0); // Default to 10 AM
       const endDate = new Date(year, getMonthIndex(month), day, 22, 0); // Default to 10 PM
-      
+
       return { startDate, endDate };
     }
-    
+
     return null;
   } catch (error) {
     console.error('❌ Error parsing date string:', error);
@@ -226,7 +226,7 @@ function getMonthIndex(month) {
     'november': 10,
     'december': 11
   };
-  
+
   return months[month.toLowerCase()] || 0;
 }
 
@@ -234,46 +234,51 @@ function getMonthIndex(month) {
  * Main function to scrape Gerrard India Bazaar events
  */
 async function scrapeGerrardIndiaBazaarEvents() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-gerrardindiabazaar-events.js Toronto');
+    process.exit(1);
+  }
   let addedEvents = 0;
   const client = new MongoClient(uri);
-  
+
   try {
     await client.connect();
     console.log('✅ Connected to MongoDB');
-    
+
     const database = client.db();
-    const eventsCollection = database.collection('events');
-    
+    const eventsCollection = databases');
+
     console.log('🔍 Fetching events from Gerrard India Bazaar website...');
-    
+
     // Fetch HTML content
     const response = await axios.get(GERRARD_INDIA_BAZAAR_URL, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
-    });
+    };
     const html = response.data;
     const $ = cheerio.load(html);
-    
+
     // Array to store events
     const events = [];
-    
+
     // Find event elements - look for event listings
     $('.event, .tribe-events-list-event, article, .event-listing, .event-item').each((i, element) => {
       const eventElement = $(element);
-      
+
       // Extract event title
       const titleElement = eventElement.find('.event-title, .tribe-events-list-event-title, h2, h3, h4, .title');
       const title = titleElement.text().trim();
-      
+
       // Extract event URL
       const linkElement = eventElement.find('a');
       const eventUrl = linkElement.attr('href') || GERRARD_INDIA_BAZAAR_URL;
-      
+
       // Extract date information
       const dateElement = eventElement.find('.event-date, .tribe-event-date-start, .date, [class*="date"], time');
       let dateText = dateElement.text().trim();
-      
+
       // If no explicit date element, try to find it in the text content
       if (!dateText) {
         const text = eventElement.text();
@@ -282,15 +287,15 @@ async function scrapeGerrardIndiaBazaarEvents() {
           dateText = dateMatch[0];
         }
       }
-      
+
       // Extract description
       const descriptionElement = eventElement.find('.event-description, .tribe-events-list-event-description, .summary, .description, p');
       const description = descriptionElement.text().trim();
-      
+
       // Extract image URL
       const imageElement = eventElement.find('img');
       const imageUrl = imageElement.attr('src') || '';
-      
+
       if (title && (dateText || eventUrl !== GERRARD_INDIA_BAZAAR_URL)) {
         events.push({
           title,
@@ -298,40 +303,40 @@ async function scrapeGerrardIndiaBazaarEvents() {
           dateText,
           description,
           imageUrl
-        });
+        };
       }
-    });
-    
+    };
+
     console.log(`🔍 Found ${events.length} events on Gerrard India Bazaar website`);
-    
+
     // If the main event extraction didn't work, try an alternative approach
     if (events.length === 0) {
       console.log('🔍 No events found with primary method, trying alternative approach...');
-      
+
       // Try to find events in calendar widgets or list views
       $('.tribe-events-calendar-list__event, .type-tribe_events, [class*="event"]').each((i, element) => {
         const eventElement = $(element);
-        
+
         // Extract event title
         const titleElement = eventElement.find('h3, h2, .title');
         const title = titleElement.text().trim();
-        
+
         // Extract event URL
         const linkElement = eventElement.find('a');
         const eventUrl = linkElement.attr('href') || GERRARD_INDIA_BAZAAR_URL;
-        
+
         // Extract date information
         const dateElement = eventElement.find('.date, [class*="date"], time');
         let dateText = dateElement.text().trim();
-        
+
         // Extract description
         const descriptionElement = eventElement.find('.description, .content, p');
         const description = descriptionElement.text().trim();
-        
+
         // Extract image URL
         const imageElement = eventElement.find('img');
         const imageUrl = imageElement.attr('src') || '';
-        
+
         if (title && (dateText || eventUrl !== GERRARD_INDIA_BAZAAR_URL)) {
           events.push({
             title,
@@ -339,41 +344,41 @@ async function scrapeGerrardIndiaBazaarEvents() {
             dateText,
             description,
             imageUrl
-          });
+          };
         }
-      });
-      
+      };
+
       // If still no events, try to find text with date patterns that might be events
       if (events.length === 0) {
         $('p, div, li').each((i, element) => {
           const text = $(element).text().trim();
-          
+
           // Look for text that contains a title and a date
-          const eventRegex = /([A-Za-z0-9\s'&-]+)(?:\s*[-:]\s*|\s+on\s+|\s*,\s*)?((?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?(?:\s*[@-]\s*\d{1,2}:\d{2}\s*[ap]m)?(?:\s*-\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?|\s*-\s*\d{1,2}:\d{2}\s*[ap]m)?)/i;
+          const eventRegex = /([A-Za-z0-9\s'&-]+)(?:\s*[-:]\s*|\s+on\s+|\s*,\s*)?((?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?(?:\s*[@-]\s*\d{1,2}:\d{2}\s*[ap]m)?(?:\s*-\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?|\s*-\s*\d{1,2}:\d{2}\s*[ap]m)?)/i;
           const match = text.match(eventRegex);
-          
+
           if (match && match[1].length > 3 && match[2]) {
             const title = match[1].trim();
             const dateText = match[2].trim();
-            
+
             // Get any nearby image
             const nearbyImage = $(element).prev().find('img');
             const imageUrl = nearbyImage.attr('src') || '';
-            
+
             events.push({
               title,
               eventUrl: GERRARD_INDIA_BAZAAR_URL,
               dateText,
               description: text,
               imageUrl
-            });
+            };
           }
-        });
+        };
       }
-      
+
       console.log(`🔍 Found ${events.length} events using alternative approach`);
     }
-    
+
     // Process individual event URLs to get more details if needed
     if (events.length > 0) {
       const eventDetailsPromises = events.map(async (event, index) => {
@@ -381,27 +386,27 @@ async function scrapeGerrardIndiaBazaarEvents() {
         if (event.eventUrl !== GERRARD_INDIA_BAZAAR_URL && (!event.dateText || !event.description)) {
           try {
             console.log(`🔍 Fetching details for: ${event.title} from ${event.eventUrl}`);
-            
+
             const detailResponse = await axios.get(event.eventUrl, {
               headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
               }
-            });
+            };
             const detailHtml = detailResponse.data;
             const detail$ = cheerio.load(detailHtml);
-            
+
             // If we don't have a date yet, try to extract it from the detail page
             if (!event.dateText) {
               const dateElement = detail$('.event-date, .tribe-events-start-date, .date, [class*="date"], time');
               event.dateText = dateElement.text().trim();
-              
+
               if (!event.dateText) {
                 // Look for date patterns in the text
                 const pageText = detail$('body').text();
                 const datePatterns = [
-                  /(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?(?:\s*[@-]\s*\d{1,2}:\d{2}\s*[ap]m)?(?:\s*-\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?|\s*-\s*\d{1,2}:\d{2}\s*[ap]m)?/i
+                  /(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?(?:\s*[@-]\s*\d{1,2}:\d{2}\s*[ap]m)?(?:\s*-\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?|\s*-\s*\d{1,2}:\d{2}\s*[ap]m)?/i
                 ];
-                
+
                 for (const pattern of datePatterns) {
                   const matches = pageText.match(pattern);
                   if (matches && matches.length > 0) {
@@ -412,7 +417,7 @@ async function scrapeGerrardIndiaBazaarEvents() {
                 }
               }
             }
-            
+
             // If we don't have a description yet, try to extract it
             if (!event.description) {
               const descriptionElement = detail$('.event-description, .tribe-events-single-event-description, .description, .content, article p');
@@ -422,11 +427,11 @@ async function scrapeGerrardIndiaBazaarEvents() {
                   if (i < 3) { // Limit to first 3 elements
                     description += detail$(el).text().trim() + ' ';
                   }
-                });
+                };
                 event.description = description.trim();
               }
             }
-            
+
             // If we don't have an image URL yet, try to extract it
             if (!event.imageUrl) {
               const imageElement = detail$('.event-image img, .tribe-events-event-image img, img.attachment-full, article img').first();
@@ -434,47 +439,46 @@ async function scrapeGerrardIndiaBazaarEvents() {
                 event.imageUrl = imageElement.attr('src') || '';
               }
             }
-            
+
           } catch (detailError) {
             console.error(`❌ Error fetching details for event: ${event.title}`, detailError.message);
           }
         }
-        
+
         // Add a small delay between requests to avoid overwhelming the server
         if (index > 0 && index % 3 === 0) {
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
-        
+
         return event;
-      });
-      
+      };
+
       // Wait for all detail requests to complete
       console.log('🔍 Fetching additional details from individual event pages...');
       await Promise.all(eventDetailsPromises);
     }
-    
+
     // Process each event
     for (const event of events) {
       try {
         console.log(`🔍 Processing event: ${event.title}, Date: ${event.dateText || 'Unknown'}`);
-        
+
         // If no description was found, use a default one
         if (!event.description) {
           event.description = `Join us for ${event.title} at Gerrard India Bazaar. Please visit the website for more details.`;
         }
-        
-        // Parse date information - NO FALLBACKS
+
         const dateInfo = parseEventDates(event.dateText);
-        
+
         // Skip events with missing or invalid dates
         if (!dateInfo || isNaN(dateInfo.startDate.getTime()) || isNaN(dateInfo.endDate.getTime())) {
           console.log(`⏭️ Skipping event with invalid or missing date: ${event.title}`);
           continue;
         }
-        
+
         // Generate unique ID
         const eventId = generateEventId(event.title, dateInfo.startDate);
-        
+
         // Create formatted event
         const formattedEvent = {
           id: eventId,
@@ -485,25 +489,27 @@ async function scrapeGerrardIndiaBazaarEvents() {
             start: dateInfo.startDate,
             end: dateInfo.endDate
           },
-          venue: GERRARD_INDIA_BAZAAR_VENUE,
+          venue: {
+                name: city, ...RegExp.venue: { ...RegExp.venue: GERRARD_INDIA_BAZAAR_VENUE,, city
+            }, city },,
           imageUrl: event.imageUrl,
           url: event.eventUrl,
           price: 'See website for details',
           createdAt: new Date(),
           updatedAt: new Date()
         };
-        
+
         // Check for duplicates
         const existingEvent = await eventsCollection.findOne({
           $or: [
             { id: formattedEvent.id },
-            { 
+            {
               title: formattedEvent.title,
               'date.start': formattedEvent.date.start
             }
           ]
-        });
-        
+        };
+
         if (!existingEvent) {
           await eventsCollection.insertOne(formattedEvent);
           addedEvents++;
@@ -515,7 +521,7 @@ async function scrapeGerrardIndiaBazaarEvents() {
         console.error(`❌ Error processing event:`, eventError.message);
       }
     }
-    
+
     // Log warning if no events were found or added
     if (events.length === 0) {
       console.warn('⚠️ Warning: No events found on Gerrard India Bazaar website.');
@@ -524,14 +530,14 @@ async function scrapeGerrardIndiaBazaarEvents() {
     } else {
       console.log(`📊 Successfully added ${addedEvents} new Gerrard India Bazaar events`);
     }
-    
+
   } catch (error) {
     console.error('❌ Error scraping Gerrard India Bazaar events:', error.message);
   } finally {
     await client.close();
     console.log('✅ MongoDB connection closed');
   }
-  
+
   return addedEvents;
 }
 
@@ -539,8 +545,15 @@ async function scrapeGerrardIndiaBazaarEvents() {
 scrapeGerrardIndiaBazaarEvents()
   .then(addedEvents => {
     console.log(`✅ Gerrard India Bazaar scraper completed. Added ${addedEvents} new events.`);
-  })
+  }
   .catch(error => {
     console.error('❌ Error running Gerrard India Bazaar scraper:', error);
     process.exit(1);
-  });
+  };
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeGerrardIndiaBazaarEvents;
+
+// Production async export added
+module.exports = scrapeGerrardIndiaBazaarEvents;

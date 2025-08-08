@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-stampede-festival.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🤠 Scraping events from Calgary Stampede...');
 
@@ -15,13 +20,13 @@ async function scrape() {
             description: 'The world\'s largest rodeo and outdoor show featuring rodeo competitions, chuckwagon races, live music, midway rides, and western heritage celebrations.',
             category: 'Festival',
             subcategory: 'Rodeo & Western Festival',
-            venue: {
+            venue: { ...RegExp.venue: {
                 name: 'Stampede Park',
                 address: '1410 Olympic Way SE, Calgary, AB',
-                city: 'Calgary',
+                city: city,
                 province: 'Alberta',
                 country: 'Canada'
-            },
+            }, city },,
             sourceUrl: 'https://www.calgarystampede.com/',
             source: 'Calgary Stampede',
             sourceId: 'stampede-2025-main',
@@ -31,7 +36,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://www.calgarystampede.com/tickets'
             }
-        });
+        };
 
         // Specific Stampede events
         const stampedeEvents = [
@@ -92,8 +97,8 @@ async function scrape() {
         ];
 
         stampedeEvents.forEach(event => {
-            const duration = event.type === 'parade' ? 3 : 
-                            (event.type === 'midway' ? 12 : 
+            const duration = event.type === 'parade' ? 3 :
+                            (event.type === 'midway' ? 12 :
                             (event.type === 'party' ? 6 : 3));
             const endDate = new Date(event.date.getTime() + duration * 60 * 60 * 1000);
 
@@ -102,20 +107,20 @@ async function scrape() {
                 startDate: event.date,
                 endDate: endDate,
                 description: event.description,
-                category: event.type === 'parade' ? 'Parade' : 
-                          (event.type === 'concert' ? 'Music' : 
+                category: event.type === 'parade' ? 'Parade' :
+                          (event.type === 'concert' ? 'Music' :
                           (event.type === 'party' ? 'Nightlife' : 'Rodeo')),
                 subcategory: event.type === 'rodeo' || event.type === 'youth-rodeo' ? 'Rodeo Competition' :
                             (event.type === 'chuckwagon' ? 'Chuckwagon Racing' :
                             (event.type === 'concert' ? 'Country Music' : 'Stampede Event')),
-                venue: {
-                    name: event.type === 'parade' ? 'Downtown Calgary Parade Route' : 
+                venue: { ...RegExp.venue: {
+                    name: event.type === 'parade' ? 'Downtown Calgary Parade Route' :
                           (event.type === 'rodeo' || event.type === 'chuckwagon' ? 'Stampede Corral' : 'Stampede Park'),
                     address: event.type === 'parade' ? '9th Ave SW, Calgary, AB' : '1410 Olympic Way SE, Calgary, AB',
-                    city: 'Calgary',
+                    city: city,
                     province: 'Alberta',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: 'https://www.calgarystampede.com/',
                 source: 'Calgary Stampede',
                 sourceId: `stampede-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
@@ -126,8 +131,8 @@ async function scrape() {
                     isFree: event.type === 'parade',
                     ticketUrl: 'https://www.calgarystampede.com/tickets'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from Calgary Stampede`);
         return events;
@@ -140,3 +145,14 @@ async function scrape() {
 
 const scrapeEvents = scrape;
 module.exports = { scrape, scrapeEvents };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new rodeo();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in rodeo');
+    }
+};

@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Orpheum Theatre Events Scraper
  * Scrapes events from Orpheum Theatre's website
@@ -13,7 +14,7 @@ class OrpheumEvents {
     this.venue = {
       name: 'Orpheum Theatre',
       address: '601 Smithe St, Vancouver, BC V6B 3L4',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2802, lng: -123.1207 }

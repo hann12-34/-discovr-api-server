@@ -34,34 +34,34 @@ class PrincesIslandParkEvents {
      */
     parseDate(dateStr) {
         if (!dateStr) return null;
-        
+
         try {
             const cleanDateStr = dateStr.trim();
-            
+
             // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }
-            
+
             // Handle common date formats
-            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2}),?\s+(\d{4})/);
+            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2},?\s+(\d{4}/);
             if (dateMatch) {
                 return new Date(`${dateMatch[1]} ${dateMatch[2]}, ${dateMatch[3]}`);
             }
-            
+
             // Handle numeric date formats
-            const numericMatch = cleanDateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            const numericMatch = cleanDateStr.match(/(\d{1,2}\/(\d{1,2}\/(\d{4}/);
             if (numericMatch) {
                 return new Date(`${numericMatch[1]}/${numericMatch[2]}/${numericMatch[3]}`);
             }
-            
+
             // Try direct parsing
             const parsed = new Date(cleanDateStr);
             if (!isNaN(parsed.getTime())) {
                 return parsed;
             }
-            
+
             return null;
         } catch (error) {
             console.log(`Error parsing date: ${dateStr}`, error);
@@ -88,9 +88,9 @@ class PrincesIslandParkEvents {
     extractVenueInfo($, eventElement) {
         const venueElement = $(eventElement).find('.venue, .location, .where, .place, .park, .stage').first();
         const venueName = venueElement.length > 0 ? this.cleanText(venueElement.text()) : null;
-        
+
         const defaultCoords = this.getDefaultCoordinates();
-        
+
         return {
             name: venueName || 'Prince\'s Island Park',
             address: '698 Eau Claire Ave SW, Calgary, AB T2P 2Z7',
@@ -109,38 +109,38 @@ class PrincesIslandParkEvents {
      */
     extractEventDetails($, eventElement) {
         const $event = $(eventElement);
-        
+
         // Extract title
         const title = this.cleanText(
             $event.find('.title, .event-title, .festival-title, .concert-title, .park-title, h1, h2, h3, h4, a[href*="event"]').first().text()
         );
-        
+
         if (!title) return null;
-        
+
         // Extract date
         const dateText = $event.find('.date, .when, .time, .event-date, .festival-date').first().text();
         const eventDate = this.parseDate(dateText);
-        
+
         // Extract description
         const description = this.cleanText(
             $event.find('.description, .summary, .excerpt, .content, p, .event-description').first().text()
         );
-        
+
         // Extract price
         const priceText = $event.find('.price, .cost, .ticket-price, .admission, .fee').text();
         const price = priceText ? this.cleanText(priceText) : 'Free';
-        
+
         // Extract event URL
         const eventUrl = $event.find('a').first().attr('href');
         const fullEventUrl = eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `${this.baseUrl}${eventUrl}`) : null;
-        
+
         // Extract image
         const imageUrl = $event.find('img').first().attr('src');
         const fullImageUrl = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`) : null;
-        
+
         // Get venue info
         const venue = this.extractVenueInfo($, eventElement);
-        
+
         // Determine category based on title/description
         let category = 'Park';
         const titleLower = title.toLowerCase();
@@ -223,14 +223,14 @@ class PrincesIslandParkEvents {
         } else if (titleLower.includes('special')) {
             category = 'Special Event';
         }
-        
+
         return {
             id: uuidv4(),
             name: title,
             title: title,
             description: description || `${title} at Prince's Island Park`,
             date: eventDate,
-            venue: venue,
+            venue: { ...RegExp.venue: { ...RegExp.venue: venue,, city }, city },,
             city: this.city,
             province: this.province,
             price: price,
@@ -249,10 +249,10 @@ class PrincesIslandParkEvents {
      */
     isEventLive(eventDate) {
         if (!eventDate) return true; // Include events with no date
-        
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         return eventDate >= today;
     }
 
@@ -264,13 +264,13 @@ class PrincesIslandParkEvents {
     removeDuplicates(events) {
         const seen = new Set();
         return events.filter(event => {
-            const key = `${event.title}-${event.date ? event.date.toDateString() : 'no-date'}`;
+            const key = `${event.title}-${event.date ? event.date.toDaeventDateText() : 'no-date'}`;
             if (seen.has(key)) {
                 return false;
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     /**
@@ -280,17 +280,17 @@ class PrincesIslandParkEvents {
     async scrapeEvents() {
         try {
             console.log(`🏞️ Scraping events from ${this.source}...`);
-            
+
             const response = await axios.get(this.eventsUrl, {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            });
-            
+            };
+
             const $ = cheerio.load(response.data);
             const events = [];
-            
+
             // Look for common event selectors
             const eventSelectors = [
                 '.event',
@@ -310,7 +310,7 @@ class PrincesIslandParkEvents {
                 '.post',
                 '.event-listing'
             ];
-            
+
             let eventElements = $();
             for (const selector of eventSelectors) {
                 const elements = $(selector);
@@ -320,20 +320,20 @@ class PrincesIslandParkEvents {
                     break;
                 }
             }
-            
+
             if (eventElements.length === 0) {
                 console.log('⚠️  No events found with standard selectors, trying alternative approach...');
-                
+
                 // Try finding events by looking for elements with park/festival content
                 eventElements = $('[class*="event"], [class*="festival"], [class*="concert"]').filter(function() {
                     const text = $(this).text().toLowerCase();
-                    return text.includes('festival') || text.includes('concert') || text.includes('music') || 
+                    return text.includes('festival') || text.includes('concert') || text.includes('music') ||
                            text.includes('event') || text.includes('park') || text.includes('outdoor');
-                });
+                };
             }
-            
+
             console.log(`📅 Processing ${eventElements.length} potential events...`);
-            
+
             // Process each event
             eventElements.each((index, element) => {
                 try {
@@ -345,17 +345,17 @@ class PrincesIslandParkEvents {
                 } catch (error) {
                     console.log(`❌ Error extracting event ${index + 1}:`, error.message);
                 }
-            });
-            
+            };
+
             // Remove duplicates
             const uniqueEvents = this.removeDuplicates(events);
-            
+
             // Filter for live events
             const liveEvents = uniqueEvents.filter(event => this.isEventLive(event.date));
-            
+
             console.log(`🎉 Successfully scraped ${liveEvents.length} unique events from ${this.source}`);
             return liveEvents;
-            
+
         } catch (error) {
             console.error(`❌ Error scraping events from ${this.source}:`, error.message);
             return [];
@@ -368,21 +368,37 @@ module.exports = PrincesIslandParkEvents;
 // Test runner
 if (require.main === module) {
     async function testScraper() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-princes-island-park.js Toronto');
+    process.exit(1);
+  }
         const scraper = new PrincesIslandParkEvents();
         const events = await scraper.scrapeEvents();
         console.log('\n' + '='.repeat(50));
         console.log('PRINCE\'S ISLAND PARK TEST RESULTS');
         console.log('='.repeat(50));
         console.log(`Found ${events.length} events`);
-        
+
         events.slice(0, 3).forEach((event, index) => {
             console.log(`\n${index + 1}. ${event.title}`);
-            console.log(`   Date: ${event.date ? event.date.toDateString() : 'TBD'}`);
+            console.log(`   Date: ${event.date ? event.date.toDaeventDateText() : 'TBD'}`);
             console.log(`   Category: ${event.category}`);
             console.log(`   Venue: ${event.venue.name}`);
             if (event.url) console.log(`   URL: ${event.url}`);
-        });
+        };
     }
-    
+
     testScraper();
 }
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new PrincesIslandParkEvents();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in PrincesIslandParkEvents');
+    }
+};

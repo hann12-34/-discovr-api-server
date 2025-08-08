@@ -1,0 +1,353 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Gaming & Esports Events Scraper
+ * 
+ * Scrapes gaming and esports events from NYC gaming venues and tournaments
+ * URL: https://www.eventbrite.com/d/ny--new-york/gaming/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCGamingEsportsEvents {
+    constructor() {
+        this.venueName = 'NYC Gaming & Esports Events';
+        this.venueLocation = 'Various NYC Gaming Centers & Esports Venues';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/gaming/';
+        this.category = 'Gaming & Esports';
+    }
+
+    /**
+     * Scrape events from NYC Gaming & Esports Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🎮 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for gaming-specific event containers
+            const eventSelectors = [
+                '.gaming-event', '.esports-event', '.tournament-event',
+                '.event-item', '.event-card', '.event', '.competition-event',
+                '[class*="gaming"]', '[class*="esports"]', '[class*="event"]',
+                '.card', '.content-card', '.lan-event', '.game-night-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .tournament-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time', '.tournament-time'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/gaming center
+                        let venue = this.venueLocation;
+                        const venueSelectors = ['.venue', '.location', '.gaming-center', '[class*="venue"]', '.arena', '.lan-center'];
+                        for (const venueSelector of venueSelectors) {
+                            const venueElement = $el.find(venueSelector).first();
+                            if (venueElement.length > 0) {
+                                const venueText = venueElement.text().trim();
+                                if (venueText && venueText.length > 0) {
+                                    venue = venueText.length > 70 ? venueText.substring(0, 70) + '...' : venueText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for game title
+                        let gameTitle = '';
+                        const gameSelectors = ['.game', '.game-title', '.game-name', '[class*="game"]'];
+                        for (const gameSelector of gameSelectors) {
+                            const gameElement = $el.find(gameSelector).first();
+                            if (gameElement.length > 0) {
+                                gameTitle = gameElement.text().trim();
+                                if (gameTitle) break;
+                            }
+                        }
+
+                        // Look for platform (PC, Console, Mobile)
+                        let platform = '';
+                        const platformSelectors = ['.platform', '.system', '.console', '[class*="platform"]'];
+                        for (const platformSelector of platformSelectors) {
+                            const platformElement = $el.find(platformSelector).first();
+                            if (platformElement.length > 0) {
+                                const platformText = platformElement.text().trim();
+                                if (platformText && platformText.match(/\b(pc|console|xbox|playstation|nintendo|mobile|steam)\b/i)) {
+                                    platform = platformText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for skill level/division
+                        let skillLevel = '';
+                        const skillSelectors = ['.skill-level', '.division', '.rank', '[class*="skill"]'];
+                        for (const skillSelector of skillSelectors) {
+                            const skillElement = $el.find(skillSelector).first();
+                            if (skillElement.length > 0) {
+                                const skillText = skillElement.text().trim();
+                                if (skillText && skillText.match(/\b(beginner|intermediate|advanced|pro|amateur|casual|competitive)\b/i)) {
+                                    skillLevel = skillText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for prize pool
+                        let prizePool = '';
+                        const prizeSelectors = ['.prize-pool', '.prize', '.reward', '[class*="prize"]'];
+                        for (const prizeSelector of prizeSelectors) {
+                            const prizeElement = $el.find(prizeSelector).first();
+                            if (prizeElement.length > 0) {
+                                const prizeText = prizeElement.text().trim();
+                                if (prizeText && prizeText.includes('$')) {
+                                    prizePool = prizeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for entry fee
+                        let entryFee = '';
+                        const feeSelectors = ['.entry-fee', '.registration-fee', '.cost', '[class*="fee"]'];
+                        for (const feeSelector of feeSelectors) {
+                            const feeElement = $el.find(feeSelector).first();
+                            if (feeElement.length > 0) {
+                                const feeText = feeElement.text().trim();
+                                if (feeText && (feeText.includes('$') || feeText.toLowerCase().includes('free'))) {
+                                    entryFee = feeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for team size/format
+                        let teamFormat = '';
+                        const teamSelectors = ['.team-size', '.format', '.mode', '[class*="team"]'];
+                        for (const teamSelector of teamSelectors) {
+                            const teamElement = $el.find(teamSelector).first();
+                            if (teamElement.length > 0) {
+                                const teamText = teamElement.text().trim();
+                                if (teamText && teamText.match(/\b(1v1|2v2|3v3|5v5|solo|duo|squad|team|individual)\b/i)) {
+                                    teamFormat = teamText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for age restrictions
+                        let ageRestriction = '';
+                        const ageSelectors = ['.age-restriction', '.age-limit', '.minimum-age', '[class*="age"]'];
+                        for (const ageSelector of ageSelectors) {
+                            const ageElement = $el.find(ageSelector).first();
+                            if (ageElement.length > 0) {
+                                ageRestriction = ageElement.text().trim();
+                                if (ageRestriction) break;
+                            }
+                        }
+
+                        // Look for registration deadline
+                        let registration = '';
+                        const registrationSelectors = ['.registration', '.signup-deadline', '.register-by', '[class*="registration"]'];
+                        for (const regSelector of registrationSelectors) {
+                            const regElement = $el.find(regSelector).first();
+                            if (regElement.length > 0) {
+                                registration = regElement.text().trim();
+                                if (registration) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: venue,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for gaming event schedule',
+                            category: this.category,
+                            gameTitle: gameTitle,
+                            platform: platform,
+                            skillLevel: skillLevel,
+                            prizePool: prizePool,
+                            entryFee: entryFee,
+                            teamFormat: teamFormat,
+                            ageRestriction: ageRestriction,
+                            registration: registration,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCGamingEsportsEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general gaming information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasGamingKeywords = text.match(/\b(gaming|esports|tournament|competition|game|lan|arcade|video game)\b/i);
+                    const hasEventPattern = text.match(/\b(event|tournament|competition|championship|league|match|night|meetup)\b/i);
+                    
+                    if (hasGamingKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for gaming event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCGamingEsportsEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid gaming/esports keywords
+        const validKeywords = [
+            'gaming', 'esports', 'tournament', 'competition', 'game', 'lan',
+            'arcade', 'video game', 'event', 'championship', 'league',
+            'match', 'night', 'meetup', 'console', 'pc', 'mobile'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCGamingEsportsEvents;

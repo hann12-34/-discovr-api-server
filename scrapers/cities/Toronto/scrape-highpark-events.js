@@ -47,7 +47,7 @@ function generateEventId(title, startDate) {
 function extractCategories(title, description) {
   const categories = [];
   const combinedText = `${title} ${description}`.toLowerCase();
-  
+
   // Define category keywords
   const categoryMapping = {
     'cherry': 'Nature',
@@ -84,7 +84,7 @@ function extractCategories(title, description) {
     'zoo': 'Zoo',
     'animal': 'Zoo'
   };
-  
+
   // Check for category matches
   Object.keys(categoryMapping).forEach(keyword => {
     if (combinedText.includes(keyword)) {
@@ -93,71 +93,71 @@ function extractCategories(title, description) {
         categories.push(category);
       }
     }
-  });
-  
+  };
+
   // Add special category for Cherry Blossoms
   if (combinedText.includes('cherry') || combinedText.includes('blossom') || combinedText.includes('sakura')) {
     if (!categories.includes('Cherry Blossoms')) {
       categories.push('Cherry Blossoms');
     }
   }
-  
+
   // Default category if none found
   if (categories.length === 0) {
     categories.push('Park Event');
   }
-  
+
   return categories;
 }
 
 /**
  * Parse date string to extract start and end dates
- * @param {string} dateString - Date string to parse
+ * @param {string} daeventDateText - Date string to parse
  * @returns {Object|null} - Object with startDate and endDate or null if parsing failed
  */
-function parseEventDates(dateString) {
-  if (!dateString) return null;
-  
+function parseEventDates(daeventDateText) {
+  if (!daeventDateText) return null;
+
   try {
     // Clean up the date string
-    dateString = dateString.replace(/\s+/g, ' ').trim();
-    
+    daeventDateText = daeventDateText.replace(/\s+/g, ' ').trim();
+
     const currentYear = new Date().getFullYear();
-    
+
     // Check for Cherry Blossom season references which often include year
-    const cherrySeasonRegex = /cherry\s+blossom\s+(?:bloom|season|event|festival)?\s+(\d{4})/i;
-    const cherryMatch = dateString.match(cherrySeasonRegex);
-    
+    const cherrySeasonRegex = /cherry\s+blossom\s+(?:bloom|season|event|festival)?\s+(\d{4}/i;
+    const cherryMatch = daeventDateText.match(cherrySeasonRegex);
+
     if (cherryMatch) {
       const year = parseInt(cherryMatch[1], 10);
       // Cherry blossoms in Toronto typically bloom in late April to early May
       const startDate = new Date(year, 3, 25); // April 25th
       const endDate = new Date(year, 4, 15);   // May 15th
-      
+
       return { startDate, endDate };
     }
-    
+
     // Check for typical date ranges like "April 25 - May 15, 2025"
-    const dateRangeRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?\s*[-–]\s*([A-Za-z]+)?\s*(\d{1,2})(?:st|nd|rd|th)?(?:,?\s*(\d{4}))?/i;
-    const dateRangeMatch = dateString.match(dateRangeRegex);
-    
+    const dateRangeRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?\s*[-–]\s*([A-Za-z]+)?\s*(\d{1,2}(?:st|nd|rd|th)?(?:,?\s*(\d{4}?/i;
+    const dateRangeMatch = daeventDateText.match(dateRangeRegex);
+
     if (dateRangeMatch) {
       const startMonth = dateRangeMatch[1];
       const startDay = parseInt(dateRangeMatch[2], 10);
       const endMonth = dateRangeMatch[3] || startMonth;
       const endDay = parseInt(dateRangeMatch[4], 10);
       const year = dateRangeMatch[5] ? parseInt(dateRangeMatch[5], 10) : currentYear;
-      
+
       const startDate = new Date(year, getMonthIndex(startMonth), startDay);
       const endDate = new Date(year, getMonthIndex(endMonth), endDay);
-      
+
       return { startDate, endDate };
     }
-    
+
     // Check for single dates with time like "April 25, 2025 at 10:00 AM"
-    const singleDateTimeRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,\s*(\d{4}))?(?:.*?)(\d{1,2}):(\d{2})\s*([ap]m)?/i;
-    const singleDateTimeMatch = dateString.match(singleDateTimeRegex);
-    
+    const singleDateTimeRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?(?:,\s*(\d{4}?(?:.*?)(\d{1,2}:(\d{2}\s*([ap]m)?/i;
+    const singleDateTimeMatch = daeventDateText.match(singleDateTimeRegex);
+
     if (singleDateTimeMatch) {
       const month = singleDateTimeMatch[1];
       const day = parseInt(singleDateTimeMatch[2], 10);
@@ -165,32 +165,32 @@ function parseEventDates(dateString) {
       const hour = parseInt(singleDateTimeMatch[4], 10);
       const minute = parseInt(singleDateTimeMatch[5], 10);
       const ampm = singleDateTimeMatch[6] ? singleDateTimeMatch[6].toLowerCase() : null;
-      
+
       let hours24 = hour;
       if (ampm === 'pm' && hour < 12) hours24 += 12;
       if (ampm === 'am' && hour === 12) hours24 = 0;
-      
+
       const startDate = new Date(year, getMonthIndex(month), day, hours24, minute);
       const endDate = new Date(year, getMonthIndex(month), day, hours24 + 3, minute); // Assume 3 hours duration
-      
+
       return { startDate, endDate };
     }
-    
+
     // Check for single dates like "April 25, 2025"
-    const singleDateRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,\s*(\d{4}))?/i;
-    const singleDateMatch = dateString.match(singleDateRegex);
-    
+    const singleDateRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?(?:,\s*(\d{4}?/i;
+    const singleDateMatch = daeventDateText.match(singleDateRegex);
+
     if (singleDateMatch) {
       const month = singleDateMatch[1];
       const day = parseInt(singleDateMatch[2], 10);
       const year = singleDateMatch[3] ? parseInt(singleDateMatch[3], 10) : currentYear;
-      
+
       const startDate = new Date(year, getMonthIndex(month), day, 9, 0); // Default start time: 9:00 AM
       const endDate = new Date(year, getMonthIndex(month), day, 17, 0);  // Default end time: 5:00 PM
-      
+
       return { startDate, endDate };
     }
-    
+
     return null;
   } catch (error) {
     console.error('❌ Error parsing date string:', error);
@@ -218,7 +218,7 @@ function getMonthIndex(month) {
     'november': 10,
     'december': 11
   };
-  
+
   return months[month.toLowerCase()] || 0;
 }
 
@@ -226,39 +226,44 @@ function getMonthIndex(month) {
  * Main function to scrape High Park events
  */
 async function scrapeHighParkEvents() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-highpark-events.js Toronto');
+    process.exit(1);
+  }
   let addedEvents = 0;
   const client = new MongoClient(uri);
-  
+
   try {
     await client.connect();
     console.log('✅ Connected to MongoDB');
-    
+
     const database = client.db();
-    const eventsCollection = database.collection('events');
-    
+    const eventsCollection = databases');
+
     console.log('🔍 Fetching events from High Park website...');
-    
+
     // First fetch Cherry Blossom page
     const response = await axios.get(HIGH_PARK_CHERRY_BLOSSOMS_URL, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
-    });
+    };
     const html = response.data;
     const $ = cheerio.load(html);
-    
+
     // Array to store events
     const events = [];
-    
+
     // First look for the cherry blossom information
     const content = $('.content, main, article');
     const cherryBlossomContent = content.text();
-    
+
     // Extract year information
     const currentYear = new Date().getFullYear();
-    const yearMatch = cherryBlossomContent.match(/\b(20\d{2})\b/);
+    const yearMatch = cherryBlossomContent.match(/\b(20\d{2}\b/);
     const year = yearMatch ? parseInt(yearMatch[1], 10) : currentYear;
-    
+
     // Create a cherry blossom event
     events.push({
       title: `Cherry Blossoms in High Park ${year}`,
@@ -266,20 +271,20 @@ async function scrapeHighParkEvents() {
       dateText: `Cherry Blossom Season ${year}`, // This will be parsed to a date range
       imageUrl: '', // Will be updated if found
       eventUrl: HIGH_PARK_CHERRY_BLOSSOMS_URL
-    });
-    
+    };
+
     console.log('🔍 Added Cherry Blossom event');
-    
+
     // Try to find an image for cherry blossoms
     const cherryBlossomImage = $('img').filter((i, el) => {
       const src = $(el).attr('src') || '';
       const alt = $(el).attr('alt') || '';
-      return src.toLowerCase().includes('cherry') || 
-             src.toLowerCase().includes('blossom') || 
-             alt.toLowerCase().includes('cherry') || 
+      return src.toLowerCase().includes('cherry') ||
+             src.toLowerCase().includes('blossom') ||
+             alt.toLowerCase().includes('cherry') ||
              alt.toLowerCase().includes('blossom');
-    }).first().attr('src') || '';
-    
+    }.first().attr('src') || '';
+
     if (cherryBlossomImage) {
       // Update the cherry blossom event with the found image
       if (cherryBlossomImage.startsWith('http')) {
@@ -290,7 +295,7 @@ async function scrapeHighParkEvents() {
         events[0].imageUrl = baseUrl + (cherryBlossomImage.startsWith('/') ? '' : '/') + cherryBlossomImage;
       }
     }
-    
+
     // Also try High Park Nature Centre for cherry blossom info
     try {
       console.log('🔍 Fetching High Park Nature Centre cherry blossom info...');
@@ -298,28 +303,28 @@ async function scrapeHighParkEvents() {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
-      });
+      };
       const natureHtml = natureResponse.data;
       const nature$ = cheerio.load(natureHtml);
-      
+
       // Look for updated cherry blossom information
       const natureDesc = nature$('p').slice(0, 3).text(); // Get first few paragraphs
-      
+
       // If we found content, update our event description
       if (natureDesc.length > 50) {
         events[0].description = natureDesc.trim() + ' ' + events[0].description;
       }
-      
+
       // Look for a better cherry blossom image
       const natureImage = nature$('img').filter((i, el) => {
         const src = nature$(el).attr('src') || '';
         const alt = nature$(el).attr('alt') || '';
-        return src.toLowerCase().includes('cherry') || 
-               src.toLowerCase().includes('blossom') || 
-               alt.toLowerCase().includes('cherry') || 
+        return src.toLowerCase().includes('cherry') ||
+               src.toLowerCase().includes('blossom') ||
+               alt.toLowerCase().includes('cherry') ||
                alt.toLowerCase().includes('blossom');
-      }).first().attr('src') || '';
-      
+      }.first().attr('src') || '';
+
       if (natureImage && !events[0].imageUrl) {
         if (natureImage.startsWith('http')) {
           events[0].imageUrl = natureImage;
@@ -332,42 +337,42 @@ async function scrapeHighParkEvents() {
     } catch (natureError) {
       console.log('⚠️ Could not fetch Nature Centre information:', natureError.message);
     }
-    
+
     // Now fetch the general events page
     console.log('🔍 Fetching events from Toronto events page...');
     const eventsResponse = await axios.get(HIGH_PARK_EVENTS_URL, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
-    });
+    };
     const eventsHtml = eventsResponse.data;
     const events$ = cheerio.load(eventsHtml);
-    
+
     // Look for event listings specifically related to High Park
     events$('div.event, article, .event-item, .event-listing, .listing, .search-result').each((i, element) => {
       const elementText = events$(element).text();
-      
+
       // Only process if it mentions High Park
       if (!elementText.toLowerCase().includes('high park')) {
         return;
       }
       const eventElement = events$(element);
-      
+
       // Extract title
       const titleElement = eventElement.find('h1, h2, h3, h4, .title');
       const title = titleElement.text().trim() || eventElement.find('strong').first().text().trim();
-      
+
       // Extract description
       const descriptionElement = eventElement.find('p, .description');
       const description = descriptionElement.text().trim() || eventElement.text().trim();
-      
+
       // Extract date information - look for date patterns in the text
       const text = eventElement.text();
       const datePatterns = [
-        /(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?(?:\s*[-–]\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?)?/i,
-        /\d{1,2}(?:st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)(?:,?\s*\d{4})?/i
+        /(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?(?:\s*[-–]\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?)?/i,
+        /\d{1,2}(?:st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)(?:,?\s*\d{4}?/i
       ];
-      
+
       let dateText = '';
       for (const pattern of datePatterns) {
         const match = text.match(pattern);
@@ -376,11 +381,11 @@ async function scrapeHighParkEvents() {
           break;
         }
       }
-      
+
       // Extract image
       const imageElement = eventElement.find('img');
       const imageUrl = imageElement.attr('src') || '';
-      
+
       // Only add events with title and date
       if (title && dateText) {
         events.push({
@@ -389,26 +394,26 @@ async function scrapeHighParkEvents() {
           dateText,
           imageUrl: imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `https://www.toronto.ca${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`) : '',
           eventUrl: HIGH_PARK_EVENTS_URL
-        });
-        
+        };
+
         console.log(`🔍 Found event: ${title}`);
       }
-    });
-    
+    };
+
     // If we don't have many events yet, try a different approach
     if (events.length < 2) {
       console.log('🔍 Looking for additional events using alternative approach...');
-      
+
       // Look for paragraphs that might contain event information
       events$('p, div').each((i, element) => {
         const text = events$(element).text().trim();
-        
+
         // Check if paragraph has date patterns
         const datePatterns = [
-          /(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?(?:\s*[-–]\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4})?)?/i,
-          /\d{1,2}(?:st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)(?:,?\s*\d{4})?/i
+          /(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?(?:\s*[-–]\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?)?/i,
+          /\d{1,2}(?:st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)(?:,?\s*\d{4}?/i
         ];
-        
+
         let dateMatch = null;
         for (const pattern of datePatterns) {
           const match = text.match(pattern);
@@ -417,19 +422,19 @@ async function scrapeHighParkEvents() {
             break;
           }
         }
-        
+
         // If we found a date, look for a potential event title before it
         if (dateMatch) {
           // Get text before the date match as potential title
           const dateIndex = text.indexOf(dateMatch[0]);
           let potentialTitle = text.substring(0, dateIndex).trim();
-          
+
           // If title is too long, try to extract a reasonable title
           if (potentialTitle.length > 100) {
             const titleWords = potentialTitle.split(' ').slice(-7).join(' '); // Take last 7 words
             potentialTitle = titleWords;
           }
-          
+
           // If we have a title and it's reasonable, add as event
           if (potentialTitle && potentialTitle.length > 3 && potentialTitle.length < 100) {
             events.push({
@@ -438,31 +443,30 @@ async function scrapeHighParkEvents() {
               dateText: dateMatch[0],
               imageUrl: '',
               eventUrl: HIGH_PARK_EVENTS_URL
-            });
-            
+            };
+
             console.log(`🔍 Found potential event: ${potentialTitle}`);
           }
         }
-      });
+      };
     }
-    
+
     // Process each event
     for (const event of events) {
       try {
         console.log(`🔍 Processing event: ${event.title}, Date: ${event.dateText || 'Unknown'}`);
-        
-        // Parse date information - NO FALLBACKS
+
         const dateInfo = parseEventDates(event.dateText);
-        
+
         // Skip events with missing or invalid dates
         if (!dateInfo || isNaN(dateInfo.startDate.getTime()) || isNaN(dateInfo.endDate.getTime())) {
           console.log(`⏭️ Skipping event with invalid or missing date: ${event.title}`);
           continue;
         }
-        
+
         // Generate unique ID
         const eventId = generateEventId(event.title, dateInfo.startDate);
-        
+
         // Create formatted event
         const formattedEvent = {
           id: eventId,
@@ -473,25 +477,25 @@ async function scrapeHighParkEvents() {
             start: dateInfo.startDate,
             end: dateInfo.endDate
           },
-          venue: HIGH_PARK_VENUE,
+          venue: { ...HIGH_PARK_VENUE, city },
           imageUrl: event.imageUrl,
           url: event.eventUrl,
           price: 'Free (Park admission is free)',
           createdAt: new Date(),
           updatedAt: new Date()
         };
-        
+
         // Check for duplicates
         const existingEvent = await eventsCollection.findOne({
           $or: [
             { id: formattedEvent.id },
-            { 
+            {
               title: formattedEvent.title,
               'date.start': formattedEvent.date.start
             }
           ]
-        });
-        
+        };
+
         if (!existingEvent) {
           await eventsCollection.insertOne(formattedEvent);
           addedEvents++;
@@ -503,7 +507,7 @@ async function scrapeHighParkEvents() {
         console.error(`❌ Error processing event:`, eventError.message);
       }
     }
-    
+
     // Log warning if no events were found or added
     if (events.length === 0) {
       console.warn('⚠️ Warning: No events found on High Park website.');
@@ -512,14 +516,14 @@ async function scrapeHighParkEvents() {
     } else {
       console.log(`📊 Successfully added ${addedEvents} new High Park events`);
     }
-    
+
   } catch (error) {
     console.error('❌ Error scraping High Park events:', error.message);
   } finally {
     await client.close();
     console.log('✅ MongoDB connection closed');
   }
-  
+
   return addedEvents;
 }
 
@@ -527,8 +531,15 @@ async function scrapeHighParkEvents() {
 scrapeHighParkEvents()
   .then(addedEvents => {
     console.log(`✅ High Park scraper completed. Added ${addedEvents} new events.`);
-  })
+  }
   .catch(error => {
     console.error('❌ Error running High Park scraper:', error);
     process.exit(1);
-  });
+  };
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeHighParkEvents;
+
+// Production async export added
+module.exports = scrapeHighParkEvents;

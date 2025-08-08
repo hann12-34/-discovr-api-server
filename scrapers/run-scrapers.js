@@ -5,7 +5,7 @@
 
 require('dotenv').config();
 const mongoose = require('mongoose');
-const scraperCoordinator = require('./scrapers');
+const scraperCoordinator = require('./index.js');
 
 // Import your Event model from a separate file to ensure consistency
 // If you're using the model directly, define it here
@@ -38,7 +38,7 @@ const Event = mongoose.model('Event', eventSchema);
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/discovr';
 
-async function runScrapers() {
+async function runScrapers(scrapersToRun) {
   try {
     console.log('Connecting to MongoDB...');
     await mongoose.connect(MONGODB_URI, {
@@ -54,7 +54,7 @@ async function runScrapers() {
     });
     
     console.log('Running all scrapers...');
-    const events = await scraperCoordinator.runScrapers();
+    const events = await scraperCoordinator.runScrapers({ scrapers: scrapersToRun });
     
     console.log(`Scrapers found ${events.length} events`);
     
@@ -95,5 +95,9 @@ async function runScrapers() {
   }
 }
 
-// Run the scraper function
-runScrapers();
+// Run the scraper function if executed directly
+if (require.main === module) {
+    runScrapers();
+}
+
+module.exports = runScrapers;

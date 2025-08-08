@@ -1,6 +1,6 @@
 /**
  * Vancouver Art Gallery Scraper
- * 
+ *
  * This scraper provides information about exhibitions and events at the Vancouver Art Gallery
  * Source: https://www.vanartgallery.bc.ca/
  */
@@ -12,13 +12,13 @@ class VancouverArtGalleryScraper {
     this.name = 'Vancouver Art Gallery';
     this.url = 'https://www.vanartgallery.bc.ca/';
     this.sourceIdentifier = 'vancouver-art-gallery';
-    
+
     // Venue information
     this.venue = {
       name: "Vancouver Art Gallery",
       id: "vancouver-art-gallery",
       address: "750 Hornby St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6Z 2H7",
@@ -29,9 +29,9 @@ class VancouverArtGalleryScraper {
       websiteUrl: "https://www.vanartgallery.bc.ca/",
       description: "The Vancouver Art Gallery is the largest public art museum in Western Canada, occupying a heritage building designed by Francis Rattenbury in downtown Vancouver. The Gallery features a diverse collection of historical and contemporary artworks with a focus on British Columbia art, particularly works by Indigenous artists and the renowned artist Emily Carr. The institution presents major exhibitions of Canadian and international artists while serving as a vibrant cultural hub in the city center."
     };
-    
+
     // Upcoming exhibitions and events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Emily Carr: Into the Forest",
         description: "Experience a landmark exhibition celebrating one of Canada's most beloved artists, Emily Carr. 'Into the Forest' presents over 50 of Carr's iconic forest landscapes alongside rarely seen sketches, writings, and personal artifacts. The exhibition explores Carr's profound connection to the British Columbia wilderness, her evolving artistic style, and her unique spirituality. Through her vibrant, swirling canvases, visitors will journey into the depths of the West Coast forests that defined her vision.",
@@ -115,42 +115,42 @@ class VancouverArtGalleryScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Vancouver Art Gallery scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `vancouver-art-gallery-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         // Handle exhibitions (longer duration events)
         if (eventData.type === 'Exhibition') {
           const startDate = dateFormat.format(eventData.date);
           const endDate = dateFormat.format(eventData.endDate);
-          
+
           detailedDescription += `Exhibition Dates: ${startDate} - ${endDate}\n`;
           detailedDescription += `Hours: ${eventData.openingHours}\n`;
-          
+
           // Create event object for exhibition
           const event = {
             id: eventId,
@@ -162,46 +162,46 @@ class VancouverArtGalleryScraper {
             category: 'arts',
             categories: ['arts', 'visual arts', 'museum', 'exhibition', 'culture', eventData.category.toLowerCase()],
             sourceURL: this.url,
-            officialWebsite: eventData.eventLink,
+            officialWebsite: eventDataLink,
             image: eventData.imageUrl || null,
             ticketsRequired: false, // General admission applies
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
-          console.log(`✅ Added exhibition: ${eventData.title} (${startDate} - ${endDate})`);
-        } 
+          console.log(`✅ Added exhibition: ${eventData.title} (${startDate} - ${endDate}`);
+        }
         // Handle one-day events
         else {
           const formattedDate = dateFormat.format(eventData.date);
-          
+
           const timeFormat = new Intl.DateTimeFormat('en-US', {
             hour: 'numeric',
             minute: 'numeric',
             hour12: true
-          });
-          
+          };
+
           const formattedStartTime = timeFormat.format(eventData.date);
           const formattedEndTime = timeFormat.format(eventData.endTime || eventData.endDate);
-          
+
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-          
+
           if (eventData.price) {
             detailedDescription += `Price: ${eventData.price}\n`;
           }
-          
+
           if (eventData.ageRestriction) {
             detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
           }
-          
+
           if (eventData.ticketsRequired) {
             detailedDescription += `Tickets: Required, please register in advance\n`;
           }
-          
+
           // Add categories based on event type
           const categories = ['arts', 'museum', 'culture', eventData.category.toLowerCase()];
-          
+
           if (eventData.type === 'Guided Tour') {
             categories.push('tour', 'educational', 'learning');
           } else if (eventData.type === 'Family Program') {
@@ -211,7 +211,7 @@ class VancouverArtGalleryScraper {
           } else if (eventData.type === 'Opening Reception') {
             categories.push('opening', 'reception', 'celebration');
           }
-          
+
           // Create event object for one-day event
           const event = {
             id: eventId,
@@ -223,20 +223,20 @@ class VancouverArtGalleryScraper {
             category: 'arts',
             categories: categories,
             sourceURL: this.url,
-            officialWebsite: eventData.eventLink,
+            officialWebsite: eventDataLink,
             image: eventData.imageUrl || null,
             ticketsRequired: !!eventData.ticketsRequired,
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
           console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
         }
       }
-      
+
       console.log(`🖼️ Successfully created ${events.length} Vancouver Art Gallery events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Vancouver Art Gallery scraper: ${error.message}`);
       return events;
@@ -245,3 +245,13 @@ class VancouverArtGalleryScraper {
 }
 
 module.exports = new VancouverArtGalleryScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverArtGalleryScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VancouverArtGalleryScraper = VancouverArtGalleryScraper;

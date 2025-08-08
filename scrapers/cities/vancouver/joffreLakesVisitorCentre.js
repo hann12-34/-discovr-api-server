@@ -6,41 +6,41 @@ class JoffreLakesVisitorCentreScraper {
     this.source = 'Joffre Lakes Visitor Centre';
   }
 
-  async scrape() {
+  async scrape(city) {
     console.log(`🏔️ Scraping ${this.name}...`);
-    
+
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    
+    };
+
     try {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      
+
       // Navigate to BC Parks/Joffre Lakes area events
       await page.goto('https://bcparks.ca/explore/parkpgs/joffre_lks/', {
         waitUntil: 'networkidle2',
         timeout: 30000
-      });
+      };
 
       const events = await page.evaluate(() => {
-        const eventElements = document.querySelectorAll('.event-item, .program, .activity, .tour, [class*="event"]');
+        const eventElements = document.querySelectorAll('-item, .program, .activity, .tour, [class*="event"]');
         const events = [];
-        
+
         eventElements.forEach((element, index) => {
           if (index >= 8) return; // Fewer events for this remote location
-          
+
           const title = element.querySelector('h1, h2, h3, .title, .program-title, .name')?.textContent?.trim() ||
                        element.textContent?.trim()?.split('\n')[0] ||
                        `Joffre Lakes Nature Program ${index + 1}`;
-          
+
           const date = element.querySelector('.date, .program-date, .time, [class*="date"]')?.textContent?.trim() ||
                       element.textContent?.match(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i)?.[0];
-          
+
           const description = element.querySelector('.description, .excerpt, .summary, p')?.textContent?.trim() ||
                              'Experience the stunning turquoise lakes and glaciated peaks of Joffre Lakes Provincial Park.';
-          
+
           const price = element.querySelector('.price, .cost, .fee, [class*="price"]')?.textContent?.trim() ||
                        element.textContent?.match(/\$[\d,]+/)?.[0] || 'Free';
 
@@ -49,26 +49,26 @@ class JoffreLakesVisitorCentreScraper {
             description: description.substring(0, 500),
             date,
             price: typeof price === 'string' ? price : String(price)
-          });
-        });
-        
+          };
+        };
+
         return events;
-      });
+      };
 
       const processedEvents = [];
 
       for (const event of events) {
         let eventDate = new Date();
-        
+
         if (event.date) {
           const parsedDate = new Date(event.date);
           if (!isNaN(parsedDate.getTime())) {
             eventDate = parsedDate;
           }
         }
-        
+
         eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
-        
+
         const processedEvent = {
           title: event.title,
           description: event.description,
@@ -82,7 +82,7 @@ class JoffreLakesVisitorCentreScraper {
           venue: {
             name: 'Joffre Lakes Provincial Park',
             address: 'Joffre Lakes Rd, Pemberton, BC V0N 2L1',
-            city: 'Pemberton',
+            city: city,
             province: 'BC',
             country: 'Canada',
             location: {
@@ -90,7 +90,7 @@ class JoffreLakesVisitorCentreScraper {
               coordinates: [-122.4967, 50.3736] // Joffre Lakes coordinates
             }
           },
-          city: 'Vancouver' // For app filtering
+          city: city // For app filtering
         };
 
         processedEvents.push(processedEvent);
@@ -114,9 +114,9 @@ class JoffreLakesVisitorCentreScraper {
         joffreEvents.forEach((event, index) => {
           const eventDate = new Date();
           eventDate.setDate(eventDate.getDate() + (index + 1) * 30);
-          
+
           processedEvents.push({
-            ...event,
+            ..,
             startDate: eventDate.toISOString(),
             endDate: eventDate.toISOString(),
             source: this.source,
@@ -126,7 +126,7 @@ class JoffreLakesVisitorCentreScraper {
             venue: {
               name: 'Joffre Lakes Provincial Park',
               address: 'Joffre Lakes Rd, Pemberton, BC V0N 2L1',
-              city: 'Pemberton',
+              city: city,
               province: 'BC',
               country: 'Canada',
               location: {
@@ -134,9 +134,9 @@ class JoffreLakesVisitorCentreScraper {
                 coordinates: [-122.4967, 50.3736]
               }
             },
-            city: 'Vancouver'
-          });
-        });
+            city: city
+          };
+        };
       }
 
       console.log(`✅ Found ${processedEvents.length} events from ${this.name}`);
@@ -152,3 +152,13 @@ class JoffreLakesVisitorCentreScraper {
 }
 
 module.exports = new JoffreLakesVisitorCentreScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new JoffreLakesVisitorCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.JoffreLakesVisitorCentreScraper = JoffreLakesVisitorCentreScraper;

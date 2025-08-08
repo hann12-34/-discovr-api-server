@@ -1,0 +1,326 @@
+/**
+ * NYC Startups & Entrepreneurship Events Scraper
+ *
+ * Scrapes events from NYC startup and entrepreneurship community
+ * URL: https://www.meetup.com/find/?keywords=startup&location=us--ny--new_york
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCStartupsEntrepreneurshipEvents {
+    constructor() {
+        this.venueName = 'NYC Startups & Entrepreneurship';
+        this.venueLocation = 'Various NYC Startup Venues';
+        this.baseUrl = 'https://www.meetup.com';
+        this.eventsUrl = 'https://www.meetup.com/find/?keywords=startup&location=us--ny--new_york';
+        this.category = 'Startups & Entrepreneurship';
+    }
+
+    /**
+     * Scrape events from NYC Startups & Entrepreneurship
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🚀 Scraping events from ${this.venueName}...`);
+
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            };
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for startup/entrepreneurship-specific event containers
+            const eventSelectors = [
+                '.startup-event', '.entrepreneurship-event', '.founder-event',
+                '.event-item', '.event-card', '.event', '.meetup-event',
+                '[class*="startup"]', '[class*="entrepreneur"]', '[class*="event"]',
+                '.card', '.content-card', '.pitch-event', '.investor-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .startup-title, .name, .headline').first().text().trim();
+
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]',
+                            'time', '.when', '.schedule', '.event-time'
+                        ];
+
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/location
+                        let venue = this.venueLocation;
+                        const locationSelectors = ['.location', '.venue', '.where', '[class*="location"]', '.address'];
+                        for (const locSelector of locationSelectors) {
+                            const locElement = $el.find(locSelector).first();
+                            if (locElement.length > 0) {
+                                const locText = locElement.text().trim();
+                                if (locText && locText.length > 0) {
+                                    venue = locText.length > 80 ? locText.substring(0, 80) + '...' : locText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for startup stage/focus
+                        let startupStage = '';
+                        const stageSelectors = ['.stage', '.startup-stage', '.phase', '[class*="stage"]'];
+                        for (const stageSelector of stageSelectors) {
+                            const stageElement = $el.find(stageSelector).first();
+                            if (stageElement.length > 0) {
+                                startupStage = stageElement.text().trim();
+                                if (startupStage) break;
+                            }
+                        }
+
+                        // Look for industry/vertical
+                        let industry = '';
+                        const industrySelectors = ['.industry', '.vertical', '.sector', '[class*="industry"]'];
+                        for (const industrySelector of industrySelectors) {
+                            const industryElement = $el.find(industrySelector).first();
+                            if (industryElement.length > 0) {
+                                industry = industryElement.text().trim();
+                                if (industry) break;
+                            }
+                        }
+
+                        // Look for speaker/founder
+                        let speaker = '';
+                        const speakerSelectors = ['.speaker', '.founder', '.presenter', '[class*="speaker"]'];
+                        for (const speakerSelector of speakerSelectors) {
+                            const speakerElement = $el.find(speakerSelector).first();
+                            if (speakerElement.length > 0) {
+                                speaker = speakerElement.text().trim();
+                                if (speaker) break;
+                            }
+                        }
+
+                        // Look for event type
+                        let eventType = this.category;
+                        const typeSelectors = ['.type', '.category', '.format', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.length > 0) {
+                                    eventType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for funding stage/investment focus
+                        let funding = '';
+                        const fundingSelectors = ['.funding', '.investment', '.round', '[class*="funding"]'];
+                        for (const fundingSelector of fundingSelectors) {
+                            const fundingElement = $el.find(fundingSelector).first();
+                            if (fundingElement.length > 0) {
+                                funding = fundingElement.text().trim();
+                                if (funding) break;
+                            }
+                        }
+
+                        // Look for cost/ticket price
+                        let cost = '';
+                        const costSelectors = ['.price', '.cost', '.fee', '[class*="price"]'];
+                        for (const costSelector of costSelectors) {
+                            const costElement = $el.find(costSelector).first();
+                            if (costElement.length > 0) {
+                                const costText = costElement.text().trim();
+                                if (costText && (costText.includes('$') || costText.toLowerCase().includes('free'))) {
+                                    cost = costText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: venue,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for startup event schedule',
+                            category: eventType,
+                            startupStage: startupStage,
+                            industry: industry,
+                            speaker: speaker,
+                            funding: funding,
+                            cost: cost,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCStartupsEntrepreneurshipEvents'
+                        };
+
+                        events.push(event);
+                    }
+                };
+            };
+
+            // Look for general startup event information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+
+                const $el = $(element);
+                const text = $el.text().trim();
+
+                if (text.length > 30 && text.length < 400) {
+                    const hasStartupKeywords = text.match(/\b(startup|entrepreneur|founder|venture|pitch|investor|funding|innovation|accelerator|incubator)\b/i);
+                    const hasEventPattern = text.match(/\b(event|meetup|demo|competition|workshop|conference|networking|presentation)\b/i);
+
+                    if (hasStartupKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for startup event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCStartupsEntrepreneurshipEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            };
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and date
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.date}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        };
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 10 || title.length > 200) return false;
+
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie',
+            'newsletter', 'subscribe', 'follow', 'social', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+
+        // Check for valid startup/entrepreneurship keywords
+        const validKeywords = [
+            'startup', 'entrepreneur', 'founder', 'venture', 'pitch',
+            'investor', 'funding', 'innovation', 'accelerator', 'incubator',
+            'demo', 'competition', 'networking', 'business', 'launch'
+        ];
+
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new NYCStartupsEntrepreneurshipEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.NYCStartupsEntrepreneurshipEvents = NYCStartupsEntrepreneurshipEvents;

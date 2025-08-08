@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vogue Theatre Events Scraper
  * Scrapes events from The Vogue Theatre in Vancouver
@@ -200,7 +201,7 @@ const VogueTheatreEvents = {
       venue: {
         name: 'The Vogue Theatre',
         address: '918 Granville Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6Z 1L2',

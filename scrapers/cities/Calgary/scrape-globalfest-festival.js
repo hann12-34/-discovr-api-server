@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-globalfest-festival.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🎆 Scraping events from GlobalFest Calgary...');
 
@@ -15,13 +20,13 @@ async function scrape() {
             description: 'Calgary\'s premier multicultural festival featuring spectacular international fireworks competitions, cultural pavilions, world music, and diverse cuisine from around the globe.',
             category: 'Festival',
             subcategory: 'Multicultural Festival',
-            venue: {
+            venue: { ...RegExp.venue: {
                 name: 'Elliston Park',
                 address: '68 Elliston Park Way SE, Calgary, AB',
-                city: 'Calgary',
+                city: city,
                 province: 'Alberta',
                 country: 'Canada'
-            },
+            }, city },,
             sourceUrl: 'https://www.globalfest.ca/',
             source: 'GlobalFest Calgary',
             sourceId: 'globalfest-2025-main',
@@ -31,7 +36,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://www.globalfest.ca/tickets'
             }
-        });
+        };
 
         // Specific GlobalFest events
         const globalfestEvents = [
@@ -86,7 +91,7 @@ async function scrape() {
         ];
 
         globalfestEvents.forEach(event => {
-            const duration = event.country === 'International' ? 8 : 
+            const duration = event.country === 'International' ? 8 :
                             (event.country === 'World Music' ? 4 : 2);
             const endDate = new Date(event.date.getTime() + duration * 60 * 60 * 1000);
 
@@ -95,17 +100,17 @@ async function scrape() {
                 startDate: event.date,
                 endDate: endDate,
                 description: event.description,
-                category: event.country === 'International' ? 'Cultural' : 
+                category: event.country === 'International' ? 'Cultural' :
                           (event.country === 'World Music' ? 'Music' : 'Entertainment'),
                 subcategory: event.country === 'International' ? 'Cultural Pavilions' :
                             (event.country === 'World Music' ? 'World Music' : 'Fireworks Display'),
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: 'Elliston Park',
                     address: '68 Elliston Park Way SE, Calgary, AB',
-                    city: 'Calgary',
+                    city: city,
                     province: 'Alberta',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: 'https://www.globalfest.ca/',
                 source: 'GlobalFest Calgary',
                 sourceId: `globalfest-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
@@ -115,8 +120,8 @@ async function scrape() {
                     hasTickets: true,
                     ticketUrl: 'https://www.globalfest.ca/tickets'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from GlobalFest`);
         return events;
@@ -129,3 +134,7 @@ async function scrape() {
 
 const scrapeEvents = scrape;
 module.exports = { scrape, scrapeEvents };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

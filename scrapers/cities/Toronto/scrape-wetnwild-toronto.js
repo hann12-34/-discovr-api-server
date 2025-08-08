@@ -2,7 +2,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const crypto = require('crypto');
 
-// Strict date parsing function - no fallbacks allowed
 function parseDateAndTime(dateText, timeText = '') {
   if (!dateText || dateText.trim() === '') {
     return null;
@@ -14,18 +13,18 @@ function parseDateAndTime(dateText, timeText = '') {
 
   try {
     // Handle date ranges like "June 7 - September 7"
-    const rangeMatch = dateText.match(/([A-Za-z]+\s+\d{1,2})\s*-\s*([A-Za-z]+\s+\d{1,2})/);
+    const rangeMatch = dateText.match(/([A-Za-z]+\s+\d{1,2}\s*-\s*([A-Za-z]+\s+\d{1,2}/);
     if (rangeMatch) {
       const startStr = rangeMatch[1];
       const endStr = rangeMatch[2];
-      
+
       startDate = new Date(`${startStr}, ${currentYear}`);
       endDate = new Date(`${endStr}, ${currentYear}`);
-      
+
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
         return null;
       }
-      
+
       return { startDate, endDate };
     }
 
@@ -34,23 +33,23 @@ function parseDateAndTime(dateText, timeText = '') {
     if (!isNaN(singleDate.getTime())) {
       startDate = singleDate;
       endDate = new Date(singleDate);
-      
+
       // If time is provided, parse it
       if (timeText) {
-        const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(am|pm)/i);
+        const timeMatch = timeText.match(/(\d{1,2}:(\d{2}\s*(am|pm)/i);
         if (timeMatch) {
           let hours = parseInt(timeMatch[1]);
           const minutes = parseInt(timeMatch[2]);
           const ampm = timeMatch[3].toLowerCase();
-          
+
           if (ampm === 'pm' && hours !== 12) hours += 12;
           if (ampm === 'am' && hours === 12) hours = 0;
-          
+
           startDate.setHours(hours, minutes, 0, 0);
           endDate.setHours(hours + 2, minutes, 0, 0); // Assume 2-hour duration
         }
       }
-      
+
       return { startDate, endDate };
     }
 
@@ -71,30 +70,35 @@ function generateEventId(venueName, eventTitle, startDate) {
 // Extract price from text
 function extractPrice(text) {
   if (!text) return null;
-  
-  const priceMatch = text.match(/\$(\d+(?:\.\d{2})?)/);
+
+  const priceMatch = text.match(/\$(\d+(?:\.\d{2}?)/);
   return priceMatch ? parseFloat(priceMatch[1]) : null;
 }
 
 // Categorize event
 function categorizeEvent(title, description) {
   const text = `${title} ${description}`.toLowerCase();
-  
+
   if (text.includes('music') || text.includes('dj') || text.includes('concert')) return 'Music';
   if (text.includes('bubble') || text.includes('character') || text.includes('kids')) return 'Family';
   if (text.includes('safety') || text.includes('education')) return 'Education';
   if (text.includes('party') || text.includes('celebration')) return 'Entertainment';
   if (text.includes('water') || text.includes('pool') || text.includes('swim')) return 'Recreation';
-  
+
   return 'Entertainment';
 }
 
 // Process individual event
 async function processEvent(eventData, eventsCollection, processedEventIds) {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-wetnwild-toronto.js Toronto');
+    process.exit(1);
+  }
   const { title, dateRange, description, eventUrl, recurring } = eventData;
-  
+
   console.log(`🔍 Processing: "${title}"`);
-  
+
   // Parse dates
   const dateResult = parseDateAndTime(dateRange);
   if (!dateResult) {
@@ -123,13 +127,13 @@ async function processEvent(eventData, eventsCollection, processedEventIds) {
     description: description || '',
     startDate: startDate,
     endDate: endDate,
-    venue: {
+    venue: { ...RegExp.venue: {
       name: 'Wet\'n\'Wild Toronto',
       address: '7855 Finch Ave W, Brampton, ON L6T 0B2',
-      city: 'Brampton',
+      city: city,
       province: 'Ontario',
       country: 'Canada'
-    },
+    }, city },,
     category: categorizeEvent(title, description),
     price: null, // Water park admission required
     currency: 'CAD',
@@ -148,9 +152,9 @@ async function processEvent(eventData, eventsCollection, processedEventIds) {
       event,
       { upsert: true }
     );
-    
+
     processedEventIds.add(eventId);
-    console.log(`✅ Added/updated event: ${title} (${startDate.toDateString()})`);
+    console.log(`✅ Added/updated event: ${title} (${startDate.toDaeventDateText()}`);
     return 1;
   } catch (error) {
     console.error(`❌ Error saving event ${title}: ${error.message}`);
@@ -161,14 +165,14 @@ async function processEvent(eventData, eventsCollection, processedEventIds) {
 // Main scraping function
 async function scrapeWetNWildEvents(eventsCollection) {
   console.log('🔍 Fetching events from Wet\'n\'Wild Toronto...');
-  
+
   try {
     const response = await axios.get('https://wetnwildtoronto.com/events/', {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       },
       timeout: 10000
-    });
+    };
 
     const $ = cheerio.load(response.data);
     console.log('📋 Parsing event content...');
@@ -179,33 +183,33 @@ async function scrapeWetNWildEvents(eventsCollection) {
     // Find event listings
     $('.tribe-events-calendar-list__event').each((index, element) => {
       const $event = $(element);
-      
+
       const title = $event.find('.tribe-events-calendar-list__event-title a').text().trim();
       const eventUrl = $event.find('.tribe-events-calendar-list__event-title a').attr('href');
       const description = $event.find('.tribe-events-calendar-list__event-description').text().trim();
-      
+
       if (title) {
         events.push({
           title,
           eventUrl: eventUrl ? new URL(eventUrl, 'https://wetnwildtoronto.com').href : null,
           description
-        });
+        };
       }
-    });
+    };
 
     // Also check for individual event pages linked from main events page
     const eventLinks = [];
     $('a[href*="/event/"]').each((index, element) => {
       const href = $(element).attr('href');
       const title = $(element).text().trim();
-      
+
       if (href && title && !eventLinks.some(e => e.href === href)) {
         eventLinks.push({
           href: new URL(href, 'https://wetnwildtoronto.com').href,
           title
-        });
+        };
       }
-    });
+    };
 
     // Process known events with specific details
     const knownEvents = [
@@ -240,7 +244,7 @@ async function scrapeWetNWildEvents(eventsCollection) {
     ];
 
     let addedCount = 0;
-    
+
     // Process known events
     for (const eventData of knownEvents) {
       const added = await processEvent(eventData, eventsCollection, processedEventIds);
@@ -257,3 +261,10 @@ async function scrapeWetNWildEvents(eventsCollection) {
 }
 
 module.exports = { scrapeWetNWildEvents };
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeWetNWildEvents;
+
+// Production async export added
+module.exports = processEvent;

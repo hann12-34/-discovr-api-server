@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-07-18T00:53:04.476Z",
+  "timestamp": "2025-08-04T04:49:18.839Z",
   "directory": "/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup",
   "summary": {
     "total": 17,
@@ -62,7 +62,7 @@
       "success": false,
       "name": "undergroundComedyClubEvents",
       "events": 0,
-      "error": "Import error: Cannot find module './utils/helpers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_selected_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js"
+      "error": "Import error: Cannot find module './utils/helpers'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_selected_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js"
     },
     {
       "file": "commodoreBallroom.js",

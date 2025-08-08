@@ -1,6 +1,6 @@
 /**
  * Vancouver Pride Festival Scraper
- * 
+ *
  * This scraper provides information about events at the Vancouver Pride Festival
  * Source: https://www.vancouverpride.ca/
  */
@@ -12,14 +12,14 @@ class VancouverPrideScraper {
     this.name = 'Vancouver Pride Festival';
     this.url = 'https://www.vancouverpride.ca/';
     this.sourceIdentifier = 'vancouver-pride';
-    
+
     // Venue information - Using multiple locations across Vancouver
     this.venues = {
       sunset: {
         name: "Sunset Beach",
         id: "sunset-beach-vancouver",
         address: "1204 Beach Ave",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6E 1V3",
@@ -34,7 +34,7 @@ class VancouverPrideScraper {
         name: "Downtown Vancouver",
         id: "downtown-vancouver",
         address: "Robson St & Denman St",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6G 2M7",
@@ -49,7 +49,7 @@ class VancouverPrideScraper {
         name: "Jim Deva Plaza",
         id: "jim-deva-plaza-vancouver",
         address: "1200 Bute St",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6E 1Z7",
@@ -61,9 +61,9 @@ class VancouverPrideScraper {
         description: "Jim Deva Plaza in the Davie Village is a public square named after a local LGBTQ+ rights activist. This plaza serves as a community gathering space during Pride and throughout the year."
       }
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Pride Kick-Off Party",
         description: "Launch into Pride Week at the official Pride Kick-Off Party! This celebration brings together community members, allies, performers, and dignitaries to mark the beginning of Vancouver Pride festivities. The event features speeches from community leaders, performances by local LGBTQ2S+ artists, and the raising of the Pride and Trans flags. Join us for an evening of celebration, connection, and community as we kick off Pride Week 2025.",
@@ -133,42 +133,42 @@ class VancouverPrideScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Vancouver Pride Festival scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `vancouver-pride-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Determine which venue to use based on location
         let venue;
         if (eventData.location.includes("Sunset Beach")) {
@@ -182,36 +182,36 @@ class VancouverPrideScraper {
           venue = {
             name: eventData.location,
             id: `pride-venue-${eventData.location.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')}`,
-            address: "Vancouver",
-            city: "Vancouver",
+            address: city,
+            city: city,
             state: "BC",
             country: "Canada",
             websiteUrl: "https://www.vancouverpride.ca/"
           };
         }
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Location: ${eventData.location}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, please book in advance\n`;
         }
-        
+
         detailedDescription += `\nThis event is part of the Vancouver Pride Festival 2025. For more information about this and other Pride events, please visit ${this.url}`;
-        
+
         // Create categories
         const categories = ['pride', 'lgbtq+', 'festival', 'community', 'celebration'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Parade') {
           categories.push('march', 'street event');
         } else if (eventData.category === 'Festival') {
@@ -225,7 +225,7 @@ class VancouverPrideScraper {
         } else if (eventData.category === 'Special Event') {
           categories.push('nightlife', 'unique', 'entertainment');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -237,19 +237,19 @@ class VancouverPrideScraper {
           category: 'festival',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🏳️‍🌈 Successfully created ${events.length} Vancouver Pride Festival events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Vancouver Pride Festival scraper: ${error.message}`);
       return events;
@@ -258,3 +258,13 @@ class VancouverPrideScraper {
 }
 
 module.exports = new VancouverPrideScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverPrideScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VancouverPrideScraper = VancouverPrideScraper;

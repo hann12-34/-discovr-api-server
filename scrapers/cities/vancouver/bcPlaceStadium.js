@@ -1,6 +1,6 @@
 /**
  * BC Place Stadium Scraper
- * 
+ *
  * This scraper provides information about events at BC Place Stadium in Vancouver
  * Source: https://www.bcplace.com/
  */
@@ -12,13 +12,13 @@ class BCPlaceStadiumScraper {
     this.name = 'BC Place Stadium';
     this.url = 'https://www.bcplace.com/';
     this.sourceIdentifier = 'bc-place-stadium';
-    
+
     // Venue information
     this.venue = {
       name: "BC Place Stadium",
       id: "bc-place-stadium-vancouver",
       address: "777 Pacific Blvd",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6B 4Y8",
@@ -29,9 +29,9 @@ class BCPlaceStadiumScraper {
       websiteUrl: "https://www.bcplace.com/",
       description: "BC Place is the largest multipurpose venue of its kind in Western Canada, featuring the world's largest cable-supported retractable roof. The stadium is home to Vancouver Whitecaps FC of Major League Soccer and the BC Lions Football Club of the Canadian Football League. It also hosts major concerts, conventions, trade and consumer shows, and special events of all sizes."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Coldplay: Music of the Spheres World Tour",
         description: "British rock band Coldplay brings their spectacular Music of the Spheres World Tour to Vancouver's BC Place. Known for their visually stunning and environmentally conscious performances, the band will showcase material from their latest album alongside classic hits from their extensive catalog. This tour features a groundbreaking sustainable approach to stadium shows, including kinetic dance floors and power bikes that allow fans to help power the show through renewable energy. The immersive concert experience combines breathtaking visuals, pyrotechnics, and LED wristbands for every attendee that synchronize with the music, creating a unified light display throughout the venue. Supporting acts include H.E.R. and local Vancouver artists.",
@@ -103,45 +103,45 @@ class BCPlaceStadiumScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting BC Place Stadium scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `bc-place-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         // Check if this is a multi-day event like an exhibition
         if (eventData.endTime && eventData.endTime.getDate() !== eventData.date.getDate() &&
             eventData.endTime.getMonth() === eventData.date.getMonth()) {
@@ -154,31 +154,31 @@ class BCPlaceStadiumScraper {
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         }
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available through Ticketmaster or the BC Place box office\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: BC Place Stadium is located at 777 Pacific Boulevard in downtown Vancouver, easily accessible by SkyTrain (Stadium-Chinatown Station) and multiple bus routes. The venue offers numerous concession options featuring local food and beverage vendors. Gates typically open 1-2 hours before event start time.`;
-        
+
         // Create categories
         const categories = ['events', 'entertainment', 'stadium'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Concert') {
           categories.push('music', 'live music');
         } else if (eventData.category === 'Sports') {
@@ -194,7 +194,7 @@ class BCPlaceStadiumScraper {
         } else if (eventData.category === 'Festival') {
           categories.push('electronic music', 'dance', 'edm', 'nightlife');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -206,19 +206,19 @@ class BCPlaceStadiumScraper {
           category: 'entertainment',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🏟️ Successfully created ${events.length} BC Place Stadium events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in BC Place Stadium scraper: ${error.message}`);
       return events;
@@ -227,3 +227,13 @@ class BCPlaceStadiumScraper {
 }
 
 module.exports = new BCPlaceStadiumScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new BCPlaceStadiumScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.BCPlaceStadiumScraper = BCPlaceStadiumScraper;

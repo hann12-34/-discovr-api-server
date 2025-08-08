@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Script to verify HelloBC events in the database
  * This script checks if HelloBC events have been properly added to the database

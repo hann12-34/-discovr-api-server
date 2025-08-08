@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-fantasia-film-festival.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🎬 Scraping events from Fantasia International Film Festival...');
 
@@ -18,7 +23,7 @@ async function scrape() {
             venue: {
                 name: 'Multiple Cinema Venues',
                 address: 'Various locations, Montreal, QC',
-                city: 'Montreal',
+                city: city,
                 province: 'Quebec',
                 country: 'Canada'
             },
@@ -31,7 +36,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://fantasiafestival.com/'
             }
-        });
+        };
 
         // Genre-specific screening blocks (typical Fantasia programming)
         const filmEvents = [
@@ -99,7 +104,7 @@ async function scrape() {
                 venue: {
                     name: event.title.includes('Gala') ? 'Cinéma Impérial' : 'Concordia Hall Cinema',
                     address: 'Various cinema venues, Montreal, QC',
-                    city: 'Montreal',
+                    city: city,
                     province: 'Quebec',
                     country: 'Canada'
                 },
@@ -112,8 +117,8 @@ async function scrape() {
                     hasTickets: true,
                     ticketUrl: 'https://fantasiafestival.com/'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from Fantasia Film Festival`);
         return events;
@@ -131,3 +136,7 @@ module.exports = {
     scrape,
     scrapeEvents
 };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

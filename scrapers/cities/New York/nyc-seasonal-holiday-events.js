@@ -1,0 +1,389 @@
+/**
+ * NYC Seasonal & Holiday Events Scraper
+ *
+ * Scrapes seasonal and holiday events from NYC venues, parks, and celebration locations
+ * URL: https://www.eventbrite.com/d/ny--new-york/seasonal-holidays/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCSeasonalHolidayEvents {
+    constructor() {
+        this.venueName = 'NYC Seasonal & Holiday Events';
+        this.venueLocation = 'Various NYC Venues, Parks & Celebration Locations';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/seasonal-holidays/';
+        this.category = 'Seasonal & Holiday';
+    }
+
+    /**
+     * Scrape events from NYC Seasonal & Holiday Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🎄 Scraping events from ${this.venueName}...`);
+
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            };
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for seasonal/holiday-specific event containers
+            const eventSelectors = [
+                '.seasonal-event', '.holiday-event', '.celebration-event',
+                '.event-item', '.event-card', '.event', '.festival-event',
+                '[class*="seasonal"]', '[class*="holiday"]', '[class*="event"]',
+                '.card', '.content-card', '.winter-event', '.summer-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .holiday-title, .name, .headline').first().text().trim();
+
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]',
+                            'time', '.when', '.schedule', '.event-time', '.celebration-time'
+                        ];
+
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/celebration location
+                        let venue = this.venueLocation;
+                        const venueSelectors = ['.venue', '.location', '.park', '[class*="venue"]', '.celebration-venue', '.outdoor-venue'];
+                        for (const venueSelector of venueSelectors) {
+                            const venueElement = $el.find(venueSelector).first();
+                            if (venueElement.length > 0) {
+                                const venueText = venueElement.text().trim();
+                                if (venueText && venueText.length > 0) {
+                                    venue = venueText.length > 70 ? venueText.substring(0, 70) + '...' : venueText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for season/holiday type
+                        let seasonHoliday = this.category;
+                        const seasonSelectors = ['.season', '.holiday', '.celebration-type', '[class*="season"]'];
+                        for (const seasonSelector of seasonSelectors) {
+                            const seasonElement = $el.find(seasonSelector).first();
+                            if (seasonElement.length > 0) {
+                                const seasonText = seasonElement.text().trim();
+                                if (seasonText && seasonText.match(/\b(winter|spring|summer|fall|christmas|halloween|thanksgiving|new year|valentine|easter)\b/i)) {
+                                    seasonHoliday = seasonText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for event activities
+                        let activities = '';
+                        const activitySelectors = ['.activities', '.events', '.attractions', '[class*="activity"]'];
+                        for (const activitySelector of activitySelectors) {
+                            const activityElement = $el.find(activitySelector).first();
+                            if (activityElement.length > 0) {
+                                activities = activityElement.text().trim();
+                                if (activities) break;
+                            }
+                        }
+
+                        // Look for family-friendly info
+                        let familyFriendly = '';
+                        const familySelectors = ['.family-friendly', '.kids', '.all-ages', '[class*="family"]'];
+                        for (const familySelector of familySelectors) {
+                            const familyElement = $el.find(familySelector).first();
+                            if (familyElement.length > 0) {
+                                const familyText = familyElement.text().trim();
+                                if (familyText && familyText.match(/\b(family|kids|children|all ages)\b/i)) {
+                                    familyFriendly = familyText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for cost/admission
+                        let cost = '';
+                        const costSelectors = ['.cost', '.admission', '.price', '[class*="cost"]'];
+                        for (const costSelector of costSelectors) {
+                            const costElement = $el.find(costSelector).first();
+                            if (costElement.length > 0) {
+                                const costText = costElement.text().trim();
+                                if (costText && (costText.includes('$') || costText.toLowerCase().includes('free'))) {
+                                    cost = costText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for food/beverages
+                        let food = '';
+                        const foodSelectors = ['.food', '.beverages', '.concessions', '[class*="food"]'];
+                        for (const foodSelector of foodSelectors) {
+                            const foodElement = $el.find(foodSelector).first();
+                            if (foodElement.length > 0) {
+                                food = foodElement.text().trim();
+                                if (food) break;
+                            }
+                        }
+
+                        // Look for entertainment/performances
+                        let entertainment = '';
+                        const entertainmentSelectors = ['.entertainment', '.performances', '.shows', '[class*="entertainment"]'];
+                        for (const entertainmentSelector of entertainmentSelectors) {
+                            const entertainmentElement = $el.find(entertainmentSelector).first();
+                            if (entertainmentElement.length > 0) {
+                                entertainment = entertainmentElement.text().trim();
+                                if (entertainment) break;
+                            }
+                        }
+
+                        // Look for weather considerations
+                        let weather = '';
+                        const weatherSelectors = ['.weather', '.rain-or-shine', '.outdoor', '[class*="weather"]'];
+                        for (const weatherSelector of weatherSelectors) {
+                            const weatherElement = $el.find(weatherSelector).first();
+                            if (weatherElement.length > 0) {
+                                weather = weatherElement.text().trim();
+                                if (weather) break;
+                            }
+                        }
+
+                        // Look for decorations/themes
+                        let decorations = '';
+                        const decorationSelectors = ['.decorations', '.theme', '.lights', '[class*="decoration"]'];
+                        for (const decorationSelector of decorationSelectors) {
+                            const decorationElement = $el.find(decorationSelector).first();
+                            if (decorationElement.length > 0) {
+                                decorations = decorationElement.text().trim();
+                                if (decorations) break;
+                            }
+                        }
+
+                        // Look for special traditions
+                        let traditions = '';
+                        const traditionSelectors = ['.traditions', '.customs', '.rituals', '[class*="tradition"]'];
+                        for (const traditionSelector of traditionSelectors) {
+                            const traditionElement = $el.find(traditionSelector).first();
+                            if (traditionElement.length > 0) {
+                                traditions = traditionElement.text().trim();
+                                if (traditions) break;
+                            }
+                        }
+
+                        // Look for shopping/vendors
+                        let shopping = '';
+                        const shoppingSelectors = ['.shopping', '.vendors', '.market', '[class*="shop"]'];
+                        for (const shoppingSelector of shoppingSelectors) {
+                            const shoppingElement = $el.find(shoppingSelector).first();
+                            if (shoppingElement.length > 0) {
+                                shopping = shoppingElement.text().trim();
+                                if (shopping) break;
+                            }
+                        }
+
+                        // Look for parking/transportation
+                        let transportation = '';
+                        const transportSelectors = ['.parking', '.transportation', '.transit', '[class*="transport"]'];
+                        for (const transportSelector of transportSelectors) {
+                            const transportElement = $el.find(transportSelector).first();
+                            if (transportElement.length > 0) {
+                                transportation = transportElement.text().trim();
+                                if (transportation) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: venue,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for seasonal/holiday event schedule',
+                            category: seasonHoliday,
+                            activities: activities,
+                            familyFriendly: familyFriendly,
+                            cost: cost,
+                            food: food,
+                            entertainment: entertainment,
+                            weather: weather,
+                            decorations: decorations,
+                            traditions: traditions,
+                            shopping: shopping,
+                            transportation: transportation,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCSeasonalHolidayEvents'
+                        };
+
+                        events.push(event);
+                    }
+                };
+            };
+
+            // Look for general seasonal/holiday information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+
+                const $el = $(element);
+                const text = $el.text().trim();
+
+                if (text.length > 30 && text.length < 400) {
+                    const hasSeasonalKeywords = text.match(/\b(seasonal|holiday|winter|spring|summer|fall|christmas|halloween|thanksgiving|celebration)\b/i);
+                    const hasEventPattern = text.match(/\b(event|festival|celebration|party|market|fair|lights|parade|show)\b/i);
+
+                    if (hasSeasonalKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for seasonal/holiday event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCSeasonalHolidayEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            };
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        };
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie',
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+
+        // Check for valid seasonal/holiday keywords
+        const validKeywords = [
+            'seasonal', 'holiday', 'winter', 'spring', 'summer', 'fall',
+            'christmas', 'halloween', 'thanksgiving', 'celebration', 'event',
+            'festival', 'party', 'market', 'fair', 'lights', 'parade', 'show'
+        ];
+
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new NYCSeasonalHolidayEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.NYCSeasonalHolidayEvents = NYCSeasonalHolidayEvents;

@@ -1,6 +1,6 @@
 /**
  * WISE Hall Scraper
- * 
+ *
  * This scraper provides information about events at WISE Hall in Vancouver
  * Source: https://www.wisehall.ca/
  */
@@ -12,13 +12,13 @@ class WISEHallScraper {
     this.name = 'WISE Hall';
     this.url = 'https://www.wisehall.ca/';
     this.sourceIdentifier = 'wise-hall';
-    
+
     // Venue information
     this.venue = {
       name: "WISE Hall",
       id: "wise-hall-vancouver",
       address: "1882 Adanac St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V5L 2E2",
@@ -29,9 +29,9 @@ class WISEHallScraper {
       websiteUrl: "https://www.wisehall.ca/",
       description: "The WISE Hall (Welsh, Irish, Scottish, English) is a community hall and performance venue in East Vancouver, operated as a non-profit society since 1958. This historic venue hosts live music, community events, dance parties, workshops, and cultural celebrations in a welcoming environment that bridges generations and cultures."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Vancouver Folk Music Festival: WISE Hall Sessions",
         description: "As part of the expanded Vancouver Folk Music Festival, WISE Hall hosts an intimate evening of acoustic performances featuring established and emerging folk artists. This special showcase brings the festival experience to East Vancouver with performances by Canadian folk icon Sarah Harmer, Indigenous duo Twin Flames, and local rising stars The Broken Islands. The WISE Hall's cozy atmosphere creates a perfect setting for the storytelling traditions of folk music, allowing for meaningful connections between artists and audience. The evening includes a short presentation on the history of folk music in Vancouver and the cultural significance of community venues like WISE Hall in nurturing grassroots music scenes. Doors open early for a pre-show community potluck dinner in the Hall's lower lounge.",
@@ -58,7 +58,7 @@ class WISEHallScraper {
       },
       {
         title: "WISE Words: Poetry Slam & Open Mic",
-        description: "Vancouver's longest-running poetry slam celebrates its 20th anniversary with a special evening featuring past champions and new voices. The event begins with an open mic session where anyone can sign up to share original poetry, followed by the competitive slam portion where poets perform original works judged by randomly selected audience members. This month's featured performer is award-winning spoken word artist Shane Koyczan, known for his powerful performances at the 2010 Vancouver Olympics and viral videos that have received millions of views. Between performances, longtime host RC Weslowski will share stories from two decades of Vancouver's vibrant poetry scene. The inclusive and supportive atmosphere makes this a perfect event for first-time performers and poetry enthusiasts alike.",
+        description: citys longest-running poetry slam celebrates its 20th anniversary with a special evening featuring past champions and new voices. The event begins with an open mic session where anyone can sign up to share original poetry, followed by the competitive slam portion where poets perform original works judged by randomly selected audience members. This month's featured performer is award-winning spoken word artist Shane Koyczan, known for his powerful performances at the 2010 Vancouver Olympics and viral videos that have received millions of views. Between performances, longtime host RC Weslowski will share stories from two decades of Vancouver's vibrant poetry scene. The inclusive and supportive atmosphere makes this a perfect event for first-time performers and poetry enthusiasts alike.",
         date: new Date("2025-07-15T19:30:00"),
         endTime: new Date("2025-07-15T22:30:00"),
         imageUrl: "https://www.wisehall.ca/wp-content/uploads/2025/06/poetry-slam-anniversary.jpg",
@@ -81,7 +81,7 @@ class WISEHallScraper {
       },
       {
         title: "Community Documentary Screening: 'The Heart of East Van'",
-        description: "Join us for the premiere screening of 'The Heart of East Van,' a new documentary exploring the history, diversity, and cultural significance of East Vancouver neighborhoods. Local filmmaker Mina Shum's latest work features interviews with longtime residents, community activists, artists, and business owners who have shaped the area's unique character over decades of change and development. Following the screening, a panel discussion with the director and featured community members will explore themes of urban change, cultural preservation, and community resilience. This event is presented in partnership with the East Vancouver Community Archives Project, which will have a display of historical photographs and documents in the Hall's lower lounge. Light refreshments featuring East Vancouver businesses will be served during intermission.",
+        description: "Join us for the premiere screening of 'The Heart of East Van,' a new documentary exploring the history, diversity, and cultural significance of East Vancouver neighborhoods. Local filmmaker Mina Shum's la interviews with nts, community activists, artists, and business owners who have shaped the area's unique character over decades of change and development. Following the screening, a panel discussion with the director and featured community members will explore themes of urban change, cultural preservation, and community resilience. This event is presented in partnership with the East Vancouver Community Archives Project, which will have a display of historical photographs and documents in the Hall's lower lounge. Light refreshments featuring East Vancouver businesses will be served during intermission.",
         date: new Date("2025-07-22T19:00:00"),
         endTime: new Date("2025-07-22T21:30:00"),
         imageUrl: "https://www.wisehall.ca/wp-content/uploads/2025/06/east-van-documentary.jpg",
@@ -105,68 +105,68 @@ class WISEHallScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting WISE Hall scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `wise-hall-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: ${eventData.ticketsRequired ? 'Required, available online or at the door' : 'Not required'}\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Featuring: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nThe WISE Hall is a wheelchair accessible venue located in East Vancouver. The main hall is on the second floor accessible by stairs or elevator, with washrooms on both floors. The venue is easily reached by public transit (via #14 Hastings or #4 Powell buses) and bike racks are available outside.`;
-        
+
         // Create categories
         const categories = ['community', 'east vancouver', 'local'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Music') {
           categories.push('concert', 'folk', 'acoustic');
         } else if (eventData.category === 'Dance') {
@@ -180,7 +180,7 @@ class WISEHallScraper {
         } else if (eventData.category === 'Wellness') {
           categories.push('yoga', 'meditation', 'health', 'workshops');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -192,19 +192,19 @@ class WISEHallScraper {
           category: 'community',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🏛️ Successfully created ${events.length} WISE Hall events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in WISE Hall scraper: ${error.message}`);
       return events;
@@ -213,3 +213,13 @@ class WISEHallScraper {
 }
 
 module.exports = new WISEHallScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new WISEHallScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.WISEHallScraper = WISEHallScraper;

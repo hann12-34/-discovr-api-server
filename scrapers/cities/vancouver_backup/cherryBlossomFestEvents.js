@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Cherry Blossom Festival Events Scraper
  * Scrapes events from the Vancouver Cherry Blossom Festival
@@ -215,7 +216,7 @@ const CherryBlossomFestEvents = {
       venue: {
         name: venue || 'Various Vancouver Locations',
         address: venue || 'Multiple locations throughout Vancouver',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         website: 'https://vcbf.ca/',

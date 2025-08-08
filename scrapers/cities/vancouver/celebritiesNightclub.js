@@ -1,6 +1,6 @@
 /**
  * Celebrities Nightclub Scraper
- * 
+ *
  * This scraper provides information about events at Celebrities Nightclub in Vancouver
  * Source: https://www.celebritiesnightclub.com/
  */
@@ -14,13 +14,13 @@ class CelebritiesNightclubScraper {
     this.name = 'Celebrities Nightclub';
     this.url = 'https://www.celebritiesnightclub.com/';
     this.sourceIdentifier = 'celebrities-nightclub';
-    
+
     // Venue information
     this.venue = {
       name: "Celebrities Nightclub",
       id: "celebrities-nightclub-vancouver",
       address: "1022 Davie St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6E 1M3",
@@ -31,9 +31,9 @@ class CelebritiesNightclubScraper {
       websiteUrl: "https://www.celebritiesnightclub.com/",
       description: "Celebrities Nightclub is an iconic Vancouver nightlife institution established in 1984. Located in the heart of the Davie Village, it's one of the city's longest-running and most popular LGBTQ+ friendly nightclubs, featuring state-of-the-art sound and lighting systems, multiple rooms, and themed nights that welcome everyone."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "PARADISE SATURDAYS",
         description: "Paradise Saturdays is Celebrities Nightclub's flagship weekly event featuring the best local DJs spinning house, progressive, and top 40 remixes. Experience the club's legendary atmosphere with stunning light shows, talented dancers, and special effects that have made Paradise a Vancouver nightlife tradition for over two decades.",
@@ -96,41 +96,41 @@ class CelebritiesNightclubScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Celebrities Nightclub scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `celebrities-nightclub-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedTime = timeFormat.format(eventData.date);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
@@ -138,43 +138,43 @@ class CelebritiesNightclubScraper {
         detailedDescription += `Doors: ${eventData.doorTime}\n`;
         detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         detailedDescription += `Genre: ${eventData.genre}\n`;
-        
+
         // Add performer information if available
         if (eventData.djs && eventData.djs.length > 0) {
           detailedDescription += `DJs: ${eventData.djs.join(', ')}\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         if (eventData.performerUrl) {
           detailedDescription += `Artist Website: ${eventData.performerUrl}\n`;
         }
-        
+
         detailedDescription += `\nCelebrities Nightclub is located at 1022 Davie Street in Vancouver's vibrant Davie Village.`;
-        
+
         // Create categories based on genre
         const categories = ['nightlife', 'music', 'dance', 'club', 'entertainment'];
-        
+
         // Add genre-specific categories
         const genreLower = eventData.genre.toLowerCase();
         categories.push(genreLower);
-        
+
         // Add LGBTQ+ category
         categories.push('lgbtq+');
-        
+
         // Add drag category if applicable
         if (genreLower.includes('drag')) {
           categories.push('drag');
           categories.push('performance');
         }
-        
+
         // Add pride category if applicable
         if (genreLower.includes('pride')) {
           categories.push('pride');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -191,14 +191,14 @@ class CelebritiesNightclubScraper {
           ticketsRequired: true,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎧 Successfully created ${events.length} Celebrities Nightclub events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Celebrities Nightclub scraper: ${error.message}`);
       return events;
@@ -207,3 +207,13 @@ class CelebritiesNightclubScraper {
 }
 
 module.exports = new CelebritiesNightclubScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new CelebritiesNightclubScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.CelebritiesNightclubScraper = CelebritiesNightclubScraper;

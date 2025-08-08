@@ -1,6 +1,6 @@
 /**
  * Stanley Park Scraper
- * 
+ *
  * This scraper provides information about events at Stanley Park in Vancouver
  * Source: https://vancouver.ca/parks-recreation-culture/stanley-park.aspx
  */
@@ -12,13 +12,13 @@ class StanleyParkScraper {
     this.name = 'Stanley Park';
     this.url = 'https://vancouver.ca/parks-recreation-culture/stanley-park.aspx';
     this.sourceIdentifier = 'stanley-park';
-    
+
     // Venue information
     this.venue = {
       name: "Stanley Park",
       id: "stanley-park-vancouver",
       address: "Stanley Park Dr",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6G 1Z4",
@@ -29,9 +29,9 @@ class StanleyParkScraper {
       websiteUrl: "https://vancouver.ca/parks-recreation-culture/stanley-park.aspx",
       description: "Stanley Park is a magnificent 1,000-acre urban park bordering downtown Vancouver. Known for its natural beauty, the park features ancient cedar, hemlock, and fir trees, scenic seawall paths, pristine beaches, landmarks like the 9 O'Clock Gun and Hollow Tree, and attractions including the Vancouver Aquarium. As Vancouver's first and largest urban park, it offers stunning views of the North Shore mountains, city skyline, and harbor while providing a sanctuary for diverse wildlife."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Stanley Park Summer Series: Outdoor Concerts",
         description: "The annual Stanley Park Summer Series returns with free outdoor concerts at the Malkin Bowl. This year's lineup features a diverse range of local and international musicians performing genres from jazz and classical to indie rock and world music. Bring a blanket, pack a picnic, and enjoy beautiful music in one of Vancouver's most scenic settings as the sun sets behind the towering trees.",
@@ -109,73 +109,73 @@ class StanleyParkScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Stanley Park scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `stanley-park-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-        
+
         if (eventData.recurrence) {
           detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
         }
-        
+
         detailedDescription += `Location: ${eventData.location}, Stanley Park\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, please book in advance\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nStanley Park is Vancouver's premier urban park, located at the northwestern edge of downtown Vancouver. The park is easily accessible by public transit, bicycle, or car.`;
-        
+
         // Create categories
         const categories = ['outdoors', 'park', 'nature', 'stanley park'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Music') {
           categories.push('concert', 'entertainment', 'live music');
         } else if (eventData.category === 'Nature') {
@@ -189,7 +189,7 @@ class StanleyParkScraper {
         } else if (eventData.category === 'Fitness') {
           categories.push('yoga', 'wellness', 'health');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -201,19 +201,19 @@ class StanleyParkScraper {
           category: 'outdoors',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🌲 Successfully created ${events.length} Stanley Park events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Stanley Park scraper: ${error.message}`);
       return events;
@@ -222,3 +222,13 @@ class StanleyParkScraper {
 }
 
 module.exports = new StanleyParkScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new StanleyParkScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.StanleyParkScraper = StanleyParkScraper;

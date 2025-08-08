@@ -23,7 +23,7 @@ class FortuneSoundClubBridge {
     this.venue = {
       name: 'Fortune Sound Club',
       address: '147 E Pender St',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2801, lng: -123.1022 }
@@ -34,21 +34,21 @@ class FortuneSoundClubBridge {
    * Main scraper method - runs Python scraper and reads output
    * @returns {Promise<Array>} - Scraped event data
    */
-  async scrape() {
+  async scrape(city) {
     try {
       console.log(`🎵 Scraping ${this.name} events via Python bridge...`);
-      
+
       // First, check if there's a recent JSON file (< 24 hours old)
       if (await this.hasRecentJsonFile()) {
-        console.log(`Using existing JSON file (${this.outputJsonPath})`);
+        console.log(`Using existing JSON file (${this.outputJsonPath}`);
       } else {
         // Run the Python scraper
         await this.runPythonScraper();
       }
-      
+
       // Read and parse the events from JSON
       const events = await this.readEventsFromJson();
-      
+
       console.log(`${this.name} Python bridge: Found ${events.length} events`);
       return events;
     } catch (error) {
@@ -56,7 +56,7 @@ class FortuneSoundClubBridge {
       return [];
     }
   }
-  
+
   /**
    * Check if there's a recent JSON file (less than 24 hours old)
    * @returns {Promise<boolean>}
@@ -80,25 +80,25 @@ class FortuneSoundClubBridge {
   async runPythonScraper() {
     return new Promise((resolve, reject) => {
       console.log(`Running Python scraper: ${this.pythonScraperScript}`);
-      
+
       // Execute the Python script
-      exec(`cd ${this.pythonScraperPath} && python3 fortune_scraper.py`, 
+      exec(`cd ${this.pythonScraperPath} && python3 fortune_scraper.py`,
         (error, stdout, stderr) => {
           if (error) {
             console.error(`Error running Python scraper: ${error.message}`);
             reject(error);
             return;
           }
-          
+
           if (stderr) {
             console.warn(`Python scraper warning: ${stderr}`);
           }
-          
+
           console.log(`Python scraper output: ${stdout}`);
           resolve();
         }
       );
-    });
+    };
   }
 
   /**
@@ -109,7 +109,7 @@ class FortuneSoundClubBridge {
     try {
       const data = fs.readFileSync(this.outputJsonPath, 'utf8');
       const parsedData = JSON.parse(data);
-      
+
       // Transform events to match expected format
       return parsedData.map(event => this.formatEvent(event));
     } catch (error) {
@@ -126,7 +126,7 @@ class FortuneSoundClubBridge {
   formatEvent(event) {
     // Generate deterministic ID (if not already present)
     const id = event.id || uuidv5(`${event.name || event.title}-${this.venue.name}-${event.startDate || new Date().toISOString()}`, NAMESPACE);
-    
+
     // Parse dates if they're strings
     let startDate = event.startDate;
     if (typeof startDate === 'string') {
@@ -134,7 +134,7 @@ class FortuneSoundClubBridge {
     } else if (!startDate) {
       startDate = new Date();
     }
-    
+
     // Format the event to match expected schema
     return {
       id: id,
@@ -167,9 +167,9 @@ class FortuneSoundClubBridge {
     if (!date || !(date instanceof Date)) {
       return 'Unknown';
     }
-    
+
     const month = date.getMonth();
-    
+
     if (month >= 2 && month <= 4) return 'Spring';
     if (month >= 5 && month <= 7) return 'Summer';
     if (month >= 8 && month <= 10) return 'Fall';
@@ -178,3 +178,13 @@ class FortuneSoundClubBridge {
 }
 
 module.exports = new FortuneSoundClubBridge();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new FortuneSoundClubBridge();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.FortuneSoundClubBridge = FortuneSoundClubBridge;

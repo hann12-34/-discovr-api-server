@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Scraper for [VENUE_NAME] in Toronto
  * 

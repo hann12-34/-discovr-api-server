@@ -1,6 +1,7 @@
+const path = require('path');
 /**
  * Canmore Events Scraper (Explore Canmore)
- * 
+ *
  * This scraper extracts events from explorecanmore.ca/events/ which lists
  * festivals, theatre shows, live music, and community events in Canmore, Alberta.
  */
@@ -16,19 +17,26 @@ class CanmoreEventsScraper {
     }
 
     async scrapeEvents() {
+        const city = city;
+        if (!city) {
+            console.error(`❌ City argument is required. e.g. node scrapers/cities/Calgary/${path.basename(__filename)} Calgary`);
+            return [];
+        }
+        this.city = city;
+
         try {
             console.log('🏔️ Scraping Explore Canmore Events...');
-            
+
             const events = [];
-            
+
             // Try to scrape from main events page
             await this.scrapeMainEventsPage(events);
-            
+
             // Try API endpoint for structured data
             await this.scrapeEventsAPI(events);
-            
+
             const uniqueEvents = this.removeDuplicateEvents(events);
-            
+
             console.log(`🎭 Successfully scraped ${uniqueEvents.length} unique events from Explore Canmore`);
             return uniqueEvents;
 
@@ -45,16 +53,16 @@ class CanmoreEventsScraper {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-            });
+            };
 
             const $ = cheerio.load(response.data);
-            
+
             // Extract events from the main listing
             this.extractEventListings($, events);
-            
+
             // Look for structured event data
             this.extractStructuredEvents($, events);
-            
+
         } catch (error) {
             console.warn('⚠️ Could not scrape main Canmore events page:', error.message);
         }
@@ -72,7 +80,7 @@ class CanmoreEventsScraper {
                     'per_page': 50,
                     'status': 'publish'
                 }
-            });
+            };
 
             if (Array.isArray(response.data)) {
                 response.data.forEach(eventData => {
@@ -80,9 +88,9 @@ class CanmoreEventsScraper {
                     if (event) {
                         events.push(event);
                     }
-                });
+                };
             }
-            
+
         } catch (error) {
             console.warn('⚠️ Could not scrape Canmore events API:', error.message);
         }
@@ -93,11 +101,11 @@ class CanmoreEventsScraper {
         $('.event, .event-card, .tribe-event, .listing-item').each((index, element) => {
             const $event = $(element);
             const eventData = this.parseEventElement($event);
-            
+
             if (eventData) {
                 events.push(eventData);
             }
-        });
+        };
 
         // Parse events from the content we saw in the URL analysis
         this.parseKnownEventPatterns($, events);
@@ -117,12 +125,12 @@ class CanmoreEventsScraper {
                                 events.push(event);
                             }
                         }
-                    });
+                    };
                 }
             } catch (error) {
                 // Ignore malformed JSON
             }
-        });
+        };
     }
 
     parseKnownEventPatterns($, events) {
@@ -144,7 +152,7 @@ class CanmoreEventsScraper {
             },
             {
                 title: 'Treasure Island – Canmore Summer Theatre Festival',
-                dates: 'Jul 9 - Jul 20', 
+                dates: 'Jul 9 - Jul 20',
                 venue: '5 Ave, Canmore, AB',
                 category: 'Theatre',
                 description: 'Adventure-filled theatrical production as part of the summer theatre festival.'
@@ -163,8 +171,8 @@ class CanmoreEventsScraper {
                 scrapedAt: new Date(),
                 tags: this.generateTags(pattern.title, pattern.description),
                 region: 'Canmore'
-            });
-        });
+            };
+        };
 
         // Add common recurring Canmore events
         this.addRecurringCanmoreEvents(events);
@@ -218,18 +226,18 @@ class CanmoreEventsScraper {
                 source: 'Explore Canmore',
                 scrapedAt: new Date(),
                 region: 'Canmore'
-            });
-        });
+            };
+        };
     }
 
     parseEventElement($event) {
         const title = this.extractText($event.find('.event-title, .title, h1, h2, h3, a').first());
-        
+
         if (!title || title.length < 3) return null;
 
         const description = this.extractText($event.find('.description, .excerpt, .summary, p').first()) ||
                            this.generateDescription(title);
-        
+
         const dateText = this.extractText($event.find('.date, .event-date, time').first());
         const venueText = this.extractText($event.find('.venue, .location, .address').first());
 
@@ -272,7 +280,7 @@ class CanmoreEventsScraper {
         if (!title) return null;
 
         const description = eventData.description || this.generateDescription(title);
-        
+
         return {
             title: this.cleanText(title),
             description: description,
@@ -291,11 +299,11 @@ class CanmoreEventsScraper {
         if (!venueText) return null;
 
         const cleanVenue = this.cleanText(venueText);
-        
+
         return {
             name: this.extractVenueName(cleanVenue),
             address: cleanVenue,
-            city: 'Canmore',
+            city: this.city,
             state: 'Alberta',
             country: 'Canada'
         };
@@ -316,7 +324,7 @@ class CanmoreEventsScraper {
             return {
                 name: venue.post_title || venue.name || 'Canmore Venue',
                 address: venue.address || 'Canmore, AB',
-                city: 'Canmore',
+                city: this.city,
                 state: 'Alberta',
                 country: 'Canada'
             };
@@ -334,7 +342,7 @@ class CanmoreEventsScraper {
         return {
             name: location.name || 'Canmore Venue',
             address: location.address || 'Canmore, AB',
-            city: 'Canmore',
+            city: this.city,
             state: 'Alberta',
             country: 'Canada'
         };
@@ -344,7 +352,7 @@ class CanmoreEventsScraper {
         return {
             name: 'Canmore',
             address: 'Canmore, Alberta',
-            city: 'Canmore',
+            city: this.city,
             state: 'Alberta',
             country: 'Canada'
         };
@@ -365,7 +373,7 @@ class CanmoreEventsScraper {
 
     categorizeEvent(title, description) {
         const text = `${title} ${description}`.toLowerCase();
-        
+
         if (text.includes('theatre') || text.includes('musical') || text.includes('play')) return 'Theatre';
         if (text.includes('music') || text.includes('concert') || text.includes('band')) return 'Music';
         if (text.includes('festival')) return 'Festival';
@@ -375,21 +383,21 @@ class CanmoreEventsScraper {
         if (text.includes('workshop') || text.includes('cultural') || text.includes('indigenous')) return 'Cultural';
         if (text.includes('family') || text.includes('kid')) return 'Family';
         if (text.includes('outdoor') || text.includes('hiking') || text.includes('nature')) return 'Outdoor';
-        
+
         return 'Event';
     }
 
     generateTags(title, description) {
         const tags = ['canmore', 'mountain'];
         const text = `${title} ${description}`.toLowerCase();
-        
+
         const keywords = ['theatre', 'music', 'festival', 'arts', 'outdoor', 'brewery', 'workshop', 'cultural', 'family', 'sports', 'biking'];
-        
+
         keywords.forEach(keyword => {
             if (text.includes(keyword)) {
                 tags.push(keyword);
             }
-        });
+        };
 
         return [...new Set(tags)];
     }
@@ -398,38 +406,38 @@ class CanmoreEventsScraper {
         return `${title} - Event in Canmore, Alberta. Check event details for more information.`;
     }
 
-    parseEventDate(dateString) {
-        if (!dateString) return null;
-        
+    parseEventDate(daeventDateText) {
+        if (!daeventDateText) return null;
+
         // Handle range formats like "Jun 12 - Aug 31" or "Jul 9 - Jul 20"
-        if (dateString.includes(' - ')) {
-            const startDate = dateString.split(' - ')[0].trim();
+        if (daeventDateText.includes(' - ')) {
+            const startDate = daeventDateText.split(' - ')[0].trim();
             return this.parseDate(startDate);
         }
-        
-        return this.parseDate(dateString);
+
+        return this.parseDate(daeventDateText);
     }
 
-    parseDate(dateString) {
-        if (!dateString) return null;
-        
+    parseDate(daeventDateText) {
+        if (!daeventDateText) return null;
+
         try {
             // Handle various date formats
-            const date = new Date(dateString);
+            const date = new Date(daeventDateText);
             if (!isNaN(date.getTime())) {
                 return date;
             }
-            
+
             // Try parsing month day format like "Jul 19"
-            if (dateString.match(/^[A-Za-z]{3}\s+\d{1,2}$/)) {
+            if (daeventDateText.match(/^[A-Za-z]{3}\s+\d{1,2}$/)) {
                 const currentYear = new Date().getFullYear();
-                const fullDate = `${dateString} ${currentYear}`;
+                const fullDate = `${daeventDateText} ${currentYear}`;
                 const parsed = new Date(fullDate);
                 if (!isNaN(parsed.getTime())) {
                     return parsed;
                 }
             }
-            
+
             return null;
         } catch (error) {
             return null;
@@ -452,7 +460,7 @@ class CanmoreEventsScraper {
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     cleanText(text) {
@@ -461,3 +469,14 @@ class CanmoreEventsScraper {
 }
 
 module.exports = CanmoreEventsScraper;
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new CanmoreEventsScraper();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in CanmoreEventsScraper');
+    }
+};

@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Script to verify the quality of Commodore Ballroom events in the database
  * Checks for proper titles, subtitles, and descriptions
@@ -63,8 +64,8 @@ async function verifyCommodoreEvents() {
       const eventsWithImages = events.filter(e => e.image && e.image.length > 0);
       console.log(`Events with images: ${eventsWithImages.length}/${events.length} (${Math.round(eventsWithImages.length/events.length*100)}%)`);
       
-      // Display sample events
-      console.log('\n📝 SAMPLE EVENTS');
+      // Display s
+      console.log('\n📝 S');
       console.log('==============');
       
       // Show a few events with subtitles

@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Event Count Verification Script
  * 
@@ -10,7 +11,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const fs = require('fs').promises;
 
 // Configuration
-const CLOUD_API_URL = 'https://discovr-api-test-531591199325.northamerica-northeast2.run.app/api/v1/venues/events/all';
+const CLOUD_API_URL = 'https:
 const LOCAL_PROXY_URL = 'http://localhost:3050/api/v1/venues/events/all';
 const CLOUD_MONGODB_URI = "mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr";
 
@@ -62,7 +63,7 @@ async function main() {
       console.log('✅ Connected to MongoDB');
       
       const db = client.db('discovr');
-      const eventsCollection = db.collection('events');
+      const eventsCollection = dbs');
       
       const events = await eventsCollection.find({}).toArray();
       console.log(`✅ MongoDB has ${events.length} events`);

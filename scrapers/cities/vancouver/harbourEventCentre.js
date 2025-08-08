@@ -1,6 +1,6 @@
 /**
  * Harbour Event Centre Scraper
- * 
+ *
  * This scraper provides information about events at Harbour Event Centre in Vancouver
  * Source: https://www.harboureventcentre.com/
  */
@@ -12,13 +12,13 @@ class HarbourEventCentreScraper {
     this.name = 'Harbour Event Centre';
     this.url = 'https://www.harboureventcentre.com/';
     this.sourceIdentifier = 'harbour-event-centre';
-    
+
     // Venue information
     this.venue = {
       name: "Harbour Event Centre",
       id: "harbour-event-centre-vancouver",
       address: "750 Pacific Blvd",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6B 5E7",
@@ -29,9 +29,9 @@ class HarbourEventCentreScraper {
       websiteUrl: "https://www.harboureventcentre.com/",
       description: "Harbour Event Centre is a versatile entertainment venue located in downtown Vancouver near BC Place. This multi-level complex features state-of-the-art sound and lighting systems, multiple bars, VIP areas, and can accommodate everything from electronic dance music events to corporate functions, concerts, and private celebrations."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Vancouver Bass Festival: Opening Night",
         description: "Experience the powerful sounds of bass music as Vancouver Bass Festival kicks off its three-day celebration at Harbour Event Centre. The opening night features international headliners and local bass music talent pushing the boundaries of dubstep, drum & bass, and trap music. With the venue's powerful sound system and immersive lighting design, attendees will feel every beat in this high-energy dance event that draws bass music enthusiasts from across the Pacific Northwest. Special festival production elements include enhanced visuals, CO2 cannons, and custom stage design.",
@@ -85,70 +85,70 @@ class HarbourEventCentreScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Harbour Event Centre scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `harbour-event-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available online in advance\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: Harbour Event Centre is located in downtown Vancouver near BC Place Stadium. The venue features multiple levels, state-of-the-art sound systems, and full bar service. Valid government-issued photo ID is required for entry to all 19+ events.`;
-        
+
         // Create categories
         const categories = ['nightlife', 'entertainment', 'events'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Music') {
           if (eventData.title.includes('Bass')) {
             categories.push('electronic', 'bass music', 'edm', 'festival');
@@ -160,7 +160,7 @@ class HarbourEventCentreScraper {
         } else if (eventData.category === 'Corporate') {
           categories.push('networking', 'tech', 'business', 'professional');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -172,19 +172,19 @@ class HarbourEventCentreScraper {
           category: 'nightlife',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎭 Successfully created ${events.length} Harbour Event Centre events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Harbour Event Centre scraper: ${error.message}`);
       return events;
@@ -193,3 +193,13 @@ class HarbourEventCentreScraper {
 }
 
 module.exports = new HarbourEventCentreScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new HarbourEventCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.HarbourEventCentreScraper = HarbourEventCentreScraper;

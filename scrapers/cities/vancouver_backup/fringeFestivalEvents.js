@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Fringe Festival Events Scraper
  * Scrapes events from the Vancouver Fringe Festival
@@ -131,7 +132,7 @@ const FringeFestivalEvents = {
       venue: {
         name: venue || 'Vancouver Fringe Festival',
         address: '1398 Cartwright Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6H 3R8',

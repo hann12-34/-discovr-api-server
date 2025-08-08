@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * The Roxy Events Scraper
  * Scrapes events from The Roxy in Vancouver
@@ -186,7 +187,7 @@ const TheRoxyEvents = {
       venue: {
         name: 'The Roxy',
         address: '932 Granville St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6Z 1L2',

@@ -3,16 +3,18 @@
  * Orchestrates scrapers for different cities
  */
 
-const vancouverScrapers = require('./vancouver');
-
 class CityScraper {
   constructor() {
     this.sourceIdentifier = 'city-events';
-    this.citySources = {
-      vancouver: vancouverScrapers
+    this.citySourcePaths = {
+      vancouver: './vancouver',
+      calgary: './Calgary',
+      montreal: './Montreal',
+      'new-york': './New York',
+      toronto: './Toronto'
     };
   }
-  
+
   /**
    * Run scrapers for all configured cities
    * @returns {Promise<Array>} - Aggregated events from all city scrapers
@@ -21,13 +23,15 @@ class CityScraper {
     console.log('Starting city scrapers...');
     
     const allEvents = [];
-    const cities = options.cities || Object.keys(this.citySources);
+    const cities = options.cities || Object.keys(this.citySourcePaths);
     
     for (const city of cities) {
-      if (this.citySources[city]) {
+      const cityPath = this.citySourcePaths[city];
+      if (cityPath) {
         try {
           console.log(`Running scrapers for ${city}...`);
-          const events = await this.citySources[city].scrape();
+          const cityScrapers = require(cityPath);
+          const events = await cityScrapers.scrape();
           
           if (Array.isArray(events) && events.length > 0) {
             allEvents.push(...events);

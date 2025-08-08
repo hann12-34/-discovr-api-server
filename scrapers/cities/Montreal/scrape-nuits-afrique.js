@@ -2,6 +2,11 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-nuits-afrique.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🌍 Scraping events from Festival International Nuits d\'Afrique...');
 
@@ -33,13 +38,13 @@ async function scrape() {
             description: 'International festival featuring 700+ artists from over 30 countries celebrating African, Caribbean, and Latin American music and culture. Features 13 days of indoor concerts, outdoor stages, and over 150 free and paid activities.',
             category: 'Festival',
             subcategory: 'World Music Festival',
-            venue: {
+            venue: { ...RegExp.venue: {
                 name: 'Multiple venues across Montreal',
                 address: 'Various locations, Montreal, QC',
-                city: 'Montreal',
+                city: city,
                 province: 'Quebec',
                 country: 'Canada'
-            },
+            }, city },,
             sourceUrl: 'https://www.festivalnuitsdafrique.com/en/',
             source: 'Festival Nuits d\'Afrique',
             sourceId: 'nuits-afrique-2025-main',
@@ -49,7 +54,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://www.festivalnuitsdafrique.com/en/'
             }
-        });
+        };
 
         // Add specific themed nights
         festivalDates.forEach((fest, index) => {
@@ -63,13 +68,13 @@ async function scrape() {
                 description: `Part of Festival International Nuits d'Afrique featuring authentic music and performances celebrating African, Caribbean, and Latin American cultures.`,
                 category: 'Music',
                 subcategory: 'World Music',
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: index % 2 === 0 ? 'Outdoor Stage - Quartier des spectacles' : 'Indoor Concert Venue',
                     address: 'Quartier des spectacles, Montreal, QC',
-                    city: 'Montreal',
+                    city: city,
                     province: 'Quebec',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: 'https://www.festivalnuitsdafrique.com/en/',
                 source: 'Festival Nuits d\'Afrique',
                 sourceId: `nuits-afrique-${fest.date}`,
@@ -79,8 +84,8 @@ async function scrape() {
                     hasTickets: true,
                     ticketUrl: 'https://www.festivalnuitsdafrique.com/en/'
                 }
-            });
-        });
+            };
+        };
 
         // Add some free outdoor activities
         events.push({
@@ -90,13 +95,13 @@ async function scrape() {
             description: 'Free outdoor performances featuring world music artists as part of Festival Nuits d\'Afrique. Family-friendly event showcasing diverse musical traditions.',
             category: 'Music',
             subcategory: 'Free Concert',
-            venue: {
+            venue: { ...RegExp.venue: {
                 name: 'Outdoor Stage - Quartier des spectacles',
                 address: 'Quartier des spectacles, Montreal, QC',
-                city: 'Montreal',
+                city: city,
                 province: 'Quebec',
                 country: 'Canada'
-            },
+            }, city },,
             sourceUrl: 'https://www.festivalnuitsdafrique.com/en/',
             source: 'Festival Nuits d\'Afrique',
             sourceId: 'nuits-afrique-free-outdoor',
@@ -107,7 +112,7 @@ async function scrape() {
                 isFree: true,
                 ticketUrl: 'https://www.festivalnuitsdafrique.com/en/'
             }
-        });
+        };
 
         console.log(`Found ${events.length} total events from Festival Nuits d'Afrique`);
         return events;
@@ -125,3 +130,7 @@ module.exports = {
     scrape,
     scrapeEvents
 };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

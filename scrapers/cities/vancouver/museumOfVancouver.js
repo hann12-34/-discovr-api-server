@@ -1,6 +1,6 @@
 /**
  * Museum of Vancouver Scraper
- * 
+ *
  * This scraper provides information about events at the Museum of Vancouver
  * Source: https://www.museumofvancouver.ca/
  */
@@ -12,13 +12,13 @@ class MuseumOfVancouverScraper {
     this.name = 'Museum of Vancouver';
     this.url = 'https://www.museumofvancouver.ca/';
     this.sourceIdentifier = 'museum-of-vancouver';
-    
+
     // Venue information
     this.venue = {
       name: "Museum of Vancouver",
       id: "museum-of-vancouver",
       address: "1100 Chestnut St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6J 3J9",
@@ -29,9 +29,9 @@ class MuseumOfVancouverScraper {
       websiteUrl: "https://www.museumofvancouver.ca/",
       description: "Located in Vanier Park, the Museum of Vancouver connects Vancouverites to their city and its history through exhibitions and programs that explore the social, cultural, and natural history of the region. The museum holds more than 65,000 artifacts, including the Neon Vancouver Collection, and offers a mix of permanent and temporary exhibitions that examine Vancouver's past, present, and future."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Paddle Carving Workshop with Coast Salish Artists",
         description: "Learn the traditional art of paddle carving in this hands-on workshop led by celebrated Coast Salish artists. Participants will create their own miniature cedar paddle while learning about the cultural significance, techniques, and designs used by Indigenous peoples of the Pacific Northwest. The workshop begins with a gallery tour of the Museum's Indigenous collection, focusing on traditional watercraft and tools, followed by a demonstration of carving techniques. Participants will then work on their own paddle project under expert guidance, learning about wood selection, traditional carving tools, and finishing methods. All materials are provided, and no previous woodworking experience is necessary. This workshop is suitable for adults and youth ages 16+ and is part of the Museum's commitment to meaningful engagement with Indigenous knowledge and practices.",
@@ -91,66 +91,66 @@ class MuseumOfVancouverScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Museum of Vancouver scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `mov-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available through the Museum of Vancouver website or at the admission desk\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: The Museum of Vancouver is located in Vanier Park, near Kitsilano Beach, and is easily accessible by public transit or car with parking available on-site. The museum is wheelchair accessible and offers a gift shop and café.`;
-        
+
         // Create categories
         const categories = ['museum', 'culture', 'education'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.title.includes('Paddle Carving')) {
           categories.push('indigenous', 'workshop', 'crafts', 'cultural');
         } else if (eventData.title.includes('Urban Innovation')) {
@@ -162,7 +162,7 @@ class MuseumOfVancouverScraper {
         } else if (eventData.title.includes('Curator')) {
           categories.push('tour', 'behind the scenes', 'collection');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -174,19 +174,19 @@ class MuseumOfVancouverScraper {
           category: 'culture',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🏛️ Successfully created ${events.length} Museum of Vancouver events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Museum of Vancouver scraper: ${error.message}`);
       return events;
@@ -195,3 +195,13 @@ class MuseumOfVancouverScraper {
 }
 
 module.exports = new MuseumOfVancouverScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new MuseumOfVancouverScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.MuseumOfVancouverScraper = MuseumOfVancouverScraper;

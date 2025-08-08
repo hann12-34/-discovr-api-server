@@ -1,6 +1,6 @@
 /**
  * Kitsilano Showboat Scraper
- * 
+ *
  * This scraper provides information about events at Kitsilano Showboat in Vancouver
  * Source: https://www.kitsilanoshowboat.com/
  */
@@ -12,13 +12,13 @@ class KitsilanoShowboatScraper {
     this.name = 'Kitsilano Showboat';
     this.url = 'https://www.kitsilanoshowboat.com/';
     this.sourceIdentifier = 'kitsilano-showboat';
-    
+
     // Venue information
     this.venue = {
       name: "Kitsilano Showboat",
       id: "kitsilano-showboat-vancouver",
       address: "2300 Cornwall Ave",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6K 1B6",
@@ -29,9 +29,9 @@ class KitsilanoShowboatScraper {
       websiteUrl: "https://www.kitsilanoshowboat.com/",
       description: "Kitsilano Showboat is a beloved Vancouver summer tradition since 1935. This outdoor performance venue located at Kitsilano Beach offers free entertainment with the beautiful backdrop of English Bay, the North Shore mountains, and spectacular sunsets. Run entirely by volunteers, the Showboat hosts a diverse program of musical performances, dance shows, and community events throughout the summer months."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Kitsilano Showboat Opening Night: Vancouver Metropolitan Orchestra",
         description: "Join us for the grand opening night of Kitsilano Showboat's 90th season! The Vancouver Metropolitan Orchestra kicks off our summer of free entertainment with a special performance featuring classical favorites and popular film scores. Under the direction of Maestro Kenneth Hsieh, the orchestra will perform selections from Tchaikovsky, Dvořák, John Williams, and more. This beloved Vancouver summer tradition takes place at the historic outdoor stage at Kitsilano Beach with stunning views of English Bay and the North Shore mountains as your backdrop. Bring a blanket or beach chair and arrive early to secure your spot for this popular community event that marks the official start of summer in Vancouver.",
@@ -106,63 +106,63 @@ class KitsilanoShowboatScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Kitsilano Showboat scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `kitsilano-showboat-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: Kitsilano Showboat is located at the east side of Kitsilano Pool at Kitsilano Beach Park. Seating is on concrete bleachers, so bringing a cushion is recommended. In case of rain, performances may be cancelled - check the official website or social media for updates. There are no tickets or reservations; seating is first-come, first-served. Washroom facilities and concessions are available nearby.`;
-        
+
         // Create categories
         const categories = ['entertainment', 'outdoor', 'community', 'free', 'summer'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Music') {
           if (eventData.title.includes('Orchestra')) {
             categories.push('classical', 'orchestra');
@@ -176,7 +176,7 @@ class KitsilanoShowboatScraper {
         } else if (eventData.category === 'Variety') {
           categories.push('talent show', 'community performers', 'finale');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -188,19 +188,19 @@ class KitsilanoShowboatScraper {
           category: 'entertainment',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🏖️ Successfully created ${events.length} Kitsilano Showboat events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Kitsilano Showboat scraper: ${error.message}`);
       return events;
@@ -209,3 +209,13 @@ class KitsilanoShowboatScraper {
 }
 
 module.exports = new KitsilanoShowboatScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new KitsilanoShowboatScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.KitsilanoShowboatScraper = KitsilanoShowboatScraper;

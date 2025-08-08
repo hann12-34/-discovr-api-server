@@ -1,0 +1,166 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+
+class AgaKhanMuseumScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Aga Khan Museum';
+        this.baseUrl = 'https://www.agakhanmuseum.org';
+        this.url = 'https://www.agakhanmuseum.org/programs/';
+        this.venue = {
+            name: 'Aga Khan Museum',
+            address: '77 Wynford Dr, North York, ON M3C 1K1',
+            city: this.city,
+            province: 'ON',
+            country: 'Canada',
+            postalCode: 'M3C 1K1',
+            latitude: 43.7255,
+            longitude: -79.3325
+        };
+    }
+
+    _generateEventId(title, startDate) {
+        const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    _parseDate(dateString) {
+        if (!dateString) return null;
+
+        const now = new Date();
+        const year = now.getFullYear();
+
+        try {
+            if (dateString.toLowerCase().includes('ongoing')) {
+                const startDate = now;
+                const endDate = new Date(year, 11, 31);
+                return { startDate, endDate };
+            } 
+            
+            if (dateString.includes('–')) { // Using en-dash for date ranges
+                const parts = dateString.split('–').map(part => part.trim());
+                const startPart = parts[0].includes(',') ? parts[0] : `${parts[0]}, ${year}`;
+                const endPart = parts[1].includes(',') ? parts[1] : `${parts[1]}, ${year}`;
+                
+                const startDate = new Date(startPart);
+                const endDate = new Date(endPart);
+
+                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                    return { startDate, endDate };
+                }
+            } else {
+                const singleDatePart = dateString.includes(',') ? dateString : `${dateString}, ${year}`;
+                const startDate = new Date(singleDatePart);
+                if (!isNaN(startDate.getTime())) {
+                    const endDate = new Date(startDate);
+                    endDate.setHours(endDate.getHours() + 2); // Default duration
+                    return { startDate, endDate };
+                }
+            }
+        } catch (error) {
+            this.log(`Error parsing date "${dateString}": ${error.message}`);
+        }
+
+        this.log(`Could not parse date: "${dateString}".`);
+        return null;
+    }
+
+    _extractCategories(title, description) {
+        const text = `${title} ${description}`.toLowerCase();
+        const categories = [this.city, 'Museum', 'Culture'];
+
+        const mappings = {
+            'Art': [/art/i, /exhibition/i, /gallery/i],
+            'Music': [/music/i, /concert/i, /performance/i],
+            'Film': [/film/i, /screening/i],
+            'Education': [/tour/i, /workshop/i, /talk/i, /lecture/i, /learn/i],
+            'Family': [/family/i, /kids/i, /children/i],
+            'Islamic Art': [/islamic/i, /persian/i, /mughal/i]
+        };
+
+        for (const [category, regexes] of Object.entries(mappings)) {
+            if (regexes.some(regex => regex.test(text))) {
+                categories.push(category);
+            }
+        }
+
+        return [...new Set(categories)];
+    }
+
+    _extractPrice(text) {
+        if (!text) return 'Varies';
+        const lowerText = text.toLowerCase();
+        if (lowerText.includes('free')) return 'Free';
+        const priceMatches = text.match(/\$\d+(\.\d{2})?/g);
+        if (priceMatches) return priceMatches.join(' - ');
+        if (lowerText.includes('pay what you can')) return 'Pay What You Can';
+        return 'Varies';
+    }
+
+    async scrape() {
+        this.log(`Scraping events from ${this.source}`);
+        try {
+            const { data } = await axios.get(this.url);
+            const $ = cheerio.load(data);
+            let events = [];
+
+            $('.program-item').each((i, el) => {
+                const title = $(el).find('h3').text().trim();
+                if (!title) return;
+
+                const url = $(el).find('a').attr('href');
+                const imageUrl = $(el).find('img').attr('src');
+                const dateText = $(el).find('.program-item__date').text().trim();
+                const description = $(el).find('.program-item__description').text().trim();
+                const priceText = $(el).find('.program-item__price').text().trim();
+
+                const parsedDates = this._parseDate(dateText);
+                if (!parsedDates) {
+                    this.log(`Skipping event with unparsable date: "${title}"`);
+                    return; // Skips this iteration
+                }
+                const { startDate, endDate } = parsedDates;
+
+                const categories = this._extractCategories(title, description);
+                const price = this._extractPrice(priceText);
+
+                const event = {
+                    id: this._generateEventId(title, startDate),
+                    title,
+                    description,
+                    url: url.startsWith('http') ? url : `${this.baseUrl}${url}`,
+                    imageUrl: imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`,
+                    startDate,
+                    endDate,
+                    venue: this.venue,
+                    categories,
+                    source: this.source,
+                    price,
+                    scrapedAt: new Date()
+                };
+                events.push(event);
+            });
+
+            this.log(`Found ${events.length} events from ${this.source}.`);
+            return events;
+        } catch (error) {
+            this.log(`Error scraping ${this.source}: ${error.message}`);
+            return [];
+        }
+    }
+}
+
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new AgaKhanMuseumScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.AgaKhanMuseumScraper = AgaKhanMuseumScraper;

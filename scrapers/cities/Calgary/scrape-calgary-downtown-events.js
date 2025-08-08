@@ -1,6 +1,6 @@
 /**
  * Calgary Downtown Monthly Events Scraper
- * 
+ *
  * This scraper extracts monthly event information from Calgary's official downtown events page.
  * It captures festivals, markets, special events, and seasonal activities in downtown Calgary.
  */
@@ -18,13 +18,13 @@ class CalgaryDowntownEventsScraper {
     async scrapeEvents() {
         try {
             console.log('🏙️ Scraping Calgary Downtown Monthly Events...');
-            
+
             const response = await axios.get(this.targetUrl, {
                 timeout: 30000,
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-            });
+            };
 
             const $ = cheerio.load(response.data);
             const events = [];
@@ -37,7 +37,7 @@ class CalgaryDowntownEventsScraper {
             await this.checkPaginatedPages(events);
 
             const uniqueEvents = this.removeDuplicateEvents(events);
-            
+
             console.log(`🎉 Successfully scraped ${uniqueEvents.length} unique events from Calgary Downtown Events`);
             return uniqueEvents;
 
@@ -62,16 +62,16 @@ class CalgaryDowntownEventsScraper {
         $('h3').each((index, element) => {
             const $header = $(element);
             const eventTitle = this.cleanText($header.text());
-            
+
             if (eventTitle && eventTitle.length > 2) {
                 const eventContent = this.getEventContent($header);
                 const eventData = this.parseEventSection(eventTitle, eventContent);
-                
+
                 if (eventData) {
                     events.push(eventData);
                 }
             }
-        });
+        };
     }
 
     extractKnownEvents($, events) {
@@ -152,7 +152,7 @@ class CalgaryDowntownEventsScraper {
         ];
 
         const pageText = $('body').text();
-        
+
         knownEvents.forEach(eventTemplate => {
             if (eventTemplate.pattern.test(pageText)) {
                 const eventData = this.createEventFromTemplate(eventTemplate, pageText);
@@ -160,7 +160,7 @@ class CalgaryDowntownEventsScraper {
                     events.push(eventData);
                 }
             }
-        });
+        };
     }
 
     parseFolkFestival(text) {
@@ -168,13 +168,13 @@ class CalgaryDowntownEventsScraper {
             return {
                 title: 'Calgary Folk Music Festival',
                 description: 'Summer tradition at Prince\'s Island Park with 70 artists from around the world performing on seven stages over four days. Features indie, roots, global sounds, and collaborations.',
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: 'Prince\'s Island Park',
                     address: 'Prince\'s Island Park',
-                    city: 'Calgary',
+                    city: city,
                     state: 'Alberta',
                     country: 'Canada'
-                },
+                }, city },,
                 category: 'Festival',
                 url: 'https://www.calgaryfolkfest.com/',
                 date: this.parseEventDate('July 24-27'),
@@ -196,7 +196,7 @@ class CalgaryDowntownEventsScraper {
         return {
             title: title,
             description: description || `${title} - Check event details for more information.`,
-            venue: venue,
+            venue: { ...RegExp.venue: { ...RegExp.venue: venue,, city }, city },,
             category: category,
             url: this.targetUrl,
             date: dates.length > 0 ? dates[0] : this.getUpcomingDate(),
@@ -209,17 +209,17 @@ class CalgaryDowntownEventsScraper {
 
     createEventFromTemplate(template, pageText) {
         const dates = this.extractDatesFromText(pageText, template.title);
-        
+
         return {
             title: template.title,
             description: template.description,
-            venue: {
+            venue: { ...RegExp.venue: {
                 name: template.venue,
                 address: template.venue,
-                city: 'Calgary',
+                city: city,
                 state: 'Alberta',
                 country: 'Canada'
-            },
+            }, city },,
             category: template.category,
             url: this.targetUrl,
             date: dates.length > 0 ? dates[0] : this.getUpcomingDate(),
@@ -233,12 +233,12 @@ class CalgaryDowntownEventsScraper {
     getEventContent($header) {
         let content = '';
         let nextElement = $header.next();
-        
+
         while (nextElement.length > 0 && !nextElement.is('h3')) {
             content += nextElement.text() + ' ';
             nextElement = nextElement.next();
         }
-        
+
         return content.trim();
     }
 
@@ -256,7 +256,7 @@ class CalgaryDowntownEventsScraper {
                 return {
                     name: this.cleanText(match[1]),
                     address: this.cleanText(match[1]),
-                    city: 'Calgary',
+                    city: city,
                     state: 'Alberta',
                     country: 'Canada'
                 };
@@ -266,7 +266,7 @@ class CalgaryDowntownEventsScraper {
         return {
             name: 'Calgary, AB',
             address: 'Calgary, AB',
-            city: 'Calgary',
+            city: city,
             state: 'Alberta',
             country: 'Canada'
         };
@@ -289,9 +289,9 @@ class CalgaryDowntownEventsScraper {
                     if (date) {
                         dates.push(date);
                     }
-                });
+                };
             }
-        });
+        };
 
         return dates;
     }
@@ -299,12 +299,12 @@ class CalgaryDowntownEventsScraper {
     extractDatesFromText(text, eventTitle) {
         const dates = [];
         const eventSection = this.getEventSectionFromText(text, eventTitle);
-        
+
         if (eventSection) {
             const dateMatches = eventSection.match(/When:\s*([^[\n]+)/);
             if (dateMatches) {
-                const dateString = dateMatches[1];
-                const parsedDate = this.parseEventDate(dateString);
+                const daeventDateText = dateMatches[1];
+                const parsedDate = this.parseEventDate(daeventDateText);
                 if (parsedDate) {
                     dates.push(parsedDate);
                 }
@@ -317,7 +317,7 @@ class CalgaryDowntownEventsScraper {
     getEventSectionFromText(text, eventTitle) {
         const startIndex = text.indexOf(eventTitle);
         if (startIndex === -1) return null;
-        
+
         const endIndex = text.indexOf('###', startIndex + 1);
         return endIndex === -1 ? text.substring(startIndex) : text.substring(startIndex, endIndex);
     }
@@ -351,37 +351,37 @@ class CalgaryDowntownEventsScraper {
     generateTags(title, content) {
         const tags = [];
         const keywords = ['market', 'festival', 'family', 'art', 'food', 'music', 'downtown', 'night', 'summer'];
-        
+
         keywords.forEach(keyword => {
             if (title.toLowerCase().includes(keyword) || content.toLowerCase().includes(keyword)) {
                 tags.push(keyword);
             }
-        });
+        };
 
         return tags;
     }
 
-    parseEventDate(dateString) {
+    parseEventDate(daeventDateText) {
         const now = new Date();
         const currentYear = now.getFullYear();
-        
+
         // Handle various date formats
-        if (dateString.includes('July')) {
-            const dayMatch = dateString.match(/July\s+(\d+)/);
+        if (daeventDateText.includes('July')) {
+            const dayMatch = daeventDateText.match(/July\s+(\d+)/);
             if (dayMatch) {
                 return new Date(currentYear, 6, parseInt(dayMatch[1])); // July is month 6
             }
         }
-        
-        if (dateString.includes('August')) {
-            const dayMatch = dateString.match(/August\s+(\d+)/);
+
+        if (daeventDateText.includes('August')) {
+            const dayMatch = daeventDateText.match(/August\s+(\d+)/);
             if (dayMatch) {
                 return new Date(currentYear, 7, parseInt(dayMatch[1])); // August is month 7
             }
         }
-        
-        if (dateString.includes('September')) {
-            const dayMatch = dateString.match(/September\s+(\d+)/);
+
+        if (daeventDateText.includes('September')) {
+            const dayMatch = daeventDateText.match(/September\s+(\d+)/);
             if (dayMatch) {
                 return new Date(currentYear, 8, parseInt(dayMatch[1])); // September is month 8
             }
@@ -401,20 +401,20 @@ class CalgaryDowntownEventsScraper {
                     headers: {
                         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                     }
-                });
+                };
 
                 const $ = cheerio.load(response.data);
                 const pageEvents = [];
-                
+
                 this.extractMainEvents($, pageEvents);
                 this.extractKnownEvents($, pageEvents);
-                
+
                 // Add unique events from this page
                 pageEvents.forEach(event => {
                     if (!events.find(e => e.title === event.title)) {
                         events.push(event);
                     }
-                });
+                };
 
             } catch (error) {
                 // Page doesn't exist or error, continue to next
@@ -439,7 +439,7 @@ class CalgaryDowntownEventsScraper {
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     cleanText(text) {
@@ -448,3 +448,14 @@ class CalgaryDowntownEventsScraper {
 }
 
 module.exports = CalgaryDowntownEventsScraper;
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new CalgaryDowntownEventsScraper();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in CalgaryDowntownEventsScraper');
+    }
+};

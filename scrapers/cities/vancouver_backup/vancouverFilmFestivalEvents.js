@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver International Film Festival Events Scraper
  * Scrapes events from the Vancouver International Film Festival (VIFF)
@@ -209,7 +210,7 @@ const VancouverFilmFestivalEvents = {
       venue: {
         name: 'Vancouver International Film Festival',
         address: '1181 Seymour Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6B 3M7',

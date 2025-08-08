@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-07-18T00:53:04.453Z",
+  "timestamp": "2025-08-04T05:52:34.378Z",
   "summary": {
     "total": 11,
     "available": 2,
@@ -94,7 +94,7 @@
       "success": true,
       "events": 10,
       "error": null,
-      "duration": 32
+      "duration": 1394
     },
     {
       "venue": "Celebrities Nightclub",

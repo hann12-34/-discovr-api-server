@@ -6,41 +6,41 @@ class VictoriaConferenceCentreScraper {
     this.source = 'Victoria Conference Centre';
   }
 
-  async scrape() {
+  async scrape(city) {
     console.log(`🏛️ Scraping ${this.name}...`);
-    
+
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    
+    };
+
     try {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      
+
       // Navigate to Victoria events
       await page.goto('https://www.tourismvictoria.com/events', {
         waitUntil: 'networkidle2',
         timeout: 30000
-      });
+      };
 
       const events = await page.evaluate(() => {
-        const eventElements = document.querySelectorAll('.event-item, .event-card, .event, .listing, [class*="event"]');
+        const eventElements = document.querySelectorAll('-item, -card, , .listing, [class*="event"]');
         const events = [];
-        
+
         eventElements.forEach((element, index) => {
           if (index >= 12) return; // Limit to prevent overload
-          
-          const title = element.querySelector('h1, h2, h3, .title, .event-title, .name, a')?.textContent?.trim() ||
+
+          const title = element.querySelector('h1, h2, h3, .title, -title, .name, a')?.textContent?.trim() ||
                        element.textContent?.trim()?.split('\n')[0] ||
                        `Victoria Event ${index + 1}`;
-          
-          const date = element.querySelector('.date, .event-date, .time, [class*="date"]')?.textContent?.trim() ||
+
+          const date = element.querySelector('.date, -date, .time, [class*="date"]')?.textContent?.trim() ||
                       element.textContent?.match(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i)?.[0];
-          
+
           const description = element.querySelector('.description, .excerpt, .summary, p')?.textContent?.trim() ||
                              'Experience this exciting event in beautiful Victoria, BC.';
-          
+
           const price = element.querySelector('.price, .cost, .fee, [class*="price"]')?.textContent?.trim() ||
                        element.textContent?.match(/\$[\d,]+/)?.[0] || 'Free';
 
@@ -50,11 +50,11 @@ class VictoriaConferenceCentreScraper {
             date,
             price: typeof price === 'string' ? price : String(price),
             element: element.outerHTML?.substring(0, 1000)
-          });
-        });
-        
+          };
+        };
+
         return events;
-      });
+      };
 
       const processedEvents = [];
       const currentDate = new Date();
@@ -62,17 +62,17 @@ class VictoriaConferenceCentreScraper {
 
       for (const event of events) {
         let eventDate = new Date();
-        
+
         if (event.date) {
           const parsedDate = new Date(event.date);
           if (!isNaN(parsedDate.getTime())) {
             eventDate = parsedDate;
           }
         }
-        
+
         // Add random days to spread events
         eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
-        
+
         const processedEvent = {
           title: event.title,
           description: event.description,
@@ -86,7 +86,7 @@ class VictoriaConferenceCentreScraper {
           venue: {
             name: 'Victoria Conference Centre',
             address: '720 Douglas St, Victoria, BC V8W 3M7',
-            city: 'Victoria',
+            city: city,
             province: 'BC',
             country: 'Canada',
             location: {
@@ -94,15 +94,15 @@ class VictoriaConferenceCentreScraper {
               coordinates: [-123.3656, 48.4284] // Victoria coordinates
             }
           },
-          city: 'Vancouver' // For app filtering
+          city: city // For app filtering
         };
 
         processedEvents.push(processedEvent);
       }
 
-      // Add fallback events if none found
+      // Add  if none found
       if (processedEvents.length === 0) {
-        const fallbackEvents = [
+        const  = [
           {
             title: 'Victoria Symphony Orchestra',
             description: 'Experience world-class classical music performances by the Victoria Symphony Orchestra.',
@@ -120,12 +120,12 @@ class VictoriaConferenceCentreScraper {
           }
         ];
 
-        fallbackEvents.forEach((event, index) => {
+        .forEach((event, index) => {
           const eventDate = new Date();
           eventDate.setDate(eventDate.getDate() + (index + 1) * 12);
-          
+
           processedEvents.push({
-            ...event,
+            ..,
             startDate: eventDate.toISOString(),
             endDate: eventDate.toISOString(),
             source: this.source,
@@ -135,7 +135,7 @@ class VictoriaConferenceCentreScraper {
             venue: {
               name: 'Victoria Conference Centre',
               address: '720 Douglas St, Victoria, BC V8W 3M7',
-              city: 'Victoria',
+              city: city,
               province: 'BC',
               country: 'Canada',
               location: {
@@ -143,9 +143,9 @@ class VictoriaConferenceCentreScraper {
                 coordinates: [-123.3656, 48.4284]
               }
             },
-            city: 'Vancouver'
-          });
-        });
+            city: city
+          };
+        };
       }
 
       console.log(`✅ Found ${processedEvents.length} events from ${this.name}`);
@@ -161,3 +161,12 @@ class VictoriaConferenceCentreScraper {
 }
 
 module.exports = new VictoriaConferenceCentreScraper();
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VictoriaConferenceCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VictoriaConferenceCentreScraper = VictoriaConferenceCentreScraper;

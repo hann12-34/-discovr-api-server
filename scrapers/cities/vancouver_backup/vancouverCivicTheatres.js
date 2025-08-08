@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Civic Theatres Scraper
  * 
@@ -20,7 +21,7 @@ class VancouverCivicTheatresScraper {
       name: 'Vancouver Civic Theatres',
       id: 'vancouver-civic-theatres',
       address: '630 Hamilton St',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 5N6',

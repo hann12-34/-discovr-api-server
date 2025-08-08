@@ -1,6 +1,6 @@
 /**
  * Levels Nightclub Scraper
- * 
+ *
  * This scraper provides information about events at Levels Nightclub in Vancouver
  * Source: https://www.levelsvancouver.com/
  */
@@ -12,13 +12,13 @@ class LevelsNightclubScraper {
     this.name = 'Levels Nightclub';
     this.url = 'https://www.levelsvancouver.com/';
     this.sourceIdentifier = 'levels-nightclub';
-    
+
     // Venue information
     this.venue = {
       name: "Levels Nightclub",
       id: "levels-nightclub-vancouver",
       address: "560 Seymour St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6B 3J5",
@@ -29,9 +29,9 @@ class LevelsNightclubScraper {
       websiteUrl: "https://www.levelsvancouver.com/",
       description: "Levels Nightclub is a premium multi-level entertainment venue in downtown Vancouver, featuring state-of-the-art sound and lighting systems across multiple rooms. The venue hosts a variety of electronic music events, hip-hop nights, and themed parties with both local and international DJs."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Trap Dynasty: Future Beats & 808s",
         description: "Vancouver's longest-running trap music night returns to Levels with a lineup of local and international artists pushing the boundaries of bass music. Experience the evolution of trap, featuring heavy 808s, experimental beats, and vocal chops that blend hip-hop, electronic music, and global influences. The night showcases both established and emerging trap producers, with headlining performances from Vancouver's own Sentry Gang and special guest DJ Bandzz from Atlanta. The event spans both floors of Levels, with the main room focused on high-energy trap and the upstairs lounge featuring more experimental and future bass sounds. The venue's renowned sound system has been specially calibrated for this event to deliver the punchy bass and crisp highs that define the genre.",
@@ -86,70 +86,70 @@ class LevelsNightclubScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Levels Nightclub scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `levels-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Available online through Levels website or at the door if not sold out\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: Levels Nightclub is a multi-level venue in downtown Vancouver featuring state-of-the-art sound and lighting systems. The venue includes multiple rooms with different music styles, a spacious dance floor, multiple bars, and VIP bottle service areas. Valid government-issued photo ID is required for all 19+ events.`;
-        
+
         // Create categories
         const categories = ['nightlife', 'music', 'club'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Electronic') {
           categories.push('edm', 'dj', 'electronic music');
         } else if (eventData.category === 'Dance Party') {
@@ -157,7 +157,7 @@ class LevelsNightclubScraper {
         } else if (eventData.category === 'World Music') {
           categories.push('latin', 'afrobeats', 'global');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -169,19 +169,19 @@ class LevelsNightclubScraper {
           category: 'nightlife',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎧 Successfully created ${events.length} Levels Nightclub events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Levels Nightclub scraper: ${error.message}`);
       return events;
@@ -190,3 +190,13 @@ class LevelsNightclubScraper {
 }
 
 module.exports = new LevelsNightclubScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new LevelsNightclubScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.LevelsNightclubScraper = LevelsNightclubScraper;

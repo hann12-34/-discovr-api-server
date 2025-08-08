@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Granville Market Events Scraper
  * Scrapes events from Granville Island Public Market's website
@@ -13,7 +14,7 @@ class GranvilleMarketEvents {
     this.venue = {
       name: 'Granville Island Public Market',
       address: '1689 Johnston St, Vancouver, BC V6H 3R9',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2711, lng: -123.1347 }

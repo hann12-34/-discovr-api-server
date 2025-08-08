@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-toronto-pride.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🏳️‍🌈 Scraping events from Toronto Pride Festival...');
 
@@ -18,7 +23,7 @@ async function scrape() {
             venue: {
                 name: 'Church-Wellesley Village',
                 address: 'Church Street & Wellesley Street, Toronto, ON',
-                city: 'Toronto',
+                city: city,
                 province: 'Ontario',
                 country: 'Canada'
             },
@@ -31,7 +36,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://www.pridetoronto.com/tickets'
             }
-        });
+        };
 
         // Specific Toronto Pride events
         const prideEvents = [
@@ -92,8 +97,8 @@ async function scrape() {
         ];
 
         prideEvents.forEach(event => {
-            const duration = event.type === 'parade' ? 5 : 
-                            (event.type === 'street-festival' ? 10 : 
+            const duration = event.type === 'parade' ? 5 :
+                            (event.type === 'street-festival' ? 10 :
                             (event.type === 'party' ? 8 : 4));
             const endDate = new Date(event.date.getTime() + duration * 60 * 60 * 1000);
 
@@ -102,20 +107,20 @@ async function scrape() {
                 startDate: event.date,
                 endDate: endDate,
                 description: event.description,
-                category: event.type === 'parade' || event.type === 'march' ? 'Parade' : 
-                          (event.type === 'concert' || event.type === 'performance' ? 'Music' : 
+                category: event.type === 'parade' || event.type === 'march' ? 'Parade' :
+                          (event.type === 'concert' || event.type === 'performance' ? 'Music' :
                           (event.type === 'party' ? 'Nightlife' : 'Community')),
                 subcategory: event.type === 'march' ? 'Pride March' :
                             (event.type === 'concert' ? 'Pride Concert' :
                             (event.type === 'party' ? 'Dance Party' : 'Pride Event')),
                 venue: {
-                    name: event.type === 'parade' ? 'Yonge Street Parade Route' : 
+                    name: event.type === 'parade' ? 'Yonge Street Parade Route' :
                           (event.type === 'party' ? 'Centre Island' :
                           (event.type === 'concert' ? 'Yonge-Dundas Square' : 'Church-Wellesley Village')),
                     address: event.type === 'parade' ? 'Yonge St from Bloor to Lakeshore, Toronto, ON' :
                             (event.type === 'party' ? 'Centre Island, Toronto, ON' :
                             (event.type === 'concert' ? '1 Dundas St E, Toronto, ON' : 'Church St, Toronto, ON')),
-                    city: 'Toronto',
+                    city: city,
                     province: 'Ontario',
                     country: 'Canada'
                 },
@@ -129,8 +134,8 @@ async function scrape() {
                     isFree: event.type === 'parade' || event.type === 'march' || event.type === 'street-festival',
                     ticketUrl: 'https://www.pridetoronto.com/tickets'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from Toronto Pride`);
         return events;
@@ -143,3 +148,7 @@ async function scrape() {
 
 const scrapeEvents = scrape;
 module.exports = { scrape, scrapeEvents };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

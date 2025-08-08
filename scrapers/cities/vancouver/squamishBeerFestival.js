@@ -1,6 +1,6 @@
 /**
  * Squamish Beer Festival 2025 Scraper
- * 
+ *
  * This scraper generates the event for the 9th Annual Squamish Beer Festival
  * on June 21, 2025 at Loggers Sports Grounds in Squamish, BC
  */
@@ -12,13 +12,13 @@ class SquamishBeerFestivalScraper {
     this.name = 'Squamish Beer Festival';
     this.url = 'https://squamishbeerfestival.com/';
     this.sourceIdentifier = 'squamish-beer-festival';
-    
+
     // Define venue with proper object structure
     this.venue = {
       name: 'Loggers Sports Grounds',
       id: 'loggers-sports-grounds-squamish',
       address: '39555 Loggers Ln',
-      city: 'Squamish',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V8B 0H9',
@@ -30,19 +30,19 @@ class SquamishBeerFestivalScraper {
       description: "Located in the heart of Squamish, the Loggers Sports Grounds is a versatile outdoor venue that hosts various community events, sports competitions, and festivals. Set against the stunning backdrop of the Coast Mountains, this spacious venue features wide-open grounds and excellent facilities for large gatherings."
     };
   }
-  
+
   /**
    * Main scraper function
    */
   async scrape() {
     console.log('🔍 Starting Squamish Beer Festival 2025 scraper...');
     const events = [];
-    
+
     try {
       // Create date objects for the festival
       const startDate = new Date('2025-06-21T13:00:00'); // 1:00 PM
       const endDate = new Date('2025-06-21T18:00:00');   // 6:00 PM
-      
+
       // Entertainment lineup
       const lineup = [
         {
@@ -66,16 +66,16 @@ class SquamishBeerFestivalScraper {
           description: "Shred Kelly is a festival favourite known for their infectious blend of alt-folk, rock, and danceable anthems. Hailing from Fernie, BC, the band has toured across North America and Europe, earning a reputation for raucous, joy-filled live shows that keep audiences moving."
         }
       ];
-      
+
       // Compile the entertainment information
       let entertainmentInfo = "### Live Entertainment Schedule:\n\n";
       lineup.forEach(act => {
         entertainmentInfo += `* **${act.artist}** - ${act.startTime} - ${act.description}\n\n`;
-      });
-      
+      };
+
       // Create comprehensive description
       const description = `Experience the 9th Annual Squamish Beer Festival! The ultimate craft beer celebration in Canada's adventure playground. Raise a glass to the best of BC—craft beverages, mouthwatering eats, and local talent—all set against the stunning backdrop of Squamish.\n\n${entertainmentInfo}\nThe festival features:\n\n* Craft beer tastings from top BC breweries\n* Delicious food from local vendors\n* Live music throughout the day\n* Local makers market with handcrafted goods\n* Bike parking available\n\nThis is a 19+ event. Valid ID required for entry. No minors permitted on site.`;
-      
+
       // Create event object
       const event = {
         id: 'squamish-beer-festival-2025',
@@ -95,13 +95,13 @@ class SquamishBeerFestivalScraper {
         ageRestriction: '19+',
         lastUpdated: new Date()
       };
-      
+
       events.push(event);
       console.log(`✅ Added event: ${event.title}`);
-      
+
       console.log(`🎉 Successfully scraped Squamish Beer Festival 2025 event`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Squamish Beer Festival scraper: ${error.message}`);
       return events;
@@ -110,3 +110,13 @@ class SquamishBeerFestivalScraper {
 }
 
 module.exports = new SquamishBeerFestivalScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SquamishBeerFestivalScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SquamishBeerFestivalScraper = SquamishBeerFestivalScraper;

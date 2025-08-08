@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * DOXA Documentary Film Festival Events Scraper
  * 
@@ -15,7 +16,7 @@ class DoxaFilmFestivalEvents {
     this.venue = {
       name: 'DOXA Documentary Film Festival',
       address: 'Various Venues in Vancouver',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2827, lng: -123.1207 } // Downtown Vancouver coordinates

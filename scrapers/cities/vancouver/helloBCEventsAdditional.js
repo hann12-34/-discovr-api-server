@@ -1,6 +1,6 @@
 /**
  * HelloBC Additional Events Scraper
- * 
+ *
  * This scraper provides information about additional events from HelloBC (British Columbia's official tourism website)
  * Source: https://www.hellobc.com/things-to-do/events/
  */
@@ -12,21 +12,21 @@ class HelloBCAdditionalEventsScraper {
     this.name = 'HelloBC Additional Events';
     this.url = 'https://www.hellobc.com/things-to-do/events/';
     this.sourceIdentifier = 'hellobc-additional-events';
-    
+
     // This isn't a traditional venue but rather a source/aggregator of events across BC
     this.venue = {
       name: "HelloBC Additional Events",
       id: "hellobc-additional-events",
       address: "Multiple locations across British Columbia",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       websiteUrl: "https://www.hellobc.com/things-to-do/events/",
       description: "HelloBC is British Columbia's official tourism website, providing comprehensive information about events, festivals, and activities across the province. It showcases a curated selection of notable events from Vancouver and beyond to highlight the best experiences for tourists and locals alike."
     };
-    
+
     // Additional featured events for 2025 (spanning across BC)
-    this.events = [
+    thiss = [
       {
         title: "Steveston Salmon Festival",
         description: "Known as 'Canada's biggest little birthday party,' the Steveston Salmon Festival celebrates both Canada Day and the community's rich fishing heritage. This beloved Richmond tradition features a grand parade through Steveston Village, a salmon barbecue where over 1,200 pounds of wild salmon are grilled over open alder wood fires, and a Japanese cultural fair honoring the area's significant Japanese-Canadian history. The festival grounds at Steveston Park include multiple stages with live music ranging from folk to rock, cultural performances, children's activities and games, a trade show featuring local artisans, and a food fair showcasing diverse cuisines. The Horticultural Show displays prize-winning flowers, vegetables, and floral arrangements from local gardeners, while the Youth Festival provides opportunities for young performers to showcase their talents. The day culminates with a spectacular fireworks display over the Fraser River, celebrating both Canada's birthday and Steveston's maritime heritage in a quintessentially Canadian community gathering that has been running for over 75 years.",
@@ -35,7 +35,7 @@ class HelloBCAdditionalEventsScraper {
         location: {
           name: "Steveston Village",
           address: "4111 Moncton Street",
-          city: "Richmond",
+          city: city,
           state: "BC",
           postalCode: "V7E 3A8",
           coordinates: {
@@ -57,7 +57,7 @@ class HelloBCAdditionalEventsScraper {
         location: {
           name: "Hendrickson Field",
           address: "39555 Loggers Lane",
-          city: "Squamish",
+          city: city,
           state: "BC",
           postalCode: "V8B 0H3",
           coordinates: {
@@ -79,7 +79,7 @@ class HelloBCAdditionalEventsScraper {
         location: {
           name: "Lakeland Flowers",
           address: "39171 No. 4 Road",
-          city: "Abbotsford",
+          city: city,
           state: "BC",
           postalCode: "V3G 2C9",
           coordinates: {
@@ -101,7 +101,7 @@ class HelloBCAdditionalEventsScraper {
         location: {
           name: "Downtown Victoria",
           address: "Douglas Street",
-          city: "Victoria",
+          city: city,
           state: "BC",
           postalCode: "V8W 2B7",
           coordinates: {
@@ -117,13 +117,13 @@ class HelloBCAdditionalEventsScraper {
       },
       {
         title: "Okanagan Spring Wine Festival",
-        description: "The Okanagan Spring Wine Festival celebrates the blossoming season in Canada's premier wine region with a 10-day program of wine-focused events spanning the entire Okanagan Valley. This springtime celebration coincides with the flowering of the vines and fruit trees that blanket the region's hillsides, creating a spectacular backdrop for wine enthusiasts to discover new vintages and connect with winemakers. The festival features over 100 individual events including winery-hosted tastings, vineyard tours highlighting sustainable practices, educational seminars led by sommeliers, and gourmet food pairings showcasing regional ingredients. Signature events include the Spring WestJet Wine Tastings where attendees can sample from over 200 wines under one roof, 'Blossom to Bottle' educational tours that explore the complete winemaking journey, and 'Compost to Kitchen' farm-to-table dining experiences at vineyard restaurants. Many participating wineries release their new white wines and rosés during this festival, with special events focusing on the Okanagan's internationally acclaimed aromatic white varieties. The festival serves as an ideal introduction to the Okanagan wine region, with transportation packages and accommodation options designed to encourage wine tourism throughout the valley.",
+        description: "The Okanagan Spring Wine Festival celebrates the blossoming season in Canada's premier wine region with a 10-day program of wine-focused events spanning the entire Okanagan Valley. This springtime celebration coincides with the flowering of the vines and fruit trees that blanket the region's hillsides, creating a spectacular backdrop for wine enthusiasts to discover new vintages and connect with winemakers. The festival features over 100 individual events including winery-hosted tastings, vineyard tours highlighting sustainable practices, educational seminars led by sommeliers, and gourmet food pairings showcasing regional ingredients. Signature events include the Spring WestJet Wine Tastings where attendees can s focusing on the Okanagan's internationally acclaimed aromatic white varieties. The festival serves as an ideal introduction to the Okanagan wine region, with transportation packages and accommodation options designed to encourage wine tourism throughout the valley.",
         date: new Date("2025-05-01T10:00:00"),
         endTime: new Date("2025-05-11T20:00:00"),
         location: {
           name: "Various Wineries",
           address: "Okanagan Valley",
-          city: "Kelowna",
+          city: city,
           state: "BC",
           postalCode: "V1Y 6N2",
           coordinates: {
@@ -139,39 +139,39 @@ class HelloBCAdditionalEventsScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting HelloBC Additional Events scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `hellobc-add-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         // Format date based on whether it's a single day or multi-day event
         let formattedDateRange = '';
-        if (eventData.date.toDateString() === eventData.endTime.toDateString()) {
+        if (eventData.date.toDaData.endTime.toDa()) {
           // Single day event
           formattedDateRange = `${dateFormat.format(eventData.date)}`;
         } else {
@@ -180,14 +180,14 @@ class HelloBCAdditionalEventsScraper {
           const endDate = dateFormat.format(eventData.endTime);
           formattedDateRange = `${startDate} to ${endDate}`;
         }
-        
+
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
-        if (eventData.date.toDateString() === eventData.endTime.toDateString()) {
+
+        if (eventData.date.toDaData.endTime.toDa()) {
           // Single day event
           detailedDescription += `Date: ${formattedDateRange}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
@@ -196,7 +196,7 @@ class HelloBCAdditionalEventsScraper {
           detailedDescription += `Dates: ${formattedDateRange}\n`;
           detailedDescription += `Hours vary by day, please check official website for detailed schedule\n`;
         }
-        
+
         // Add additional dates if they exist
         if (eventData.additionalDates && eventData.additionalDates.length > 0) {
           detailedDescription += `\nAdditional Dates:\n`;
@@ -205,35 +205,35 @@ class HelloBCAdditionalEventsScraper {
             const additionalStartTime = timeFormat.format(additionalDate.date);
             const additionalEndTime = timeFormat.format(additionalDate.endTime);
             detailedDescription += `- ${additionalDateFormatted}, ${additionalStartTime} - ${additionalEndTime}\n`;
-          });
+          };
         }
-        
+
         detailedDescription += `\nLocation: ${eventData.location.name}\n`;
         detailedDescription += `Address: ${eventData.location.address}, ${eventData.location.city}, ${eventData.location.state}`;
-        
+
         if (eventData.location.postalCode) {
           detailedDescription += ` ${eventData.location.postalCode}`;
         }
         detailedDescription += `\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available through the event's official website\n`;
         } else {
           detailedDescription += `Tickets: Not required for general admission\n`;
         }
-        
-        detailedDescription += `\nFor more information and updates, visit the official HelloBC event listing at ${eventData.eventLink}`;
-        
+
+        detailedDescription += `\nFor more information and updates, visit the official HelloBC event listing at ${eventDataLink}`;
+
         // Create categories
         const categories = ['festival', 'event', 'tourism', 'british columbia'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.title.includes('Salmon Festival')) {
           categories.push('canada day', 'community', 'food', 'cultural', 'family');
         } else if (eventData.title.includes('Constellation Festival')) {
@@ -245,7 +245,7 @@ class HelloBCAdditionalEventsScraper {
         } else if (eventData.title.includes('Wine')) {
           categories.push('wine', 'food', 'culinary', 'okanagan', 'tastings');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -266,19 +266,19 @@ class HelloBCAdditionalEventsScraper {
           category: eventData.category.toLowerCase(),
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDateRange}`);
       }
-      
+
       console.log(`🏞️ Successfully created ${events.length} HelloBC additional events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in HelloBC Additional Events scraper: ${error.message}`);
       return events;
@@ -287,3 +287,13 @@ class HelloBCAdditionalEventsScraper {
 }
 
 module.exports = new HelloBCAdditionalEventsScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new HelloBCAdditionalEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.HelloBCAdditionalEventsScraper = HelloBCAdditionalEventsScraper;

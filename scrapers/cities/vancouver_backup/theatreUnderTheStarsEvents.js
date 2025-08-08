@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Theatre Under The Stars Events Scraper
  * Scrapes events from Theatre Under The Stars website
@@ -13,7 +14,7 @@ class TheatreUnderTheStarsEvents {
     this.venue = {
       name: 'Theatre Under The Stars',
       address: 'Malkin Bowl in Stanley Park, Vancouver, BC',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.3013, lng: -123.1418 }

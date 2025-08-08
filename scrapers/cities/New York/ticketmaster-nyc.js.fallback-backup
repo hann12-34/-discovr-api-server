@@ -1,0 +1,252 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * Ticketmaster NYC Events Scraper
+ * 
+ * Scrapes events from Ticketmaster NYC venues and concerts
+ * URL: https://www.ticketmaster.com/madison-square-garden-tickets-new-york/venue/483329
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class TicketmasterNYC {
+    constructor() {
+        this.venueName = 'Ticketmaster NYC';
+        this.venueLocation = 'Various NYC Venues';
+        this.baseUrl = 'https://www.ticketmaster.com';
+        this.eventsUrl = 'https://www.ticketmaster.com/madison-square-garden-tickets-new-york/venue/483329';
+        this.category = 'Ticketed Events & Concerts';
+    }
+
+    /**
+     * Scrape events from Ticketmaster NYC
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🎫 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Extract real Ticketmaster event data based on discovered structure
+            console.log('🎫 Extracting Ticketmaster events with data-testid selectors...');
+            
+            // Target the specific data-testid event selectors found during debugging
+            $('[data-testid*="event"]').each((index, element) => {
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                // Look for event information patterns in the data-testid elements
+                if (text.length > 10 && text.length < 500) {
+                    // Extract event title from text content
+                    const lines = text.split(/\n|\s{2,}/).filter(line => line.trim().length > 0);
+                    let title = '';
+                    
+                    // Look for the main event title (usually contains event name)
+                    for (const line of lines) {
+                        const cleanLine = line.trim();
+                        if (cleanLine.length > 5 && cleanLine.length < 100 && 
+                            !cleanLine.match(/^(\d{1,2}\/\d{1,2}\/\d{2,4}|\d{1,2}:\d{2}|AM|PM|Saturday|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Open|Find|Tickets)$/i) &&
+                            !cleanLine.match(/^(additional|information|for)$/i)) {
+                            title = cleanLine;
+                            break;
+                        }
+                    }
+                    
+                    if (!title) {
+                        // Fallback: use the longest meaningful line
+                        const meaningfulLines = lines.filter(line => 
+                            line.trim().length > 10 && line.trim().length < 100 && 
+                            !line.match(/^\d{1,2}:\d{2}$/)
+                        );
+                        title = meaningfulLines[0]?.trim() || '';
+                    }
+                    
+                    // Extract date information
+                    let dateText = '';
+                    const dateMatches = text.match(/(\d{1,2}\/\d{1,2}\/\d{2,4}.*\d{1,2}:\d{2}\s*(AM|PM)|\w+day.*\d{1,2}:\d{2}\s*(AM|PM))/i);
+                    if (dateMatches) {
+                        dateText = dateMatches[0];
+                    } else {
+                        // Look for simple date patterns
+                        const simpleDateMatch = text.match(/(\d{1,2}\/\d{1,2}\/\d{2,4})/i);
+                        if (simpleDateMatch) {
+                            dateText = simpleDateMatch[0];
+                        }
+                    }
+                    
+                    if (title && this.isValidEvent(title)) {
+                        const event = {
+                            title: title,
+                            venue: 'Madison Square Garden', // From Ticketmaster MSG page
+                            location: 'Madison Square Garden, New York, NY',
+                            date: dateText || 'Check Ticketmaster for dates',
+                            category: this.category,
+                            description: `Ticketed event at Madison Square Garden`,
+                            link: this.eventsUrl,
+                            source: 'TicketmasterNYC'
+                        };
+                        events.push(event);
+                    }
+                }
+            });
+            
+            // If no events found with data-testid, try broader event-related content
+            if (events.length === 0) {
+                console.log('🔍 No data-testid events found, trying broader event content...');
+                
+                $('div, section, li, article').each((index, element) => {
+                    if (index > 200 || events.length >= 15) return false; // Limit processing
+                    
+                    const $el = $(element);
+                    const text = $el.text().trim();
+                    
+                    if (text.length > 15 && text.length < 300) {
+                        // Look for event-related keywords with dates
+                        const hasEvent = text.match(/\b(concert|tour|live|show|tickets|artist|performer|musician|band|event|experience)\b/i);
+                        const hasDate = text.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2})\b/i);
+                        
+                        if (hasEvent && hasDate) {
+                            const lines = text.split('\n').filter(line => line.trim().length > 0);
+                            const title = lines[0]?.trim() || text.slice(0, 50).trim();
+                            
+                            if (title && this.isValidEvent(title)) {
+                                const event = {
+                                    title: title,
+                                    venue: this.venueName,
+                                    location: this.venueLocation,
+                                    date: hasDate[0] || 'Check website for dates',
+                                    category: this.category,
+                                    description: 'Ticketed event',
+                                    link: this.eventsUrl,
+                                    source: 'TicketmasterNYC'
+                                };
+                                events.push(event);
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Also look for events in table format
+            $('table tr, .table-row').each((index, element) => {
+                const $row = $(element);
+                const cells = $row.find('td, th, .cell').map((i, cell) => $(cell).text().trim()).get();
+                
+                if (cells.length >= 2) {
+                    const eventCell = cells.find(cell => cell && cell.length > 10 && cell.length < 100);
+                    const dateCell = cells.find(cell => cell && cell.match(/\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2}|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/i));
+                    
+                    if (eventCell && this.isValidEvent(eventCell)) {
+                        const event = {
+                            title: eventCell,
+                            venue: this.venueName,
+                            location: this.venueLocation,
+                            date: dateCell || 'Check website for dates',
+                            category: this.category,
+                            link: this.eventsUrl,
+                            source: 'TicketmasterNYC'
+                        };
+
+                        events.push(event);
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and date
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.date}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 3 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'advertisement',
+            'sponsored', 'ticketmaster', 'buy tickets', 'purchase'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        return !invalidKeywords.some(keyword => titleLower.includes(keyword));
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new TicketmasterNYC();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.TicketmasterNYC = TicketmasterNYC;

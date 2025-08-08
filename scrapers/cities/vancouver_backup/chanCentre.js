@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Chan Centre for the Performing Arts Scraper
  * 
@@ -20,7 +21,7 @@ class ChanCentreScraper {
       name: 'Chan Centre for the Performing Arts',
       id: 'chan-centre-ubc',
       address: '6265 Crescent Road',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6T 1Z1',

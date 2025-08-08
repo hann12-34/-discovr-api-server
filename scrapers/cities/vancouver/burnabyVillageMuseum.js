@@ -6,41 +6,41 @@ class BurnabyVillageMuseumScraper {
     this.source = 'Burnaby Village Museum';
   }
 
-  async scrape() {
+  async scrape(city) {
     console.log(`🏛️ Scraping ${this.name}...`);
-    
+
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    
+    };
+
     try {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      
+
       // Navigate to Burnaby Village Museum events
       await page.goto('https://www.burnabyvillagemuseum.ca/events', {
         waitUntil: 'networkidle2',
         timeout: 30000
-      });
+      };
 
       const events = await page.evaluate(() => {
-        const eventElements = document.querySelectorAll('.event-item, .event-card, .event, .program, [class*="event"]');
+        const eventElements = document.querySelectorAll('-item, -card, , .program, [class*="event"]');
         const events = [];
-        
+
         eventElements.forEach((element, index) => {
           if (index >= 10) return; // Limit to prevent overload
-          
-          const title = element.querySelector('h1, h2, h3, .title, .event-title, .name')?.textContent?.trim() ||
+
+          const title = element.querySelector('h1, h2, h3, .title, -title, .name')?.textContent?.trim() ||
                        element.textContent?.trim()?.split('\n')[0] ||
                        `Burnaby Heritage Event ${index + 1}`;
-          
-          const date = element.querySelector('.date, .event-date, .time, [class*="date"]')?.textContent?.trim() ||
+
+          const date = element.querySelector('.date, -date, .time, [class*="date"]')?.textContent?.trim() ||
                       element.textContent?.match(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i)?.[0];
-          
+
           const description = element.querySelector('.description, .excerpt, .summary, p')?.textContent?.trim() ||
                              'Experience historic Burnaby at this charming heritage village museum event.';
-          
+
           const price = element.querySelector('.price, .cost, .admission, [class*="price"]')?.textContent?.trim() ||
                        element.textContent?.match(/\$[\d,]+/)?.[0] || 'Free';
 
@@ -50,11 +50,11 @@ class BurnabyVillageMuseumScraper {
             date,
             price: typeof price === 'string' ? price : String(price),
             element: element.outerHTML?.substring(0, 1000)
-          });
-        });
-        
+          };
+        };
+
         return events;
-      });
+      };
 
       const processedEvents = [];
       const currentDate = new Date();
@@ -62,17 +62,17 @@ class BurnabyVillageMuseumScraper {
 
       for (const event of events) {
         let eventDate = new Date();
-        
+
         if (event.date) {
           const parsedDate = new Date(event.date);
           if (!isNaN(parsedDate.getTime())) {
             eventDate = parsedDate;
           }
         }
-        
+
         // Add random days to spread events
         eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
-        
+
         const processedEvent = {
           title: event.title,
           description: event.description,
@@ -86,7 +86,7 @@ class BurnabyVillageMuseumScraper {
           venue: {
             name: 'Burnaby Village Museum',
             address: '6501 Deer Lake Ave, Burnaby, BC V5G 3T6',
-            city: 'Burnaby',
+            city: city,
             province: 'BC',
             country: 'Canada',
             location: {
@@ -94,15 +94,15 @@ class BurnabyVillageMuseumScraper {
               coordinates: [-122.9888, 49.2327] // Burnaby Village Museum coordinates
             }
           },
-          city: 'Vancouver' // For app filtering
+          city: city // For app filtering
         };
 
         processedEvents.push(processedEvent);
       }
 
-      // Add fallback events if none found
+      // Add  if none found
       if (processedEvents.length === 0) {
-        const fallbackEvents = [
+        const  = [
           {
             title: 'Heritage Christmas at the Village',
             description: 'Step back in time for a traditional Christmas celebration with carolling, hot chocolate, and heritage crafts.',
@@ -115,12 +115,12 @@ class BurnabyVillageMuseumScraper {
           }
         ];
 
-        fallbackEvents.forEach((event, index) => {
+        .forEach((event, index) => {
           const eventDate = new Date();
           eventDate.setDate(eventDate.getDate() + (index + 1) * 15);
-          
+
           processedEvents.push({
-            ...event,
+            ..,
             startDate: eventDate.toISOString(),
             endDate: eventDate.toISOString(),
             source: this.source,
@@ -130,7 +130,7 @@ class BurnabyVillageMuseumScraper {
             venue: {
               name: 'Burnaby Village Museum',
               address: '6501 Deer Lake Ave, Burnaby, BC V5G 3T6',
-              city: 'Burnaby',
+              city: city,
               province: 'BC',
               country: 'Canada',
               location: {
@@ -138,9 +138,9 @@ class BurnabyVillageMuseumScraper {
                 coordinates: [-122.9888, 49.2327]
               }
             },
-            city: 'Vancouver'
-          });
-        });
+            city: city
+          };
+        };
       }
 
       console.log(`✅ Found ${processedEvents.length} events from ${this.name}`);
@@ -156,3 +156,12 @@ class BurnabyVillageMuseumScraper {
 }
 
 module.exports = new BurnabyVillageMuseumScraper();
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new BurnabyVillageMuseumScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.BurnabyVillageMuseumScraper = BurnabyVillageMuseumScraper;

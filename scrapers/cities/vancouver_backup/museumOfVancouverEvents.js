@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Museum of Vancouver Paddle Carving Events Scraper
  * 
@@ -307,7 +308,7 @@ class MuseumOfVancouverEvents {
         name: 'Museum of Vancouver',
         id: 'museum-of-vancouver',
         address: '1100 Chestnut St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: {

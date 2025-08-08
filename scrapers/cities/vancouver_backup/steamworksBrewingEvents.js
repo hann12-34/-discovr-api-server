@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Steamworks Brewing Events Scraper
  * Scrapes events from Steamworks Brewing Company's website
@@ -13,7 +14,7 @@ class SteamworksBrewingEvents {
     this.venue = {
       name: 'Steamworks Brewing Company',
       address: '375 Water St, Vancouver, BC V6B 5C6',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2849, lng: -123.1106 }

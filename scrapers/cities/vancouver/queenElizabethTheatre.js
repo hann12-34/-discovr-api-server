@@ -1,6 +1,6 @@
 /**
  * Queen Elizabeth Theatre Events Scraper
- * 
+ *
  * This scraper extracts events from Queen Elizabeth Theatre via Ticketmaster
  * https://www.ticketmaster.ca/queen-elizabeth-theatre-tickets-vancouver/venue/139293
  */
@@ -14,13 +14,13 @@ class QueenElizabethTheatreScraper {
     this.name = 'Queen Elizabeth Theatre';
     this.url = 'https://www.ticketmaster.ca/queen-elizabeth-theatre-tickets-vancouver/venue/139293';
     this.sourceIdentifier = 'queen-elizabeth-theatre';
-    
+
     // Define venue with proper object structure
     this.venue = {
       name: 'Queen Elizabeth Theatre',
       id: 'queen-elizabeth-theatre',
       address: '600 Hamilton St',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 2P1',
@@ -31,7 +31,7 @@ class QueenElizabethTheatreScraper {
       websiteUrl: 'https://vancouvercivictheatres.com/venues/queen-elizabeth-theatre/',
       description: 'The Queen Elizabeth Theatre is a performing arts venue in downtown Vancouver. The theatre seats 2,765 people and hosts Broadway shows, ballet performances, and concerts.'
     };
-    
+
     // Pre-defined events since we can't scrape Ticketmaster directly through their API without auth
     // These are based on the Ticketmaster listings we found
     this.predefinedEvents = [
@@ -131,15 +131,15 @@ class QueenElizabethTheatreScraper {
   /**
    * Generate a unique ID based on event title and date
    * @param {string} title - Event title
-   * @param {string} dateStr - Event date string
+   * @param {string} da date string
    * @returns {string} - Formatted ID
    */
-  generateEventId(title, dateStr) {
+  generateEventId(title, da) {
     const safeTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    const datePart = dateStr.split('T')[0]; // Get YYYY-MM-DD part
+    const datePart = da.split('T')[0]; // Get YYYY-MM-DD part
     return `queen-elizabeth-${safeTitle}-${datePart}`;
   }
-  
+
   /**
    * Generate an end date 3 hours after the start date
    * @param {Date} startDate - Event start date
@@ -154,10 +154,10 @@ class QueenElizabethTheatreScraper {
   /**
    * Main scraper function - uses predefined events since we can't scrape Ticketmaster directly
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Queen Elizabeth Theatre events scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
       for (const eventData of this.predefinedEvents) {
@@ -165,10 +165,10 @@ class QueenElizabethTheatreScraper {
           // Parse dates
           const startDate = new Date(eventData.date);
           const endDate = this.generateEndDate(startDate);
-          
+
           // Generate ID
           const id = this.generateEventId(eventData.title, eventData.date);
-          
+
           // Create event object with proper venue object format
           const event = {
             id: id,
@@ -185,18 +185,18 @@ class QueenElizabethTheatreScraper {
             recurring: null,  // These are one-time events
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
-          console.log(`✅ Added event: ${eventData.title} on ${startDate.toLocaleDateString()}`);
-          
+          console.log(`✅ Added event: ${eventData.title} on ${startDate.toLocaleDa`);
+
         } catch (error) {
           console.error(`Error processing event ${eventData.title}: ${error.message}`);
         }
       }
-      
+
       console.log(`🎉 Successfully added ${events.length} events from Queen Elizabeth Theatre`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Queen Elizabeth Theatre scraper: ${error.message}`);
       return events;
@@ -205,3 +205,13 @@ class QueenElizabethTheatreScraper {
 }
 
 module.exports = new QueenElizabethTheatreScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new QueenElizabethTheatreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.QueenElizabethTheatreScraper = QueenElizabethTheatreScraper;

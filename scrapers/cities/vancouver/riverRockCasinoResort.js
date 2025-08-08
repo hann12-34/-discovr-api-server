@@ -6,41 +6,41 @@ class RiverRockCasinoResortScraper {
     this.source = 'River Rock Casino Resort';
   }
 
-  async scrape() {
+  async scrape(city) {
     console.log(`🎰 Scraping ${this.name}...`);
-    
+
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    
+    };
+
     try {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      
+
       // Navigate to River Rock events
       await page.goto('https://www.riverrock.com/entertainment', {
         waitUntil: 'networkidle2',
         timeout: 30000
-      });
+      };
 
       const events = await page.evaluate(() => {
-        const eventElements = document.querySelectorAll('.event-item, .show, .concert, .entertainment, [class*="event"], [class*="show"]');
+        const eventElements = document.querySelectorAll('-item, .show, .concert, .entertainment, [class*="event"], [class*="show"]');
         const events = [];
-        
+
         eventElements.forEach((element, index) => {
           if (index >= 14) return; // More events for major entertainment venue
-          
+
           const title = element.querySelector('h1, h2, h3, .title, .show-title, .entertainment-title, .name')?.textContent?.trim() ||
                        element.textContent?.trim()?.split('\n')[0] ||
                        `River Rock Entertainment ${index + 1}`;
-          
+
           const date = element.querySelector('.date, .show-date, .time, [class*="date"]')?.textContent?.trim() ||
                       element.textContent?.match(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i)?.[0];
-          
+
           const description = element.querySelector('.description, .excerpt, .summary, p')?.textContent?.trim() ||
                              'World-class entertainment and dining experiences at Richmond\'s premier casino resort.';
-          
+
           const price = element.querySelector('.price, .cost, .ticket, [class*="price"]')?.textContent?.trim() ||
                        element.textContent?.match(/\$[\d,]+/)?.[0] || '$75';
 
@@ -49,26 +49,26 @@ class RiverRockCasinoResortScraper {
             description: description.substring(0, 500),
             date,
             price: typeof price === 'string' ? price : String(price)
-          });
-        });
-        
+          };
+        };
+
         return events;
-      });
+      };
 
       const processedEvents = [];
 
       for (const event of events) {
         let eventDate = new Date();
-        
+
         if (event.date) {
           const parsedDate = new Date(event.date);
           if (!isNaN(parsedDate.getTime())) {
             eventDate = parsedDate;
           }
         }
-        
+
         eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
-        
+
         const processedEvent = {
           title: event.title,
           description: event.description,
@@ -82,7 +82,7 @@ class RiverRockCasinoResortScraper {
           venue: {
             name: 'River Rock Casino Resort',
             address: '8811 River Rd, Richmond, BC V6X 3P8',
-            city: 'Richmond',
+            city: city,
             province: 'BC',
             country: 'Canada',
             location: {
@@ -90,7 +90,7 @@ class RiverRockCasinoResortScraper {
               coordinates: [-123.1342, 49.1951]
             }
           },
-          city: 'Vancouver'
+          city: city
         };
 
         processedEvents.push(processedEvent);
@@ -119,9 +119,9 @@ class RiverRockCasinoResortScraper {
         riverRockEvents.forEach((event, index) => {
           const eventDate = new Date();
           eventDate.setDate(eventDate.getDate() + (index + 1) * 26);
-          
+
           processedEvents.push({
-            ...event,
+            ..,
             startDate: eventDate.toISOString(),
             endDate: eventDate.toISOString(),
             source: this.source,
@@ -131,7 +131,7 @@ class RiverRockCasinoResortScraper {
             venue: {
               name: 'River Rock Casino Resort',
               address: '8811 River Rd, Richmond, BC V6X 3P8',
-              city: 'Richmond',
+              city: city,
               province: 'BC',
               country: 'Canada',
               location: {
@@ -139,9 +139,9 @@ class RiverRockCasinoResortScraper {
                 coordinates: [-123.1342, 49.1951]
               }
             },
-            city: 'Vancouver'
-          });
-        });
+            city: city
+          };
+        };
       }
 
       console.log(`✅ Found ${processedEvents.length} events from ${this.name}`);
@@ -157,3 +157,13 @@ class RiverRockCasinoResortScraper {
 }
 
 module.exports = new RiverRockCasinoResortScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new RiverRockCasinoResortScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.RiverRockCasinoResortScraper = RiverRockCasinoResortScraper;

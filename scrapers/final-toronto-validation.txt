@@ -1,0 +1,155 @@
+🍁 COMPREHENSIVE TORONTO SCRAPER VALIDATION
+=========================================
+Testing city: Toronto
+Config: {
+  "maxEventsPerScraper": 10,
+  "timeoutMs": 30000,
+  "validateCityTagging": true,
+  "checkForFallbacks": true,
+  "requireRealEvents": true
+}
+
+
+🏙️  Testing Toronto scrapers...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Found 127 scrapers to test
+
+📄 Testing: massey-hall.js
+   ⚡ Executing scraper with city: Toronto
+   ❌ Fallback violations found: Fallback pattern found: teString = $(element).find('.event
+
+📄 Testing: meridian-hall.js
+   ⚡ Executing scraper with city: Toronto
+   ❌ Fallback violations found: Fallback pattern found: teString = $(element).find('.c-event
+
+📄 Testing: roy-thomson-hall.js
+   ⚡ Executing scraper with city: Toronto
+   ❌ Fallback violations found: Fallback pattern found: teString = $(element).find('.event
+
+📄 Testing: scrape-44toronto-events.js
+   ⚡ Executing scraper with city: Toronto
+[FortyFourTorontoEventsScraper] Scraping 44 Toronto events...
+[FortyFourTorontoEventsScraper] Found 0 events for 44 Toronto.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-6ix-lounge-events.js
+   ⚡ Executing scraper with city: Toronto
+[SixLoungeScraper] Scraping events from The 6ix Lounge
+[SixLoungeScraper] Website uses an embedded Instagram feed for events. No structured event data found.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-aga-khan-museum-events.js
+   ⚡ Executing scraper with city: Toronto
+[AgaKhanMuseumScraper] Scraping events from Aga Khan Museum
+[AgaKhanMuseumScraper] Found 0 events from Aga Khan Museum.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-ago-events.js
+   ⚡ Executing scraper with city: Toronto
+[AGOEventsScraper] Scraping events from Art Gallery of Ontario
+[AGOEventsScraper] Error scraping Art Gallery of Ontario: Request failed with status code 403
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-ajax-community-events.js
+   ⚡ Executing scraper with city: Toronto
+[AjaxCommunityEventsScraper] Scraping events from Ajax Community Events
+[AjaxCommunityEventsScraper] Found 0 events from Ajax Community Events.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-all-toronto.js
+   ⚡ Executing scraper with city: Toronto
+   ❌ Unexpected error: city is not defined
+
+📄 Testing: scrape-beguiling-events.js
+   ⚡ Executing scraper with city: Toronto
+[BeguilingEventsScraper] Scraping events from The Beguiling Books & Art
+[BeguilingEventsScraper] Found 0 events from The Beguiling Books & Art.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-blood-brothers-events.js
+   ⚡ Executing scraper with city: Toronto
+[BloodBrothersBrewingScraper] Scraping Blood Brothers Brewing events...
+[BloodBrothersBrewingScraper] No reliable event source found on their website. Returning empty array.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-bloorwestvillage-events.js
+   ⚡ Executing scraper with city: Toronto
+🚀 Scraping Bloor West Village events...
+ Successfully added 0 new Bloor West Village events
+   ✅ Returned 3 events
+   ✅ All tests passed (3 events)
+
+📄 Testing: scrape-burlington-performing-arts.js
+   ⚡ Executing scraper with city: Toronto
+[BurlingtonPerformingArtsCentreScraper] Scraping events from Burlington Performing Arts Centre
+[BurlingtonPerformingArtsCentreScraper] Found 0 events from Burlington Performing Arts Centre.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-caribana-festival.js
+   ⚡ Executing scraper with city: Toronto
+[CaribanaFestivalScraper] Scraping events from Toronto Caribbean Carnival
+[CaribanaFestivalScraper] Website does not have a structured events page. No events will be scraped.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-casa-loma-events.js
+   ⚡ Executing scraper with city: Toronto
+[CasaLomaScraper] Scraping events from Casa Loma
+[CasaLomaScraper] Error scraping Casa Loma: timeout of 10000ms exceeded
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-century-events.js
+   ⚡ Executing scraper with city: Toronto
+[CenturyScraper] Scraping events from Century
+[CenturyScraper] Found 0 events from Century.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-club54-events.js
+   ⚡ Executing scraper with city: Toronto
+[Club54Scraper] Scraping events from Club 54
+[Club54Scraper] Successfully connected to https://www.club54.ca/upcoming-events, but no scraping logic is implemented as the site was previously down.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-cn-tower.js
+   ⚡ Executing scraper with city: Toronto
+[CNTowerScraper] Scraping events from CN Tower
+[CNTowerScraper] Found 7 events from CN Tower.
+   ✅ Returned 7 events
+   ✅ All tests passed (7 events)
+
+📄 Testing: scrape-coc-events.js
+   ⚡ Executing scraper with city: Toronto
+[COCScraper] Scraping events from Canadian Opera Company
+[COCScraper] Found 0 events from Canadian Opera Company.
+[COCScraper] Error scraping Canadian Opera Company: this.removeDuplicates is not a function
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-danforth-music-hall.js
+   ⚡ Executing scraper with city: Toronto
+[DanforthMusicHallScraper] Scraping events from The Danforth Music Hall
+[DanforthMusicHallScraper] Found 0 events from The Danforth Music Hall.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-dirty-martini-events.js
+   ⚡ Executing scraper with city: Toronto
+[DirtyMartiniScraper] Scraping events from Dirty Martini
+[DirtyMartiniScraper] Website does not have a structured event listing. Returning empty array.
+   ✅ Returned 0 events
+   ✅ All tests passed (0 events)
+
+📄 Testing: scrape-distillery-district-events.js
+   ⚡ Executing scraper with city: Toronto
+❌ MONGODB_URI environment variable not set

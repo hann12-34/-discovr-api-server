@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * H.R. MacMillan Space Centre Events Scraper
  * Scrapes events from H.R. MacMillan Space Centre website
@@ -13,7 +14,7 @@ class HRMacMillanSpaceCentreEvents {
     this.venue = {
       name: 'H.R. MacMillan Space Centre',
       address: '1100 Chestnut St, Vancouver, BC V6J 3J9',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2760, lng: -123.1444 }

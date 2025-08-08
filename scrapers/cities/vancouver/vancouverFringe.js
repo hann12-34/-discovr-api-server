@@ -1,6 +1,6 @@
 /**
  * Vancouver Fringe Festival Scraper
- * 
+ *
  * This scraper provides information about Vancouver Fringe Festival events
  * Source: https://vancouverfringe.com/
  */
@@ -12,18 +12,18 @@ class VancouverFringeScraper {
     this.name = 'Vancouver Fringe Festival';
     this.url = 'https://vancouverfringe.com/';
     this.sourceIdentifier = 'vancouver-fringe';
-    
+
     // Festival dates - typically September
     this.festivalStartDate = new Date('2025-09-04');
     this.festivalEndDate = new Date('2025-09-14');
-    
+
     // Main venues for the festival
     this.venues = {
       "Revue Stage": {
         name: "Revue Stage at Granville Island",
         id: "revue-stage-granville-island",
         address: "1601 Johnston St",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6H 3R9",
@@ -38,7 +38,7 @@ class VancouverFringeScraper {
         name: "Waterfront Theatre at Granville Island",
         id: "waterfront-theatre-granville-island",
         address: "1412 Cartwright St",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6H 3R7",
@@ -53,7 +53,7 @@ class VancouverFringeScraper {
         name: "Performance Works on Granville Island",
         id: "performance-works-granville-island",
         address: "1218 Cartwright St",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6H 3R9",
@@ -68,7 +68,7 @@ class VancouverFringeScraper {
         name: "Firehall Arts Centre",
         id: "firehall-arts-centre-vancouver",
         address: "280 E Cordova St",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6A 1L3",
@@ -83,7 +83,7 @@ class VancouverFringeScraper {
         name: "Red Gate Revue Stage",
         id: "red-gate-revue-stage-vancouver",
         address: "1601 Johnston St",
-        city: "Vancouver",
+        city: city,
         state: "BC",
         country: "Canada",
         postalCode: "V6H 3R9",
@@ -95,7 +95,7 @@ class VancouverFringeScraper {
         description: "The Red Gate Revue Stage is an intimate venue on Granville Island that features experimental and cutting-edge Fringe performances."
       }
     };
-    
+
     // Sample shows for the 2025 festival
     this.shows = [
       {
@@ -172,16 +172,16 @@ class VancouverFringeScraper {
       }
     ];
   }
-  
+
   /**
    * Generate a consistent schedule for performances throughout the festival
    */
   generateSchedule() {
     const schedule = [];
-    
+
     // Each show typically performs 5-6 times during the festival
     // Performances are staggered throughout the day
-    
+
     const showTimes = {
       "Waterfront Theatre": [14, 16, 19, 21], // 2pm, 4pm, 7pm, 9pm
       "Performance Works": [15, 17, 19.5, 21.5], // 3pm, 5pm, 7:30pm, 9:30pm
@@ -189,93 +189,93 @@ class VancouverFringeScraper {
       "Firehall Arts Centre": [15, 17.5, 20], // 3pm, 5:30pm, 8pm
       "Red Gate Revue Stage": [16, 18, 20] // 4pm, 6pm, 8pm
     };
-    
+
     // Assign each show to specific dates and times
     const currentDate = new Date(this.festivalStartDate);
     let dayCount = 0;
-    
+
     while (currentDate <= this.festivalEndDate) {
       dayCount++;
-      
+
       // Cycle through shows and assign performances
       for (let i = 0; i < this.shows.length; i++) {
         const show = this.shows[i];
         const venue = show.venue;
-        
+
         // Each show performs every 2-3 days
         if (dayCount % 3 === i % 3) {
           // Pick a time slot based on venue and day
           const timeSlotIndex = (i + dayCount) % showTimes[venue].length;
           const timeSlot = showTimes[venue][timeSlotIndex];
-          
+
           // Create performance date and time
           const performanceDate = new Date(currentDate);
           const hours = Math.floor(timeSlot);
           const minutes = Math.round((timeSlot - hours) * 60);
           performanceDate.setHours(hours, minutes, 0, 0);
-          
+
           // Create end time
           const endDate = new Date(performanceDate);
           endDate.setMinutes(endDate.getMinutes() + show.runtime);
-          
+
           // Add to schedule
           schedule.push({
             show: show,
             date: performanceDate,
             endDate: endDate
-          });
+          };
         }
       }
-      
+
       // Move to next day
       currentDate.setDate(currentDate.getDate() + 1);
     }
-    
+
     return schedule;
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Vancouver Fringe Festival scraper...');
     const events = [];
-    
+
     try {
       // Generate a schedule for all performances
       const schedule = this.generateSchedule();
       console.log(`Generated ${schedule.length} performances for ${this.shows.length} shows`);
-      
+
       // Create events for each scheduled performance
       for (const performance of schedule) {
         const show = performance.show;
         const venueData = this.venues[show.venue];
-        
+
         // Format date for ID
-        const dateString = performance.date.toISOString().split('T')[0];
+        const da = performance.date.toISOString().split('T')[0];
         const timeString = performance.date.getHours() + '-' + performance.date.getMinutes();
-        
+
         // Create unique ID
         const slugifiedTitle = show.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-        const eventId = `fringe-${slugifiedTitle}-${dateString}-${timeString}`;
-        
+        const eventId = `fringe-${slugifiedTitle}-${da}-${timeString}`;
+
         // Format date and time for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
-          hour: 'numeric', 
-          minute: 'numeric', 
+          hour: 'numeric',
+          minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(performance.date);
         const formattedTime = timeFormat.format(performance.date);
-        
+
         // Create detailed description
         const detailedDescription = `
 ${show.description}
@@ -290,7 +290,7 @@ Origin: ${show.origin}
 
 Part of the 2025 Vancouver Fringe Festival. The Fringe showcases unconventional, independent theatrical productions with shows selected through a lottery system rather than a juried process, ensuring a diverse range of performances.
         `;
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -307,13 +307,13 @@ Part of the 2025 Vancouver Fringe Festival. The Fringe showcases unconventional,
           ticketsRequired: true,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
       }
-      
+
       console.log(`🎭 Successfully created ${events.length} Vancouver Fringe Festival events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Vancouver Fringe Festival scraper: ${error.message}`);
       return events;
@@ -322,3 +322,13 @@ Part of the 2025 Vancouver Fringe Festival. The Fringe showcases unconventional,
 }
 
 module.exports = new VancouverFringeScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverFringeScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VancouverFringeScraper = VancouverFringeScraper;

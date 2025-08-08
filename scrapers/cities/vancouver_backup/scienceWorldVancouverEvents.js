@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Science World Vancouver Events Scraper
  * Scrapes events from Science World Vancouver's website
@@ -13,7 +14,7 @@ class ScienceWorldVancouverEvents {
     this.venue = {
       name: 'Science World Vancouver',
       address: '1455 Quebec St, Vancouver, BC V6A 3Z7',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2734, lng: -123.1034 }

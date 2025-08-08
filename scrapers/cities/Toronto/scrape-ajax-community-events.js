@@ -1,97 +1,90 @@
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
 
-class AjaxCommunityEventsScraper {
-    constructor() {
-        this.name = 'Ajax Community Events';
-        this.url = 'https://www.ajax.ca/events';
-        this.city = 'Toronto'; // GTA area - categorized as Toronto for app purposes
-        this.province = 'Ontario';
-        this.country = 'Canada';
+class AjaxCommunityEventsScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Ajax Community Events';
+        this.url = 'https://www.ajax.ca/en/play-and-discover/community-events.aspx';
+        this.venue = {
+            name: 'Various Locations in Ajax',
+            address: 'Ajax, ON',
+            city: city,
+            province: 'ON',
+            country: 'Canada',
+            postalCode: '',
+            latitude: 43.8504,
+            longitude: -79.0204
+        };
+    }
+
+    _generateEventId(title, startDate) {
+        const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
     }
 
     async scrape() {
-        const browser = await puppeteer.launch({ 
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        this.log(`Scraping events from ${this.source}`);
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] };
         try {
             const page = await browser.newPage();
-            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
-            console.log(`🏘️ Scraping ${this.name} (Ajax)...`);
-            
-            await page.goto(this.url, { 
-                waitUntil: 'networkidle2',
-                timeout: 30000
-            });
+            await page.goto(this.url, { waitUntil: 'networkidle2' };
 
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            const events = await page.evaluate((venue, source, city) => {
+                const eventList = [];
+                const eventElements = document.querySelectorAll('.calendar tr[class*="event"]');
 
-            const events = await page.evaluate(() => {
-                const eventElements = document.querySelectorAll('.event, .community-event, .activity, [class*="event"], [class*="activity"]');
-                const events = [];
+                eventElements.forEach(el => {
+                    const title = el.querySelector('.subject a')?.innerText.trim();
+                    if (!title) return;
 
-                eventElements.forEach(element => {
-                    try {
-                        const titleEl = element.querySelector('.title, .event-title, .activity-title, h1, h2, h3, h4');
-                        const dateEl = element.querySelector('.date, .event-date, time, [datetime]');
-                        const linkEl = element.querySelector('a[href]');
-                        const imageEl = element.querySelector('img');
-                        const venueEl = element.querySelector('.venue, .location, .facility');
+                    const url = el.querySelector('.subject a')?.href;
+                    const dateText = el.querySelector('.startDate')?.innerText.trim();
+                    const timeText = el.querySelector('.startTime')?.innerText.trim();
+                    const description = el.querySelector('.description')?.innerText.trim() || '';
 
-                        if (titleEl && titleEl.textContent?.trim()) {
-                            const title = titleEl.textContent.trim();
-                            
-                            if (title.length < 3) return;
-
-                            let startDate = new Date();
-                            startDate.setDate(startDate.getDate() + Math.floor(Math.random() * 90) + 1);
-
-                            // Generate unique ID for the event
-                            const eventId = `ajax-community-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${startDate.getTime()}`;
-
-                            events.push({
-                                id: eventId,
-                                title: title,
-                                description: `Community event in Ajax featuring ${title}`,
-                                startDate: startDate.toISOString(),
-                                venue: {
-                                    name: 'Ajax Community Centre',
-                                    address: '75 Centennial Rd, Ajax, ON L1S 4L1',
-                                    city: 'Ajax',
-                                    province: 'Ontario',
-                                    country: 'Canada',
-                                    location: {
-                                        address: '75 Centennial Rd, Ajax, ON L1S 4L1',
-                                        coordinates: [-79.0204, 43.8504]
-                                    }
-                                },
-                                category: 'Community Events',
-                                price: 'Free',
-                                url: linkEl?.href || 'https://www.ajax.ca/events',
-                                source: 'Ajax Community Events',
-                                city: 'Toronto', // GTA categorized as Toronto
-                                province: 'Ontario',
-                                country: 'Canada',
-                                streetAddress: '75 Centennial Rd, Ajax, ON L1S 4L1'
-                            });
-                        }
-                    } catch (error) {
-                        console.log('Error processing event:', error.message);
+                    const date = new Date(`${dateText} ${timeText}`);
+                    if (isNaN(date.getTime())) {
+                        return; // Skip event if date is invalid
                     }
-                });
+                    const startDate = date;
+                    const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000);
 
-                return events;
-            });
+                    const event = {
+                        title,
+                        description,
+                        url,
+                        startDate,
+                        endDate,
+                        venue: {
+                name: city, ...venue, city
+            },
+                        categories: [city, 'Community', 'Festival'],
+                        source,
+                        price: 'Free',
+                        scrapedAt: new Date().toISOString()
+                    };
+                    eventList.push(event);
+                };
 
-            // No fallback/sample events - comply with user rule
+                return eventList;
+            }, this.venue, this.source, this.city);
 
-            console.log(`✅ Found ${events.length} events from ${this.name} (Ajax)`);
-            return events;
+            const processedEvents = events.map(event => ({
+                ...event,
+                id: this._generateEventId(event.title, new Date(event.startDate)),
+                startDate: new Date(event.startDate),
+                endDate: new Date(event.endDate),
+                scrapedAt: new Date(event.scrapedAt)
+            };
 
+            this.log(`Found ${processedEvents.length} events from ${this.source}.`);
+            return processedEvents;
         } catch (error) {
-            console.error(`❌ Error scraping ${this.name}:`, error.message);
+            this.log(`Error scraping ${this.source}: ${error.message}`);
             return [];
         } finally {
             await browser.close();
@@ -99,4 +92,11 @@ class AjaxCommunityEventsScraper {
     }
 }
 
-module.exports = AjaxCommunityEventsScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new AjaxCommunityEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.AjaxCommunityEventsScraper = AjaxCommunityEventsScraper;

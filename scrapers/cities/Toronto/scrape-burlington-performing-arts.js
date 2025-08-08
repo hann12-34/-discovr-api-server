@@ -1,97 +1,103 @@
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
 
-class BurlingtonPerformingArtsCentreScraper {
-    constructor() {
-        this.name = 'Burlington Performing Arts Centre';
-        this.url = 'https://www.burlingtonpac.ca/events';
-        this.city = 'Toronto'; // GTA area - categorized as Toronto for app purposes
-        this.province = 'Ontario';
-        this.country = 'Canada';
+class BurlingtonPerformingArtsCentreScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Burlington Performing Arts Centre';
+        this.url = 'https://burlingtonpac.ca/events/';
+        this.venue = {
+            name: 'Burlington Performing Arts Centre',
+            address: '440 Locust St, Burlington, ON L7S 1T7',
+            city: this.city,
+            province: 'ON',
+            country: 'Canada',
+            latitude: 43.3255,
+            longitude: -79.7850
+        };
+    }
+
+    _generateEventId(title, startDate) {
+        const dateStr = startDate.toISOString();
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    _parseDate(dateStr) {
+        if (!dateStr) return null;
+        try {
+            const date = new Date(dateStr);
+            return isNaN(date.getTime()) ? null : date;
+        } catch (e) {
+            this.log(`Error parsing date: ${dateStr}`);
+            return null;
+        }
+    }
+
+    _extractCategories(title, description) {
+        const text = `${title} ${description}`.toLowerCase();
+        const categories = [this.city, 'Performing Arts', 'Theatre'];
+
+        if (text.includes('music') || text.includes('concert')) categories.push('Music');
+        if (text.includes('comedy')) categories.push('Comedy');
+        if (text.includes('dance')) categories.push('Dance');
+        if (text.includes('family')) categories.push('Family');
+
+        return [...new Set(categories)];
     }
 
     async scrape() {
-        const browser = await puppeteer.launch({ 
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        this.log(`Scraping events from ${this.source}`);
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] };
         try {
             const page = await browser.newPage();
-            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
-            console.log(`🎪 Scraping ${this.name} (Burlington)...`);
-            
-            await page.goto(this.url, { 
-                waitUntil: 'networkidle2',
-                timeout: 30000
-            });
-
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await page.goto(this.url, { waitUntil: 'networkidle2' };
 
             const events = await page.evaluate(() => {
-                const eventElements = document.querySelectorAll('.event, .show, .performance, [class*="event"], [class*="show"]');
-                const events = [];
+                const eventList = [];
+                document.querySelectorAll('.event-item, .list-view-item').forEach(el => {
+                    const title = el.querySelector('h2, .event-title')?.innerText.trim();
+                    const url = el.querySelector('a')?.href;
+                    const imageUrl = el.querySelector('img')?.src;
+                    const dateText = el.querySelector('.event-date, time')?.getAttribute('datetime');
+                    const description = el.querySelector('.event-description, .description')?.innerText.trim();
+                    const price = el.querySelector('.price, .ticket-price')?.innerText.trim() || 'See website';
 
-                eventElements.forEach(element => {
-                    try {
-                        const titleEl = element.querySelector('.title, .event-title, .show-title, h1, h2, h3, h4');
-                        const dateEl = element.querySelector('.date, .event-date, time, [datetime]');
-                        const linkEl = element.querySelector('a[href]');
-                        const imageEl = element.querySelector('img');
-                        const priceEl = element.querySelector('.price, .cost, .ticket-price');
-
-                        if (titleEl && titleEl.textContent?.trim()) {
-                            const title = titleEl.textContent.trim();
-                            
-                            if (title.length < 3) return;
-
-                            let startDate = new Date();
-                            startDate.setDate(startDate.getDate() + Math.floor(Math.random() * 90) + 1);
-
-                            // Generate unique ID for the event
-                            const eventId = `burlington-performing-arts-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${startDate.getTime()}`;
-
-                            events.push({
-                                id: eventId,
-                                title: title,
-                                description: `Live performance at Burlington Performing Arts Centre featuring ${title}`,
-                                startDate: startDate.toISOString(),
-                                venue: {
-                                    name: 'Burlington Performing Arts Centre',
-                                    address: '440 Locust St, Burlington, ON L7S 1T7',
-                                    city: 'Burlington',
-                                    province: 'Ontario',
-                                    country: 'Canada',
-                                    location: {
-                                        address: '440 Locust St, Burlington, ON L7S 1T7',
-                                        coordinates: [-79.7850, 43.3255]
-                                    }
-                                },
-                                category: 'Theatre & Performing Arts',
-                                price: priceEl?.textContent?.trim() || '$40 - $80',
-                                url: linkEl?.href || 'https://www.burlingtonpac.ca/events',
-                                source: 'Burlington Performing Arts Centre',
-                                city: 'Toronto', // GTA categorized as Toronto
-                                province: 'Ontario',
-                                country: 'Canada',
-                                streetAddress: '440 Locust St, Burlington, ON L7S 1T7'
-                            });
-                        }
-                    } catch (error) {
-                        console.log('Error processing event:', error.message);
+                    if (title && dateText) {
+                        eventList.push({ title, url, imageUrl, dateText, description, price };
                     }
-                });
+                };
+                return eventList;
+            };
 
-                return events;
-            });
+            const processedEvents = events.map(event => {
+                const startDate = this._parseDate(event.dateText);
+                if (!startDate) return null;
 
-            // No fallback/sample events - comply with user rule
+                const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000);
 
-            console.log(`✅ Found ${events.length} events from ${this.name} (Burlington)`);
-            return events;
+                return {
+                    id: this._generateEventId(event.title, startDate),
+                    title: event.title,
+                    description: event.description,
+                    url: event.url,
+                    imageUrl: event.imageUrl,
+                    startDate,
+                    endDate,
+                    venue: { ...this.venue, city: this.city },
+                    categories: this._extractCategories(event.title, event.description),
+                    source: this.source,
+                    price: event.price,
+                    scrapedAt: new Date(),
+                };
+            }.filter(Boolean);
 
+            this.log(`Found ${processedEvents.length} events from ${this.source}.`);
+            return processedEvents;
         } catch (error) {
-            console.error(`❌ Error scraping ${this.name}:`, error.message);
+            this.log(`Error scraping ${this.source}: ${error.message}`);
             return [];
         } finally {
             await browser.close();
@@ -99,4 +105,11 @@ class BurlingtonPerformingArtsCentreScraper {
     }
 }
 
-module.exports = BurlingtonPerformingArtsCentreScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new BurlingtonPerformingArtsCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.BurlingtonPerformingArtsCentreScraper = BurlingtonPerformingArtsCentreScraper;

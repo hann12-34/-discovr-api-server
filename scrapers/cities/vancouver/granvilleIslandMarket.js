@@ -1,6 +1,6 @@
 /**
  * Granville Island Public Market Scraper
- * 
+ *
  * This scraper provides information about events at Granville Island Public Market in Vancouver
  * Source: https://granvilleisland.com/
  */
@@ -12,13 +12,13 @@ class GranvilleIslandMarketScraper {
     this.name = 'Granville Island Public Market';
     this.url = 'https://granvilleisland.com/';
     this.sourceIdentifier = 'granville-island-market';
-    
+
     // Venue information
     this.venue = {
       name: "Granville Island Public Market",
       id: "granville-island-market-vancouver",
       address: "1669 Johnston St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6H 3R9",
@@ -29,9 +29,9 @@ class GranvilleIslandMarketScraper {
       websiteUrl: "https://granvilleisland.com/public-market",
       description: "The Granville Island Public Market is the jewel in the crown of Granville Island, a vibrant cultural hub in the heart of Vancouver. The market features a fascinating array of colorful food stalls, artisanal products, and handcrafted goods, all showcasing the best of British Columbia. With over 50 independent food purveyors and day vendors, the Market provides visitors and locals alike with a wide range of gastronomic delights, from fresh seafood and produce to international specialties and desserts."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Granville Island Farmers Market",
         description: "Experience the freshest local produce at the weekly Granville Island Farmers Market. Meet the farmers who grow your food as they bring their seasonal harvest directly to you. This outdoor market features organic vegetables, fruits, artisanal cheeses, freshly baked bread, local honey, preserves, and handcrafted items from over 40 regional producers. Learn about sustainable farming practices, discover unique heirloom varieties, and enjoy live acoustic music while you shop.",
@@ -119,73 +119,73 @@ class GranvilleIslandMarketScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Granville Island Public Market scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `granville-island-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-        
+
         if (eventData.recurrence) {
           detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
         }
-        
+
         detailedDescription += `Location: ${eventData.location}, Granville Island, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, please book in advance\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nGranville Island is located in False Creek, under the Granville Street Bridge. It is accessible by car, public transit, or the False Creek Ferries and Aquabus. For more information, visit ${this.url}`;
-        
+
         // Create categories
         const categories = ['granville island', 'public market', 'food', 'shopping'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Market') {
           categories.push('farmers market', 'local produce', 'shopping');
         } else if (eventData.category === 'Food Festival') {
@@ -199,7 +199,7 @@ class GranvilleIslandMarketScraper {
         } else if (eventData.category === 'Music') {
           categories.push('concert', 'live music', 'entertainment', 'jazz');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -211,19 +211,19 @@ class GranvilleIslandMarketScraper {
           category: 'food and drink',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🍎 Successfully created ${events.length} Granville Island Public Market events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Granville Island Public Market scraper: ${error.message}`);
       return events;
@@ -232,3 +232,13 @@ class GranvilleIslandMarketScraper {
 }
 
 module.exports = new GranvilleIslandMarketScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new GranvilleIslandMarketScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.GranvilleIslandMarketScraper = GranvilleIslandMarketScraper;

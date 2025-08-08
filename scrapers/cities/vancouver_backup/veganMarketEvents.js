@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * The Vegan Market Vancouver Scraper
  * 
@@ -19,7 +20,7 @@ class VeganMarketScraper {
       name: 'The Vegan Market',
       id: 'vegan-market-vancouver',
       address: 'Various locations in Vancouver',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       coordinates: {

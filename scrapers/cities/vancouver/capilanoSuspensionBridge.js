@@ -1,6 +1,6 @@
 /**
  * Capilano Suspension Bridge Park Scraper
- * 
+ *
  * This scraper provides information about events at the Capilano Suspension Bridge Park in Vancouver
  * Source: https://www.capbridge.com/
  */
@@ -12,13 +12,13 @@ class CapilanoSuspensionBridgeScraper {
     this.name = 'Capilano Suspension Bridge Park';
     this.url = 'https://www.capbridge.com/';
     this.sourceIdentifier = 'capilano-suspension-bridge';
-    
+
     // Venue information
     this.venue = {
       name: "Capilano Suspension Bridge Park",
       id: "capilano-suspension-bridge-park",
       address: "3735 Capilano Road",
-      city: "North Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V7R 4J1",
@@ -29,9 +29,9 @@ class CapilanoSuspensionBridgeScraper {
       websiteUrl: "https://www.capbridge.com/",
       description: "The Capilano Suspension Bridge Park is one of Vancouver's most popular tourist attractions, offering visitors a unique rainforest adventure. The park features a 140-meter suspension bridge that hangs 70 meters above the Capilano River, along with the Cliffwalk, Treetops Adventure, rainforest trails, historical exhibits, First Nations art installations, and educational programs on local ecology and history."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Canyon Lights Winter Festival",
         description: "Experience the magic of Canyon Lights, a winter festival that transforms the Capilano Suspension Bridge Park into a world of festive lights and visual enchantment. Hundreds of thousands of lights illuminate the suspension bridge, Treetops Adventure, Cliffwalk, and throughout the rainforest and canyon. This year's display features new light installations including a mesmerizing walk-through light tunnel, illuminated totem poles, and a multi-dimensional light show projected onto the canyon walls. Enjoy live holiday music, hot chocolate stations throughout the park, and appearances by holiday characters. The suspension bridge and Treetops Adventure viewing platforms provide spectacular perspectives of the light displays from above.",
@@ -102,47 +102,47 @@ class CapilanoSuspensionBridgeScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
   async scrape() {
     console.log('🔍 Starting Capilano Suspension Bridge Park scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `capilano-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         // Check if this is a multi-day event like a camp
-        if (eventData.endTime && eventData.endTime.getDate() !== eventData.date.getDate() && 
+        if (eventData.endTime && eventData.endTime.getDate() !== eventData.date.getDate() &&
             eventData.endTime.getMonth() === eventData.date.getMonth()) {
           // Multi-day event within same month
           detailedDescription += `Dates: ${formattedDate} to ${dateFormat.format(eventData.endTime)}\n`;
@@ -152,27 +152,27 @@ class CapilanoSuspensionBridgeScraper {
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         }
-        
+
         if (eventData.recurrence) {
           detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
         }
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available online or at the park entrance\n`;
         }
-        
+
         detailedDescription += `\nLocation: Capilano Suspension Bridge Park, 3735 Capilano Road, North Vancouver. The park is accessible via public transit (free shuttle from downtown Vancouver) or by car with on-site parking available.`;
-        
+
         // Create categories
         const categories = ['attraction', 'outdoors', 'nature', 'tourism'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Winter Festival') {
           categories.push('lights', 'holiday', 'family-friendly', 'seasonal');
         } else if (eventData.category === 'Educational Tour') {
@@ -186,7 +186,7 @@ class CapilanoSuspensionBridgeScraper {
         } else if (eventData.category === 'Children\'s Program') {
           categories.push('camp', 'kids', 'summer camp', 'educational');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -198,19 +198,19 @@ class CapilanoSuspensionBridgeScraper {
           category: 'attraction',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🌲 Successfully created ${events.length} Capilano Suspension Bridge Park events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Capilano Suspension Bridge Park scraper: ${error.message}`);
       return events;
@@ -219,3 +219,13 @@ class CapilanoSuspensionBridgeScraper {
 }
 
 module.exports = new CapilanoSuspensionBridgeScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new CapilanoSuspensionBridgeScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.CapilanoSuspensionBridgeScraper = CapilanoSuspensionBridgeScraper;

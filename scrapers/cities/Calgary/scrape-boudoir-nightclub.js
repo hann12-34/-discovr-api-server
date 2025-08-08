@@ -1,6 +1,6 @@
 /**
  * Boudoir Nightclub Calgary Scraper
- * 
+ *
  * This scraper extracts event information from Boudoir's events page.
  * It identifies VIP services, special nights, and party packages at this Calgary nightclub.
  */
@@ -15,7 +15,7 @@ class BoudoirNightclubScraper {
         this.venue = {
             name: 'Boudoir Nightclub',
             address: 'Calgary, AB',
-            city: 'Calgary',
+            city: city,
             state: 'Alberta',
             country: 'Canada',
             websiteUrl: 'https://www.fmentertainment.com'
@@ -25,32 +25,32 @@ class BoudoirNightclubScraper {
     async scrapeEvents() {
         try {
             console.log('🍸 Scraping Boudoir Nightclub events...');
-            
+
             const response = await axios.get(this.targetUrl, {
                 timeout: 30000,
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-            });
+            };
 
             const $ = cheerio.load(response.data);
             const events = [];
 
             // Extract navigation links to find services and events
             const navLinks = $('a').toArray();
-            
+
             navLinks.forEach(link => {
                 const $link = $(link);
                 const linkText = this.cleanText($link.text());
                 const linkUrl = $link.attr('href');
-                
+
                 if (linkText && linkUrl && this.isEventOrService(linkText)) {
                     const eventData = this.parseServiceLink(linkText, linkUrl);
                     if (eventData) {
                         events.push(eventData);
                     }
                 }
-            });
+            };
 
             // Create events for known services
             const services = this.getKnownServices();
@@ -67,9 +67,9 @@ class BoudoirNightclubScraper {
                         scrapedAt: new Date(),
                         tags: service.tags || [],
                         price: service.price || ''
-                    });
+                    };
                 }
-            });
+            };
 
             // Create weekly nightclub events
             const weeklyEvents = this.generateWeeklyEvents();
@@ -77,10 +77,10 @@ class BoudoirNightclubScraper {
                 if (!events.find(e => e.title === event.title)) {
                     events.push(event);
                 }
-            });
+            };
 
             const uniqueEvents = this.removeDuplicateEvents(events);
-            
+
             console.log(`🎉 Successfully scraped ${uniqueEvents.length} unique events from Boudoir Nightclub`);
             return uniqueEvents;
 
@@ -95,15 +95,15 @@ class BoudoirNightclubScraper {
             'bachelor', 'bachelorette', 'birthday', 'bottle service', 'vip',
             'guest list', 'free limo', 'party', 'events', 'nightclub'
         ];
-        
-        return serviceKeywords.some(keyword => 
+
+        return serviceKeywords.some(keyword =>
             text.toLowerCase().includes(keyword.toLowerCase())
         );
     }
 
     parseServiceLink(linkText, linkUrl) {
         const text = linkText.toLowerCase();
-        
+
         if (text.includes('bachelor') && !text.includes('bachelorette')) {
             return {
                 title: 'Bachelor Party Package',
@@ -118,7 +118,7 @@ class BoudoirNightclubScraper {
                 price: 'Contact for pricing'
             };
         }
-        
+
         if (text.includes('bachelorette')) {
             return {
                 title: 'Bachelorette Party Package',
@@ -133,7 +133,7 @@ class BoudoirNightclubScraper {
                 price: 'Contact for pricing'
             };
         }
-        
+
         if (text.includes('birthday')) {
             return {
                 title: 'Birthday Party Package',
@@ -148,7 +148,7 @@ class BoudoirNightclubScraper {
                 price: 'Contact for pricing'
             };
         }
-        
+
         if (text.includes('bottle service')) {
             return {
                 title: 'VIP Bottle Service',
@@ -163,7 +163,7 @@ class BoudoirNightclubScraper {
                 price: 'Contact for pricing'
             };
         }
-        
+
         return null;
     }
 
@@ -199,7 +199,7 @@ class BoudoirNightclubScraper {
     generateWeeklyEvents() {
         const events = [];
         const days = ['Friday', 'Saturday'];
-        
+
         days.forEach((day, index) => {
             events.push({
                 title: `${day} Night Party`,
@@ -212,9 +212,9 @@ class BoudoirNightclubScraper {
                 scrapedAt: new Date(),
                 tags: ['nightclub', 'weekend', 'party'],
                 price: 'Cover charge applies'
-            });
-        });
-        
+            };
+        };
+
         return events;
     }
 
@@ -228,11 +228,11 @@ class BoudoirNightclubScraper {
     getNextWeekend(dayOfWeek) {
         const now = new Date();
         const nextDate = new Date(now);
-        
+
         // Get next occurrence of the specified day (5 = Friday, 6 = Saturday)
         const daysUntilEvent = (dayOfWeek - now.getDay() + 7) % 7;
         nextDate.setDate(now.getDate() + (daysUntilEvent === 0 ? 7 : daysUntilEvent));
-        
+
         return nextDate;
     }
 
@@ -245,7 +245,7 @@ class BoudoirNightclubScraper {
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     cleanText(text) {
@@ -254,3 +254,14 @@ class BoudoirNightclubScraper {
 }
 
 module.exports = BoudoirNightclubScraper;
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new BoudoirNightclubScraper();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in BoudoirNightclubScraper');
+    }
+};

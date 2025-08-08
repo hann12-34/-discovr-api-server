@@ -1,5 +1,5 @@
 {
-  "date": "2025-07-16T03:45:07.021Z",
+  "date": "2025-08-08T08:45:42.997Z",
   "environment": {
     "variables": {
       "MONGODB_URI": "✅ Set"
@@ -7,9 +7,9 @@
   },
   "database": {
     "connection": "✅ Successful",
-    "totalEvents": 1055,
+    "totalEvents": 378,
     "eventsByCity": {
-      "Toronto": 5,
+      "Toronto": 0,
       "Vancouver": 0,
       "Montreal": 0,
       "Calgary": 0
@@ -19,6 +19,9 @@
   "scrapers": {
     "directories": [
       ".DS_Store",
+      "Calgary",
+      "Montreal",
+      "New York",
       "Toronto",
       "index.js",
       "vancouver",
@@ -30,8 +33,11 @@
     "readyToDeploy": "✅ Ready for deployment"
   },
   "recommendations": [
+    "⚠️ No events found for Toronto. Consider adding scrapers or events for this city.",
     "⚠️ No events found for Vancouver. Consider adding scrapers or events for this city.",
     "⚠️ No events found for Montreal. Consider adding scrapers or events for this city.",
-    "⚠️ No events found for Calgary. Consider adding scrapers or events for this city."
+    "⚠️ No events found for Calgary. Consider adding scrapers or events for this city.",
+    "⚠️ Total events count is low. Consider adding more events before deployment.",
+    "⚠️ Toronto has few events. Run Toronto scrapers to add more events."
   ]
 }

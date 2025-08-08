@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Queen Elizabeth Theatre Events Scraper
  * 
@@ -20,7 +21,7 @@ class QueenElizabethTheatreScraper {
       name: 'Queen Elizabeth Theatre',
       id: 'queen-elizabeth-theatre',
       address: '600 Hamilton St',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 2P1',

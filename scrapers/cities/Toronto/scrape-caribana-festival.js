@@ -1,129 +1,80 @@
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
 
-async function scrape() {
-    try {
-        console.log('🏝️ Scraping events from Toronto Caribbean Carnival (Caribana)...');
+class CaribanaFestivalScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Toronto Caribbean Carnival';
+        this.url = 'https://www.torontocarnival.ca/';
+        this.venue = {
+            name: 'Multiple Venues (Caribana)',
+            address: 'Exhibition Place & Lakeshore Blvd W, Toronto, ON',
+            city: this.city,
+            province: 'ON',
+            country: 'Canada',
+            latitude: 43.6330,
+            longitude: -79.4165
+        };
+    }
 
-        // Caribana 2025: July 31 - August 4, 2025
-        const events = [];
+    _generateEventId(title, startDate) {
+        const dateStr = startDate ? startDate.toISOString() : '';
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
 
-        // Main festival event
-        events.push({
-            title: 'Toronto Caribbean Carnival (Caribana) 2025',
-            startDate: new Date('2025-07-31T12:00:00'),
-            endDate: new Date('2025-08-04T23:00:00'),
-            description: 'North America\'s largest Caribbean festival featuring the Grand Parade, King & Queen Competition, steel pan music, Caribbean cuisine, and vibrant cultural celebrations.',
-            category: 'Festival',
-            subcategory: 'Caribbean Festival',
-            venue: {
-                name: 'Multiple Venues & Lakeshore Boulevard',
-                address: 'Exhibition Place & Lakeshore Blvd W, Toronto, ON',
-                city: 'Toronto',
-                province: 'Ontario',
-                country: 'Canada'
-            },
-            sourceUrl: 'https://www.torontocarnival.ca/',
-            source: 'Toronto Caribbean Carnival',
-            sourceId: 'caribana-2025-main',
-            lastUpdated: new Date(),
-            tags: ['caribbean', 'carnival', 'caribana', 'parade', 'festival', 'culture', 'steel-pan'],
-            ticketInfo: {
-                hasTickets: true,
-                ticketUrl: 'https://www.torontocarnival.ca/tickets'
-            }
-        });
+    _parseDate(dateStr) {
+        if (!dateStr) return null;
+        try {
+            const date = new Date(dateStr);
+            return isNaN(date.getTime()) ? null : date;
+        } catch (e) {
+            this.log(`Error parsing date: ${dateStr}`);
+            return null;
+        }
+    }
 
-        // Specific Caribana events
-        const caribanaEvents = [
-            {
-                title: 'Caribbean Carnival Junior Parade',
-                date: new Date('2025-07-31T11:00:00'),
-                description: 'Children\'s parade featuring young masqueraders in colorful costumes celebrating Caribbean heritage.',
-                type: 'parade'
-            },
-            {
-                title: 'King & Queen Competition - Caribana',
-                date: new Date('2025-08-01T19:00:00'),
-                description: 'Spectacular competition showcasing elaborate costumes and traditional Caribbean mas artistry.',
-                type: 'competition'
-            },
-            {
-                title: 'Pan Alive Steel Orchestra Competition',
-                date: new Date('2025-08-02T18:00:00'),
-                description: 'International steel pan competition featuring orchestras from across the Caribbean and North America.',
-                type: 'music'
-            },
-            {
-                title: 'Caribana Grand Parade 2025',
-                date: new Date('2025-08-02T10:00:00'),
-                description: 'The iconic Grand Parade along Lakeshore Boulevard featuring thousands of masqueraders, floats, and Caribbean music.',
-                type: 'parade'
-            },
-            {
-                title: 'Caribbean Food & Craft Market',
-                date: new Date('2025-08-02T12:00:00'),
-                description: 'Authentic Caribbean cuisine, craft vendors, and cultural displays at Exhibition Place.',
-                type: 'market'
-            },
-            {
-                title: 'Calypso & Soca Concert Series',
-                date: new Date('2025-08-03T20:00:00'),
-                description: 'Live performances by top Caribbean artists featuring calypso, soca, reggae, and dancehall music.',
-                type: 'concert'
-            },
-            {
-                title: 'Caribbean Heritage Showcase',
-                date: new Date('2025-08-04T15:00:00'),
-                description: 'Cultural presentations celebrating the diverse heritage of Caribbean islands and diaspora communities.',
-                type: 'cultural'
-            }
-        ];
+    _extractCategories(title, description) {
+        const text = `${title} ${description}`.toLowerCase();
+        const categories = [this.city, 'Festival', 'Cultural'];
 
-        caribanaEvents.forEach(event => {
-            const duration = event.type === 'parade' ? 6 : (event.type === 'market' ? 8 : 4);
-            const endDate = new Date(event.date.getTime() + duration * 60 * 60 * 1000);
+        if (text.includes('parade')) categories.push('Parade');
+        if (text.includes('music') || text.includes('soca') || text.includes('calypso')) categories.push('Music');
+        if (text.includes('food')) categories.push('Food');
+        if (text.includes('family')) categories.push('Family');
 
-            events.push({
-                title: event.title,
-                startDate: event.date,
-                endDate: endDate,
-                description: event.description,
-                category: event.type === 'parade' ? 'Parade' : 
-                          (event.type === 'concert' ? 'Music' : 
-                          (event.type === 'competition' ? 'Competition' : 'Cultural')),
-                subcategory: event.type === 'parade' ? 'Caribbean Parade' :
-                            (event.type === 'music' ? 'Steel Pan' :
-                            (event.type === 'concert' ? 'Caribbean Music' : 'Caribbean Culture')),
-                venue: {
-                    name: event.type === 'parade' ? 'Lakeshore Boulevard West' : 
-                          (event.type === 'market' ? 'Exhibition Place' : 'Lamport Stadium'),
-                    address: event.type === 'parade' ? 'Lakeshore Blvd W, Toronto, ON' : 
-                            (event.type === 'market' ? '210 Princes\' Blvd, Toronto, ON' : '1155 King St W, Toronto, ON'),
-                    city: 'Toronto',
-                    province: 'Ontario',
-                    country: 'Canada'
-                },
-                sourceUrl: 'https://www.torontocarnival.ca/',
-                source: 'Toronto Caribbean Carnival',
-                sourceId: `caribana-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-                lastUpdated: new Date(),
-                tags: ['caribana', 'caribbean', 'carnival', event.type, 'festival', 'toronto'],
-                ticketInfo: {
-                    hasTickets: !event.title.includes('Parade'),
-                    isFree: event.type === 'parade' || event.type === 'market',
-                    ticketUrl: 'https://www.torontocarnival.ca/tickets'
-                }
-            });
-        });
+        return [...new Set(categories)];
+    }
 
-        console.log(`Found ${events.length} total events from Caribana`);
-        return events;
+    async scrape() {
+        this.log(`Scraping events from ${this.source}`);
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] };
+        try {
+            const page = await browser.newPage();
+            await page.goto(this.url, { waitUntil: 'networkidle2' };
 
-    } catch (error) {
-        console.error('❌ Error scraping Caribana:', error.message);
-        return [];
+            this.log('Website does not have a structured events page. No events will be scraped.');
+            // NOTE: The official website is more of a portal and does not have a consistent, scrapable events calendar.
+
+            const events = [];
+
+            return events;
+        } catch (error) {
+            this.log(`Error scraping ${this.source}: ${error.message}`);
+            return [];
+        } finally {
+            await browser.close();
+        }
     }
 }
 
-const scrapeEvents = scrape;
-module.exports = { scrape, scrapeEvents };
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new CaribanaFestivalScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.CaribanaFestivalScraper = CaribanaFestivalScraper;

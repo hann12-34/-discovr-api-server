@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-vancouver-folk-music-festival.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🎸 Scraping events from Vancouver Folk Music Festival...');
 
@@ -18,7 +23,7 @@ async function scrape() {
             venue: {
                 name: 'Jericho Beach Park',
                 address: '3941 Point Grey Rd, Vancouver, BC',
-                city: 'Vancouver',
+                city: city,
                 province: 'British Columbia',
                 country: 'Canada'
             },
@@ -31,7 +36,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://www.thefestival.bc.ca/tickets'
             }
-        });
+        };
 
         // Specific Folk Festival events by day
         const folkEvents = [
@@ -73,7 +78,7 @@ async function scrape() {
         ];
 
         folkEvents.forEach(event => {
-            const duration = event.stage === 'Workshop Stage' ? 2 : 
+            const duration = event.stage === 'Workshop Stage' ? 2 :
                             (event.stage === 'Family Stage' ? 3 : 4);
             const endDate = new Date(event.date.getTime() + duration * 60 * 60 * 1000);
 
@@ -88,7 +93,7 @@ async function scrape() {
                 venue: {
                     name: `${event.stage} - Jericho Beach Park`,
                     address: '3941 Point Grey Rd, Vancouver, BC',
-                    city: 'Vancouver',
+                    city: city,
                     province: 'British Columbia',
                     country: 'Canada'
                 },
@@ -101,8 +106,8 @@ async function scrape() {
                     hasTickets: true,
                     ticketUrl: 'https://www.thefestival.bc.ca/tickets'
                 }
-            });
-        });
+            };
+        };
 
         // Additional festival programming
         const additionalEvents = [
@@ -140,7 +145,7 @@ async function scrape() {
                 venue: {
                     name: event.type === 'late-night' ? 'Various Local Venues' : 'Jericho Beach Park',
                     address: event.type === 'late-night' ? 'Kitsilano Area, Vancouver, BC' : '3941 Point Grey Rd, Vancouver, BC',
-                    city: 'Vancouver',
+                    city: city,
                     province: 'British Columbia',
                     country: 'Canada'
                 },
@@ -154,8 +159,8 @@ async function scrape() {
                     isFree: event.type === 'community',
                     ticketUrl: 'https://www.thefestival.bc.ca/tickets'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from Vancouver Folk Music Festival`);
         return events;
@@ -168,3 +173,7 @@ async function scrape() {
 
 const scrapeEvents = scrape;
 module.exports = { scrape, scrapeEvents };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

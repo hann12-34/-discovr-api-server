@@ -1,0 +1,309 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Outdoor Adventure Events Scraper
+ * 
+ * Scrapes events from NYC outdoor adventure and hiking groups
+ * URL: https://www.meetup.com/topics/outdoor-adventure/us/ny/new_york/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCOutdoorAdventureEvents {
+    constructor() {
+        this.venueName = 'NYC Outdoor Adventure';
+        this.venueLocation = 'Various NYC & Tri-State Locations';
+        this.baseUrl = 'https://www.meetup.com';
+        this.eventsUrl = 'https://www.meetup.com/topics/outdoor-adventure/us/ny/new_york/';
+        this.category = 'Outdoor Adventure & Hiking';
+    }
+
+    /**
+     * Scrape events from NYC Outdoor Adventure
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🏔️ Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for outdoor adventure-specific event containers
+            const eventSelectors = [
+                '.outdoor-event', '.adventure-event', '.hiking-event',
+                '.event-item', '.event-card', '.event', '.meetup-event',
+                '[class*="outdoor"]', '[class*="adventure"]', '[class*="event"]',
+                '.card', '.content-card', '.group-event', '.activity'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .event-name, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for location/trail
+                        let location = this.venueLocation;
+                        const locationSelectors = ['.location', '.where', '.trail', '[class*="location"]', '.destination'];
+                        for (const locSelector of locationSelectors) {
+                            const locElement = $el.find(locSelector).first();
+                            if (locElement.length > 0) {
+                                const locText = locElement.text().trim();
+                                if (locText && locText.length > 0) {
+                                    location = locText.length > 80 ? locText.substring(0, 80) + '...' : locText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for difficulty level
+                        let difficulty = '';
+                        const difficultySelectors = ['.difficulty', '.level', '.skill-level', '[class*="difficulty"]'];
+                        for (const diffSelector of difficultySelectors) {
+                            const diffElement = $el.find(diffSelector).first();
+                            if (diffElement.length > 0) {
+                                difficulty = diffElement.text().trim();
+                                if (difficulty) break;
+                            }
+                        }
+
+                        // Look for activity type
+                        let activityType = this.category;
+                        const typeSelectors = ['.activity-type', '.type', '.category', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.length > 0) {
+                                    activityType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for distance/duration
+                        let distance = '';
+                        const distanceSelectors = ['.distance', '.duration', '.miles', '[class*="distance"]'];
+                        for (const distanceSelector of distanceSelectors) {
+                            const distanceElement = $el.find(distanceSelector).first();
+                            if (distanceElement.length > 0) {
+                                const distanceText = distanceElement.text().trim();
+                                if (distanceText && distanceText.match(/\d+\s*(mile|km|hour|hr)/i)) {
+                                    distance = distanceText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for group/organizer
+                        let organizer = '';
+                        const organizerSelectors = ['.organizer', '.group', '.host', '[class*="organizer"]'];
+                        for (const orgSelector of organizerSelectors) {
+                            const orgElement = $el.find(orgSelector).first();
+                            if (orgElement.length > 0) {
+                                organizer = orgElement.text().trim();
+                                if (organizer) break;
+                            }
+                        }
+
+                        // Look for cost/price
+                        let cost = '';
+                        const costSelectors = ['.cost', '.price', '.fee', '[class*="cost"]'];
+                        for (const costSelector of costSelectors) {
+                            const costElement = $el.find(costSelector).first();
+                            if (costElement.length > 0) {
+                                const costText = costElement.text().trim();
+                                if (costText && (costText.includes('$') || costText.toLowerCase().includes('free'))) {
+                                    cost = costText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: this.venueName,
+                            location: location,
+                            date: dateTime || 'Check website for activity schedule',
+                            category: activityType,
+                            difficulty: difficulty,
+                            distance: distance,
+                            organizer: organizer,
+                            cost: cost,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCOutdoorAdventureEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general outdoor activity information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasOutdoorKeywords = text.match(/\b(hiking|outdoor|adventure|trail|nature|park|mountain|beach|kayak|bike|climb)\b/i);
+                    const hasEventPattern = text.match(/\b(meetup|event|group|activity|trip|expedition|tour)\b/i);
+                    
+                    if (hasOutdoorKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for activity schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCOutdoorAdventureEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and date
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.date}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 10 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid outdoor adventure keywords
+        const validKeywords = [
+            'hiking', 'outdoor', 'adventure', 'trail', 'nature', 'park',
+            'mountain', 'beach', 'kayak', 'bike', 'climb', 'walk', 'explore'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCOutdoorAdventureEvents;

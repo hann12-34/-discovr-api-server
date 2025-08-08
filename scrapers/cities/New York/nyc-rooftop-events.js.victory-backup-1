@@ -1,0 +1,312 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Rooftop Events Scraper
+ * 
+ * Scrapes events from NYC rooftop venues and outdoor spaces
+ * URL: https://www.therooftopguide.com/new-york.html
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCRooftopEvents {
+    constructor() {
+        this.venueName = 'NYC Rooftop Events';
+        this.venueLocation = 'Various NYC Rooftop Venues';
+        this.baseUrl = 'https://www.therooftopguide.com';
+        this.eventsUrl = 'https://www.therooftopguide.com/new-york.html';
+        this.category = 'Rooftop & Outdoor Events';
+    }
+
+    /**
+     * Scrape events from NYC Rooftop Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🏙️ Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for rooftop-specific event containers
+            const eventSelectors = [
+                '.rooftop-event', '.outdoor-event', '.skyline-event',
+                '.event-item', '.event-card', '.event', '.venue-event',
+                '[class*="rooftop"]', '[class*="outdoor"]', '[class*="event"]',
+                '.card', '.content-card', '.bar-event', '.terrace-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .venue-name, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time information
+                        let dateText = '';
+                        const dateSelectors = [
+                            '.date', '.event-date', '[class*="date"]', 
+                            'time', '.datetime', '.when', '.schedule', '.time-info',
+                            '.happy-hour', '.sunset'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateText = dateElement.text().trim();
+                                if (dateText && dateText.length < 100) break;
+                            }
+                        }
+
+                        // Look for rooftop venue
+                        let rooftopVenue = this.venueLocation;
+                        const venueSelectors = ['.venue', '.rooftop', '.location', '.where', '[class*="venue"]'];
+                        for (const venueSelector of venueSelectors) {
+                            const venueElement = $el.find(venueSelector).first();
+                            if (venueElement.length > 0) {
+                                const venueText = venueElement.text().trim();
+                                if (venueText && venueText.length > 0) {
+                                    rooftopVenue = venueText.length > 60 ? venueText.substring(0, 60) + '...' : venueText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for neighborhood/area
+                        let neighborhood = '';
+                        const neighborhoodSelectors = ['.neighborhood', '.area', '.district', '[class*="neighborhood"]'];
+                        for (const neighSelector of neighborhoodSelectors) {
+                            const neighElement = $el.find(neighSelector).first();
+                            if (neighElement.length > 0) {
+                                neighborhood = neighElement.text().trim();
+                                if (neighborhood) break;
+                            }
+                        }
+
+                        // Look for view/skyline information
+                        let view = '';
+                        const viewSelectors = ['.view', '.skyline', '.scenery', '[class*="view"]'];
+                        for (const viewSelector of viewSelectors) {
+                            const viewElement = $el.find(viewSelector).first();
+                            if (viewElement.length > 0) {
+                                view = viewElement.text().trim();
+                                if (view) break;
+                            }
+                        }
+
+                        // Look for event type
+                        let eventType = this.category;
+                        const typeSelectors = ['.type', '.event-type', '.category', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.length > 0) {
+                                    eventType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for price/cover charge
+                        let priceInfo = '';
+                        const priceSelectors = ['.price', '.cover', '.admission', '[class*="price"]'];
+                        for (const priceSelector of priceSelectors) {
+                            const priceElement = $el.find(priceSelector).first();
+                            if (priceElement.length > 0) {
+                                priceInfo = priceElement.text().trim();
+                                if (priceInfo) break;
+                            }
+                        }
+
+                        // Look for dress code
+                        let dressCode = '';
+                        const dressSelectors = ['.dress-code', '.attire', '.code', '[class*="dress"]'];
+                        for (const dressSelector of dressSelectors) {
+                            const dressElement = $el.find(dressSelector).first();
+                            if (dressElement.length > 0) {
+                                dressCode = dressElement.text().trim();
+                                if (dressCode) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: this.venueName,
+                            location: rooftopVenue,
+                            date: dateText || 'Check website for event dates',
+                            category: eventType,
+                            neighborhood: neighborhood,
+                            view: view,
+                            priceInfo: priceInfo,
+                            dressCode: dressCode,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCRooftopEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general rooftop event information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 120) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasRooftopKeywords = text.match(/\b(rooftop|outdoor|terrace|skyline|view|sunset|happy hour|cocktail|bar|lounge)\b/i);
+                    const hasTimePattern = text.match(/\b(\d{1,2}pm|\d{1,2}:\d{2}|pm|am|evening|night|weekend|summer|spring)\b/i);
+                    
+                    if (hasRooftopKeywords && hasTimePattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: hasTimePattern[0] || 'Check website for event dates',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCRooftopEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = event.title.toLowerCase().trim();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 10 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid rooftop/venue keywords
+        const validKeywords = [
+            'rooftop', 'bar', 'lounge', 'terrace', 'outdoor', 'skyline',
+            'view', 'cocktail', 'event', 'party', 'happy hour', 'sunset'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new NYCRooftopEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.NYCRooftopEvents = NYCRooftopEvents;

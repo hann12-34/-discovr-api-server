@@ -1,6 +1,6 @@
 /**
  * Yaletown Jazz Scraper
- * 
+ *
  * This scraper generates events for the "Let's Hear It For Yaletown" Jazz series
  * running from June 4 to July 17, 2025 at Bill Curtis Square
  */
@@ -12,13 +12,13 @@ class YaletownJazzScraper {
     this.name = 'Yaletown Jazz';
     this.url = 'https://yaletowninfo.com/whats-happening/music/jazz/';
     this.sourceIdentifier = 'yaletown-jazz';
-    
+
     // Define venue with proper object structure
     this.venue = {
       name: 'Bill Curtis Square',
       id: 'bill-curtis-square',
       address: '1198 Mainland St',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 5P2',
@@ -29,12 +29,12 @@ class YaletownJazzScraper {
       websiteUrl: 'https://yaletowninfo.com/whats-happening/music/',
       description: "Bill Curtis Square is an outdoor public space located in the heart of Vancouver's Yaletown district, behind the Yaletown-Roundhouse Station. The square regularly hosts community events, concerts, and performances, and features the historic Engine 374, which pulled the first transcontinental passenger train into Vancouver."
     };
-    
+
     // Series description
     this.seriesDescription = "Enjoy talented local jazz bands and exciting swing dancing performances by the Vancity Hot Jazz Society. Experience the magic of live Canadian music, from New Orleans trad jazz to soulful gospel, as the outdoor square comes alive with infectious rhythms. Part of the 'Let's Hear It For Yaletown' summer music series featuring free outdoor performances curated by local non-profit organizations.";
-    
+
     // Events schedule (contains all performances)
-    this.events = [
+    thiss = [
       {
         date: '2025-06-04',
         performer: "Ben MacRae's Grand Slam",
@@ -220,51 +220,51 @@ class YaletownJazzScraper {
     const slugPerformer = performer.toLowerCase()
       .replace(/[^\w\s]/g, '')
       .replace(/\s+/g, '-');
-    
+
     return `yaletown-jazz-${date}-${slugPerformer}`;
   }
-  
+
   /**
    * Convert time string (HH:MM) to Date object
-   * @param {string} dateStr - Date in YYYY-MM-DD format
+   * @param {string} da - Date in YYYY-MM-DD format
    * @param {string} timeStr - Time in HH:MM format
    * @returns {Date} - JavaScript Date object
    */
-  createDateTime(dateStr, timeStr) {
+  createDateTime(da, timeStr) {
     const [hours, minutes] = timeStr.split(':').map(Number);
-    const date = new Date(dateStr);
+    const date = new Date(da);
     date.setHours(hours, minutes, 0, 0);
     return date;
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Yaletown Jazz events scraper...');
     const events = [];
-    
+
     try {
       // Loop through all events and create structured event objects
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Skip events that have been rescheduled - we'll add them on their new date
         if (eventData.rescheduled) {
           continue;
         }
-        
+
         // Create date objects for start and end times
         const startDate = this.createDateTime(eventData.date, eventData.startTime);
         const endDate = this.createDateTime(eventData.date, eventData.endTime);
-        
+
         // Compile description
         let description = eventData.description || this.seriesDescription;
         if (eventData.originalDate) {
-          description += ` (Rescheduled from ${new Date(eventData.originalDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })})`;
+          description += ` (Rescheduled from ${new Date(eventData.originalDate).toLocaleDa('en-US', { month: 'long', day: 'numeric' }}`;
         }
-        
+
         // Format event title
         const eventTitle = `${eventData.performer} - Yaletown Jazz Series`;
-        
+
         // Create event object
         const event = {
           id: this.generateEventId(eventData.date, eventData.performer),
@@ -281,14 +281,14 @@ class YaletownJazzScraper {
           recurring: null, // These are individual events
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
-        console.log(`✅ Added event: ${eventTitle} on ${startDate.toLocaleDateString()}`);
+        console.log(`✅ Added event: ${eventTitle} on ${startDate.toLocaleDa`);
       }
-      
+
       console.log(`🎉 Successfully scraped ${events.length} Yaletown Jazz events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Yaletown Jazz scraper: ${error.message}`);
       return events;
@@ -297,3 +297,13 @@ class YaletownJazzScraper {
 }
 
 module.exports = new YaletownJazzScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new YaletownJazzScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.YaletownJazzScraper = YaletownJazzScraper;

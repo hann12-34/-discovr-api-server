@@ -1,630 +1,154 @@
-/**
- * Old Town Toronto Events Scraper
- * 
- * This script extracts events from the Old Town Toronto events page
- * and adds them to the MongoDB database in the appropriate format.
- */
-
-require('dotenv').config();
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { MongoClient } = require('mongodb');
 const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
 
-// MongoDB connection URI from environment variable
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+class OldTownTorontoEventsScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Old Town Toronto';
+        this.baseUrl = 'https://oldtowntoronto.ca';
+        this.url = 'https://oldtowntoronto.ca/events/';
 
-// Base URL and events page URL
-const BASE_URL = 'https://oldtowntoronto.ca';
-const EVENTS_URL = 'https://oldtowntoronto.ca/events/';
+        this.defaultVenue = {
+            name: 'Old Town Toronto',
+            address: 'St. Lawrence Market Neighbourhood, Toronto, ON',
+            city: this.city,
+            province: 'ON',
+            country: 'Canada',
+            postalCode: 'M5E 1C3',
+            latitude: 43.6505,
+            longitude: -79.3705
+        };
 
-// Venue information for Old Town Toronto (general location)
-const OLDTOWN_VENUE = {
-  name: 'Old Town Toronto',
-  address: 'St. Lawrence Market Neighbourhood, Toronto, ON',
-  city: 'Toronto',
-  province: 'ON',
-  country: 'Canada',
-  postalCode: 'M5E 1C3',
-  coordinates: {
-    latitude: 43.6505,
-    longitude: -79.3705
-  }
-};
+        this.knownVenues = {
+            'st. lawrence market': { name: 'St. Lawrence Market', address: '93 Front St E, Toronto, ON M5E 1C3', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5E 1C3', latitude: 43.6497, longitude: -79.3719 },
+            'berczy park': { name: 'Berczy Park', address: '35 Wellington St E, Toronto, ON M5E 1C6', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5E 1C6', latitude: 43.6489, longitude: -79.3749 },
+            'st. james cathedral': { name: 'St. James Cathedral', address: '106 King St E, Toronto, ON M5C 2E9', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5C 2E9', latitude: 43.6505, longitude: -79.3735 },
+            'meridian hall': { name: 'Meridian Hall', address: '1 Front St E, Toronto, ON M5E 1B2', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5E 1B2', latitude: 43.6478, longitude: -79.3751 }
+        };
+    }
 
-// Common venues in Old Town Toronto area
-const OLDTOWN_VENUES = {
-  'st. lawrence market': {
-    name: 'St. Lawrence Market',
-    address: '93 Front St E, Toronto, ON M5E 1C3',
-    city: 'Toronto',
-    province: 'ON',
-    country: 'Canada',
-    postalCode: 'M5E 1C3',
-    coordinates: {
-      latitude: 43.6497,
-      longitude: -79.3719
+    _generateEventId(title, startDate) {
+        const daeventDateText = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
+        const data = `${this.source}-${title}-${daeventDateText}`;
+        return crypto.createHash('md5').update(data).digest('hex');
     }
-  },
-  'st lawrence market': {
-    name: 'St. Lawrence Market',
-    address: '93 Front St E, Toronto, ON M5E 1C3',
-    city: 'Toronto',
-    province: 'ON',
-    country: 'Canada',
-    postalCode: 'M5E 1C3',
-    coordinates: {
-      latitude: 43.6497,
-      longitude: -79.3719
-    }
-  },
-  'berczy park': {
-    name: 'Berczy Park',
-    address: '35 Wellington St E, Toronto, ON M5E 1C6',
-    city: 'Toronto',
-    province: 'ON',
-    country: 'Canada',
-    postalCode: 'M5E 1C6',
-    coordinates: {
-      latitude: 43.6489,
-      longitude: -79.3749
-    }
-  },
-  'st. james cathedral': {
-    name: 'St. James Cathedral',
-    address: '106 King St E, Toronto, ON M5C 2E9',
-    city: 'Toronto',
-    province: 'ON',
-    country: 'Canada',
-    postalCode: 'M5C 2E9',
-    coordinates: {
-      latitude: 43.6505,
-      longitude: -79.3735
-    }
-  },
-  'st james cathedral': {
-    name: 'St. James Cathedral',
-    address: '106 King St E, Toronto, ON M5C 2E9',
-    city: 'Toronto',
-    province: 'ON',
-    country: 'Canada',
-    postalCode: 'M5C 2E9',
-    coordinates: {
-      latitude: 43.6505,
-      longitude: -79.3735
-    }
-  },
-  'sony centre': {
-    name: 'Meridian Hall (formerly Sony Centre)',
-    address: '1 Front St E, Toronto, ON M5E 1B2',
-    city: 'Toronto',
-    province: 'ON',
-    country: 'Canada',
-    postalCode: 'M5E 1B2',
-    coordinates: {
-      latitude: 43.6478,
-      longitude: -79.3751
-    }
-  },
-  'meridian hall': {
-    name: 'Meridian Hall (formerly Sony Centre)',
-    address: '1 Front St E, Toronto, ON M5E 1B2',
-    city: 'Toronto',
-    province: 'ON',
-    country: 'Canada',
-    postalCode: 'M5E 1B2',
-    coordinates: {
-      latitude: 43.6478,
-      longitude: -79.3751
-    }
-  }
-};
 
-// Categories for Old Town events
-const OLDTOWN_CATEGORIES = ['toronto', 'old town', 'st lawrence', 'community', 'culture'];
+    _extractCategories(title, description) {
+        const text = `${title.toLowerCase()} ${description.toLowerCase()}`;
+        const categories = [this.city, 'Community'];
+        const mappings = {
+            'Market': [/market/i, /vendor/i, /artisan/i],
+            'Music': [/music/i, /concert/i, /live band/i, /performance/i],
+            'Tour': [/tour/i, /walk/i, /guided/i],
+            'History': [/history/i, /historical/i, /heritage/i],
+            'Food & Drink': [/food/i, /drink/i, /taste/i, /culinary/i, /dining/i]
+        };
 
-// Function to generate a unique ID for events
-function generateEventId(title, startDate) {
-  const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
-  const data = `oldtown-${title}-${dateStr}`;
-  return crypto.createHash('md5').update(data).digest('hex');
-}
-
-// Function to extract venue information from event text
-function extractVenue(title, description, location) {
-  // Try to get the venue from the provided location first
-  if (location) {
-    const locationLower = location.toLowerCase();
-    
-    // Check known venues
-    for (const [keyword, venue] of Object.entries(OLDTOWN_VENUES)) {
-      if (locationLower.includes(keyword)) {
-        return venue;
-      }
-    }
-  }
-  
-  // Try to extract from title and description
-  const textToSearch = `${title} ${description}`.toLowerCase();
-  
-  for (const [keyword, venue] of Object.entries(OLDTOWN_VENUES)) {
-    if (textToSearch.includes(keyword)) {
-      return venue;
-    }
-  }
-  
-  // Return default venue if no specific venue found
-  return OLDTOWN_VENUE;
-}
-
-// Function to parse date strings from the website
-function parseOldTownDate(dateStr) {
-  if (!dateStr) return { startDate: new Date(), endDate: new Date() };
-  
-  try {
-    // Remove any HTML tags
-    dateStr = dateStr.replace(/<[^>]*>/g, '').trim();
-    
-    // Common patterns on Old Town Toronto website:
-    // "July 25, 2025" (single day)
-    // "July 25 - August 30, 2025" (date range)
-    // "July 25, 2025 @ 6:30 PM" (with time)
-    
-    let startDate, endDate;
-    
-    // Check for time information (Old Town site often uses @ for time)
-    const hasTime = dateStr.includes('@') || dateStr.includes('at') || dateStr.includes('PM') || dateStr.includes('AM');
-    let timeStr = '';
-    
-    if (hasTime) {
-      if (dateStr.includes('@')) {
-        const parts = dateStr.split('@');
-        dateStr = parts[0].trim();
-        timeStr = parts[1].trim();
-      } else if (dateStr.includes('at')) {
-        const parts = dateStr.split('at');
-        dateStr = parts[0].trim();
-        timeStr = parts[1].trim();
-      } else {
-        // Try to extract time if formatted differently
-        const timeParts = dateStr.match(/(\d{1,2}:\d{2}\s*(AM|PM|am|pm))/i);
-        if (timeParts) {
-          timeStr = timeParts[0];
-          dateStr = dateStr.replace(timeStr, '').trim();
+        for (const [category, regexes] of Object.entries(mappings)) {
+            if (regexes.some(regex => regex.test(text))) {
+                categories.push(category);
+            }
         }
-      }
+
+        return [...new Set(categories)];
     }
-    
-    // Check if it's a date range
-    if (dateStr.includes(' - ') || dateStr.includes(' to ')) {
-      const separator = dateStr.includes(' - ') ? ' - ' : ' to ';
-      const [startStr, endStr] = dateStr.split(separator).map(d => d.trim());
-      
-      // Handle case where end date doesn't include year or month
-      if (!endStr.includes(',') && startStr.includes(',')) {
-        // End date might be missing year or month
-        const startParts = startStr.split(' ');
-        const startYear = startParts[startParts.length - 1];
-        const startMonth = startParts[0];
-        
-        if (endStr.includes(' ')) {
-          // Has month and day but no year (e.g., "July 25 - August 30, 2025")
-          startDate = new Date(startStr);
-          endDate = new Date(`${endStr}, ${startYear}`);
+
+    _parseDate(daeventDateText) {
+        if (!daeventDateText) return { startDate: new Date(), endDate: new Date() };
+
+        const now = new Date();
+        const year = now.getFullYear();
+        let startDate, endDate;
+
+        if (daeventDateText.toLowerCase().includes('ongoing')) {
+            startDate = now;
+            endDate = new Date(year, 11, 31);
+        } else if (daeventDateText.includes('-')) {
+            const parts = daeventDateText.split('-').map(part => part.trim());
+            const startPart = parts[0].includes(',') ? parts[0] : `${parts[0]}, ${year}`;
+            const endPart = parts[1].includes(',') ? parts[1] : `${parts[1]}, ${year}`;
+            startDate = new Date(startPart);
+            endDate = new Date(endPart);
         } else {
-          // Only has day (e.g., "July 25 - 30, 2025")
-          startDate = new Date(startStr);
-          endDate = new Date(`${startMonth} ${endStr}, ${startYear}`);
+            const singleDatePart = daeventDateText.includes(',') ? daeventDateText : `${daeventDateText}, ${year}`;
+            startDate = new Date(singleDatePart);
+            endDate = new Date(startDate);
+            endDate.setHours(endDate.getHours() + 2);
         }
-      } else {
-        // Both dates are complete
-        startDate = new Date(startStr);
-        endDate = new Date(endStr);
-      }
-    } else {
-      // Single day event
-      startDate = new Date(dateStr);
-      endDate = new Date(dateStr);
-      
-      // Set end time to end of day if no specific time
-      if (!timeStr) {
-        endDate.setHours(23, 59, 59);
-      }
-    }
-    
-    // Add time information if available
-    if (timeStr) {
-      const timeMatch = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/i);
-      if (timeMatch) {
-        let hours = parseInt(timeMatch[1], 10);
-        const minutes = parseInt(timeMatch[2], 10);
-        const period = timeMatch[3].toUpperCase();
-        
-        // Convert to 24-hour format
-        if (period === 'PM' && hours < 12) hours += 12;
-        if (period === 'AM' && hours === 12) hours = 0;
-        
-        startDate.setHours(hours, minutes, 0);
-        
-        // Set end time 2 hours after start if not a date range
-        if (dateStr.indexOf('-') === -1 && dateStr.indexOf('to') === -1) {
-          endDate = new Date(startDate);
-          endDate.setHours(startDate.getHours() + 2);
+
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            this.log(`Could not parse date: "${da (no fallbacks allowed).`);
+            return null;
         }
-      }
+
+        return { startDate, endDate };
     }
-    
-    return { startDate, endDate };
-  } catch (error) {
-    console.error(`❌ Error parsing date: ${dateStr}`, error);
-    // Return current date as fallback
-    const now = new Date();
-    const later = new Date(now);
-    later.setHours(later.getHours() + 2);
-    return { startDate: now, endDate: later };
-  }
-}
 
-// Extract categories from event text
-function extractCategories(title, description) {
-  const textToSearch = `${title} ${description}`.toLowerCase();
-  const categories = [...OLDTOWN_CATEGORIES]; // Start with default categories
-  
-  // Add specific categories based on keywords
-  if (textToSearch.includes('market') || textToSearch.includes('shop') || textToSearch.includes('vendor')) 
-    categories.push('shopping');
-  if (textToSearch.includes('food') || textToSearch.includes('dining') || textToSearch.includes('restaurant') || textToSearch.includes('taste')) 
-    categories.push('food');
-  if (textToSearch.includes('music') || textToSearch.includes('concert') || textToSearch.includes('band') || textToSearch.includes('performance')) 
-    categories.push('music');
-  if (textToSearch.includes('art') || textToSearch.includes('gallery') || textToSearch.includes('exhibit')) 
-    categories.push('art');
-  if (textToSearch.includes('history') || textToSearch.includes('heritage') || textToSearch.includes('tour')) 
-    categories.push('history');
-  if (textToSearch.includes('family') || textToSearch.includes('kid') || textToSearch.includes('children')) 
-    categories.push('family');
-  if (textToSearch.includes('festival') || textToSearch.includes('celebration') || textToSearch.includes('party')) 
-    categories.push('festival');
-  
-  // Remove duplicates
-  return [...new Set(categories)];
-}
-
-// Extract price information
-function extractPrice(text) {
-  if (!text) return 'Free';
-  
-  text = text.toLowerCase();
-  
-  if (text.includes('free')) return 'Free';
-  
-  // Look for price patterns like $10, $10-$20, etc.
-  const priceMatch = text.match(/\$(\d+)(?:\s*-\s*\$(\d+))?/);
-  if (priceMatch) {
-    if (priceMatch[2]) {
-      return `$${priceMatch[1]}-$${priceMatch[2]}`;
-    } else {
-      return `$${priceMatch[1]}`;
+    _getVenue(venueText) {
+        const lowerVenueText = venueText.toLowerCase().trim();
+        for (const [key, venue] of Object.entries(this.knownVenues)) {
+            if (lowerVenueText.includes(key)) {
+                return venue;
+            }
+        }
+        return this.defaultVenue;
     }
-  }
-  
-  return 'See website for details';
-}
 
-// Main function to fetch and process Old Town Toronto events
-async function scrapeOldTownEvents() {
-  let addedEvents = 0;
-  
-  try {
-    console.log('🚀 Starting Old Town Toronto events scraper');
-    
-    // Connect to MongoDB
-    await client.connect();
-    console.log('✅ Connected to MongoDB');
-    
-    const database = client.db();
-    const eventsCollection = database.collection('events');
-    
-    // Fetch the events page
-    console.log('🔍 Fetching Old Town Toronto events page...');
-    const response = await axios.get(EVENTS_URL);
-    const $ = cheerio.load(response.data);
-    
-    // Look for event containers - adjust selectors based on page structure
-    const eventElements = $('.event, .tribe-events-list-event, .tribe-event-article, article.type-tribe_events, .type-event, .events-list .event, .events-list-item');
-    
-    console.log(`🔍 Found ${eventElements.length} event elements`);
-    
-    if (eventElements.length > 0) {
-      // Process each event
-      for (let i = 0; i < eventElements.length; i++) {
+    async scrape() {
+        this.log(`Scraping events from ${this.source}`);
         try {
-          const element = eventElements.eq(i);
-          
-          // Extract event data
-          const titleElement = element.find('h2, h3, h4, .event-title, .tribe-events-list-event-title');
-          let title = titleElement.text().trim();
-          if (!title) title = element.find('a[href*="event"]').first().text().trim() || 'Old Town Toronto Event';
-          
-          // Get description
-          let description = element.find('.description, .tribe-events-list-event-description, .event-description, .summary, .event-content').text().trim();
-          if (!description) description = 'Visit the Old Town Toronto website for more details about this event.';
-          
-          // Get image
-          let imageUrl = '';
-          const imgElement = element.find('img');
-          if (imgElement.length > 0) {
-            imageUrl = imgElement.attr('src') || imgElement.attr('data-src') || '';
-            
-            // Ensure URL is absolute
-            if (imageUrl && !imageUrl.startsWith('http')) {
-              imageUrl = imageUrl.startsWith('/') ? `${BASE_URL}${imageUrl}` : `${BASE_URL}/${imageUrl}`;
-            }
-          }
-          
-          // Get event URL
-          let eventUrl = '';
-          if (titleElement.find('a').length > 0) {
-            eventUrl = titleElement.find('a').attr('href') || '';
-          } else {
-            const linkElement = element.find('a[href*="event"]');
-            if (linkElement.length > 0) {
-              eventUrl = linkElement.attr('href') || '';
-            }
-          }
-          
-          // Ensure URL is absolute
-          if (eventUrl && !eventUrl.startsWith('http')) {
-            eventUrl = eventUrl.startsWith('/') ? `${BASE_URL}${eventUrl}` : `${BASE_URL}/${eventUrl}`;
-          }
-          
-          // Get date information
-          let dateText = element.find('.date, .tribe-event-date-start, .tribe-event-date, .tribe-events-start-date, time, .event-date').text().trim();
-          const { startDate, endDate } = parseOldTownDate(dateText);
-          
-          // Get location/venue information
-          let locationText = element.find('.location, .tribe-events-venue-details, .venue, .event-venue').text().trim();
-          const venue = extractVenue(title, description, locationText);
-          
-          // Get price information
-          let priceText = element.find('.price, .cost, .fee, .tribe-events-cost').text().trim();
-          const price = extractPrice(priceText || description);
-          
-          // Generate event categories
-          const categories = extractCategories(title, description);
-          
-          // Generate unique ID for the event
-          const id = generateEventId(title, startDate);
-          
-          // Create the formatted event object
-          const formattedEvent = {
-            id: id,
-            title: `Toronto - ${title}`,
-            description: description,
-            categories: categories,
-            startDate: startDate,
-            endDate: endDate,
-            venue: venue,
-            imageUrl: imageUrl,
-            officialWebsite: eventUrl || EVENTS_URL,
-            price: price,
-            sourceURL: EVENTS_URL,
-            lastUpdated: new Date()
-          };
-          
-          // Check if event already exists to prevent duplicates
-          const existingEvent = await eventsCollection.findOne({
-            $or: [
-              { id: formattedEvent.id },
-              { 
-                title: formattedEvent.title,
-                startDate: formattedEvent.startDate
-              }
-            ]
-          });
-          
-          if (!existingEvent) {
-            // Insert the new event
-            await eventsCollection.insertOne(formattedEvent);
-            addedEvents++;
-            console.log(`✅ Added event: ${formattedEvent.title}`);
-          } else {
-            console.log(`⏭️ Skipped duplicate event: ${formattedEvent.title}`);
-          }
-        } catch (eventError) {
-          console.error(`❌ Error processing event:`, eventError);
+            const { data } = await axios.get(this.url);
+            const $ = cheerio.load(data);
+            let events = [];
+
+            $('.event-item').each((i, el) => {
+                const title = $(el).find('h3.event-title').text().trim();
+                if (!title) return;
+
+                const url = $(el).find('a').attr('href');
+                const imageUrl = $(el).find('img').attr('src');
+                const dateText = $(el).find('.event-date').text().trim();
+                const venueText = $(el).find('.event-venue').text().trim();
+                const description = $(el).find('.event-excerpt').text().trim();
+
+                const { startDate, endDate } = this._parseDate(dateText);
+                const venue = this._getVenue(venueText);
+                const categories = this._extractCategories(title, description);
+
+                const event = {
+                    id: this._generateEventId(title, startDate),
+                    title,
+                    description,
+                    url: url.startsWith('http') ? url : `${this.baseUrl}${url}`,
+                    imageUrl: imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`,
+                    startDate,
+                    endDate,
+                    venue,
+                    categories,
+                    source: this.source,
+                    price: 'Varies',
+                    scrapedAt: new Date()
+                };
+                events.push(event);
+            };
+
+            this.log(`Found ${events.length} events from ${this.source}.`);
+            return events;
+        } catch (error) {
+            this.log(`Error scraping ${this.source}: ${error.message}`);
+            return [];
         }
-      }
     }
-    
-    // If no events found or few events found, try alternative approach
-    if (addedEvents < 3) {
-      console.log('⚠️ Few or no events found with primary selectors, trying alternative approach...');
-      
-      // Try different selector patterns
-      const alternativeSelectors = [
-        '.type-tribe_events',
-        '.events-archive article',
-        '.eventlist-event',
-        '.calendar-event',
-        'article[class*="event"]',
-        '.post[class*="event"]',
-        'div[class*="event-"]',
-        '.event-listing'
-      ];
-      
-      let events = [];
-      
-      for (const selector of alternativeSelectors) {
-        const elements = $(selector);
-        if (elements.length > 0) {
-          console.log(`🔍 Found ${elements.length} events with selector: ${selector}`);
-          
-          elements.each((i, el) => {
-            const element = $(el);
-            
-            // Extract event data
-            const title = element.find('h2, h3, h4, .title, [class*="title"], a').first().text().trim() || 'Old Town Toronto Event';
-            const description = element.find('p, .description, [class*="description"], .summary, .content').text().trim() || 
-                               'Visit the Old Town Toronto website for more details.';
-            
-            // Get image
-            let imageUrl = '';
-            const img = element.find('img');
-            if (img.length > 0) {
-              imageUrl = img.attr('src') || img.attr('data-src') || '';
-              if (imageUrl && !imageUrl.startsWith('http')) {
-                imageUrl = imageUrl.startsWith('/') ? `${BASE_URL}${imageUrl}` : `${BASE_URL}/${imageUrl}`;
-              }
-            }
-            
-            // Get URL
-            let eventUrl = '';
-            const a = element.find('a');
-            if (a.length > 0) {
-              eventUrl = a.attr('href') || '';
-              if (eventUrl && !eventUrl.startsWith('http')) {
-                eventUrl = eventUrl.startsWith('/') ? `${BASE_URL}${eventUrl}` : `${BASE_URL}/${eventUrl}`;
-              }
-            }
-            
-            // Get date
-            const dateText = element.find('.date, [class*="date"], time, [class*="time"]').text().trim();
-            
-            // Get location
-            const locationText = element.find('.venue, .location, [class*="venue"], [class*="location"]').text().trim();
-            
-            events.push({
-              title,
-              description,
-              imageUrl,
-              eventUrl,
-              dateText,
-              locationText
-            });
-          });
-          
-          if (events.length > 0) break;
-        }
-      }
-      
-      // If still no events, look for event links
-      if (events.length === 0) {
-        console.log('⚠️ Still no events found, looking for event links...');
-        
-        // Try to find links to individual event pages
-        $('a').each((i, el) => {
-          const element = $(el);
-          const href = element.attr('href') || '';
-          const text = element.text().trim();
-          
-          // Skip navigation or generic links
-          if (text.toLowerCase().includes('next') || 
-              text.toLowerCase().includes('previous') ||
-              text.toLowerCase().includes('home') ||
-              text.toLowerCase() === 'events') return;
-          
-          // Look for links that might be events
-          if ((href.includes('event') || href.includes('festival') || href.includes('market')) && text) {
-            events.push({
-              title: text,
-              description: 'Visit the Old Town Toronto website for more details about this event.',
-              imageUrl: '',
-              eventUrl: href.startsWith('http') ? href : href.startsWith('/') ? `${BASE_URL}${href}` : `${BASE_URL}/${href}`,
-              dateText: '',
-              locationText: ''
-            });
-          }
-        });
-        
-        // Filter out duplicates by title
-        const uniqueTitles = new Set();
-        events = events.filter(event => {
-          if (uniqueTitles.has(event.title)) return false;
-          uniqueTitles.add(event.title);
-          return true;
-        });
-      }
-      
-      console.log(`🔍 Found ${events.length} events using alternative methods`);
-      
-      // Process these events
-      for (const event of events) {
-        try {
-          // Set default dates if not found (next week)
-          const now = new Date();
-          const futureDate = new Date();
-          futureDate.setDate(now.getDate() + 7);
-          
-          const { startDate, endDate } = event.dateText ? 
-            parseOldTownDate(event.dateText) : 
-            { startDate: now, endDate: futureDate };
-          
-          // Get venue information
-          const venue = extractVenue(event.title, event.description, event.locationText);
-          
-          // Generate unique ID
-          const id = generateEventId(event.title, startDate);
-          
-          // Create formatted event
-          const formattedEvent = {
-            id: id,
-            title: `Toronto - ${event.title}`,
-            description: event.description,
-            categories: extractCategories(event.title, event.description),
-            startDate: startDate,
-            endDate: endDate,
-            venue: venue,
-            imageUrl: event.imageUrl,
-            officialWebsite: event.eventUrl || EVENTS_URL,
-            price: 'See website for details',
-            sourceURL: EVENTS_URL,
-            lastUpdated: new Date()
-          };
-          
-          // Check for duplicates
-          const existingEvent = await eventsCollection.findOne({
-            $or: [
-              { id: formattedEvent.id },
-              { 
-                title: formattedEvent.title,
-                startDate: formattedEvent.startDate
-              }
-            ]
-          });
-          
-          if (!existingEvent) {
-            await eventsCollection.insertOne(formattedEvent);
-            addedEvents++;
-            console.log(`✅ Added event: ${formattedEvent.title}`);
-          } else {
-            console.log(`⏭️ Skipped duplicate event: ${formattedEvent.title}`);
-          }
-        } catch (eventError) {
-          console.error(`❌ Error processing alternative event:`, eventError);
-        }
-      }
-    }
-    
-    console.log(`📊 Successfully added ${addedEvents} new Old Town Toronto events`);
-    
-  } catch (error) {
-    console.error('❌ Error scraping Old Town Toronto events:', error);
-  } finally {
-    await client.close();
-    console.log('✅ MongoDB connection closed');
-  }
-  
-  return addedEvents;
 }
 
-// Run the scraper
-scrapeOldTownEvents()
-  .then(addedEvents => {
-    console.log(`✅ Old Town Toronto scraper completed. Added ${addedEvents} new events.`);
-  })
-  .catch(error => {
-    console.error('❌ Error running Old Town Toronto scraper:', error);
-    process.exit(1);
-  });
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new OldTownTorontoEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.OldTownTorontoEventsScraper = OldTownTorontoEventsScraper;

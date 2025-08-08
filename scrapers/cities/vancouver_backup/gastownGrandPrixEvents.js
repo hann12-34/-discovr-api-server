@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Global Relay Gastown Grand Prix Events Scraper
  * 
@@ -331,7 +332,7 @@ class GastownGrandPrixEvents {
         name: 'Gastown',
         id: 'gastown-vancouver',
         address: 'Water Street, Gastown',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: {
@@ -374,7 +375,7 @@ class GastownGrandPrixEvents {
         name: 'Gastown',
         id: 'gastown-vancouver',
         address: 'Water Street, Gastown',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: {

@@ -1,0 +1,361 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Charity & Fundraising Events Scraper
+ * 
+ * Scrapes charity and fundraising events from NYC non-profits, foundations, and charitable venues
+ * URL: https://www.eventbrite.com/d/ny--new-york/charity-causes/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCCharityFundraisingEvents {
+    constructor() {
+        this.venueName = 'NYC Charity & Fundraising Events';
+        this.venueLocation = 'Various NYC Non-Profits, Foundations & Charitable Venues';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/charity-causes/';
+        this.category = 'Charity & Fundraising';
+    }
+
+    /**
+     * Scrape events from NYC Charity & Fundraising Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🎗️ Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for charity/fundraising-specific event containers
+            const eventSelectors = [
+                '.charity-event', '.fundraising-event', '.donation-event',
+                '.event-item', '.event-card', '.event', '.nonprofit-event',
+                '[class*="charity"]', '[class*="fundraising"]', '[class*="event"]',
+                '.card', '.content-card', '.benefit-event', '.gala-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .charity-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time', '.gala-time'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/organization location
+                        let venue = this.venueLocation;
+                        const venueSelectors = ['.venue', '.organization', '.location', '[class*="venue"]', '.nonprofit', '.foundation'];
+                        for (const venueSelector of venueSelectors) {
+                            const venueElement = $el.find(venueSelector).first();
+                            if (venueElement.length > 0) {
+                                const venueText = venueElement.text().trim();
+                                if (venueText && venueText.length > 0) {
+                                    venue = venueText.length > 70 ? venueText.substring(0, 70) + '...' : venueText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for cause/mission
+                        let cause = '';
+                        const causeSelectors = ['.cause', '.mission', '.purpose', '[class*="cause"]'];
+                        for (const causeSelector of causeSelectors) {
+                            const causeElement = $el.find(causeSelector).first();
+                            if (causeElement.length > 0) {
+                                cause = causeElement.text().trim();
+                                if (cause) break;
+                            }
+                        }
+
+                        // Look for organization/charity name
+                        let organization = '';
+                        const orgSelectors = ['.organization', '.charity', '.nonprofit', '[class*="organization"]'];
+                        for (const orgSelector of orgSelectors) {
+                            const orgElement = $el.find(orgSelector).first();
+                            if (orgElement.length > 0) {
+                                organization = orgElement.text().trim();
+                                if (organization) break;
+                            }
+                        }
+
+                        // Look for fundraising goal
+                        let goal = '';
+                        const goalSelectors = ['.goal', '.target', '.fundraising-goal', '[class*="goal"]'];
+                        for (const goalSelector of goalSelectors) {
+                            const goalElement = $el.find(goalSelector).first();
+                            if (goalElement.length > 0) {
+                                const goalText = goalElement.text().trim();
+                                if (goalText && (goalText.includes('$') || goalText.toLowerCase().includes('goal'))) {
+                                    goal = goalText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for donation amount/ticket price
+                        let donation = '';
+                        const donationSelectors = ['.donation', '.ticket-price', '.contribution', '[class*="donation"]'];
+                        for (const donationSelector of donationSelectors) {
+                            const donationElement = $el.find(donationSelector).first();
+                            if (donationElement.length > 0) {
+                                const donationText = donationElement.text().trim();
+                                if (donationText && (donationText.includes('$') || donationText.toLowerCase().includes('free'))) {
+                                    donation = donationText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for beneficiary
+                        let beneficiary = '';
+                        const beneficiarySelectors = ['.beneficiary', '.helps', '.supports', '[class*="beneficiary"]'];
+                        for (const beneficiarySelector of beneficiarySelectors) {
+                            const beneficiaryElement = $el.find(beneficiarySelector).first();
+                            if (beneficiaryElement.length > 0) {
+                                beneficiary = beneficiaryElement.text().trim();
+                                if (beneficiary) break;
+                            }
+                        }
+
+                        // Look for event type (gala, auction, walk, etc.)
+                        let eventType = this.category;
+                        const typeSelectors = ['.event-type', '.fundraising-type', '.activity', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.match(/\b(gala|auction|walk|run|benefit|dinner|concert)\b/i)) {
+                                    eventType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for tax deductible info
+                        let taxDeductible = '';
+                        const taxSelectors = ['.tax-deductible', '.deductible', '.tax-info', '[class*="tax"]'];
+                        for (const taxSelector of taxSelectors) {
+                            const taxElement = $el.find(taxSelector).first();
+                            if (taxElement.length > 0) {
+                                const taxText = taxElement.text().trim();
+                                if (taxText && taxText.toLowerCase().includes('deductible')) {
+                                    taxDeductible = taxText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for volunteer opportunities
+                        let volunteer = '';
+                        const volunteerSelectors = ['.volunteer', '.help', '.get-involved', '[class*="volunteer"]'];
+                        for (const volunteerSelector of volunteerSelectors) {
+                            const volunteerElement = $el.find(volunteerSelector).first();
+                            if (volunteerElement.length > 0) {
+                                volunteer = volunteerElement.text().trim();
+                                if (volunteer) break;
+                            }
+                        }
+
+                        // Look for sponsors/partners
+                        let sponsors = '';
+                        const sponsorSelectors = ['.sponsors', '.partners', '.supporters', '[class*="sponsor"]'];
+                        for (const sponsorSelector of sponsorSelectors) {
+                            const sponsorElement = $el.find(sponsorSelector).first();
+                            if (sponsorElement.length > 0) {
+                                sponsors = sponsorElement.text().trim();
+                                if (sponsors) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: venue,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for charity event schedule',
+                            category: eventType,
+                            cause: cause,
+                            organization: organization,
+                            goal: goal,
+                            donation: donation,
+                            beneficiary: beneficiary,
+                            taxDeductible: taxDeductible,
+                            volunteer: volunteer,
+                            sponsors: sponsors,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCCharityFundraisingEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general charity/fundraising information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasCharityKeywords = text.match(/\b(charity|fundraising|donation|nonprofit|benefit|cause|mission|foundation|gala)\b/i);
+                    const hasEventPattern = text.match(/\b(event|gala|auction|walk|run|benefit|dinner|concert|fundraiser)\b/i);
+                    
+                    if (hasCharityKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for charity event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCCharityFundraisingEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid charity/fundraising keywords
+        const validKeywords = [
+            'charity', 'fundraising', 'donation', 'nonprofit', 'benefit',
+            'cause', 'mission', 'foundation', 'gala', 'event', 'auction',
+            'walk', 'run', 'dinner', 'concert', 'fundraiser', 'volunteer'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCCharityFundraisingEvents;

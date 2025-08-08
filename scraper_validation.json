@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-07-24T03:03:11.057Z",
+  "timestamp": "2025-08-04T17:51:42.739Z",
   "summary": {
-    "total": 164,
-    "valid": 155,
-    "invalid": 9
+    "total": 163,
+    "valid": 152,
+    "invalid": 11
   },
   "scrapers": [
     {
@@ -547,24 +547,10 @@
     },
     {
       "file": "orpheumEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "orpheumTheatre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "orpheumTheatreEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "penthouseNightclubEvents.js",
@@ -765,9 +751,9 @@
     {
       "file": "scrape-todocanada-vancouver-events.js",
       "valid": false,
-      "hasInstance": true,
+      "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": null
+      "error": "Unexpected token ':'"
     },
     {
       "file": "scrape-vancouver-folk-music-festival.js",
@@ -980,7 +966,14 @@
       "error": null
     },
     {
-      "file": "vancouverCivicTheatres.js",
+      "file": "vancouverCivicTheatresEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Cannot find module 'puppeteer-extra-plugin-adblocker'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/vancouverCivicTheatresEvents.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/validate_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/Import files/import-all-vancouver-events.js"
+    },
+    {
+      "file": "vancouverCivicTheatresEvents_new.js",
       "valid": true,
       "hasInstance": true,
       "hasScrapeMethod": true,

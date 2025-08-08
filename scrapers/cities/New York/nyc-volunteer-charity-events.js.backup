@@ -1,0 +1,319 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Volunteer & Charity Events Scraper
+ * 
+ * Scrapes events from NYC volunteer opportunities and charity activities
+ * URL: https://www.eventbrite.com/d/ny--new-york/volunteer/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCVolunteerCharityEvents {
+    constructor() {
+        this.venueName = 'NYC Volunteer & Charity Events';
+        this.venueLocation = 'Various NYC Community Locations';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/volunteer/';
+        this.category = 'Volunteer & Charity';
+    }
+
+    /**
+     * Scrape events from NYC Volunteer & Charity Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🤝 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for volunteer/charity-specific event containers
+            const eventSelectors = [
+                '.volunteer-event', '.charity-event', '.service-event',
+                '.event-item', '.event-card', '.event', '.opportunity-item',
+                '[class*="volunteer"]', '[class*="charity"]', '[class*="event"]',
+                '.card', '.content-card', '.community-event', '.nonprofit-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .volunteer-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for location/venue
+                        let location = this.venueLocation;
+                        const locationSelectors = ['.location', '.venue', '.where', '[class*="location"]', '.nonprofit', '.organization'];
+                        for (const locSelector of locationSelectors) {
+                            const locElement = $el.find(locSelector).first();
+                            if (locElement.length > 0) {
+                                const locText = locElement.text().trim();
+                                if (locText && locText.length > 0) {
+                                    location = locText.length > 70 ? locText.substring(0, 70) + '...' : locText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for cause/focus area
+                        let cause = this.category;
+                        const causeSelectors = ['.cause', '.focus', '.mission', '[class*="cause"]'];
+                        for (const causeSelector of causeSelectors) {
+                            const causeElement = $el.find(causeSelector).first();
+                            if (causeElement.length > 0) {
+                                const causeText = causeElement.text().trim();
+                                if (causeText && causeText.length > 0) {
+                                    cause = causeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for organization/nonprofit
+                        let organization = '';
+                        const orgSelectors = ['.organization', '.nonprofit', '.charity', '[class*="organization"]'];
+                        for (const orgSelector of orgSelectors) {
+                            const orgElement = $el.find(orgSelector).first();
+                            if (orgElement.length > 0) {
+                                organization = orgElement.text().trim();
+                                if (organization) break;
+                            }
+                        }
+
+                        // Look for time commitment
+                        let timeCommitment = '';
+                        const timeSelectors = ['.time-commitment', '.duration', '.hours', '[class*="time"]'];
+                        for (const timeSelector of timeSelectors) {
+                            const timeElement = $el.find(timeSelector).first();
+                            if (timeElement.length > 0) {
+                                const timeText = timeElement.text().trim();
+                                if (timeText && timeText.match(/\d+\s*(hour|hr|day|week|month)/i)) {
+                                    timeCommitment = timeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for skills needed
+                        let skillsNeeded = '';
+                        const skillsSelectors = ['.skills', '.requirements', '.qualifications', '[class*="skills"]'];
+                        for (const skillsSelector of skillsSelectors) {
+                            const skillsElement = $el.find(skillsSelector).first();
+                            if (skillsElement.length > 0) {
+                                skillsNeeded = skillsElement.text().trim();
+                                if (skillsNeeded) break;
+                            }
+                        }
+
+                        // Look for age requirements
+                        let ageRequirement = '';
+                        const ageSelectors = ['.age-requirement', '.age', '.minimum-age', '[class*="age"]'];
+                        for (const ageSelector of ageSelectors) {
+                            const ageElement = $el.find(ageSelector).first();
+                            if (ageElement.length > 0) {
+                                ageRequirement = ageElement.text().trim();
+                                if (ageRequirement) break;
+                            }
+                        }
+
+                        // Look for registration requirement
+                        let registration = '';
+                        const registrationSelectors = ['.registration', '.signup', '.apply', '[class*="registration"]'];
+                        for (const regSelector of registrationSelectors) {
+                            const regElement = $el.find(regSelector).first();
+                            if (regElement.length > 0) {
+                                registration = regElement.text().trim();
+                                if (registration) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: this.venueName,
+                            location: location,
+                            date: dateTime || 'Check website for volunteer opportunity schedule',
+                            category: cause,
+                            organization: organization,
+                            timeCommitment: timeCommitment,
+                            skillsNeeded: skillsNeeded,
+                            ageRequirement: ageRequirement,
+                            registration: registration,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCVolunteerCharityEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general volunteer/charity information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasVolunteerKeywords = text.match(/\b(volunteer|charity|nonprofit|community service|give back|help|donate|support|fundraiser|cause)\b/i);
+                    const hasOpportunityPattern = text.match(/\b(opportunity|event|project|program|initiative|drive|campaign|service)\b/i);
+                    
+                    if (hasVolunteerKeywords && hasOpportunityPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for volunteer opportunity schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCVolunteerCharityEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and organization
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.organization}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid volunteer/charity keywords
+        const validKeywords = [
+            'volunteer', 'charity', 'nonprofit', 'community service', 'give back',
+            'help', 'support', 'fundraiser', 'cause', 'opportunity',
+            'project', 'program', 'initiative', 'drive', 'campaign', 'service'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCVolunteerCharityEvents;

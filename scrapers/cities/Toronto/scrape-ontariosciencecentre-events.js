@@ -21,7 +21,7 @@ const OSC_BASE_URL = 'https://www.ontariosciencecentre.ca';
 const OSC_VENUE = {
   name: 'Ontario Science Centre',
   address: '770 Don Mills Rd, North York, ON M3C 1T3',
-  city: 'Toronto',
+  city: city,
   region: 'Ontario',
   country: 'Canada',
   postalCode: 'M3C 1T3',
@@ -56,7 +56,7 @@ function generateEventId(title, startDate) {
 function extractCategories(title, description) {
   const categories = ['Science'];
   const combinedText = `${title} ${description}`.toLowerCase();
-  
+
   // Define category keywords
   const categoryMapping = {
     'workshop': 'Workshop',
@@ -96,7 +96,7 @@ function extractCategories(title, description) {
     'teen': 'Teen',
     'youth': 'Teen'
   };
-  
+
   // Check for category matches
   Object.keys(categoryMapping).forEach(keyword => {
     if (combinedText.includes(keyword)) {
@@ -105,8 +105,8 @@ function extractCategories(title, description) {
         categories.push(category);
       }
     }
-  });
-  
+  };
+
   return categories;
 }
 
@@ -117,15 +117,15 @@ function extractCategories(title, description) {
  */
 function extractPrice(text) {
   if (!text) return 'See website for details';
-  
+
   // Look for common price patterns
-  const priceRegex = /(\$\d+(?:\.\d{2})?|\d+\s*dollars|free|included|admission)/i;
+  const priceRegex = /(\$\d+(?:\.\d{2}?|\d+\s*dollars|free|included|admission)/i;
   const priceMatch = text.match(priceRegex);
-  
+
   if (priceMatch) {
     return priceMatch[0].trim();
   }
-  
+
   return 'See website for details';
 }
 
@@ -136,7 +136,7 @@ function extractPrice(text) {
  */
 function normalizeUrl(url) {
   if (!url) return '';
-  
+
   if (url.startsWith('http')) {
     return url;
   } else if (url.startsWith('/')) {
@@ -148,48 +148,48 @@ function normalizeUrl(url) {
 
 /**
  * Parse date string to extract start and end dates
- * @param {string} dateString - Date string to parse
+ * @param {string} daeventDateText - Date string to parse
  * @param {string} timeString - Optional time string
  * @returns {Object|null} - Object with startDate and endDate or null if parsing failed
  */
-function parseEventDates(dateString, timeString = '') {
-  if (!dateString) return null;
-  
+function parseEventDates(daeventDateText, timeString = '') {
+  if (!daeventDateText) return null;
+
   try {
     // Clean up the date string
-    dateString = dateString.replace(/\s+/g, ' ').trim();
+    daeventDateText = daeventDateText.replace(/\s+/g, ' ').trim();
     timeString = timeString ? timeString.replace(/\s+/g, ' ').trim() : '';
-    
+
     const currentYear = new Date().getFullYear();
-    
+
     // Handle date ranges like "April 25 - May 15, 2025"
-    const dateRangeRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?\s*[-–]\s*([A-Za-z]+)?\s*(\d{1,2})(?:st|nd|rd|th)?(?:,?\s*(\d{4}))?/i;
-    const dateRangeMatch = dateString.match(dateRangeRegex);
-    
+    const dateRangeRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?\s*[-–]\s*([A-Za-z]+)?\s*(\d{1,2}(?:st|nd|rd|th)?(?:,?\s*(\d{4}?/i;
+    const dateRangeMatch = daeventDateText.match(dateRangeRegex);
+
     if (dateRangeMatch) {
       const startMonth = dateRangeMatch[1];
       const startDay = parseInt(dateRangeMatch[2], 10);
       const endMonth = dateRangeMatch[3] || startMonth;
       const endDay = parseInt(dateRangeMatch[4], 10);
       const year = dateRangeMatch[5] ? parseInt(dateRangeMatch[5], 10) : currentYear;
-      
+
       const startDate = new Date(year, getMonthIndex(startMonth), startDay);
       const endDate = new Date(year, getMonthIndex(endMonth), endDay, 23, 59);
-      
+
       // Apply time if available
       if (timeString) {
         applyTimeToDate(startDate, timeString);
         applyTimeToDate(endDate, timeString, true);
       }
-      
+
       return { startDate, endDate };
     }
-    
+
     // Handle single dates with time like "April 25, 2025 at 10:00 AM"
-    const combinedText = `${dateString} ${timeString}`;
-    const singleDateTimeRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,\s*(\d{4}))?(?:.*?)(\d{1,2}):?(\d{2})?\s*([ap]m)?/i;
+    const combinedText = `${daeventDateText} ${timeString}`;
+    const singleDateTimeRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?(?:,\s*(\d{4}?(?:.*?)(\d{1,2}:?(\d{2}?\s*([ap]m)?/i;
     const singleDateTimeMatch = combinedText.match(singleDateTimeRegex);
-    
+
     if (singleDateTimeMatch) {
       const month = singleDateTimeMatch[1];
       const day = parseInt(singleDateTimeMatch[2], 10);
@@ -197,31 +197,31 @@ function parseEventDates(dateString, timeString = '') {
       let hour = singleDateTimeMatch[4] ? parseInt(singleDateTimeMatch[4], 10) : 10; // Default to 10 AM
       const minute = singleDateTimeMatch[5] ? parseInt(singleDateTimeMatch[5], 10) : 0;
       const ampm = singleDateTimeMatch[6] ? singleDateTimeMatch[6].toLowerCase() : null;
-      
+
       // Adjust hour for PM
       if (ampm === 'pm' && hour < 12) hour += 12;
       if (ampm === 'am' && hour === 12) hour = 0;
-      
+
       const startDate = new Date(year, getMonthIndex(month), day, hour, minute);
-      
+
       // Default event duration: 2 hours
       const endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 2);
-      
+
       return { startDate, endDate };
     }
-    
+
     // Handle simple date formats like "April 25, 2025"
-    const simpleDateRegex = /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,\s*(\d{4}))?/i;
-    const simpleDateMatch = dateString.match(simpleDateRegex);
-    
+    const simpleDateRegex = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?(?:,\s*(\d{4}?/i;
+    const simpleDateMatch = daeventDateText.match(simpleDateRegex);
+
     if (simpleDateMatch) {
       const month = simpleDateMatch[1];
       const day = parseInt(simpleDateMatch[2], 10);
       const year = simpleDateMatch[3] ? parseInt(simpleDateMatch[3], 10) : currentYear;
-      
+
       const startDate = new Date(year, getMonthIndex(month), day);
-      
+
       // Apply time if available
       if (timeString) {
         applyTimeToDate(startDate, timeString);
@@ -229,14 +229,14 @@ function parseEventDates(dateString, timeString = '') {
         // Default time: 10:00 AM
         startDate.setHours(10, 0, 0);
       }
-      
+
       // Default event duration: 8 hours for all-day events
       const endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 8);
-      
+
       return { startDate, endDate };
     }
-    
+
     return null;
   } catch (error) {
     console.error('❌ Error parsing date string:', error.message);
@@ -251,23 +251,23 @@ function parseEventDates(dateString, timeString = '') {
  * @param {boolean} isEnd - Whether this is an end time
  */
 function applyTimeToDate(date, timeString, isEnd = false) {
-  const timeRegex = /(\d{1,2}):?(\d{2})?\s*([ap]m)?(?:\s*-\s*(\d{1,2}):?(\d{2})?\s*([ap]m)?)?/i;
+  const timeRegex = /(\d{1,2}:?(\d{2}?\s*([ap]m)?(?:\s*-\s*(\d{1,2}:?(\d{2}?\s*([ap]m)?)?/i;
   const timeMatch = timeString.match(timeRegex);
-  
+
   if (timeMatch) {
     // If there's a time range and this is the end time, use the end time of the range
     let hourIdx = isEnd && timeMatch[4] ? 4 : 1;
     let minuteIdx = isEnd && timeMatch[4] ? 5 : 2;
     let ampmIdx = isEnd && timeMatch[4] ? 6 : 3;
-    
+
     let hour = timeMatch[hourIdx] ? parseInt(timeMatch[hourIdx], 10) : (isEnd ? 18 : 10); // Default: 10 AM or 6 PM
     const minute = timeMatch[minuteIdx] ? parseInt(timeMatch[minuteIdx], 10) : 0;
     const ampm = timeMatch[ampmIdx] ? timeMatch[ampmIdx].toLowerCase() : null;
-    
+
     // Adjust hour for PM
     if (ampm === 'pm' && hour < 12) hour += 12;
     if (ampm === 'am' && hour === 12) hour = 0;
-    
+
     date.setHours(hour, minute, 0);
   } else if (isEnd) {
     // Default end time: 6:00 PM
@@ -310,7 +310,7 @@ function getMonthIndex(month) {
     'nov': 10,
     'dec': 11
   };
-  
+
   return months[month.toLowerCase()] || 0;
 }
 
@@ -318,24 +318,29 @@ function getMonthIndex(month) {
  * Main function to scrape Ontario Science Centre events
  */
 async function scrapeOSCEvents() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-ontariosciencecentre-events.js Toronto');
+    process.exit(1);
+  }
   let addedEvents = 0;
   const client = new MongoClient(uri);
-  
+
   try {
     await client.connect();
     console.log('✅ Connected to MongoDB');
-    
+
     const database = client.db();
-    const eventsCollection = database.collection('events');
-    
+    const eventsCollection = databases');
+
     // Array to store all events
     const events = [];
-    
+
     // Try each URL in our list
     for (const currentUrl of OSC_EVENT_URLS) {
       try {
         console.log(`🔍 Fetching events from ${currentUrl}...`);
-        
+
         // Fetch the events page
         const response = await axios.get(currentUrl, {
           headers: {
@@ -343,58 +348,58 @@ async function scrapeOSCEvents() {
           },
           maxRedirects: 5,
           timeout: 10000
-        });
-        
+        };
+
         const html = response.data;
         const $ = cheerio.load(html);
-    
+
         // Look for event listings - adapt selectors based on actual website structure
         $('.event, .calendar-item, .event-item, .event-card, article, [class*="event"], .program, .upcoming-event, .featured-event, .event-listing').each((i, element) => {
           try {
             const eventElement = $(element);
-            
+
             // Extract title
             const titleElement = eventElement.find('h2, h3, h4, .title, .heading, [class*="title"]');
             const title = titleElement.text().trim();
-            
+
             // Extract date
             const dateElement = eventElement.find('.date, time, [class*="date"], .calendar-date');
             const dateText = dateElement.text().trim();
-            
+
             // Extract time
             const timeElement = eventElement.find('.time, [class*="time"]');
             const timeText = timeElement.text().trim();
-            
+
             // Extract description
             const descriptionElement = eventElement.find('p, .description, [class*="description"], .summary');
             let description = descriptionElement.text().trim();
             if (!description || description.length < 20) {
               description = `Event at the Ontario Science Centre. See website for more details.`;
             }
-            
+
             // Extract image URL
             const imageElement = eventElement.find('img');
             let imageUrl = imageElement.attr('src') || imageElement.attr('data-src') || '';
             imageUrl = normalizeUrl(imageUrl);
-            
+
             // Extract event URL
             const linkElement = eventElement.find('a');
             let eventUrl = linkElement.attr('href') || currentUrl;
             eventUrl = normalizeUrl(eventUrl);
-            
+
             // Extract price information
             const priceElement = eventElement.find('.price, [class*="price"], .cost, [class*="admission"]');
             const priceText = priceElement.text().trim();
             const price = extractPrice(priceText);
-            
+
             // Only add events with title
             if (title) {
               // Check if we already have this event (avoid duplicates across multiple URLs)
-              const isDuplicate = events.some(existingEvent => 
-                existingEvent.title === title && 
+              const isDuplicate = events.some(existingEvent =>
+                existingEvent.title === title &&
                 existingEvent.dateText === dateText
               );
-              
+
               if (!isDuplicate) {
                 events.push({
                   title,
@@ -404,41 +409,41 @@ async function scrapeOSCEvents() {
                   imageUrl,
                   eventUrl,
                   price
-                });
-                
+                };
+
                 console.log(`🔍 Found event: ${title}`);
               }
             }
           } catch (eventError) {
             console.error(`❌ Error extracting event details:`, eventError.message);
           }
-        });
-        
+        };
+
         // If we don't find many events with the primary selectors, try alternative approaches
         if (events.length < 3) {
           console.log('🔍 Looking for additional events using alternative selectors...');
-          
+
           // Try more generic selectors
           $('.card, .item, .listing, .tile, .col, .event-card, .card-body').each((i, element) => {
         try {
           const eventElement = $(element);
-          
+
           // Skip if we've already processed this element
           if (eventElement.hasClass('processed')) return;
           eventElement.addClass('processed');
-          
+
           const title = eventElement.find('h2, h3, h4, h5, .title, strong').first().text().trim();
           if (!title) return;
-          
+
           // Look for date patterns in the text content
           const allText = eventElement.text();
-          
+
           // Check for date patterns
           const datePatterns = [
-            /([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,\s*\d{4})?(?:\s*[-–]\s*(?:[A-Za-z]+)?\s*\d{1,2}(?:st|nd|rd|th)?(?:,\s*\d{4})?)?/i, // April 15 - April 20, 2025
-            /\d{1,2}(?:st|nd|rd|th)?\s+([A-Za-z]+)(?:\s*[-–]\s*\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+)?(?:,\s*\d{4})?/i, // 15th April, 2025
+            /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?(?:,\s*\d{4}?(?:\s*[-–]\s*(?:[A-Za-z]+)?\s*\d{1,2}(?:st|nd|rd|th)?(?:,\s*\d{4}?)?/i, // April 15 - April 20, 2025
+            /\d{1,2}(?:st|nd|rd|th)?\s+([A-Za-z]+)(?:\s*[-–]\s*\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+)?(?:,\s*\d{4}?/i, // 15th April, 2025
           ];
-          
+
           let dateText = '';
           for (const pattern of datePatterns) {
             const match = allText.match(pattern);
@@ -447,29 +452,29 @@ async function scrapeOSCEvents() {
               break;
             }
           }
-          
+
           if (!dateText) return; // Skip if no date found
-          
+
           // Extract description (use first paragraph or basic description)
           let description = eventElement.find('p').first().text().trim();
           if (!description || description.length < 20) {
             description = `Event at the Ontario Science Centre. See website for details.`;
           }
-          
+
           // Extract image
           let imageUrl = eventElement.find('img').first().attr('src') || '';
           imageUrl = normalizeUrl(imageUrl);
-          
+
           // Extract link
           let eventUrl = eventElement.find('a').first().attr('href') || currentUrl;
           eventUrl = normalizeUrl(eventUrl);
-          
+
           // Check for duplicates before adding
-          const isDuplicate = events.some(existingEvent => 
-            existingEvent.title === title && 
+          const isDuplicate = events.some(existingEvent =>
+            existingEvent.title === title &&
             existingEvent.dateText === dateText
           );
-          
+
           if (!isDuplicate) {
             events.push({
               title,
@@ -479,24 +484,24 @@ async function scrapeOSCEvents() {
               imageUrl,
               eventUrl,
               price: 'See website for details'
-            });
-            
+            };
+
             console.log(`🔍 Found additional event: ${title}`);
           }
         } catch (eventError) {
           console.error(`❌ Error extracting event with alternative selectors:`, eventError.message);
         }
-      });
+      };
         }
       } catch (urlError) {
         console.error(`❌ Error fetching from ${currentUrl}:`, urlError.message);
       }
     }
-    
+
     // Fetch additional details from individual event pages
     if (events.length > 0) {
       console.log(`🔍 Fetching additional details from ${events.length} event pages...`);
-      
+
       for (const event of events) {
         try {
           if (event.eventUrl && !OSC_EVENT_URLS.includes(event.eventUrl)) {
@@ -504,16 +509,16 @@ async function scrapeOSCEvents() {
               headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
               }
-            });
+            };
             const detailHtml = detailResponse.data;
             const detail$ = cheerio.load(detailHtml);
-            
+
             // Try to get a better description
             const detailDescription = detail$('.description, [class*="description"], .content p, main p').slice(0, 3).text().trim();
             if (detailDescription && detailDescription.length > event.description.length) {
               event.description = detailDescription;
             }
-            
+
             // Try to get a better image
             if (!event.imageUrl) {
               const detailImage = detail$('img').first();
@@ -522,7 +527,7 @@ async function scrapeOSCEvents() {
                 event.imageUrl = normalizeUrl(imgSrc);
               }
             }
-            
+
             // Try to get better date/time info
             if (!event.dateText) {
               const detailDate = detail$('.date, time, [class*="date"], .calendar-date').first().text().trim();
@@ -530,7 +535,7 @@ async function scrapeOSCEvents() {
                 event.dateText = detailDate;
               }
             }
-            
+
             console.log(`🔍 Enhanced details for: ${event.title}`);
           }
         } catch (detailError) {
@@ -538,30 +543,29 @@ async function scrapeOSCEvents() {
         }
       }
     }
-    
+
     // Process each event and insert into MongoDB
     for (const event of events) {
       try {
         console.log(`🔍 Processing event: ${event.title}, Date: ${event.dateText || 'Unknown'}`);
-        
-        // Skip events without dates - NO FALLBACKS
+
         if (!event.dateText) {
           console.log(`⏭️ Skipping event with missing date: ${event.title}`);
           continue;
         }
-        
+
         // Parse date information
         const dateInfo = parseEventDates(event.dateText, event.timeText);
-        
+
         // Skip events with invalid dates
         if (!dateInfo || isNaN(dateInfo.startDate.getTime()) || isNaN(dateInfo.endDate.getTime())) {
           console.log(`⏭️ Skipping event with invalid date: ${event.title}`);
           continue;
         }
-        
+
         // Generate unique ID
         const eventId = generateEventId(event.title, dateInfo.startDate);
-        
+
         // Create formatted event
         const formattedEvent = {
           id: eventId,
@@ -572,25 +576,25 @@ async function scrapeOSCEvents() {
             start: dateInfo.startDate,
             end: dateInfo.endDate
           },
-          venue: OSC_VENUE,
+          venue: { ...RegExp.venue: { ...RegExp.venue: OSC_VENUE,, city }, city },,
           imageUrl: event.imageUrl,
           url: event.eventUrl,
           price: event.price || 'See website for details',
           createdAt: new Date(),
           updatedAt: new Date()
         };
-        
+
         // Check for duplicates
         const existingEvent = await eventsCollection.findOne({
           $or: [
             { id: formattedEvent.id },
-            { 
+            {
               title: formattedEvent.title,
               'date.start': formattedEvent.date.start
             }
           ]
-        });
-        
+        };
+
         if (!existingEvent) {
           await eventsCollection.insertOne(formattedEvent);
           addedEvents++;
@@ -602,16 +606,16 @@ async function scrapeOSCEvents() {
         console.error(`❌ Error processing event:`, eventError.message);
       }
     }
-    
+
     console.log(`📊 Successfully added ${addedEvents} new Ontario Science Centre events`);
-    
+
   } catch (error) {
     console.error('❌ Error scraping Ontario Science Centre events:', error.message);
   } finally {
     await client.close();
     console.log('✅ MongoDB connection closed');
   }
-  
+
   return addedEvents;
 }
 
@@ -619,8 +623,12 @@ async function scrapeOSCEvents() {
 scrapeOSCEvents()
   .then(addedEvents => {
     console.log(`✅ Ontario Science Centre scraper completed. Added ${addedEvents} new events.`);
-  })
+  }
   .catch(error => {
     console.error('❌ Error running Ontario Science Centre scraper:', error);
     process.exit(1);
-  });
+  };
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeOSCEvents;

@@ -1,6 +1,6 @@
 /**
  * Laowai Bar Scraper
- * 
+ *
  * This scraper provides information about events at Laowai, a hidden speakeasy bar in Vancouver
  * Source: https://laowai.ca/
  */
@@ -12,13 +12,13 @@ class LaowaiBarScraper {
     this.name = 'Laowai Bar';
     this.url = 'https://laowai.ca/';
     this.sourceIdentifier = 'laowai-bar';
-    
+
     // Venue information
     this.venue = {
       name: "Laowai",
       id: "laowai-bar-vancouver",
       address: "251 E Georgia St (Enter through BB's Grocery Store)",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6A 1Z6",
@@ -29,9 +29,9 @@ class LaowaiBarScraper {
       websiteUrl: "https://laowai.ca/",
       description: "Laowai is a hidden Chinese cocktail bar and dim sum restaurant concealed behind a cold tea store in Vancouver's Chinatown. Inspired by the speakeasies of 1930s Shanghai, this intimate venue features expertly crafted cocktails with Asian flavors, dim sum bites, and an atmosphere of mystery and sophistication. Access is through BB's Grocery Store with reservations highly recommended."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Cocktail Masterclass: Chinese Spirits",
         description: "Join Laowai's award-winning bar team for an exclusive masterclass exploring the world of Chinese spirits and cocktail techniques. This hands-on workshop will guide participants through the history, production methods, and unique characteristics of baijiu, Huangjiu, and other traditional Chinese spirits. Learn to craft three signature cocktails while enjoying paired dim sum bites.",
@@ -95,65 +95,65 @@ class LaowaiBarScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Laowai Bar scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `laowai-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nLocation: Laowai is a hidden bar located inside BB's Grocery Store at 251 E Georgia St in Vancouver's Chinatown. Enter through the grocery store and look for the freezer door.\n\n`;
         detailedDescription += `Reservations highly recommended. Please visit ${this.url} to secure your spot.`;
-        
+
         // Create categories
         const categories = ['nightlife', 'bar', 'speakeasy', 'chinatown', 'cocktails', 'hidden bar'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Music') {
           categories.push('live music', 'jazz');
         } else if (eventData.category === 'Tasting') {
@@ -163,7 +163,7 @@ class LaowaiBarScraper {
         } else if (eventData.category === 'Workshop') {
           categories.push('education', 'mixology', 'learning');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -180,14 +180,14 @@ class LaowaiBarScraper {
           ticketsRequired: eventData.ticketsAvailable,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🍸 Successfully created ${events.length} Laowai Bar events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Laowai Bar scraper: ${error.message}`);
       return events;
@@ -196,3 +196,13 @@ class LaowaiBarScraper {
 }
 
 module.exports = new LaowaiBarScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new LaowaiBarScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.LaowaiBarScraper = LaowaiBarScraper;

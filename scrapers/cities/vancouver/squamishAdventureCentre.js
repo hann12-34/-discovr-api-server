@@ -6,41 +6,41 @@ class SquamishAdventureCentreScraper {
     this.source = 'Squamish Adventure Centre';
   }
 
-  async scrape() {
+  async scrape(city) {
     console.log(`🏔️ Scraping ${this.name}...`);
-    
+
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    
+    };
+
     try {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      
+
       // Navigate to Squamish events
       await page.goto('https://www.tourismsquamish.com/events', {
         waitUntil: 'networkidle2',
         timeout: 30000
-      });
+      };
 
       const events = await page.evaluate(() => {
-        const eventElements = document.querySelectorAll('.event-item, .event-card, .event, .activity, [class*="event"]');
+        const eventElements = document.querySelectorAll('-item, -card, , .activity, [class*="event"]');
         const events = [];
-        
+
         eventElements.forEach((element, index) => {
           if (index >= 10) return;
-          
-          const title = element.querySelector('h1, h2, h3, .title, .event-title, .name')?.textContent?.trim() ||
+
+          const title = element.querySelector('h1, h2, h3, .title, -title, .name')?.textContent?.trim() ||
                        element.textContent?.trim()?.split('\n')[0] ||
                        `Squamish Adventure Event ${index + 1}`;
-          
-          const date = element.querySelector('.date, .event-date, .time, [class*="date"]')?.textContent?.trim() ||
+
+          const date = element.querySelector('.date, -date, .time, [class*="date"]')?.textContent?.trim() ||
                       element.textContent?.match(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i)?.[0];
-          
+
           const description = element.querySelector('.description, .excerpt, .summary, p')?.textContent?.trim() ||
                              'Experience outdoor adventures and community events in beautiful Squamish, BC.';
-          
+
           const price = element.querySelector('.price, .cost, .fee, [class*="price"]')?.textContent?.trim() ||
                        element.textContent?.match(/\$[\d,]+/)?.[0] || 'Free';
 
@@ -49,26 +49,26 @@ class SquamishAdventureCentreScraper {
             description: description.substring(0, 500),
             date,
             price: typeof price === 'string' ? price : String(price)
-          });
-        });
-        
+          };
+        };
+
         return events;
-      });
+      };
 
       const processedEvents = [];
 
       for (const event of events) {
         let eventDate = new Date();
-        
+
         if (event.date) {
           const parsedDate = new Date(event.date);
           if (!isNaN(parsedDate.getTime())) {
             eventDate = parsedDate;
           }
         }
-        
+
         eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
-        
+
         const processedEvent = {
           title: event.title,
           description: event.description,
@@ -82,7 +82,7 @@ class SquamishAdventureCentreScraper {
           venue: {
             name: 'Squamish Adventure Centre',
             address: '38551 Loggers Ln, Squamish, BC V8B 0H2',
-            city: 'Squamish',
+            city: city,
             province: 'BC',
             country: 'Canada',
             location: {
@@ -90,7 +90,7 @@ class SquamishAdventureCentreScraper {
               coordinates: [-123.1558, 49.7016]
             }
           },
-          city: 'Vancouver'
+          city: city
         };
 
         processedEvents.push(processedEvent);
@@ -114,9 +114,9 @@ class SquamishAdventureCentreScraper {
         squamishEvents.forEach((event, index) => {
           const eventDate = new Date();
           eventDate.setDate(eventDate.getDate() + (index + 1) * 20);
-          
+
           processedEvents.push({
-            ...event,
+            ..,
             startDate: eventDate.toISOString(),
             endDate: eventDate.toISOString(),
             source: this.source,
@@ -126,7 +126,7 @@ class SquamishAdventureCentreScraper {
             venue: {
               name: 'Squamish Adventure Centre',
               address: '38551 Loggers Ln, Squamish, BC V8B 0H2',
-              city: 'Squamish',
+              city: city,
               province: 'BC',
               country: 'Canada',
               location: {
@@ -134,9 +134,9 @@ class SquamishAdventureCentreScraper {
                 coordinates: [-123.1558, 49.7016]
               }
             },
-            city: 'Vancouver'
-          });
-        });
+            city: city
+          };
+        };
       }
 
       console.log(`✅ Found ${processedEvents.length} events from ${this.name}`);
@@ -152,3 +152,13 @@ class SquamishAdventureCentreScraper {
 }
 
 module.exports = new SquamishAdventureCentreScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SquamishAdventureCentreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SquamishAdventureCentreScraper = SquamishAdventureCentreScraper;

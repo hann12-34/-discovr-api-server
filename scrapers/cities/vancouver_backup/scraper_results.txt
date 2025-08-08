@@ -179,7 +179,6 @@ Require stack:
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_fixed_scrapers.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
-- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
 - Skipping test_fixed_scrapers.js (not a valid scraper class).
 🚀 Testing Priority Vancouver Venue Scrapers
 
@@ -278,7 +277,6 @@ Require stack:
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_scrapers.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
-- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
 ⏩ Skipping vancouverAquariumEvents.js: Not a valid scraper class
 ⏩ Skipping vancouverArtGalleryEvents.js: Not a valid scraper class
 ⏩ Skipping vancouverCityEvents.js: Not a valid scraper class
@@ -301,13 +299,12 @@ Detailed results saved to scraper_tests_results.json
 - Skipping test_scrapers.js (not a valid scraper class).
 🚀 Starting selected Vancouver scrapers test...
 - Skipping test_selected_scrapers.js (not a valid scraper class).
-🔍 Testing scraper: overview
-ERROR: ❌ Error: Cannot find module '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/overview'
+🔍 Testing scraper: --city=vancouver_backup
+ERROR: ❌ Error: Cannot find module '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/--city=vancouver_backup'
 Require stack:
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/test_single_venue.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
-- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
 - Skipping test_single_venue.js (not a valid scraper class).
 
 ===== ERROR running scraper theCultchEvents.js: TheCultchEvents is not a constructor =====
@@ -335,8 +332,7 @@ Require stack:
 Require stack:
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
-- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
-- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js =====
+- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js =====
 
 
 ================================================================================
@@ -399,7 +395,6 @@ Require stack:
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/undergroundComedyClubEvents.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers_with_output.js
 - /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver_backup/run_all_scrapers.js
-- /Users/seongwoohan/CascadeProjects/discovr-api-server/canadian-event-scraper-system.js
 - vancouverFilmFestivalEvents.js: VancouverFilmFestivalEvents is not a constructor
 - vancouverJazzFestEvents.js: VancouverJazzFestEvents is not a constructor
 - vogueTheatreEvents.js: VogueTheatreEvents is not a constructor

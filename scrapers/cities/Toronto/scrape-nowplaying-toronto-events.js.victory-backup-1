@@ -1,0 +1,161 @@
+parseDate(daeventDateText) {
+        try {
+            // Common date patterns for Now Playing Toronto
+            const patterns = [
+                /(\w+\s+\d{1,2},?\s+\d{4})/i, // "January 15, 2024"
+                /(\d{1,2}\/\d{1,2}\/\d{4})/,   // "01/15/2024"
+                /(\d{4}-\d{2}-\d{2})/,         // "2024-01-15"
+                /(\w+\s+\d{1,2})/i,            // "January 15"
+                /(\d{1,2}\s+\w+\s+\d{4})/i    // "15 January 2024"
+            ];
+
+            for (const pattern of patterns) {
+                const match = daeventDateText.match(pattern);
+                if (match) {
+                    const date = new Date(match[1]);
+                    if (!isNaN(date.getTime())) {
+                        return date.toISOString();
+                    }
+                }
+            }
+
+            return null;
+        } catch (error) {
+            console.error('Error parsing date:', error.message);
+            return null;
+        }
+    }
+
+    /**
+     * Parse price from text
+     * @param {string} priceText - Raw price text
+     * @returns {string|null} Cleaned price or null
+     */
+    parsePrice(priceText) {
+        if (!priceText) return null;
+
+        // Check for free events
+        if (/free|no cost|complimentary|no charge/i.test(priceText)) {
+            return 'Free';
+        }
+
+        // Extract price numbers
+        const priceMatch = priceText.match(/\$[\d,]+(?:\.\d{2})?/);
+        if (priceMatch) {
+            return priceMatch[0];
+        }
+
+        return priceText.trim();
+    }
+
+    /**
+     * Extract venue information from text
+     * @param {string} description - Event description
+     * @param {string} location - Location string
+     * @returns {object} Venue information
+     */
+    extractVenueInfo(description, location) {
+        const venueInfo = {
+            name: null,
+            address: null,
+            coordinates: null
+        };
+
+        // Common Toronto venues and their coordinates
+        const knownVenues = {
+            'roy thomson hall': { lat: 43.6465, lng: -79.3863 },
+            'massey hall': { lat: 43.6544, lng: -79.3807 },
+            'harbourfront centre': { lat: 43.6387, lng: -79.3816 },
+            'distillery district': { lat: 43.6503, lng: -79.3594 },
+            'casa loma': { lat: 43.6780, lng: -79.4094 },
+            'cn tower': { lat: 43.6426, lng: -79.3871 },
+            'ontario place': { lat: 43.6286, lng: -79.4155 }
+        };
+
+        const text = (description + ' ' + location).toLowerCase();
+
+        for (const [venue, coords] of Object.entries(knownVenues)) {
+            if (text.includes(venue)) {
+                venueInfo.name = venue.split(' ').map(word =>
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+                venueInfo.coordinates = {
+                    latitude: coords.lat,
+                    longitude: coords.lng
+                };
+                break;
+            }
+        }
+
+        return venueInfo;
+    }
+
+    /**
+     * Extract venue name from location string
+     * @param {string} location - Location string
+     * @returns {string|null} Venue name or null
+     */
+    extractVenueName(location) {
+        if (!location) return null;
+
+        // Split by common separators and take the first part as venue name
+        const parts = location.split(/[,\-\|]/);
+        return parts[0]?.trim() || null;
+    }
+
+    /**
+     * Extract image URL from element
+     * @param {object} $ - Cheerio instance
+     * @param {object} element - DOM element
+     * @returns {string|null} Image URL or null
+     */
+    extractImageUrl($, element) {
+        const img = $(element).find('img').first();
+        if (img.length) {
+            let src = img.attr('src') || img.attr('data-src') || img.attr('data-lazy-src');
+            if (src && !src.startsWith('http')) {
+                src = this.baseUrl + src;
+            }
+            return src;
+        }
+        return null;
+    }
+
+    /**
+     * Get default coordinates for Toronto
+     * @returns {object} Coordinates object
+     */
+    getDefaultCoordinates() {
+        return {
+            latitude: 43.6532,
+            longitude: -79.3832
+        };
+    }
+
+    /**
+     * Get venue information
+     * @returns {object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            id: this.venueId,
+            address: 'Various Venues',
+            city: this.city,
+            province: this.province,
+            country: this.country,
+            coordinates: this.getDefaultCoordinates(),
+            website: this.baseUrl,
+            type: 'events-listing'
+        };
+    }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new NowPlayingTorontoEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.NowPlayingTorontoEvents = NowPlayingTorontoEvents;

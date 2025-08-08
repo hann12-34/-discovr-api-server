@@ -1,6 +1,6 @@
 /**
  * Vancouver Folk Music Festival Scraper
- * 
+ *
  * This scraper provides information about the Vancouver Folk Music Festival
  * Source: https://thefestival.bc.ca/
  */
@@ -12,13 +12,13 @@ class VancouverFolkFestScraper {
     this.name = 'Vancouver Folk Music Festival';
     this.url = 'https://thefestival.bc.ca/';
     this.sourceIdentifier = 'vancouver-folk-music-festival';
-    
+
     // Venue information
     this.venue = {
       name: "Jericho Beach Park",
       id: "jericho-beach-park",
       address: "3941 Point Grey Road",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6R 1B5",
@@ -29,9 +29,9 @@ class VancouverFolkFestScraper {
       websiteUrl: "https://thefestival.bc.ca/",
       description: "The Vancouver Folk Music Festival is a beloved cultural institution that has been bringing folk and global music to Vancouver's Jericho Beach Park since 1978. The festival features multiple stages with performances by acclaimed and emerging artists from around the world in a beautiful oceanside setting."
     };
-    
+
     // Festival events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Vancouver Folk Music Festival 2025 - Friday",
         description: "The opening day of the 48th annual Vancouver Folk Music Festival features an exceptional lineup of folk, roots, and world music artists across seven stages at beautiful Jericho Beach Park. Friday's performances include internationally renowned headliners and exciting emerging artists, showcasing musical traditions from around the world. The festival site opens at 4:00pm with performances beginning at 5:00pm and continuing into the evening. Early attendees can explore the artisan market, global food village, and community zone with interactive workshops and family-friendly activities. The festival's commitment to environmental sustainability continues with zero-waste initiatives, reusable cup programs, and free water refill stations throughout the grounds. Friday tickets provide access to all performances and activities that day, with main stage headliners beginning at 7:00pm. The festival site offers spectacular views of English Bay and the North Shore mountains, creating a magical backdrop for this celebration of music and community.",
@@ -85,7 +85,7 @@ class VancouverFolkFestScraper {
           name: "WISE Hall",
           id: "wise-hall",
           address: "1882 Adanac St",
-          city: "Vancouver",
+          city: city,
           state: "BC",
           country: "Canada",
           postalCode: "V5L 2E8",
@@ -102,52 +102,52 @@ class VancouverFolkFestScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Vancouver Folk Music Festival scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `folk-fest-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Determine if it's a multi-day event
-        const isMultiDay = eventData.date.toDateString() !== eventData.endTime.toDateString();
+        const isMultiDay = eventData.date.toDaData.endTime.toDa();
         let formattedDateRange = formattedDate;
-        
+
         if (isMultiDay) {
           const endDate = dateFormat.format(eventData.endTime);
           formattedDateRange = `${formattedDate} to ${endDate}`;
         }
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         if (isMultiDay) {
           detailedDescription += `Dates: ${formattedDateRange}\n`;
           detailedDescription += `Hours: ${formattedStartTime} - ${formattedEndTime}\n`;
@@ -155,27 +155,27 @@ class VancouverFolkFestScraper {
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         }
-        
+
         // Use the event-specific venue if provided, otherwise use the festival venue
         const eventVenue = eventData.venue || this.venue;
-        
+
         detailedDescription += `Venue: ${eventVenue.name}, ${eventVenue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available online through the festival website\n`;
         }
-        
+
         if (!eventData.venue) { // Only add for main festival events
           detailedDescription += `\nFestival Information: The Vancouver Folk Music Festival takes place at Jericho Beach Park, featuring seven stages, an artisan market, global food village, family activities, and spectacular ocean and mountain views. The festival site is accessible by public transit, bicycle (with free bike valet), or limited paid parking nearby. Gates open one hour before performances begin each day.`;
         }
-        
+
         // Create categories
         const categories = ['music', 'festival', 'folk', 'outdoor'];
-        
+
         if (eventData.title.includes('Preview')) {
           categories.push('concert', 'showcase', 'emerging artists');
         } else if (eventData.title.includes('Weekend Pass')) {
@@ -183,7 +183,7 @@ class VancouverFolkFestScraper {
         } else {
           categories.push('concert', 'live music', eventData.title.includes('Friday') ? 'friday' : eventData.title.includes('Saturday') ? 'saturday' : 'sunday');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -195,19 +195,19 @@ class VancouverFolkFestScraper {
           category: 'music',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${isMultiDay ? formattedDateRange : formattedDate}`);
       }
-      
+
       console.log(`🎵 Successfully created ${events.length} Vancouver Folk Music Festival events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Vancouver Folk Music Festival scraper: ${error.message}`);
       return events;
@@ -216,3 +216,13 @@ class VancouverFolkFestScraper {
 }
 
 module.exports = new VancouverFolkFestScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverFolkFestScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VancouverFolkFestScraper = VancouverFolkFestScraper;

@@ -1,6 +1,6 @@
 /**
  * Imperial Theatre Scraper
- * 
+ *
  * This scraper provides information about events at the Imperial Theatre in Vancouver
  * Source: https://www.imperialvancouver.com/
  */
@@ -12,13 +12,13 @@ class ImperialTheatreScraper {
     this.name = 'Imperial Theatre';
     this.url = 'https://www.imperialvancouver.com/';
     this.sourceIdentifier = 'imperial-theatre';
-    
+
     // Venue information
     this.venue = {
       name: "Imperial Theatre",
       id: "imperial-theatre-vancouver",
       address: "319 Main St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6A 2S9",
@@ -29,9 +29,9 @@ class ImperialTheatreScraper {
       websiteUrl: "https://www.imperialvancouver.com/",
       description: "The Imperial is a state-of-the-art venue in the heart of Vancouver's historic Chinatown district. Originally built in 1913 as a theatre for silent films, this unique space combines historic architecture with modern technology, including immersive 3D projection mapping, 7.1 surround sound, and a versatile layout that can accommodate a wide range of performances and events. With a capacity of up to 800, The Imperial hosts concerts, arts performances, film screenings, corporate events, and private functions."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Khruangbin: World Tour",
         description: "Texas trio Khruangbin brings their genre-defying sound to Vancouver, blending psychedelic rock, dub, soul, and global influences into a mesmerizing live experience. Known for their instrumental prowess and hypnotic grooves, the band will perform tracks from their acclaimed albums including their latest release. Khruangbin's live shows are known for their immersive lighting design, impeccable musicianship, and the ability to create an atmosphere that transcends traditional concert experiences. With Laura Lee on bass, Mark Speer on guitar, and Donald 'DJ' Johnson on drums, this performance promises to be a highlight of the summer concert season.",
@@ -105,68 +105,68 @@ class ImperialTheatreScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Imperial Theatre scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `imperial-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available through The Imperial website or box office\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nThe Imperial Theatre is located in Vancouver's historic Chinatown neighborhood, easily accessible by public transit. The venue is fully accessible and offers a full bar service. Doors typically open one hour before event start time.`;
-        
+
         // Create categories
         const categories = ['entertainment', 'nightlife', 'arts'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Concert') {
           categories.push('music', 'live music');
         } else if (eventData.category === 'Film') {
@@ -180,7 +180,7 @@ class ImperialTheatreScraper {
         } else if (eventData.category === 'Electronic Arts') {
           categories.push('digital art', 'projection mapping', 'audiovisual');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -192,19 +192,19 @@ class ImperialTheatreScraper {
           category: 'entertainment',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎭 Successfully created ${events.length} Imperial Theatre events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Imperial Theatre scraper: ${error.message}`);
       return events;
@@ -213,3 +213,13 @@ class ImperialTheatreScraper {
 }
 
 module.exports = new ImperialTheatreScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new ImperialTheatreScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.ImperialTheatreScraper = ImperialTheatreScraper;

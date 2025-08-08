@@ -182,17 +182,53 @@ async function connectToMongoDB() {
   }
 }
 
+// Global collections variable
+let collections = null;
+
 // Start the server
 async function startServer() {
   try {
-    // Connect to MongoDB
-    const collections = await connectToMongoDB();
+    // Start HTTP server immediately (Cloud Run needs this for health checks)
+    const server = app.listen(PORT, () => {
+      console.log(`
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║  🚀 UNIFIED PROXY SERVER RUNNING ON PORT ${PORT}            ║
+║                                                           ║
+║  🔄 MongoDB Connection: Initializing...                   ║
+║                                                           ║
+║  API Endpoints:                                           ║
+║  • http://localhost:${PORT}/api/v1/venues/events/all       ║
+║  • http://localhost:${PORT}/api/v1/health                  ║
+║                                                           ║
+║  Admin UI:                                                ║
+║  • http://localhost:${PORT}/admin                          ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+      `);
+    });
+
+    // Connect to MongoDB asynchronously after server starts
+    try {
+      collections = await connectToMongoDB();
+      console.log(`
+╔═══════════════════════════════════════════════════════════╗
+║  ✅ MongoDB Connected Successfully                        ║
+║  ✅ All Events Available                                  ║  
+║  ✅ No Pagination Limits                                  ║
+╚═══════════════════════════════════════════════════════════╝
+      `);
+    } catch (error) {
+      console.error('❌ MongoDB connection failed, but server is still running:', error.message);
+      console.log('📝 API endpoints will return errors until MongoDB connects');
+    }
     
     // Health check endpoint
     app.get('/api/v1/health', (req, res) => {
       res.status(200).json({
         status: 'ok',
         message: 'Direct MongoDB proxy is healthy',
+        mongodb: collections ? 'connected' : 'connecting...',
         timestamp: new Date().toISOString()
       });
     });
@@ -200,6 +236,13 @@ async function startServer() {
     // Database test endpoint
     app.get('/api/v1/db-test', async (req, res) => {
       try {
+        if (!collections) {
+          return res.status(503).json({ 
+            error: 'MongoDB not connected yet', 
+            message: 'Database is still initializing, please try again in a moment' 
+          });
+        }
+
         console.log('Testing MongoDB connection...');
         
         // Get database info
@@ -245,6 +288,13 @@ async function startServer() {
     app.get('/api/v1/venues/events/all', async (req, res) => {
       console.log('🚀 Received request for ALL events - NO filtering or limits will be applied');
       
+      if (!collections) {
+        return res.status(503).json({ 
+          error: 'MongoDB not connected yet', 
+          message: 'Database is still initializing, please try again in a moment' 
+        });
+      }
+
       try {
         const { 
           city = 'all',  // Default to 'all' instead of 'Vancouver'
@@ -262,7 +312,7 @@ async function startServer() {
         
         // City filtering ONLY if explicitly requested (case insensitive)
         if (city && city !== 'all') {
-          query['venue.city'] = { $regex: city, $options: 'i' };
+          query['venue.name'] = { $regex: city, $options: 'i' };
         }
         
         // Category filtering ONLY if explicitly requested
@@ -953,35 +1003,6 @@ async function startServer() {
             console.error('Error running Commodore scraper:', error);
             res.status(500).json({ error: 'Error running Commodore scraper', details: error.message });
         }
-    });
-    
-    // Start the server
-    app.listen(PORT, () => {
-      console.log(`
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║  🚀 UNIFIED PROXY SERVER RUNNING ON PORT ${PORT}            ║
-║                                                           ║
-║  ✅ Direct MongoDB Connection                             ║
-║  ✅ All Events (117+) Available                            ║
-║  ✅ No Pagination Limits                                  ║
-║                                                           ║
-║  API Endpoints:                                           ║
-║  • http://localhost:${PORT}/api/v1/venues/events/all       ║
-║  • http://localhost:${PORT}/api/v1/health                  ║
-║                                                           ║
-║  Admin UI:                                                ║
-║  • http://localhost:${PORT}/admin                          ║
-║                                                           ║
-║  TO USE IN YOUR APP:                                      ║
-║  1. Modify DiscovrConfig.swift:                           ║
-║     • useProxyAPI = true                                  ║
-║     • proxyAPIBaseURL = "http://localhost:${PORT}"         ║
-║                                                           ║
-║  2. Rebuild and launch the app                            ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
-      `);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error.message);

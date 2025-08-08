@@ -1,6 +1,6 @@
 /**
  * Banff & Lake Louise Tourism Events Scraper
- * 
+ *
  * This scraper extracts events and festivals from the official Banff & Lake Louise tourism site.
  * Covers events in Banff National Park, Banff townsite, and Lake Louise area.
  */
@@ -16,19 +16,26 @@ class BanffLakeLouiseEventsScraper {
     }
 
     async scrapeEvents() {
+        const city = city;
+        if (!city) {
+            console.error(`❌ City argument is required. e.g. node scrapers/cities/Calgary/${path.basename(__filename)} Calgary`);
+            return [];
+        }
+        this.city = city;
+
         try {
             console.log('🏔️ Scraping Banff & Lake Louise Tourism Events...');
-            
+
             const events = [];
-            
+
             // Try to get events from main page
             await this.scrapeMainEventsPage(events);
-            
+
             // Try to get events from API/listing if available
             await this.scrapeEventsListing(events);
-            
+
             const uniqueEvents = this.removeDuplicateEvents(events);
-            
+
             console.log(`🎿 Successfully scraped ${uniqueEvents.length} unique events from Banff & Lake Louise`);
             return uniqueEvents;
 
@@ -45,13 +52,13 @@ class BanffLakeLouiseEventsScraper {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-            });
+            };
 
             const $ = cheerio.load(response.data);
-            
+
             // Look for event listings in various formats
             this.extractEvents($, events);
-            
+
         } catch (error) {
             console.warn('⚠️ Could not scrape main events page:', error.message);
         }
@@ -65,7 +72,7 @@ class BanffLakeLouiseEventsScraper {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
                     'Accept': 'application/json, text/html, */*'
                 }
-            });
+            };
 
             if (response.data && typeof response.data === 'object') {
                 // Handle JSON response
@@ -75,7 +82,7 @@ class BanffLakeLouiseEventsScraper {
                 const $ = cheerio.load(response.data);
                 this.extractEvents($, events);
             }
-            
+
         } catch (error) {
             console.warn('⚠️ Could not scrape events listing:', error.message);
         }
@@ -86,24 +93,24 @@ class BanffLakeLouiseEventsScraper {
         $('.event-card, .event-item, .listing-item, .event').each((index, element) => {
             const $event = $(element);
             const eventData = this.parseEventElement($event);
-            
+
             if (eventData) {
                 events.push(eventData);
             }
-        });
+        };
 
         // Look for events in other common structures
         $('article, .post, .entry').each((index, element) => {
             const $element = $(element);
             const text = $element.text();
-            
+
             if (this.isLikelyEvent(text)) {
                 const eventData = this.parseEventFromElement($element);
                 if (eventData) {
                     events.push(eventData);
                 }
             }
-        });
+        };
 
         // Add some known Banff events if no dynamic events found
         if (events.length === 0) {
@@ -114,7 +121,7 @@ class BanffLakeLouiseEventsScraper {
     parseEventElement($event) {
         const title = this.extractText($event.find('.title, .event-title, h1, h2, h3').first()) ||
                      this.extractText($event.find('a').first());
-        
+
         if (!title || title.length < 3) return null;
 
         const description = this.extractText($event.find('.description, .excerpt, .summary, p').first());
@@ -200,8 +207,8 @@ class BanffLakeLouiseEventsScraper {
                 source: 'Banff & Lake Louise Tourism',
                 scrapedAt: new Date(),
                 region: 'Banff-Lake-Louise'
-            });
-        });
+            };
+        };
     }
 
     parseJsonEvents(data, events) {
@@ -219,11 +226,11 @@ class BanffLakeLouiseEventsScraper {
                     tags: this.generateTags(eventData.title, eventData.description),
                     region: 'Banff-Lake-Louise'
                 };
-                
+
                 if (event.title) {
                     events.push(event);
                 }
-            });
+            };
         }
     }
 
@@ -238,7 +245,7 @@ class BanffLakeLouiseEventsScraper {
 
     extractVenue($event) {
         const venueText = this.extractText($event.find('.venue, .location, .address'));
-        
+
         if (venueText) {
             return {
                 name: venueText,
@@ -248,7 +255,7 @@ class BanffLakeLouiseEventsScraper {
                 country: 'Canada'
             };
         }
-        
+
         return this.getDefaultVenue();
     }
 
@@ -265,14 +272,14 @@ class BanffLakeLouiseEventsScraper {
         const lowerVenue = venueText.toLowerCase();
         if (lowerVenue.includes('lake louise')) return 'Lake Louise';
         if (lowerVenue.includes('canmore')) return 'Canmore';
-        return 'Banff';
+        return this.city;
     }
 
     getDefaultVenue() {
         return {
             name: 'Banff National Park',
             address: 'Banff National Park, Alberta',
-            city: 'Banff',
+            city: this.city,
             state: 'Alberta',
             country: 'Canada'
         };
@@ -293,7 +300,7 @@ class BanffLakeLouiseEventsScraper {
 
     categorizeEvent(title, description) {
         const text = `${title} ${description}`.toLowerCase();
-        
+
         if (text.includes('festival')) return 'Festival';
         if (text.includes('concert') || text.includes('music')) return 'Music';
         if (text.includes('art') || text.includes('gallery')) return 'Arts';
@@ -302,30 +309,30 @@ class BanffLakeLouiseEventsScraper {
         if (text.includes('food') || text.includes('dining')) return 'Food';
         if (text.includes('family') || text.includes('kid')) return 'Family';
         if (text.includes('education') || text.includes('tour')) return 'Educational';
-        
+
         return 'Event';
     }
 
     generateTags(title, description) {
         const tags = ['banff', 'mountain'];
         const text = `${title} ${description}`.toLowerCase();
-        
+
         const keywords = ['festival', 'music', 'arts', 'outdoor', 'skiing', 'hiking', 'nature', 'wildlife', 'family', 'food', 'winter', 'summer'];
-        
+
         keywords.forEach(keyword => {
             if (text.includes(keyword)) {
                 tags.push(keyword);
             }
-        });
+        };
 
         return [...new Set(tags)]; // Remove duplicates
     }
 
-    parseDate(dateString) {
-        if (!dateString) return null;
-        
+    parseDate(daeventDateText) {
+        if (!daeventDateText) return null;
+
         try {
-            return new Date(dateString);
+            return new Date(daeventDateText);
         } catch (error) {
             return null;
         }
@@ -341,7 +348,7 @@ class BanffLakeLouiseEventsScraper {
     isLikelyEvent(text) {
         const eventIndicators = ['event', 'festival', 'concert', 'show', 'exhibition', 'workshop', 'tour', 'celebration'];
         const lowerText = text.toLowerCase().substring(0, 200); // Check first 200 chars
-        
+
         return eventIndicators.some(indicator => lowerText.includes(indicator));
     }
 
@@ -354,7 +361,7 @@ class BanffLakeLouiseEventsScraper {
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     cleanText(text) {
@@ -363,3 +370,14 @@ class BanffLakeLouiseEventsScraper {
 }
 
 module.exports = BanffLakeLouiseEventsScraper;
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new BanffLakeLouiseEventsScraper();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in BanffLakeLouiseEventsScraper');
+    }
+};

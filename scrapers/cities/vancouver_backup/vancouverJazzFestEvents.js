@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Jazz Festival Events Scraper
  * Scrapes events from the Vancouver International Jazz Festival
@@ -165,7 +166,7 @@ const VancouverJazzFestEvents = {
       venue: {
         name: venue || 'Vancouver Jazz Festival',
         address: '295 East 1st Avenue',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V5T 1A7',

@@ -40,7 +40,8 @@ function filterEvents() {
     
     const filtered = filter 
         ? currentEvents.filter(event => 
-            event.name && event.name.toLowerCase().includes(filter) ||
+            (event.title && event.title.toLowerCase().includes(filter)) ||
+            (event.name && event.name.toLowerCase().includes(filter)) ||
             (event.venue && event.venue.name && event.venue.name.toLowerCase().includes(filter))
         )
         : currentEvents;
@@ -95,14 +96,28 @@ function displayEvents(events) {
         // Format the price
         let priceDisplay = event.price || 'Free';
         
-        // Create external link if there is a sourceUrl
-        const sourceLink = event.sourceUrl || event.source_url ? 
-            `<a href="${event.sourceUrl || event.source_url}" target="_blank" class="btn btn-sm btn-outline-primary">
+        // Create external link if there is a valid sourceUrl
+        // Handle edge cases: "undefined" strings, empty strings, null values
+        function isValidUrl(url) {
+            return url && 
+                   typeof url === 'string' && 
+                   url.trim() !== '' && 
+                   url !== 'undefined' && 
+                   url !== 'null' && 
+                   url.startsWith('http');
+        }
+        
+        const validSourceUrl = isValidUrl(event.sourceUrl) ? event.sourceUrl : 
+                              isValidUrl(event.source_url) ? event.source_url : 
+                              isValidUrl(event.url) ? event.url : null;
+        
+        const sourceLink = validSourceUrl ? 
+            `<a href="${validSourceUrl}" target="_blank" class="btn btn-sm btn-outline-primary">
                 <i class="bi bi-box-arrow-up-right"></i> View
              </a>` : '';
         
         row.innerHTML = `
-            <td>${event.name || 'Untitled Event'}</td>
+            <td>${event.title || event.name || 'Untitled Event'}</td>
             <td>${event.venue ? (event.venue.name || 'Unknown') : 'Unknown'}</td>
             <td>${formattedDate}</td>
             <td>${priceDisplay}</td>

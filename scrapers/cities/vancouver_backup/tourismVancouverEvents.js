@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Tourism Vancouver Events Real Scraper
  * 
@@ -78,7 +79,7 @@ class TourismVancouverEventsScraper {
     if (!locationText) return {
       name: 'Vancouver',
       id: 'vancouver-general',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada'
     };
@@ -87,7 +88,7 @@ class TourismVancouverEventsScraper {
     const venue = {
       name: locationText,
       id: `vancouver-${slugify(locationText, { lower: true })}`,
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada'
     };

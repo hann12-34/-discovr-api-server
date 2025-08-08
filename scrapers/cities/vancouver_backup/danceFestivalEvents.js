@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver International Dance Festival Events Scraper
  * Scrapes events from the Vancouver International Dance Festival
@@ -264,7 +265,7 @@ const DanceFestivalEvents = {
     const defaultVenue = {
       name: 'Roundhouse Community Arts & Recreation Centre',
       address: '181 Roundhouse Mews',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       postalCode: 'V6Z 2W3',
@@ -305,7 +306,7 @@ const DanceFestivalEvents = {
         keywords: ['roundhouse', 'community arts', 'recreation centre'],
         name: 'Roundhouse Community Arts & Recreation Centre',
         address: '181 Roundhouse Mews',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6Z 2W3',
@@ -316,7 +317,7 @@ const DanceFestivalEvents = {
         keywords: ['scotiabank dance centre', 'dance centre'],
         name: 'Scotiabank Dance Centre',
         address: '677 Davie St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6B 2G6',
@@ -327,7 +328,7 @@ const DanceFestivalEvents = {
         keywords: ['vancouver playhouse'],
         name: 'Vancouver Playhouse',
         address: '600 Hamilton St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6B 2P1',

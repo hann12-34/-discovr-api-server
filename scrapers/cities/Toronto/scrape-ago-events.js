@@ -1,345 +1,164 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
 
 /**
  * Art Gallery of Ontario (AGO) Events Scraper
  * URL: https://ago.ca/events
  */
-class AGOEvents {
-    constructor() {
-        this.baseUrl = 'https://ago.ca';
-        this.eventsUrl = 'https://ago.ca/events';
+class AGOEventsScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
         this.source = 'Art Gallery of Ontario';
-        this.city = 'Toronto';
-        this.province = 'ON';
-    }
-
-    getDefaultCoordinates() {
-        return { latitude: 43.6537, longitude: -79.3924 };
-    }
-
-    parseDateAndTime(dateText, timeText = '') {
-        if (!dateText) return null;
-        
-        try {
-            dateText = dateText.trim();
-            timeText = timeText ? timeText.trim() : '';
-            
-            // Remove day of week if present
-            dateText = dateText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*/i, '');
-            
-            let startDate, endDate;
-            
-            // Handle date ranges
-            if (dateText.includes('–') || dateText.includes('-')) {
-                const parts = dateText.split(/\s*[–-]\s*/);
-                if (parts.length === 2) {
-                    const [startPart, endPart] = parts;
-                    
-                    // Try to parse both parts
-                    try {
-                        startDate = new Date(startPart);
-                        endDate = new Date(endPart);
-                        
-                        // If endDate is invalid, try combining start month/year with end day
-                        if (isNaN(endDate.getTime())) {
-                            const startDateObj = new Date(startPart);
-                            const endDay = parseInt(endPart.match(/\d+/)?.[0]);
-                            if (endDay) {
-                                endDate = new Date(startDateObj.getFullYear(), startDateObj.getMonth(), endDay);
-                            }
-                        }
-                    } catch (e) {
-                        startDate = new Date(startPart);
-                        endDate = new Date(endPart);
-                    }
-                }
-            } else {
-                // Single date
-                startDate = new Date(dateText);
-                endDate = startDate;
-            }
-            
-            // Apply time if provided
-            if (timeText && !isNaN(startDate.getTime())) {
-                const timeMatch = timeText.match(/(\d{1,2}):?(\d{2})?\s*(AM|PM)?/i);
-                if (timeMatch) {
-                    let hours = parseInt(timeMatch[1]);
-                    const minutes = parseInt(timeMatch[2] || '0');
-                    const ampm = timeMatch[3]?.toUpperCase();
-                    
-                    if (ampm === 'PM' && hours !== 12) hours += 12;
-                    if (ampm === 'AM' && hours === 12) hours = 0;
-                    
-                    startDate.setHours(hours, minutes, 0, 0);
-                    if (endDate && endDate !== startDate) {
-                        endDate.setHours(hours, minutes, 0, 0);
-                    }
-                }
-            }
-            
-            return {
-                startDate: isNaN(startDate.getTime()) ? null : startDate,
-                endDate: isNaN(endDate.getTime()) ? null : endDate
-            };
-        } catch (error) {
-            console.error('Date parsing error:', error);
-            return null;
-        }
-    }
-
-    extractCategories(title, description, eventType = '') {
-        const categories = [];
-        const text = `${title} ${description} ${eventType}`.toLowerCase();
-        
-        // Art-related categories
-        if (text.includes('exhibition') || text.includes('gallery') || text.includes('art')) {
-            categories.push('Art');
-        }
-        
-        // Music categories
-        if (text.includes('music') || text.includes('concert') || text.includes('performance')) {
-            categories.push('Music');
-        }
-        
-        // Workshop/Education
-        if (text.includes('workshop') || text.includes('class') || text.includes('learn')) {
-            categories.push('Education');
-        }
-        
-        // Family events
-        if (text.includes('family') || text.includes('kids') || text.includes('children')) {
-            categories.push('Family');
-        }
-        
-        // Tours
-        if (text.includes('tour') || text.includes('guided')) {
-            categories.push('Tour');
-        }
-        
-        // Special events
-        if (text.includes('opening') || text.includes('special') || text.includes('gala')) {
-            categories.push('Special Event');
-        }
-        
-        return categories.length > 0 ? categories : ['Art'];
-    }
-
-    extractPrice(text) {
-        if (!text) return 'Contact for pricing';
-        
-        text = text.toLowerCase();
-        
-        if (text.includes('free') || text.includes('no charge') || text.includes('complimentary')) {
-            return 'Free';
-        }
-        
-        if (text.includes('member') && text.includes('free')) {
-            return 'Free for members';
-        }
-        
-        // Look for price patterns
-        const priceMatch = text.match(/\$(\d+(?:\.\d{2})?)/);
-        if (priceMatch) {
-            return `$${priceMatch[1]}`;
-        }
-        
-        return 'Contact for pricing';
-    }
-
-    normalizeUrl(url, baseUrl = 'https://ago.ca') {
-        if (!url) return null;
-        if (url.startsWith('http')) return url;
-        return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
-    }
-
-    cleanText(text) {
-        if (!text) return '';
-        return text.trim().replace(/\s+/g, ' ').replace(/\n+/g, ' ').trim();
-    }
-
-    extractVenueInfo() {
-        return {
+        this.baseUrl = 'https://ago.ca';
+        this.url = 'https://ago.ca/events';
+        this.venue = {
             name: 'Art Gallery of Ontario',
             address: '317 Dundas St W, Toronto, ON M5T 1G4',
-            city: 'Toronto',
+            city: this.city,
             province: 'ON',
-            coordinates: this.getDefaultCoordinates()
+            country: 'Canada',
+            postalCode: 'M5T 1G4',
+            latitude: 43.6537,
+            longitude: -79.3924
         };
     }
 
-    isLiveEvent(eventDate) {
-        if (!eventDate) return false;
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        return eventDate >= today;
+    _generateEventId(title, startDate) {
+        const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
     }
 
-    async scrapeEvents() {
-        console.log(`🔍 Scraping ${this.source} events...`);
-        
+    _parseDate(daeventDateText) {
+        if (!daeventDateText) return null;
+
+        const now = new Date();
+        const year = now.getFullYear();
+
         try {
-            const response = await axios.get(this.eventsUrl, {
-                timeout: 10000,
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (compatible; EventScraper/1.0)'
+            if (daeventDateText.toLowerCase().includes('ongoing')) {
+                return { startDate: now, endDate: new Date(year, 11, 31) };
+            }
+
+            if (daeventDateText.includes('-')) {
+                const parts = daeventDateText.split('-').map(part => part.trim());
+                const startPart = parts[0].includes(',') ? parts[0] : `${parts[0]}, ${year}`;
+                const endPart = parts[1].includes(',') ? parts[1] : `${parts[1]}, ${year}`;
+                const startDate = new Date(startPart);
+                const endDate = new Date(endPart);
+                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                    return { startDate, endDate };
                 }
-            });
-            
-            const $ = cheerio.load(response.data);
-            const events = [];
-            
-            // Multiple selectors for different event layouts
-            const eventSelectors = [
-                '.event-item',
-                '.event-card',
-                '.event',
-                '.calendar-event',
-                '.upcoming-event',
-                'article',
-                '.card',
-                '.event-listing'
-            ];
-            
-            for (const selector of eventSelectors) {
-                const eventElements = $(selector);
-                if (eventElements.length > 0) {
-                    console.log(`📅 Found ${eventElements.length} potential events with selector: ${selector}`);
-                    
-                    eventElements.each((index, element) => {
-                        const eventData = this.extractEventDetails($, element);
-                        if (eventData) {
-                            events.push(eventData);
-                        }
-                    });
-                    
-                    if (events.length > 0) break;
+            } else {
+                const singleDatePart = daeventDateText.includes(',') ? daeventDateText : `${daeventDateText}, ${year}`;
+                const startDate = new Date(singleDatePart);
+                if (!isNaN(startDate.getTime())) {
+                    const endDate = new Date(startDate);
+                    endDate.setHours(endDate.getHours() + 2);
+                    return { startDate, endDate };
                 }
             }
-            
-            // If no events found with standard selectors, try alternative approach
-            if (events.length === 0) {
-                console.log('🔍 Trying alternative event extraction...');
-                
-                // Look for any links to event pages
-                const eventLinks = $('a[href*="/event"], a[href*="/exhibition"]');
-                if (eventLinks.length > 0) {
-                    console.log(`📅 Found ${eventLinks.length} potential event links`);
-                    
-                    eventLinks.each((index, element) => {
-                        const $link = $(element);
-                        const title = this.cleanText($link.text());
-                        const url = this.normalizeUrl($link.attr('href'));
-                        
-                        if (title && title.length > 3) {
-                            const eventData = {
-                                id: uuidv4(),
-                                name: title,
-                                title: title,
-                                description: `${title} at the Art Gallery of Ontario`,
-                                date: null, // Will be populated from individual page if needed
-                                venue: this.extractVenueInfo(),
-                                city: this.city,
-                                province: this.province,
-                                price: 'Contact for pricing',
-                                category: this.extractCategories(title, '', '')[0] || 'Art',
-                                source: this.source,
-                                url: url,
-                                scrapedAt: new Date()
-                            };
-                            
-                            events.push(eventData);
-                        }
-                    });
-                }
-            }
-            
-            console.log(`✅ Successfully scraped ${events.length} events from ${this.source}`);
-            return events;
-            
         } catch (error) {
-            console.error(`❌ Error scraping ${this.source}:`, error.message);
+            this.log(`Error parsing date "${daeventDateText}": ${error.message}`);
+        }
+
+        this.log(`Could not parse date: "${daeventDateText}".`);
+        return null;
+    }
+
+    _extractCategories(title, description) {
+        const text = `${title} ${description}`.toLowerCase();
+        const categories = [this.city, 'Art', 'Museum'];
+
+        const mappings = {
+            'Exhibition': [/exhibition/i, /gallery/i],
+            'Music': [/music/i, /concert/i, /performance/i],
+            'Education': [/workshop/i, /class/i, /learn/i, /talk/i, /tour/i],
+            'Family': [/family/i, /kids/i, /children/i],
+            'Film': [/film/i, /screening/i],
+            'Special Event': [/special/i, /gala/i, /opening/i]
+        };
+
+        for (const [category, regexes] of Object.entries(mappings)) {
+            if (regexes.some(regex => regex.test(text))) {
+                categories.push(category);
+            }
+        }
+
+        return [...new Set(categories)];
+    }
+
+    _extractPrice(text) {
+        if (!text) return 'Varies';
+        const lowerText = text.toLowerCase();
+        if (lowerText.includes('free')) return 'Free';
+        const priceMatch = lowerText.match(/\$(\d+(\.\d{2}?)/);
+        if (priceMatch) return `$${priceMatch[1]}`;
+        if (lowerText.includes('member')) return 'Free for members';
+        return 'Varies';
+    }
+
+    async scrape() {
+        this.log(`Scraping events from ${this.source}`);
+        try {
+            const { data } = await axios.get(this.url);
+            const $ = cheerio.load(data);
+            let events = [];
+
+            $('.event-card').each((i, el) => {
+                const title = $(el).find('.event-card__title').text().trim();
+                if (!title) return;
+
+                const url = $(el).find('a').attr('href');
+                const imageUrl = $(el).find('img').attr('src');
+                const dateText = $(el).find('.event-card__date').text().trim();
+                const description = $(el).find('.event-card__description').text().trim();
+                const priceText = $(el).find('.event-card__price').text().trim();
+
+                const parsedDates = this._parseDate(dateText);
+                if (!parsedDates) {
+                    this.log(`Skipping event with unparsable date: "${title}"`);
+                    return;
+                }
+                const { startDate, endDate } = parsedDates;
+
+                const categories = this._extractCategories(title, description);
+                const price = this._extractPrice(priceText);
+
+                const event = {
+                    id: this._generateEventId(title, startDate),
+                    title,
+                    description,
+                    url: url.startsWith('http') ? url : `${this.baseUrl}${url}`,
+                    imageUrl: imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`,
+                    startDate,
+                    endDate,
+                    venue: this.venue,
+                    categories,
+                    source: this.source,
+                    price,
+                    scrapedAt: new Date()
+                };
+                events.push(event);
+            };
+
+            this.log(`Found ${events.length} events from ${this.source}.`);
+            return events;
+        } catch (error) {
+            this.log(`Error scraping ${this.source}: ${error.message}`);
             return [];
         }
     }
-
-    extractEventDetails($, eventElement) {
-        const $event = $(eventElement);
-        
-        // Extract title
-        const title = this.cleanText(
-            $event.find('h1, h2, h3, h4, .title, .event-title').first().text() ||
-            $event.find('a').first().text() ||
-            $event.text().split('\n')[0]
-        );
-        
-        if (!title || title.length < 3) return null;
-        
-        // Extract date
-        const dateText = $event.find('.date, .event-date, .when, time').first().text();
-        const timeText = $event.find('.time, .event-time').first().text();
-        
-        const dateInfo = this.parseDateAndTime(dateText, timeText);
-        const eventDate = dateInfo?.startDate;
-        
-        // Only include live/future events
-        if (!this.isLiveEvent(eventDate)) {
-            return null;
-        }
-        
-        const description = this.cleanText(
-            $event.find('.description, .event-description, p').first().text()
-        );
-        
-        const eventUrl = $event.find('a').first().attr('href');
-        const fullEventUrl = this.normalizeUrl(eventUrl);
-        
-        const priceText = $event.find('.price, .cost, .fee').first().text();
-        const price = this.extractPrice(priceText);
-        
-        const venue = this.extractVenueInfo();
-        const categories = this.extractCategories(title, description, '');
-        
-        return {
-            id: uuidv4(),
-            name: title,
-            title: title,
-            description: description || `${title} at the Art Gallery of Ontario`,
-            date: eventDate,
-            venue: venue,
-            city: this.city,
-            province: this.province,
-            price: price,
-            category: categories[0] || 'Art',
-            source: this.source,
-            url: fullEventUrl,
-            scrapedAt: new Date()
-        };
-    }
 }
 
-module.exports = AGOEvents;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new AGOEventsScraper();
+  return await scraper.scrape(city);
+};
 
-// Test runner
-if (require.main === module) {
-    async function testScraper() {
-        const scraper = new AGOEvents();
-        const events = await scraper.scrapeEvents();
-        console.log('\n' + '='.repeat(50));
-        console.log('AGO EVENTS TEST RESULTS');
-        console.log('='.repeat(50));
-        console.log(`Found ${events.length} events`);
-        
-        events.forEach((event, index) => {
-            console.log(`\n${index + 1}. ${event.title}`);
-            console.log(`   Date: ${event.date ? event.date.toDateString() : 'TBD'}`);
-            console.log(`   Category: ${event.category}`);
-            console.log(`   Price: ${event.price}`);
-            console.log(`   Venue: ${event.venue.name}`);
-            if (event.url) console.log(`   URL: ${event.url}`);
-        });
-    }
-    
-    testScraper();
-}
+// Also export the class for backward compatibility
+module.exports.AGOEventsScraper = AGOEventsScraper;

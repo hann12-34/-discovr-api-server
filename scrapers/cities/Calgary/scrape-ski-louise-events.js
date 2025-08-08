@@ -1,6 +1,7 @@
+const path = require('path');
 /**
  * Ski Louise Events Scraper
- * 
+ *
  * This scraper extracts events from skilouise.com/things-to-do/category/events/
  * covering mountain activities, seasonal events, and outdoor adventures at Lake Louise.
  */
@@ -15,19 +16,26 @@ class SkiLouiseEventsScraper {
     }
 
     async scrapeEvents() {
+        const city = city;
+        if (!city) {
+            console.error(`❌ City argument is required. e.g. node scrapers/cities/Calgary/${path.basename(__filename)} Calgary`);
+            return [];
+        }
+        this.city = city;
+
         try {
             console.log('🎿 Scraping Ski Louise Events...');
-            
+
             const events = [];
-            
+
             // Scrape main events page
             await this.scrapeMainEventsPage(events);
-            
+
             // Add known seasonal events from Ski Louise
             this.addSeasonalSkiLouiseEvents(events);
-            
+
             const uniqueEvents = this.removeDuplicateEvents(events);
-            
+
             console.log(`⛷️ Successfully scraped ${uniqueEvents.length} unique events from Ski Louise`);
             return uniqueEvents;
 
@@ -44,20 +52,20 @@ class SkiLouiseEventsScraper {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-            });
+            };
 
             const $ = cheerio.load(response.data);
-            
+
             // Extract events from the page content
             this.extractEventsFromContent($, events);
-            
+
             // Parse known events from the content we analyzed
             this.parseKnownEventsFromContent(events);
-            
+
         } catch (error) {
             console.warn('⚠️ Could not scrape main Ski Louise events page:', error.message);
-            // Add fallback events if scraping fails
-            this.addFallbackEvents(events);
+            // Add  if scraping fails
+            this.add(events);
         }
     }
 
@@ -66,24 +74,24 @@ class SkiLouiseEventsScraper {
         $('.event, .event-card, .activity, .listing').each((index, element) => {
             const $event = $(element);
             const eventData = this.parseEventElement($event);
-            
+
             if (eventData) {
                 events.push(eventData);
             }
-        });
+        };
 
         // Look for events in headings and paragraphs
         $('h1, h2, h3, h4').each((index, element) => {
             const $heading = $(element);
             const text = $heading.text().trim();
-            
+
             if (this.isEventTitle(text)) {
                 const eventData = this.parseEventFromHeading($heading);
                 if (eventData) {
                     events.push(eventData);
                 }
             }
-        });
+        };
     }
 
     parseKnownEventsFromContent(events) {
@@ -134,8 +142,8 @@ class SkiLouiseEventsScraper {
                         scrapedAt: new Date(),
                         tags: eventTemplate.tags,
                         region: 'Lake-Louise'
-                    });
-                });
+                    };
+                };
             } else {
                 events.push({
                     title: eventTemplate.title,
@@ -148,9 +156,9 @@ class SkiLouiseEventsScraper {
                     scrapedAt: new Date(),
                     tags: eventTemplate.tags,
                     region: 'Lake-Louise'
-                });
+                };
             }
-        });
+        };
     }
 
     addSeasonalSkiLouiseEvents(events) {
@@ -211,13 +219,13 @@ class SkiLouiseEventsScraper {
                 scrapedAt: new Date(),
                 tags: template.tags,
                 region: 'Lake-Louise'
-            });
-        });
+            };
+        };
     }
 
-    addFallbackEvents(events) {
-        // Fallback events if main scraping fails
-        const fallbackEvents = [
+    add(events) {
+        //  if main scraping fails
+        const  = [
             {
                 title: 'Daily Mountain Activities',
                 description: 'Year-round mountain activities including hiking, skiing, and sightseeing at Lake Louise.',
@@ -232,7 +240,7 @@ class SkiLouiseEventsScraper {
             }
         ];
 
-        fallbackEvents.forEach(template => {
+        .forEach(template => {
             events.push({
                 title: template.title,
                 description: template.description,
@@ -244,19 +252,19 @@ class SkiLouiseEventsScraper {
                 scrapedAt: new Date(),
                 tags: template.tags,
                 region: 'Lake-Louise'
-            });
-        });
+            };
+        };
     }
 
     parseEventElement($event) {
         const title = this.extractText($event.find('.title, .event-title, h1, h2, h3').first()) ||
                      this.extractText($event.find('a').first());
-        
+
         if (!title || title.length < 3) return null;
 
         const description = this.extractText($event.find('.description, .excerpt, .summary, p').first()) ||
                            this.generateDescription(title);
-        
+
         const dateText = this.extractText($event.find('.date, .event-date, time').first());
 
         return {
@@ -296,7 +304,7 @@ class SkiLouiseEventsScraper {
         return {
             name: 'Lake Louise Ski Resort',
             address: '1 Whitehorn Rd, Lake Louise, AB T0L 1E0',
-            city: 'Lake Louise',
+            city: this.city,
             state: 'Alberta',
             country: 'Canada'
         };
@@ -318,14 +326,14 @@ class SkiLouiseEventsScraper {
     isEventTitle(text) {
         const eventKeywords = ['event', 'tour', 'experience', 'adventure', 'activity', 'program', 'lesson', 'workshop'];
         const lowerText = text.toLowerCase();
-        
+
         return eventKeywords.some(keyword => lowerText.includes(keyword)) ||
                text.length > 10; // Assume longer titles might be events
     }
 
     categorizeEvent(title, description) {
         const text = `${title} ${description}`.toLowerCase();
-        
+
         if (text.includes('ski') || text.includes('snow') || text.includes('winter')) return 'Winter Sports';
         if (text.includes('hike') || text.includes('trail') || text.includes('outdoor')) return 'Outdoor';
         if (text.includes('gondola') || text.includes('sightseeing') || text.includes('scenic')) return 'Sightseeing';
@@ -335,21 +343,21 @@ class SkiLouiseEventsScraper {
         if (text.includes('bike') || text.includes('cycling')) return 'Cycling';
         if (text.includes('wildlife') || text.includes('nature')) return 'Nature';
         if (text.includes('food') || text.includes('dining')) return 'Food';
-        
+
         return 'Event';
     }
 
     generateTags(title, description) {
         const tags = ['lake-louise', 'mountain', 'ski-resort'];
         const text = `${title} ${description}`.toLowerCase();
-        
+
         const keywords = ['skiing', 'hiking', 'outdoor', 'scenic', 'gondola', 'winter', 'summer', 'music', 'community', 'nature', 'biking'];
-        
+
         keywords.forEach(keyword => {
             if (text.includes(keyword)) {
                 tags.push(keyword);
             }
-        });
+        };
 
         return [...new Set(tags)];
     }
@@ -358,16 +366,16 @@ class SkiLouiseEventsScraper {
         return `${title} - Mountain activity at Lake Louise Ski Resort. Contact venue for more details.`;
     }
 
-    parseDate(dateString) {
-        if (!dateString) return null;
-        
+    parseDate(daeventDateText) {
+        if (!daeventDateText) return null;
+
         try {
             // Handle various date formats including "Jul 18 2025"
-            const date = new Date(dateString);
+            const date = new Date(daeventDateText);
             if (!isNaN(date.getTime())) {
                 return date;
             }
-            
+
             return null;
         } catch (error) {
             return null;
@@ -377,7 +385,7 @@ class SkiLouiseEventsScraper {
     getSeasonalDate(season) {
         const now = new Date();
         const currentYear = now.getFullYear();
-        
+
         switch (season) {
             case 'winter':
                 return new Date(currentYear, 11, 15); // December 15
@@ -402,13 +410,13 @@ class SkiLouiseEventsScraper {
     removeDuplicateEvents(events) {
         const seen = new Set();
         return events.filter(event => {
-            const key = `${event.title}-${event.date.toDateString()}`;
+            const key = `${event.title}-${event.date.toDaeventDateText()}`;
             if (seen.has(key)) {
                 return false;
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     cleanText(text) {
@@ -417,3 +425,14 @@ class SkiLouiseEventsScraper {
 }
 
 module.exports = SkiLouiseEventsScraper;
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new SkiLouiseEventsScraper();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in SkiLouiseEventsScraper');
+    }
+};

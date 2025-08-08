@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Coastal Jazz Festival Scraper
  * 
@@ -20,7 +21,7 @@ class CoastalJazzFestivalScraper {
       name: 'Various Venues (Coastal Jazz Festival)',
       id: 'coastal-jazz-festival-vancouver',
       address: '295 E 11th Ave',  // Festival office address
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       state: 'BC',
       country: 'Canada',
       postalCode: 'V5T 2C4',

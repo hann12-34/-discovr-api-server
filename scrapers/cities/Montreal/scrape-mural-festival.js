@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-mural-festival.js Toronto');
+    process.exit(1);
+  }
     const browser = await puppeteer.launch({
         headless: true,
         args: [
@@ -23,29 +28,29 @@ async function scrape() {
             '--disable-ipc-flooding-protection',
             '--disable-http2'
         ]
-    });
+    };
 
     try {
         console.log('🎨 Scraping events from MURAL Festival...');
         const page = await browser.newPage();
-        
+
         // Set user agent to avoid detection
         await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-        
-        await page.goto('https://muralfestival.com/', { 
+
+        await page.goto('https://muralfestival.com/', {
             waitUntil: 'domcontentloaded',
-            timeout: 60000 
-        });
+            timeout: 60000
+        };
 
         // Wait for content to load
         await new Promise(resolve => setTimeout(resolve, 3000));
 
         // Try to get programming page for more detailed events
         try {
-            await page.goto('https://muralfestival.com/festival/program/', { 
+            await page.goto('https://muralfestival.com/festival/program/', {
                 waitUntil: 'domcontentloaded',
-                timeout: 30000 
-            });
+                timeout: 30000
+            };
             await new Promise(resolve => setTimeout(resolve, 2000));
         } catch (e) {
             console.log('Could not load program page, using main page');
@@ -53,13 +58,13 @@ async function scrape() {
 
         const events = await page.evaluate(() => {
             const results = [];
-            
+
             // Look for programming events
             const programElements = document.querySelectorAll('a[href*="/program/"], .program-item, .event-item, .program-link');
-            
+
             // Known programming from the scraped content
             const knownPrograms = [
-                'MOONSHINE', 'FLÉAU DICAPRIO + RACCOON', 'CARIBBEAN BLOCK PARTY', 
+                'MOONSHINE', 'FLÉAU DICAPRIO + RACCOON', 'CARIBBEAN BLOCK PARTY',
                 'DEL ARTE', 'UNIKORN', 'FRIKITON', 'MONTREALITY', 'BONNE FAMILLE', 'SECRET WALLS'
             ];
 
@@ -71,7 +76,7 @@ async function scrape() {
 
             // Check if content mentions these programs/artists
             const pageText = document.body.innerText.toLowerCase();
-            
+
             // Create events for known programming
             knownPrograms.forEach(program => {
                 if (pageText.includes(program.toLowerCase()) || document.querySelector(`a[href*="${program.toLowerCase().replace(/\s+/g, '-')}"]`)) {
@@ -80,9 +85,9 @@ async function scrape() {
                         type: 'music_performance',
                         description: `Live music performance and block party as part of MURAL Festival`,
                         url: window.location.href
-                    });
+                    };
                 }
-            });
+            };
 
             // Create events for visual art exhibitions
             if (visualArtists.some(artist => pageText.includes(artist.toLowerCase()))) {
@@ -91,7 +96,7 @@ async function scrape() {
                     type: 'art_exhibition',
                     description: `Live mural creation and urban art showcase featuring international artists including ${visualArtists.slice(0, 5).join(', ')} and more`,
                     url: window.location.href
-                });
+                };
             }
 
             // Add main festival event if we found programming
@@ -101,11 +106,11 @@ async function scrape() {
                     type: 'festival',
                     description: 'FREE international public art festival celebrating urban art, music, and creativity on Boulevard Saint-Laurent',
                     url: window.location.href
-                });
+                };
             }
 
             return results;
-        });
+        };
 
         console.log(`Found ${events.length} potential events`);
 
@@ -114,7 +119,7 @@ async function scrape() {
             // Festival runs June 5-15, 2025
             const startDate = new Date('2025-06-05T12:00:00');
             const eventDate = new Date(startDate.getTime() + (index * 24 * 60 * 60 * 1000)); // Spread events over festival days
-            
+
             // Ensure we don't go past June 15
             if (eventDate > new Date('2025-06-15T23:59:59')) {
                 eventDate.setTime(new Date('2025-06-15T18:00:00').getTime());
@@ -129,13 +134,13 @@ async function scrape() {
                 description: event.description,
                 category: event.type === 'festival' ? 'Festival' : (event.type === 'art_exhibition' ? 'Art' : 'Music'),
                 subcategory: event.type === 'festival' ? 'Art Festival' : (event.type === 'art_exhibition' ? 'Street Art' : 'Live Music'),
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: 'Boulevard Saint-Laurent',
                     address: 'Boulevard Saint-Laurent, Montreal, QC',
-                    city: 'Montreal',
+                    city: city,
                     province: 'Quebec',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: event.url,
                 source: 'MURAL Festival',
                 sourceId: `mural-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
@@ -147,7 +152,7 @@ async function scrape() {
                     ticketUrl: 'https://muralfestival.com/'
                 }
             };
-        });
+        };
 
         console.log(`Found ${formattedEvents.length} total events from MURAL Festival`);
         return formattedEvents;
@@ -167,3 +172,7 @@ module.exports = {
     scrape,
     scrapeEvents
 };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

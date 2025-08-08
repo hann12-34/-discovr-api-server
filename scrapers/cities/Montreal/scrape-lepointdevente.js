@@ -10,13 +10,13 @@ const LePointDeVenteEvents = {
   name: 'Le Point de Vente',
   url: 'https://lepointdevente.com/',
   enabled: true,
-  
-  parseDateRange(dateString) {
-    if (!dateString) return { startDate: null, endDate: null };
-    
+
+  parseDateRange(daeventDateText) {
+    if (!daeventDateText) return { startDate: null, endDate: null };
+
     try {
-      dateString = dateString.replace(/\s+/g, ' ').trim();
-      
+      daeventDateText = daeventDateText.replace(/\s+/g, ' ').trim();
+
       const frenchToEnglish = {
         'janvier': 'january', 'jan': 'jan',
         'février': 'february', 'fevrier': 'february', 'fév': 'feb',
@@ -31,96 +31,96 @@ const LePointDeVenteEvents = {
         'novembre': 'november', 'nov': 'nov',
         'décembre': 'december', 'decembre': 'december', 'déc': 'dec'
       };
-      
-      let processedDateString = dateString.toLowerCase();
+
+      let processedDaeventDateText = daeventDateText.toLowerCase();
       for (const [french, english] of Object.entries(frenchToEnglish)) {
-        processedDateString = processedDateString.replace(new RegExp(french, 'gi'), english);
+        processedDaeventDateText = processedDaeventDateText.replace(new RegExp(french, 'gi'), english);
       }
-      
-      const dateInfo = this._parseSingleDate(processedDateString);
+
+      const dateInfo = this._parseSingleDate(processedDaeventDateText);
       if (dateInfo) {
         const endDate = new Date(dateInfo.date);
-        
+
         if (dateInfo.hasTimeInfo) {
           endDate.setHours(endDate.getHours() + 3);
         } else {
           endDate.setHours(23, 0, 0);
         }
-        
-        return { 
+
+        return {
           startDate: dateInfo.date,
           endDate
         };
       }
-      
-      console.log(`Could not parse date: ${dateString}`);
+
+      console.log(`Could not parse date: ${daeventDateText}`);
       return { startDate: null, endDate: null };
-      
+
     } catch (error) {
-      console.error(`Error parsing date "${dateString}": ${error.message}`);
+      console.error(`Error parsing date "${daeventDateText}": ${error.message}`);
       return { startDate: null, endDate: null };
     }
   },
-  
-  _parseSingleDate(dateString) {
-    if (!dateString) return null;
-    
-    dateString = dateString.trim();
+
+  _parseSingleDate(daeventDateText) {
+    if (!daeventDateText) return null;
+
+    daeventDateText = daeventDateText.trim();
     let hasTimeInfo = false;
-    
+
     // Pattern for "September 10th 2025" format
-    const monthDayYearPattern = /(\w+)\s+(\d{1,2})(?:st|nd|rd|th)?\s+(\d{4})/i;
-    const monthDayYearMatch = dateString.match(monthDayYearPattern);
-    
+    const monthDayYearPattern = /(\w+)\s+(\d{1,2}(?:st|nd|rd|th)?\s+(\d{4}/i;
+    const monthDayYearMatch = daeventDateText.match(monthDayYearPattern);
+
     if (monthDayYearMatch) {
       const month = monthDayYearMatch[1];
       const day = parseInt(monthDayYearMatch[2]);
       const year = parseInt(monthDayYearMatch[3]);
-      
+
       const months = {
         january: 0, jan: 0, février: 1, february: 1, feb: 1, march: 2, mar: 2, mars: 2,
         april: 3, apr: 3, avril: 3, may: 4, mai: 4, june: 5, jun: 5, juin: 5, july: 6, jul: 6, juillet: 6,
         august: 7, aug: 7, août: 7, september: 8, sep: 8, sept: 8, septembre: 8, october: 9, oct: 9, octobre: 9,
         november: 10, nov: 10, novembre: 10, december: 11, dec: 11, décembre: 11, decembre: 11
       };
-      
+
       const monthNum = months[month.toLowerCase()];
-      
+
       if (monthNum !== undefined) {
         const date = new Date(year, monthNum, day, 20, 0, 0); // Default to 8 PM
         return { date, hasTimeInfo: false };
       }
     }
-    
-    const dayMonthDayYearPattern = /(\w+),?\s+(\w+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i;
-    const dayMonthDayYearMatch = dateString.match(dayMonthDayYearPattern);
-    
+
+    const dayMonthDayYearPattern = /(\w+),?\s+(\w+)\s+(\d{1,2}(?:st|nd|rd|th)?,?\s*(\d{4}?/i;
+    const dayMonthDayYearMatch = daeventDateText.match(dayMonthDayYearPattern);
+
     if (dayMonthDayYearMatch) {
       const month = dayMonthDayYearMatch[2];
       const day = parseInt(dayMonthDayYearMatch[3]);
       const year = dayMonthDayYearMatch[4] ? parseInt(dayMonthDayYearMatch[4]) : new Date().getFullYear();
-      
+
       const months = {
         january: 0, jan: 0, février: 1, february: 1, feb: 1, march: 2, mar: 2, mars: 2,
         april: 3, apr: 3, avril: 3, may: 4, mai: 4, june: 5, jun: 5, juin: 5, july: 6, jul: 6, juillet: 6,
         august: 7, aug: 7, août: 7, september: 8, sep: 8, sept: 8, septembre: 8, october: 9, oct: 9, octobre: 9,
         november: 10, nov: 10, novembre: 10, december: 11, dec: 11, décembre: 11, decembre: 11
       };
-      
+
       const monthNum = months[month.toLowerCase()];
-      
+
       if (monthNum !== undefined) {
-        const timePattern = /(\d{1,2})(?::(\d{2}))?\s*(am|pm|h)?/i;
-        const timeMatch = dateString.match(timePattern);
-        
+        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm|h)?/i;
+        const timeMatch = daeventDateText.match(timePattern);
+
         let hours = 20; // Default to 8 PM for events
         let minutes = 0;
-        
+
         if (timeMatch) {
           hasTimeInfo = true;
           hours = parseInt(timeMatch[1]);
           minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
-          
+
           if (timeMatch[3] === 'h' || !timeMatch[3]) {
             // 24h format
           } else {
@@ -129,18 +129,18 @@ const LePointDeVenteEvents = {
             if (!isPM && hours === 12) hours = 0;
           }
         }
-        
+
         const date = new Date(year, monthNum, day, hours, minutes, 0);
         return { date, hasTimeInfo };
       }
     }
-    
-    const monthDayYearPattern2 = /(\d{1,2})\s+([\w]+)\s+(\d{4})|([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i;
-    const monthDayYearMatch2 = dateString.match(monthDayYearPattern2);
-    
+
+    const monthDayYearPattern2 = /(\d{1,2}\s+([\w]+)\s+(\d{4}|([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?,?\s*(\d{4}?/i;
+    const monthDayYearMatch2 = daeventDateText.match(monthDayYearPattern2);
+
     if (monthDayYearMatch2) {
       let month, day, year;
-      
+
       if (monthDayYearMatch2[1]) {
         day = parseInt(monthDayYearMatch2[1]);
         month = monthDayYearMatch2[2];
@@ -150,28 +150,28 @@ const LePointDeVenteEvents = {
         day = parseInt(monthDayYearMatch2[5]);
         year = monthDayYearMatch2[6] ? parseInt(monthDayYearMatch2[6]) : new Date().getFullYear();
       }
-      
+
       const months = {
         january: 0, jan: 0, février: 1, february: 1, feb: 1, march: 2, mar: 2, mars: 2,
         april: 3, apr: 3, avril: 3, may: 4, mai: 4, june: 5, jun: 5, juin: 5, july: 6, jul: 6, juillet: 6,
         august: 7, aug: 7, août: 7, september: 8, sep: 8, sept: 8, septembre: 8, october: 9, oct: 9, octobre: 9,
         november: 10, nov: 10, novembre: 10, december: 11, dec: 11, décembre: 11, decembre: 11
       };
-      
+
       const monthNum = months[month.toLowerCase()];
-      
+
       if (monthNum !== undefined) {
-        const timePattern = /(\d{1,2})(?::(\d{2}))?\s*(am|pm|h)?/i;
-        const timeMatch = dateString.match(timePattern);
-        
+        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm|h)?/i;
+        const timeMatch = daeventDateText.match(timePattern);
+
         let hours = 20; // Default to 8 PM
         let minutes = 0;
-        
+
         if (timeMatch) {
           hasTimeInfo = true;
           hours = parseInt(timeMatch[1]);
           minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
-          
+
           if (timeMatch[3] === 'h' || !timeMatch[3]) {
             // 24h format
           } else {
@@ -180,47 +180,47 @@ const LePointDeVenteEvents = {
             if (!isPM && hours === 12) hours = 0;
           }
         }
-        
+
         const date = new Date(year, monthNum, day, hours, minutes, 0);
         return { date, hasTimeInfo };
       }
     }
-    
-    const parsedDate = new Date(dateString);
+
+    const parsedDate = new Date(daeventDateText);
     if (!isNaN(parsedDate.getTime())) {
-      hasTimeInfo = dateString.match(/\d{1,2}:\d{2}/) !== null || 
-                    dateString.match(/\d{1,2}\s*(am|pm|h)/i) !== null;
-      
+      hasTimeInfo = daeventDateText.match(/\d{1,2}:\d{2}/) !== null ||
+                    daeventDateText.match(/\d{1,2}\s*(am|pm|h)/i) !== null;
+
       if (!hasTimeInfo) {
         parsedDate.setHours(20, 0, 0);
       }
-      
+
       return { date: parsedDate, hasTimeInfo };
     }
-    
+
     return null;
   },
-  
+
   generateEventId(title, startDate) {
     if (!title) return '';
-    
+
     let dateStr = '';
     if (startDate && !isNaN(startDate.getTime())) {
       dateStr = startDate.toISOString().split('T')[0];
     }
-    
+
     const slug = slugify(title, {
       lower: true,
       strict: true,
       remove: /[*+~.()'"!:@]/g
-    }).substring(0, 50);
-    
+    }.substring(0, 50);
+
     return `lepointdevente-${slug}-${dateStr}`;
   },
-  
+
   createEventObject(id, title, description, startDate, endDate, imageUrl, sourceUrl) {
     let categories = ['tickets', 'events'];
-    
+
     const categoryKeywords = {
       'concert': ['concert', 'music', 'musical', 'band'],
       'theatre': ['theatre', 'theater', 'show', 'performance'],
@@ -230,9 +230,9 @@ const LePointDeVenteEvents = {
       'dance': ['dance', 'ballet', 'dancing'],
       'conference': ['conference', 'speaker', 'lecture']
     };
-    
+
     const fullText = ((title || '') + ' ' + (description || '')).toLowerCase();
-    
+
     for (const [category, keywords] of Object.entries(categoryKeywords)) {
       for (const keyword of keywords) {
         if (fullText.includes(keyword)) {
@@ -241,7 +241,7 @@ const LePointDeVenteEvents = {
         }
       }
     }
-    
+
     return {
       id,
       title,
@@ -250,76 +250,76 @@ const LePointDeVenteEvents = {
       endDate,
       imageUrl: imageUrl || '',
       sourceUrl: sourceUrl || this.url,
-      venue: {
+      venue: { ...RegExp.venue: {
         name: 'Various Montreal Venues',
         address: '',
-        city: 'Montreal',
+        city: city,
         province: 'QC',
         country: 'Canada',
         postalCode: '',
         website: this.url,
         googleMapsUrl: ''
-      },
+      }, city },,
       categories: [...new Set(categories)],
       isFallback: false,
       lastUpdated: new Date(),
       sourceIdentifier: 'lepointdevente'
     };
   },
-  
-  async scrape() {
+
+  async scrape(city) {
     if (!this.enabled) {
       console.log(`${this.name} scraper is disabled`);
       return [];
     }
-    
+
     console.log(`🔍 Scraping events from ${this.name}...`);
     const events = [];
     let browser;
-    
+
     try {
       browser = await puppeteer.launch({
         headless: 'new',
         args: ['--no-sandbox', '--disable-setuid-sandbox']
-      });
-      
+      };
+
       const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 800 });
+      await page.setViewport({ width: 1280, height: 800 };
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-      
+
       page.setDefaultNavigationTimeout(30000);
-      
+
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' });
-      
+      await page.goto(this.url, { waitUntil: 'networkidle2' };
+
       const eventData = await page.evaluate(() => {
         const events = [];
-        
+
         const eventElements = Array.from(document.querySelectorAll(
           '.item, .event, .show, .ticket, .listing, article, .card'
         ));
-        
+
         eventElements.forEach(element => {
           let title = '';
           const titleElement = element.querySelector('h1, h2, h3, h4, .title, .name');
           if (titleElement) {
             title = titleElement.textContent.trim();
           }
-          
+
           if (!title) return;
-          
+
           let description = '';
           const descElement = element.querySelector('p, .description, .details, .venue');
           if (descElement) {
             description = descElement.textContent.trim();
           }
-          
+
           let dateText = '';
           const dateElement = element.querySelector('.date, .dates, time, .when');
           if (dateElement) {
             dateText = dateElement.textContent.trim();
           }
-          
+
           if (!dateText) {
             const text = element.textContent;
             const datePatterns = [
@@ -328,7 +328,7 @@ const LePointDeVenteEvents = {
               /\d{1,2}\/\d{1,2}\/\d{4}/,
               /\d{4}-\d{2}-\d{2}/
             ];
-            
+
             for (const pattern of datePatterns) {
               const match = text.match(pattern);
               if (match) {
@@ -337,19 +337,19 @@ const LePointDeVenteEvents = {
               }
             }
           }
-          
+
           let imageUrl = '';
           const imgElement = element.querySelector('img');
           if (imgElement && imgElement.src) {
             imageUrl = imgElement.src;
           }
-          
+
           let sourceUrl = '';
           const linkElement = element.querySelector('a');
           if (linkElement && linkElement.href) {
             sourceUrl = linkElement.href;
           }
-          
+
           if (title && (dateText || description.length > 10)) {
             events.push({
               title,
@@ -357,30 +357,30 @@ const LePointDeVenteEvents = {
               dateText,
               imageUrl,
               sourceUrl
-            });
+            };
           }
-        });
-        
+        };
+
         return events;
-      });
-      
+      };
+
       console.log(`Found ${eventData.length} potential events`);
-      
+
       for (const event of eventData) {
         if (!event.dateText) {
           console.log(`Skipping event "${event.title}" - no date information`);
           continue;
         }
-        
+
         const dateInfo = this.parseDateRange(event.dateText);
-        
+
         if (!dateInfo.startDate || !dateInfo.endDate) {
           console.log(`Skipping event "${event.title}" - invalid date: "${event.dateText}"`);
           continue;
         }
-        
+
         const eventId = this.generateEventId(event.title, dateInfo.startDate);
-        
+
         const eventObject = this.createEventObject(
           eventId,
           event.title,
@@ -390,12 +390,12 @@ const LePointDeVenteEvents = {
           event.imageUrl,
           event.sourceUrl
         );
-        
+
         events.push(eventObject);
       }
-      
+
       console.log(`Found ${events.length} total events from ${this.name}`);
-      
+
     } catch (error) {
       console.error(`Error scraping ${this.name}: ${error.message}`);
     } finally {
@@ -403,7 +403,7 @@ const LePointDeVenteEvents = {
         await browser.close();
       }
     }
-    
+
     return events;
   }
 };

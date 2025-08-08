@@ -1,6 +1,6 @@
 /**
  * VENUE Nightclub Scraper
- * 
+ *
  * This scraper provides information about events at VENUE Nightclub in Vancouver
  * Source: https://venuelive.ca/
  */
@@ -14,13 +14,13 @@ class VenueNightclubScraper {
     this.name = 'VENUE Nightclub';
     this.url = 'https://venuelive.ca/';
     this.sourceIdentifier = 'venue-nightclub';
-    
+
     // Venue information
     this.venue = {
       name: "VENUE Nightclub",
       id: "venue-nightclub-vancouver",
       address: "881 Granville St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6Z 1L1",
@@ -31,9 +31,9 @@ class VenueNightclubScraper {
       websiteUrl: "https://venuelive.ca/",
       description: "VENUE Nightclub is one of Vancouver's premier entertainment spots on the Granville Strip, known for its state-of-the-art sound system, lighting design, and diverse music programming. The space regularly hosts top DJs, live music performances, and special events in an upscale nightclub environment."
     };
-    
+
     // Upcoming events for 2025 - These would typically be scraped from the website
-    this.events = [
+    thiss = [
       {
         title: "Diplo - Revolution Tour",
         description: "Grammy Award-winning DJ and producer Diplo brings his Revolution Tour to VENUE Nightclub. Known for his genre-bending productions and high-energy performances, Diplo will deliver an unforgettable night of electronic dance music spanning his extensive catalog of hits and collaborations. Expect a cutting-edge audiovisual experience and the latest tracks from his recent releases.",
@@ -96,34 +96,34 @@ class VenueNightclubScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting VENUE Nightclub scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `venue-nightclub-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
-        
+
         // Create detailed description with formatted date and time
         const detailedDescription = `
 ${eventData.description}
@@ -137,7 +137,7 @@ ${eventData.performerUrl ? `Artist Website: ${eventData.performerUrl}` : ''}
 
 VENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.
         `;
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -154,14 +154,14 @@ VENUE Nightclub is located at 881 Granville Street in downtown Vancouver's enter
           ticketsRequired: true,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎧 Successfully created ${events.length} VENUE Nightclub events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in VENUE Nightclub scraper: ${error.message}`);
       return events;
@@ -170,3 +170,13 @@ VENUE Nightclub is located at 881 Granville Street in downtown Vancouver's enter
 }
 
 module.exports = new VenueNightclubScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VenueNightclubScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VenueNightclubScraper = VenueNightclubScraper;

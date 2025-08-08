@@ -1,6 +1,6 @@
 /**
  * Vancouver Symphony Orchestra Scraper
- * 
+ *
  * This scraper provides information about Vancouver Symphony Orchestra events
  * Source: https://www.vancouversymphony.ca/
  */
@@ -14,58 +14,58 @@ class VancouverSymphonyScraper {
     this.name = 'Vancouver Symphony Orchestra';
     this.url = 'https://www.vancouversymphony.ca/';
     this.sourceIdentifier = 'vancouver-symphony';
-    
+
     // Main venue - Orpheum Theatre
     this.mainVenue = {
       name: 'Orpheum Theatre',
       id: 'orpheum-theatre-vancouver',
       address: '601 Smithe St',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 3L4',
       coordinates: {
-        lat: 49.2809242, 
+        lat: 49.2809242,
         lng: -123.1204763
       },
       websiteUrl: 'https://www.vancouversymphony.ca/about-the-vso/orpheum-theatre/',
       description: "The Orpheum is a designated National Heritage Site and Vancouver's most elegant theatre. With its elaborately decorated interior and excellent acoustics, this venue is the VSO's main performing venue and one of the most beautiful concert halls in North America."
     };
-    
+
     // Secondary venue - Chan Centre
     this.chanCentre = {
       name: 'Chan Centre for the Performing Arts',
       id: 'chan-centre-ubc-vancouver',
       address: '6265 Crescent Rd',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6T 1Z1',
       coordinates: {
-        lat: 49.2696444, 
+        lat: 49.2696444,
         lng: -123.2565745
       },
       websiteUrl: 'https://chancentre.com/',
       description: "The Chan Centre for the Performing Arts at UBC is a magnificent performance facility renowned for its exceptional acoustics and intimate ambiance. The Chan Centre houses the Chan Shun Concert Hall, a 1,185-seat theatre with superb acoustics, making it ideal for musical performances."
     };
-    
+
     // Bell Performing Arts Centre in Surrey
     this.bellCentre = {
       name: 'Bell Performing Arts Centre',
       id: 'bell-performing-arts-centre-surrey',
       address: '6250 144 St',
-      city: 'Surrey',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V3X 1A1',
       coordinates: {
-        lat: 49.1146399, 
+        lat: 49.1146399,
         lng: -122.8254438
       },
       websiteUrl: 'https://bellperformingartscentre.com/',
       description: "The Bell Performing Arts Centre is a 1,052-seat theatre in Surrey featuring excellent acoustics and sightlines, designed for concerts, theatre, and dance performances."
     };
-    
+
     // 2025 Symphony Season performances
     // Each concert typically has 2-3 performances over a weekend
     this.concerts = [
@@ -176,7 +176,7 @@ class VancouverSymphonyScraper {
       }
     ];
   }
-  
+
   /**
    * Get venue object based on venue name
    */
@@ -191,57 +191,57 @@ class VancouverSymphonyScraper {
       return this.mainVenue; // Default to Orpheum
     }
   }
-  
+
   /**
    * Format program list into HTML
    */
   formatProgram(programArray) {
     return programArray.join("<br>");
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Vancouver Symphony Orchestra scraper...');
     const events = [];
-    
+
     try {
       // Generate events for each concert performance
       for (const concert of this.concerts) {
         const venue = this.getVenueByName(concert.venue);
-        
+
         // Create event for each performance date
         for (const performanceDate of concert.dates) {
           // Create end time (start time + duration)
           const endDate = new Date(performanceDate);
           endDate.setMinutes(endDate.getMinutes() + concert.duration);
-          
+
           // Format date for ID
-          const dateString = performanceDate.toISOString().split('T')[0];
+          const da = performanceDate.toISOString().split('T')[0];
           const timeString = performanceDate.toISOString().split('T')[1].substring(0, 5).replace(':', '-');
-          
+
           // Create unique ID
           const slugifiedTitle = concert.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-          const eventId = `vso-${slugifiedTitle}-${dateString}`;
-          
+          const eventId = `vso-${slugifiedTitle}-${da}`;
+
           // Format date and time for display
           const dateFormat = new Intl.DateTimeFormat('en-US', {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
             year: 'numeric'
-          });
-          
+          };
+
           const timeFormat = new Intl.DateTimeFormat('en-US', {
-            hour: 'numeric', 
-            minute: 'numeric', 
+            hour: 'numeric',
+            minute: 'numeric',
             hour12: true
-          });
-          
+          };
+
           const formattedDate = dateFormat.format(performanceDate);
           const formattedTime = timeFormat.format(performanceDate);
-          
+
           // Create detailed description
           const detailedDescription = `
 ${concert.description}
@@ -259,7 +259,7 @@ Time: ${formattedTime}
 Venue: ${concert.venue}
 Duration: Approximately ${Math.floor(concert.duration / 60)} hours ${concert.duration % 60 > 0 ? concert.duration % 60 + ' minutes' : ''}
           `;
-          
+
           // Create event object
           const event = {
             id: eventId,
@@ -276,15 +276,15 @@ Duration: Approximately ${Math.floor(concert.duration / 60)} hours ${concert.dur
             ticketsRequired: true,
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
           console.log(`✅ Added VSO event: ${concert.title} on ${formattedDate}`);
         }
       }
-      
+
       console.log(`🎻 Successfully created ${events.length} Vancouver Symphony Orchestra events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Vancouver Symphony Orchestra scraper: ${error.message}`);
       return events;
@@ -293,3 +293,13 @@ Duration: Approximately ${Math.floor(concert.duration / 60)} hours ${concert.dur
 }
 
 module.exports = new VancouverSymphonyScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverSymphonyScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VancouverSymphonyScraper = VancouverSymphonyScraper;

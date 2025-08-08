@@ -1,0 +1,382 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Culture & Heritage Events Scraper
+ * 
+ * Scrapes culture and heritage events from NYC museums, cultural centers, and historical venues
+ * URL: https://www.eventbrite.com/d/ny--new-york/arts-culture/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCCultureHeritageEvents {
+    constructor() {
+        this.venueName = 'NYC Culture & Heritage Events';
+        this.venueLocation = 'Various NYC Museums, Cultural Centers & Historical Venues';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/arts-culture/';
+        this.category = 'Culture & Heritage';
+    }
+
+    /**
+     * Scrape events from NYC Culture & Heritage Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🏛️ Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for culture/heritage-specific event containers
+            const eventSelectors = [
+                '.culture-event', '.heritage-event', '.cultural-event',
+                '.event-item', '.event-card', '.event', '.museum-event',
+                '[class*="culture"]', '[class*="heritage"]', '[class*="event"]',
+                '.card', '.content-card', '.exhibition-event', '.historical-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .exhibition-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time', '.exhibition-dates'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/museum/cultural center
+                        let venue = this.venueLocation;
+                        const venueSelectors = ['.venue', '.museum', '.gallery', '[class*="venue"]', '.location', '.cultural-center'];
+                        for (const venueSelector of venueSelectors) {
+                            const venueElement = $el.find(venueSelector).first();
+                            if (venueElement.length > 0) {
+                                const venueText = venueElement.text().trim();
+                                if (venueText && venueText.length > 0) {
+                                    venue = venueText.length > 70 ? venueText.substring(0, 70) + '...' : venueText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for cultural category/heritage type
+                        let culturalType = this.category;
+                        const typeSelectors = ['.cultural-type', '.heritage-type', '.category', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.length > 0) {
+                                    culturalType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for artist/curator/historian
+                        let curator = '';
+                        const curatorSelectors = ['.curator', '.artist', '.historian', '[class*="curator"]'];
+                        for (const curatorSelector of curatorSelectors) {
+                            const curatorElement = $el.find(curatorSelector).first();
+                            if (curatorElement.length > 0) {
+                                curator = curatorElement.text().trim();
+                                if (curator) break;
+                            }
+                        }
+
+                        // Look for cultural origin/period
+                        let culturalOrigin = '';
+                        const originSelectors = ['.origin', '.period', '.era', '[class*="origin"]'];
+                        for (const originSelector of originSelectors) {
+                            const originElement = $el.find(originSelector).first();
+                            if (originElement.length > 0) {
+                                culturalOrigin = originElement.text().trim();
+                                if (culturalOrigin) break;
+                            }
+                        }
+
+                        // Look for exhibition theme
+                        let theme = '';
+                        const themeSelectors = ['.theme', '.concept', '.focus', '[class*="theme"]'];
+                        for (const themeSelector of themeSelectors) {
+                            const themeElement = $el.find(themeSelector).first();
+                            if (themeElement.length > 0) {
+                                theme = themeElement.text().trim();
+                                if (theme) break;
+                            }
+                        }
+
+                        // Look for admission/entry fee
+                        let admission = '';
+                        const admissionSelectors = ['.admission', '.entry-fee', '.cost', '[class*="admission"]'];
+                        for (const admissionSelector of admissionSelectors) {
+                            const admissionElement = $el.find(admissionSelector).first();
+                            if (admissionElement.length > 0) {
+                                const admissionText = admissionElement.text().trim();
+                                if (admissionText && (admissionText.includes('$') || admissionText.toLowerCase().includes('free'))) {
+                                    admission = admissionText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for age group/audience
+                        let audience = '';
+                        const audienceSelectors = ['.audience', '.age-group', '.recommended-for', '[class*="audience"]'];
+                        for (const audienceSelector of audienceSelectors) {
+                            const audienceElement = $el.find(audienceSelector).first();
+                            if (audienceElement.length > 0) {
+                                const audienceText = audienceElement.text().trim();
+                                if (audienceText && audienceText.match(/\b(adults|children|families|all ages|teens)\b/i)) {
+                                    audience = audienceText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for guided tours
+                        let guidedTour = '';
+                        const tourSelectors = ['.guided-tour', '.tour', '.walkthrough', '[class*="tour"]'];
+                        for (const tourSelector of tourSelectors) {
+                            const tourElement = $el.find(tourSelector).first();
+                            if (tourElement.length > 0) {
+                                guidedTour = tourElement.text().trim();
+                                if (guidedTour) break;
+                            }
+                        }
+
+                        // Look for interactive elements
+                        let interactive = '';
+                        const interactiveSelectors = ['.interactive', '.hands-on', '.participatory', '[class*="interactive"]'];
+                        for (const interactiveSelector of interactiveSelectors) {
+                            const interactiveElement = $el.find(interactiveSelector).first();
+                            if (interactiveElement.length > 0) {
+                                interactive = interactiveElement.text().trim();
+                                if (interactive) break;
+                            }
+                        }
+
+                        // Look for multimedia/technology features
+                        let multimedia = '';
+                        const multimediaSelectors = ['.multimedia', '.digital', '.virtual', '[class*="multimedia"]'];
+                        for (const multimediaSelector of multimediaSelectors) {
+                            const multimediaElement = $el.find(multimediaSelector).first();
+                            if (multimediaElement.length > 0) {
+                                multimedia = multimediaElement.text().trim();
+                                if (multimedia) break;
+                            }
+                        }
+
+                        // Look for special programs/events
+                        let specialProgram = '';
+                        const programSelectors = ['.special-program', '.events', '.workshops', '[class*="program"]'];
+                        for (const programSelector of programSelectors) {
+                            const programElement = $el.find(programSelector).first();
+                            if (programElement.length > 0) {
+                                specialProgram = programElement.text().trim();
+                                if (specialProgram) break;
+                            }
+                        }
+
+                        // Look for accessibility features
+                        let accessibility = '';
+                        const accessSelectors = ['.accessibility', '.wheelchair', '.accessible', '[class*="access"]'];
+                        for (const accessSelector of accessSelectors) {
+                            const accessElement = $el.find(accessSelector).first();
+                            if (accessElement.length > 0) {
+                                accessibility = accessElement.text().trim();
+                                if (accessibility) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: venue,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for cultural event schedule',
+                            category: culturalType,
+                            curator: curator,
+                            culturalOrigin: culturalOrigin,
+                            theme: theme,
+                            admission: admission,
+                            audience: audience,
+                            guidedTour: guidedTour,
+                            interactive: interactive,
+                            multimedia: multimedia,
+                            specialProgram: specialProgram,
+                            accessibility: accessibility,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCCultureHeritageEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general culture/heritage information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasCultureKeywords = text.match(/\b(culture|heritage|cultural|history|art|museum|exhibition|gallery|tradition)\b/i);
+                    const hasEventPattern = text.match(/\b(event|exhibition|show|display|tour|workshop|lecture|presentation)\b/i);
+                    
+                    if (hasCultureKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for cultural event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCCultureHeritageEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid culture/heritage keywords
+        const validKeywords = [
+            'culture', 'heritage', 'cultural', 'history', 'art', 'museum',
+            'exhibition', 'gallery', 'tradition', 'event', 'show', 'display',
+            'tour', 'workshop', 'lecture', 'presentation', 'historical'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCCultureHeritageEvents;

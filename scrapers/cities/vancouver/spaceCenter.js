@@ -1,6 +1,6 @@
 /**
  * H.R. MacMillan Space Centre Scraper
- * 
+ *
  * This scraper provides information about events at the H.R. MacMillan Space Centre in Vancouver
  * Source: https://www.spacecentre.ca/
  */
@@ -12,13 +12,13 @@ class SpaceCenterScraper {
     this.name = 'H.R. MacMillan Space Centre';
     this.url = 'https://www.spacecentre.ca/';
     this.sourceIdentifier = 'space-centre';
-    
+
     // Venue information
     this.venue = {
       name: "H.R. MacMillan Space Centre",
       id: "hr-macmillan-space-centre",
       address: "1100 Chestnut St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6J 3J9",
@@ -29,9 +29,9 @@ class SpaceCenterScraper {
       websiteUrl: "https://www.spacecentre.ca/",
       description: "The H.R. MacMillan Space Centre is a non-profit community resource that brings the wonder of space to Earth while providing a personal sense of ongoing discovery. Through innovative programming, exhibits and activities, our goal is to inspire sustained interest in the fields of Earth science, space science and astronomy from a Canadian perspective."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Cosmic Nights: After Dark at the Space Centre",
         description: "Experience the Space Centre after hours at this adults-only evening event combining science, socializing, and spirits. July's theme 'Mars: The Red Planet' explores our fascinating planetary neighbor with special exhibits on Mars exploration missions, recent scientific discoveries, and the challenges of potential human colonization. Enjoy access to all galleries, telescope viewing (weather permitting), themed cocktails, interactive demonstrations, and presentations from astronomy experts. This popular monthly series offers a unique night out that's both educational and entertaining.",
@@ -80,7 +80,7 @@ class SpaceCenterScraper {
       },
       {
         title: "Guest Lecture: Dr. Sarah Gallagher on Black Holes",
-        description: "We're thrilled to welcome renowned astrophysicist Dr. Sarah Gallagher for a fascinating lecture on black holes. As a leading researcher in the field and science advisor to the Canadian Space Agency, Dr. Gallagher will discuss the latest discoveries about these mysterious cosmic objects, from stellar-mass black holes to the supermassive giants at the centers of galaxies. The presentation will cover recent breakthroughs including the first black hole image from the Event Horizon Telescope and gravitational wave detections. The evening includes a Q&A session and post-lecture reception with light refreshments.",
+        description: "We're thrilled to welcome renowned astrophysicist Dr. Sarah Gallagher for a fascinating lecture on black holes. As a leading researcher in the field and science advisor to the Canadian Space Agency, Dr. Gallagher will discuss the la Horizon Telescope and gravitational wave detections. The evening includes a Q&A session and post-lecture reception with light refreshments.",
         date: new Date("2025-08-07T19:00:00"),
         endTime: new Date("2025-08-07T21:00:00"),
         imageUrl: "https://www.spacecentre.ca/wp-content/uploads/2025/07/black-hole-lecture.jpg",
@@ -102,45 +102,45 @@ class SpaceCenterScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting H.R. MacMillan Space Centre scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `space-centre-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         // Check if this is a multi-day event like a camp
         if (eventData.endTime && eventData.endTime.getDate() !== eventData.date.getDate()) {
           // Multi-day event
@@ -152,31 +152,31 @@ class SpaceCenterScraper {
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         }
-        
+
         if (eventData.recurrence) {
           detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
         }
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, please book in advance\n`;
         }
-        
+
         detailedDescription += `\nLocation: H.R. MacMillan Space Centre, 1100 Chestnut Street, Vancouver (in Vanier Park). The Space Centre is accessible by public transit and has paid parking available nearby.`;
-        
+
         // Create categories
         const categories = ['space', 'astronomy', 'science', 'education'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Adults') {
           categories.push('nightlife', 'social', '19+');
         } else if (eventData.category === 'Planetarium') {
@@ -190,7 +190,7 @@ class SpaceCenterScraper {
         } else if (eventData.category === 'Stargazing') {
           categories.push('observatory', 'night sky', 'meteor shower', 'outdoor');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -202,19 +202,19 @@ class SpaceCenterScraper {
           category: 'science',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🚀 Successfully created ${events.length} H.R. MacMillan Space Centre events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in H.R. MacMillan Space Centre scraper: ${error.message}`);
       return events;
@@ -223,3 +223,13 @@ class SpaceCenterScraper {
 }
 
 module.exports = new SpaceCenterScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SpaceCenterScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SpaceCenterScraper = SpaceCenterScraper;

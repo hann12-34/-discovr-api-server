@@ -1,6 +1,6 @@
 /**
  * Vancouver Aquarium Scraper
- * 
+ *
  * This scraper provides information about events at the Vancouver Aquarium
  * Source: https://www.vanaqua.org/
  */
@@ -12,13 +12,13 @@ class VancouverAquariumScraper {
     this.name = 'Vancouver Aquarium';
     this.url = 'https://www.vanaqua.org/';
     this.sourceIdentifier = 'vancouver-aquarium';
-    
+
     // Venue information
     this.venue = {
       name: "Vancouver Aquarium",
       id: "vancouver-aquarium",
       address: "845 Avison Way",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6G 3E2",
@@ -29,9 +29,9 @@ class VancouverAquariumScraper {
       websiteUrl: "https://www.vanaqua.org/",
       description: "The Vancouver Aquarium is a world-class marine science center dedicated to conservation, research, and education. Located in Stanley Park, it houses over 50,000 animals representing 792 species, including sea otters, beluga whales, dolphins, and countless marine invertebrates. As Canada's largest aquarium, it offers immersive exhibits, behind-the-scenes experiences, and innovative programming that connects visitors to the wonders of aquatic life while promoting ocean conservation."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Ocean After Hours",
         description: "Experience the Vancouver Aquarium in a whole new light at our adults-only evening event. Ocean After Hours transforms the aquarium into a sophisticated venue with themed cocktails, live music, and special animal presentations. Explore the galleries without crowds, enjoy sustainable seafood canapés from local chefs, and engage with marine educators stationed throughout the exhibits. Each event features a different ocean conservation theme with guest speakers and interactive displays.",
@@ -114,80 +114,80 @@ class VancouverAquariumScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Vancouver Aquarium scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `vancouver-aquarium-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         let formattedStartTime, formattedEndTime;
-        
+
         if (eventData.endDate && !eventData.endTime) {
           // This is an overnight event
           formattedStartTime = timeFormat.format(eventData.date);
           formattedEndTime = timeFormat.format(eventData.endDate);
           const nextDayDate = dateFormat.format(eventData.endDate);
-          
+
           // Create detailed description with formatted date and time for overnight events
           let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
           detailedDescription += `Start: ${formattedDate} at ${formattedStartTime}\n`;
           detailedDescription += `End: ${nextDayDate} at ${formattedEndTime}\n`;
-          
+
           if (eventData.recurrence) {
             detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
           }
-          
+
           if (eventData.price) {
             detailedDescription += `Price: ${eventData.price}\n`;
           }
-          
+
           if (eventData.ageRestriction) {
             detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
           }
-          
+
           if (eventData.ticketsRequired) {
             detailedDescription += `Tickets: Required, please book in advance\n`;
           }
-          
+
           detailedDescription += `\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.`;
-          
+
           // Create categories
           const categories = ['aquarium', 'marine life', 'education', 'family'];
-          
+
           // Add event-specific categories
           categories.push(eventData.category.toLowerCase());
-          
+
           if (eventData.category === 'Family') {
             categories.push('overnight', 'children', 'sleepover', 'special experience');
           }
-          
+
           // Create event object for overnight event
           const event = {
             id: eventId,
@@ -199,48 +199,48 @@ class VancouverAquariumScraper {
             category: 'attraction',
             categories: categories,
             sourceURL: this.url,
-            officialWebsite: eventData.eventLink,
+            officialWebsite: eventDataLink,
             image: eventData.imageUrl || null,
             ticketsRequired: !!eventData.ticketsRequired,
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
           console.log(`✅ Added overnight event: ${eventData.title} on ${formattedDate}`);
         } else {
           // Regular event with start and end time
           formattedStartTime = timeFormat.format(eventData.date);
           formattedEndTime = timeFormat.format(eventData.endTime);
-          
+
           // Create detailed description with formatted date and time
           let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-          
+
           if (eventData.recurrence) {
             detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
           }
-          
+
           if (eventData.price) {
             detailedDescription += `Price: ${eventData.price}\n`;
           }
-          
+
           if (eventData.ageRestriction) {
             detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
           }
-          
+
           if (eventData.ticketsRequired) {
             detailedDescription += `Tickets: Required, please book in advance\n`;
           }
-          
+
           detailedDescription += `\nLocation: Vancouver Aquarium, 845 Avison Way in Stanley Park, Vancouver. The Vancouver Aquarium is located in Stanley Park and is accessible by car, public transit, and the Stanley Park shuttle.`;
-          
+
           // Create categories
           const categories = ['aquarium', 'marine life', 'education'];
-          
+
           // Add event-specific categories
           categories.push(eventData.category.toLowerCase());
-          
+
           if (eventData.category === 'Adults') {
             categories.push('nightlife', 'social', '19+', 'evening event');
           } else if (eventData.category === 'Educational') {
@@ -254,7 +254,7 @@ class VancouverAquariumScraper {
           } else if (eventData.category === 'Tour') {
             categories.push('behind-the-scenes', 'exclusive', 'animal care');
           }
-          
+
           // Create event object
           const event = {
             id: eventId,
@@ -266,20 +266,20 @@ class VancouverAquariumScraper {
             category: 'attraction',
             categories: categories,
             sourceURL: this.url,
-            officialWebsite: eventData.eventLink,
+            officialWebsite: eventDataLink,
             image: eventData.imageUrl || null,
             ticketsRequired: !!eventData.ticketsRequired,
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
           console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
         }
       }
-      
+
       console.log(`🐋 Successfully created ${events.length} Vancouver Aquarium events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Vancouver Aquarium scraper: ${error.message}`);
       return events;
@@ -288,3 +288,13 @@ class VancouverAquariumScraper {
 }
 
 module.exports = new VancouverAquariumScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverAquariumScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.VancouverAquariumScraper = VancouverAquariumScraper;

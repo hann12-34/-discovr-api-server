@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-celebration-of-light.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🎆 Scraping events from Celebration of Light Vancouver...');
 
@@ -9,6 +14,7 @@ async function scrape() {
 
         // Main festival event
         events.push({
+            id: 'celebration-light-2025-main',
             title: 'Honda Celebration of Light 2025',
             startDate: new Date('2025-07-26T19:00:00'),
             endDate: new Date('2025-08-09T23:00:00'),
@@ -16,9 +22,10 @@ async function scrape() {
             category: 'Festival',
             subcategory: 'Fireworks Festival',
             venue: {
-                name: 'English Bay Beach',
+                name: city,
+                venue: 'English Bay Beach',
                 address: '1700 Beach Ave, Vancouver, BC',
-                city: 'Vancouver',
+                city: city,
                 province: 'British Columbia',
                 country: 'Canada'
             },
@@ -32,7 +39,7 @@ async function scrape() {
                 isFree: true,
                 ticketUrl: 'https://hondacelebrationoflight.com/'
             }
-        });
+        };
 
         // Specific fireworks nights
         const fireworksEvents = [
@@ -60,25 +67,28 @@ async function scrape() {
         ];
 
         fireworksEvents.forEach(event => {
-            const endDate = new Date(event.date.getTime() + 30 * 60 * 1000); // 30 minutes duration
+            const endDate = new Date(event.date.getTime() + 60 * 60 * 1000); // 1 hour duration
+            const eventId = `celebration-light-${event.country.toLowerCase().replace(/\s+/g, '-')}-2025`;
 
             events.push({
+                id: eventId,
                 title: event.title,
                 startDate: event.date,
                 endDate: endDate,
                 description: event.description,
-                category: 'Entertainment',
-                subcategory: 'Fireworks Competition',
+                category: 'Festival',
+                subcategory: 'Fireworks Show',
                 venue: {
-                    name: 'English Bay Beach',
+                    name: city,
+                    venue: 'English Bay Beach',
                     address: '1700 Beach Ave, Vancouver, BC',
-                    city: 'Vancouver',
+                    city: city,
                     province: 'British Columbia',
                     country: 'Canada'
                 },
                 sourceUrl: 'https://hondacelebrationoflight.com/',
                 source: 'Honda Celebration of Light',
-                sourceId: `celebration-light-${event.country.toLowerCase().replace(/\s+/g, '-')}-2025`,
+                sourceId: eventId,
                 lastUpdated: new Date(),
                 tags: ['fireworks', 'celebration-of-light', event.country.toLowerCase().replace(/\s+/g, '-'), 'english-bay', 'free'],
                 ticketInfo: {
@@ -86,8 +96,8 @@ async function scrape() {
                     isFree: true,
                     ticketUrl: 'https://hondacelebrationoflight.com/'
                 }
-            });
-        });
+            };
+        };
 
         // Festival activities and ancillary events
         const festivalEvents = [
@@ -113,8 +123,10 @@ async function scrape() {
 
         festivalEvents.forEach(event => {
             const endDate = new Date(event.date.getTime() + event.duration * 60 * 60 * 1000);
+            const eventId = `celebration-light-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
 
             events.push({
+                id: eventId,
                 title: event.title,
                 startDate: event.date,
                 endDate: endDate,
@@ -122,15 +134,16 @@ async function scrape() {
                 category: 'Festival',
                 subcategory: 'Beach Festival',
                 venue: {
-                    name: 'English Bay Beach',
+                    name: city,
+                    venue: 'English Bay Beach',
                     address: '1700 Beach Ave, Vancouver, BC',
-                    city: 'Vancouver',
+                    city: city,
                     province: 'British Columbia',
                     country: 'Canada'
                 },
                 sourceUrl: 'https://hondacelebrationoflight.com/',
                 source: 'Honda Celebration of Light',
-                sourceId: `celebration-light-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+                sourceId: eventId,
                 lastUpdated: new Date(),
                 tags: ['celebration-of-light', 'festival', 'english-bay', 'beach', 'free'],
                 ticketInfo: {
@@ -138,8 +151,8 @@ async function scrape() {
                     isFree: true,
                     ticketUrl: 'https://hondacelebrationoflight.com/'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from Celebration of Light`);
         return events;
@@ -152,3 +165,7 @@ async function scrape() {
 
 const scrapeEvents = scrape;
 module.exports = { scrape, scrapeEvents };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

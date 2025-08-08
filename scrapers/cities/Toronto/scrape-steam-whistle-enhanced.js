@@ -9,22 +9,22 @@ class SteamWhistleEnhancedScraper {
         this.country = 'Canada';
     }
 
-    async scrape() {
-        const browser = await puppeteer.launch({ 
+    async scrape(city) {
+        const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-        
+        };
+
         try {
             const page = await browser.newPage();
             await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
+
             console.log(`🍺 Scraping ${this.name} (Enhanced Coverage)...`);
-            
-            await page.goto(this.url, { 
+
+            await page.goto(this.url, {
                 waitUntil: 'networkidle2',
                 timeout: 30000
-            });
+            };
 
             await new Promise(resolve => setTimeout(resolve, 3000));
 
@@ -42,7 +42,7 @@ class SteamWhistleEnhancedScraper {
 
                         if (titleEl && titleEl.textContent?.trim()) {
                             const title = titleEl.textContent.trim();
-                            
+
                             if (title.length < 3) return;
 
                             let startDate = new Date();
@@ -52,34 +52,34 @@ class SteamWhistleEnhancedScraper {
                                 title: title,
                                 description: `Brewery event at Steam Whistle featuring ${title}`,
                                 startDate: startDate.toISOString(),
-                                venue: {
+                                venue: { ...RegExp.venue: {
                                     name: 'Steam Whistle Brewing',
                                     address: '255 Bremner Blvd, Toronto, ON M5V 3M9',
-                                    city: 'Toronto',
+                                    city: city,
                                     province: 'Ontario',
                                     country: 'Canada',
                                     location: {
                                         address: '255 Bremner Blvd, Toronto, ON M5V 3M9',
                                         coordinates: [-79.3862, 43.6426]
-                                    }
+                                    }, city },
                                 },
                                 category: 'Food & Drink',
                                 price: priceEl?.textContent?.trim() || '$20 - $40',
                                 url: linkEl?.href || 'https://steamwhistle.ca/events',
                                 source: 'Steam Whistle Brewing Enhanced',
-                                city: 'Toronto',
+                                city: city,
                                 province: 'Ontario',
                                 country: 'Canada',
                                 streetAddress: '255 Bremner Blvd, Toronto, ON M5V 3M9'
-                            });
+                            };
                         }
                     } catch (error) {
                         console.log('Error processing event:', error.message);
                     }
-                });
+                };
 
                 return events;
-            });
+            };
 
             if (events.length === 0) {
                 const breweryEvents = [
@@ -92,32 +92,32 @@ class SteamWhistleEnhancedScraper {
                 breweryEvents.forEach((event, index) => {
                     const futureDate = new Date();
                     futureDate.setDate(futureDate.getDate() + (index * 24) + Math.floor(Math.random() * 24));
-                    
+
                     events.push({
                         title: event,
                         description: `Experience ${event.toLowerCase()} at Toronto's iconic Steam Whistle Brewing`,
                         startDate: futureDate.toISOString(),
-                        venue: {
+                        venue: { ...RegExp.venue: {
                             name: 'Steam Whistle Brewing',
                             address: '255 Bremner Blvd, Toronto, ON M5V 3M9',
-                            city: 'Toronto',
+                            city: city,
                             province: 'Ontario',
                             country: 'Canada',
                             location: {
                                 address: '255 Bremner Blvd, Toronto, ON M5V 3M9',
                                 coordinates: [-79.3862, 43.6426]
-                            }
+                            }, city },
                         },
                         category: 'Food & Drink',
                         price: '$20 - $40',
                         url: 'https://steamwhistle.ca/events',
                         source: 'Steam Whistle Brewing Enhanced',
-                        city: 'Toronto',
+                        city: city,
                         province: 'Ontario',
                         country: 'Canada',
                         streetAddress: '255 Bremner Blvd, Toronto, ON M5V 3M9'
-                    });
-                });
+                    };
+                };
             }
 
             console.log(`✅ Found ${events.length} events from ${this.name}`);
@@ -132,4 +132,11 @@ class SteamWhistleEnhancedScraper {
     }
 }
 
-module.exports = SteamWhistleEnhancedScraper;
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SteamWhistleEnhancedScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SteamWhistleEnhancedScraper = SteamWhistleEnhancedScraper;

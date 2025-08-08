@@ -1,6 +1,6 @@
 /**
  * Red Room Scraper
- * 
+ *
  * This scraper provides information about events at the Red Room in Vancouver
  * Source: https://www.redroomonrichards.com/
  */
@@ -12,13 +12,13 @@ class RedRoomScraper {
     this.name = 'Red Room';
     this.url = 'https://www.redroomonrichards.com/';
     this.sourceIdentifier = 'red-room';
-    
+
     // Venue information
     this.venue = {
       name: "Red Room",
       id: "red-room-vancouver",
       address: "398 Richards St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6B 2Z3",
@@ -29,9 +29,9 @@ class RedRoomScraper {
       websiteUrl: "https://www.redroomonrichards.com/",
       description: "The Red Room is an underground nightclub and music venue in downtown Vancouver known for its intimate atmosphere, powerful sound system, and diverse programming. This subterranean venue hosts everything from electronic music nights to hip-hop shows, indie rock concerts, and cultural events."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Bass Coast Presents: Liquid Stranger",
         description: "Bass Coast Festival brings Swedish-born electronic music producer Liquid Stranger to Red Room for a night of boundary-pushing bass music. Known for his genre-defying approach that combines elements of dubstep, trap, downtempo, and experimental electronic sounds, Liquid Stranger delivers an unpredictable and immersive sonic journey. The Red Room's intimate underground setting and powerful Funktion-One sound system provide the perfect environment to experience his bass-heavy productions. Local support will be provided by Bass Coast resident DJs, creating a showcase of both international and homegrown talent. This event is part of Bass Coast's year-round programming that extends the festival experience into Vancouver's club scene.",
@@ -60,7 +60,7 @@ class RedRoomScraper {
       },
       {
         title: "Indie Rock Showcase: Said The Whale & Friends",
-        description: "Vancouver indie rock darlings Said The Whale headline this showcase of local talent at the Red Room. Fresh off the release of their latest album, the JUNO Award-winning band brings their signature blend of catchy hooks, thoughtful lyrics, and west coast influences to this intimate underground venue. The night features a carefully curated lineup of supporting acts including emerging indie artists Haley Blais and Sleepy Gonzales. This all-ages afternoon show provides an opportunity for younger fans to experience live music in a club setting, with a strict no alcohol policy in effect. The event highlights Vancouver's thriving independent music scene and supports local artists through merchandise sales and networking opportunities.",
+        description: "Vancouver indie rock darlings Said The Whale headline this showcase of local talent at the Red Room. Fresh off the release of their la highlights Vancouver's thriving independent music scene and supports local artists through merchandise sales and networking opportunities.",
         date: new Date("2025-07-19T16:00:00"),
         endTime: new Date("2025-07-19T20:00:00"),
         imageUrl: "https://www.redroomonrichards.com/wp-content/uploads/2025/06/said-the-whale-2025.jpg",
@@ -72,7 +72,7 @@ class RedRoomScraper {
       },
       {
         title: "Asian Underground: K-Pop & J-Pop Night",
-        description: "Vancouver's longest-running K-Pop and J-Pop dance party returns to the Red Room with a night dedicated to the biggest hits from Korean and Japanese pop music. DJs Rei So and KTown spin everything from mainstream chart-toppers to underground favorites, covering K-pop, J-pop, city pop, and Korean hip-hop. The event features dance contests with prizes for best choreography, random dance play sessions where participants can show off their knowledge of popular dance routines, and special themed drink offerings. Attendees are encouraged to dress in their favorite Asian pop culture inspired outfits, with a photo booth available to capture memories. This inclusive event has built a dedicated community of Asian pop music enthusiasts from across the Lower Mainland.",
+        description: "Vancouver's longest-running K-Pop and J-Pop dance party returns to the Red Room with a night dedicated to the biggest hits from Korean and Japanese pop music. DJs Rei So and KTown spin everything from mainstream chart-toppers to underground favorites, covering K-pop, J-pop, city pop, and Korean hip-hop. The event features dance con has built a dedicated community of Asian pop music enthusiasts from across the Lower Mainland.",
         date: new Date("2025-07-25T22:00:00"),
         endTime: new Date("2025-07-26T03:00:00"),
         imageUrl: "https://www.redroomonrichards.com/wp-content/uploads/2025/06/asian-underground-july.jpg",
@@ -85,70 +85,70 @@ class RedRoomScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Red Room scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `red-room-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Available online or at the door if not sold out\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: The Red Room is located underground at 398 Richards Street in downtown Vancouver. The venue features a powerful Funktion-One sound system, full bar service, and an intimate atmosphere. Valid government-issued photo ID is required for all 19+ events.`;
-        
+
         // Create categories
         const categories = ['nightlife', 'music', 'underground'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Electronic') {
           categories.push('bass music', 'dubstep', 'edm');
         } else if (eventData.category === 'Hip-Hop') {
@@ -158,7 +158,7 @@ class RedRoomScraper {
         } else if (eventData.category === 'Dance Party') {
           categories.push('k-pop', 'j-pop', 'asian music');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -170,19 +170,19 @@ class RedRoomScraper {
           category: 'nightlife',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎵 Successfully created ${events.length} Red Room events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Red Room scraper: ${error.message}`);
       return events;
@@ -191,3 +191,13 @@ class RedRoomScraper {
 }
 
 module.exports = new RedRoomScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new RedRoomScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.RedRoomScraper = RedRoomScraper;

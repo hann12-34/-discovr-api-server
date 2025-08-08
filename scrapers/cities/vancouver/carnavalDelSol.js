@@ -1,6 +1,6 @@
 /**
  * Carnaval del Sol Scraper
- * 
+ *
  * This scraper provides information about events at the Carnaval del Sol festival
  * Source: https://www.carnavaldelsol.ca/
  */
@@ -14,13 +14,13 @@ class CarnavalDelSolScraper {
     this.name = 'Carnaval del Sol';
     this.url = 'https://www.carnavaldelsol.ca/';
     this.sourceIdentifier = 'carnaval-del-sol';
-    
+
     // Main festival venue
     this.venue = {
       name: 'Concord Pacific Place',
       id: 'concord-pacific-place',
       address: '88 Pacific Boulevard',
-      city: 'Vancouver',
+      city: city,
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6Z 2R6',
@@ -31,19 +31,19 @@ class CarnavalDelSolScraper {
       websiteUrl: 'https://www.carnavaldelsol.ca/',
       description: "Concord Pacific Place hosts Vancouver's Carnaval del Sol, the largest Latin American festival in the Pacific Northwest. This vibrant outdoor space transforms into a celebration of Latin American culture with multiple stages for live music and dance performances, cultural pavilions representing different countries, food vendors offering authentic Latin cuisine, and a variety of activities for all ages."
     };
-    
+
     // Festival dates for 2025
     this.festivalStartDate = new Date('2025-07-12T10:00:00');
     this.festivalEndDate = new Date('2025-07-13T22:00:00');
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Carnaval del Sol scraper...');
     const events = [];
-    
+
     try {
       // Create the main festival event (Saturday)
       const saturdayEvent = {
@@ -61,13 +61,13 @@ class CarnavalDelSolScraper {
         ticketsRequired: true,
         lastUpdated: new Date()
       };
-      
+
       // Set end time for Saturday (10:00 AM - 10:00 PM)
       saturdayEvent.endDate.setHours(22, 0, 0);
-      
+
       events.push(saturdayEvent);
       console.log(`✅ Added event: ${saturdayEvent.title}`);
-      
+
       // Create the main festival event (Sunday)
       const sundayEvent = {
         id: `carnaval-del-sol-sunday-${this.festivalEndDate.toISOString().split('T')[0]}`,
@@ -84,16 +84,16 @@ class CarnavalDelSolScraper {
         ticketsRequired: true,
         lastUpdated: new Date()
       };
-      
+
       // Set times for Sunday (10:00 AM - 10:00 PM)
       sundayEvent.startDate.setHours(10, 0, 0);
-      
+
       events.push(sundayEvent);
       console.log(`✅ Added event: ${sundayEvent.title}`);
-      
+
       console.log(`🎉 Successfully created ${events.length} Carnaval del Sol events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Carnaval del Sol scraper: ${error.message}`);
       return events;
@@ -102,3 +102,13 @@ class CarnavalDelSolScraper {
 }
 
 module.exports = new CarnavalDelSolScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new CarnavalDelSolScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.CarnavalDelSolScraper = CarnavalDelSolScraper;

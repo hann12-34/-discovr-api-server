@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Biltmore Cabaret Events Scraper
  * Scrapes events from The Biltmore Cabaret in Vancouver
@@ -275,7 +276,7 @@ const BiltmoreCabaretEvents = {
       venue: {
         name: 'The Biltmore Cabaret',
         address: '2755 Prince Edward St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V5T 0A9',

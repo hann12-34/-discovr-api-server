@@ -574,17 +574,26 @@
                             <p class="card-text">${formatVenue(event)}</p>
                             <p class="card-text"><small class="text-muted">${formatDate(event.startDate)}</small></p>
                             <div class="d-flex justify-content-between mt-3">
-                                <button class="btn btn-primary" onclick="openEventModal(this.closest('.card'))">
-                                    <i class="bi bi-pencil-square"></i> Edit
-                                </button>
-                                ${!isFeatured ? 
-                                    `<button class="btn btn-success" onclick="addToFeatured('${event._id || event.id}')">
-                                        <i class="bi bi-star-fill"></i> Feature
-                                    </button>` : 
-                                    `<button class="btn btn-warning" onclick="removeFeaturedEvent('${event._id || event.id}', event)">
-                                        <i class="bi bi-star"></i> Unfeature
-                                    </button>`
-                                }
+                                <div>
+                                    <button class="btn btn-primary" onclick="openEventModal(this.closest('.card'))">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </button>
+                                    ${(event.url || event.sourceUrl) ? 
+                                        `<a href="${event.url || event.sourceUrl}" target="_blank" class="btn btn-outline-primary ms-2">
+                                            <i class="bi bi-box-arrow-up-right"></i> View
+                                        </a>` : ''
+                                    }
+                                </div>
+                                <div>
+                                    ${!isFeatured ? 
+                                        `<button class="btn btn-success" onclick="addToFeatured('${event._id || event.id}')">
+                                            <i class="bi bi-star-fill"></i> Feature
+                                        </button>` : 
+                                        `<button class="btn btn-warning" onclick="removeFeaturedEvent('${event._id || event.id}', event)">
+                                            <i class="bi bi-star"></i> Unfeature
+                                        </button>`
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>

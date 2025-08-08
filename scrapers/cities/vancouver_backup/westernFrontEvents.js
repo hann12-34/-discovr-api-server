@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Western Front Gallery Events Scraper
  * Scrapes events from Western Front Gallery in Vancouver
@@ -148,7 +149,7 @@ const WesternFrontEvents = {
       venue: {
         name: 'Western Front Gallery',
         address: '303 East 8th Avenue',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V5T 1S1',

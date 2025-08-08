@@ -1,0 +1,347 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Education & Learning Events Scraper
+ * 
+ * Scrapes education and learning events from NYC schools and educational institutions
+ * URL: https://www.eventbrite.com/d/ny--new-york/classes-workshops/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCEducationLearningEvents {
+    constructor() {
+        this.venueName = 'NYC Education & Learning Events';
+        this.venueLocation = 'Various NYC Schools & Educational Centers';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/classes-workshops/';
+        this.category = 'Education & Learning';
+    }
+
+    /**
+     * Scrape events from NYC Education & Learning Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`📚 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for education-specific event containers
+            const eventSelectors = [
+                '.education-event', '.learning-event', '.class-event',
+                '.event-item', '.event-card', '.event', '.workshop-event',
+                '[class*="education"]', '[class*="learning"]', '[class*="event"]',
+                '.card', '.content-card', '.seminar-event', '.lecture-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .class-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time', '.class-time'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/institution
+                        let institution = this.venueLocation;
+                        const institutionSelectors = ['.venue', '.institution', '.school', '[class*="venue"]', '.university', '.college'];
+                        for (const instSelector of institutionSelectors) {
+                            const instElement = $el.find(instSelector).first();
+                            if (instElement.length > 0) {
+                                const instText = instElement.text().trim();
+                                if (instText && instText.length > 0) {
+                                    institution = instText.length > 70 ? instText.substring(0, 70) + '...' : instText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for subject/topic
+                        let subject = '';
+                        const subjectSelectors = ['.subject', '.topic', '.course', '[class*="subject"]'];
+                        for (const subjectSelector of subjectSelectors) {
+                            const subjectElement = $el.find(subjectSelector).first();
+                            if (subjectElement.length > 0) {
+                                subject = subjectElement.text().trim();
+                                if (subject) break;
+                            }
+                        }
+
+                        // Look for instructor/teacher
+                        let instructor = '';
+                        const instructorSelectors = ['.instructor', '.teacher', '.professor', '[class*="instructor"]'];
+                        for (const instructorSelector of instructorSelectors) {
+                            const instructorElement = $el.find(instructorSelector).first();
+                            if (instructorElement.length > 0) {
+                                instructor = instructorElement.text().trim();
+                                if (instructor) break;
+                            }
+                        }
+
+                        // Look for skill level
+                        let level = '';
+                        const levelSelectors = ['.level', '.skill-level', '.difficulty', '[class*="level"]'];
+                        for (const levelSelector of levelSelectors) {
+                            const levelElement = $el.find(levelSelector).first();
+                            if (levelElement.length > 0) {
+                                const levelText = levelElement.text().trim();
+                                if (levelText && levelText.match(/\b(beginner|intermediate|advanced|all levels|introductory)\b/i)) {
+                                    level = levelText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for duration
+                        let duration = '';
+                        const durationSelectors = ['.duration', '.length', '.time-commitment', '[class*="duration"]'];
+                        for (const durationSelector of durationSelectors) {
+                            const durationElement = $el.find(durationSelector).first();
+                            if (durationElement.length > 0) {
+                                const durationText = durationElement.text().trim();
+                                if (durationText && durationText.match(/\d+\s*(hour|hr|day|week|month)/i)) {
+                                    duration = durationText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for cost/tuition
+                        let cost = '';
+                        const costSelectors = ['.cost', '.tuition', '.fee', '[class*="cost"]'];
+                        for (const costSelector of costSelectors) {
+                            const costElement = $el.find(costSelector).first();
+                            if (costElement.length > 0) {
+                                const costText = costElement.text().trim();
+                                if (costText && (costText.includes('$') || costText.toLowerCase().includes('free'))) {
+                                    cost = costText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for prerequisites
+                        let prerequisites = '';
+                        const prereqSelectors = ['.prerequisites', '.requirements', '.pre-req', '[class*="prerequisite"]'];
+                        for (const prereqSelector of prereqSelectors) {
+                            const prereqElement = $el.find(prereqSelector).first();
+                            if (prereqElement.length > 0) {
+                                prerequisites = prereqElement.text().trim();
+                                if (prerequisites) break;
+                            }
+                        }
+
+                        // Look for materials needed
+                        let materials = '';
+                        const materialsSelectors = ['.materials', '.supplies', '.textbooks', '[class*="materials"]'];
+                        for (const materialsSelector of materialsSelectors) {
+                            const materialsElement = $el.find(materialsSelector).first();
+                            if (materialsElement.length > 0) {
+                                materials = materialsElement.text().trim();
+                                if (materials) break;
+                            }
+                        }
+
+                        // Look for certification info
+                        let certification = '';
+                        const certSelectors = ['.certification', '.certificate', '.credential', '[class*="certification"]'];
+                        for (const certSelector of certSelectors) {
+                            const certElement = $el.find(certSelector).first();
+                            if (certElement.length > 0) {
+                                certification = certElement.text().trim();
+                                if (certification) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: institution,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for education event schedule',
+                            category: this.category,
+                            subject: subject,
+                            instructor: instructor,
+                            level: level,
+                            duration: duration,
+                            cost: cost,
+                            prerequisites: prerequisites,
+                            materials: materials,
+                            certification: certification,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCEducationLearningEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general education/learning information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasEducationKeywords = text.match(/\b(education|learning|class|workshop|seminar|course|training|lecture|tutorial)\b/i);
+                    const hasEventPattern = text.match(/\b(event|class|workshop|seminar|course|lesson|session|program|certification)\b/i);
+                    
+                    if (hasEducationKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for education event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCEducationLearningEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid education/learning keywords
+        const validKeywords = [
+            'education', 'learning', 'class', 'workshop', 'seminar', 'course',
+            'training', 'lecture', 'tutorial', 'event', 'lesson',
+            'session', 'program', 'certification', 'school', 'university'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCEducationLearningEvents;

@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Quick Validation of Fixed Scrapers
  * Minimal script to verify our fixes worked

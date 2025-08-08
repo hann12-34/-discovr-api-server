@@ -1,0 +1,223 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * Javits Center Events Scraper
+ * 
+ * Scrapes events from Jacob K. Javits Convention Center
+ * URL: https://javitscenter.com/events/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class JavitsCenterEvents {
+    constructor() {
+        this.venueName = 'Jacob K. Javits Convention Center';
+        this.venueLocation = '429 11th Ave, New York, NY 10001';
+        this.baseUrl = 'https://javitscenter.com';
+        this.eventsUrl = 'https://javitscenter.com/events/';
+        this.category = 'Conventions & Trade Shows';
+    }
+
+    /**
+     * Scrape events from Javits Center
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🏢 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            console.log('🏢 Extracting Javits Center conventions and trade shows...');
+
+            // Look for elements with date patterns first, since dates are key identifiers for real events
+            $('div, section, li, article, span, p').each((index, element) => {
+                if (index > 500 || events.length >= 50) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                // Look for date patterns (discovered: Aug 03 - Aug 05 2025, Aug 19 - Aug 22 2025)
+                const dateMatch = text.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}\s*-\s*\w+\s+\d{1,2}\s+\d{4}\b/i) || 
+                                 text.match(/\b\d{1,2}\/\d{1,2}\/\d{4}\s*-\s*\d{1,2}\/\d{1,2}\/\d{4}\b/) ||
+                                 text.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2},?\s+\d{4}\b/i);
+                
+                if (dateMatch && text.length > 10 && text.length < 500) {
+                    // Find event title - look in nearby elements or parent containers
+                    let title = '';
+                    const parent = $el.parent();
+                    const siblings = $el.siblings();
+                    const ancestors = $el.parents().slice(0, 3);
+                    
+                    // Check nearby headings and text elements for event titles
+                    const searchElements = [parent, ...siblings.toArray(), ...ancestors.toArray()];
+                    searchElements.forEach(searchEl => {
+                        const $searchEl = $(searchEl);
+                        
+                        // Look for headings first
+                        const heading = $searchEl.find('h1, h2, h3, h4').first().text().trim();
+                        if (heading && heading.length > 5 && heading.length < 100 && !heading.match(/^(policies|floor plans|book an event|services)$/i)) {
+                            if (!title || heading.length > title.length) {
+                                title = heading;
+                            }
+                        }
+                        
+                        // If no heading, look for strong/bold text or first meaningful line
+                        if (!title) {
+                            const boldText = $searchEl.find('strong, b, .title, .name').first().text().trim();
+                            if (boldText && boldText.length > 5 && boldText.length < 100) {
+                                title = boldText;
+                            }
+                        }
+                    });
+                    
+                    // If still no title, extract from the text itself
+                    if (!title) {
+                        const lines = text.split('\n').filter(line => line.trim().length > 0);
+                        for (const line of lines) {
+                            const cleanLine = line.trim();
+                            if (cleanLine.length > 10 && cleanLine.length < 100 && 
+                                !cleanLine.match(/^(aug|jan|feb|mar|apr|may|jun|jul|sep|oct|nov|dec)\s+\d/i) &&
+                                !cleanLine.match(/^\d/) &&
+                                cleanLine.match(/[a-zA-Z]/) &&
+                                !cleanLine.match(/^(policies|floor|book|services|catering|guide|getting|partners)$/i)) {
+                                title = cleanLine;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Default title if nothing found
+                    if (!title) {
+                        title = 'Convention/Trade Show Event';
+                    }
+                    
+                    if (this.isValidEvent(title)) {
+                        const event = {
+                            title: title,
+                            venue: this.venueName,
+                            location: this.venueLocation,
+                            date: dateMatch[0].trim(),
+                            category: this.category,
+                            description: 'Convention center event or trade show',
+                            link: this.eventsUrl,
+                            source: 'JavitsCenterEvents'
+                        };
+                        events.push(event);
+                    }
+                }
+            });
+            
+            // If no events found with date matching, try broader event container approach
+            if (events.length === 0) {
+                console.log('🔍 No date patterns found, trying event containers...');
+                
+                const eventSelectors = ['[class*="event"]', '.listing', '.card', '.content-card'];
+                eventSelectors.forEach(selector => {
+                    $(selector).each((index, element) => {
+                        if (events.length >= 20) return false;
+                        
+                        const $el = $(element);
+                        const text = $el.text().trim();
+                        
+                        if (text.length > 20 && text.length < 300) {
+                            // Look for convention/trade show keywords
+                            const hasConvention = text.match(/\b(convention|expo|conference|trade show|exhibition|fair|summit|meeting|show)\b/i);
+                            const hasDate = text.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{1,2}\/\d{1,2}|2024|2025)\b/i);
+                            
+                            if (hasConvention && hasDate) {
+                                const lines = text.split('\n').filter(line => line.trim().length > 0);
+                                const title = lines[0]?.trim() || text.slice(0, 50).trim();
+                                
+                                if (title && this.isValidEvent(title)) {
+                                    const event = {
+                                        title: title,
+                                        venue: this.venueName,
+                                        location: this.venueLocation,
+                                        date: hasDate[0] || 'Check website for dates',
+                                        category: this.category,
+                                        description: 'Convention center event',
+                                        link: this.eventsUrl,
+                                        source: 'JavitsCenterEvents'
+                                    };
+                                    events.push(event);
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+
+            const uniqueEvents = this.removeDuplicateEvents(events);
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and date
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.date}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 5 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'book now',
+            'floor plan', 'directions', 'parking'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        return !invalidKeywords.some(keyword => titleLower.includes(keyword));
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = JavitsCenterEvents;

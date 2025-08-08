@@ -1,6 +1,6 @@
 /**
  * The Biltmore Cabaret Scraper
- * 
+ *
  * This scraper provides information about events at The Biltmore Cabaret in Vancouver
  * Source: https://www.thebiltmorecabaret.com/
  */
@@ -14,13 +14,13 @@ class BiltmoreCabaretScraper {
     this.name = 'The Biltmore Cabaret';
     this.url = 'https://www.thebiltmorecabaret.com/';
     this.sourceIdentifier = 'biltmore-cabaret';
-    
+
     // Venue information
     this.venue = {
       name: "The Biltmore Cabaret",
       id: "biltmore-cabaret-vancouver",
       address: "2755 Prince Edward St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V5T 0A9",
@@ -31,9 +31,9 @@ class BiltmoreCabaretScraper {
       websiteUrl: "https://www.thebiltmorecabaret.com/",
       description: "The Biltmore Cabaret is an iconic live music venue located in Mount Pleasant, featuring a diverse lineup of indie, electronic, hip-hop and rock performances. Known for its intimate atmosphere, vintage décor and exceptional sound quality, the venue has been a staple of Vancouver's music scene since its reopening in 2007, hosting both established artists and emerging talent."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Lucy Dacus with Special Guests",
         description: "Acclaimed indie rock singer-songwriter Lucy Dacus returns to The Biltmore Cabaret in support of her critically celebrated new album. Known for her insightful lyrics and captivating live performances, Dacus brings her full band to deliver an intimate evening of storytelling and music. The show will feature songs from her latest release as well as fan favorites from her previous albums.",
@@ -115,34 +115,34 @@ class BiltmoreCabaretScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting The Biltmore Cabaret scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `biltmore-cabaret-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
@@ -150,34 +150,34 @@ class BiltmoreCabaretScraper {
         detailedDescription += `Show: ${eventData.showTime}\n`;
         detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         detailedDescription += `Genre: ${eventData.genre}\n`;
-        
+
         // Add performer information if available
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         if (eventData.djs && eventData.djs.length > 0) {
           detailedDescription += `DJs: ${eventData.djs.join(', ')}\n`;
         }
-        
+
         if (eventData.performerUrl) {
           detailedDescription += `Artist Website: ${eventData.performerUrl}\n`;
         }
-        
+
         detailedDescription += `\nThe Biltmore Cabaret is located at 2755 Prince Edward St in Vancouver's Mount Pleasant neighborhood.`;
-        
+
         // Create categories based on genre and event type
         const categories = ['music', 'nightlife', 'entertainment', 'live music'];
-        
+
         // Add genre-specific categories
         const genreLower = eventData.genre.toLowerCase();
         categories.push(...genreLower.split('/').map(g => g.trim()));
-        
+
         // Add dance category if applicable
         if (genreLower.includes('dance') || genreLower.includes('dj')) {
           categories.push('dance');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -194,14 +194,14 @@ class BiltmoreCabaretScraper {
           ticketsRequired: true,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎸 Successfully created ${events.length} The Biltmore Cabaret events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in The Biltmore Cabaret scraper: ${error.message}`);
       return events;
@@ -210,3 +210,13 @@ class BiltmoreCabaretScraper {
 }
 
 module.exports = new BiltmoreCabaretScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new BiltmoreCabaretScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.BiltmoreCabaretScraper = BiltmoreCabaretScraper;

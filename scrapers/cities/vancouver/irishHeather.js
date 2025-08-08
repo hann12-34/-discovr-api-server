@@ -1,6 +1,6 @@
 /**
  * The Irish Heather Scraper
- * 
+ *
  * This scraper provides information about events at The Irish Heather in Vancouver
  * Source: https://www.irishheather.com/
  */
@@ -12,13 +12,13 @@ class IrishHeatherScraper {
     this.name = 'The Irish Heather';
     this.url = 'https://www.irishheather.com/';
     this.sourceIdentifier = 'irish-heather';
-    
+
     // Venue information
     this.venue = {
       name: "The Irish Heather",
       id: "irish-heather-vancouver",
       address: "248 E Georgia St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6A 1Z7",
@@ -29,9 +29,9 @@ class IrishHeatherScraper {
       websiteUrl: "https://www.irishheather.com/",
       description: "The Irish Heather is a beloved gastropub located in Vancouver's Chinatown, offering authentic Irish hospitality, an extensive whiskey selection, and traditional pub fare with a modern twist. A Vancouver institution since 1997, it provides a warm, inviting atmosphere with dark wood furnishings, a copper-topped bar, and Irish memorabilia decorating the walls. The pub is known for its community events, live music sessions, and whiskey tastings."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Traditional Irish Session",
         description: "Join us for our weekly Traditional Irish Music Session at The Irish Heather. Local musicians gather to play authentic Irish tunes in a casual, welcoming environment. From lively jigs and reels to soulful ballads, experience the rich musical heritage of Ireland while enjoying our selection of Irish whiskies and craft beers. Musicians of all skill levels are welcome to participate, and guests are encouraged to sing along.",
@@ -97,70 +97,70 @@ class IrishHeatherScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting The Irish Heather scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `irish-heather-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-        
+
         if (eventData.recurrence) {
           detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
         }
-        
+
         detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, please book in advance\n`;
         }
-        
+
         detailedDescription += `\nLocation: The Irish Heather is located at 248 E Georgia St in Vancouver's Chinatown district.\n\n`;
         detailedDescription += `For more information and reservations, please visit ${this.url} or call (604) 688-9779.`;
-        
+
         // Create categories
         const categories = ['pub', 'irish', 'gastropub', 'food and drink'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Music') {
           categories.push('live music', 'irish music', 'traditional');
         } else if (eventData.category === 'Tasting') {
@@ -172,7 +172,7 @@ class IrishHeatherScraper {
         } else if (eventData.category === 'Dining') {
           categories.push('special dinner', 'culinary', 'communal dining');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -184,19 +184,19 @@ class IrishHeatherScraper {
           category: 'food and drink',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🍺 Successfully created ${events.length} Irish Heather events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Irish Heather scraper: ${error.message}`);
       return events;
@@ -205,3 +205,13 @@ class IrishHeatherScraper {
 }
 
 module.exports = new IrishHeatherScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new IrishHeatherScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.IrishHeatherScraper = IrishHeatherScraper;

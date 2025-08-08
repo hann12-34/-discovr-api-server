@@ -25,5 +25,5 @@ COPY . .
 # Expose port 8080 for Cloud Run
 EXPOSE 8080
 
-# Run the simple server to test if dependencies installed correctly
-CMD ["node", "server.js"]
+# Run the unified proxy server for production
+CMD ["node", "unified-proxy-server.js"]

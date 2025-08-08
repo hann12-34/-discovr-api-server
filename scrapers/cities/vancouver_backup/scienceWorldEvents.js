@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Science World Events Scraper
  * Scrapes events from Science World in Vancouver
@@ -166,7 +167,7 @@ const ScienceWorldEvents = {
       venue: {
         name: 'Science World',
         address: '1455 Quebec Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6A 3Z7',

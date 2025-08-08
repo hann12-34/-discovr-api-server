@@ -34,24 +34,24 @@ class NewCityGasEvents {
      */
     parseDate(dateStr) {
         if (!dateStr) return null;
-        
+
         try {
             const cleanDateStr = dateStr.trim();
-            
+
             // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }
-            
+
             // Handle various date formats
             const datePatterns = [
-                /(\w+)\s+(\d{1,2}),?\s+(\d{4})/,  // "December 15, 2024"
-                /(\d{1,2})\s+(\w+)\s+(\d{4})/,     // "15 December 2024"
-                /(\d{1,2})\/(\d{1,2})\/(\d{4})/,   // "12/15/2024"
-                /(\d{4})\/(\d{1,2})\/(\d{1,2})/    // "2024/12/15"
+                /(\w+)\s+(\d{1,2},?\s+(\d{4}/,  // "December 15, 2024"
+                /(\d{1,2}\s+(\w+)\s+(\d{4}/,     // "15 December 2024"
+                /(\d{1,2}\/(\d{1,2}\/(\d{4}/,   // "12/15/2024"
+                /(\d{4}\/(\d{1,2}\/(\d{1,2}/    // "2024/12/15"
             ];
-            
+
             for (const pattern of datePatterns) {
                 const match = cleanDateStr.match(pattern);
                 if (match) {
@@ -61,7 +61,7 @@ class NewCityGasEvents {
                     }
                 }
             }
-            
+
             // Try direct parsing
             const parsedDate = new Date(cleanDateStr);
             return isNaN(parsedDate.getTime()) ? null : parsedDate;
@@ -93,7 +93,7 @@ class NewCityGasEvents {
         return {
             name: 'New City Gas',
             address: '950 Rue Ottawa, Montreal, QC H3C 1S4',
-            city: 'Montreal',
+            city: city,
             province: 'QC',
             coordinates: this.getDefaultCoordinates()
         };
@@ -107,39 +107,39 @@ class NewCityGasEvents {
      */
     extractEventDetails($, eventElement) {
         const $event = $(eventElement);
-        
+
         // Extract title
         const title = this.cleanText(
             $event.find('h1, h2, h3, h4, .title, .event-title, .name, .artist').first().text() ||
             $event.find('a').first().text()
         );
-        
+
         if (!title || title.length < 3) return null;
-        
+
         // Extract date
         const dateText = $event.find('.date, .event-date, .when, time, .start-date, .show-date').first().text();
         const eventDate = this.parseDate(dateText);
-        
+
         // Extract description
         const description = this.cleanText(
             $event.find('.description, .summary, .excerpt, .content, p').first().text()
         );
-        
+
         // Extract price
         const priceText = $event.find('.price, .cost, .ticket-price, .admission').text();
         const price = priceText ? this.cleanText(priceText) : 'Check website for pricing';
-        
+
         // Extract event URL
         const eventUrl = $event.find('a').first().attr('href');
         const fullEventUrl = eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `${this.baseUrl}${eventUrl}`) : null;
-        
+
         // Extract image
         const imageUrl = $event.find('img').first().attr('src');
         const fullImageUrl = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`) : null;
-        
+
         // Get venue info
         const venue = this.extractVenueInfo();
-        
+
         // Determine category based on title/description
         let category = 'Entertainment';
         const titleLower = title.toLowerCase();
@@ -150,14 +150,14 @@ class NewCityGasEvents {
         } else if (titleLower.includes('show') || titleLower.includes('performance')) {
             category = 'Performance';
         }
-        
+
         return {
             id: uuidv4(),
             name: title,
             title: title,
             description: description || `${title} at New City Gas`,
             date: eventDate,
-            venue: venue,
+            venue: { ...RegExp.venue: { ...RegExp.venue: venue,, city }, city },,
             city: this.city,
             province: this.province,
             price: price,
@@ -176,17 +176,17 @@ class NewCityGasEvents {
     async scrapeEvents() {
         try {
             console.log(`🎉 Scraping events from ${this.source}...`);
-            
+
             const response = await axios.get(this.eventsUrl, {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            });
-            
+            };
+
             const $ = cheerio.load(response.data);
             const events = [];
-            
+
             // Look for common event selectors
             const eventSelectors = [
                 '.event',
@@ -202,7 +202,7 @@ class NewCityGasEvents {
                 '.card',
                 '.artist-event'
             ];
-            
+
             let eventElements = $();
             for (const selector of eventSelectors) {
                 const elements = $(selector);
@@ -212,21 +212,21 @@ class NewCityGasEvents {
                     break;
                 }
             }
-            
+
             if (eventElements.length === 0) {
                 console.log('⚠️  No events found with standard selectors, trying alternative approach...');
-                
+
                 // Try finding events by looking for elements with dates or artist names
                 eventElements = $('[class*="event"], [class*="show"], [class*="concert"]').filter(function() {
                     const text = $(this).text().toLowerCase();
-                    return text.includes('2024') || text.includes('2025') || 
+                    return text.includes('2024') || text.includes('2025') ||
                            text.includes('tickets') || text.includes('show') ||
                            text.includes('december') || text.includes('january');
-                });
+                };
             }
-            
+
             console.log(`📅 Processing ${eventElements.length} potential events...`);
-            
+
             eventElements.each((index, element) => {
                 try {
                     const eventData = this.extractEventDetails($, element);
@@ -237,13 +237,13 @@ class NewCityGasEvents {
                 } catch (error) {
                     console.error(`❌ Error extracting event ${index + 1}:`, error.message);
                 }
-            });
-            
+            };
+
             const uniqueEvents = this.removeDuplicateEvents(events);
             console.log(`🎉 Successfully scraped ${uniqueEvents.length} unique events from ${this.source}`);
-            
+
             return uniqueEvents;
-            
+
         } catch (error) {
             console.error(`❌ Error scraping ${this.source}:`, error.message);
             if (error.response) {
@@ -268,7 +268,7 @@ class NewCityGasEvents {
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     /**
@@ -279,21 +279,21 @@ class NewCityGasEvents {
      */
     async getEvents(startDate = null, endDate = null) {
         const events = await this.scrapeEvents();
-        
+
         if (!startDate && !endDate) {
             return events;
         }
-        
+
         return events.filter(event => {
             if (!event.date) return true;
-            
+
             const eventDate = new Date(event.date);
-            
+
             if (startDate && eventDate < startDate) return false;
             if (endDate && eventDate > endDate) return false;
-            
+
             return true;
-        });
+        };
     }
 }
 
@@ -310,6 +310,17 @@ if (require.main === module) {
             console.log(`📍 Venue: ${event.venue.name}`);
             console.log(`💰 Price: ${event.price}`);
             console.log(`🔗 URL: ${event.url}`);
-        });
-    });
+        };
+    };
 }
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new NewCityGasEvents();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in NewCityGasEvents');
+    }
+};

@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
 
 async function scrape() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-montreal-pride.js Toronto');
+    process.exit(1);
+  }
     try {
         console.log('🏳️‍🌈 Scraping events from Fierté Montréal Pride Festival...');
 
@@ -15,13 +20,13 @@ async function scrape() {
             description: 'One of the biggest parties on Montreal\'s annual calendar, bringing a non-stop celebratory atmosphere to the Gay Village with community events, activism, and celebration.',
             category: 'Festival',
             subcategory: 'Pride Festival',
-            venue: {
+            venue: { ...RegExp.venue: {
                 name: 'Gay Village',
                 address: 'Rue Sainte-Catherine Est, Montreal, QC',
-                city: 'Montreal',
+                city: city,
                 province: 'Quebec',
                 country: 'Canada'
-            },
+            }, city },,
             sourceUrl: 'https://www.fierte.montreal/',
             source: 'Fierté Montréal',
             sourceId: 'pride-montreal-2025-main',
@@ -31,7 +36,7 @@ async function scrape() {
                 hasTickets: true,
                 ticketUrl: 'https://www.fierte.montreal/'
             }
-        });
+        };
 
         // Specific events during Pride week
         const prideEvents = [
@@ -77,13 +82,13 @@ async function scrape() {
                 description: event.description,
                 category: event.title.includes('Parade') ? 'Parade' : (event.title.includes('Film') ? 'Film' : 'Community'),
                 subcategory: event.title.includes('Drag') ? 'Drag Show' : (event.title.includes('Dance') ? 'Dance Party' : 'Pride Event'),
-                venue: {
+                venue: { ...RegExp.venue: {
                     name: event.title.includes('Parade') ? 'Pride Parade Route' : 'Gay Village',
                     address: 'Rue Sainte-Catherine Est, Montreal, QC',
-                    city: 'Montreal',
+                    city: city,
                     province: 'Quebec',
                     country: 'Canada'
-                },
+                }, city },,
                 sourceUrl: 'https://www.fierte.montreal/',
                 source: 'Fierté Montréal',
                 sourceId: `pride-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
@@ -94,8 +99,8 @@ async function scrape() {
                     isFree: event.title.includes('Parade') || event.title.includes('Community'),
                     ticketUrl: 'https://www.fierte.montreal/'
                 }
-            });
-        });
+            };
+        };
 
         console.log(`Found ${events.length} total events from Fierté Montréal Pride`);
         return events;
@@ -113,3 +118,7 @@ module.exports = {
     scrape,
     scrapeEvents
 };
+
+
+// Function export wrapper added by targeted fixer
+module.exports = scrape;

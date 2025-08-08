@@ -1,0 +1,415 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
+/**
+ * NYC Comedy & Entertainment Events Scraper
+ * 
+ * Scrapes comedy and entertainment events from NYC comedy clubs, theaters, and entertainment venues
+ * URL: https://www.eventbrite.com/d/ny--new-york/performing-arts/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCComedyEntertainmentEvents {
+    constructor() {
+        this.venueName = 'NYC Comedy & Entertainment Events';
+        this.venueLocation = 'Various NYC Comedy Clubs, Theaters & Entertainment Venues';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/performing-arts/';
+        this.category = 'Comedy & Entertainment';
+    }
+
+    /**
+     * Scrape events from NYC Comedy & Entertainment Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🎭 Scraping events from ${this.venueName}...`);
+        
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            });
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for comedy/entertainment-specific event containers
+            const eventSelectors = [
+                '.comedy-event', '.entertainment-event', '.show-event',
+                '.event-item', '.event-card', '.event', '.standup-event',
+                '[class*="comedy"]', '[class*="entertainment"]', '[class*="event"]',
+                '.card', '.content-card', '.improv-event', '.theater-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .show-title, .name, .headline').first().text().trim();
+                    
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]', 
+                            'time', '.when', '.schedule', '.event-time', '.show-time'
+                        ];
+                        
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/comedy club/theater
+                        let venue = this.venueLocation;
+                        const venueSelectors = ['.venue', '.comedy-club', '.theater', '[class*="venue"]', '.location', '.club'];
+                        for (const venueSelector of venueSelectors) {
+                            const venueElement = $el.find(venueSelector).first();
+                            if (venueElement.length > 0) {
+                                const venueText = venueElement.text().trim();
+                                if (venueText && venueText.length > 0) {
+                                    venue = venueText.length > 70 ? venueText.substring(0, 70) + '...' : venueText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for entertainment type/genre
+                        let entertainmentType = this.category;
+                        const typeSelectors = ['.entertainment-type', '.genre', '.show-type', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.match(/\b(standup|improv|sketch|musical|magic|variety|burlesque)\b/i)) {
+                                    entertainmentType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for comedian/performer
+                        let performer = '';
+                        const performerSelectors = ['.comedian', '.performer', '.artist', '[class*="performer"]'];
+                        for (const performerSelector of performerSelectors) {
+                            const performerElement = $el.find(performerSelector).first();
+                            if (performerElement.length > 0) {
+                                performer = performerElement.text().trim();
+                                if (performer) break;
+                            }
+                        }
+
+                        // Look for headliner/special guest
+                        let headliner = '';
+                        const headlinerSelectors = ['.headliner', '.special-guest', '.featured', '[class*="headliner"]'];
+                        for (const headlinerSelector of headlinerSelectors) {
+                            const headlinerElement = $el.find(headlinerSelector).first();
+                            if (headlinerElement.length > 0) {
+                                headliner = headlinerElement.text().trim();
+                                if (headliner) break;
+                            }
+                        }
+
+                        // Look for show duration
+                        let duration = '';
+                        const durationSelectors = ['.duration', '.runtime', '.show-length', '[class*="duration"]'];
+                        for (const durationSelector of durationSelectors) {
+                            const durationElement = $el.find(durationSelector).first();
+                            if (durationElement.length > 0) {
+                                const durationText = durationElement.text().trim();
+                                if (durationText && durationText.match(/\d+\s*(min|minute|hr|hour)/i)) {
+                                    duration = durationText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for ticket price
+                        let ticketPrice = '';
+                        const priceSelectors = ['.ticket-price', '.price', '.cost', '[class*="price"]'];
+                        for (const priceSelector of priceSelectors) {
+                            const priceElement = $el.find(priceSelector).first();
+                            if (priceElement.length > 0) {
+                                const priceText = priceElement.text().trim();
+                                if (priceText && (priceText.includes('$') || priceText.toLowerCase().includes('free'))) {
+                                    ticketPrice = priceText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for age restriction
+                        let ageRestriction = '';
+                        const ageSelectors = ['.age-restriction', '.age-limit', '.18+', '[class*="age"]'];
+                        for (const ageSelector of ageSelectors) {
+                            const ageElement = $el.find(ageSelector).first();
+                            if (ageElement.length > 0) {
+                                const ageText = ageElement.text().trim();
+                                if (ageText && ageText.match(/\b(18\+|21\+|all ages|family friendly)\b/i)) {
+                                    ageRestriction = ageText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for seating/format
+                        let seating = '';
+                        const seatingSelectors = ['.seating', '.format', '.layout', '[class*="seating"]'];
+                        for (const seatingSelector of seatingSelectors) {
+                            const seatingElement = $el.find(seatingSelector).first();
+                            if (seatingElement.length > 0) {
+                                const seatingText = seatingElement.text().trim();
+                                if (seatingText && seatingText.match(/\b(general admission|reserved seating|standing|cabaret style)\b/i)) {
+                                    seating = seatingText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for drink minimum/food policy
+                        let drinkMinimum = '';
+                        const drinkSelectors = ['.drink-minimum', '.food-policy', '.minimum', '[class*="drink"]'];
+                        for (const drinkSelector of drinkSelectors) {
+                            const drinkElement = $el.find(drinkSelector).first();
+                            if (drinkElement.length > 0) {
+                                drinkMinimum = drinkElement.text().trim();
+                                if (drinkMinimum) break;
+                            }
+                        }
+
+                        // Look for show rating/content warning
+                        let contentRating = '';
+                        const ratingSelectors = ['.content-rating', '.rating', '.mature-content', '[class*="rating"]'];
+                        for (const ratingSelector of ratingSelectors) {
+                            const ratingElement = $el.find(ratingSelector).first();
+                            if (ratingElement.length > 0) {
+                                const ratingText = ratingElement.text().trim();
+                                if (ratingText && ratingText.match(/\b(clean|adult|mature|explicit)\b/i)) {
+                                    contentRating = ratingText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for lineup/other acts
+                        let lineup = '';
+                        const lineupSelectors = ['.lineup', '.other-acts', '.supporting', '[class*="lineup"]'];
+                        for (const lineupSelector of lineupSelectors) {
+                            const lineupElement = $el.find(lineupSelector).first();
+                            if (lineupElement.length > 0) {
+                                lineup = lineupElement.text().trim();
+                                if (lineup) break;
+                            }
+                        }
+
+                        // Look for special features/themes
+                        let specialFeatures = '';
+                        const featuresSelectors = ['.special-features', '.theme', '.unique', '[class*="special"]'];
+                        for (const featuresSelector of featuresSelectors) {
+                            const featuresElement = $el.find(featuresSelector).first();
+                            if (featuresElement.length > 0) {
+                                specialFeatures = featuresElement.text().trim();
+                                if (specialFeatures) break;
+                            }
+                        }
+
+                        // Look for booking/reservation info
+                        let booking = '';
+                        const bookingSelectors = ['.booking', '.reservation', '.advance-tickets', '[class*="booking"]'];
+                        for (const bookingSelector of bookingSelectors) {
+                            const bookingElement = $el.find(bookingSelector).first();
+                            if (bookingElement.length > 0) {
+                                booking = bookingElement.text().trim();
+                                if (booking) break;
+                            }
+                        }
+
+                        // Look for venue amenities
+                        let amenities = '';
+                        const amenitySelectors = ['.amenities', '.facilities', '.venue-features', '[class*="amenities"]'];
+                        for (const amenitySelector of amenitySelectors) {
+                            const amenityElement = $el.find(amenitySelector).first();
+                            if (amenityElement.length > 0) {
+                                amenities = amenityElement.text().trim();
+                                if (amenities) break;
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: venue,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for comedy/entertainment schedule',
+                            category: entertainmentType,
+                            performer: performer,
+                            headliner: headliner,
+                            duration: duration,
+                            ticketPrice: ticketPrice,
+                            ageRestriction: ageRestriction,
+                            seating: seating,
+                            drinkMinimum: drinkMinimum,
+                            contentRating: contentRating,
+                            lineup: lineup,
+                            specialFeatures: specialFeatures,
+                            booking: booking,
+                            amenities: amenities,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCComedyEntertainmentEvents'
+                        };
+
+                        events.push(event);
+                    }
+                });
+            });
+
+            // Look for general comedy/entertainment information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+                
+                const $el = $(element);
+                const text = $el.text().trim();
+                
+                if (text.length > 30 && text.length < 400) {
+                    const hasComedyKeywords = text.match(/\b(comedy|comedian|standup|improv|sketch|entertainment|show|performance)\b/i);
+                    const hasEventPattern = text.match(/\b(show|performance|act|set|routine|night|event|club|theater)\b/i);
+                    
+                    if (hasComedyKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+                        
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for comedy/entertainment schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCComedyEntertainmentEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            });
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        });
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+        
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+        
+        // Check for valid comedy/entertainment keywords
+        const validKeywords = [
+            'comedy', 'comedian', 'standup', 'improv', 'sketch', 'entertainment',
+            'show', 'performance', 'act', 'set', 'routine', 'night', 'event',
+            'club', 'theater', 'magic', 'variety', 'burlesque', 'musical'
+        ];
+        
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+        
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+module.exports = NYCComedyEntertainmentEvents;

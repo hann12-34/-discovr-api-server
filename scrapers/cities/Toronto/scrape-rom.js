@@ -29,7 +29,7 @@ function generateEventId(venue, title, date) {
     console.error(`❌ Invalid parameters for generateEventId: venue=${venue}, title=${title}, date=${date}`);
     return null;
   }
-  
+
   const data = `${venue}-${title}-${date.toISOString().split('T')[0]}`;
   const hash = crypto.createHash('md5').update(data).digest('hex');
   console.log(`🔑 Generated ID: ${hash} for "${title}"`);
@@ -44,7 +44,7 @@ function generateEventId(venue, title, date) {
  */
 function extractCategory(title, description) {
   const text = `${title} ${description}`.toLowerCase();
-  
+
   if (text.includes('walk') || text.includes('cemetery') || text.includes('tour')) {
     return 'Tours & Walks';
   }
@@ -60,7 +60,7 @@ function extractCategory(title, description) {
   if (text.includes('library') || text.includes('stories') || text.includes('newcomers')) {
     return 'Community';
   }
-  
+
   return 'Museum Events';
 }
 
@@ -73,20 +73,20 @@ function extractPrice(text) {
   if (text.toLowerCase().includes('free')) {
     return 'Free';
   }
-  
+
   const pricePatterns = [
     /\$\d+(?:\.\d{2})?/,
     /admission/i,
     /ticket/i
   ];
-  
+
   for (const pattern of pricePatterns) {
     const match = text.match(pattern);
     if (match) {
       return match[0];
     }
   }
-  
+
   return 'Varies'; // Default for ROM events
 }
 
@@ -116,31 +116,31 @@ function parseDateAndTime(dateText, timeText) {
   }
 
   console.log(`🔍 Parsing date: "${dateText}", time: "${timeText}"`);
-  
+
   try {
     // Parse date patterns like "Jul 20", "Jul 25", "Jul 27", "Aug 07"
-    const dateMatch = dateText.match(/([A-Za-z]{3})\s+(\d{1,2})/);
+    const dateMatch = dateText.match(/([A-Za-z]{3}\s+(\d{1,2}))/);
     if (!dateMatch) {
       console.log(`⚠️ Could not parse date format: ${dateText}`);
       return null;
     }
-    
+
     const [, monthStr, day] = dateMatch;
     const monthMap = {
       'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
       'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
     };
-    
+
     const month = monthMap[monthStr];
     if (month === undefined) {
       console.log(`⚠️ Unknown month: ${monthStr}`);
       return null;
     }
-    
+
     // Assume current year (2025 based on the data we saw)
     const year = 2025;
     const startDate = new Date(year, month, parseInt(day));
-    
+
     // Parse time if provided
     if (timeText) {
       const timeMatch = timeText.match(/(\d{1,2}):(\d{2})/);
@@ -149,7 +149,7 @@ function parseDateAndTime(dateText, timeText) {
         startDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
       }
     }
-    
+
     // Set end date
     const endDate = new Date(startDate);
     if (timeText && timeText.includes('-')) {
@@ -161,10 +161,10 @@ function parseDateAndTime(dateText, timeText) {
     } else {
       endDate.setHours(startDate.getHours() + 2);
     }
-    
+
     console.log(`✅ Parsed dates - Start: ${startDate.toISOString()}, End: ${endDate.toISOString()}`);
     return { startDate, endDate };
-    
+
   } catch (error) {
     console.error(`❌ Error parsing date "${dateText}": ${error.message}`);
     return null;
@@ -184,32 +184,37 @@ function parseDateAndTime(dateText, timeText) {
  * @returns {boolean} Success status
  */
 async function processEventCandidate(title, dateText, timeText, description, eventUrl, price, eventsCollection, processedEventIds) {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-rom.js Toronto');
+    process.exit(1);
+  }
   try {
     console.log(`🔍 Processing: "${title}"`);
-    
+
     // Parse dates
     const dates = parseDateAndTime(dateText, timeText);
     if (!dates) {
       console.log(`⚠️ Skipping "${title}" - could not parse date`);
       return false;
     }
-    
+
     // Generate event ID
     const eventId = generateEventId(ROM_VENUE.name, title, dates.startDate);
-    
+
     if (!eventId) {
       console.log(`❌ Failed to generate event ID for: ${title}`);
       return false;
     }
-    
+
     // Skip if already processed
     if (processedEventIds.has(eventId)) {
       console.log(`⚠️ Skipping duplicate event: ${title}`);
       return false;
     }
-    
+
     processedEventIds.add(eventId);
-    
+
     // Create event object
     const event = {
       id: eventId,
@@ -217,7 +222,7 @@ async function processEventCandidate(title, dateText, timeText, description, eve
       description: description.trim(),
       startDate: dates.startDate,
       endDate: dates.endDate,
-      venue: ROM_VENUE,
+      venue: { ...ROM_VENUE, city },
       category: extractCategory(title, description),
       price: price || extractPrice(`${title} ${description}`),
       url: normalizeUrl(eventUrl, 'https://www.rom.on.ca'),
@@ -225,17 +230,17 @@ async function processEventCandidate(title, dateText, timeText, description, eve
       createdAt: new Date(),
       updatedAt: new Date()
     };
-    
+
     // Insert into MongoDB
     await eventsCollection.replaceOne(
       { id: eventId },
       event,
       { upsert: true }
     );
-    
-    console.log(`✅ Added/updated event: ${title} (${dateText})`);
+
+    console.log(`✅ Added/updated event: ${title} (${dateText}`);
     return true;
-    
+
   } catch (error) {
     console.error(`❌ Error saving event ${title}: ${error.message}`);
     return false;
@@ -249,22 +254,22 @@ async function processEventCandidate(title, dateText, timeText, description, eve
  */
 async function scrapeROMEvents(eventsCollection) {
   console.log('🔍 Fetching events from ROM...');
-  
+
   try {
     const response = await axios.get(ROM_URL, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
     });
-    
+
     const $ = cheerio.load(response.data);
     const processedEventIds = new Set();
-    
+
     let addedEvents = 0;
-    
+
     // Parse events from the page content
     console.log('📋 Parsing event content...');
-    
+
     // Extract events from the structured content based on what we saw
     const eventItems = [
       {
@@ -296,7 +301,7 @@ async function scrapeROMEvents(eventsCollection) {
         price: 'Free'
       }
     ];
-    
+
     for (const eventItem of eventItems) {
       try {
         const success = await processEventCandidate(
@@ -309,17 +314,17 @@ async function scrapeROMEvents(eventsCollection) {
           eventsCollection,
           processedEventIds
         );
-        
+
         if (success) addedEvents++;
-        
+
       } catch (error) {
         console.error(`Error processing event "${eventItem.title}": ${error.message}`);
       }
     }
-    
+
     console.log(`📊 Successfully added ${addedEvents} new ROM events`);
     return addedEvents;
-    
+
   } catch (error) {
     console.error(`❌ Error scraping ROM events: ${error.message}`);
     return 0;
@@ -332,22 +337,22 @@ async function scrapeROMEvents(eventsCollection) {
 async function main() {
   const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/discovr';
   const client = new MongoClient(mongoUri);
-  
+
   try {
     console.log('🔗 Connecting to MongoDB...');
     await client.connect();
-    
+
     const db = client.db('discovr');
     const eventsCollection = db.collection('events');
-    
+
     console.log('🚀 Starting ROM event scraping...');
-    
+
     const addedEvents = await scrapeROMEvents(eventsCollection);
-    
+
     console.log('\n📈 Scraping completed!');
     console.log(`📊 Total events processed: ${addedEvents > 0 ? 'Multiple' : '0'}`);
     console.log(`✅ New events added: ${addedEvents}`);
-    
+
   } catch (error) {
     console.error('❌ Error:', error.message);
   } finally {
@@ -362,3 +367,7 @@ if (require.main === module) {
 }
 
 module.exports = { scrapeROMEvents };
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeROMEvents;

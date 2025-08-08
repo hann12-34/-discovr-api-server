@@ -1,6 +1,6 @@
 /**
  * Museum of Anthropology Scraper
- * 
+ *
  * This scraper provides information about exhibitions and events at the Museum of Anthropology (MOA) at UBC
  * Source: https://moa.ubc.ca/
  */
@@ -12,13 +12,13 @@ class MuseumOfAnthropologyScraper {
     this.name = 'Museum of Anthropology';
     this.url = 'https://moa.ubc.ca/';
     this.sourceIdentifier = 'museum-of-anthropology';
-    
+
     // Venue information
     this.venue = {
       name: "Museum of Anthropology at UBC",
       id: "museum-of-anthropology-vancouver",
       address: "6393 NW Marine Drive",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6T 1Z2",
@@ -29,9 +29,9 @@ class MuseumOfAnthropologyScraper {
       websiteUrl: "https://moa.ubc.ca/",
       description: "The Museum of Anthropology (MOA) at the University of British Columbia is renowned for its world-class displays of Northwest Coast First Nations art and artifacts. Housed in a spectacular building designed by Canadian architect Arthur Erickson, the museum features over 50,000 ethnographic objects and 535,000 archaeological objects, including many works by celebrated Haida artist Bill Reid. The museum's Great Hall showcases massive totem poles, canoes, and sculptures from coastal communities, while other galleries display cultural objects from around the world."
     };
-    
+
     // Upcoming exhibitions and events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Threads of Connection: Textile Arts of the Pacific Northwest",
         description: "This landmark exhibition explores the rich tradition of textile arts among First Nations communities of the Pacific Northwest. From ceremonial blankets and cedar bark clothing to contemporary fiber art, the exhibition showcases over 100 pieces spanning centuries of cultural expression. Highlighting the technical mastery, artistic innovation, and cultural significance of these textiles, the exhibition includes historical pieces from MOA's collection alongside works by contemporary Indigenous textile artists who are revitalizing and reimagining these traditions.",
@@ -114,49 +114,49 @@ class MuseumOfAnthropologyScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Museum of Anthropology scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `moa-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         // Handle exhibitions (longer duration events)
         if (eventData.type === 'Exhibition') {
           const startDate = dateFormat.format(eventData.date);
           const endDate = dateFormat.format(eventData.endDate);
-          
+
           detailedDescription += `Exhibition Dates: ${startDate} - ${endDate}\n`;
           detailedDescription += `Hours: ${eventData.openingHours}\n`;
           detailedDescription += `Location: Museum of Anthropology at UBC, 6393 NW Marine Drive, Vancouver\n`;
-          
+
           // Create event object for exhibition
           const event = {
             id: eventId,
@@ -168,39 +168,39 @@ class MuseumOfAnthropologyScraper {
             category: 'arts',
             categories: ['arts', 'museum', 'culture', 'exhibition', 'indigenous', 'education'],
             sourceURL: this.url,
-            officialWebsite: eventData.eventLink,
+            officialWebsite: eventDataLink,
             image: eventData.imageUrl || null,
             ticketsRequired: false, // General admission applies
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
-          console.log(`✅ Added exhibition: ${eventData.title} (${startDate} - ${endDate})`);
-        } 
+          console.log(`✅ Added exhibition: ${eventData.title} (${startDate} - ${endDate}`);
+        }
         // Handle one-day events
         else {
           const formattedDate = dateFormat.format(eventData.date);
-          
+
           const formattedStartTime = timeFormat.format(eventData.date);
           const formattedEndTime = timeFormat.format(eventData.endTime || eventData.endDate);
-          
+
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
           detailedDescription += `Location: Museum of Anthropology at UBC, 6393 NW Marine Drive, Vancouver\n`;
-          
+
           if (eventData.price) {
             detailedDescription += `Price: ${eventData.price}\n`;
           }
-          
+
           if (eventData.ticketsRequired) {
             detailedDescription += `Tickets: Required, please register in advance\n`;
           }
-          
+
           detailedDescription += `\nThe Museum of Anthropology is located on the UBC campus, approximately 30 minutes from downtown Vancouver. For detailed directions and parking information, please visit moa.ubc.ca/visit.`;
-          
+
           // Add categories based on event type
           const categories = ['arts', 'museum', 'culture', 'indigenous', 'education'];
-          
+
           if (eventData.type === 'Workshop') {
             categories.push('workshop', 'hands-on', 'craft');
           } else if (eventData.type === 'Family Program') {
@@ -212,9 +212,9 @@ class MuseumOfAnthropologyScraper {
           } else if (eventData.type === 'Special Event') {
             categories.push('celebration', 'community', 'youth');
           }
-          
+
           categories.push(eventData.category.toLowerCase());
-          
+
           // Create event object for one-day event
           const event = {
             id: eventId,
@@ -226,20 +226,20 @@ class MuseumOfAnthropologyScraper {
             category: 'arts',
             categories: categories,
             sourceURL: this.url,
-            officialWebsite: eventData.eventLink,
+            officialWebsite: eventDataLink,
             image: eventData.imageUrl || null,
             ticketsRequired: !!eventData.ticketsRequired,
             lastUpdated: new Date()
           };
-          
+
           events.push(event);
           console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
         }
       }
-      
+
       console.log(`🏛️ Successfully created ${events.length} Museum of Anthropology events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Museum of Anthropology scraper: ${error.message}`);
       return events;
@@ -248,3 +248,13 @@ class MuseumOfAnthropologyScraper {
 }
 
 module.exports = new MuseumOfAnthropologyScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new MuseumOfAnthropologyScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.MuseumOfAnthropologyScraper = MuseumOfAnthropologyScraper;

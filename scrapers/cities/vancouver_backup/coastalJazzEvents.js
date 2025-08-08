@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Coastal Jazz Festival Events Scraper
  * 
@@ -192,7 +193,7 @@ class CoastalJazzEvents {
             name: 'Performance Works',
             id: 'performance-works-vancouver',
             address: '1218 Cartwright St, Granville Island',
-            city: 'Vancouver',
+            city: getCityFromArgs(),
             state: 'BC',
             country: 'Canada',
             coordinates: { lat: 49.2715, lng: -123.1347 }
@@ -201,7 +202,7 @@ class CoastalJazzEvents {
             name: 'Vogue Theatre',
             id: 'vogue-theatre-vancouver',
             address: '918 Granville St',
-            city: 'Vancouver',
+            city: getCityFromArgs(),
             state: 'BC',
             country: 'Canada',
             coordinates: { lat: 49.2816, lng: -123.1211 }
@@ -210,7 +211,7 @@ class CoastalJazzEvents {
             name: 'Queen Elizabeth Theatre',
             id: 'queen-elizabeth-theatre-vancouver',
             address: '630 Hamilton St',
-            city: 'Vancouver',
+            city: getCityFromArgs(),
             state: 'BC',
             country: 'Canada',
             coordinates: { lat: 49.2801, lng: -123.1144 }
@@ -449,7 +450,7 @@ class CoastalJazzEvents {
         name: 'Various Vancouver Venues',
         id: 'various-vancouver-venues',
         address: 'Vancouver',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: { lat: 49.2827, lng: -123.1207 },
@@ -466,7 +467,7 @@ class CoastalJazzEvents {
         name: 'Performance Works',
         id: 'performance-works-vancouver',
         address: '1218 Cartwright St, Granville Island',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: { lat: 49.2715, lng: -123.1347 },
@@ -478,7 +479,7 @@ class CoastalJazzEvents {
         name: 'Vogue Theatre',
         id: 'vogue-theatre-vancouver',
         address: '918 Granville St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: { lat: 49.2816, lng: -123.1211 },
@@ -490,7 +491,7 @@ class CoastalJazzEvents {
         name: 'Queen Elizabeth Theatre',
         id: 'queen-elizabeth-theatre-vancouver',
         address: '630 Hamilton St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: { lat: 49.2801, lng: -123.1144 },
@@ -502,7 +503,7 @@ class CoastalJazzEvents {
         name: 'Ironworks Studios',
         id: 'ironworks-studios-vancouver',
         address: '235 Alexander St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: { lat: 49.2846, lng: -123.0984 },
@@ -515,7 +516,7 @@ class CoastalJazzEvents {
         name: 'Vancouver Jazz Festival Venue',
         id: 'vancouver-jazz-festival-venue',
         address: 'Vancouver',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         state: 'BC',
         country: 'Canada',
         coordinates: { lat: 49.2827, lng: -123.1207 },

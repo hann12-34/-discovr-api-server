@@ -15,41 +15,41 @@ const crypto = require('crypto');
  */
 function parseDateAndTime(dateText, timeText) {
   if (!dateText) return null;
-  
+
   // Common date patterns for Unionville events
-  const dateRegex1 = /([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?(?:\s*-\s*[A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?)?(?:,\s*\d{4})?)\b/g;
-  const dateRegex2 = /\b(\d{1,2}\s+[A-Za-z]+(?:\s+to\s+\d{1,2}\s+[A-Za-z]+)?(?:,\s*\d{4})?)\b/g;
-  const dateRegex3 = /\b((?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2}(?:st|nd|rd|th)?\s*,?\s*\d{4})\b/gi;
-  
+  const dateRegex1 = /([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?(?:\s*-\s*[A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?)?(?:,\s*\d{4}?)\b/g;
+  const dateRegex2 = /\b(\d{1,2}\s+[A-Za-z]+(?:\s+to\s+\d{1,2}\s+[A-Za-z]+)?(?:,\s*\d{4}?)\b/g;
+  const dateRegex3 = /\b((?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2}(?:st|nd|rd|th)?\s*,?\s*\d{4}\b/gi;
+
   let match = dateText.match(dateRegex1) || dateText.match(dateRegex2) || dateText.match(dateRegex3);
-  
+
   if (!match) return null;
-  
+
   try {
     const dateStr = match[0];
     let parsedDate = new Date(dateStr);
-    
+
     // If year is missing, assume current year
     if (isNaN(parsedDate.getTime())) {
       const currentYear = new Date().getFullYear();
       parsedDate = new Date(`${dateStr}, ${currentYear}`);
     }
-    
+
     // Parse time if provided
     if (timeText) {
-      const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(am|pm)/i);
+      const timeMatch = timeText.match(/(\d{1,2}:(\d{2}\s*(am|pm)/i);
       if (timeMatch) {
         let hours = parseInt(timeMatch[1]);
         const minutes = parseInt(timeMatch[2]);
         const ampm = timeMatch[3].toLowerCase();
-        
+
         if (ampm === 'pm' && hours !== 12) hours += 12;
         if (ampm === 'am' && hours === 12) hours = 0;
-        
+
         parsedDate.setHours(hours, minutes, 0, 0);
       }
     }
-    
+
     return isNaN(parsedDate.getTime()) ? null : parsedDate;
   } catch (error) {
     console.error('Date parsing error:', error.message);
@@ -65,7 +65,7 @@ function parseDateAndTime(dateText, timeText) {
  */
 function categorizeEvent(title, description) {
   const text = `${title} ${description}`.toLowerCase();
-  
+
   if (text.includes('festival') || text.includes('celebration') || text.includes('fair')) {
     return 'Festivals & Celebrations';
   }
@@ -84,7 +84,7 @@ function categorizeEvent(title, description) {
   if (text.includes('art') || text.includes('gallery') || text.includes('exhibition')) {
     return 'Arts & Culture';
   }
-  
+
   return 'Community & Culture';
 }
 
@@ -114,37 +114,42 @@ function generateEventId(venue, title, startDate) {
  * @returns {boolean} - Whether event was added
  */
 async function processEventCandidate(title, dateText, timeText, description, eventUrl, imageUrl, eventsCollection, processedEventIds) {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-unionville-events.js Toronto');
+    process.exit(1);
+  }
   if (!title || title.trim().length === 0) return false;
-  
+
   const startDate = parseDateAndTime(dateText, timeText);
   if (!startDate) {
     console.log(`⚠️  Skipping event "${title}" - could not parse date from: "${dateText}"`);
     return false;
   }
-  
+
   const venue = 'Main Street Unionville';
   const eventId = generateEventId(venue, title, startDate);
-  
+
   if (processedEventIds.has(eventId)) {
     console.log(`⚠️  Duplicate event skipped: ${title}`);
     return false;
   }
-  
+
   const category = categorizeEvent(title, description);
-  
+
   const eventData = {
     _id: eventId,
     title: title.trim(),
     description: description ? description.trim() : '',
     startDate: startDate,
     endDate: null,
-    venue: {
+    venue: { ...RegExp.venue: {
       name: venue,
       address: 'Main Street, Unionville, ON',
-      city: 'Markham',
+      city: city,
       province: 'Ontario',
       country: 'Canada'
-    },
+    }, city },,
     category: category,
     tags: ['unionville', 'heritage', 'community', 'markham'],
     price: null,
@@ -155,16 +160,16 @@ async function processEventCandidate(title, dateText, timeText, description, eve
     createdAt: new Date(),
     updatedAt: new Date()
   };
-  
+
   try {
     await eventsCollection.replaceOne(
       { _id: eventId },
       eventData,
       { upsert: true }
     );
-    
+
     processedEventIds.add(eventId);
-    console.log(`✅ Added: ${title} (${startDate.toLocaleDateString()})`);
+    console.log(`✅ Added: ${title} (${startDate.toLocaleDaeventDateText()}`);
     return true;
   } catch (error) {
     console.error(`❌ Error saving event "${title}":`, error.message);
@@ -179,20 +184,20 @@ async function processEventCandidate(title, dateText, timeText, description, eve
  */
 async function scrapeUnionvilleEvents(eventsCollection) {
   console.log('🏘️ Starting Main Street Unionville events scraper...');
-  
+
   const processedEventIds = new Set();
   let eventsAdded = 0;
-  
+
   try {
     const response = await axios.get('https://unionville.ca/things-to-do/events/', {
       timeout: 10000,
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
-    });
-    
+    };
+
     const $ = cheerio.load(response.data);
-    
+
     // Since the site shows "Don't miss our amazing events" but no specific events,
     // let's add some known recurring Unionville events based on their typical schedule
     const knownEvents = [
@@ -237,9 +242,9 @@ async function scrapeUnionvilleEvents(eventsCollection) {
         category: 'Music & Entertainment'
       }
     ];
-    
+
     console.log(`📅 Processing ${knownEvents.length} known Unionville events...`);
-    
+
     for (const event of knownEvents) {
       const added = await processEventCandidate(
         event.title,
@@ -253,7 +258,7 @@ async function scrapeUnionvilleEvents(eventsCollection) {
       );
       if (added) eventsAdded++;
     }
-    
+
     // Also try to scrape any dynamic events from the page
     const eventSelectors = [
       '.event-item',
@@ -262,22 +267,22 @@ async function scrapeUnionvilleEvents(eventsCollection) {
       'article[class*="event"]',
       '.wp-block-group'
     ];
-    
+
     for (const selector of eventSelectors) {
       const events = $(selector);
       if (events.length > 0) {
         console.log(`📅 Found ${events.length} dynamic events with selector: ${selector}`);
-        
+
         for (let i = 0; i < events.length; i++) {
           const eventElement = events.eq(i);
-          
+
           let title = '';
           let dateText = '';
           let timeText = '';
           let description = '';
           let eventUrl = '';
           let imageUrl = '';
-          
+
           // Extract title
           const titleElement = eventElement.find('h3, h4, .event-title, a').first();
           if (titleElement.length) {
@@ -289,19 +294,19 @@ async function scrapeUnionvilleEvents(eventsCollection) {
               }
             }
           }
-          
+
           // Extract date
           const dateElement = eventElement.find('.event-date, .date');
           if (dateElement.length) {
             dateText = dateElement.text().trim();
           }
-          
+
           // Extract description
           const descElement = eventElement.find('.event-description, p');
           if (descElement.length) {
             description = descElement.text().trim();
           }
-          
+
           if (title && title.length > 3) {
             const added = await processEventCandidate(
               title, dateText, timeText, description, eventUrl, imageUrl,
@@ -312,11 +317,11 @@ async function scrapeUnionvilleEvents(eventsCollection) {
         }
       }
     }
-    
+
   } catch (error) {
     console.error('❌ Error scraping Unionville events:', error.message);
   }
-  
+
   console.log(`🏘️ Unionville scraping completed. Events added: ${eventsAdded}`);
   return eventsAdded;
 }
@@ -326,24 +331,28 @@ module.exports = scrapeUnionvilleEvents;
 // Test runner
 if (require.main === module) {
   const { MongoClient } = require('mongodb');
-  
+
   async function testScraper() {
     const client = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
-    
+
     try {
       await client.connect();
       const db = client.db('discovr');
-      const eventsCollection = db.collection('events');
-      
+      const eventsCollection = dbs');
+
       const eventsAdded = await scrapeUnionvilleEvents(eventsCollection);
-      console.log(`\n✅ Test completed. Total events added: ${eventsAdded}`);
-      
+      console.log(`\n✅ sAdded}`);
+
     } catch (error) {
       console.error('❌ Test failed:', error.message);
     } finally {
       await client.close();
     }
   }
-  
+
   testScraper();
 }
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeUnionvilleEvents;

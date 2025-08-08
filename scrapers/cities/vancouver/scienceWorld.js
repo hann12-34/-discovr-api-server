@@ -1,6 +1,6 @@
 /**
  * Science World Scraper
- * 
+ *
  * This scraper provides information about events at Science World in Vancouver
  * Source: https://www.scienceworld.ca/
  */
@@ -12,13 +12,13 @@ class ScienceWorldScraper {
     this.name = 'Science World';
     this.url = 'https://www.scienceworld.ca/';
     this.sourceIdentifier = 'science-world';
-    
+
     // Venue information
     this.venue = {
       name: "Science World at TELUS World of Science",
       id: "science-world-vancouver",
       address: "1455 Quebec St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6A 3Z7",
@@ -29,9 +29,9 @@ class ScienceWorldScraper {
       websiteUrl: "https://www.scienceworld.ca/",
       description: "Science World at TELUS World of Science is a science centre and museum housed in a distinctive geodesic dome on False Creek in Vancouver. Since 1989, the venue has been inspiring minds through interactive exhibits, immersive films, and engaging educational programs that make science accessible and exciting for all ages."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "After Dark: Adult Evening - Molecular Gastronomy",
         description: "Experience Science World after hours at this 19+ event combining science, cocktails, and culinary innovation. This special evening focuses on the fascinating world of molecular gastronomy, where cooking meets chemistry. Enjoy live demonstrations from renowned local chefs who use scientific techniques to transform familiar ingredients into extraordinary culinary creations. Interactive stations throughout the venue allow guests to experiment with spherification, gelification, and other molecular techniques while enjoying specialty cocktails designed for the event. All exhibits remain open for exploration, creating a unique adults-only museum experience that blends education, entertainment, and epicurean adventure.",
@@ -104,45 +104,45 @@ class ScienceWorldScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting Science World scraper...');
     const events = [];
-    
+
     try {
       // In a real implementation, we would scrape the website here
       // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
+
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `science-world-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        
+
         // Check if this is a long-running exhibition
         if (eventData.recurrence && eventData.recurrence.includes('Daily')) {
           const endDate = dateFormat.format(eventData.endTime);
@@ -158,31 +158,31 @@ class ScienceWorldScraper {
           detailedDescription += `Date: ${formattedDate}\n`;
           detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         }
-        
+
         if (eventData.recurrence && !eventData.recurrence.includes('Daily')) {
           detailedDescription += `Recurrence: ${eventData.recurrence}\n`;
         }
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.ageRestriction) {
           detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Required, available through Science World website or box office\n`;
         }
-        
+
         detailedDescription += `\nLocation: Science World at TELUS World of Science, 1455 Quebec Street, Vancouver. The venue is easily accessible via the Main Street-Science World SkyTrain station and offers bicycle parking. Limited pay parking is available nearby.`;
-        
+
         // Create categories
         const categories = ['science', 'education', 'museum', 'family-friendly'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.category === 'Adult Event') {
           categories.push('after hours', '19+', 'nightlife', 'cocktails');
         } else if (eventData.category === 'Exhibition') {
@@ -196,7 +196,7 @@ class ScienceWorldScraper {
         } else if (eventData.category === 'Fundraiser') {
           categories.push('charity', 'cocktails', 'gala', '19+');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -208,19 +208,19 @@ class ScienceWorldScraper {
           category: 'science',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🔬 Successfully created ${events.length} Science World events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in Science World scraper: ${error.message}`);
       return events;
@@ -229,3 +229,13 @@ class ScienceWorldScraper {
 }
 
 module.exports = new ScienceWorldScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new ScienceWorldScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.ScienceWorldScraper = ScienceWorldScraper;

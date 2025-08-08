@@ -1,0 +1,413 @@
+/**
+ * NYC Nightlife & Clubs Events Scraper
+ *
+ * Scrapes nightlife and club events from NYC bars, clubs, and entertainment venues
+ * URL: https://www.eventbrite.com/d/ny--new-york/nightlife/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+class NYCNightlifeClubsEvents {
+    constructor() {
+        this.venueName = 'NYC Nightlife & Clubs Events';
+        this.venueLocation = 'Various NYC Bars, Clubs & Entertainment Venues';
+        this.baseUrl = 'https://www.eventbrite.com';
+        this.eventsUrl = 'https://www.eventbrite.com/d/ny--new-york/nightlife/';
+        this.category = 'Nightlife & Clubs';
+    }
+
+    /**
+     * Scrape events from NYC Nightlife & Clubs Events
+     * @returns {Promise<Array>} Array of event objects
+     */
+    async scrape() {
+        console.log(`🍸 Scraping events from ${this.venueName}...`);
+
+        try {
+            const response = await axios.get(this.eventsUrl, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Cache-Control': 'max-age=0',
+                    'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"macOS"',
+                    'sec-fetch-dest': 'document',
+                    'sec-fetch-mode': 'navigate',
+                    'sec-fetch-site': 'none',
+                    'sec-fetch-user': '?1',
+                    'upgrade-insecure-requests': '1',
+                    'Referer': 'https://www.google.com/',
+                    'DNT': '1',
+                    'Connection': 'keep-alive'
+                },
+                timeout: 15000
+            };
+
+            const $ = cheerio.load(response.data);
+            const events = [];
+
+            // Look for nightlife/club-specific event containers
+            const eventSelectors = [
+                '.nightlife-event', '.club-event', '.party-event',
+                '.event-item', '.event-card', '.event', '.bar-event',
+                '[class*="nightlife"]', '[class*="club"]', '[class*="event"]',
+                '.card', '.content-card', '.dj-event', '.concert-event'
+            ];
+
+            eventSelectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const $el = $(element);
+                    let title = $el.find('h1, h2, h3, h4, .title, .event-title, .party-title, .name, .headline').first().text().trim();
+
+                    if (!title) {
+                        const textContent = $el.text().trim();
+                        const lines = textContent.split('\n').filter(line => line.trim().length > 0);
+                        title = lines[0]?.trim() || '';
+                    }
+
+                    if (title && this.isValidEvent(title)) {
+                        // Look for event date/time
+                        let dateTime = '';
+                        const dateSelectors = [
+                            '.date', '.datetime', '[class*="date"]',
+                            'time', '.when', '.schedule', '.event-time', '.party-time'
+                        ];
+
+                        for (const dateSelector of dateSelectors) {
+                            const dateElement = $el.find(dateSelector).first();
+                            if (dateElement.length > 0) {
+                                dateTime = dateElement.text().trim();
+                                if (dateTime && dateTime.length < 150) break;
+                            }
+                        }
+
+                        // Look for venue/club/bar
+                        let venue = this.venueLocation;
+                        const venueSelectors = ['.venue', '.club', '.bar', '[class*="venue"]', '.location', '.nightclub'];
+                        for (const venueSelector of venueSelectors) {
+                            const venueElement = $el.find(venueSelector).first();
+                            if (venueElement.length > 0) {
+                                const venueText = venueElement.text().trim();
+                                if (venueText && venueText.length > 0) {
+                                    venue = venueText.length > 70 ? venueText.substring(0, 70) + '...' : venueText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for music genre/style
+                        let musicGenre = this.category;
+                        const genreSelectors = ['.music-genre', '.genre', '.music-style', '[class*="genre"]'];
+                        for (const genreSelector of genreSelectors) {
+                            const genreElement = $el.find(genreSelector).first();
+                            if (genreElement.length > 0) {
+                                const genreText = genreElement.text().trim();
+                                if (genreText && genreText.match(/\b(house|techno|hip-hop|R&B|pop|electronic|jazz|latin|reggaeton)\b/i)) {
+                                    musicGenre = genreText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for DJ/performer
+                        let performer = '';
+                        const performerSelectors = ['.dj', '.performer', '.artist', '[class*="dj"]'];
+                        for (const performerSelector of performerSelectors) {
+                            const performerElement = $el.find(performerSelector).first();
+                            if (performerElement.length > 0) {
+                                performer = performerElement.text().trim();
+                                if (performer) break;
+                            }
+                        }
+
+                        // Look for age restriction
+                        let ageRestriction = '';
+                        const ageSelectors = ['.age-restriction', '.21+', '.18+', '[class*="age"]'];
+                        for (const ageSelector of ageSelectors) {
+                            const ageElement = $el.find(ageSelector).first();
+                            if (ageElement.length > 0) {
+                                const ageText = ageElement.text().trim();
+                                if (ageText && ageText.match(/\b(21\+|18\+|adults only)\b/i)) {
+                                    ageRestriction = ageText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for cover charge/ticket price
+                        let coverCharge = '';
+                        const coverSelectors = ['.cover-charge', '.ticket-price', '.admission', '[class*="cover"]'];
+                        for (const coverSelector of coverSelectors) {
+                            const coverElement = $el.find(coverSelector).first();
+                            if (coverElement.length > 0) {
+                                const coverText = coverElement.text().trim();
+                                if (coverText && (coverText.includes('$') || coverText.toLowerCase().includes('free'))) {
+                                    coverCharge = coverText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for dress code
+                        let dressCode = '';
+                        const dressSelectors = ['.dress-code', '.attire', '.dress', '[class*="dress"]'];
+                        for (const dressSelector of dressSelectors) {
+                            const dressElement = $el.find(dressSelector).first();
+                            if (dressElement.length > 0) {
+                                const dressText = dressElement.text().trim();
+                                if (dressText && dressText.match(/\b(casual|smart casual|upscale|no sneakers|cocktail)\b/i)) {
+                                    dressCode = dressText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for happy hour/specials
+                        let specials = '';
+                        const specialSelectors = ['.specials', '.happy-hour', '.drink-deals', '[class*="special"]'];
+                        for (const specialSelector of specialSelectors) {
+                            const specialElement = $el.find(specialSelector).first();
+                            if (specialElement.length > 0) {
+                                specials = specialElement.text().trim();
+                                if (specials) break;
+                            }
+                        }
+
+                        // Look for VIP/bottle service
+                        let vipService = '';
+                        const vipSelectors = ['.vip', '.bottle-service', '.table-service', '[class*="vip"]'];
+                        for (const vipSelector of vipSelectors) {
+                            const vipElement = $el.find(vipSelector).first();
+                            if (vipElement.length > 0) {
+                                vipService = vipElement.text().trim();
+                                if (vipService) break;
+                            }
+                        }
+
+                        // Look for event type
+                        let eventType = '';
+                        const typeSelectors = ['.event-type', '.party-type', '.celebration', '[class*="type"]'];
+                        for (const typeSelector of typeSelectors) {
+                            const typeElement = $el.find(typeSelector).first();
+                            if (typeElement.length > 0) {
+                                const typeText = typeElement.text().trim();
+                                if (typeText && typeText.match(/\b(birthday|bachelor|bachelorette|corporate|private|theme)\b/i)) {
+                                    eventType = typeText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for capacity/size
+                        let capacity = '';
+                        const capacitySelectors = ['.capacity', '.venue-size', '.guest-limit', '[class*="capacity"]'];
+                        for (const capacitySelector of capacitySelectors) {
+                            const capacityElement = $el.find(capacitySelector).first();
+                            if (capacityElement.length > 0) {
+                                const capacityText = capacityElement.text().trim();
+                                if (capacityText && capacityText.match(/\d+/)) {
+                                    capacity = capacityText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for parking/transportation
+                        let transportation = '';
+                        const transportSelectors = ['.parking', '.transportation', '.valet', '[class*="transport"]'];
+                        for (const transportSelector of transportSelectors) {
+                            const transportElement = $el.find(transportSelector).first();
+                            if (transportElement.length > 0) {
+                                transportation = transportElement.text().trim();
+                                if (transportation) break;
+                            }
+                        }
+
+                        // Look for reservation requirement
+                        let reservation = '';
+                        const reservationSelectors = ['.reservation', '.rsvp', '.guest-list', '[class*="reservation"]'];
+                        for (const reservationSelector of reservationSelectors) {
+                            const reservationElement = $el.find(reservationSelector).first();
+                            if (reservationElement.length > 0) {
+                                reservation = reservationElement.text().trim();
+                                if (reservation) break;
+                            }
+                        }
+
+                        // Look for neighborhood/area
+                        let neighborhood = '';
+                        const neighborhoodSelectors = ['.neighborhood', '.area', '.district', '[class*="neighborhood"]'];
+                        for (const neighborhoodSelector of neighborhoodSelectors) {
+                            const neighborhoodElement = $el.find(neighborhoodSelector).first();
+                            if (neighborhoodElement.length > 0) {
+                                const neighborhoodText = neighborhoodElement.text().trim();
+                                if (neighborhoodText && neighborhoodText.match(/\b(Manhattan|Brooklyn|Queens|Soho|Chelsea|Meatpacking|LES)\b/i)) {
+                                    neighborhood = neighborhoodText;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Look for description
+                        let description = '';
+                        const descSelectors = ['.description', '.excerpt', '.summary', '.details', '.content'];
+                        for (const descSelector of descSelectors) {
+                            const descElement = $el.find(descSelector).first();
+                            if (descElement.length > 0) {
+                                description = descElement.text().trim();
+                                if (description && description.length > 20 && description.length < 300) break;
+                            }
+                        }
+
+                        // Look for link
+                        let eventLink = $el.find('a').first().attr('href') || '';
+                        if (eventLink && !eventLink.startsWith('http')) {
+                            eventLink = this.baseUrl + eventLink;
+                        }
+
+                        const event = {
+                            title: title,
+                            venue: venue,
+                            location: this.venueLocation,
+                            date: dateTime || 'Check website for nightlife event schedule',
+                            category: musicGenre,
+                            performer: performer,
+                            ageRestriction: ageRestriction,
+                            coverCharge: coverCharge,
+                            dressCode: dressCode,
+                            specials: specials,
+                            vipService: vipService,
+                            eventType: eventType,
+                            capacity: capacity,
+                            transportation: transportation,
+                            reservation: reservation,
+                            neighborhood: neighborhood,
+                            description: description,
+                            link: eventLink || this.eventsUrl,
+                            source: 'NYCNightlifeClubsEvents'
+                        };
+
+                        events.push(event);
+                    }
+                };
+            };
+
+            // Look for general nightlife/club information
+            $('div, section, article, p').each((index, element) => {
+                if (index > 100) return false; // Limit processing
+
+                const $el = $(element);
+                const text = $el.text().trim();
+
+                if (text.length > 30 && text.length < 400) {
+                    const hasNightlifeKeywords = text.match(/\b(nightlife|club|bar|party|DJ|dance|music|cocktail|drinks)\b/i);
+                    const hasEventPattern = text.match(/\b(event|party|night|show|performance|celebration|gathering)\b/i);
+
+                    if (hasNightlifeKeywords && hasEventPattern) {
+                        const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
+                        const title = sentences[0]?.trim() || '';
+
+                        if (title && this.isValidEvent(title) && title.length > 20) {
+                            const event = {
+                                title: title.length > 150 ? title.substring(0, 150) + '...' : title,
+                                venue: this.venueName,
+                                location: this.venueLocation,
+                                date: 'Check website for nightlife event schedule',
+                                category: this.category,
+                                link: this.eventsUrl,
+                                source: 'NYCNightlifeClubsEvents'
+                            };
+
+                            events.push(event);
+                        }
+                    }
+                }
+            };
+
+            // Remove duplicates
+            const uniqueEvents = this.removeDuplicateEvents(events);
+
+            console.log(`✅ ${this.venueName}: Found ${uniqueEvents.length} events`);
+            return uniqueEvents;
+
+        } catch (error) {
+            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Remove duplicate events based on title and venue
+     * @param {Array} events - Array of event objects
+     * @returns {Array} Deduplicated events
+     */
+    removeDuplicateEvents(events) {
+        const seen = new Set();
+        return events.filter(event => {
+            const key = `${event.title}-${event.venue}`.toLowerCase();
+            if (seen.has(key)) {
+                return false;
+            }
+            seen.add(key);
+            return true;
+        };
+    }
+
+    /**
+     * Check if the extracted text represents a valid event
+     * @param {string} title - Event title to validate
+     * @returns {boolean} Whether the title appears to be a valid event
+     */
+    isValidEvent(title) {
+        if (!title || title.length < 8 || title.length > 200) return false;
+
+        const invalidKeywords = [
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie',
+            'newsletter', 'subscribe', 'follow', 'social media', 'menu',
+            'navigation', 'search', 'login', 'register', 'sign up',
+            'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
+            'more info', 'read more', 'learn more', 'view all',
+            'click here', 'find out', 'discover', 'directions'
+        ];
+
+        // Check for valid nightlife/club keywords
+        const validKeywords = [
+            'nightlife', 'club', 'bar', 'party', 'DJ', 'dance', 'music',
+            'cocktail', 'drinks', 'event', 'night', 'show', 'performance',
+            'celebration', 'gathering', 'nightclub', 'lounge', 'rooftop'
+        ];
+
+        const titleLower = title.toLowerCase();
+        const hasValidKeyword = validKeywords.some(keyword => titleLower.includes(keyword));
+        const hasInvalidKeyword = invalidKeywords.some(keyword => titleLower.includes(keyword));
+
+        return hasValidKeyword && !hasInvalidKeyword;
+    }
+
+    /**
+     * Get venue information
+     * @returns {Object} Venue details
+     */
+    getVenueInfo() {
+        return {
+            name: this.venueName,
+            location: this.venueLocation,
+            category: this.category,
+            website: this.baseUrl
+        };
+    }
+}
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new NYCNightlifeClubsEvents();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.NYCNightlifeClubsEvents = NYCNightlifeClubsEvents;

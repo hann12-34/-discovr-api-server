@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Art Gallery Events Scraper
  * Scrapes events and exhibitions from the Vancouver Art Gallery
@@ -257,7 +258,7 @@ const ArtGalleryEvents = {
       venue: {
         name: 'Vancouver Art Gallery',
         address: '750 Hornby St',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6Z 2H7',

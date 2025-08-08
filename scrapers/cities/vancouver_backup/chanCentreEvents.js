@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Chan Centre for the Performing Arts Events Scraper
  * Scrapes events from the Chan Centre at UBC in Vancouver
@@ -234,7 +235,7 @@ const ChanCentreEvents = {
       venue: {
         name: 'Chan Centre for the Performing Arts',
         address: '6265 Crescent Road',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6T 1Z1',

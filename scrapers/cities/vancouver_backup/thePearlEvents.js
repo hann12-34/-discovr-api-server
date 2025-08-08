@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * The Pearl Events Scraper
  * Scrapes events from The Pearl in Vancouver
@@ -160,7 +161,7 @@ const ThePearlEvents = {
       venue: {
         name: 'The Pearl',
         address: '881 Granville Street',
-        city: 'Vancouver',
+        city: getCityFromArgs(),
         province: 'BC',
         country: 'Canada',
         postalCode: 'V6Z 1K7',

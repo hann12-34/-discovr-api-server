@@ -1,6 +1,6 @@
 /**
  * Calgary Nightlife Scraper
- * 
+ *
  * This scraper extracts nightlife venue information from Calgary's official tourism page.
  * It identifies venues in different categories: Live Music, Nightclubs & Dancing, Bars & Pubs, and Cowboy bars.
  */
@@ -18,13 +18,13 @@ class CalgaryNightlifeScraper {
     async scrapeEvents() {
         try {
             console.log('🌃 Scraping Calgary Nightlife venues...');
-            
+
             const response = await axios.get(this.targetUrl, {
                 timeout: 30000,
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
-            });
+            };
 
             const $ = cheerio.load(response.data);
             const events = [];
@@ -40,65 +40,65 @@ class CalgaryNightlifeScraper {
             // Process each category section
             for (const [sectionName, category] of Object.entries(categories)) {
                 const sectionHeader = $(`h2:contains("${sectionName}")`);
-                
+
                 if (sectionHeader.length > 0) {
                     const sectionContent = sectionHeader.next();
-                    
+
                     // Extract venue links and names
                     const venueLinks = sectionContent.find('a').toArray();
-                    
+
                     venueLinks.forEach(link => {
                         const $link = $(link);
                         const venueName = this.cleanText($link.text());
                         const venueUrl = $link.attr('href');
-                        
+
                         if (venueName && venueUrl && venueName.length > 2) {
                             // Create a generic event for each venue
                             events.push({
                                 title: `${venueName} - ${category} Venue`,
                                 description: `Experience ${category.toLowerCase()} entertainment at ${venueName}. Check their website for current events and schedules.`,
-                                venue: {
+                                venue: { ...RegExp.venue: {
                                     name: venueName,
                                     address: 'Calgary, AB',
-                                    city: 'Calgary',
+                                    city: city,
                                     state: 'Alberta',
                                     country: 'Canada'
-                                },
+                                }, city },,
                                 category: category,
                                 url: venueUrl.startsWith('http') ? venueUrl : `https://${venueUrl}`,
                                 date: this.getUpcomingDate(),
                                 source: 'Calgary Nightlife',
                                 scrapedAt: new Date()
-                            });
+                            };
                         }
-                    });
+                    };
                 }
             }
 
             // Also extract venue names from text content
             const textContent = $('body').text();
             const venueNames = this.extractVenueNames(textContent);
-            
+
             venueNames.forEach(venue => {
                 if (!events.find(e => e.venue.name === venue.name)) {
                     events.push({
                         title: `${venue.name} - ${venue.category} Venue`,
                         description: `Experience ${venue.category.toLowerCase()} entertainment at ${venue.name}. Visit for current events and schedules.`,
-                        venue: {
+                        venue: { ...RegExp.venue: {
                             name: venue.name,
                             address: 'Calgary, AB',
-                            city: 'Calgary',
+                            city: city,
                             state: 'Alberta',
                             country: 'Canada'
-                        },
+                        }, city },,
                         category: venue.category,
                         url: venue.url || this.targetUrl,
                         date: this.getUpcomingDate(),
                         source: 'Calgary Nightlife',
                         scrapedAt: new Date()
-                    });
+                    };
                 }
-            });
+            };
 
             console.log(`🎉 Successfully scraped ${events.length} unique venues from Calgary Nightlife`);
             return events;
@@ -118,14 +118,14 @@ class CalgaryNightlifeScraper {
             { name: 'Modern Love', category: 'Live Music', url: 'https://modern-love.ca/' },
             { name: 'The Palomino Smokehouse', category: 'Live Music', url: 'https://thepalomino.ca/' },
             { name: 'The Blues Can', category: 'Live Music', url: 'https://www.thebluescan.com/' },
-            
+
             // Nightclubs
             { name: 'Greta Bar', category: 'Nightclub', url: 'https://www.gretabar.com/locations/calgary' },
             { name: 'Infinity Ultra Lounge', category: 'Nightclub', url: 'https://www.infinityultralounge.com/' },
             { name: 'Papi', category: 'Nightclub', url: 'https://papicalgary.ca/' },
             { name: 'Sub Rosa', category: 'Nightclub', url: 'https://www.subrosayyc.com/' },
             { name: 'Twisted Element', category: 'Nightclub', url: 'https://twistedelement.club/' },
-            
+
             // Bars & Pubs
             { name: 'Bottlescrew Bill\'s Pub', category: 'Bar', url: 'https://www.bottlescrewbill.com/' },
             { name: 'James Joyce Irish Pub', category: 'Bar', url: 'http://jamesjoycepub.com/' },
@@ -133,14 +133,14 @@ class CalgaryNightlifeScraper {
             { name: 'St. James Corner', category: 'Bar', url: 'https://stjamescorner.ca/' },
             { name: 'Ship and Anchor', category: 'Bar', url: 'https://shipandanchor.com/' },
             { name: 'The Bank and Baron P.U.B', category: 'Bar', url: 'https://www.bankandbaronpub.com/' },
-            
+
             // Country Bars
             { name: 'Cowboys Dance Hall', category: 'Country Bar', url: 'https://www.cowboysnightclub.com/' },
             { name: 'Spanky\'s Saloon', category: 'Country Bar', url: 'https://spankyssaloon.ca/' },
             { name: 'Whiskey Rose Saloon', category: 'Country Bar', url: 'https://whiskeyrosesaloon.com/' }
         ];
 
-        return venuePatterns.filter(venue => 
+        return venuePatterns.filter(venue =>
             text.includes(venue.name) || text.includes(venue.name.replace(/[^\w\s]/g, ''))
         );
     }
@@ -158,3 +158,14 @@ class CalgaryNightlifeScraper {
 }
 
 module.exports = CalgaryNightlifeScraper;
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new CalgaryNightlifeScraper();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in CalgaryNightlifeScraper');
+    }
+};

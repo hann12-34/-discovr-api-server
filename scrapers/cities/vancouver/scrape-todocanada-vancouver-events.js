@@ -1,5 +1,6 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
- * TodoCanada Vancouver Events Scraper
+ * Canada Events Vancouver Data Collector
  * Scrapes events from https://www.todocanada.ca/city/vancouver/events
  * Uses JSON-LD structured data extraction
  */
@@ -11,8 +12,8 @@ const { v4: uuidv4 } = require('uuid');
 class TodoCanadaVancouverEvents {
     constructor() {
         this.venueName = 'TodoCanada Vancouver Events';
-        this.eventsUrl = 'https://www.todocanada.ca/city/vancouver/events';
-        this.city = 'Vancouver';
+        this.baseUrl = 'https://www.todocanada.ca/city/vancouver/events';
+        this.city = city || 'vancouver';
         this.province = 'BC';
         this.country = 'Canada';
     }
@@ -30,20 +31,20 @@ class TodoCanadaVancouverEvents {
 
     /**
      * Parse date string into Date object
-     * @param {string} dateString - Date string to parse
+     * @param {string} da - Date string to parse
      * @returns {Date|null} Parsed date or null
      */
-    parseDate(dateString) {
-        if (!dateString) return null;
-        
+    parseDate(da) {
+        if (!da) return null;
+
         try {
-            const date = new Date(dateString);
+            const date = new Date(da);
             if (!isNaN(date.getTime())) {
                 return date;
             }
             return null;
         } catch (error) {
-            console.error('Error parsing date:', dateString, error.message);
+            console.error('Error parsing date:', da, error.message);
             return null;
         }
     }
@@ -55,22 +56,18 @@ class TodoCanadaVancouverEvents {
      */
     parsePrice(offers) {
         if (!offers) return 'Free';
-        
+
         try {
             let priceInfo = 'Free';
-            
+
             if (Array.isArray(offers)) {
                 if (offers.length > 0 && offers[0].price) {
-                    priceInfo = `$${offers[0].price}`;
-                }
+                    priceInfo = `$${offers[0].price}` }
             } else if (offers.price) {
-                priceInfo = `$${offers.price}`;
-            }
-            
-            return priceInfo;
-        } catch (error) {
-            return 'Varies';
-        }
+                priceInfo = `$${offers.price}` }
+
+            return priceInfo } catch (error) {
+            return 'Varies' }
     }
 
     /**
@@ -81,57 +78,50 @@ class TodoCanadaVancouverEvents {
     extractVenueInfo(location) {
         if (!location) {
             return {
-                name: 'Vancouver Venue',
-                address: 'Vancouver, BC',
+                name: `${this.city} Venue`,
+                address: `${this.city}, BC`,
                 coordinates: this.getDefaultCoordinates()
-            };
-        }
+            } }
 
-        let venueName = 'Vancouver Venue';
-        let address = 'Vancouver, BC';
+        let venueName = `${this.city} Venue`;
+        let address = `${this.city}, BC`;
         let coordinates = this.getDefaultCoordinates();
 
         if (typeof location === 'string') {
             address = location;
-            venueName = location.split(',')[0].trim();
-        } else if (location.name) {
+            venueName = location.split(',')[0].trim() } else if (location.name) {
             venueName = location.name;
             if (location.address) {
                 if (typeof location.address === 'string') {
-                    address = location.address;
-                } else if (location.address.streetAddress) {
+                    address = location.address } else if (location.address.streetAddress) {
                     address = location.address.streetAddress;
                     if (location.address.addressLocality) {
-                        address += `, ${location.address.addressLocality}`;
-                    }
+                        address += `, ${location.address.addressLocality}` }
                     if (location.address.addressRegion) {
-                        address += `, ${location.address.addressRegion}`;
-                    }
+                        address += `, ${location.address.addressRegion}` }
                 }
             }
         }
 
         // Ensure Vancouver is in the address if not present
-        if (!address.toLowerCase().includes('vancouver')) {
-            address += ', Vancouver, BC';
-        }
-        
+        if (!address.toLowerCase().includes(this.city.toLowerCase())) {
+            address += `, ${this.city}, BC` }
+
         return {
             name: venueName,
             address: address,
             coordinates: coordinates
-        };
-    }
+        } }
 
     /**
-     * Fetch events from TodoCanada Vancouver using JSON-LD data
+     * Fetch events from Canada Events Vancouver using JSON-LD data
      * @returns {Promise<Array>} Array of event objects
      */
     async fetchEvents() {
         console.log(`🔍 Fetching events from ${this.venueName}...`);
-        
+
         try {
-            const response = await axios.get(this.eventsUrl, {
+            const response = await axios.get(thissUrl, {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/121.0',
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -148,7 +138,7 @@ class TodoCanadaVancouverEvents {
             const events = [];
 
             console.log(`✅ Successfully loaded TodoCanada Vancouver page`);
-            
+
             // Extract JSON-LD structured data
             const jsonLdScripts = $('script[type="application/ld+json"]');
             console.log(`🔍 Found ${jsonLdScripts.length} JSON-LD scripts`);
@@ -156,10 +146,10 @@ class TodoCanadaVancouverEvents {
             jsonLdScripts.each((index, element) => {
                 try {
                     const jsonData = JSON.parse($(element).html());
-                    
+
                     if (jsonData['@type'] === 'Event') {
                         const venueInfo = this.extractVenueInfo(jsonData.location);
-                        
+
                         const event = {
                             id: uuidv4(),
                             name: jsonData.name || 'Untitled Event',
@@ -182,24 +172,20 @@ class TodoCanadaVancouverEvents {
                             type: 'event',
                             status: 'active',
                             imageURL: jsonData.image || null,
-                            sourceURL: jsonData.url || this.eventsUrl,
-                            officialWebsite: jsonData.url || this.eventsUrl,
+                            sourceURL: jsonData.url || thissUrl,
+                            officialWebsite: jsonData.url || thissUrl,
                             scrapedAt: new Date().toISOString(),
                             source: this.venueName
                         };
-                        
+
                         events.push(event);
-                        console.log(`✅ Extracted event: ${jsonData.name}`);
-                    }
+                        console.log(`✅ Extracted event: ${jsonData.name}`) }
                 } catch (parseError) {
-                    console.log(`⚠️ Could not parse JSON-LD script ${index + 1}:`, parseError.message);
-                }
+                    console.log(`⚠️ Could not parse JSON-LD script ${index + 1}:`, parseError.message) }
             });
 
             console.log(`🎉 Successfully scraped ${events.length} events from ${this.venueName}`);
-            return events;
-
-        } catch (error) {
+            return events } catch (error) {
             console.error(`❌ Error fetching events from ${this.venueName}:`, error.message);
             if (error.response) {
                 console.log(`   Status: ${error.response.status}`);
@@ -209,4 +195,7 @@ class TodoCanadaVancouverEvents {
     }
 }
 
-module.exports = new TodoCanadaVancouverEvents();
+module.exports = async (city) => {
+    const scraper = new TodoCanadaVancouverEvents();
+    return await scraper.fetchEvents(city || scraper.city);
+};

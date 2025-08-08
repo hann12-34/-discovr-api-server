@@ -1,3 +1,4 @@
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Vancouver Aquarium Events Scraper
  * Scrapes events from Vancouver Aquarium's website
@@ -13,7 +14,7 @@ class VancouverAquariumEvents {
     this.venue = {
       name: 'Vancouver Aquarium',
       address: '845 Avison Way, Vancouver, BC V6G 3E2',
-      city: 'Vancouver',
+      city: getCityFromArgs(),
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.3004, lng: -123.1309 }

@@ -10,7 +10,12 @@ const { v4: uuidv4 } = require('uuid');
 class GlenbowMuseumEvents {
     constructor() {
         this.baseUrl = 'https://www.glenbow.org';
-        this.eventsUrl = 'https://www.glenbow.org/exhibitions-events';
+        this.eventsUrls = [
+            'https://www.glenbow.org/exhibitions-events',
+            'https://www.glenbow.org/events',
+            'https://www.glenbow.org/exhibitions',
+            'https://www.glenbow.org/calendar'
+        ];
         this.source = 'Glenbow Museum';
         this.city = 'Calgary';
         this.province = 'AB';
@@ -34,34 +39,34 @@ class GlenbowMuseumEvents {
      */
     parseDate(dateStr) {
         if (!dateStr) return null;
-        
+
         try {
             const cleanDateStr = dateStr.trim();
-            
+
             // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }
-            
+
             // Handle common date formats
-            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2}),?\s+(\d{4})/);
+            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2},?\s+(\d{4}/);
             if (dateMatch) {
                 return new Date(`${dateMatch[1]} ${dateMatch[2]}, ${dateMatch[3]}`);
             }
-            
+
             // Handle numeric date formats
-            const numericMatch = cleanDateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            const numericMatch = cleanDateStr.match(/(\d{1,2}\/(\d{1,2}\/(\d{4}/);
             if (numericMatch) {
                 return new Date(`${numericMatch[1]}/${numericMatch[2]}/${numericMatch[3]}`);
             }
-            
+
             // Try direct parsing
             const parsed = new Date(cleanDateStr);
             if (!isNaN(parsed.getTime())) {
                 return parsed;
             }
-            
+
             return null;
         } catch (error) {
             console.log(`Error parsing date: ${dateStr}`, error);
@@ -88,9 +93,9 @@ class GlenbowMuseumEvents {
     extractVenueInfo($, eventElement) {
         const venueElement = $(eventElement).find('.venue, .location, .where, .place, .gallery').first();
         const venueName = venueElement.length > 0 ? this.cleanText(venueElement.text()) : null;
-        
+
         const defaultCoords = this.getDefaultCoordinates();
-        
+
         return {
             name: venueName || 'Glenbow Museum',
             address: '130 9 Ave SE, Calgary, AB T2G 0P3',
@@ -109,38 +114,38 @@ class GlenbowMuseumEvents {
      */
     extractEventDetails($, eventElement) {
         const $event = $(eventElement);
-        
+
         // Extract title
         const title = this.cleanText(
             $event.find('.title, .event-title, .exhibition-title, .program-title, .activity-title, h1, h2, h3, h4, a[href*="event"]').first().text()
         );
-        
+
         if (!title) return null;
-        
+
         // Extract date
         const dateText = $event.find('.date, .when, .time, .event-date, .exhibition-date, .program-date').first().text();
         const eventDate = this.parseDate(dateText);
-        
+
         // Extract description
         const description = this.cleanText(
             $event.find('.description, .summary, .excerpt, .content, p, .event-description').first().text()
         );
-        
+
         // Extract price
         const priceText = $event.find('.price, .cost, .ticket-price, .admission').text();
         const price = priceText ? this.cleanText(priceText) : 'Check website for pricing';
-        
+
         // Extract event URL
         const eventUrl = $event.find('a').first().attr('href');
         const fullEventUrl = eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `${this.baseUrl}${eventUrl}`) : null;
-        
+
         // Extract image
         const imageUrl = $event.find('img').first().attr('src');
         const fullImageUrl = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`) : null;
-        
+
         // Get venue info
         const venue = this.extractVenueInfo($, eventElement);
-        
+
         // Determine category based on title/description
         let category = 'Museum';
         const titleLower = title.toLowerCase();
@@ -167,7 +172,7 @@ class GlenbowMuseumEvents {
         } else if (titleLower.includes('kids') || titleLower.includes('children')) {
             category = 'Kids';
         }
-        
+
         return {
             id: uuidv4(),
             name: title,
@@ -193,10 +198,10 @@ class GlenbowMuseumEvents {
      */
     isEventLive(eventDate) {
         if (!eventDate) return true; // Include events with no date
-        
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         return eventDate >= today;
     }
 
@@ -208,13 +213,13 @@ class GlenbowMuseumEvents {
     removeDuplicates(events) {
         const seen = new Set();
         return events.filter(event => {
-            const key = `${event.title}-${event.date ? event.date.toDateString() : 'no-date'}`;
+            const key = `${event.title}-${event.date ? event.date.toDaeventDateText() : 'no-date'}`;
             if (seen.has(key)) {
                 return false;
             }
             seen.add(key);
             return true;
-        });
+        };
     }
 
     /**
@@ -223,18 +228,37 @@ class GlenbowMuseumEvents {
      */
     async scrapeEvents() {
         try {
-            console.log(`🏛️ Scraping events from ${this.source}...`);
-            
-            const response = await axios.get(this.eventsUrl, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                },
-                timeout: 30000
-            });
-            
+            console.log(`🏦 Scraping events from ${this.source}...`);
+
+            let response;
+            let workingUrl = null;
+
+            // Try each URL until one works
+            for (const url of this.eventsUrls) {
+                try {
+                    console.log(`🔍 Trying URL: ${url}`);
+                    response = await axios.get(url, {
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                        },
+                        timeout: 30000
+                    };
+                    workingUrl = url;
+                    console.log(`✅ Successfully connected to: ${url}`);
+                    break;
+                } catch (error) {
+                    console.log(`❌ Failed to connect to ${url}: ${error.message}`);
+                    continue;
+                }
+            }
+
+            if (!response || !workingUrl) {
+                throw new Error('All URLs failed - Glenbow Museum website may be temporarily unavailable');
+            }
+
             const $ = cheerio.load(response.data);
             const events = [];
-            
+
             // Look for common event selectors
             const eventSelectors = [
                 '.event',
@@ -249,7 +273,7 @@ class GlenbowMuseumEvents {
                 '.event-listing',
                 '.exhibition-item'
             ];
-            
+
             let eventElements = $();
             for (const selector of eventSelectors) {
                 const elements = $(selector);
@@ -259,20 +283,20 @@ class GlenbowMuseumEvents {
                     break;
                 }
             }
-            
+
             if (eventElements.length === 0) {
                 console.log('⚠️  No events found with standard selectors, trying alternative approach...');
-                
+
                 // Try finding events by looking for elements with museum content
                 eventElements = $('[class*="event"], [class*="exhibition"], [class*="program"]').filter(function() {
                     const text = $(this).text().toLowerCase();
-                    return text.includes('exhibition') || text.includes('program') || text.includes('tour') || 
+                    return text.includes('exhibition') || text.includes('program') || text.includes('tour') ||
                            text.includes('workshop') || text.includes('event') || text.includes('gallery');
-                });
+                };
             }
-            
+
             console.log(`📅 Processing ${eventElements.length} potential events...`);
-            
+
             // Process each event
             eventElements.each((index, element) => {
                 try {
@@ -284,17 +308,17 @@ class GlenbowMuseumEvents {
                 } catch (error) {
                     console.log(`❌ Error extracting event ${index + 1}:`, error.message);
                 }
-            });
-            
+            };
+
             // Remove duplicates
             const uniqueEvents = this.removeDuplicates(events);
-            
+
             // Filter for live events
             const liveEvents = uniqueEvents.filter(event => this.isEventLive(event.date));
-            
+
             console.log(`🎉 Successfully scraped ${liveEvents.length} unique events from ${this.source}`);
             return liveEvents;
-            
+
         } catch (error) {
             console.error(`❌ Error scraping events from ${this.source}:`, error.message);
             return [];
@@ -302,26 +326,48 @@ class GlenbowMuseumEvents {
     }
 }
 
-module.exports = GlenbowMuseumEvents;
+// Export wrapper function for compatibility with sample runner
+const scrape = async (city) => {
+    const scraper = new GlenbowMuseumEvents();
+    return await scraper.scrapeEvents();
+};
+
+module.exports = { scrape, GlenbowMuseumEvents };
 
 // Test runner
 if (require.main === module) {
     async function testScraper() {
+  const city = city;
+  if (!city) {
+    console.error('❌ City argument is required. e.g. node scrape-glenbow-museum.js Toronto');
+    process.exit(1);
+  }
         const scraper = new GlenbowMuseumEvents();
         const events = await scraper.scrapeEvents();
         console.log('\n' + '='.repeat(50));
         console.log('GLENBOW MUSEUM TEST RESULTS');
         console.log('='.repeat(50));
         console.log(`Found ${events.length} events`);
-        
+
         events.slice(0, 3).forEach((event, index) => {
             console.log(`\n${index + 1}. ${event.title}`);
-            console.log(`   Date: ${event.date ? event.date.toDateString() : 'TBD'}`);
+            console.log(`   Date: ${event.date ? event.date.toDaeventDateText() : 'TBD'}`);
             console.log(`   Category: ${event.category}`);
             console.log(`   Venue: ${event.venue.name}`);
             if (event.url) console.log(`   URL: ${event.url}`);
-        });
+        };
     }
-    
+
     testScraper();
 }
+
+
+// Function export wrapper added by targeted fixer
+module.exports = async (city) => {
+    const scraper = new GlenbowMuseumEvents();
+    if (typeof scraper.scrape === 'function') {
+        return await scraper.scrape(city);
+    } else {
+        throw new Error('No scrape method found in GlenbowMuseumEvents');
+    }
+};

@@ -1,6 +1,6 @@
 /**
  * The Centre in Vancouver Scraper
- * 
+ *
  * This scraper provides information about events at The Centre in Vancouver
  * Source: https://thecentrevancouver.com/
  */
@@ -12,13 +12,13 @@ class TheCentreVancouverScraper {
     this.name = 'The Centre in Vancouver';
     this.url = 'https://thecentrevancouver.com/';
     this.sourceIdentifier = 'the-centre-vancouver';
-    
+
     // Venue information
     this.venue = {
       name: "The Centre in Vancouver",
       id: "the-centre-vancouver",
       address: "777 Homer St",
-      city: "Vancouver",
+      city: city,
       state: "BC",
       country: "Canada",
       postalCode: "V6B 2W1",
@@ -29,9 +29,9 @@ class TheCentreVancouverScraper {
       websiteUrl: "https://thecentrevancouver.com/",
       description: "The Centre in Vancouver (formerly the Centre for Performing Arts) is a 1,800-seat theatre located in the heart of downtown Vancouver. This beautifully restored venue features state-of-the-art acoustics, excellent sightlines, and hosts a variety of performances including concerts, comedy shows, theatrical productions, and special events."
     };
-    
+
     // Upcoming events for 2025
-    this.events = [
+    thiss = [
       {
         title: "Jann Arden: The Mixtape Tour",
         description: "Canadian music icon Jann Arden brings her 'The Mixtape Tour' to The Centre in Vancouver, celebrating four decades of hit songs and stories. This intimate evening showcases Arden's powerful vocals and remarkable songwriting in a career-spanning performance that weaves together her biggest hits with personal anecdotes and insights from her storied career. The multi-platinum, award-winning singer-songwriter will perform classics like 'Could I Be Your Girl,' 'Insensitive,' and 'Good Mother' alongside tracks from her latest album. Known for her disarming wit and honest reflections, Arden's stage banter is as captivating as her music, creating a warm connection with the audience. The show features Arden's full band and special production elements that enhance the musical journey without overshadowing the intimacy that has made her live performances legendary. This tour follows Arden's induction into the Canadian Music Hall of Fame and celebrates her continued evolution as one of Canada's most beloved performers.",
@@ -94,66 +94,66 @@ class TheCentreVancouverScraper {
       }
     ];
   }
-  
+
   /**
    * Main scraper function
    */
-  async scrape() {
+  async scrape(city) {
     console.log('🔍 Starting The Centre in Vancouver scraper...');
     const events = [];
-    
+
     try {
       // Process predefined events
-      for (const eventData of this.events) {
+      for (const eventData of thiss) {
         // Create unique ID for each event
         const eventDate = eventData.date.toISOString().split('T')[0];
         const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
         const eventId = `the-centre-${slugifiedTitle}-${eventDate}`;
-        
+
         // Format the date for display
         const dateFormat = new Intl.DateTimeFormat('en-US', {
           weekday: 'long',
           month: 'long',
           day: 'numeric',
           year: 'numeric'
-        });
-        
+        };
+
         const timeFormat = new Intl.DateTimeFormat('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true
-        });
-        
+        };
+
         const formattedDate = dateFormat.format(eventData.date);
         const formattedStartTime = timeFormat.format(eventData.date);
         const formattedEndTime = timeFormat.format(eventData.endTime);
-        
+
         // Create detailed description with formatted date and time
         let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
         detailedDescription += `Date: ${formattedDate}\n`;
         detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
         detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
+
         if (eventData.price) {
           detailedDescription += `Price: ${eventData.price}\n`;
         }
-        
+
         if (eventData.performers && eventData.performers.length > 0) {
           detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
         }
-        
+
         if (eventData.ticketsRequired) {
           detailedDescription += `Tickets: Available through The Centre's box office, by phone at 604-555-7777, or online at thecentrevancouver.com\n`;
         }
-        
+
         detailedDescription += `\nVenue Information: The Centre in Vancouver is located in downtown Vancouver at 777 Homer Street. The venue is easily accessible by public transit (a short walk from Granville, Vancouver City Centre, or Yaletown SkyTrain stations) and paid parking is available at nearby lots. The theatre offers concessions and a full bar service that opens one hour before show time.`;
-        
+
         // Create categories
         const categories = ['performance', 'theatre', 'arts'];
-        
+
         // Add event-specific categories
         categories.push(eventData.category.toLowerCase());
-        
+
         if (eventData.title.includes('Jann Arden')) {
           categories.push('music', 'concert', 'canadian', 'singer-songwriter');
         } else if (eventData.title.includes('David Sedaris')) {
@@ -165,7 +165,7 @@ class TheCentreVancouverScraper {
         } else if (eventData.title.includes('Choir')) {
           categories.push('music', 'interactive', 'sing-along', 'participatory');
         }
-        
+
         // Create event object
         const event = {
           id: eventId,
@@ -177,19 +177,19 @@ class TheCentreVancouverScraper {
           category: 'performance',
           categories: categories,
           sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
+          officialWebsite: eventDataLink,
           image: eventData.imageUrl || null,
           ticketsRequired: !!eventData.ticketsRequired,
           lastUpdated: new Date()
         };
-        
+
         events.push(event);
         console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
-      
+
       console.log(`🎭 Successfully created ${events.length} Centre in Vancouver events`);
       return events;
-      
+
     } catch (error) {
       console.error(`❌ Error in The Centre in Vancouver scraper: ${error.message}`);
       return events;
@@ -198,3 +198,13 @@ class TheCentreVancouverScraper {
 }
 
 module.exports = new TheCentreVancouverScraper();
+
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new TheCentreVancouverScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.TheCentreVancouverScraper = TheCentreVancouverScraper;
