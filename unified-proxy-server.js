@@ -8,6 +8,7 @@
  */
 
 require('dotenv').config(); // Load environment variables from .env file
+require('./temp-env-config'); // Load temporary MongoDB URI config
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -128,9 +129,9 @@ async function connectToMongoDB() {
     await cloudClient.connect();
     console.log('✅ Connected to cloud MongoDB');
     
-    // CRITICAL: Always explicitly specify 'discovr' as the database name
-    // This ensures we connect to the correct database regardless of the URI
-    const cloudDb = cloudClient.db('discovr');
+    // CRITICAL: Use the same database as imports (test) to ensure consistency
+    // This ensures server reads from where imports write
+    const cloudDb = cloudClient.db('test');
     console.log(`💾 Using database: ${cloudDb.databaseName}`);
     
     // Check if we have both old and new collection names
@@ -311,8 +312,9 @@ async function startServer() {
         let query = {};
         
         // City filtering ONLY if explicitly requested (case insensitive)
+        // Use venue.name city tags (e.g., "Venue, Vancouver") instead of venue.city
         if (city && city !== 'all') {
-          query['venue.name'] = { $regex: city, $options: 'i' };
+          query['venue.name'] = { $regex: `, ${city}$`, $options: 'i' };
         }
         
         // Category filtering ONLY if explicitly requested
