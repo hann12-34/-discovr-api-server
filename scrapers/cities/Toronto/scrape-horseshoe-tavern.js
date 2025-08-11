@@ -1,416 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const crypto = require('crypto');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// Constants
-const HORSESHOE_URL = 'https://www.horseshoetavern.com';
-const HORSESHOE_VENUE = {
-  name: 'Horseshoe Tavern',
-  address: '370 Queen St W, Toronto, ON M5V 2A2',
-  city: 'Toronto',
-  province: 'ON',
-  country: 'Canada',
-  coordinates: {
-    lat: 43.6505,
-    lng: -79.3957
-  }
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-/**
- * Generate unique event ID using MD5 hash
- * @param {string} venue - Venue name
- * @param {string} title - Event title
- * @param {Date} date - Event date
- * @returns {string} MD5 hash of venue name, title and date
- */
-function generateEventId(venue, title, date) {
-  if (!venue || !title || !date) {
-    console.error(`❌ Invalid parameters for generateEventId: venue=${venue}, title=${title}, date=${date}`);
-    return null;
+
+const BASE_URL = 'https://www.horseshoetavern.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Horseshoe Tavern',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeHorseshoeTavernEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  const data = `${venue}-${title}-${date.toISOString().split('T')[0]}`;
-  const hash = crypto.createHash('md5').update(data).digest('hex');
-  console.log(`🔑 Generated ID: ${hash} for "${title}"`);
-  return hash;
-}
-
-/**
- * Extract category based on event title and description
- * @param {string} title - Event title
- * @param {string} description - Event description
- * @returns {string} Event category
- */
-function extractCategory(title, description) {
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('tribute') || text.includes('cover')) {
-    return 'Tribute & Cover Bands';
-  }
-  if (text.includes('shoeless') || text.includes('acoustic')) {
-    return 'Acoustic & Folk';
-  }
-  if (text.includes('metal') || text.includes('hardcore') || text.includes('punk')) {
-    return 'Metal & Punk';
-  }
-  if (text.includes('blues') || text.includes('jazz')) {
-    return 'Blues & Jazz';
-  }
-  if (text.includes('indie') || text.includes('alternative')) {
-    return 'Indie & Alternative';
-  }
-
-  return 'Live Music';
-}
-
-/**
- * Extract price from event text
- * @param {string} text - Event text
- * @returns {string} Price information
- */
-function extractPrice(text) {
-  if (text.toLowerCase().includes('free')) {
-    return 'Free';
-  }
-
-  const priceMatch = text.match(/\$(\d+(?:\.\d{2})?)/);
-  if (priceMatch) {
-    return `$${priceMatch[1]}`;
-  }
-
-  return 'Varies';
-}
-
-/**
- * Normalize URL to absolute URL
- * @param {string} url - URL to normalize
- * @param {string} baseUrl - Base URL
- * @returns {string} Absolute URL
- */
-function normalizeUrl(url, baseUrl) {
-  if (!url) return '';
-  if (url.startsWith('http')) return url;
-  if (url.startsWith('/')) return new URL(url, baseUrl).href;
-  return new URL(url, baseUrl).href;
-}
-
-/**
- * Parse date and time from text
- * @param {string} dateText - Date text to parse
- * @param {string} timeText - Time text to parse
- * @returns {Object} Object with startDate and endDate
- */
-function parseDateAndTime(dateText, timeText) {
-  if (!dateText) {
-    console.log(`⚠️ No date text provided`);
-    return null;
-  }
-
-  console.log(`🔍 Parsing date: "${dateText}", time: "${timeText}"`);
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
-    // Parse date patterns like "Wednesday, July 16, 2025", "Thursday, July 17, 2025"
-    const dateMatch = dateText.match(/([A-Za-z]+),\s+([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})/);
-    if (!dateMatch) {
-      console.log(`⚠️ Could not parse date format: ${dateText}`);
-      return null;
-    }
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Horseshoe Tavern events (clean version)...');
 
-    const [, dayOfWeek, monthStr, day, year] = dateMatch;
-    const monthMap = {
-      'January': 0, 'February': 1, 'March': 2, 'April': 3, 'May': 4, 'June': 5,
-      'July': 6, 'August': 7, 'September': 8, 'October': 9, 'November': 10, 'December': 11
-    };
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    const month = monthMap[monthStr];
-    if (month === undefined) {
-      console.log(`⚠️ Unknown month: ${monthStr}`);
-      return null;
-    }
-
-    const startDate = new Date(parseInt(year), month, parseInt(day));
-
-    // Parse time if provided (e.g., "Door Time: 8:30 pm")
-    if (timeText) {
-      const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(am|pm)/i);
-      if (timeMatch) {
-        let [, hours, minutes, ampm] = timeMatch;
-        hours = parseInt(hours);
-        minutes = parseInt(minutes);
-
-        if (ampm.toLowerCase() === 'pm' && hours !== 12) {
-          hours += 12;
-        } else if (ampm.toLowerCase() === 'am' && hours === 12) {
-          hours = 0;
-        }
-
-        startDate.setHours(hours, minutes, 0, 0);
-      }
-    }
-
-    // Set end date (assume 3 hours for music shows)
-    const endDate = new Date(startDate);
-    endDate.setHours(startDate.getHours() + 3);
-
-    console.log(`✅ Parsed dates - Start: ${startDate.toISOString()}, End: ${endDate.toISOString()}`);
-    return { startDate, endDate };
-
-  } catch (error) {
-    console.error(`❌ Error parsing date "${dateText}": ${error.message}`);
-    return null;
-  }
-}
-
-/**
- * Process a single event candidate
- * @param {string} title - Event title
- * @param {string} dateText - Date text
- * @param {string} timeText - Time text
- * @param {string} description - Event description
- * @param {string} eventUrl - Event URL
- * @param {string} price - Price text
- * @param {Object} eventsCollection - MongoDB collection
- * @param {Set} processedEventIds - Set of processed event IDs
- * @returns {boolean} Success status
- */
-async function processEventCandidate(title, dateText, timeText, description, eventUrl, price, eventsCollection, processedEventIds) {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-horseshoe-tavern.js Toronto');
-    process.exit(1);
-  }
-  try {
-    console.log(`🔍 Processing: "${title}"`);
-
-    // Parse dates
-    const dates = parseDateAndTime(dateText, timeText);
-    if (!dates) {
-      console.log(`⚠️ Skipping "${title}" - could not parse date`);
-      return false;
-    }
-
-    // Generate event ID
-    const eventId = generateEventId(HORSESHOE_VENUE.name, title, dates.startDate);
-
-    if (!eventId) {
-      console.log(`❌ Failed to generate event ID for: ${title}`);
-      return false;
-    }
-
-    // Skip if already processed
-    if (processedEventIds.has(eventId)) {
-      console.log(`⚠️ Skipping duplicate event: ${title}`);
-      return false;
-    }
-
-    processedEventIds.add(eventId);
-
-    // Create event object
-    const event = {
-      id: eventId,
-      title: title.trim(),
-      description: description.trim(),
-      startDate: dates.startDate,
-      endDate: dates.endDate,
-      venue: { ...HORSESHOE_VENUE, city },
-      category: extractCategory(title, description),
-      price: price || extractPrice(`${title} ${description}`),
-      url: normalizeUrl(eventUrl, HORSESHOE_URL),
-      source: 'Horseshoe Tavern',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    // Insert into MongoDB
-    await eventsCollection.replaceOne(
-      { id: eventId },
-      event,
-      { upsert: true }
-    );
-
-    console.log(`✅ Added/updated event: ${title} (${dateText}`);
-    return true;
-
-  } catch (error) {
-    console.error(`❌ Error saving event ${title}: ${error.message}`);
-    return false;
-  }
-}
-
-/**
- * Scrape events from Horseshoe Tavern website
- * @param {Object} eventsCollection - MongoDB collection
- * @returns {number} Number of events added
- */
-async function scrapeHorseshoeTavernEvents(eventsCollection) {
-  console.log('🔍 Fetching events from Horseshoe Tavern...');
-
-  try {
-    const response = await axios.get(HORSESHOE_URL, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
-    });
-
-    const $ = cheerio.load(response.data);
-    const processedEventIds = new Set();
-
-    let addedEvents = 0;
-
-    // Parse events from the page content
-    console.log('📋 Parsing event content...');
-
-    // Extract events from the structured content based on what we saw
-    const eventItems = [
-      {
-        title: 'Bloody Monroe | Baby\'s First Pistol | Rubber Duck Cartel | Adam! Gets! Loud!',
-        dateText: 'Wednesday, July 16, 2025',
-        timeText: 'Door Time: 8:30 pm',
-        description: 'Multi-band showcase featuring Bloody Monroe, Baby\'s First Pistol, Rubber Duck Cartel, and Adam! Gets! Loud!',
-        price: '$10.00',
-        eventUrl: '/event/bloody-monroe-baby-s-first-pist'
-      },
-      {
-        title: 'The Montvales with Talise',
-        dateText: 'Thursday, July 17, 2025',
-        timeText: 'Door Time: 8:00 pm',
-        description: 'The Montvales perform with special guest Talise',
-        price: '$13.50',
-        eventUrl: '/event/the-montvales'
-      },
-      {
-        title: 'The Queen is Dead with Factory',
-        dateText: 'Friday, July 18, 2025',
-        timeText: 'Door Time: 8:30 pm',
-        description: 'The Queen is Dead tribute band with Factory',
-        price: '$20.00',
-        eventUrl: '/event/the-queen-is-dead-with-factory'
-      },
-      {
-        title: 'Eyes Like Static | Bad Holiday | Ashlee Schatze',
-        dateText: 'Saturday, July 19, 2025',
-        timeText: 'Door Time: 8:00 pm',
-        description: 'Triple bill featuring Eyes Like Static, Bad Holiday, and Ashlee Schatze',
-        price: '$10.00',
-        eventUrl: '/event/eyes-like-static-bad-holiday-'
-      },
-      {
-        title: 'SHOEless: Hogtown Rebels | Garage Revival | A.B. Dee | DEER-MU',
-        dateText: 'Monday, July 21, 2025',
-        timeText: 'Door Time: 8:00 pm',
-        description: 'SHOEless acoustic showcase featuring Hogtown Rebels, Garage Revival, A.B. Dee, and DEER-MU',
-        price: 'Varies',
-        eventUrl: '/event/shoeless-hogtown-rebels-garage-revival-a-b-dee-deer-mu'
-      },
-      {
-        title: 'The fin.',
-        dateText: 'Tuesday, July 22, 2025',
-        timeText: 'Door Time: 7:00 pm',
-        description: 'The fin. live performance',
-        price: '$30.00',
-        eventUrl: '/event/the-fin-'
-      },
-      {
-        title: 'Blumarelo | Evening Brunch | School Diving',
-        dateText: 'Wednesday, July 23, 2025',
-        timeText: 'Door Time: 8:00 pm',
-        description: 'Triple bill featuring Blumarelo, Evening Brunch, and School Diving',
-        price: '$10.00',
-        eventUrl: '/event/blumarelo-evening-brunch-school-diving'
-      },
-      {
-        title: 'Vulpecula | Lubbock Lights | Jade Elephant | VS the Borg',
-        dateText: 'Thursday, July 24, 2025',
-        timeText: 'Door Time: 8:00 pm',
-        description: 'Four-band showcase featuring Vulpecula, Lubbock Lights, Jade Elephant, and VS the Borg',
-        price: '$10.00',
-        eventUrl: '/event/vulpecula-lubbock-lights-jade-the-elephant-vs-the-borg'
-      },
-      {
-        title: 'Descartes a Kant',
-        dateText: 'Friday, July 25, 2025',
-        timeText: 'Door Time: 8:30 pm',
-        description: 'Descartes a Kant live performance',
-        price: '$15.50',
-        eventUrl: '/event/decartes-a-kant'
-      },
-      {
-        title: 'Inertia Presents: Lutharo, Blackguard & Killotine',
-        dateText: 'Saturday, July 26, 2025',
-        timeText: 'Door Time: 7:00 pm',
-        description: 'Metal showcase presented by Inertia featuring Lutharo, Blackguard, and Killotine',
-        price: '$26.50',
-        eventUrl: '/event/lutharo-blackguard-killotine'
-      }
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
     ];
 
-    for (const eventItem of eventItems) {
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
       try {
-        const success = await processEventCandidate(
-          eventItem.title,
-          eventItem.dateText,
-          eventItem.timeText,
-          eventItem.description,
-          eventItem.eventUrl,
-          eventItem.price,
-          eventsCollection,
-          processedEventIds
-        );
+        console.log(`🔍 Trying Horseshoe Tavern URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-        if (success) addedEvents++;
-
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
       } catch (error) {
-        console.error(`Error processing event "${eventItem.title}": ${error.message}`);
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    console.log(`📊 Successfully added ${addedEvents} new Horseshoe Tavern events`);
-    return addedEvents;
+    if (!response) {
+      console.log('❌ All Horseshoe Tavern URLs failed, cannot proceed');
+      return [];
+    }
 
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Horseshoe Tavern page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Horseshoe Tavern event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Horseshoe Tavern in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Horseshoe Tavern events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Horseshoe Tavern-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Horseshoe Tavern event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Horseshoe Tavern event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Horseshoe Tavern event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Horseshoe Tavern events`);
+    return events;
   } catch (error) {
-    console.error(`❌ Error scraping Horseshoe Tavern events: ${error.message}`);
-    return 0;
-  }
-}
-
-/**
- * Main function
- */
-async function main() {
-  const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/discovr';
-  const client = new MongoClient(mongoUri);
-
-  try {
-    console.log('🔗 Connecting to MongoDB...');
-    await client.connect();
-
-    const db = client.db('discovr');
-    const eventsCollection = db.collection('events');
-
-    console.log('🚀 Starting Horseshoe Tavern event scraping...');
-
-    const addedEvents = await scrapeHorseshoeTavernEvents(eventsCollection);
-
-    console.log('\n📈 Scraping completed!');
-    console.log(`📊 Total events processed: ${addedEvents > 0 ? 'Multiple' : '0'}`);
-    console.log(`✅ New events added: ${addedEvents}`);
-
-  } catch (error) {
-    console.error('❌ Error:', error.message);
+    console.error('Error scraping Horseshoe Tavern events:', error);
+    throw error;
   } finally {
-    console.log('🔌 MongoDB connection closed');
     await client.close();
   }
 }
 
-// Run the scraper
-if (require.main === module) {
-  main();
-}
-
-module.exports = { scrapeHorseshoeTavernEvents };
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeHorseshoeTavernEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeHorseshoeTavernEventsClean  };

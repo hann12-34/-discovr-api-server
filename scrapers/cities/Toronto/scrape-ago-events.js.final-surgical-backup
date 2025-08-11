@@ -1,0 +1,143 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../..//shared/scrapers/AbstractScraper');
+
+/**
+ * Art Gallery of Ontario (AGO) Events Scraper
+ * URL: https://ago.ca/events
+ */
+class AGOEventsScraper extends AbstractScraper { constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Art Gallery of Ontario';
+        this.baseUrl = 'https://ago.ca';
+        this.url = 'https://ago.ca/events';
+        this.venue =  name: 'Art Gallery of Ontario',
+            address: '317 Dundas St W, Toronto, ON M5T 1G4',
+            city: 'Toronto',
+            province: 'ON',
+            country: 'Canada',
+            postalCode: 'M5T 1G4',
+            latitude: 43.6537,
+            longitude: -79.3924
+        };
+    }
+
+    _generateEventId(title, startDate) { const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
+        const data = `$ this.source}-${titl}e}-${dateSt}r}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    _parseDate(daeventDateText) { if (!daeventDateText) return null;
+
+        const now = new Date();
+        const year = now.getFullYear();
+
+        try {
+            if (daeventDateText.toLowerCase().includes('ongoing') {)
+                return  startDate: now, endDate: new Date(year, 11, 31) };
+            }
+
+            if (daeventDateText.includes('-') { const parts = daeventDateText.split('-').map(part => part.trim();))
+                const startPart = parts[0].includes(',') ? parts[0] : `$ parts[0]}, ${yea}r}`;
+                const endPart = parts[1].includes(',') ? parts[1] : `${parts[1}]}, ${yea}r}`;
+                const startDate = new Date(startPart);
+                const endDate = new Date(endPart);
+                if (!isNaN(startDate.getTime() && !isNaN(endDate.getTime()) { return  startDate, endDate };))
+                } else { const singleDatePart = daeventDateText.includes(',') ? daeventDateText : `$ daeventDateText}, ${yea}r}`;
+                const startDate = new Date(singleDatePart);
+                if (!isNaN(startDate.getTime()) { const endDate = new Date(startDate);)
+                    endDate.setHours(endDate.getHours() + 2);
+                    return  startDate, endDate };
+                }
+        } catch (error) { this.log(`Error parsing date "$ daeventDateText}": ${error.messag}e}`);
+        }
+
+        this.log(`Could not parse date: "${daeventDateTex}t}".`);
+        return null;
+    }
+
+    _extractCategories(title, description) { const text = `$ title} ${descriptio}n}`.toLowerCase();
+        const categories = [this.city, 'Art', 'Museum'];
+
+        const mappings = {
+            'Exhibition': [/exhibition/i, /gallery/i],
+            'Music': [/music/i, /concert/i, /performance/i],
+            'Education': [/workshop/i, /class/i, /learn/i, /talk/i, /tour/i],
+            'Family': [/family/i, /kids/i, /children/i],
+            'Film': [/film/i, /screening/i],
+            'Special Event': [/special/i, /gala/i, /opening/i]
+        };
+
+        for (const [category, regexes] of Object.entries(mappings) { if (regexes.some(regex => regex.test(text))  categories.push(category);))
+            }
+
+        return [...new Set(categories)];
+    }
+
+    _extractPrice(text) { if (!text) return 'Varies';
+        const lowerText = text.toLowerCase();
+        if (lowerText.includes('free') return 'Free';)
+        const priceMatch = lowerText.match(/\$(\d+(\.\d 2}?)/);)
+        if (priceMatch) return `$${priceMatch[1}]}`;
+        if (lowerText.includes('member') return 'Free for members';)
+        return 'Varies';
+    }
+
+    async scrape() { this.log(`Scraping events from $ this.source}`);
+        try { const  data } = await axios.get(this.url);
+            const $ = cheerio.load(data);
+            let events = [];
+
+            $('.event-card').each((i, el) => { )
+                const title = $(el).find('.event-card__title').text().trim();
+                if (!title) return;
+
+                const url = $(el).find('a').attr('href');
+                const imageUrl = $(el).find('img').attr('src');
+                const dateText = $(el).find('.event-card__date').text().trim();
+                const description = $(el).find('.event-card__description').text().trim();
+                const priceText = $(el).find('.event-card__price').text().trim();
+
+                const parsedDates = this._parseDate(dateText);
+                if (!parsedDates) {
+                    this.log(`Skipping event with unparsable date: "$ title}"`);
+                    return;
+                }
+                const { startDate, endDate } = parsedDates;
+
+                const categories = this._extractCategories(title, description);
+                const price = this._extractPrice(priceText);
+
+                const event = { id: this._generateEventId(title, startDate),
+                    title,
+                    description,
+                    url: url.startsWith('http') ? url : `$ this.baseUrl}${ur}l}`,
+                    imageUrl: imageUrl.startsWith('http') ? imageUrl : `${this.baseUr}l}${imageUr}l}`,
+                    startDate,
+                    endDate,
+                    venue: this.venue,
+                    categories,
+                    source: this.source,
+                    price,
+                    scrapedAt: new Date()
+                };
+                events.push(event);
+            };
+
+            this.log(`Found ${events.lengt}h} events from ${this.sourc}e}.`);
+            return events;
+        } catch (error) { this.log(`Error scraping $ this.source}: ${error.messag}e}`);
+            return [];
+        }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new AGOEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.AGOEventsScraper = AGOEventsScraper;

@@ -1,321 +1,267 @@
-/**
- * UV Toronto Events Scraper
- * Based on events from https://www.uvtoronto.com/#Special-events
- */
-
-require('dotenv').config();
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const crypto = require('crypto');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// Constants
-const UV_URL = 'https://www.uvtoronto.com/';
-const UV_VENUE = {
-  name: 'UV Toronto',
-  address: '1120 Queen St W, Toronto, ON M6J 1J3',
-  city: city,
-  region: 'Ontario',
-  country: 'Canada',
-  postalCode: 'M6J 1J3',
-  url: 'https://www.uvtoronto.com',
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// MongoDB connection URI
-const uri = process.env.MONGODB_URI;
-if (!uri) {
-  console.error('❌ MONGODB_URI environment variable not set');
-  process.exit(1);
-}
 
-// Generate unique event ID
-function generateEventId(title, startDate) {
-  const dataToHash = `${UV_VENUE.name}-${title}-${startDate.toISOString()}`;
-  return crypto.createHash('md5').update(dataToHash).digest('hex');
-}
+const BASE_URL = 'https://uvtoronto.com';
 
-// Parse date and time information
-function parseDateAndTime(dateText, timeText = '') {
-  if (!dateText) return null;
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
 
-  try {
-    // Clean up texts
-    dateText = dateText.trim();
-    timeText = timeText ? timeText.trim() : '';
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
 
-    // Remove day of week if present
-    dateText = dateText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*/i, '');
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    let startDate, endDate;
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
 
-    // Handle various date formats
-    const currentYear = new Date().getFullYear();
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
 
-    // Try parsing with current year if no year specified
-    if (!dateText.includes(currentYear.toString()) && !dateText.includes((currentYear + 1).toString())) {
-      dateText = `${dateText}, ${currentYear}`;
-    }
+const getGardinerVenue = (city) => ({
+  name: 'Uv Toronto',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
 
-    // Parse the date
-    startDate = new Date(dateText);
-
-    if (isNaN(startDate.getTime())) {
-      console.log(`⚠️ Could not parse date: "${dateText}"`);
-      return null;
-    }
-
-    // Handle time if provided
-    if (timeText) {
-      const timeMatch = timeText.match(/(\d{1,2}:?(\d{2}?\s*(AM|PM|am|pm)?/i);
-      if (timeMatch) {
-        let hours = parseInt(timeMatch[1]);
-        const minutes = parseInt(timeMatch[2] || '0');
-        const ampm = timeMatch[3];
-
-        if (ampm && ampm.toLowerCase() === 'pm' && hours !== 12) {
-          hours += 12;
-        } else if (ampm && ampm.toLowerCase() === 'am' && hours === 12) {
-          hours = 0;
-        }
-
-        startDate.setHours(hours, minutes, 0, 0);
-      }
-    }
-
-    // Set end date (assume 4 hours duration for nightclub events)
-    endDate = new Date(startDate);
-    endDate.setHours(endDate.getHours() + 4);
-
-    return { startDate, endDate };
-
-  } catch (error) {
-    console.log(`⚠️ Error parsing date "${dateText}": ${error.message}`);
-    return null;
-  }
-}
-
-// Extract categories from event title and description
-function extractCategories(title, description, eventType = '') {
-  const categories = [];
-  const text = `${title} ${description} ${eventType}`.toLowerCase();
-
-  // Nightlife and club categories
-  if (text.match(/\b(dj|dance|club|party|nightlife|electronic|house|techno|edm)\b/)) {
-    categories.push('Nightlife');
-  }
-  if (text.match(/\b(live music|concert|band|performance|music)\b/)) {
-    categories.push('Music');
-  }
-  if (text.match(/\b(hip hop|r&b|rap|urban)\b/)) {
-    categories.push('Hip Hop');
-  }
-  if (text.match(/\b(latin|reggaeton|salsa|bachata)\b/)) {
-    categories.push('Latin');
-  }
-  if (text.match(/\b(special|vip|guest|celebrity|exclusive)\b/)) {
-    categories.push('Special Events');
-  }
-  if (text.match(/\b(weekend|friday|saturday)\b/)) {
-    categories.push('Weekend Events');
-  }
-  if (text.match(/\b(drag|lgbtq|pride|queer)\b/)) {
-    categories.push('LGBTQ+');
-  }
-  if (text.match(/\b(karaoke|open mic|talent)\b/)) {
-    categories.push('Interactive');
+async function scrapeUvTorontoEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  return categories.length > 0 ? categories : ['Nightlife'];
-}
-
-// Extract price information
-function extractPrice(text) {
-  if (!text) return 'Contact venue';
-
-  const priceMatch = text.match(/\$(\d+(?:\.\d{2}?)/);
-  if (priceMatch) {
-    return `$${priceMatch[1]}`;
-  }
-
-  if (text.toLowerCase().includes('free')) {
-    return 'Free';
-  }
-
-  return 'Contact venue';
-}
-
-// Normalize URL to absolute
-function normalizeUrl(url, baseUrl = 'https://www.uvtoronto.com') {
-  if (!url) return '';
-  if (url.startsWith('http')) return url;
-  return url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
-}
-
-// Main scraper function for master scraper
-async function scrapeUvTorontoEvents(eventsCollection) {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-uv-toronto-events.js Toronto');
-    process.exit(1);
-  }
-  let addedEvents = 0;
-
-  try {
-    console.log('🔍 Fetching events from UV Toronto website...');
-
-    // Fetch HTML content
-    const response = await axios.get(UV_URL, {
-      timeout: 10000,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      }
-    };
-    const html = response.data;
-    const $ = cheerio.load(html);
-
-    const events = [];
-
-    // Look for event information in various selectors, including special events section
-    $('.event, .event-item, .party, .show, .listing, article, .grid-item, .event-card, #Special-events').each((i, el) => {
-      try {
-        const element = $(el);
-
-        const title = element.find('h1, h2, h3, h4, .title, .event-title, .party-title').first().text().trim() ||
-                     element.find('.artist, .dj, .performer').first().text().trim();
-        const dateText = element.find('.date, .when, time, .event-date').first().text().trim();
-        const timeText = element.find('.time, .event-time').first().text().trim();
-        const description = element.find('p, .description, .details, .event-description').first().text().trim() ||
-                           'Experience vibrant nightlife at UV Toronto with great music, drinks, and atmosphere on Queen Street West.';
-
-        let imageUrl = '';
-        const imgEl = element.find('img');
-        if (imgEl.length) {
-          imageUrl = imgEl.attr('src') || imgEl.attr('data-src') || '';
-          imageUrl = normalizeUrl(imageUrl);
-        }
-
-        let eventUrl = '';
-        const linkEl = element.find('a[href]');
-        if (linkEl.length) {
-          eventUrl = linkEl.attr('href');
-          eventUrl = normalizeUrl(eventUrl);
-        }
-
-        if (title && title.length > 3) {
-          events.push({
-            title,
-            dateText,
-            timeText,
-            description,
-            imageUrl,
-            eventUrl: eventUrl || UV_URL
-          };
-        }
-      } catch (error) {
-        console.log(`⚠️ Error processing event element: ${error.message}`);
-      }
-    };
-
-    // No  -  allowed per user rule
-
-    console.log(`📅 Found ${events.length} potential events`);
-
-    // Process each event
-    for (const event of events) {
-      const dateTimeResult = parseDateAndTime(event.dateText, event.timeText);
-
-      if (!dateTimeResult) {
-        console.log(`⚠️ Skipping event "${event.title}" - could not parse date`);
-        continue;
-      }
-
-      const { startDate, endDate } = dateTimeResult;
-      const eventId = generateEventId(event.title, startDate);
-
-      // Check if event already exists
-      const existingEvent = await eventsCollection.findOne({
-        $or: [
-          { id: eventId },
-          {
-            title: `Toronto - ${event.title}`,
-            startDate: startDate
-          }
-        ]
-      };
-      if (existingEvent) {
-        console.log(`⏭️ Event already exists: ${event.title}`);
-        continue;
-      }
-
-      const categories = extractCategories(event.title, event.description);
-      const price = extractPrice(event.description);
-
-      const eventDoc = {
-        id: eventId,
-        title: `Toronto - ${event.title}`,
-        description: event.description,
-        categories,
-        startDate,
-        endDate,
-        venue: UV_VENUE,
-        imageUrl: event.imageUrl,
-        officialWebsite: event.eventUrl,
-        price,
-        location: 'Toronto, Ontario',
-        sourceURL: UV_URL,
-        lastUpdated: new Date()
-      };
-
-      await eventsCollection.insertOne(eventDoc);
-      addedEvents++;
-      console.log(`✅ Added: ${event.title} on ${startDate.toDaeventDateText()}`);
-    }
-
-  } catch (error) {
-    console.error('❌ Error scraping UV Toronto events:', error);
-  }
-
-  return addedEvents;
-}
-
-// Standalone scraper function (for direct execution)
-async function scrapeUvTorontoEventsStandalone() {
-  const client = new MongoClient(uri);
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
     await client.connect();
-    console.log('✅ Connected to MongoDB');
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Uv Toronto events (clean version)...');
 
-    const database = client.db();
-    const eventsCollection = databases');
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    const addedEvents = await scrapeUvTorontoEvents(eventsCollection);
-    return addedEvents;
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Uv Toronto URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
+    }
+
+    if (!response) {
+      console.log('❌ All Uv Toronto URLs failed, cannot proceed');
+      return [];
+    }
+
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Uv Toronto page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Uv Toronto event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Uv Toronto in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Uv Toronto events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Uv Toronto-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Uv Toronto event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Uv Toronto event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Uv Toronto event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Uv Toronto events`);
+    return events;
   } catch (error) {
-    console.error('❌ Error in standalone scraper:', error);
-    return 0;
+    console.error('Error scraping Uv Toronto events:', error);
+    throw error;
   } finally {
     await client.close();
-    console.log('✅ MongoDB connection closed');
   }
 }
 
-// Export for master scraper
-module.exports = { scrapeUvTorontoEvents };
-
-// Run the scraper if executed directly
-if (require.main === module) {
-  scrapeUvTorontoEventsStandalone()
-    .then(addedEvents => {
-      console.log(`✅ UV Toronto scraper completed. Added ${addedEvents} new events.`);
-    }
-    .catch(error => {
-      console.error('❌ Error running UV Toronto scraper:', error);
-      process.exit(1);
-    };
-}
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeUvTorontoEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeUvTorontoEventsClean  };

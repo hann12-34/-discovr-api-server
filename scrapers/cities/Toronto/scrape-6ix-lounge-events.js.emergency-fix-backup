@@ -1,0 +1,42 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+
+class SixLoungeScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'The 6ix Lounge';
+        this.url = 'https://the6ixlounge.com/';
+        this.venue = {
+            name: 'The 6ix Lounge',
+            address: '2335 Yonge St, Toronto, ON M4P 2C8',
+            city: city,
+            province: 'ON',
+            country: 'Canada',
+            latitude: 43.708410,
+            longitude: -79.398500,
+            website: 'https://the6ixlounge.com/',
+        };
+    }
+
+    async scrape(city) {
+        this.log(`Scraping events from ${this.source}`);
+        
+        // The website uses an embedded Instagram feed for events, which is not directly scrapable via Cheerio.
+        // A more advanced approach (e.g., using an Instagram API or a tool like Puppeteer) would be needed.
+        
+        this.log('Website uses an embedded Instagram feed for events. No structured event data found.');
+        return [];
+    }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new SixLoungeScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.SixLoungeScraper = SixLoungeScraper;

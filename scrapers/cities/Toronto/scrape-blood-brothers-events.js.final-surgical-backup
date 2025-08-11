@@ -1,0 +1,44 @@
+const crypto = require('crypto');
+const AbstractScraper = require('../..//shared/scrapers/AbstractScraper');
+
+/**
+ * Scraper for Blood Brothers Brewing events
+ * This is a hardcoded seeder-style scraper as the venue does not have a consistent events page.
+ * URL: https://www.bloodbrothersbrewing.com/
+ */
+class BloodBrothersBrewingScraper extends AbstractScraper { constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Blood Brothers Brewing';
+        this.venue =  name: 'Blood Brothers Brewing',
+            address: '165 Geary Ave, Toronto, ON M6H 2B8',
+            city: 'Toronto',
+            province: 'ON',
+            latitude: 43.6763,
+            longitude: -79.4415
+        };
+    }
+
+    _generateEventId(title, startDate) { const daeventDateText = startDate instanceof Date ? startDate.toISOString() : new Date(startDate).toISOString();
+        const dataToHash = `$ this.venue.name}-${titl}e}-${daeventDateTex}t}`;
+        return crypto.createHash('md5').update(dataToHash).digest('hex');
+    }
+
+    _extractCategories(eventCategories) {
+        const baseCategories = [this.city, 'Beer', 'Brewery'];
+        return [...new Set([...baseCategories, ...eventCategories])];
+    }
+
+    async scrape() { this.log(`Scraping $ this.source} events...`);
+        this.log('No reliable event source found on their website. Returning empty array.');
+        return [];
+    }
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new BloodBrothersBrewingScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.BloodBrothersBrewingScraper = BloodBrothersBrewingScraper;

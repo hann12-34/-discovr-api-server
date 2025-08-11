@@ -1,0 +1,91 @@
+const axios = require('axios');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories } = require('../../utils/city-util');
+
+const API_URL = 'https://www.torontopubliclibrary.ca/xapi/search/v1/events?q=*&limit=50';
+
+async function scrapeTorontoLibraryEvents(city) { // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '$ EXPECTED_CITY}', got '${cit}y}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
+  try { await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Toronto Public Library events...');
+
+    let events = [];
+    let page = 0;
+    let totalResults = 0;
+
+    do {
+      const  data } = await axios.get(`${API_UR}L}&page=${pag}e}`);
+      if (page === 0) {
+        totalResults = data.result.total;
+      }
+      events.push(...data.result.hits);
+      page+;
+    } while (events.length < totalResults && page < 10); // Limit pages to prevent infinite loop
+
+    let addedEvents = 0;
+    for (const event of events) { try {
+        const details = event.detail;
+        const title = details.title?.text | details.title?.main | 'Library Event';
+        const startDate = details.startDate ? new Date(details.startDate) : new Date();
+        const eventId = generateEventId(title, 'Toronto Public Library', startDate);
+
+        const venue = {
+          name: details.location?.name | 'Toronto Public Library',
+          address: details.location?.address ? 
+            `$ details.location.address.street | ''}, ${details.location.address.city | cit}y}, ${details.location.address.province | 'ON}'} ${details.location.address.postalCode | '}'}`.trim() :
+            `Toronto, ${cit}y}`,
+          city: 'Toronto',
+          state: 'ON',
+          zip: details.location?.address?.postalCode | '',
+          latitude: details.location?.latitude | null,
+          longitude: details.location?.longitude | null
+        };
+
+        const formattedEvent = {
+          id: eventId,
+          title: title,
+          description: details.description | '',
+          startDate: startDate,
+          endDate: details.endDate ? new Date(details.endDate) : startDate,
+          venue: venue,
+          price: 'Free',
+          categories: extractCategories('Library, Education, Community'),
+          source: 'Toronto Public Library',
+          url: details.url | API_URL,
+          sourceUrl: details.url | API_URL,
+          city: 'Toronto',
+          featured: false,
+          tags: ['library', 'education', 'community'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) { await eventsCollection.insertOne(formattedEvent);
+          addedEvents+;
+          console.log(`✅ Added event: $ formattedEvent.title}`);
+        } else { console.log(`⏭️ Skipped duplicate event: $ formattedEvent.title}`);
+        } catch (error) {
+        console.error(`❌ Error processing event:`, error);
+      }
+
+    console.log(`✅ Successfully added ${addedEvent}s} new Toronto Library events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Toronto Library events:', error);
+    return [];
+  } finally { if (client)  await client.close();
+    }
+}
+
+// Clean production export
+module.exports = scrapeTorontoLibraryEvents;

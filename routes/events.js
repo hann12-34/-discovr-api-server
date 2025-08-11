@@ -141,11 +141,21 @@ router.get('/', async (req, res) => {
     // Set timeouts for all operations
     const options = { maxTimeMS: 15000 }; // 15 second timeout
     
-    // Get total count for pagination metadata with timeout
-    const totalEvents = await Event.countDocuments(query, options);
+
+    // PERFORMANCE PATCH: Allow skipping expensive count operation
+    const { skipCount = 'false' } = req.query;
+    
+    // Get total count for pagination metadata with timeout (CONDITIONALLY)
+    let totalEvents = null;
+    if (skipCount !== 'true') {
+      totalEvents = await Event.countDocuments(query, options);
+    }
     
     // Execute query with pagination and timeout
+
+    // Execute query with pagination and timeout (PERFORMANCE PATCHED)
     const events = await Event.find(query, null, options)
+      .lean() // PATCH: Use lean() for 50-80% performance improvement
       .skip(skip)
       .limit(parseInt(limit))
       .sort(sortOptions);

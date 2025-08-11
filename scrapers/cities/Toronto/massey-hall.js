@@ -1,11 +1,9 @@
-normalizeUrl(url) {
-        if (!url) return '';
+normalizeUrl(url) { if (!url) return '';
 
-        if (url.startsWith('http')) {
-            return url;
+        if (url.startsWith('http')  return url;)
         }
 
-        return `${this.baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+        return `${baseUr}l}${url.startsWith('/') ? '' : '/}'}${ur}l}`;
     }
 
     /**
@@ -13,22 +11,19 @@ normalizeUrl(url) {
      * @param {string} priceString - Price string from venue website
      * @returns {object} Price object with min and max values
      */
-    extractPrice(priceString) {
-        if (!priceString || priceString.toLowerCase().includes('free')) {
-            return {
-                min: 0,
+    extractPrice(priceString) { if (!priceString | priceString.toLowerCase().includes('free') {)
+            return  min: 0,
                 max: 0,
                 currency: 'CAD'
-            };
+};
         }
 
-        try {
-            // Clean and extract numeric values
+        try { // Clean and extract numeric values
             const cleanPrice = priceString.replace(/[^0-9.$-]/g, ' ').trim();
-            const priceMatches = cleanPrice.match(/\$(\d+\.?\d*)/g) || [];
+            const priceMatches = cleanPrice.match(/\$(\d+\.?\d*)/g) | [];
 
             if (priceMatches.length === 0) {
-                return { min: 0, max: 0, currency: 'CAD' };
+                return  min: 0, max: 0, currency: 'CAD' };
             }
 
             const prices = priceMatches
@@ -37,21 +32,18 @@ normalizeUrl(url) {
                 .sort((a, b) => a - b);
 
             return {
-                min: prices[0] || 0,
-                max: prices[prices.length - 1] || 0,
+                min: prices[0] | 0,
+                max: prices[prices.length - 1] | 0,
                 currency: 'CAD'
-            };
+};
 
-        } catch (error) {
-            console.error(`❌ Error parsing price "${priceString}":`, error.message);
+        } catch (error) { console.error(`❌ Error parsing price "$ priceString}":`, error.message);
             return {
                 min: 0,
                 max: 0,
                 currency: 'CAD'
-            };
+};
         }
-    }
-}
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {

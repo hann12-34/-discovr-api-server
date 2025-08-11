@@ -1,372 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const crypto = require('crypto');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-/**
- * Scrape Square One Shopping Centre events
- */
-async function scrapeSquareOneEvents(eventsCollection) {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-square-one.js Toronto');
-    process.exit(1);
-  }
-  console.log('🔍 Fetching events from Square One Shopping Centre...');
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
 
-  // Known Square One events based on their events page
-  const knownEvents = [
-    {
-      title: "Dungeons & Dragons: The Immersive Quest",
-      date: "July 1 - September 30, 2025", // Ongoing experience
-      time: "10:00 AM - 9:00 PM",
-      description: "Experience the groundbreaking fantasy experience at Square One! Embark on a unique heroic fantasy quest, where thrills and magic meet. Be A Hero. Join The Quest. Save the Realms.",
-      location: "Square One Shopping Centre",
-      url: "https://shopsquareone.com/events/dungeons-dragons-the-immersive-quest/",
-      category: "Entertainment",
-      price: '35' // Estimated ticket price
-    },
-    {
-      title: "Tim Hortons Summer at the Square",
-      date: "June 15 - August 31, 2025", // Summer season
-      time: "Various times",
-      description: "Tim Hortons Summer at the Square features free events and experiences at Celebration Square all summer long. Family-friendly activities, entertainment, and community events.",
-      location: "Celebration Square, Mississauga",
-      url: "https://shopsquareone.com/events/tim-hortons-summer-at-the-square/",
-      category: "Festival",
-      price: '0'
-    },
-    {
-      title: "Movie Nights at Celebration Square",
-      date: "July 5, 2025", // First Friday of summer
-      time: "8:30 PM - 11:00 PM",
-      description: "Celebration Square hosts the city's largest outdoor movie screenings. Families can enjoy their favourite movies under the stars. Plus, join the interactive pre-show featuring special giveaways, courtesy of SQ1.",
-      location: "Celebration Square, Mississauga",
-      url: "https://shopsquareone.com/events/movie-nights-at-celebration-square/",
-      category: "Entertainment",
-      price: '0'
-    },
-    {
-      title: "Movie Nights at Celebration Square",
-      date: "July 12, 2025", // Second Friday
-      time: "8:30 PM - 11:00 PM",
-      description: "Celebration Square hosts the city's largest outdoor movie screenings. Families can enjoy their favourite movies under the stars. Plus, join the interactive pre-show featuring special giveaways, courtesy of SQ1.",
-      location: "Celebration Square, Mississauga",
-      url: "https://shopsquareone.com/events/movie-nights-at-celebration-square/",
-      category: "Entertainment",
-      price: '0'
-    },
-    {
-      title: "Movie Nights at Celebration Square",
-      date: "July 19, 2025", // Third Friday
-      time: "8:30 PM - 11:00 PM",
-      description: "Celebration Square hosts the city's largest outdoor movie screenings. Families can enjoy their favourite movies under the stars. Plus, join the interactive pre-show featuring special giveaways, courtesy of SQ1.",
-      location: "Celebration Square, Mississauga",
-      url: "https://shopsquareone.com/events/movie-nights-at-celebration-square/",
-      category: "Entertainment",
-      price: '0'
-    },
-    {
-      title: "Movie Nights at Celebration Square",
-      date: "July 26, 2025", // Fourth Friday
-      time: "8:30 PM - 11:00 PM",
-      description: "Celebration Square hosts the city's largest outdoor movie screenings. Families can enjoy their favourite movies under the stars. Plus, join the interactive pre-show featuring special giveaways, courtesy of SQ1.",
-      location: "Celebration Square, Mississauga",
-      url: "https://shopsquareone.com/events/movie-nights-at-celebration-square/",
-      category: "Entertainment",
-      price: '0'
-    },
-    {
-      title: "Minecraft Experience: Villager Rescue",
-      date: "July 15 - August 15, 2025", // Summer experience
-      time: "10:00 AM - 8:00 PM",
-      description: "Mine, craft, and battle your way through the first ever in-person, interactive Minecraft quest! An immersive experience for Minecraft fans of all ages.",
-      location: "Square One Shopping Centre",
-      url: "https://shopsquareone.com/events/minecraft-experience-villager-rescue/",
-      category: "Entertainment",
-      price: '25' // Estimated ticket price
-    },
-    {
-      title: "The Food District Pop-Up: Chloe's Convenience",
-      date: "August 1 - August 31, 2025", // Pop-up duration
-      time: "11:00 AM - 9:00 PM",
-      description: "Chloe's Convenience is bringing the magic of bagged noodles (often called Lo Mein or Laang Min in Cantonese) to The Food District! Experience authentic Asian street food.",
-      location: "The Food District, Square One",
-      url: "https://shopsquareone.com/events/chloes-convenience/",
-      category: "Food",
-      price: '0' // Free to visit, pay for food
-    }
+
+const BASE_URL = 'https://www.squareone.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
   ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
 
-  console.log('📋 Parsing event content...');
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
 
-  let addedCount = 0;
-  const processedEventIds = new Set();
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-  for (const eventData of knownEvents) {
-    try {
-      await processEventCandidate(
-        eventData.title,
-        eventData.date,
-        eventData.time,
-        eventData.description,
-        eventData.url,
-        null, // No image URL available
-        eventsCollection,
-        processedEventIds,
-        eventData.location,
-        eventData.category,
-        eventData.price
-      );
-      addedCount++;
-    } catch (error) {
-      console.error(`❌ Error processing event "${eventData.title}":`, error.message);
-    }
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Square One',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeSquareOneEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  console.log(`📊 Successfully added ${addedCount} new Square One events`);
-  return addedCount;
-}
-
-/**
- * Process a single event candidate
- */
-async function processEventCandidate(title, dateText, timeText, description, eventUrl, imageUrl, eventsCollection, processedEventIds, location, category, price = 0) {
-  console.log(`🔍 Processing: "${title}"`);
-  console.log(`🔍 Parsing date: "${dateText}", time: "${timeText}"`);
-
-  // Parse the date
-  const parsedDates = parseDateAndTime(dateText, timeText);
-  if (!parsedDates) {
-    console.log(`⚠️ Could not parse date for: ${title}`);
-    return;
-  }
-
-  console.log(`✅ Parsed dates - Start: ${parsedDates.startDate.toISOString()}, End: ${parsedDates.endDate.toISOString()}`);
-
-  // Generate unique event ID
-  const eventId = crypto.createHash('md5')
-    .update(`Square One${title}${parsedDates.startDate.toDaeventDateText()}`)
-    .digest('hex');
-
-  console.log(`🔑 Generated ID: ${eventId} for "${title}"`);
-
-  // Skip if already processed
-  if (processedEventIds.has(eventId)) {
-    console.log(`⏭️ Skipping duplicate event: ${title}`);
-    return;
-  }
-
-  processedEventIds.add(eventId);
-
-  // Determine category
-  const eventCategory = category || categorizeEvent(title, description);
-
-  // Create event object
-  const event = {
-    id: eventId,
-    title: title.trim(),
-    description: description || '',
-    startDate: parsedDates.startDate,
-    endDate: parsedDates.endDate,
-    venue: { ...RegExp.venue: {
-      name: location || 'Square One Shopping Centre',
-      address: '100 City Centre Dr, Mississauga, ON L5B 2C9',
-      city: city,
-      province: 'Ontario',
-      country: 'Canada'
-    }, city },,
-    category: eventCategory,
-    tags: generateTags(title, description, eventCategory),
-    price: price,
-    currency: 'CAD',
-    url: eventUrl,
-    imageUrl: imageUrl,
-    source: 'Square One Shopping Centre',
-    sourceUrl: 'https://shopsquareone.com/events/',
-    scrapedAt: new Date(),
-    lastUpdated: new Date()
-  };
-
-  // Insert or update in MongoDB
-  try {
-    await eventsCollection.replaceOne(
-      { id: eventId },
-      event,
-      { upsert: true }
-    );
-    console.log(`✅ Added/updated event: ${title} (${parsedDates.startDate.toDaeventDateText()}`);
-  } catch (error) {
-    console.error(`❌ Error saving event "${title}":`, error.message);
-  }
-}
-
-/**
- * Parse date and time strings into Date objects
- */
-function parseDateAndTime(dateText, timeText) {
-  if (!dateText) return null;
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
-    let startDate, endDate;
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Square One events (clean version)...');
 
-    // Handle date ranges like "July 1 - September 30, 2025"
-    if (dateText.includes(' - ') && dateText.includes(',')) {
-      const parts = dateText.split(' - ');
-      if (parts.length === 2) {
-        const startPart = parts[0].trim();
-        const endPart = parts[1].trim();
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-        // Extract year from the end part
-        const yearMatch = endPart.match(/(\d{4}/);
-        const year = yearMatch ? yearMatch[1] : new Date().getFullYear();
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
-        // If start part doesn't have year, add it
-        let startDateStr = startPart;
-        if (!startPart.includes(year)) {
-          startDateStr = `${startPart}, ${year}`;
-        }
+    let response = null;
+    let workingUrl = null;
 
-        startDate = new Date(startDateStr);
-        endDate = new Date(endPart);
-      }
-    } else {
-      startDate = new Date(dateText);
-      endDate = new Date(dateText);
-    }
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Square One URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-    // Handle time parsing
-    if (timeText && timeText.includes(' - ')) {
-      const timeParts = timeText.split(' - ');
-      if (timeParts.length === 2) {
-        const startTime = timeParts[0].trim();
-        const endTime = timeParts[1].trim();
-
-        // Parse start time
-        const startTimeMatch = startTime.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
-        if (startTimeMatch) {
-          let hours = parseInt(startTimeMatch[1]);
-          const minutes = parseInt(startTimeMatch[2] || '0');
-          const ampm = startTimeMatch[3];
-
-          if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
-          if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-
-          startDate.setHours(hours, minutes, 0, 0);
-        }
-
-        // Parse end time
-        const endTimeMatch = endTime.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
-        if (endTimeMatch) {
-          let hours = parseInt(endTimeMatch[1]);
-          const minutes = parseInt(endTimeMatch[2] || '0');
-          const ampm = endTimeMatch[3];
-
-          if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
-          if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-
-          endDate.setHours(hours, minutes, 0, 0);
-        }
-      }
-    } else if (timeText && timeText !== 'Various times') {
-      // Single time
-      const timeMatch = timeText.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
-      if (timeMatch) {
-        let hours = parseInt(timeMatch[1]);
-        const minutes = parseInt(timeMatch[2] || '0');
-        const ampm = timeMatch[3];
-
-        if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
-        if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-
-        startDate.setHours(hours, minutes, 0, 0);
-        endDate.setHours(hours + 2, minutes, 0, 0); // Default 2 hour duration
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    // Validate dates
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      return null;
+    if (!response) {
+      console.log('❌ All Square One URLs failed, cannot proceed');
+      return [];
     }
 
-    return { startDate, endDate };
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Square One page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Square One event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Square One in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Square One events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Square One-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Square One event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Square One event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Square One event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Square One events`);
+    return events;
   } catch (error) {
-    console.error('Date parsing error:', error.message);
-    return null;
+    console.error('Error scraping Square One events:', error);
+    throw error;
+  } finally {
+    await client.close();
   }
 }
 
-/**
- * Categorize event based on title and description
- */
-function categorizeEvent(title, description) {
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('movie') || text.includes('film')) {
-    return 'Entertainment';
-  }
-  if (text.includes('food') || text.includes('restaurant') || text.includes('dining')) {
-    return 'Food';
-  }
-  if (text.includes('dungeons') || text.includes('minecraft') || text.includes('game')) {
-    return 'Entertainment';
-  }
-  if (text.includes('summer') || text.includes('festival')) {
-    return 'Festival';
-  }
-  if (text.includes('shopping') || text.includes('retail')) {
-    return 'Shopping';
-  }
-
-  return 'Entertainment';
-}
-
-/**
- * Generate tags for the event
- */
-function generateTags(title, description, category) {
-  const tags = [category.toLowerCase()];
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('free')) tags.push('free');
-  if (text.includes('family')) tags.push('family-friendly');
-  if (text.includes('outdoor')) tags.push('outdoor');
-  if (text.includes('movie')) tags.push('movies');
-  if (text.includes('food')) tags.push('food');
-  if (text.includes('children') || text.includes('kids')) tags.push('kids');
-  if (text.includes('interactive')) tags.push('interactive');
-  if (text.includes('immersive')) tags.push('immersive');
-  if (text.includes('shopping')) tags.push('shopping');
-
-  return [...new Set(tags)]; // Remove duplicates
-}
-
-module.exports = { scrapeSquareOneEvents };
-
-// Test runner
-if (require.main === module) {
-  const { MongoClient } = require('mongodb');
-
-  async function testScraper() {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/discovr';
-    const client = new MongoClient(mongoUri);
-
-    try {
-      await client.connect();
-      const db = client.db('discovr');
-      const eventsCollection = dbs');
-
-      const addedCount = await scrapeSquareOneEvents(eventsCollection);
-      console.log(`\n🎉 Test completed! s.`);
-    } catch (error) {
-      console.error('❌ Test failed:', error.message);
-    } finally {
-      await client.close();
-    }
-  }
-
-  testScraper();
-}
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeSquareOneEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeSquareOneEventsClean  };

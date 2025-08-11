@@ -1,309 +1,267 @@
-/**
- * Poetry Jazz Cafe Events Scraper
- *
- * This script scrapes event information from Poetry Jazz Cafe's website
- * and stores it in MongoDB. It uses Axios and Cheerio for scraping.
- */
-
-require('dotenv').config();
 const axios = require('axios');
 const cheerio = require('cheerio');
-const crypto = require('crypto');
 const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// Constants
-const VENUE_NAME = 'Poetry Jazz Cafe';
-const VENUE_ADDRESS = '1078 Queen Street West, Toronto, ON, M6J 1H8';
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
+
+
 const BASE_URL = 'https://www.poetryjazzcafe.com';
-const EVENTS_URL = `${BASE_URL}/livemusic`;
 
-// MongoDB connection string
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
 
-// Categories specific to Poetry Jazz Cafe
-const CATEGORIES = ['Jazz', 'Music', 'Live Music', 'Blues', 'Soul', 'Concert'];
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
 
-/**
- * Generate a unique ID for an event based on venue, title, and start date
- * @param {string} venueName - The name of the venue
- * @param {string} eventTitle - The title of the event
- * @param {Date} startDate - The start date of the event
- * @returns {string} - A unique MD5 hash
- */
-function generateEventId(venueName, eventTitle, startDate) {
-  const uniqueString = `${venueName}-${eventTitle}-${startDate.toISOString()}`;
-  return crypto.createHash('md5').update(uniqueString).digest('hex');
-}
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-/**
- * Parse date from Poetry Jazz Cafe's date format
- * @param {string} dateText - The date text from the website
- * @param {string} timeText - The time text from the website
- * @returns {Object} - Object with start and end dates
- */
-function parseDateAndTime(dateText, timeText) {
-  if (!dateText || !timeText) {
-    return null;
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Poetry Jazz Cafe',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapePoetryJazzCafeEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
   try {
-    // The date format seems to be in the li tags
-    // Example format: "Wednesday, July 16, 2025"
-    const dateStr = dateText.trim();
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Poetry Jazz Cafe events (clean version)...');
 
-    // Extract time - format appears to be "9:00 PM"
-    const timeStr = timeText.trim();
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    // Combine date and time
-    const dateTimeStr = `${dateStr} ${timeStr}`;
-    const eventDate = new Date(dateTimeStr);
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
-    if (isNaN(eventDate.getTime())) {
-      console.log(`🔍 Invalid date/time format: ${dateTimeStr}`);
-      return null;
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Poetry Jazz Cafe URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
     }
 
-    // Set end date 3 hours after start by default for music shows
-    const endDate = new Date(eventDate);
-    endDate.setHours(endDate.getHours() + 3);
+    if (!response) {
+      console.log('❌ All Poetry Jazz Cafe URLs failed, cannot proceed');
+      return [];
+    }
 
-    return {
-      startDate: eventDate,
-      endDate: endDate
-    };
-  } catch (error) {
-    console.log(`⚠️ Error parsing date: ${error.message} for ${dateText} ${timeText}`);
-    return null;
-  }
-}
-
-/**
- * Parse event URL from the website
- * @param {string} href - The href attribute from the anchor tag
- * @returns {string} - The full event URL
- */
-function parseEventUrl(href) {
-  if (!href) return null;
-
-  // If it's a relative URL, prepend the base URL
-  if (href.startsWith('/')) {
-    return `${BASE_URL}${href}`;
-  }
-
-  return href;
-}
-
-/**
- * Main function to scrape events from Poetry Jazz Cafe
- */
-async function scrapePoetryJazzCafeEvents() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-poetry-jazz-cafe-events.js Toronto');
-    process.exit(1);
-  }
-  console.log('🔍 Starting Poetry Jazz Cafe events scraper...');
-
-  try {
-    // Connect to MongoDB
-    await client.connect();
-    console.log('✅ Connected to MongoDB');
-
-    const database = client.db('discovr');
-    const eventsCollection = databases');
-
-    // Fetch the events page
-    console.log(`🔍 Fetching events from ${EVENTS_URL}...`);
-    const response = await axios.get(EVENTS_URL);
     const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
 
-    // Array to store the events
-    const events = [];
+    console.log(`📊 Poetry Jazz Cafe page loaded from ${workingUrl}, analyzing content...`);
 
-    // Find all event links
-    const eventLinks = $('a[href^="/livemusic/"]').filter(function() {
-      // Filter out navigation links or duplicate links
-      const href = $(this).attr('href');
-      return href && href.includes('/livemusic/20') && !href.includes('Back to All Events');
-    };
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
 
-    console.log(`🔍 Found ${eventLinks.length} potential events`);
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
 
-    // Process each event
-    const uniqueEventUrls = new Set();
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
 
-    // Filter and process only actual event links, not navigation or ICS links
-    const actualEventLinks = eventLinks.filter(function() {
-      const href = $(this).attr('href');
-      return href &&
-             !href.includes('format=ical') &&
-             !href.includes('Back to All Events') &&
-             /\/livemusic\/\d{4}\/\d{1,2}\/\d{1,2}\//.test(href);
-    };
+        if (!title || !isValidEvent(title)) return;
 
-    console.log(`🔍 Filtered down to ${actualEventLinks.length} actual event links`);
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
 
-    for (const link of actualEventLinks) {
-      const eventUrl = parseEventUrl($(link).attr('href'));
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
 
-      // Skip if we've already processed this URL
-      if (!eventUrl || uniqueEventUrls.has(eventUrl)) continue;
-      uniqueEventUrls.add(eventUrl);
+        console.log(`📝 Found qualified Poetry Jazz Cafe event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Poetry Jazz Cafe in Toronto.`,
+          qualityScore
+        });
+      });
+    }
 
-      console.log(`🔍 Processing event: ${$(link).text() || 'Unnamed Event'}`);
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
 
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Poetry Jazz Cafe events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
       try {
-        // Fetch the event detail page
-        console.log(`🔍 Fetching details from ${eventUrl}...`);
-        const eventResponse = await axios.get(eventUrl);
-        const eventPage = cheerio.load(eventResponse.data);
-
-        // Extract event details
-        const title = eventPage('h1.eventitem-title').text().trim();
-        console.log(`🔍 Found event title: ${title}`);
-
-        // Get date information - needs to be extracted differently
-        let dateText = '';
-        let timeText = '';
-
-        // Get the date from event-date element
-        const eventDate = eventPage('time.event-date').first().text().trim();
-        if (eventDate) {
-          dateText = eventDate;
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
         }
 
-        // Get the time from event-time-12hr element
-        const eventTime = eventPage('time.event-time-12hr').first().text().trim();
-        if (eventTime) {
-          timeText = eventTime;
-        }
-
-        console.log(`🔍 Date text: "${dateText}", Time text: "${timeText}"`);
-
-        // If we can't find date in standard location, try alt formats
-        if (!dateText || !timeText) {
-          // Sometimes dates are directly in li elements
-          eventPage('li.eventitem-meta-item').each(function() {
-            const liText = eventPage(this).text().trim();
-            if (liText.match(/[A-Za-z]+day, [A-Za-z]+ \d+, \d{4}/)) {
-              dateText = liText;
-            } else if (liText.match(/\d+:\d+ [AP]M/)) {
-              timeText = liText;
-            }
-          };
-        }
-
-        const dateInfo = parseDateAndTime(dateText, timeText);
-
-        if (!dateInfo) {
-          console.log(`⚠️ Could not parse date/time for event: ${title}`);
-          continue;
-        }
-
-        console.log(`✅ Successfully parsed date: ${dateInfo.startDate}`);
-
-        // Extract description
-        let description = '';
-
-        // Try multiple selectors for description
-        const descriptionSelectors = [
-          '.sqs-block-content p',
-          '.eventitem-column-content',
-          '.entry-more',
-          '.entry-excerpt'
-        ];
-
-        for (const selector of descriptionSelectors) {
-          const text = eventPage(selector).text().trim();
-          if (text && text.length > description.length) {
-            description = text;
-          }
-        }
-
-        // If no description found, use title
-        if (!description) {
-          description = title;
-        }
-
-        // Extract image if available
-        let imageUrl = null;
-        const imageSelectors = [
-          'img.thumb-image',
-          '.eventlist-column-thumbnail img',
-          '.sqs-block-image img',
-          '.entry-content img'
-        ];
-
-        for (const selector of imageSelectors) {
-          const img = eventPage(selector).first();
-          const src = img.attr('data-src') || img.attr('src');
-          if (src) {
-            imageUrl = src;
-            break;
-          }
-        }
-
-        // Generate unique event ID
-        const eventId = generateEventId(VENUE_NAME, title, dateInfo.startDate);
-
-        // Create event object
-        const event = {
-          id: eventId,
-          title: title,
-          description: description,
-          startDate: dateInfo.startDate,
-          endDate: dateInfo.endDate,
-          location: 'Toronto, Ontario',
-          categories: CATEGORIES,
-          officialWebsite: eventUrl,
-          imageUrl: imageUrl,
-          venue: { ...VENUE_NAME, city },
-          lastUpdated: new Date()
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Poetry Jazz Cafe-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
         };
 
-        events.push(event);
-        console.log(`✅ Event added: ${title}`);
-
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Poetry Jazz Cafe event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Poetry Jazz Cafe event: ${formattedEvent.title}`);
+        }
       } catch (error) {
-        console.log(`⚠️ Error processing event ${eventUrl}: ${error.message}`);
+        console.error(`❌ Error processing Poetry Jazz Cafe event "${event.title}":`, error);
       }
     }
 
-    // If no events were found, log but do not create s
-    if (events.length === 0) {
-      console.log('⚠️ No events were found on the Poetry Jazz Cafe website.');
-    }
-
-    // Insert events into MongoDB
-    let newEventsCount = 0;
-    for (const event of events) {
-      const existingEvent = await eventsCollection.findOne({ id: event.id };
-
-      if (!existingEvent) {
-        await eventsCollection.insertOne(event);
-        console.log(`✅ Added event: ${event.title}`);
-        newEventsCount++;
-      } else {
-        console.log(`⚠️ Duplicate event: ${event.title}`);
-      }
-    }
-
-    console.log(`📊 Successfully added ${newEventsCount} new Poetry Jazz Cafe events`);
-
+    console.log(`✅ Successfully added ${addedEvents} new Poetry Jazz Cafe events`);
+    return events;
   } catch (error) {
-    console.error(`❌ Error: ${error.message}`);
+    console.error('Error scraping Poetry Jazz Cafe events:', error);
+    throw error;
   } finally {
-    // Close the MongoDB connection
     await client.close();
-    console.log('✅ MongoDB connection closed');
-    console.log('✅ Poetry Jazz Cafe scraper completed.');
   }
 }
 
-// Execute the main function
-scrapePoetryJazzCafeEvents();
-
-
-// Async function export added by targeted fixer
-module.exports = scrapePoetryJazzCafeEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapePoetryJazzCafeEventsClean  };

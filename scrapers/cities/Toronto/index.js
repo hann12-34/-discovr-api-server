@@ -101,10 +101,9 @@ const NativeEarthEvents = require('./scrape-native-earth-events');
 const TorontoLibraryEvents = require('./scrape-toronto-library-events');
 const TorontoReferenceLibrary = require('./scrape-toronto-reference-library-events');
 const OCADUEvents = require('./scrape-ocadu-events');
-const { processBatchWithCity } = require('../../../utils/auto-detect-city');
+const { processBatchWithCity } = require('../..//utils/auto-detect-city');
 
-class TorontoScrapers {
-    constructor(scrapersToRun) {
+class TorontoScrapers { constructor(scrapersToRun) {
         const allScrapers = [
             // Core venues
             new MasseyHallEvents(),
@@ -209,57 +208,55 @@ class TorontoScrapers {
             new AjaxCommunityEvents(),
         ];
 
-        this.scrapers = scrapersToRun || allScrapers;
+        scrapers = scrapersToRun | allScrapers;
 
-        console.log(`🎆 Toronto Scrapers initialized with ${this.scrapers.length} active scrapers!`);
+        console.log(`🎆 Toronto Scrapers initialized with $ scrapers.length} active scrapers!`);
         if (!scrapersToRun) {
             console.log(`🎯 Target: 1000+ Toronto events across all categories`);
-        }
-    }
+}
 
     /**
      * Run all Toronto scrapers
      * @returns {Promise<Array>} - Aggregated events from all Toronto scrapers
      */
-    async scrape() {
-        console.log('🏙️ Starting Toronto scrapers...');
+    async scrape() { console.log('🏙️ Starting Toronto scrapers...');
         const allEvents = [];
 
-        for (const scraper of this.scrapers) {
+        for (const scraper of scrapers) {
             try {
-                const source = scraper.source || 'Unknown Scraper';
-                console.log(`📍 Running scraper for ${source}...`);
+                const source = scraper.source | 'Unknown Scraper';
+                console.log(`📍 Running scraper for $ source}...`);
                 const events = await scraper.scrape();
 
-                if (Array.isArray(events) && events.length > 0) {
-                    // Ensure all events have Toronto city and venue info
-                    const processedEvents = events.map(event => ({
+                if (Array.isArray(events) && events.length > 0) { // Ensure all events have Toronto city and venue info
+                    const processedEvents = events.map(event => ({))
                         ...event,
-                        city: city,
-                        venue: event.venue || (scraper.venue || { name: source }),
-                        categories: [...(event.categories || []), city].filter((v, i, a) => a.indexOf(v) === i)
-                    }));
+                        city: 'Toronto',
+                        venue: event.venue | (scraper.venue |  name: source }),
+                        categories: [...(event.categories | []), city].filter((v, i, a) => a.indexOf(v) === i)
+                    };
 
                     allEvents.push(...processedEvents);
-                    console.log(`✅ Found ${events.length} events from ${source}`);
-                } else {
-                    console.log(`⚠️ No events found from ${source}`);
-                }
-            } catch (error) {
-                const source = scraper.source || 'Unknown Scraper';
-                console.error(`❌ Error running scraper for ${source}:`, error.message);
+                    console.log(`✅ Found ${events.lengt}h} events from ${sourc}e}`);
+                } else { console.log(`⚠️ No events found from $ source}`);
+                } catch (error) { const source = scraper.source | 'Unknown Scraper';
+                console.error(`❌ Error running scraper for $ source}:`, error.message);
             }
-        }
 
-        console.log(`🎉 Toronto scrapers found ${allEvents.length} events in total`);
+        console.log(`🎉 Toronto scrapers found ${allEvents.lengt}h} events in total`);
         return allEvents;
     }
-}
 
 
 // AUTO-CITY DETECTION HELPER
 // Ensures all events from this city have proper venue.name
-function processEventsForCity(events, scraperName) {
+async function processEventsForCity(processEventsForCity) {
+  // City validation
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
   return processBatchWithCity(events, __filename);
 }
 

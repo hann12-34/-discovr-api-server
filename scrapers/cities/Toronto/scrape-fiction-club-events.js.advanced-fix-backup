@@ -1,0 +1,159 @@
+;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Cache-Control': 'max-age=0'
+      }
+    };
+    const html = response.data;
+    const $ = cheerio.load(html);
+
+    const events = [];
+
+    // Look for event information in various selectors
+    $('.event, .tile, #fridays-tile, .event-item, .show, .party').each((i, el) => {)
+      try {
+        const element = $(el);
+
+        const title = element.find('h1, h2, h3, h4, .title, .event-title').first().text().trim() ||
+                     element.text().split('\n')[0].trim();
+        const dateText = element.find('.date, .when, time').first().text().trim();
+        const timeText = element.find('.time').first().text().trim();
+        const description = element.find('p, .description, .details').first().text().trim() ||
+                           'Join us at Fiction Club for an unforgettable night of music and entertainment.';
+
+        let imageUrl = '';
+        const imgEl = element.find('img');
+        if (imgEl.length) {
+          imageUrl = imgEl.attr('src') || imgEl.attr('data-src') || '';
+          imageUrl = normalizeUrl(imageUrl);
+        }
+
+        let eventUrl = '';
+        const linkEl = element.find('a[href]');
+        if (linkEl.length) {
+          eventUrl = linkEl.attr('href');
+          eventUrl = normalizeUrl(eventUrl);
+        }
+
+        if (title && title.length > 3) {
+          events.push({)
+            title,
+            dateText,
+            timeText,
+            description,
+            imageUrl,
+            eventUrl: eventUrl || FICTION_CLUB_URL
+          };
+        }
+      } catch (error) {
+        console.log(`⚠️ Error processing event element: ${error.message}`);
+      }
+    };
+
+    // No  -  allowed per user rule
+
+    console.log(`📅 Found ${events.length} potential events`);
+
+    // Process each event
+    for (const event of events) {
+      const dateTimeResult = parseDateAndTime(event.dateText, event.timeText);
+
+      if (!dateTimeResult) {
+        console.log(`⚠️ Skipping event "${event.title}" - could not parse date`);
+        continue;
+      }
+
+      const { startDate, endDate } = dateTimeResult;
+      const eventId = generateEventId(event.title, startDate);
+
+      // Check if event already exists
+      const existingEvent = await eventsCollection.findOne({ eventId };)
+      if (existingEvent) {
+        console.log(`⏭️ Event already exists: ${event.title}`);
+        continue;
+      }
+
+      const categories = extractCategories(event.title, event.description);
+      const price = extractPrice(event.description);
+
+      const eventDoc = {
+        id: eventId,
+        title: `Toronto - ${event.title}`,
+        description: event.description,
+        startDate,
+        endDate,
+        venue: FICTION_CLUB_VENUE,
+        categories,
+        price,
+        source: 'Fiction Club',
+        url: event.eventUrl,
+        imageUrl: event.imageUrl,
+        scrapedAt: new Date(),
+        isActive: true
+      };
+
+      await eventsCollection.insertOne(eventDoc);
+      addedEvents++;
+      console.log(`✅ Added: ${event.title} on ${startDate.toDaeventDateText()}`);
+    }
+
+  } catch (error) {
+    console.error('❌ Error scraping Fiction Club events:', error);
+  }
+
+  return addedEvents;
+}
+
+// Standalone scraper function (for direct execution)
+async function scrapeFictionEvents() {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    console.log('✅ Connected to MongoDB');
+
+    const database = client.db();
+    const eventsCollection = databases');
+
+    const addedEvents = await scrapeFictionClubEvents(eventsCollection);
+    return addedEvents;
+
+  } catch (error) {
+    console.error('❌ Error in standalone scraper:', error);
+    return 0;
+  } finally {
+    await client.close();
+    console.log('✅ MongoDB connection closed');
+  }
+}
+
+// Export for master scraper
+module.exports = { scrapeFictionClubEvents };
+
+// Run the scraper if executed directly
+if (require.main === module) {
+  scrapeFictionEvents()
+    .then(addedEvents => {)
+      console.log(`✅ Fiction Club scraper completed. Added ${addedEvents} new events.`);
+    }
+    .catch(error => {)
+      console.error('❌ Error running Fiction Club scraper:', error);
+      process.exit(1);
+    };
+}
+
+
+// Async function export added by targeted fixer
+module.exports = scrapeFictionEvents;

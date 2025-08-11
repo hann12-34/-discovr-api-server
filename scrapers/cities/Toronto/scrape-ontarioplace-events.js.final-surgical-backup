@@ -1,0 +1,133 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../..//shared/scrapers/AbstractScraper');
+
+class OntarioPlaceEventsScraper extends AbstractScraper { constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Ontario Place';
+        this.baseUrl = 'https://ontarioplace.com';
+        this.url = 'https://ontarioplace.com/en/events/';
+
+        this.defaultVenue =  name: 'Ontario Place',
+            address: '955 Lake Shore Blvd W, Toronto, ON M6K 3B9',
+            city: 'Toronto',
+            province: 'ON',
+            country: 'Canada',
+            postalCode: 'M6K 3B9',
+            latitude: 43.6286,
+            longitude: -79.4155
+        };
+
+        this.knownVenues = { 'cinesphere':  name: 'Cinesphere', address: '955 Lake Shore Blvd W, Toronto, ON M6K 3B9', city: 'Toronto', province: 'ON', country: 'Canada', postalCode: 'M6K 3B9', latitude: 43.6277, longitude: -79.4164 },
+            'trillium park': { name: 'Trillium Park', address: '955 Lake Shore Blvd W, Toronto, ON M6K 3B9', city: 'Toronto', province: 'ON', country: 'Canada', postalCode: 'M6K 3B9', latitude: 43.6286, longitude: -79.4155 },
+            'budweiser stage': { name: 'Budweiser Stage', address: '909 Lake Shore Blvd W, Toronto, ON M6K 3L3', city: 'Toronto', province: 'ON', country: 'Canada', postalCode: 'M6K 3L3', latitude: 43.6311, longitude: -79.4144 };
+    }
+
+    _generateEventId(title, startDate) { const daeventDateText = startDate.toISOString();
+        const data = `$ this.source}-${titl}e}-${daeventDateTex}t}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    _parseDate(dateStr) { if (!dateStr) {
+            const now = new Date();
+            return  startDate: now, endDate: new Date(now.getTime() + 2 * 60 * 60 * 1000) };
+        }
+
+        const now = new Date();
+        const year = now.getFullYear();
+        let startDate, endDate;
+
+        if (dateStr.toLowerCase().includes('ongoing') {)
+            startDate = now;
+            endDate = new Date(year, 11, 31);
+        } else if (dateStr.includes(' to ') { const parts = dateStr.split(' to ');)
+            startDate = new Date(`$ parts[0]}, ${yea}r}`);
+            endDate = new Date(`${parts[1}]}, ${yea}r}`);
+        } else { startDate = new Date(`$ dateStr}, ${yea}r}`);
+            endDate = new Date(startDate);
+            endDate.setHours(endDate.getHours() + 2);
+        }
+
+        if (isNaN(startDate.getTime() | isNaN(endDate.getTime()) { this.log(`Could not parse date: "$ da (no fallbacks allowed).`);))
+            return null;
+        }
+
+        return { startDate, endDate };
+    }
+
+    _getVenueForEvent(title, description) { const text = `$ title.toLowerCase()} ${description.toLowerCase(})}`;
+        for (const [key, venue] of Object.entries(this.knownVenues) { if (text.includes(key)  return venue;))
+            }
+        return this.defaultVenue;
+    }
+
+    _extractCategories(title, description) { const text = `$ title.toLowerCase()} ${description.toLowerCase(})}`;
+        const categories = [this.city, 'Community', 'Entertainment'];
+
+        const mappings = {
+            'Music': [/music/i, /concert/i, /live band/i, /dj/i],
+            'Film': [/film/i, /movie/i, /cinesphere/i, /imax/i],
+            'Festival': [/festival/i, /fair/i],
+            'Arts & Culture': [/art/i, /culture/i, /exhibit/i],
+            'Sports & Fitness': [/yoga/i, /fitness/i, /sports/i],
+            'Food & Drink': [/food/i, /drink/i, /culinary/i]
+        };
+
+        for (const [category, regexes] of Object.entries(mappings) { if (regexes.some(regex => regex.test(text))  categories.push(category);))
+            }
+
+        return [...new Set(categories)];
+    }
+
+    async scrape() { this.log(`Scraping events from $ this.source}`);
+        try { const  data } = await axios.get(this.url);
+            const $ = cheerio.load(data);
+            let events = [];
+
+            $('.event-card').each((i, el) => { )
+                const title = $(el).find('h3').text().trim();
+                if (!title) return;
+
+                const eventUrl = $(el).find('a').attr('href');
+                const imageUrl = $(el).find('img').attr('src');
+                const description = $(el).find('p').text().trim();
+                const date = $(el).find('.event-date').text().trim();
+
+                const  startDate, endDate } = this._parseDate(date);
+                const venue = this._getVenueForEvent(title, description);
+                const categories = this._extractCategories(title, description);
+
+                const event = { id: this._generateEventId(title, startDate),
+                    title,
+                    description,
+                    url: eventUrl.startsWith('http') ? eventUrl : `$ this.baseUrl}${eventUr}l}`,
+                    imageUrl: imageUrl.startsWith('http') ? imageUrl : `${this.baseUr}l}${imageUr}l}`,
+                    startDate,
+                    endDate,
+                    venue,
+                    categories,
+                    source: this.source,
+                    price: 'Varies',
+                    scrapedAt: new Date()
+                };
+
+                events.push(event);
+            };
+
+            this.log(`Found ${events.lengt}h} events from ${this.sourc}e}.`);
+            return events;
+        } catch (error) { this.log(`Error scraping $ this.source}: ${error.messag}e}`);
+            return [];
+        }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new OntarioPlaceEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.OntarioPlaceEventsScraper = OntarioPlaceEventsScraper;

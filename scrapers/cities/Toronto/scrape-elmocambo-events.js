@@ -1,373 +1,267 @@
-/**
- * El Mocambo Events Scraper
- *
- * This script extracts events from the El Mocambo website
- * and adds them to the MongoDB database in the appropriate format.
- */
-
-require('dotenv').config();
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const crypto = require('crypto');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// MongoDB connection URI from environment variable
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
-
-// Base URL and events page URL
-const BASE_URL = 'https://elmocambo.com';
-const EVENTS_URL = 'https://elmocambo.com/events-new/';
-
-// Venue information for El Mocambo
-const ELMOCAMBO_VENUE = {
-  name: 'El Mocambo',
-  address: '464 Spadina Ave, Toronto, ON M5T 2G8',
-  city: city,
-  province: 'ON',
-  country: 'Canada',
-  postalCode: 'M5T 2G8',
-  coordinates: {
-    latitude: 43.6574,
-    longitude: -79.4017
-  }
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// Categories likely for El Mocambo events
-const MUSIC_CATEGORIES = ['music', 'concert', 'live music', 'toronto', 'nightlife'];
 
-// Function to generate a unique ID for events
-function generateEventId(title, startDate) {
-  const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
-  const data = `elmocambo-${title}-${dateStr}`;
-  return crypto.createHash('md5').update(data).digest('hex');
-}
+const BASE_URL = 'https://moca.ca';
 
-// Function to extract categories based on event text
-function extractCategories(title, description) {
-  const textToSearch = `${title} ${description}`.toLowerCase();
-  const categories = [...MUSIC_CATEGORIES]; // Start with default categories
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
 
-  // Add specific categories based on keywords
-  if (textToSearch.includes('rock') || textToSearch.includes('punk')) categories.push('rock');
-  if (textToSearch.includes('jazz')) categories.push('jazz');
-  if (textToSearch.includes('blues')) categories.push('blues');
-  if (textToSearch.includes('hip hop') || textToSearch.includes('rap')) categories.push('hip hop');
-  if (textToSearch.includes('electronic') || textToSearch.includes('dj')) categories.push('electronic');
-  if (textToSearch.includes('indie')) categories.push('indie');
-  if (textToSearch.includes('folk')) categories.push('folk');
-  if (textToSearch.includes('metal')) categories.push('metal');
-  if (textToSearch.includes('country')) categories.push('country');
-  if (textToSearch.includes('dance')) categories.push('dance');
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
 
-  // Remove duplicates
-  return [...new Set(categories)];
-}
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Function to parse date text into JavaScript Date objects
-function parseDateText(dateText, year = new Date().getFullYear()) {
-  if (!dateText) {
-    const now = new Date();
-    return { startDate: now, endDate: now };
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Elmocambo',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeElmocamboEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  // Clean and normalize the date text
-  dateText = dateText.trim().replace(/\s+/g, ' ');
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
-    // El Mocambo typically shows dates in formats like "21 Jun" or "23 Aug"
-    // We'll need to extract the day and month
-    const datePattern = /(\d{1,2}\s+([A-Za-z]{3,}/i;
-    const match = dateText.match(datePattern);
-
-    if (match) {
-      const day = parseInt(match[1]);
-      const month = match[2];
-
-      // Create a date object with the current year
-      const startDate = new Date(`${month} ${day}, ${year}`);
-
-      // Default to 8pm for music venue events
-      startDate.setHours(20, 0, 0);
-
-      // End date is typically 3 hours after start for concerts
-      const endDate = new Date(startDate);
-      endDate.setHours(endDate.getHours() + 3);
-
-      // Check if date is valid
-      if (!isNaN(startDate.getTime())) {
-        // If the parsed date is in the past (more than a week ago),
-        // it's likely for next year
-        const now = new Date();
-        if (startDate < now && (now - startDate) > 7 * 24 * 60 * 60 * 1000) {
-          startDate.setFullYear(startDate.getFullYear() + 1);
-          endDate.setFullYear(endDate.getFullYear() + 1);
-        }
-
-        return { startDate, endDate };
-      }
-    }
-
-    const attemptedDate = new Date(dateText);
-    if (!isNaN(attemptedDate.getTime())) {
-      // Set to 8pm as default time for music venue
-      attemptedDate.setHours(20, 0, 0);
-
-      const endDate = new Date(attemptedDate);
-      endDate.setHours(endDate.getHours() + 3);
-      return { startDate: attemptedDate, endDate };
-    }
-  } catch (error) {
-    console.error(`❌ Failed to parse date: ${dateText}`, error);
-  }
-
-  // Default to current date if parsing fails
-  const now = new Date();
-  now.setHours(20, 0, 0); // Default 8pm
-  const endDate = new Date(now);
-  endDate.setHours(endDate.getHours() + 3);
-  return { startDate: now, endDate };
-}
-
-// Function to extract price from text
-function extractPrice(text) {
-  if (!text) return 'See website for details';
-
-  const lowerText = text.toLowerCase();
-
-  if (lowerText.includes('free')) return 'Free';
-
-  // Look for price patterns like $10, $10-$20
-  const priceMatch = lowerText.match(/\$(\d+(?:\.\d{2}?)(?:\s*-\s*\$(\d+(?:\.\d{2}?))?/);
-  if (priceMatch) {
-    if (priceMatch[2]) {
-      return `$${priceMatch[1]}-$${priceMatch[2]}`;
-    } else {
-      return `$${priceMatch[1]}`;
-    }
-  }
-
-  return 'See website for details';
-}
-
-// Main function to fetch and process El Mocambo events
-async function scrapeElMocamboEvents() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-elmocambo-events.js Toronto');
-    process.exit(1);
-  }
-  let addedEvents = 0;
-
-  try {
-    console.log('🔍 Starting El Mocambo events scraper...');
-
-    // Connect to MongoDB
     await client.connect();
-    console.log('✅ Connected to MongoDB');
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Elmocambo events (clean version)...');
 
-    const database = client.db('discovr');
-    const eventsCollection = databases');
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    // Fetch the events page
-    const response = await axios.get(EVENTS_URL);
-    let $ = cheerio.load(response.data);
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
-    // Extract events
-    const events = [];
-    const eventLinks = [];
+    let response = null;
+    let workingUrl = null;
 
-    // Find all event links
-    $('a[href*="/event/"]').each(function() {
-      const href = $(this).attr('href');
-      if (href && href.includes('/event/') && !eventLinks.includes(href)) {
-        eventLinks.push(href);
-      }
-    };
-
-    console.log(`🔍 Found ${eventLinks.length} event links`);
-
-    // Visit each event page to get details
-    for (const eventLink of eventLinks) {
+    for (const url of urlsToTry) {
       try {
-        console.log(`🔍 Fetching event details from: ${eventLink}`);
+        console.log(`🔍 Trying Elmocambo URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-        const eventResponse = await axios.get(eventLink);
-        const eventPage = cheerio.load(eventResponse.data);
-
-        // Extract event title
-        const title = eventPage('h1.entry-title, .event-title').first().text().trim();
-
-        // Skip if no title found
-        if (!title) {
-          console.log(`⏭️ Skipping: No title found for ${eventLink}`);
-          continue;
-        }
-
-        // Extract event description
-        let description = '';
-        eventPage('.event-description, .description, .content-inner p').each(function() {
-          const text = eventPage(this).text().trim();
-          if (text && text.length > description.length) {
-            description = text;
-          }
-        };
-
-        // Extract image URL
-        let imageUrl = '';
-        const imageElement = eventPage('.event-image img, .featured-image img, .wp-post-image').first();
-        if (imageElement.length) {
-          imageUrl = imageElement.attr('src') || imageElement.attr('data-src') || '';
-        }
-
-        // Extract date text
-        let dateText = '';
-        eventPage('.event-date, .date, time, [class*="date"]').each(function() {
-          const text = eventPage(this).text().trim();
-          if (text && text.length > 0) {
-            dateText += text + ' ';
-          }
-        };
-
-        // If no specific date found on event page, look for date in main listing
-        if (!dateText) {
-          $(`a[href="${eventLink}"]`).closest('.event-item, .event').find('.date, [class*="date"]').each(function() {
-            const text = $(this).text().trim();
-            if (text) {
-              dateText = text;
-            }
-          };
-        }
-
-        // Extract price
-        let price = 'See website for details';
-        eventPage('.event-price, .price, [class*="price"]').each(function() {
-          const text = eventPage(this).text().trim();
-          if (text) {
-            price = extractPrice(text);
-          }
-        };
-
-        // If we have a title, add the event
-        if (title) {
-          events.push({
-            title,
-            description,
-            imageUrl,
-            dateText,
-            eventUrl: eventLink,
-            price
-          };
-        }
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
       } catch (error) {
-        console.error(`❌ Error fetching event details from ${eventLink}:`, error.message);
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    // If we couldn't extract date info from event pages, try to get from main page
-    for (let event of events) {
-      if (!event.dateText) {
-        // Try to extract date from the main listing
-        $('a').each(function() {
-          if ($(this).attr('href') === event.eventUrl) {
-            // Find nearby date elements
-            const parent = $(this).closest('.event-item, .event');
-            parent.find('.date, [class*="date"]').each(function() {
-              const text = $(this).text().trim();
-              if (text && !event.dateText) {
-                event.dateText = text;
-              }
-            };
-          }
-        };
-      }
+    if (!response) {
+      console.log('❌ All Elmocambo URLs failed, cannot proceed');
+      return [];
     }
 
-    console.log(`🔍 Processed ${events.length} events`);
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
 
-    // Process the events
+    console.log(`📊 Elmocambo page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Elmocambo event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Elmocambo in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Elmocambo events`);
+
+    let addedEvents = 0;
     for (const event of events) {
       try {
-        // Skip if title is missing or too short (likely not a real event)
-        if (!event.title || event.title.length < 3) {
-          console.log(`⏭️ Skipping: Missing or short title`);
-          continue;
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
         }
 
-        // Parse dates
-        const { startDate, endDate } = parseDateText(event.dateText);
-
-        // Generate unique ID
-        const id = generateEventId(event.title, startDate);
-
-        // Create formatted event
         const formattedEvent = {
-          id: id,
-          title: `Toronto - ${event.title}`,
-          description: event.description,
-          categories: extractCategories(event.title, event.description),
-          startDate: startDate,
-          endDate: endDate,
-          venue: {
-                name: city, ...ELMOCAMBO_VENUE, city
-            },
-          imageUrl: event.imageUrl,
-          officialWebsite: event.eventUrl,
-          price: event.price,
-          sourceURL: EVENTS_URL,
-          lastUpdated: new Date()
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Elmocambo-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
         };
 
-        // Check for duplicates
-        const existingEvent = await eventsCollection.findOne({
-          $or: [
-            { id: formattedEvent.id },
-            {
-              title: formattedEvent.title,
-              startDate: formattedEvent.startDate
-            }
-          ]
-        };
-
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
         if (!existingEvent) {
           await eventsCollection.insertOne(formattedEvent);
           addedEvents++;
-          console.log(`✅ Added event: ${formattedEvent.title}`);
+          console.log(`✅ Added Elmocambo event: ${formattedEvent.title}`);
         } else {
-          console.log(`⏭️ Skipped duplicate event: ${formattedEvent.title}`);
+          console.log(`⏭️ Skipped duplicate Elmocambo event: ${formattedEvent.title}`);
         }
       } catch (error) {
-        console.error('❌ Error processing event:', error);
+        console.error(`❌ Error processing Elmocambo event "${event.title}":`, error);
       }
     }
 
-    // If no events were found, log a message
-
-    }
-
-    console.log(`📊 Successfully added ${addedEvents} new El Mocambo events`);
-
+    console.log(`✅ Successfully added ${addedEvents} new Elmocambo events`);
+    return events;
   } catch (error) {
-    console.error('❌ Error scraping El Mocambo events:', error);
+    console.error('Error scraping Elmocambo events:', error);
+    throw error;
   } finally {
-    // Close MongoDB connection
     await client.close();
-    console.log('✅ MongoDB connection closed');
   }
-
-  return addedEvents;
 }
 
-// Run the scraper
-scrapeElMocamboEvents()
-  .then(addedEvents => {
-    console.log(`✅ El Mocambo scraper completed. Added ${addedEvents} new events.`);
-  }
-  .catch(error => {
-    console.error('❌ Error running El Mocambo scraper:', error);
-    process.exit(1);
-  };
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeElMocamboEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeElmocamboEventsClean  };

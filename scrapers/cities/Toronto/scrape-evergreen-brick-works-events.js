@@ -1,476 +1,267 @@
-/**
- * Evergreen Brick Works Events Scraper
- * Based on events from https://www.evergreen.ca/whats-on/
- */
-
-require('dotenv').config();
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const crypto = require('crypto');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// Constants
-const EVERGREEN_URL = 'https://www.evergreen.ca/whats-on/';
-const EVERGREEN_VENUE = {
-  name: 'Evergreen Brick Works',
-  address: '550 Bayview Ave, Toronto, ON M4W 3X8',
-  city: city,
-  region: 'Ontario',
-  country: 'Canada',
-  postalCode: 'M4W 3X8',
-  url: 'https://www.evergreen.ca',
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// MongoDB connection URI
-const uri = process.env.MONGODB_URI;
-if (!uri) {
-  console.error('❌ MONGODB_URI environment variable not set');
-  process.exit(1);
-}
 
-// Generate unique event ID
-function generateEventId(title, startDate) {
-  const dataToHash = `${EVERGREEN_VENUE.name}-${title}-${startDate.toISOString()}`;
-  return crypto.createHash('md5').update(dataToHash).digest('hex');
-}
+const BASE_URL = 'https://www.evergreen.ca';
 
-// Parse date and time information
-function parseDateAndTime(dateText, timeText = '') {
-  if (!dateText) return null;
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
 
-  try {
-    // Clean up texts
-    dateText = dateText.trim();
-    timeText = timeText ? timeText.trim() : '';
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
 
-    // Remove day of week if present
-    dateText = dateText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*/i, '');
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    let startDate, endDate;
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
 
-    // Check if it's a date range
-    if (dateText.includes(' - ') || dateText.includes(' to ') || dateText.includes('–')) {
-      const separator = dateText.includes(' - ') ? ' - ' : (dateText.includes('–') ? '–' : ' to ');
-      const [startDateStr, endDateStr] = dateText.split(separator);
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
 
-      startDate = new Date(startDateStr);
-      // Handle case where year might be missing in the start date
-      if (isNaN(startDate.getTime()) && endDateStr.includes(',')) {
-        const year = endDateStr.split(',')[1].trim();
-        startDate = new Date(`${startDateStr}, ${year}`);
-      }
-      endDate = new Date(endDateStr);
-    } else {
-      // Single date
-      startDate = new Date(dateText);
-      endDate = new Date(dateText);
-    }
+const getGardinerVenue = (city) => ({
+  name: 'Evergreen Brick Works',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
 
-    // Process time information
-    if (timeText) {
-      // Check if time range is provided
-      if (timeText.includes(' - ') || timeText.includes(' to ') || timeText.includes('–')) {
-        const separator = timeText.includes(' - ') ? ' - ' : (timeText.includes('–') ? '–' : ' to ');
-        const [startTimeStr, endTimeStr] = timeText.split(separator);
-
-        // Parse start time
-        const startTimeMatch = startTimeStr.match(/(\d{1,2}:?(\d{2}?\s*(am|pm|AM|PM)?/);
-        if (startTimeMatch) {
-          let hours = parseInt(startTimeMatch[1], 10);
-          const minutes = startTimeMatch[2] ? parseInt(startTimeMatch[2], 10) : 0;
-          const period = startTimeMatch[3] ? startTimeMatch[3].toLowerCase() : null;
-
-          if (period === 'pm' && hours < 12) hours += 12;
-          if (period === 'am' && hours === 12) hours = 0;
-
-          startDate.setHours(hours, minutes, 0, 0);
-        } else {
-          startDate.setHours(10, 0, 0, 0); // Default 10:00 AM
-        }
-
-        // Parse end time
-        const endTimeMatch = endTimeStr.match(/(\d{1,2}:?(\d{2}?\s*(am|pm|AM|PM)?/);
-        if (endTimeMatch) {
-          let hours = parseInt(endTimeMatch[1], 10);
-          const minutes = endTimeMatch[2] ? parseInt(endTimeMatch[2], 10) : 0;
-          const period = endTimeMatch[3] ? endTimeMatch[3].toLowerCase() : null;
-
-          if (period === 'pm' && hours < 12) hours += 12;
-          if (period === 'am' && hours === 12) hours = 0;
-
-          endDate.setHours(hours, minutes, 0, 0);
-        } else {
-          endDate.setHours(startDate.getHours() + 3, 0, 0, 0); // Default 3 hours after start
-        }
-      } else {
-        // Single time
-        const timeMatch = timeText.match(/(\d{1,2}:?(\d{2}?\s*(am|pm|AM|PM)?/);
-        if (timeMatch) {
-          let hours = parseInt(timeMatch[1], 10);
-          const minutes = timeMatch[2] ? parseInt(timeMatch[2], 10) : 0;
-          const period = timeMatch[3] ? timeMatch[3].toLowerCase() : null;
-
-          if (period === 'pm' && hours < 12) hours += 12;
-          if (period === 'am' && hours === 12) hours = 0;
-
-          startDate.setHours(hours, minutes, 0, 0);
-          endDate = new Date(startDate);
-          endDate.setHours(endDate.getHours() + 3); // Default 3 hours duration
-        } else {
-          // Default times for Brick Works events
-          startDate.setHours(10, 0, 0, 0); // Default 10:00 AM
-          endDate.setHours(17, 0, 0, 0);   // Default 5:00 PM
-        }
-      }
-    } else {
-      // Default times if no time provided
-      startDate.setHours(10, 0, 0, 0); // 10:00 AM
-      endDate.setHours(17, 0, 0, 0);   // 5:00 PM
-    }
-
-    return { startDate, endDate };
-  } catch (error) {
-    console.error(`❌ Error parsing date/time: ${dateText} ${timeText}`, error);
-    return null;
-  }
-}
-
-// Extract categories from event title and description
-function extractCategories(title, description, eventType = '') {
-  const categories = ['Toronto', 'Evergreen Brick Works', 'Sustainability', 'Outdoor'];
-
-  // Add event type as category if available
-  if (eventType && !categories.includes(eventType)) {
-    categories.push(eventType);
+async function scrapeEvergreenBrickWorksEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  const lowerTitle = title.toLowerCase();
-  const lowerDesc = description ? description.toLowerCase() : '';
-
-  const categoryMatches = {
-    'Market': ['market', 'farmers', 'vendor', 'shop', 'shopping', 'local'],
-    'Food': ['food', 'culinary', 'eat', 'dining', 'taste', 'cook', 'cooking'],
-    'Environment': ['environment', 'environmental', 'eco', 'green', 'sustainable', 'ecology'],
-    'Nature': ['nature', 'garden', 'plant', 'tree', 'flower', 'wildlife', 'natural'],
-    'Art': ['art', 'artist', 'exhibition', 'craft', 'creative'],
-    'Workshop': ['workshop', 'class', 'learn', 'education', 'hands-on', 'skill'],
-    'Family': ['family', 'kid', 'child', 'children', 'youth', 'all ages'],
-    'Community': ['community', 'neighbourhood', 'neighborhood', 'local'],
-    'Festival': ['festival', 'celebration', 'fair', 'event'],
-    'Wellness': ['wellness', 'health', 'yoga', 'fitness', 'meditation'],
-    'Hiking': ['hike', 'hiking', 'walk', 'trail', 'outdoor'],
-    'Cycling': ['bike', 'bicycle', 'cycling', 'ride'],
-    'Urban Agriculture': ['agriculture', 'farm', 'farming', 'garden', 'gardening'],
-    'Climate Action': ['climate', 'carbon', 'emissions', 'action'],
-    'Seasonal': ['seasonal', 'spring', 'summer', 'fall', 'autumn', 'winter', 'holiday']
-  };
-
-  for (const [category, keywords] of Object.entries(categoryMatches)) {
-    if (keywords.some(keyword =>
-      lowerTitle.includes(keyword) ||
-      lowerDesc.includes(keyword)
-    )) {
-      categories.push(category);
-    }
-  }
-
-  return [...new Set(categories)]; // Remove duplicates
-}
-
-// Extract price information
-function extractPrice(text) {
-  if (!text) return 'See website for details';
-
-  const lowerText = text.toLowerCase();
-
-  if (lowerText.includes('free')) {
-    return 'Free';
-  }
-
-  const priceMatches = text.match(/\$\d+(\.\d{2}?/g);
-  if (priceMatches && priceMatches.length > 0) {
-    return priceMatches.join(' - ');
-  }
-
-  if (lowerText.includes('pay what you can') || lowerText.includes('pwyc')) {
-    return 'Pay What You Can';
-  }
-
-  if (lowerText.includes('donation')) {
-    return 'By donation';
-  }
-
-  return 'See website for details';
-}
-
-// Normalize URL to absolute
-function normalizeUrl(url, baseUrl = 'https://www.evergreen.ca') {
-  if (!url) return baseUrl;
-  if (url.startsWith('http')) return url;
-  return url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
-}
-
-// Main scraper function
-async function scrapeEvergreenEvents() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-evergreen-brick-works-events.js Toronto');
-    process.exit(1);
-  }
-  let addedEvents = 0;
-  const client = new MongoClient(uri);
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
     await client.connect();
-    console.log('✅ Connected to MongoDB');
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Evergreen Brick Works events (clean version)...');
 
-    const database = client.db();
-    const eventsCollection = databases');
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    console.log('🔍 Fetching events from Evergreen Brick Works website...');
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
-    // Fetch HTML content
-    const response = await axios.get(EVERGREEN_URL);
-    const html = response.data;
-    const $ = cheerio.load(html);
+    let response = null;
+    let workingUrl = null;
 
-    const events = [];
-
-    // Primary selectors - adjust based on actual website structure
-    $('.event, .event-item, article, .event-card, [class*="event"], .program-card, .calendar-item').each((i, el) => {
+    for (const url of urlsToTry) {
       try {
-        const element = $(el);
+        console.log(`🔍 Trying Evergreen Brick Works URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-        const title = element.find('h2, h3, h4, .title, [class*="title"]').first().text().trim();
-        const dateText = element.find('.date, [class*="date"], time, .when, .calendar-date').first().text().trim();
-        const timeText = element.find('.time, [class*="time"]').first().text().trim();
-        const eventType = element.find('.type, .category, [class*="type"], [class*="category"], .tag').first().text().trim();
-        const description = element.find('p, .description, [class*="description"], .excerpt, .summary').first().text().trim() ||
-                           'Join us at Evergreen Brick Works for this special event. See website for more details.';
-
-        let imageUrl = '';
-        const imgEl = element.find('img');
-        if (imgEl.length) {
-          imageUrl = imgEl.attr('src') || imgEl.attr('data-src') || '';
-          imageUrl = normalizeUrl(imageUrl);
-        }
-
-        let eventUrl = '';
-        const linkEl = element.find('a[href]');
-        if (linkEl.length) {
-          eventUrl = linkEl.attr('href');
-          eventUrl = normalizeUrl(eventUrl);
-        }
-
-        const priceText = element.find('.price, [class*="price"], .cost, .fee, .admission').first().text().trim();
-
-        // Skip events without title
-        if (!title) return;
-
-        events.push({
-          title,
-          dateText,
-          timeText,
-          eventType,
-          description,
-          imageUrl,
-          eventUrl,
-          priceText
-        };
-      } catch (eventError) {
-        console.error('❌ Error extracting event details:', eventError);
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
-    };
-
-    console.log(`🔍 Found ${events.length} events on Evergreen Brick Works website`);
-
-    // Try alternative selectors if no events found
-    if (events.length === 0) {
-      $('.card, .grid-item, .listing-item, [class*="program"], .post, .item, .calendar-entry').each((i, el) => {
-        try {
-          const element = $(el);
-
-          const title = element.find('h2, h3, h4, .title, [class*="title"], [class*="heading"]').first().text().trim() ||
-                       'Evergreen Brick Works Event';
-          const dateText = element.find('.date, [class*="date"], time, .when').first().text().trim();
-          const timeText = element.find('.time, [class*="time"]').first().text().trim();
-          const eventType = element.find('.type, .category, [class*="type"], [class*="category"], .tag').first().text().trim();
-          const description = element.find('p, .description, [class*="description"], .excerpt, .summary').first().text().trim() ||
-                             'Join us at Evergreen Brick Works for this special event. See website for more details.';
-
-          let imageUrl = '';
-          const imgEl = element.find('img');
-          if (imgEl.length) {
-            imageUrl = imgEl.attr('src') || imgEl.attr('data-src') || '';
-            imageUrl = normalizeUrl(imageUrl);
-          }
-
-          let eventUrl = '';
-          const linkEl = element.find('a[href]');
-          if (linkEl.length) {
-            eventUrl = linkEl.attr('href');
-            eventUrl = normalizeUrl(eventUrl);
-          }
-
-          const priceText = element.find('.price, [class*="price"], .cost, .fee, .admission').first().text().trim();
-
-          // Skip items without title
-          if (!title) return;
-
-          events.push({
-            title,
-            dateText,
-            timeText,
-            eventType,
-            description,
-            imageUrl,
-            eventUrl,
-            priceText
-          };
-        } catch (eventError) {
-          console.error('❌ Error extracting event details with alternative selectors:', eventError);
-        }
-      };
-
-      console.log(`🔍 Found ${events.length} events with alternative selectors`);
     }
 
-    // Process individual event pages for more details
-    const eventDetailsPromises = events.map(async (event) => {
-      if (event.eventUrl && event.eventUrl !== EVERGREEN_URL) {
-        try {
-          const detailResponse = await axios.get(event.eventUrl);
-          const detailHtml = detailResponse.data;
-          const detail$ = cheerio.load(detailHtml);
+    if (!response) {
+      console.log('❌ All Evergreen Brick Works URLs failed, cannot proceed');
+      return [];
+    }
 
-          // Try to get more detailed description
-          const detailedDesc = detail$('.description, .content, [class*="description"], .body, [class*="content"], article p').text().trim();
-          if (detailedDesc && detailedDesc.length > event.description.length) {
-            event.description = detailedDesc;
-          }
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
 
-          // Try to get more detailed date information
-          const detailedDateText = detail$('.dates, [class*="date"], .schedule, .calendar, .when').text().trim();
-          if (detailedDateText && (!event.dateText || detailedDateText.length > event.dateText.length)) {
-            event.dateText = detailedDateText;
-          }
+    console.log(`📊 Evergreen Brick Works page loaded from ${workingUrl}, analyzing content...`);
 
-          // Try to get more detailed time information
-          const detailedTimeText = detail$('.times, [class*="time"], .schedule, .hours').text().trim();
-          if (detailedTimeText && (!event.timeText || detailedTimeText.length > event.timeText.length)) {
-            event.timeText = detailedTimeText;
-          }
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
 
-          // Try to get price information
-          const detailedPriceText = detail$('.prices, [class*="price"], .tickets, .admission, .cost, .fee').text().trim();
-          if (detailedPriceText && (!event.priceText || detailedPriceText.length > event.priceText.length)) {
-            event.priceText = detailedPriceText;
-          }
-
-          // Try to get event type if not already available
-          if (!event.eventType) {
-            const detailedType = detail$('.type, .category, [class*="type"], [class*="category"], .tag').text().trim();
-            if (detailedType) {
-              event.eventType = detailedType;
-            }
-          }
-
-        } catch (detailError) {
-          console.error(`❌ Error fetching details for event: ${event.title}`, detailError);
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
         }
-      }
-      return event;
-    };
 
-    events.length > 0 && console.log('🔍 Fetching additional details from individual event pages...');
-    await Promise.all(eventDetailsPromises);
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
 
-    // Process each event
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Evergreen Brick Works event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Evergreen Brick Works in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Evergreen Brick Works events`);
+
+    let addedEvents = 0;
     for (const event of events) {
       try {
-        // Parse date information
-        const dateInfo = parseDateAndTime(event.dateText, event.timeText);
-
-        // Skip events with missing or invalid dates
-        if (!dateInfo || isNaN(dateInfo.startDate.getTime()) || isNaN(dateInfo.endDate.getTime())) {
-          console.log(`⏭️ Skipping event with invalid date: ${event.title}`);
-          continue;
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
         }
 
-        // Generate unique ID
-        const eventId = generateEventId(event.title, dateInfo.startDate);
-
-        // Create formatted event
         const formattedEvent = {
-          id: eventId,
-          title: `Toronto - ${event.title}`,
-          description: event.description,
-          categories: extractCategories(event.title, event.description, event.eventType),
-          startDate: dateInfo.startDate,
-          endDate: dateInfo.endDate,
-          venue: {
-                name: city, ...EVERGREEN_VENUE, city
-            },
-          imageUrl: event.imageUrl,
-          officialWebsite: event.eventUrl || EVERGREEN_URL,
-          price: event.priceText ? extractPrice(event.priceText) : 'See website for details',
-          location: 'Toronto, Ontario',
-          sourceURL: EVERGREEN_URL,
-          lastUpdated: new Date()
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Evergreen Brick Works-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
         };
 
-        // Check for duplicates
-        const existingEvent = await eventsCollection.findOne({
-          $or: [
-            { id: formattedEvent.id },
-            {
-              title: formattedEvent.title,
-              startDate: formattedEvent.startDate
-            }
-          ]
-        };
-
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
         if (!existingEvent) {
           await eventsCollection.insertOne(formattedEvent);
           addedEvents++;
-          console.log(`✅ Added event: ${formattedEvent.title}`);
+          console.log(`✅ Added Evergreen Brick Works event: ${formattedEvent.title}`);
         } else {
-          console.log(`⏭️ Skipped duplicate event: ${formattedEvent.title}`);
+          console.log(`⏭️ Skipped duplicate Evergreen Brick Works event: ${formattedEvent.title}`);
         }
-      } catch (eventError) {
-        console.error(`❌ Error processing event:`, eventError);
+      } catch (error) {
+        console.error(`❌ Error processing Evergreen Brick Works event "${event.title}":`, error);
       }
     }
 
-    // Log status
-    if (events.length === 0) {
-      console.warn('⚠️ Warning: No events found on Evergreen Brick Works website.');
-    } else if (addedEvents === 0) {
-      console.warn('⚠️ Warning: Events were found but none were added (possibly all duplicates).');
-    } else {
-      console.log(`📊 Successfully added ${addedEvents} new Evergreen Brick Works events`);
-    }
-
+    console.log(`✅ Successfully added ${addedEvents} new Evergreen Brick Works events`);
+    return events;
   } catch (error) {
-    console.error('❌ Error scraping Evergreen Brick Works events:', error);
+    console.error('Error scraping Evergreen Brick Works events:', error);
+    throw error;
   } finally {
     await client.close();
-    console.log('✅ MongoDB connection closed');
   }
-
-  return addedEvents;
 }
 
-// Run the scraper
-scrapeEvergreenEvents()
-  .then(addedEvents => {
-    console.log(`✅ Evergreen Brick Works scraper completed. Added ${addedEvents} new events.`);
-  }
-  .catch(error => {
-    console.error('❌ Error running Evergreen Brick Works scraper:', error);
-    process.exit(1);
-  };
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeEvergreenEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeEvergreenBrickWorksEventsClean  };

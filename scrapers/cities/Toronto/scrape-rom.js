@@ -1,373 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const crypto = require('crypto');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// Constants
-const ROM_URL = 'https://www.rom.on.ca';
-const ROM_VENUE = {
-  name: 'Royal Ontario Museum (ROM)',
-  address: '100 Queens Park, Toronto, ON M5S 2C6',
-  city: 'Toronto',
-  province: 'ON',
-  country: 'Canada',
-  coordinates: {
-    lat: 43.6677,
-    lng: -79.3948
-  }
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-/**
- * Generate unique event ID using MD5 hash
- * @param {string} venue - Venue name
- * @param {string} title - Event title
- * @param {Date} date - Event date
- * @returns {string} MD5 hash of venue name, title and date
- */
-function generateEventId(venue, title, date) {
-  if (!venue || !title || !date) {
-    console.error(`❌ Invalid parameters for generateEventId: venue=${venue}, title=${title}, date=${date}`);
-    return null;
-  }
 
-  const data = `${venue}-${title}-${date.toISOString().split('T')[0]}`;
-  const hash = crypto.createHash('md5').update(data).digest('hex');
-  console.log(`🔑 Generated ID: ${hash} for "${title}"`);
-  return hash;
-}
+const BASE_URL = 'https://www.rom.on.ca';
 
-/**
- * Extract category based on event title and description
- * @param {string} title - Event title
- * @param {string} description - Event description
- * @returns {string} Event category
- */
-function extractCategory(title, description) {
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('walk') || text.includes('cemetery') || text.includes('tour')) {
-    return 'Tours & Walks';
-  }
-  if (text.includes('after dark') || text.includes('night') || text.includes('evening')) {
-    return 'Evening Events';
-  }
-  if (text.includes('talk') || text.includes('conversation') || text.includes('lecture')) {
-    return 'Educational';
-  }
-  if (text.includes('exhibition') || text.includes('gallery') || text.includes('art')) {
-    return 'Art & Exhibitions';
-  }
-  if (text.includes('library') || text.includes('stories') || text.includes('newcomers')) {
-    return 'Community';
-  }
-
-  return 'Museum Events';
-}
-
-/**
- * Extract price from event text
- * @param {string} text - Event text
- * @returns {string} Price information
- */
-function extractPrice(text) {
-  if (text.toLowerCase().includes('free')) {
-    return 'Free';
-  }
-
-  const pricePatterns = [
-    /\$\d+(?:\.\d{2})?/,
-    /admission/i,
-    /ticket/i
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
   ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
 
-  for (const pattern of pricePatterns) {
-    const match = text.match(pattern);
-    if (match) {
-      return match[0];
-    }
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Rom',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeRomEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  return 'Varies'; // Default for ROM events
-}
-
-/**
- * Normalize URL to absolute URL
- * @param {string} url - URL to normalize
- * @param {string} baseUrl - Base URL
- * @returns {string} Absolute URL
- */
-function normalizeUrl(url, baseUrl) {
-  if (!url) return '';
-  if (url.startsWith('http')) return url;
-  if (url.startsWith('/')) return new URL(url, baseUrl).href;
-  return new URL(url, baseUrl).href;
-}
-
-/**
- * Parse date and time from text
- * @param {string} dateText - Date text to parse
- * @param {string} timeText - Time text to parse
- * @returns {Object} Object with startDate and endDate
- */
-function parseDateAndTime(dateText, timeText) {
-  if (!dateText) {
-    console.log(`⚠️ No date text provided`);
-    return null;
-  }
-
-  console.log(`🔍 Parsing date: "${dateText}", time: "${timeText}"`);
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
-    // Parse date patterns like "Jul 20", "Jul 25", "Jul 27", "Aug 07"
-    const dateMatch = dateText.match(/([A-Za-z]{3}\s+(\d{1,2}))/);
-    if (!dateMatch) {
-      console.log(`⚠️ Could not parse date format: ${dateText}`);
-      return null;
-    }
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Rom events (clean version)...');
 
-    const [, monthStr, day] = dateMatch;
-    const monthMap = {
-      'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
-      'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
-    };
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    const month = monthMap[monthStr];
-    if (month === undefined) {
-      console.log(`⚠️ Unknown month: ${monthStr}`);
-      return null;
-    }
-
-    // Assume current year (2025 based on the data we saw)
-    const year = 2025;
-    const startDate = new Date(year, month, parseInt(day));
-
-    // Parse time if provided
-    if (timeText) {
-      const timeMatch = timeText.match(/(\d{1,2}):(\d{2})/);
-      if (timeMatch) {
-        const [, hours, minutes] = timeMatch;
-        startDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-      }
-    }
-
-    // Set end date
-    const endDate = new Date(startDate);
-    if (timeText && timeText.includes('-')) {
-      const endTimeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
-      if (endTimeMatch) {
-        const [, , , endHours, endMinutes] = endTimeMatch;
-        endDate.setHours(parseInt(endHours), parseInt(endMinutes), 0, 0);
-      }
-    } else {
-      endDate.setHours(startDate.getHours() + 2);
-    }
-
-    console.log(`✅ Parsed dates - Start: ${startDate.toISOString()}, End: ${endDate.toISOString()}`);
-    return { startDate, endDate };
-
-  } catch (error) {
-    console.error(`❌ Error parsing date "${dateText}": ${error.message}`);
-    return null;
-  }
-}
-
-/**
- * Process a single event candidate
- * @param {string} title - Event title
- * @param {string} dateText - Date text
- * @param {string} timeText - Time text
- * @param {string} description - Event description
- * @param {string} eventUrl - Event URL
- * @param {string} price - Price text
- * @param {Object} eventsCollection - MongoDB collection
- * @param {Set} processedEventIds - Set of processed event IDs
- * @returns {boolean} Success status
- */
-async function processEventCandidate(title, dateText, timeText, description, eventUrl, price, eventsCollection, processedEventIds) {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-rom.js Toronto');
-    process.exit(1);
-  }
-  try {
-    console.log(`🔍 Processing: "${title}"`);
-
-    // Parse dates
-    const dates = parseDateAndTime(dateText, timeText);
-    if (!dates) {
-      console.log(`⚠️ Skipping "${title}" - could not parse date`);
-      return false;
-    }
-
-    // Generate event ID
-    const eventId = generateEventId(ROM_VENUE.name, title, dates.startDate);
-
-    if (!eventId) {
-      console.log(`❌ Failed to generate event ID for: ${title}`);
-      return false;
-    }
-
-    // Skip if already processed
-    if (processedEventIds.has(eventId)) {
-      console.log(`⚠️ Skipping duplicate event: ${title}`);
-      return false;
-    }
-
-    processedEventIds.add(eventId);
-
-    // Create event object
-    const event = {
-      id: eventId,
-      title: title.trim(),
-      description: description.trim(),
-      startDate: dates.startDate,
-      endDate: dates.endDate,
-      venue: { ...ROM_VENUE, city },
-      category: extractCategory(title, description),
-      price: price || extractPrice(`${title} ${description}`),
-      url: normalizeUrl(eventUrl, 'https://www.rom.on.ca'),
-      source: 'Royal Ontario Museum',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    // Insert into MongoDB
-    await eventsCollection.replaceOne(
-      { id: eventId },
-      event,
-      { upsert: true }
-    );
-
-    console.log(`✅ Added/updated event: ${title} (${dateText}`);
-    return true;
-
-  } catch (error) {
-    console.error(`❌ Error saving event ${title}: ${error.message}`);
-    return false;
-  }
-}
-
-/**
- * Scrape events from ROM website
- * @param {Object} eventsCollection - MongoDB collection
- * @returns {number} Number of events added
- */
-async function scrapeROMEvents(eventsCollection) {
-  console.log('🔍 Fetching events from ROM...');
-
-  try {
-    const response = await axios.get(ROM_URL, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
-    });
-
-    const $ = cheerio.load(response.data);
-    const processedEventIds = new Set();
-
-    let addedEvents = 0;
-
-    // Parse events from the page content
-    console.log('📋 Parsing event content...');
-
-    // Extract events from the structured content based on what we saw
-    const eventItems = [
-      {
-        title: 'ROMWalks Plus: Park Lawn Cemetery',
-        dateText: 'Jul 20',
-        timeText: '14:00 - 16:00',
-        description: 'Explore the historic Park Lawn Cemetery with ROM experts on this guided walking tour.',
-        price: 'Varies'
-      },
-      {
-        title: 'ROM After Dark: Island Heat',
-        dateText: 'Jul 25',
-        timeText: '19:00 - 23:00',
-        description: 'Adults-only evening event with Caribbean vibes, music, and special exhibitions.',
-        price: 'Varies'
-      },
-      {
-        title: 'Living Library: Newcomers\' Stories of Belonging',
-        dateText: 'Jul 27',
-        timeText: '13:00 - 16:00',
-        description: 'Conversations with newcomers sharing their stories of belonging in Canada.',
-        price: 'Free'
-      },
-      {
-        title: 'This Place is a Message: Echoes of Hiroshima and Nagasaki in the Art of Kei Ito',
-        dateText: 'Aug 07',
-        timeText: '19:00 - 20:00',
-        description: 'Talk exploring the art of Kei Ito and connections to Hiroshima and Nagasaki.',
-        price: 'Free'
-      }
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
     ];
 
-    for (const eventItem of eventItems) {
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
       try {
-        const success = await processEventCandidate(
-          eventItem.title,
-          eventItem.dateText,
-          eventItem.timeText,
-          eventItem.description,
-          '', // No specific event URL for now
-          eventItem.price,
-          eventsCollection,
-          processedEventIds
-        );
+        console.log(`🔍 Trying Rom URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-        if (success) addedEvents++;
-
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
       } catch (error) {
-        console.error(`Error processing event "${eventItem.title}": ${error.message}`);
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    console.log(`📊 Successfully added ${addedEvents} new ROM events`);
-    return addedEvents;
+    if (!response) {
+      console.log('❌ All Rom URLs failed, cannot proceed');
+      return [];
+    }
 
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Rom page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Rom event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Rom in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Rom events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Rom-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Rom event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Rom event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Rom event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Rom events`);
+    return events;
   } catch (error) {
-    console.error(`❌ Error scraping ROM events: ${error.message}`);
-    return 0;
-  }
-}
-
-/**
- * Main function
- */
-async function main() {
-  const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/discovr';
-  const client = new MongoClient(mongoUri);
-
-  try {
-    console.log('🔗 Connecting to MongoDB...');
-    await client.connect();
-
-    const db = client.db('discovr');
-    const eventsCollection = db.collection('events');
-
-    console.log('🚀 Starting ROM event scraping...');
-
-    const addedEvents = await scrapeROMEvents(eventsCollection);
-
-    console.log('\n📈 Scraping completed!');
-    console.log(`📊 Total events processed: ${addedEvents > 0 ? 'Multiple' : '0'}`);
-    console.log(`✅ New events added: ${addedEvents}`);
-
-  } catch (error) {
-    console.error('❌ Error:', error.message);
+    console.error('Error scraping Rom events:', error);
+    throw error;
   } finally {
-    console.log('🔌 MongoDB connection closed');
     await client.close();
   }
 }
 
-// Run the scraper
-if (require.main === module) {
-  main();
-}
-
-module.exports = { scrapeROMEvents };
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeROMEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeRomEventsClean  };

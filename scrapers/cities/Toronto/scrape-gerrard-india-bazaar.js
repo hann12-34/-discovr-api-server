@@ -1,157 +1,267 @@
-async function fetchEventsFromURL(eventsCollection, processedEventIds) {
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
+
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
+
+
+const BASE_URL = 'https://www.gerrardindiabazaar.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Gerrard India Bazaar',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeGerrardIndiaBazaarEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
   try {
-    console.log(`🔍 Fetching events from ${GERRARD_EVENTS_URL}...`);
-    const response = await axios.get(GERRARD_EVENTS_URL, { timeout: 30000 });
-    const html = response.data;
-    const $ = cheerio.load(html);
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Gerrard India Bazaar events (clean version)...');
 
-    let addedEvents = 0;
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    // Different approach: Parse the entire page text and extract events
-    console.log('📋 Parsing entire page content...');
-
-    const pageText = $('body').text();
-    console.log(`Page text length: ${pageText.length}`);
-
-    // Split content by event titles and process each section
-    const eventTitles = [
-      'Tree Lighting',
-      'Diwali Mela',
-      'Festival of South Asia',
-      'Ramadan Iftar Trail',
-      'Baisakhi Mela',
-      'Santa in the Bazaar',
-      'Ramadan and EID Mela',
-      'LIVE Garba at the Bazaar'
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
     ];
 
-    for (const title of eventTitles) {
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
       try {
-        console.log(`🔍 Processing event: "${title}"`);
+        console.log(`🔍 Trying Gerrard India Bazaar URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-        // Find the section for this event
-        const titleIndex = pageText.indexOf(title);
-        if (titleIndex === -1) {
-          console.log(`⚠️ Could not find "${title}" in page text`);
-          continue;
-        }
-
-        // Get text after the title (next 1000 characters)
-        const sectionText = pageText.substring(titleIndex, titleIndex + 1000);
-        console.log(`🔍 Section text: ${sectionText.substring(0, 300)}...`);
-
-        let description = '';
-        let dateText = '';
-        let eventUrl = '';
-
-        // Extract description (clean up the section text)
-        description = sectionText.replace(title, '').trim();
-
-        // Look for date patterns in the section text
-        const datePatterns = [
-          // "Saturday November 22nd, 2025"
-          /(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?\s*,?\s*\d{4})/i,
-          // "November 22nd, 2025" or "OCTOBER 18, 2025"
-          /([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?\s*,?\s*\d{4})/i,
-          // "April 6, 2024"
-          /([A-Za-z]+\s+\d{1,2}\s*,?\s*\d{4})/i,
-          // "February 10-12, 2023"
-          /([A-Za-z]+\s+\d{1,2}\s*-\s*\d{1,2}\s*,?\s*\d{4})/i,
-          // "Save-The-Date: OCTOBER 18, 2025"
-          /Save-The-Date:\s*([A-Z]+\s+\d{1,2}\s*,?\s*\d{4})/i,
-          // "Join us on April 6, 2024"
-          /Join us on\s+([A-Za-z]+\s+\d{1,2}\s*,?\s*\d{4})/i,
-          // "Held in October" - month only
-          /Held in\s+([A-Za-z]+)/i
-        ];
-
-        for (const pattern of datePatterns) {
-          const match = sectionText.match(pattern);
-          if (match && !dateText) {
-            dateText = match[1];
-            console.log(`🔍 Found date "${dateText}" for "${title}"`);
-            break;
-          }
-        }
-
-        // Look for event detail links
-        const linkMatch = sectionText.match(/Event Details Here\]\(([^)]+)\)/);
-        if (linkMatch) {
-          eventUrl = linkMatch[1];
-        }
-
-        // Clean up description
-        description = description.replace(/Event Details Here.*$/, '').trim();
-
-        // Process the event if we have the required information
-        if (title && dateText) {
-          const success = await processEventCandidate(
-            title,
-            dateText,
-            description,
-            eventUrl,
-            eventsCollection,
-            processedEventIds
-          );
-
-          if (success) addedEvents++;
-        } else {
-          console.log(`⚠️ Skipping "${title}" - missing date information`);
-        }
-
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
       } catch (error) {
-        console.error(`Error processing event "${title}": ${error.message}`);
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    console.log(`📊 Successfully added ${addedEvents} new Gerrard India Bazaar events`);
-    return addedEvents;
+    if (!response) {
+      console.log('❌ All Gerrard India Bazaar URLs failed, cannot proceed');
+      return [];
+    }
 
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Gerrard India Bazaar page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Gerrard India Bazaar event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Gerrard India Bazaar in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Gerrard India Bazaar events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Gerrard India Bazaar-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Gerrard India Bazaar event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Gerrard India Bazaar event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Gerrard India Bazaar event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Gerrard India Bazaar events`);
+    return events;
   } catch (error) {
-    console.error(`❌ Error fetching events: ${error.message}`);
-    return 0;
-  }
-}
-
-/**
- * Main function to scrape Gerrard India Bazaar events
- * @returns {Promise<void>}
- */
-async function scrapeGerrardEvents() {
-  const client = new MongoClient(uri);
-
-  try {
-    console.log('🔗 Connecting to MongoDB...');
-    await client.connect();
-
-    const db = client.db('discovr');
-    const eventsCollection = db.collection('events');
-
-    console.log('🚀 Starting Gerrard India Bazaar event scraping...');
-
-    const processedEventIds = new Set();
-    const addedEvents = await fetchEventsFromURL(eventsCollection, processedEventIds);
-
-    console.log(`\n📈 Scraping completed!`);
-    console.log(`📊 Total events processed: ${processedEventIds.size}`);
-    console.log(`✅ New events added: ${addedEvents}`);
-
-  } catch (error) {
-    console.error(`❌ Error in scrapeGerrardEvents: ${error.message}`);
+    console.error('Error scraping Gerrard India Bazaar events:', error);
+    throw error;
   } finally {
     await client.close();
-    console.log('🔌 MongoDB connection closed');
   }
 }
 
-// Export for use in other modules
-module.exports = { scrapeGerrardEvents };
-
-// Run the scraper if this file is executed directly
-if (require.main === module) {
-  scrapeGerrardEvents().catch(console.error);
-}
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeGerrardEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeGerrardIndiaBazaarEventsClean  };

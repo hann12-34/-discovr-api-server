@@ -1,180 +1,267 @@
-const { getCityFromArgs } = require('../../utils/city-util.js');
-/**
- * Script to add Mascot Brewery events to the database
- * Based on events from https://mascotbrewery.com/pages/upcoming-events
- */
-
-require('dotenv').config();
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const { v4: uuidv4 } = require('uuid');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// Get MongoDB connection string from environment variables
-const uri = process.env.MONGODB_URI;
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
 
-if (!uri) {
-  console.error('❌ MONGODB_URI environment variable not set');
-  process.exit(1) }
 
-async function addMascotBreweryEvents(city = "Toronto") {
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-mascot-brewery-events.js Toronto');
-    process.exit(1) }
-  const client = new MongoClient(uri);
+const BASE_URL = 'https://mascotbrewery.ca';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Mascot Brewery',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeMascotBreweryEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
     await client.connect();
-    console.log('✅ Connected to MongoDB cloud database');
-
-    const database = client.db();
     const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Mascot Brewery events (clean version)...');
 
-    console.log('🍺 Adding Mascot Brewery events to database...');
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    // List of Mascot Brewery events
-    const mascotBreweryEvents = [
-      {
-        name: "Mascot Playdate: Kids Tie-Dye Workshop",
-        url: "https://mascotbrewery.com/blogs/upcoming-events/mascot-playdate-kids-tie-dye-workshop",
-        imageUrl: "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/kids-tie-dye.jpg",
-        description: "A 60-minute Kids Tie-Dye workshop at Mascot Brewery's Etobicoke location! Children ages 6-12 will transform plain white t-shirts into vibrant masterpieces in this hands-on, creative workshop. Participants will learn basic tie-dye techniques, colour theory, and pattern creation. The workshop includes all necessary materials: a white cotton t-shirt, professional-grade fabric dyes, supplies, step-by-step instruction, and take-home care instructions. Parents can enjoy food and drinks at the brewery while their kids participate in this fun, creative activity.",
-        startDate: new Date("2025-06-29T15:00:00.000Z"), // June 29, 2025, 11:00 AM EDT
-        endDate: new Date("2025-06-29T17:00:00.000Z"), // June 29, 2025, 1:00 PM EDT
-        categories: ["Workshop", "Family", "Kids", "Arts", city],
-        price: "Tickets required",
-        venue: {
-          name: "Mascot Brewery - Etobicoke",
-          address: "37 Advance Road",
-          city: city,
-          state: "Ontario",
-          country: "Canada",
-          coordinates: {
-            lat: 43.6510,
-            lng: -79.5260
-          },
-        }
-      },
-      {
-        name: "Canada Day Summer Patio Party",
-        url: "https://mascotbrewery.com/blogs/upcoming-events/home-opener-canada-day-summer-patio-party",
-        imageUrl: "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/summer-patio-party.jpg",
-        description: "Join Mascot Brewery for their official summer patio and beer garden kick-off party celebrating Canada Day weekend! This sunny day party features drink specials, delicious food, beer buckets, DJs, local vendors, and more. Taking place at both King St and Etobicoke locations, choose between a chill vibe in the suburbs or a more amplified experience downtown. Free entry with RSVP to guarantee your spot at either location. Come celebrate summer in Toronto with good drinks, food, music, and vibes!",
-        startDate: new Date("2025-06-28T16:00:00.000Z"), // June 28, 2025, 12:00 PM EDT
-        endDate: new Date("2025-06-29T02:00:00.000Z"), // June 28, 2025, 10:00 PM EDT
-        categories: ["Party", "Beer", "Patio", "Music", city],
-        price: "Free with RSVP",
-        venue: {
-          name: "Mascot Brewery - Multiple Locations",
-          address: "220 King St W & 37 Advance Road",
-          city: city,
-          state: "Ontario",
-          country: "Canada",
-          coordinates: {
-            lat: 43.6479,
-            lng: -79.3893
-          },
-        }
-      },
-      {
-        name: "Trivia Night at Mascot Brewery",
-        url: "https://mascotbrewery.com/blogs/upcoming-events/trivia-night-at-etobicoke",
-        imageUrl: "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/trivia-night.jpg",
-        description: "Put your knowledge to work! Hosted by the incredible team at Tremendous Trivia, this gathering features questions spanning pop culture, history, sports stats, and more. Gather your smartest friends, enjoy craft beers and delicious food, and compete for brewery prizes and bragging rights. Tables fill up quickly, so reservations are recommended for this popular weekly activity at Mascot's Etobicoke location.",
-        startDate: new Date("2025-07-15T23:00:00.000Z"), // July 15, 2025, 7:00 PM EDT
-        endDate: new Date("2025-07-16T01:00:00.000Z"), // July 15, 2025, 9:00 PM EDT
-        categories: ["Games", "Beer", "Trivia", "Social", city],
-        price: "Free to participate",
-        recurring: "Weekly on Tuesdays",
-        venue: {
-          name: "Mascot Brewery - Etobicoke",
-          address: "37 Advance Road",
-          city: city,
-          state: "Ontario",
-          country: "Canada",
-          coordinates: {
-            lat: 43.6510,
-            lng: -79.5260
-          },
-        }
-      },
-      {
-        name: "Crates & Crafts - DJ Night",
-        url: "https://mascotbrewery.com/blogs/upcoming-events/crates-crafts",
-        imageUrl: "https://cdn.shopify.com/s/files/1/0590/7537/2641/files/crates-and-crafts.jpg",
-        description: "Experience Mascot Brewery's weekly curated DJ night, Crates & Crafts! Every Friday at their Etobicoke location, enjoy a chill craft beer experience featuring some of Toronto's top DJs spinning all the classics from old soul, hip-hop, funk, R&B, and everything in between. This nostalgic evening combines great music with exceptional craft beer in a relaxed atmosphere. Perfect for unwinding after the work week with friends, good vibes, and great sounds. Reservations recommended as this popular gathering tends to fill up quickly.",
-        startDate: new Date("2025-07-18T23:00:00.000Z"), // July 18, 2025, 7:00 PM EDT
-        endDate: new Date("2025-07-19T03:00:00.000Z"), // July 18, 2025, 11:00 PM EDT
-        categories: ["Music", "Beer", "DJ", "Nightlife", city],
-        price: "No cover charge",
-        recurring: "Weekly on Fridays",
-        venue: {
-          name: "Mascot Brewery - Etobicoke",
-          address: "37 Advance Road",
-          city: city,
-          state: "Ontario",
-          country: "Canada",
-          coordinates: {
-            lat: 43.6510,
-            lng: -79.5260
-          },
-        }
-      }
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
     ];
 
-    let addedCount = 0;
+    let response = null;
+    let workingUrl = null;
 
-    // Create properly formatted events and add to database
-    for (const eventData of mascotBreweryEvents) {
-      const event = {
-        id: uuidv4(),
-        name: `${city} - ${eventData.name}`,
-        description: eventData.description,
-        startDate: eventData.startDate,
-        endDate: eventData.endDate,
-        url: eventData.url,
-        imageUrl: eventData.imageUrl,
-        city: city,
-        cityId: city,
-        location: `${city}, Ontario`,
-        status: "active",
-        categories: eventData.categories,
-        venue: eventData.venue,
-        price: eventData.price,
-        tags: ["craft-beer", "brewery", "taproom", "local-business", "food"]
-      };
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Mascot Brewery URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-      // Add recurring field if it exists
-      if (eventData.recurring) {
-        event.recurring = eventData.recurring }
-
-      // Check if event already exists
-      const existingEvent = await eventsCollection.findOne({
-        name: event.name,
-        startDate: event.startDate
-      });
-
-      if (!existingEvent) {
-        await eventsCollection.insertOne(event);
-        addedCount++;
-        console.log(`✅ Added event: ${event.name}`) } else {
-        console.log(`⏭️ Event already exists: ${event.name}`) }
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
     }
 
-    console.log(`\n📊 Added ${addedCount} new events from Mascot Brewery`);
+    if (!response) {
+      console.log('❌ All Mascot Brewery URLs failed, cannot proceed');
+      return [];
+    }
 
-    // Verify Toronto events count
-    const torontoEvents = await eventsCollection.find({
-      city: city
-    }).toArray();
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
 
-    console.log(`📊 Total events with city="${city}" now: ${torontoEvents.length}`) } catch (error) {
-    console.error('❌ Error adding Mascot Brewery events:', error) } finally {
+    console.log(`📊 Mascot Brewery page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Mascot Brewery event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Mascot Brewery in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Mascot Brewery events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Mascot Brewery-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Mascot Brewery event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Mascot Brewery event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Mascot Brewery event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Mascot Brewery events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Mascot Brewery events:', error);
+    throw error;
+  } finally {
     await client.close();
-    console.log('🔌 Disconnected from MongoDB') }
+  }
 }
 
-// Run the script
-addMascotBreweryEvents().catch(console.error);
-
-module.exports = async (city) => {
-    return await addMascotBreweryEvents(city);
-};
+// Clean production export
+module.exports = { scrapeEvents: scrapeMascotBreweryEventsClean  };

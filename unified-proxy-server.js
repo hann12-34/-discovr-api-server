@@ -1,3 +1,4 @@
+// Last updated: 2025-08-11T01:59:41.106Z - Force restart for database fix
 /**
  * Unified Proxy Server for Discovr API
  * 
@@ -129,9 +130,9 @@ async function connectToMongoDB() {
     await cloudClient.connect();
     console.log('✅ Connected to cloud MongoDB');
     
-    // CRITICAL: Use the same database as imports (test) to ensure consistency
+    // CRITICAL: Use the same database as imports (discovr) to ensure consistency
     // This ensures server reads from where imports write
-    const cloudDb = cloudClient.db('test');
+    const cloudDb = cloudClient.db('discovr');
     console.log(`💾 Using database: ${cloudDb.databaseName}`);
     
     // Check if we have both old and new collection names

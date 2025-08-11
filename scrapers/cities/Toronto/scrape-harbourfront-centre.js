@@ -1,353 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { v4: uuidv4 } = require('uuid');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-/**
- * Harbourfront Centre Toronto Events Scraper
- * URL: https://harbourfrontcentre.com/events/
- */
-class HarbourfrontCentreEvents {
-    constructor() {
-        this.baseUrl = 'https://harbourfrontcentre.com';
-        this.eventsUrl = 'https://harbourfrontcentre.com/events/';
-        this.source = 'Harbourfront Centre';
-        this.city = 'Toronto';
-        this.province = 'ON';
-    }
-
-    getDefaultCoordinates() {
-        return { latitude: 43.6387, longitude: -79.3816 };
-    }
-
-    extractCategory(title, description) {
-        const text = `${title} ${description}`.toLowerCase();
-
-        if (text.includes('dance') || text.includes('bachata') || text.includes('music') || text.includes('concert')) {
-            return 'Music & Dance';
-        }
-        if (text.includes('art') || text.includes('gallery') || text.includes('exhibition')) {
-            return 'Art';
-        }
-        if (text.includes('theatre') || text.includes('drama') || text.includes('play')) {
-            return 'Theatre';
-        }
-        if (text.includes('festival') || text.includes('celebration')) {
-            return 'Festival';
-        }
-        if (text.includes('workshop') || text.includes('class') || text.includes('learn')) {
-            return 'Education';
-        }
-        if (text.includes('film') || text.includes('movie') || text.includes('cinema')) {
-            return 'Film';
-        }
-        if (text.includes('food') || text.includes('culinary') || text.includes('dining')) {
-            return 'Food & Drink';
-        }
-        if (text.includes('family') || text.includes('kids') || text.includes('children')) {
-            return 'Family';
-        }
-
-        return 'Cultural';
-    }
-
-    extractPrice(text) {
-        if (!text) return 'Contact for pricing';
-
-        text = text.toLowerCase();
-
-        if (text.includes('free') || text.includes('no charge') || text.includes('complimentary')) {
-            return 'Free';
-        }
-
-        if (text.includes('donation') || text.includes('pay what you can')) {
-            return 'By donation';
-        }
-
-        // Look for price patterns
-        const priceMatch = text.match(/\$(\d+(?:\.\d{2}?)/);
-        if (priceMatch) {
-            return `$${priceMatch[1]}`;
-        }
-
-        return 'Contact for pricing';
-    }
-
-    normalizeUrl(url, baseUrl = 'https://harbourfrontcentre.com') {
-        if (!url) return null;
-        if (url.startsWith('http')) return url;
-        return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
-    }
-
-    parseDateAndTime(dateText, timeText = '') {
-        if (!dateText) return null;
-
-        try {
-            dateText = dateText.trim();
-            timeText = timeText ? timeText.trim() : '';
-
-            // Remove day of week if present
-            dateText = dateText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s*/i, '');
-
-            let startDate, endDate;
-
-            // Handle date ranges
-            if (dateText.includes('–') || dateText.includes('-')) {
-                const parts = dateText.split(/\s*[–-]\s*/);
-                if (parts.length === 2) {
-                    const [startPart, endPart] = parts;
-
-                    try {
-                        startDate = new Date(startPart);
-                        endDate = new Date(endPart);
-
-                        // If endDate is invalid, try combining start month/year with end day
-                        if (isNaN(endDate.getTime())) {
-                            const startDateObj = new Date(startPart);
-                            const endDay = parseInt(endPart.match(/\d+/)?.[0]);
-                            if (endDay && !isNaN(startDateObj.getTime())) {
-                                endDate = new Date(startDateObj.getFullYear(), startDateObj.getMonth(), endDay);
-                            }
-                        }
-                    } catch (e) {
-                        startDate = new Date(startPart);
-                        endDate = new Date(endPart);
-                    }
-                }
-            } else {
-                // Single date
-                startDate = new Date(dateText);
-                endDate = startDate;
-            }
-
-            // Apply time if provided
-            if (timeText && !isNaN(startDate.getTime())) {
-                const timeMatch = timeText.match(/(\d{1,2}:?(\d{2}?\s*(AM|PM)?/i);
-                if (timeMatch) {
-                    let hours = parseInt(timeMatch[1]);
-                    const minutes = parseInt(timeMatch[2] || '0');
-                    const ampm = timeMatch[3]?.toUpperCase();
-
-                    if (ampm === 'PM' && hours !== 12) hours += 12;
-                    if (ampm === 'AM' && hours === 12) hours = 0;
-
-                    startDate.setHours(hours, minutes, 0, 0);
-                    if (endDate && endDate !== startDate) {
-                        endDate.setHours(hours, minutes, 0, 0);
-                    }
-                }
-            }
-
-            return {
-                startDate: isNaN(startDate.getTime()) ? null : startDate,
-                endDate: isNaN(endDate.getTime()) ? null : endDate
-            };
-        } catch (error) {
-            console.error('Date parsing error:', error);
-            return null;
-        }
-    }
-
-    cleanText(text) {
-        if (!text) return '';
-        return text.trim().replace(/\s+/g, ' ').replace(/\n+/g, ' ').trim();
-    }
-
-    extractVenueInfo() {
-        return {
-            name: 'Harbourfront Centre',
-            address: '235 Queens Quay W, Toronto, ON M5J 2G8',
-            city: city,
-            province: 'ON',
-            coordinates: this.getDefaultCoordinates()
-        };
-    }
-
-    isLiveEvent(eventDate) {
-        if (!eventDate) return false;
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        return eventDate >= today;
-    }
-
-    extractEventDetails($, eventElement) {
-        const $event = $(eventElement);
-
-        // Extract title
-        const title = this.cleanText(
-            $event.find('h1, h2, h3, h4, .title, .event-title').first().text() ||
-            $event.find('a').first().text() ||
-            $event.text().split('\n')[0]
-        );
-
-        if (!title || title.length < 3) return null;
-
-        // Extract date and time
-        const dateText = $event.find('.date, .event-date, .when, time').first().text();
-        const timeText = $event.find('.time, .event-time').first().text();
-
-        const dateInfo = this.parseDateAndTime(dateText, timeText);
-        const eventDate = dateInfo?.startDate;
-
-        // Only include live/future events
-        if (!this.isLiveEvent(eventDate)) {
-            return null;
-        }
-
-        const description = this.cleanText(
-            $event.find('.description, .event-description, .excerpt, p').first().text()
-        );
-
-        const eventUrl = $event.find('a').first().attr('href');
-        const fullEventUrl = this.normalizeUrl(eventUrl);
-
-        const priceText = $event.find('.price, .cost, .fee').first().text();
-        const price = this.extractPrice(priceText);
-
-        const venue = this.extractVenueInfo();
-        const category = this.extractCategory(title, description);
-
-        return {
-            id: uuidv4(),
-            name: title,
-            title: title,
-            description: description || `${title} at Harbourfront Centre`,
-            date: eventDate,
-            venue: { ...RegExp.venue: { ...RegExp.venue: venue,, city }, city },,
-            city: this.city,
-            province: this.province,
-            price: price,
-            category: category,
-            source: this.source,
-            url: fullEventUrl,
-            scrapedAt: new Date()
-        };
-    }
-
-    async scrapeEvents() {
-        console.log(`🔍 Scraping ${this.source} events...`);
-
-        try {
-            const response = await axios.get(this.eventsUrl, {
-                timeout: 10000,
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (compatible; EventScraper/1.0)'
-                }
-            };
-
-            const $ = cheerio.load(response.data);
-            const events = [];
-
-            // Multiple selectors for different event layouts
-            const eventSelectors = [
-                '.event-item',
-                '.event-card',
-                '.event',
-                '.calendar-event',
-                '.upcoming-event',
-                'article',
-                '.post',
-                '.card',
-                '.event-listing'
-            ];
-
-            for (const selector of eventSelectors) {
-                const eventElements = $(selector);
-                if (eventElements.length > 0) {
-                    console.log(`📅 Found ${eventElements.length} potential events with selector: ${selector}`);
-
-                    eventElements.each((index, element) => {
-                        const eventData = this.extractEventDetails($, element);
-                        if (eventData) {
-                            events.push(eventData);
-                        }
-                    };
-
-                    if (events.length > 0) break;
-                }
-            }
-
-            // If no events found with standard selectors, try alternative approach
-            if (events.length === 0) {
-                console.log('🔍 Trying alternative event extraction...');
-
-                // Look for any links to event pages
-                const eventLinks = $('a[href*="/event"], a[href*="/performance"], a[href*="/show"]');
-                if (eventLinks.length > 0) {
-                    console.log(`📅 Found ${eventLinks.length} potential event links`);
-
-                    eventLinks.each((index, element) => {
-                        const $link = $(element);
-                        const title = this.cleanText($link.text());
-                        const url = this.normalizeUrl($link.attr('href'));
-
-                        if (title && title.length > 3) {
-                            const eventData = {
-                                id: uuidv4(),
-                                name: title,
-                                title: title,
-                                description: `${title} at Harbourfront Centre`,
-                                date: null, // Will be populated from individual page if needed
-                                venue: this.extractVenueInfo(),
-                                city: this.city,
-                                province: this.province,
-                                price: 'Contact for pricing',
-                                category: this.extractCategory(title, ''),
-                                source: this.source,
-                                url: url,
-                                scrapedAt: new Date()
-                            };
-
-                            events.push(eventData);
-                        }
-                    };
-                }
-            }
-
-            console.log(`✅ Successfully scraped ${events.length} events from ${this.source}`);
-            return events;
-
-        } catch (error) {
-            console.error(`❌ Error scraping ${this.source}:`, error.message);
-            return [];
-        }
-    }
-}
-
-
-// Test runner
-if (require.main === module) {
-    async function testScraper() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-harbourfront-centre.js Toronto');
-    process.exit(1);
-  }
-        const scraper = new HarbourfrontCentreEvents();
-        const events = await scraper.scrapeEvents();
-        console.log('\n' + '='.repeat(50));
-        console.log('HARBOURFRONT CENTRE EVENTS TEST RESULTS');
-        console.log('='.repeat(50));
-        console.log(`Found ${events.length} events`);
-
-        events.forEach((event, index) => {
-            console.log(`\n${index + 1}. ${event.title}`);
-            console.log(`   Date: ${event.date ? event.date.toDaeventDateText() : 'TBD'}`);
-            console.log(`   Category: ${event.category}`);
-            console.log(`   Price: ${event.price}`);
-            console.log(`   Venue: ${event.venue.name}`);
-            if (event.url) console.log(`   URL: ${event.url}`);
-        };
-    }
-
-    testScraper();
-}
-
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new HarbourfrontCentreEvents();
-  return await scraper.scrape(city);
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// Also export the class for backward compatibility
-module.exports.HarbourfrontCentreEvents = HarbourfrontCentreEvents;
+
+const BASE_URL = 'https://www.harbourfrontcentre.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Harbourfront Centre',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeHarbourfrontCentreEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
+  try {
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Harbourfront Centre events (clean version)...');
+
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
+
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
+
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Harbourfront Centre URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
+    }
+
+    if (!response) {
+      console.log('❌ All Harbourfront Centre URLs failed, cannot proceed');
+      return [];
+    }
+
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Harbourfront Centre page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Harbourfront Centre event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Harbourfront Centre in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Harbourfront Centre events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Harbourfront Centre-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Harbourfront Centre event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Harbourfront Centre event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Harbourfront Centre event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Harbourfront Centre events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Harbourfront Centre events:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
+// Clean production export
+module.exports = { scrapeEvents: scrapeHarbourfrontCentreEventsClean  };

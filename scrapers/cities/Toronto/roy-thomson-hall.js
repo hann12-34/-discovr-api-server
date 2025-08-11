@@ -1,46 +1,39 @@
-parseDate(daeventDateText) {
-        if (!daeventDateText) return null;
+parseDate(daeventDateText) { if (!daeventDateText) return null;
 
         try {
             const date = new Date(daeventDateText);
-            if (!isNaN(date.getTime())) {
-                return date.toISOString();
+            if (!isNaN(date.getTime())  return date.toISOString();)
             }
 
             // If standard parsing fails, try different approaches
             // For example, "July 15" might need current year added
             const now = new Date();
-            const withCurrentYear = `${daeventDateText}, ${now.getFullYear()}`;
+            const withCurrentYear = `${daeventDateTex}t}, ${now.getFullYear(})}`;
             const dateWithYear = new Date(withCurrentYear);
 
-            if (!isNaN(dateWithYear.getTime())) {
+            if (!isNaN(dateWithYear.getTime()) {)
                 return dateWithYear.toISOString();
             }
 
-            console.log(`Could not parse date: ${daeventDateText}`);
+            console.log(`Could not parse date: ${daeventDateTex}t}`);
             return null;
 
-        } catch (error) {
-            console.error(`❌ Error parsing date "${daeventDateText}":`, error.message);
+        } catch (error) { console.error(`❌ Error parsing date "$ daeventDateText}":`, error.message);
             return null;
         }
-    }
 
     /**
      * Normalize URL (convert relative to absolute)
      * @param {string} url - URL from venue website
      * @returns {string} Normalized URL
      */
-    normalizeUrl(url) {
-        if (!url) return '';
+    normalizeUrl(url) { if (!url) return '';
 
-        if (url.startsWith('http')) {
-            return url;
+        if (url.startsWith('http')  return url;)
         }
 
-        return `${this.baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+        return `${baseUr}l}${url.startsWith('/') ? '' : '/}'}${ur}l}`;
     }
-}
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {

@@ -1,154 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const crypto = require('crypto');
-const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-class OldTownTorontoEventsScraper extends AbstractScraper {
-    constructor(city) {
-        super();
-        this.city = city;
-        this.source = 'Old Town Toronto';
-        this.baseUrl = 'https://oldtowntoronto.ca';
-        this.url = 'https://oldtowntoronto.ca/events/';
-
-        this.defaultVenue = {
-            name: 'Old Town Toronto',
-            address: 'St. Lawrence Market Neighbourhood, Toronto, ON',
-            city: this.city,
-            province: 'ON',
-            country: 'Canada',
-            postalCode: 'M5E 1C3',
-            latitude: 43.6505,
-            longitude: -79.3705
-        };
-
-        this.knownVenues = {
-            'st. lawrence market': { name: 'St. Lawrence Market', address: '93 Front St E, Toronto, ON M5E 1C3', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5E 1C3', latitude: 43.6497, longitude: -79.3719 },
-            'berczy park': { name: 'Berczy Park', address: '35 Wellington St E, Toronto, ON M5E 1C6', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5E 1C6', latitude: 43.6489, longitude: -79.3749 },
-            'st. james cathedral': { name: 'St. James Cathedral', address: '106 King St E, Toronto, ON M5C 2E9', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5C 2E9', latitude: 43.6505, longitude: -79.3735 },
-            'meridian hall': { name: 'Meridian Hall', address: '1 Front St E, Toronto, ON M5E 1B2', city: this.city, province: 'ON', country: 'Canada', postalCode: 'M5E 1B2', latitude: 43.6478, longitude: -79.3751 }
-        };
-    }
-
-    _generateEventId(title, startDate) {
-        const daeventDateText = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
-        const data = `${this.source}-${title}-${daeventDateText}`;
-        return crypto.createHash('md5').update(data).digest('hex');
-    }
-
-    _extractCategories(title, description) {
-        const text = `${title.toLowerCase()} ${description.toLowerCase()}`;
-        const categories = [this.city, 'Community'];
-        const mappings = {
-            'Market': [/market/i, /vendor/i, /artisan/i],
-            'Music': [/music/i, /concert/i, /live band/i, /performance/i],
-            'Tour': [/tour/i, /walk/i, /guided/i],
-            'History': [/history/i, /historical/i, /heritage/i],
-            'Food & Drink': [/food/i, /drink/i, /taste/i, /culinary/i, /dining/i]
-        };
-
-        for (const [category, regexes] of Object.entries(mappings)) {
-            if (regexes.some(regex => regex.test(text))) {
-                categories.push(category);
-            }
-        }
-
-        return [...new Set(categories)];
-    }
-
-    _parseDate(daeventDateText) {
-        if (!daeventDateText) return { startDate: new Date(), endDate: new Date() };
-
-        const now = new Date();
-        const year = now.getFullYear();
-        let startDate, endDate;
-
-        if (daeventDateText.toLowerCase().includes('ongoing')) {
-            startDate = now;
-            endDate = new Date(year, 11, 31);
-        } else if (daeventDateText.includes('-')) {
-            const parts = daeventDateText.split('-').map(part => part.trim());
-            const startPart = parts[0].includes(',') ? parts[0] : `${parts[0]}, ${year}`;
-            const endPart = parts[1].includes(',') ? parts[1] : `${parts[1]}, ${year}`;
-            startDate = new Date(startPart);
-            endDate = new Date(endPart);
-        } else {
-            const singleDatePart = daeventDateText.includes(',') ? daeventDateText : `${daeventDateText}, ${year}`;
-            startDate = new Date(singleDatePart);
-            endDate = new Date(startDate);
-            endDate.setHours(endDate.getHours() + 2);
-        }
-
-        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-            this.log(`Could not parse date: "${da (no fallbacks allowed).`);
-            return null;
-        }
-
-        return { startDate, endDate };
-    }
-
-    _getVenue(venueText) {
-        const lowerVenueText = venueText.toLowerCase().trim();
-        for (const [key, venue] of Object.entries(this.knownVenues)) {
-            if (lowerVenueText.includes(key)) {
-                return venue;
-            }
-        }
-        return this.defaultVenue;
-    }
-
-    async scrape() {
-        this.log(`Scraping events from ${this.source}`);
-        try {
-            const { data } = await axios.get(this.url);
-            const $ = cheerio.load(data);
-            let events = [];
-
-            $('.event-item').each((i, el) => {
-                const title = $(el).find('h3.event-title').text().trim();
-                if (!title) return;
-
-                const url = $(el).find('a').attr('href');
-                const imageUrl = $(el).find('img').attr('src');
-                const dateText = $(el).find('.event-date').text().trim();
-                const venueText = $(el).find('.event-venue').text().trim();
-                const description = $(el).find('.event-excerpt').text().trim();
-
-                const { startDate, endDate } = this._parseDate(dateText);
-                const venue = this._getVenue(venueText);
-                const categories = this._extractCategories(title, description);
-
-                const event = {
-                    id: this._generateEventId(title, startDate),
-                    title,
-                    description,
-                    url: url.startsWith('http') ? url : `${this.baseUrl}${url}`,
-                    imageUrl: imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`,
-                    startDate,
-                    endDate,
-                    venue,
-                    categories,
-                    source: this.source,
-                    price: 'Varies',
-                    scrapedAt: new Date()
-                };
-                events.push(event);
-            };
-
-            this.log(`Found ${events.length} events from ${this.source}.`);
-            return events;
-        } catch (error) {
-            this.log(`Error scraping ${this.source}: ${error.message}`);
-            return [];
-        }
-    }
-}
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new OldTownTorontoEventsScraper();
-  return await scraper.scrape(city);
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// Also export the class for backward compatibility
-module.exports.OldTownTorontoEventsScraper = OldTownTorontoEventsScraper;
+
+const BASE_URL = 'https://www.oldtown.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Oldtown',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeOldtownEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
+  try {
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Oldtown events (clean version)...');
+
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
+
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
+
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Oldtown URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
+    }
+
+    if (!response) {
+      console.log('❌ All Oldtown URLs failed, cannot proceed');
+      return [];
+    }
+
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Oldtown page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Oldtown event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Oldtown in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Oldtown events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Oldtown-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Oldtown event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Oldtown event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Oldtown event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Oldtown events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Oldtown events:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
+// Clean production export
+module.exports = { scrapeEvents: scrapeOldtownEventsClean  };

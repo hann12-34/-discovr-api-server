@@ -8,6 +8,14 @@ class NYCShoppingRetailEvents {
         this.baseUrl = 'https://www.meetup.com';
         this.eventsUrl = 'https://www.meetup.com/find/?keywords=shopping&location=us--ny--new_york';
         this.category = 'Shopping & Retail';
+        // 🚨 CRITICAL: City filtering requirements from DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+        this.expectedCity = 'New York';
+        this.cityConfig = {
+            city: 'New York',
+            state: 'NY', 
+            country: 'USA',
+            fullLocation: 'New York, NY'
+        };
     }
 
     async scrape() {
@@ -19,7 +27,7 @@ class NYCShoppingRetailEvents {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 15000
-            };
+            });
 
             const $ = cheerio.load(response.data);
             const events = [];
@@ -35,17 +43,24 @@ class NYCShoppingRetailEvents {
                     if (context.match(/\b(shopping|retail|store|market|boutique|sale|fashion|mall|vintage|thrift|pop up|popup)\b/i)) {
                         events.push({
                             title: title,
-                            venue: this.venueName,
-                            location: this.venueLocation,
+                            venue: {
+                                name: this.venueName,
+                                address: this.cityConfig.fullLocation,
+                                city: this.cityConfig.city,
+                                state: this.cityConfig.state,
+                                country: this.cityConfig.country
+                            },
+                            location: this.cityConfig.fullLocation,
+                            city: this.cityConfig.city,
                             date: 'Check website for dates',
                             category: this.category,
                             description: '',
                             link: this.eventsUrl,
-                            source: 'NYCShoppingShopping'
-                        };
+                            source: 'NYCShoppingShopping-' + this.cityConfig.city
+                        });
                     }
                 }
-            };
+            });
 
             console.log(`✅ ${this.venueName}: Found ${events.length} events`);
             return events;
@@ -65,10 +80,4 @@ module.exports = NYCShoppingRetailEvents;
 
 
 // Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new NYCShoppingRetailEvents();
-  return await scraper.scrape(city);
-};
 
-// Also export the class for backward compatibility
-module.exports.NYCShoppingRetailEvents = NYCShoppingRetailEvents;

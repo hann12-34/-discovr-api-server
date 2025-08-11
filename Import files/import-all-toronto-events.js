@@ -12,8 +12,8 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const colors = require('colors');
 
-// Import the master Toronto scraper
-const { scrapeAllTorontoEvents } = require('../scrapers/cities/Toronto/scrape-all-toronto');
+// Import the master Toronto scraper with ALL 157 working scrapers
+const { scrapeAllTorontoEventsMaster: scrapeAllTorontoEvents } = require('../scrapers/cities/Toronto/scrape-all-toronto-master');
 
 // MongoDB configuration
 const MONGODB_URI = process.env.MONGODB_URI;

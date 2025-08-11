@@ -1,144 +1,267 @@
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-async function scrape() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-toronto-international-film-festival.js Toronto');
-    process.exit(1);
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
+
+
+const BASE_URL = 'https://www.torontointernationalfilmfestival.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Toronto International Film Festival',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeTorontoInternationalFilmFestivalEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
-    try {
-        console.log('🎬 Scraping events from Toronto International Film Festival (TIFF)...');
 
-        // TIFF 2025: September 4-14, 2025
-        const events = [];
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
-        // Main festival event
-        events.push({
-            title: 'Toronto International Film Festival (TIFF) 2025',
-            startDate: new Date('2025-09-04T10:00:00'),
-            endDate: new Date('2025-09-14T23:00:00'),
-            description: 'One of the world\'s largest publicly attended film festivals, featuring over 300 films from around the globe with red carpet premieres, industry screenings, and celebrity appearances.',
-            category: 'Festival',
-            subcategory: 'Film Festival',
-            venue: {
-                name: 'Multiple TIFF Venues',
-                address: 'King Street West & Entertainment District, Toronto, ON',
-                city: city,
-                province: 'Ontario',
-                country: 'Canada'
-            },
-            sourceUrl: 'https://tiff.net/',
-            source: 'TIFF',
-            sourceId: 'tiff-2025-main',
-            lastUpdated: new Date(),
-            tags: ['film', 'festival', 'tiff', 'cinema', 'premieres', 'red-carpet', 'international'],
-            ticketInfo: {
-                hasTickets: true,
-                ticketUrl: 'https://tiff.net/tickets'
-            }
-        };
+  try {
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Toronto International Film Festival events (clean version)...');
 
-        // Specific TIFF programming blocks
-        const tiffEvents = [
-            {
-                title: 'TIFF Opening Night Gala 2025',
-                date: new Date('2025-09-04T19:00:00'),
-                description: 'Star-studded opening night gala featuring a major world premiere with red carpet arrivals and after-party.',
-                category: 'Gala'
-            },
-            {
-                title: 'TIFF Industry Screenings 2025',
-                date: new Date('2025-09-05T09:00:00'),
-                description: 'Industry-only screenings for buyers, distributors, and media featuring the latest international cinema.',
-                category: 'Industry'
-            },
-            {
-                title: 'TIFF People\'s Choice Premieres',
-                date: new Date('2025-09-06T20:00:00'),
-                description: 'Public premieres of highly anticipated films competing for the People\'s Choice Award.',
-                category: 'Premieres'
-            },
-            {
-                title: 'TIFF Masters Programme',
-                date: new Date('2025-09-07T15:00:00'),
-                description: 'Films by established auteurs and master filmmakers from around the world.',
-                category: 'Masters'
-            },
-            {
-                title: 'TIFF Discovery Programme',
-                date: new Date('2025-09-08T17:00:00'),
-                description: 'First and second features by emerging filmmakers showcasing new voices in cinema.',
-                category: 'Discovery'
-            },
-            {
-                title: 'TIFF Documentary Programme',
-                date: new Date('2025-09-09T14:00:00'),
-                description: 'Compelling documentaries covering diverse subjects from Canadian and international filmmakers.',
-                category: 'Documentary'
-            },
-            {
-                title: 'TIFF Midnight Madness 2025',
-                date: new Date('2025-09-10T23:45:00'),
-                description: 'Late-night screenings of genre films including horror, action, and cult cinema.',
-                category: 'Midnight Movies'
-            },
-            {
-                title: 'TIFF Canadian Cinema 2025',
-                date: new Date('2025-09-11T19:30:00'),
-                description: 'Celebrating Canadian filmmakers with premieres of the best in Canadian cinema.',
-                category: 'Canadian'
-            },
-            {
-                title: 'TIFF Closing Night Film 2025',
-                date: new Date('2025-09-14T19:00:00'),
-                description: 'Festival closing film and People\'s Choice Award ceremony celebrating the festival\'s conclusion.',
-                category: 'Closing'
-            }
-        ];
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-        tiffEvents.forEach(event => {
-            const duration = event.title.includes('Midnight') ? 3 : 2.5;
-            const endDate = new Date(event.date.getTime() + duration * 60 * 60 * 1000);
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
-            events.push({
-                title: event.title,
-                startDate: event.date,
-                endDate: endDate,
-                description: event.description,
-                category: 'Film',
-                subcategory: event.category,
-                venue: {
-                    name: event.title.includes('Gala') ? 'Princess of Wales Theatre' :
-                          (event.title.includes('Closing') ? 'Roy Thomson Hall' : 'TIFF Bell Lightbox'),
-                    address: 'King Street West, Toronto, ON',
-                    city: city,
-                    province: 'Ontario',
-                    country: 'Canada'
-                },
-                sourceUrl: 'https://tiff.net/',
-                source: 'TIFF',
-                sourceId: `tiff-${event.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-                lastUpdated: new Date(),
-                tags: ['tiff', 'film', event.category.toLowerCase(), 'festival', 'toronto'],
-                ticketInfo: {
-                    hasTickets: true,
-                    ticketUrl: 'https://tiff.net/tickets'
-                }
-            };
-        };
+    let response = null;
+    let workingUrl = null;
 
-        console.log(`Found ${events.length} total events from TIFF`);
-        return events;
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Toronto International Film Festival URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-    } catch (error) {
-        console.error('❌ Error scraping TIFF:', error.message);
-        return [];
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
     }
+
+    if (!response) {
+      console.log('❌ All Toronto International Film Festival URLs failed, cannot proceed');
+      return [];
+    }
+
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Toronto International Film Festival page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Toronto International Film Festival event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Toronto International Film Festival in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Toronto International Film Festival events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Toronto International Film Festival-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Toronto International Film Festival event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Toronto International Film Festival event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Toronto International Film Festival event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Toronto International Film Festival events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Toronto International Film Festival events:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
 }
 
-const scrapeEvents = scrape;
-module.exports = { scrape, scrapeEvents };
-
-
-// Function export wrapper added by targeted fixer
-module.exports = scrape;
+// Clean production export
+module.exports = { scrapeEvents: scrapeTorontoInternationalFilmFestivalEventsClean  };

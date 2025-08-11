@@ -1,270 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const crypto = require('crypto');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-function parseDateAndTime(dateText, timeText = '') {
-  if (!dateText || dateText.trim() === '') {
-    return null;
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
+
+
+const BASE_URL = 'https://www.wetnwildtoronto.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Wetnwild Toronto',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeWetnwildTorontoEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  const currentYear = new Date().getFullYear();
-  let startDate = null;
-  let endDate = null;
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
-    // Handle date ranges like "June 7 - September 7"
-    const rangeMatch = dateText.match(/([A-Za-z]+\s+\d{1,2}\s*-\s*([A-Za-z]+\s+\d{1,2}/);
-    if (rangeMatch) {
-      const startStr = rangeMatch[1];
-      const endStr = rangeMatch[2];
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Wetnwild Toronto events (clean version)...');
 
-      startDate = new Date(`${startStr}, ${currentYear}`);
-      endDate = new Date(`${endStr}, ${currentYear}`);
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-        return null;
-      }
-
-      return { startDate, endDate };
-    }
-
-    // Handle single dates
-    const singleDate = new Date(`${dateText}, ${currentYear}`);
-    if (!isNaN(singleDate.getTime())) {
-      startDate = singleDate;
-      endDate = new Date(singleDate);
-
-      // If time is provided, parse it
-      if (timeText) {
-        const timeMatch = timeText.match(/(\d{1,2}:(\d{2}\s*(am|pm)/i);
-        if (timeMatch) {
-          let hours = parseInt(timeMatch[1]);
-          const minutes = parseInt(timeMatch[2]);
-          const ampm = timeMatch[3].toLowerCase();
-
-          if (ampm === 'pm' && hours !== 12) hours += 12;
-          if (ampm === 'am' && hours === 12) hours = 0;
-
-          startDate.setHours(hours, minutes, 0, 0);
-          endDate.setHours(hours + 2, minutes, 0, 0); // Assume 2-hour duration
-        }
-      }
-
-      return { startDate, endDate };
-    }
-
-  } catch (error) {
-    console.error(`❌ Date parsing error: ${error.message}`);
-    return null;
-  }
-
-  return null;
-}
-
-// Generate unique event ID
-function generateEventId(venueName, eventTitle, startDate) {
-  const idString = `${venueName}-${eventTitle}-${startDate.toISOString().split('T')[0]}`;
-  return crypto.createHash('md5').update(idString).digest('hex');
-}
-
-// Extract price from text
-function extractPrice(text) {
-  if (!text) return null;
-
-  const priceMatch = text.match(/\$(\d+(?:\.\d{2}?)/);
-  return priceMatch ? parseFloat(priceMatch[1]) : null;
-}
-
-// Categorize event
-function categorizeEvent(title, description) {
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('music') || text.includes('dj') || text.includes('concert')) return 'Music';
-  if (text.includes('bubble') || text.includes('character') || text.includes('kids')) return 'Family';
-  if (text.includes('safety') || text.includes('education')) return 'Education';
-  if (text.includes('party') || text.includes('celebration')) return 'Entertainment';
-  if (text.includes('water') || text.includes('pool') || text.includes('swim')) return 'Recreation';
-
-  return 'Entertainment';
-}
-
-// Process individual event
-async function processEvent(eventData, eventsCollection, processedEventIds) {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-wetnwild-toronto.js Toronto');
-    process.exit(1);
-  }
-  const { title, dateRange, description, eventUrl, recurring } = eventData;
-
-  console.log(`🔍 Processing: "${title}"`);
-
-  // Parse dates
-  const dateResult = parseDateAndTime(dateRange);
-  if (!dateResult) {
-    console.log(`❌ Could not parse date: "${dateRange}"`);
-    return 0;
-  }
-
-  const { startDate, endDate } = dateResult;
-  console.log(`✅ Parsed dates - Start: ${startDate.toISOString()}, End: ${endDate.toISOString()}`);
-
-  // Generate unique event ID
-  const eventId = generateEventId('Wet\'n\'Wild Toronto', title, startDate);
-  console.log(`🔑 Generated ID: ${eventId} for "${title}"`);
-
-  // Skip if already processed
-  if (processedEventIds.has(eventId)) {
-    console.log(`⏭️ Skipping duplicate event: ${title}`);
-    return 0;
-  }
-
-  // Create event object
-  const event = {
-    _id: eventId,
-    id: eventId,
-    title: title.trim(),
-    description: description || '',
-    startDate: startDate,
-    endDate: endDate,
-    venue: { ...RegExp.venue: {
-      name: 'Wet\'n\'Wild Toronto',
-      address: '7855 Finch Ave W, Brampton, ON L6T 0B2',
-      city: city,
-      province: 'Ontario',
-      country: 'Canada'
-    }, city },,
-    category: categorizeEvent(title, description),
-    price: null, // Water park admission required
-    currency: 'CAD',
-    url: eventUrl,
-    source: 'Wet\'n\'Wild Toronto',
-    tags: ['waterpark', 'family', 'summer', 'toronto'],
-    isRecurring: recurring || false,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  };
-
-  try {
-    // Insert or update event
-    await eventsCollection.replaceOne(
-      { _id: eventId },
-      event,
-      { upsert: true }
-    );
-
-    processedEventIds.add(eventId);
-    console.log(`✅ Added/updated event: ${title} (${startDate.toDaeventDateText()}`);
-    return 1;
-  } catch (error) {
-    console.error(`❌ Error saving event ${title}: ${error.message}`);
-    return 0;
-  }
-}
-
-// Main scraping function
-async function scrapeWetNWildEvents(eventsCollection) {
-  console.log('🔍 Fetching events from Wet\'n\'Wild Toronto...');
-
-  try {
-    const response = await axios.get('https://wetnwildtoronto.com/events/', {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      },
-      timeout: 10000
-    };
-
-    const $ = cheerio.load(response.data);
-    console.log('📋 Parsing event content...');
-
-    const events = [];
-    const processedEventIds = new Set();
-
-    // Find event listings
-    $('.tribe-events-calendar-list__event').each((index, element) => {
-      const $event = $(element);
-
-      const title = $event.find('.tribe-events-calendar-list__event-title a').text().trim();
-      const eventUrl = $event.find('.tribe-events-calendar-list__event-title a').attr('href');
-      const description = $event.find('.tribe-events-calendar-list__event-description').text().trim();
-
-      if (title) {
-        events.push({
-          title,
-          eventUrl: eventUrl ? new URL(eventUrl, 'https://wetnwildtoronto.com').href : null,
-          description
-        };
-      }
-    };
-
-    // Also check for individual event pages linked from main events page
-    const eventLinks = [];
-    $('a[href*="/event/"]').each((index, element) => {
-      const href = $(element).attr('href');
-      const title = $(element).text().trim();
-
-      if (href && title && !eventLinks.some(e => e.href === href)) {
-        eventLinks.push({
-          href: new URL(href, 'https://wetnwildtoronto.com').href,
-          title
-        };
-      }
-    };
-
-    // Process known events with specific details
-    const knownEvents = [
-      {
-        title: 'Bubble Parties',
-        dateRange: 'June 7 - September 7',
-        description: 'Family-friendly event filled with bubbles and foam! Perfect photo opportunities with vibrant bubble effects! Happening every Tuesday at 1:00 pm and every Sunday at 3:00 pm!',
-        eventUrl: 'https://wetnwildtoronto.com/event/bubble-parties/',
-        recurring: true
-      },
-      {
-        title: 'Poolside DJ',
-        dateRange: 'June 7 - September 7',
-        description: 'Get ready to make waves at our poolside DJ party! Join us every Thursday and Sunday, poolside for an electrifying afternoon of beats and waterpark fun!',
-        eventUrl: 'https://wetnwildtoronto.com/event/poolside-dj/',
-        recurring: true
-      },
-      {
-        title: 'Character Visits',
-        dateRange: 'June 7 - September 7',
-        description: 'Dive into a magical adventure with our enchanting special guests! Join a mermaid for tales of underwater wonder, set sail with a playful pirate, and perfect your royal wave with a princess!',
-        eventUrl: 'https://wetnwildtoronto.com/event/character-visits/',
-        recurring: true
-      },
-      {
-        title: 'Water Safety Day',
-        dateRange: 'July 1 - July 31',
-        description: 'We are partnering with Lifesaving Society to raise awareness about drowning prevention and water safety. Important safety tips for families and water-lovers of all ages!',
-        eventUrl: 'https://wetnwildtoronto.com/event/water-safety-day/',
-        recurring: false
-      }
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
     ];
 
-    let addedCount = 0;
+    let response = null;
+    let workingUrl = null;
 
-    // Process known events
-    for (const eventData of knownEvents) {
-      const added = await processEvent(eventData, eventsCollection, processedEventIds);
-      addedCount += added;
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Wetnwild Toronto URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
     }
 
-    console.log(`📊 Successfully added ${addedCount} new Wet'n'Wild Toronto events`);
-    return addedCount;
+    if (!response) {
+      console.log('❌ All Wetnwild Toronto URLs failed, cannot proceed');
+      return [];
+    }
 
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Wetnwild Toronto page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Wetnwild Toronto event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Wetnwild Toronto in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Wetnwild Toronto events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Wetnwild Toronto-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Wetnwild Toronto event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Wetnwild Toronto event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Wetnwild Toronto event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Wetnwild Toronto events`);
+    return events;
   } catch (error) {
-    console.error(`❌ Error scraping Wet'n'Wild Toronto: ${error.message}`);
+    console.error('Error scraping Wetnwild Toronto events:', error);
     throw error;
+  } finally {
+    await client.close();
   }
 }
 
-module.exports = { scrapeWetNWildEvents };
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeWetNWildEvents;
-
-// Production async export added
-module.exports = processEvent;
+// Clean production export
+module.exports = { scrapeEvents: scrapeWetnwildTorontoEventsClean  };

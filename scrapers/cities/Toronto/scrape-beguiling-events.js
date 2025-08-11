@@ -1,158 +1,267 @@
-const puppeteer = require('puppeteer');
-const crypto = require('crypto');
-const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-class BeguilingEventsScraper extends AbstractScraper {
-    constructor(city) {
-        super();
-        this.city = city;
-        this.source = 'The Beguiling Books & Art';
-        this.url = 'https://beguilingbooks.com/events';
-        this.venue = {
-            name: 'The Beguiling Books & Art',
-            address: '319 College St, Toronto, ON M5T 1S2',
-            city: city,
-            province: 'ON',
-            country: 'Canada',
-            postalCode: 'M5T 1S2',
-            latitude: 43.657690,
-            longitude: -79.404980
-        };
-    }
-
-    _generateEventId(title, startDate) {
-        const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
-        const data = `${this.source}-${title}-${dateStr}`;
-        return crypto.createHash('md5').update(data).digest('hex');
-    }
-
-    _parseDate(dateText) {
-        if (!dateText) {
-            return null;
-        }
-        try {
-            const cleanText = dateText.toUpperCase().replace('@', '');
-            const datePattern = /(\w+)\s+(\d{1,2}(?:\s*[-–]\s*(\d{1,2}?,\s*(\d{4}/;
-            const timePattern = /(\d{1,2}:?(\d{2}?\s*(AM|PM)/;
-
-            const dateMatch = cleanText.match(datePattern);
-            if (!dateMatch) {
-                return null;
-            }
-
-            const [, month, startDay, endDay, year] = dateMatch;
-            let { 1: hours, 2: minutes, 3: ampm } = cleanText.match(timePattern) || { 1: '19', 2: '00', 3: 'PM' };
-
-            hours = parseInt(hours);
-            minutes = parseInt(minutes || '0');
-
-            if (ampm === 'PM' && hours < 12) hours += 12;
-            if (ampm === 'AM' && hours === 12) hours = 0;
-
-            const startDate = new Date(`${month} ${startDay}, ${year} ${hours}:${minutes}`);
-            if (isNaN(startDate.getTime())) return null;
-
-            const endDate = endDay ? new Date(`${month} ${endDay}, ${year} 23:59:59`) : new Date(startDate.getTime() + 2 * 60 * 60 * 1000);
-            if (isNaN(endDate.getTime())) return { startDate, endDate: startDate };
-
-            return { startDate, endDate };
-        } catch (error) {
-            this.log(`Error parsing date "${dateText}": ${error.message}`);
-            return null;
-        }
-    }
-
-    _extractCategories(title, description) {
-        const text = `${title} ${description}`.toLowerCase();
-        const categories = [this.city, 'Books', 'Comics', 'Art', 'Literature'];
-
-        if (text.includes('signing')) categories.push('Book Signing');
-        if (text.includes('launch')) categories.push('Book Launch');
-        if (text.includes('reading')) categories.push('Author Reading');
-        if (text.includes('workshop')) categories.push('Workshop');
-        if (text.includes('manga')) categories.push('Manga');
-
-        return [...new Set(categories)];
-    }
-
-    async scrape(city) {
-        this.log(`Scraping events from ${this.source}`);
-        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] };
-        try {
-            const page = await browser.newPage();
-            await page.goto(this.url, { waitUntil: 'networkidle2' };
-
-            const events = await page.evaluate((venue, source, city) => {
-                const eventList = [];
-                document.querySelectorAll('article, .event-item, .post').forEach(el => {
-                    const title = el.querySelector('h1, h2, h3')?.innerText.trim();
-                    if (!title || title.length < 5) return;
-
-                    const url = el.querySelector('a')?.href;
-                    const imageUrl = el.querySelector('img')?.src;
-                    const dateText = el.querySelector('.date, .post-date, time')?.innerText.trim() || '';
-                    const description = Array.from(el.querySelectorAll('p')).map(p => p.innerText).join('\n').trim();
-
-                    if (description.length < 10) return;
-
-                    eventList.push({
-                        title,
-                        description,
-                        url,
-                        imageUrl,
-                        dateText,
-                        venue: {
-                name: city, ...venue, city
-            },
-                        source,
-                        price: 'Free'
-                    };
-                };
-                return eventList;
-            }, this.venue, this.source, this.city);
-
-            const processedEvents = events.reduce((acc, event) => {
-                const parsedDates = this._parseDate(event.dateText);
-                if (!parsedDates) {
-                    this.log(`Skipping event with unparsable date: "${event.title}"`);
-                    return acc;
-                }
-
-                const { startDate, endDate } = parsedDates;
-
-                acc.push({
-                    id: this._generateEventId(event.title, startDate),
-                    title: event.title,
-                    description: event.description,
-                    url: event.url,
-                    imageUrl: event.imageUrl,
-                    startDate,
-                    endDate,
-                    venue: event.venue,
-                    categories: this._extractCategories(event.title, event.description),
-                    source: event.source,
-                    price: event.price,
-                    scrapedAt: new Date(),
-                };
-                return acc;
-            }, []);
-
-            this.log(`Found ${processedEvents.length} events from ${this.source}.`);
-            return processedEvents;
-        } catch (error) {
-            this.log(`Error scraping ${this.source}: ${error.message}`);
-            return [];
-        } finally {
-            await browser.close();
-        }
-    }
-}
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new BeguilingEventsScraper();
-  return await scraper.scrape(city);
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// Also export the class for backward compatibility
-module.exports.BeguilingEventsScraper = BeguilingEventsScraper;
+
+const BASE_URL = 'https://www.beguiling.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Beguiling',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeBeguilingEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
+  try {
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Beguiling events (clean version)...');
+
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
+
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
+
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Beguiling URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
+    }
+
+    if (!response) {
+      console.log('❌ All Beguiling URLs failed, cannot proceed');
+      return [];
+    }
+
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Beguiling page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Beguiling event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Beguiling in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Beguiling events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Beguiling-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Beguiling event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Beguiling event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Beguiling event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Beguiling events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Beguiling events:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
+// Clean production export
+module.exports = { scrapeEvents: scrapeBeguilingEventsClean  };

@@ -1,177 +1,267 @@
-/**
- * Script to add Downsview Park events to the database
- * Based on events from https://downsviewpark.ca/events
- */
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-require('dotenv').config();
-const { MongoClient } = require('mongodb')
-const { v4: uuidv4 } = require('uuid')
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
 
-// Get MongoDB connection string from environment variables
-const uri = process.env.MONGODB_URI;
 
-if (!uri) {
-  console.error('❌ MONGODB_URI environment variable not set')
-  process.exit(1);
-}
+const BASE_URL = 'https://www.downsviewpark.com';
 
-async function addDownsviewParkEvents(city = "Toronto") {
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-downsview-park-events.js Toronto')
-    process.exit(1);
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Downsview Park',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeDownsviewParkEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
-  const client = new MongoClient(uri);
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
     await client.connect();
-    console.log('✅ Connected to MongoDB cloud database')
-
-    const database = client.db();
     const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Downsview Park events (clean version)...');
 
-    // List of Downsview Park events from the website
-    const downsviewEvents = [
-      {
-        name: "Movies Under the Stars 2025",
-        url: "https://downsviewpark.ca/events/movies-under-stars",
-        imageUrl: "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-05/Revised-Movies-16x9-TITLE.png",
-        description: "Movies Under the Stars returns to Downsview Park this year! Our 9th annual movie program will be taking place at the lakeside. Bring a blanket or lawn chair and enjoy family-friendly films under the open sky. Free admission for all!",
-        startDate: new Date("2025-07-25T20:30:00.000Z"), // July 25th evening
-        endDate: new Date("2025-07-25T23:00:00.000Z"),
-        categories: ["Movie", "Outdoor", "Family", "Free", city],
-        price: "Free",
-        recurring: "Every Friday from July to August"
-      },
-      {
-        name: "Wild and Free Family Yoga (ENGLISH)",
-        url: "https://downsviewpark.ca/events/wild-and-free-family-yoga-english-1",
-        imageUrl: "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-08/Website-Banner-16x9-Yoga-English.png",
-        description: "Experience the calming power of yoga while being surrounded by the natural beauty of the Park. This free family yoga program welcomes participants of all ages and abilities. Bring your own mat and water bottle.",
-        startDate: new Date("2025-08-23T10:00:00.000Z"), // August 23rd morning
-        endDate: new Date("2025-08-23T11:00:00.000Z"),
-        categories: ["Yoga", "Wellness", "Family", "Outdoor", city],
-        price: "Free",
-        recurring: "Weekly on Saturdays"
-      },
-      {
-        name: "Wild and Free Family Yoga (FRENCH)",
-        url: "https://downsviewpark.ca/events/wild-and-free-family-yoga-french",
-        imageUrl: "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-08/Website-Banner-16x9-Yoga-French.png",
-        description: "Expérimentez le pouvoir apaisant du yoga tout en étant entouré par la beauté naturelle du parc. Ce programme gratuit de yoga familial accueille les participants de tous âges et de toutes capacités. Apportez votre propre tapis et bouteille d'eau.",
-        startDate: new Date("2025-08-30T10:00:00.000Z"), // August 30th morning
-        endDate: new Date("2025-08-30T11:00:00.000Z"),
-        categories: ["Yoga", "French", "Family", "Outdoor", city],
-        price: "Free",
-        recurring: "Weekly on Saturdays"
-      },
-      {
-        name: "Downsview parkrun",
-        url: "https://downsviewpark.ca/events/downsview-parkrun",
-        imageUrl: "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2025-01/parkrun-canada.jpg",
-        description: "Parkrun is a free, weekly, timed 5k run/jog/walk every Saturday at 9:00 am. Open to all ages and all abilities – each week a Tail Walker will be present, so you will never be last. This event is organized by parkrun volunteers.",
-        startDate: new Date("2025-07-20T13:00:00.000Z"), // July 20th
-        endDate: new Date("2025-07-20T14:30:00.000Z"),
-        categories: ["Running", "Fitness", "Outdoors", "Community", city],
-        price: "Free",
-        recurring: "Every Saturday at 9:00 AM"
-      },
-      {
-        name: "Jr. Forest Explorers: Creepy Crawlers",
-        url: "https://downsviewpark.ca/events/jr-forest-explorers",
-        imageUrl: "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2024-05/JFE-bugs_0.jpg",
-        description: "A FREE nature program for toddlers and their guardians. Connect with nature through hands-on outdoor activities focused on discovering the fascinating world of insects and other small creatures. Let's get those little hands dirty!",
-        startDate: new Date("2025-07-23T09:30:00.000Z"), // July 23rd morning
-        endDate: new Date("2025-07-23T10:30:00.000Z"),
-        categories: ["Children", "Nature", "Education", "Outdoors", city],
-        price: "Free"
-      },
-      {
-        name: "VELD Music Festival",
-        url: "https://downsviewpark.ca/events/veld-music-festival-2025",
-        imageUrl: "https://downsviewpark.ca/sites/default/files/styles/hero_image/public/2025-05/veld-2025.jpg",
-        description: "VELD Music Festival returns to Downsview Park! This premier electronic music festival features world-class DJs and artists performing across multiple stages. Experience amazing performances, festival activities, and an electric atmosphere in one of Toronto's biggest summer music events.",
-        startDate: new Date("2025-08-02T16:00:00.000Z"), // August 2-3 weekend
-        endDate: new Date("2025-08-04T00:00:00.000Z"),
-        categories: ["Music Festival", "Electronic", "Concert", "Entertainment", city],
-        price: "$150-$300"
-      }
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
+
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
     ];
 
-    let addedCount = 0;
+    let response = null;
+    let workingUrl = null;
 
-    // Create properly formatted events and add to database
-    for (const eventData of downsviewEvents) {
-      const event = {
-        id: uuidv4(),
-        name: `Toronto - ${eventData.name} at Downsview Park`,
-        description: eventData.description,
-        startDate: eventData.startDate,
-        endDate: eventData.endDate,
-        url: eventData.url,
-        imageUrl: eventData.imageUrl,
-        city: city,
-        cityId: city,
-        location: "Toronto, Ontario",
-        status: "active",
-        categories: eventData.categories,
-        venue: {
-          name: city,
-          address: "70 Canuck Avenue",
-          city: city,
-          state: "Ontario",
-          country: "Canada",
-          coordinates: {
-            lat: 43.7334,
-            lng: -79.4775
-          }
-        },
-        price: eventData.price,
-        tags: ["park", "outdoor", "north-york", "toronto-attractions", "family-friendly"],
-        recurring: eventData.recurring || null
-      };
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Downsview Park URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-      // Check if event already exists
-      const existingEvent = await eventsCollection.findOne({
-        name: event.name,
-        startDate: event.startDate
-      })
-
-      if (!existingEvent) {
-        await eventsCollection.insertOne(event);
-        addedCount++;
-        console.log(`✅ Added event: ${event.name}`);
-      } else {
-        console.log(`⏭️ Event already exists: ${event.name}`);
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    console.log(`\n📊 Added ${addedCount} new events from Downsview Park`);
+    if (!response) {
+      console.log('❌ All Downsview Park URLs failed, cannot proceed');
+      return [];
+    }
 
-    // Verify Toronto events count
-    const torontoEvents = await eventsCollection.find({
-      city: city
-    }).toArray();
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
 
-    console.log(`📊 Total events with city="${city}" now: ${torontoEvents.length}`);
+    console.log(`📊 Downsview Park page loaded from ${workingUrl}, analyzing content...`);
 
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Downsview Park event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Downsview Park in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Downsview Park events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Downsview Park-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Downsview Park event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Downsview Park event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Downsview Park event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Downsview Park events`);
+    return events;
   } catch (error) {
-    console.error('❌ Error adding Downsview Park events:', error);
+    console.error('Error scraping Downsview Park events:', error);
+    throw error;
   } finally {
     await client.close();
-    console.log('🔌 Disconnected from MongoDB')
   }
 }
 
-// Run the script
-addDownsviewParkEvents().catch(console.error);
-
-
-// Main function export added by Toronto Perfection Fixer
-
-// Production async export added
-
-
-// Surgical export fix
-module.exports = async (city) => {
-    return await addDownsviewParkEvents(city);
-};
+// Clean production export
+module.exports = { scrapeEvents: scrapeDownsviewParkEventsClean  };

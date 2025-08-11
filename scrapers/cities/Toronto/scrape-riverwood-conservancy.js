@@ -1,222 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { v4: uuidv4 } = require('uuid');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-/**
- * Riverwood Conservancy Toronto Events Scraper
- * URL: https://theriverwoodconservancy.org/events/
- */
-class RiverwoodConservancyEvents {
-    constructor() {
-        this.baseUrl = 'https://theriverwoodconservancy.org';
-        this.eventsUrl = 'https://theriverwoodconservancy.org/events/';
-        this.source = 'Riverwood Conservancy';
-        this.city = 'Toronto';
-        this.province = 'ON';
-    }
-
-    getDefaultCoordinates() {
-        return { latitude: 43.6532, longitude: -79.3832 };
-    }
-
-    parseDate(dateStr) {
-        if (!dateStr) return null;
-        try {
-            const cleanDateStr = dateStr.trim();
-
-            // Try ISO format first
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
-            if (isoMatch) return new Date(isoMatch[1]);
-
-            // Try parsing various date formats
-            const dateRegex = /\b((?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2}(?:st|nd|rd|th)?\s*,?\s*\d{4}\b/gi;
-            const match = cleanDateStr.match(dateRegex);
-
-            if (match) {
-                const parsedDate = new Date(match[0]);
-                if (!isNaN(parsedDate.getTime())) {
-                    return parsedDate;
-                }
-            }
-
-            // Try current year if no year specified
-            const currentYear = new Date().getFullYear();
-            const withYear = `${cleanDateStr}, ${currentYear}`;
-            const dateWithYear = new Date(withYear);
-
-            return isNaN(dateWithYear.getTime()) ? null : dateWithYear;
-        } catch (error) {
-            return null;
-        }
-    }
-
-    cleanText(text) {
-        if (!text) return '';
-        return text.trim().replace(/\s+/g, ' ').replace(/\n+/g, ' ').trim();
-    }
-
-    extractVenueInfo() {
-        return {
-            name: 'Riverwood Conservancy',
-            address: '4300 Riverwood Park Lane, Mississauga, ON L5C 2S7',
-            city: city,
-            province: 'ON',
-            coordinates: this.getDefaultCoordinates()
-        };
-    }
-
-    isLiveEvent(eventDate) {
-        if (!eventDate) return false;
-        const now = new Date();
-        // Only include events that are today or in the future
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        return eventDate >= today;
-    }
-
-    extractEventDetails($, eventElement) {
-        const $event = $(eventElement);
-
-        // Extract title
-        const title = this.cleanText(
-            $event.find('h3 a, .event-title a, a').first().text() ||
-            $event.find('h1, h2, h3, h4, .title').first().text() ||
-            $event.text().split('\n')[0]
-        );
-
-        if (!title || title.length < 3) return null;
-
-        // Extract date
-        const dateText = $event.find('.event-date, .tribe-event-date-start, .date').first().text() ||
-                        $event.text().match(/([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?\s*,?\s*\d{4}/)?.[1] || '';
-
-        const eventDate = this.parseDate(dateText);
-
-        // Only include live/future events
-        if (!this.isLiveEvent(eventDate)) {
-            return null;
-        }
-
-        const description = this.cleanText(
-            $event.find('.event-description, .tribe-events-list-event-description, p').first().text()
-        );
-
-        const eventUrl = $event.find('a').first().attr('href');
-        const fullEventUrl = eventUrl ?
-            (eventUrl.startsWith('http') ? eventUrl : `${this.baseUrl}${eventUrl}`) : null;
-
-        const venue = this.extractVenueInfo();
-
-        let category = 'Outdoor & Nature';
-        const titleLower = title.toLowerCase();
-        if (titleLower.includes('workshop') || titleLower.includes('educational')) {
-            category = 'Educational';
-        } else if (titleLower.includes('hike') || titleLower.includes('walk')) {
-            category = 'Recreation';
-        }
-
-        return {
-            id: uuidv4(),
-            name: title,
-            title: title,
-            description: description || `${title} at Riverwood Conservancy`,
-            date: eventDate,
-            venue: { ...venue, city },
-            city: this.city,
-            province: this.province,
-            price: 'Free',
-            category: category,
-            source: this.source,
-            url: fullEventUrl,
-            scrapedAt: new Date()
-        };
-    }
-
-    async scrapeEvents() {
-        console.log(`🔍 Scraping ${this.source} events...`);
-
-        try {
-            const response = await axios.get(this.eventsUrl, {
-                timeout: 10000,
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (compatible; EventScraper/1.0)'
-                }
-            };
-
-            const $ = cheerio.load(response.data);
-            const events = [];
-
-            // Try multiple selectors to find events
-            const eventSelectors = [
-                '.event-item',
-                '.tribe-event',
-                '.event',
-                '.upcoming-event',
-                'article',
-                '.post',
-                'h3 a[href*="event"]',
-                'h2 a[href*="event"]'
-            ];
-
-            for (const selector of eventSelectors) {
-                const eventElements = $(selector);
-                if (eventElements.length > 0) {
-                    console.log(`📅 Found ${eventElements.length} potential events with selector: ${selector}`);
-
-                    eventElements.each((index, element) => {
-                        const eventData = this.extractEventDetails($, element);
-                        if (eventData) {
-                            events.push(eventData);
-                        }
-                    };
-
-                    if (events.length > 0) break;
-                }
-            }
-
-            console.log(`✅ Successfully scraped ${events.length} live events from ${this.source}`);
-            return events;
-
-        } catch (error) {
-            console.error(`❌ Error scraping ${this.source}:`, error.message);
-            return [];
-        }
-    }
-}
-
-
-// Test runner
-if (require.main === module) {
-    async function testScraper() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-riverwood-conservancy.js Toronto');
-    process.exit(1);
-  }
-        const scraper = new RiverwoodConservancyEvents();
-        const events = await scraper.scrapeEvents();
-        console.log('\n' + '='.repeat(50));
-        console.log('RIVERWOOD CONSERVANCY EVENTS TEST RESULTS');
-        console.log('='.repeat(50));
-        console.log(`Found ${events.length} events`);
-
-        events.forEach((event, index) => {
-            console.log(`\n${index + 1}. ${event.title}`);
-            console.log(`   Date: ${event.date ? event.date.toDaeventDateText() : 'TBD'}`);
-            console.log(`   Category: ${event.category}`);
-            console.log(`   Venue: ${event.venue.name}`);
-            if (event.url) console.log(`   URL: ${event.url}`);
-        };
-    }
-
-    testScraper();
-}
-
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new RiverwoodConservancyEvents();
-  return await scraper.scrape(city);
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// Also export the class for backward compatibility
-module.exports.RiverwoodConservancyEvents = RiverwoodConservancyEvents;
+
+const BASE_URL = 'https://www.riverwoodconservancy.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Riverwood Conservancy',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeRiverwoodConservancyEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
+  try {
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Riverwood Conservancy events (clean version)...');
+
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
+
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
+
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Riverwood Conservancy URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
+    }
+
+    if (!response) {
+      console.log('❌ All Riverwood Conservancy URLs failed, cannot proceed');
+      return [];
+    }
+
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Riverwood Conservancy page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Riverwood Conservancy event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Riverwood Conservancy in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Riverwood Conservancy events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Riverwood Conservancy-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Riverwood Conservancy event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Riverwood Conservancy event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Riverwood Conservancy event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Riverwood Conservancy events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Riverwood Conservancy events:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
+// Clean production export
+module.exports = { scrapeEvents: scrapeRiverwoodConservancyEventsClean  };

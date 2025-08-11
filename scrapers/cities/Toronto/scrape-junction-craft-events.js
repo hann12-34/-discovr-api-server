@@ -1,168 +1,267 @@
-const { getCityFromArgs } = require('../../utils/city-util.js');
-/**
- * Script to add Junction Craft Brewing events to the database
- * Based on typical events from https://www.junctioncraft.com/
- */
-
-require('dotenv').config();
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const { v4: uuidv4 } = require('uuid');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// Get MongoDB connection string from environment variables
-const uri = process.env.MONGODB_URI;
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
 
-if (!uri) {
-  console.error('❌ MONGODB_URI environment variable not set');
-  process.exit(1) }
 
-async function addJunctionCraftEvents(city = "Toronto") {
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-junction-craft-events.js Toronto');
-    process.exit(1) }
-  const client = new MongoClient(uri);
+const BASE_URL = 'https://junctioncraft.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Junction Craft',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeJunctionCraftEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
     await client.connect();
-    console.log('✅ Connected to MongoDB cloud database');
-
-    const database = client.db();
     const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Junction Craft events (clean version)...');
 
-    console.log('🍺 Adding Junction Craft Brewing events to database...');
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    // List of Junction Craft Brewing events
-    const junctionCraftEvents = [
-      {
-        name: "Trivia Night",
-        url: "https://www.junctioncraft.com/whatson",
-        imageUrl: "https://static.wixstatic.com/media/d0b27f_53b4f3f045394e3d8295d32f2b72b379~mv2.jpg",
-        description: "Test your knowledge at Junction Craft Brewing's weekly trivia night! Join our host as teams compete for brewery prizes, bragging rights, and beer specials. No registration required - just show up with your team or join one when you arrive. Enjoy craft beer from our rotating taps while exercising your brain with questions spanning pop culture, history, sports, science, and local Toronto trivia.",
-        startDate: new Date("2025-07-17T23:00:00.000Z"), // July 17, 2025, 7:00 PM EST
-        endDate: new Date("2025-07-18T02:00:00.000Z"), // July 17, 2025, 10:00 PM EST
-        categories: ["Games", "Beer", "Social", "Trivia", city],
-        price: "Free to participate",
-        recurring: "Weekly on Thursdays"
-      },
-      {
-        name: "Live Music Saturday - Local Indie Showcase",
-        url: "https://www.junctioncraft.com/whatson",
-        imageUrl: "https://static.wixstatic.com/media/d0b27f_a7b7ae0c108e4c6fb0bc553df919ecff~mv2.jpg",
-        description: "Enjoy the sounds of Toronto's vibrant indie music scene at Junction Craft Brewing's Live Music Saturday. This week features performances from local artists in an intimate taproom setting. Sip on award-winning craft beers while supporting local musicians. Food menu available throughout the event featuring brewery favorites and seasonal specials.",
-        startDate: new Date("2025-07-19T23:00:00.000Z"), // July 19, 2025, 7:00 PM EST
-        endDate: new Date("2025-07-20T02:00:00.000Z"), // July 19, 2025, 10:00 PM EST
-        categories: ["Music", "Beer", "Live Performance", "Indie", city],
-        price: "No cover charge"
-      },
-      {
-        name: "Toronto Craft Beer Week Tap Takeover",
-        url: "https://www.junctioncraft.com/whatson",
-        imageUrl: "https://static.wixstatic.com/media/d0b27f_bf4bd5ec3e324b229ec746d7cc8db125~mv2.jpg",
-        description: "As part of Toronto Craft Beer Week celebrations, Junction Craft Brewing hosts a special tap takeover featuring collaboration brews with five other local Toronto breweries. Sample exclusive small-batch beers, meet the brewers, and enjoy brewery tours throughout the evening. Food pairings available from our kitchen, designed to complement each special release beer.",
-        startDate: new Date("2025-07-25T21:00:00.000Z"), // July 25, 2025, 5:00 PM EST
-        endDate: new Date("2025-07-26T02:00:00.000Z"), // July 25, 2025, 10:00 PM EST
-        categories: ["Beer", "Festival", "Tasting", "Brewery", city],
-        price: "$25 (includes 5 tasting tokens)"
-      },
-      {
-        name: "Vinyl Night at the Junction",
-        url: "https://www.junctioncraft.com/whatson",
-        imageUrl: "https://static.wixstatic.com/media/d0b27f_a6bf592a124d4f86a46bd9c7fd381d7f~mv2.jpg",
-        description: "Bring your favorite records to Junction Craft Brewing's Vinyl Night! Our resident DJ will be spinning patron-provided vinyl all evening, creating a community-curated soundtrack. Enjoy $5 off flights and special discounts on select pints while experiencing the warm analog sounds of vinyl in our industrial-chic taproom. Record enthusiasts and casual listeners alike are welcome to this laid-back evening celebrating music and craft beer.",
-        startDate: new Date("2025-07-21T23:00:00.000Z"), // July 21, 2025, 7:00 PM EST
-        endDate: new Date("2025-07-22T02:00:00.000Z"), // July 21, 2025, 10:00 PM EST
-        categories: ["Music", "Beer", "Social", "Vinyl", city],
-        price: "Free entry",
-        recurring: "Monthly on 3rd Monday"
-      },
-      {
-        name: "Beer & Food Pairing Workshop",
-        url: "https://www.junctioncraft.com/whatson",
-        imageUrl: "https://static.wixstatic.com/media/d0b27f_debb02b8cf254d4eb7ea9d99a8a0d93e~mv2.jpg",
-        description: "Expand your palate at Junction Craft Brewing's Beer & Food Pairing Workshop. Our head brewer and chef team up to guide participants through five thoughtfully paired beer and food combinations, explaining the flavor principles that make each match work. Learn about beer styles, brewing processes, and how different flavor components interact. Tickets include all beer samples, food pairings, and a take-home tasting guide.",
-        startDate: new Date("2025-07-24T22:00:00.000Z"), // July 24, 2025, 6:00 PM EST
-        endDate: new Date("2025-07-25T00:00:00.000Z"), // July 24, 2025, 8:00 PM EST
-        categories: ["Workshop", "Beer", "Food", "Tasting", city],
-        price: "$45 per person",
-        recurring: "Monthly on last Thursday"
-      },
-      {
-        name: "Community Craft Market",
-        url: "https://www.junctioncraft.com/whatson",
-        imageUrl: "https://static.wixstatic.com/media/d0b27f_b8d1e4b34d214ea28a9c7c7575945342~mv2.jpg",
-        description: "Browse handmade goods from local artisans at Junction Craft Brewing's Community Craft Market. The brewery transforms into a showcase for Toronto's creative community, featuring jewelry, art, home goods, clothing, and more from independent makers. Grab a pint and explore the diverse offerings while chatting directly with the creators. The perfect opportunity to support local businesses while enjoying Junction's craft beverages in a festive atmosphere.",
-        startDate: new Date("2025-07-27T16:00:00.000Z"), // July 27, 2025, 12:00 PM EST
-        endDate: new Date("2025-07-27T21:00:00.000Z"), // July 27, 2025, 5:00 PM EST
-        categories: ["Market", "Shopping", "Beer", "Artisan", city],
-        price: "Free admission",
-        recurring: "Last Sunday of each month"
-      }
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
     ];
 
-    let addedCount = 0;
+    let response = null;
+    let workingUrl = null;
 
-    // Create properly formatted events and add to database
-    for (const eventData of junctionCraftEvents) {
-      const event = {
-        id: uuidv4(),
-        name: `Toronto - ${eventData.name}`,
-        description: eventData.description,
-        startDate: eventData.startDate,
-        endDate: eventData.endDate,
-        url: eventData.url,
-        imageUrl: eventData.imageUrl,
-        city: city,
-        cityId: city,
-        location: "Toronto, Ontario",
-        status: "active",
-        categories: eventData.categories,
-        venue: {
-          name: "Junction Craft Brewing",
-          address: "150 Symes Road",
-          city: city,
-          state: "Ontario",
-          country: "Canada",
-          coordinates: {
-            lat: 43.6742,
-            lng: -79.4775
-          }
-        },
-        price: eventData.price,
-        tags: ["craft-beer", "brewery", "taproom", "the-junction", "local-business"]
-      };
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Junction Craft URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-      // Add recurring field if it exists
-      if (eventData.recurring) {
-        event.recurring = eventData.recurring }
-
-      // Check if event already exists
-      const existingEvent = await eventsCollection.findOne({
-        name: event.name,
-        startDate: event.startDate
-      });
-
-      if (!existingEvent) {
-        await eventsCollection.insertOne(event);
-        addedCount++;
-        console.log(`✅ Added event: ${event.name}`) } else {
-        console.log(`⏭️ Event already exists: ${event.name}`) }
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
     }
 
-    console.log(`\n📊 Added ${addedCount} new events from Junction Craft Brewing`);
+    if (!response) {
+      console.log('❌ All Junction Craft URLs failed, cannot proceed');
+      return [];
+    }
 
-    // Verify Toronto events count
-    const torontoEvents = await eventsCollection.find({
-      city: city
-    }).toArray();
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
 
-    console.log(`📊 Total events with city="${city}" now: ${torontoEvents.length}`) } catch (error) {
-    console.error('❌ Error adding Junction Craft Brewing events:', error) } finally {
+    console.log(`📊 Junction Craft page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Junction Craft event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Junction Craft in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Junction Craft events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Junction Craft-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Junction Craft event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Junction Craft event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Junction Craft event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Junction Craft events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Junction Craft events:', error);
+    throw error;
+  } finally {
     await client.close();
-    console.log('🔌 Disconnected from MongoDB') }
+  }
 }
 
-// Run the script
-addJunctionCraftEvents().catch(console.error);
-
-module.exports = async (city) => {
-    return await addJunctionCraftEvents(city);
-};
+// Clean production export
+module.exports = { scrapeEvents: scrapeJunctionCraftEventsClean  };

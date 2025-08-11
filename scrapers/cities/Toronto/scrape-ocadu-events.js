@@ -1,497 +1,267 @@
-/**
- * OCAD University Events Scraper
- *
- * This script extracts events from the OCAD University "What's On" page
- * and adds them to the MongoDB database in the appropriate format.
- */
-
-require('dotenv').config();
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
-const crypto = require('crypto');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-// MongoDB connection URI from environment variable
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
-
-// Base URL and events page URL
-const BASE_URL = 'https://www.ocadu.ca';
-const EVENTS_URL = 'https://www.ocadu.ca/whats-on';
-
-// Venue information for OCAD University
-const OCADU_VENUE = {
-  name: 'OCAD University',
-  address: '100 McCaul St, Toronto, ON M5T 1W1',
-  city: city,
-  province: 'ON',
-  country: 'Canada',
-  postalCode: 'M5T 1W1',
-  coordinates: {
-    latitude: 43.6532,
-    longitude: -79.3911
-  }
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// Categories that are likely for OCADU events
-const OCADU_CATEGORIES = ['art', 'design', 'education', 'exhibition', 'culture', 'toronto'];
 
-// Function to generate a unique ID for events
-function generateEventId(title, startDate) {
-  const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
-  const data = `ocadu-${title}-${dateStr}`;
-  return crypto.createHash('md5').update(data).digest('hex');
-}
+const BASE_URL = 'https://www.ocadu.com';
 
-// Function to parse date strings from the website
-function parseOcaduDate(dateStr) {
-  if (!dateStr) return { startDate: new Date(), endDate: new Date() };
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Ocadu',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeOcaduEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
-    // Remove any HTML tags
-    dateStr = dateStr.replace(/<[^>]*>/g, '').trim();
-
-    // Common patterns on OCADU website:
-    // "July 25, 2025" (single day)
-    // "July 25 - August 30, 2025" (date range)
-    // "July 25, 2025 | 6:30 PM" (with time)
-
-    let startDate, endDate;
-
-    // Check for time information
-    const hasTime = dateStr.includes('|') || dateStr.includes('PM') || dateStr.includes('AM');
-    let timeStr = '';
-
-    if (hasTime) {
-      const parts = dateStr.split('|');
-      if (parts.length > 1) {
-        dateStr = parts[0].trim();
-        timeStr = parts[1].trim();
-      } else {
-        // Try to extract time if formatted differently
-        const timeParts = dateStr.match(/(\d{1,2}:\d{2}\s*(AM|PM))/i);
-        if (timeParts) {
-          timeStr = timeParts[0];
-          dateStr = dateStr.replace(timeStr, '').trim();
-        }
-      }
-    }
-
-    // Check if it's a date range
-    if (dateStr.includes(' - ') || dateStr.includes(' to ')) {
-      const separator = dateStr.includes(' - ') ? ' - ' : ' to ';
-      const [startStr, endStr] = dateStr.split(separator).map(d => d.trim());
-
-      // Handle case where end date doesn't include year or month
-      if (!endStr.includes(',') && startStr.includes(',')) {
-        // End date might be missing year or month
-        const startParts = startStr.split(' ');
-        const startYear = startParts[startParts.length - 1];
-        const startMonth = startParts[0];
-
-        if (endStr.includes(' ')) {
-          // Has month and day but no year (e.g., "July 25 - August 30, 2025")
-          startDate = new Date(startStr);
-          endDate = new Date(`${endStr}, ${startYear}`);
-        } else {
-          // Only has day (e.g., "July 25 - 30, 2025")
-          startDate = new Date(startStr);
-          endDate = new Date(`${startMonth} ${endStr}, ${startYear}`);
-        }
-      } else {
-        // Both dates are complete
-        startDate = new Date(startStr);
-        endDate = new Date(endStr);
-      }
-    } else {
-      // Single day event
-      startDate = new Date(dateStr);
-      endDate = new Date(dateStr);
-
-      // Set end time to end of day if no specific time
-      if (!timeStr) {
-        endDate.setHours(23, 59, 59);
-      }
-    }
-
-    // Add time information if available
-    if (timeStr) {
-      const timeMatch = timeStr.match(/(\d{1,2}:(\d{2}\s*(AM|PM|am|pm)/i);
-      if (timeMatch) {
-        let hours = parseInt(timeMatch[1], 10);
-        const minutes = parseInt(timeMatch[2], 10);
-        const period = timeMatch[3].toUpperCase();
-
-        // Convert to 24-hour format
-        if (period === 'PM' && hours < 12) hours += 12;
-        if (period === 'AM' && hours === 12) hours = 0;
-
-        startDate.setHours(hours, minutes, 0);
-
-        // Set end time 2 hours after start if not a date range
-        if (dateStr.indexOf('-') === -1 && dateStr.indexOf('to') === -1) {
-          endDate = new Date(startDate);
-          endDate.setHours(startDate.getHours() + 2);
-        }
-      }
-    }
-
-    return { startDate, endDate };
-  } catch (error) {
-    console.error(`❌ Error parsing date: ${dateStr}`, error);
-
-    const now = new Date();
-    const later = new Date(now);
-    later.setHours(later.getHours() + 2);
-    return { startDate: now, endDate: later };
-  }
-}
-
-// Extract categories based on event text
-function extractCategories(title, description) {
-  const textToSearch = `${title} ${description}`.toLowerCase();
-  const categories = [...OCADU_CATEGORIES]; // Start with default categories
-
-  // Add specific categories based on keywords
-  if (textToSearch.includes('workshop') || textToSearch.includes('class')) categories.push('workshop');
-  if (textToSearch.includes('talk') || textToSearch.includes('lecture') || textToSearch.includes('panel')) categories.push('talk');
-  if (textToSearch.includes('family') || textToSearch.includes('kid') || textToSearch.includes('children')) categories.push('family');
-  if (textToSearch.includes('film') || textToSearch.includes('movie') || textToSearch.includes('screening')) categories.push('film');
-  if (textToSearch.includes('performance') || textToSearch.includes('dance')) categories.push('performance');
-  if (textToSearch.includes('music') || textToSearch.includes('concert')) categories.push('music');
-  if (textToSearch.includes('alumni') || textToSearch.includes('graduate')) categories.push('education');
-
-  // Remove duplicates
-  return [...new Set(categories)];
-}
-
-// Extract price information
-function extractPrice(text) {
-  if (!text) return 'Free';
-
-  text = text.toLowerCase();
-
-  if (text.includes('free')) return 'Free';
-
-  // Look for price patterns like $10, $10-$20, etc.
-  const priceMatch = text.match(/\$(\d+)(?:\s*-\s*\$(\d+))?/);
-  if (priceMatch) {
-    if (priceMatch[2]) {
-      return `$${priceMatch[1]}-$${priceMatch[2]}`;
-    } else {
-      return `$${priceMatch[1]}`;
-    }
-  }
-
-  return 'See website for details';
-}
-
-// Main function to fetch and process OCADU events
-async function scrapeOcaduEvents() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-ocadu-events.js Toronto');
-    process.exit(1);
-  }
-  let addedEvents = 0;
-
-  try {
-    console.log('🚀 Starting OCAD University events scraper');
-
-    // Connect to MongoDB
     await client.connect();
-    console.log('✅ Connected to MongoDB');
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Ocadu events (clean version)...');
 
-    const database = client.db();
-    const eventsCollection = databases');
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-    // Fetch the events page
-    console.log('🔍 Fetching OCADU events page...');
-    const response = await axios.get(EVENTS_URL);
-    const $ = cheerio.load(response.data);
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
-    // Look for event containers - adjust selectors based on page structure
-    const eventElements = $('.event-listing, .event-item, .events-list li, .whats-on-list li, article.event, .teaser-list .teaser');
-    console.log(`🔍 Found ${eventElements.length} event elements`);
+    let response = null;
+    let workingUrl = null;
 
-    if (eventElements.length > 0) {
-      // Process each event
-      for (let i = 0; i < eventElements.length; i++) {
-        try {
-          const element = eventElements.eq(i);
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Ocadu URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-          // Extract event data
-          const title = element.find('h2, h3, h4, .title, .event-title').first().text().trim() ||
-                         element.find('a').first().text().trim();
-
-          if (!title) continue; // Skip if no title found
-
-          let description = element.find('.description, .summary, p, .event-description').text().trim();
-          if (!description) description = 'Visit the OCAD University website for more details about this event.';
-
-          // Get image
-          let imageUrl = '';
-          const imgElement = element.find('img');
-          if (imgElement.length > 0) {
-            imageUrl = imgElement.attr('src') || imgElement.attr('data-src') || '';
-
-            // Ensure URL is absolute
-            if (imageUrl && !imageUrl.startsWith('http')) {
-              imageUrl = imageUrl.startsWith('/') ? `${BASE_URL}${imageUrl}` : `${BASE_URL}/${imageUrl}`;
-            }
-          }
-
-          // Get event URL
-          let eventUrl = '';
-          const linkElement = element.find('a');
-          if (linkElement.length > 0) {
-            eventUrl = linkElement.attr('href') || '';
-
-            // Ensure URL is absolute
-            if (eventUrl && !eventUrl.startsWith('http')) {
-              eventUrl = eventUrl.startsWith('/') ? `${BASE_URL}${eventUrl}` : `${BASE_URL}/${eventUrl}`;
-            }
-          }
-
-          // Get date information
-          let dateText = element.find('.date, time, .datetime, .event-date').text().trim();
-          const { startDate, endDate } = parseOcaduDate(dateText);
-
-          // Get price information
-          let priceText = element.find('.price, .cost, .fee').text().trim();
-          const price = extractPrice(priceText || description);
-
-          // Generate event categories
-          const categories = extractCategories(title, description);
-
-          // Generate unique ID for the event
-          const id = generateEventId(title, startDate);
-
-          // Create the formatted event object
-          const formattedEvent = {
-            id: id,
-            title: `Toronto - ${title}`,
-            description: description,
-            categories: categories,
-            startDate: startDate,
-            endDate: endDate,
-            venue: { ...RegExp.venue: { ...RegExp.venue: OCADU_VENUE,, city }, city },,
-            imageUrl: imageUrl,
-            officialWebsite: eventUrl || EVENTS_URL,
-            price: price,
-            sourceURL: EVENTS_URL,
-            lastUpdated: new Date()
-          };
-
-          // Check if event already exists to prevent duplicates
-          const existingEvent = await eventsCollection.findOne({
-            $or: [
-              { id: formattedEvent.id },
-              {
-                title: formattedEvent.title,
-                startDate: formattedEvent.startDate
-              }
-            ]
-          };
-
-          if (!existingEvent) {
-            // Insert the new event
-            await eventsCollection.insertOne(formattedEvent);
-            addedEvents++;
-            console.log(`✅ Added event: ${formattedEvent.title}`);
-          } else {
-            console.log(`⏭️ Skipped duplicate event: ${formattedEvent.title}`);
-          }
-        } catch (eventError) {
-          console.error(`❌ Error processing event:`, eventError);
-        }
-      }
-    } else {
-      // If no events found with primary selectors, try alternative approach
-      console.log('⚠️ No events found with primary selectors, trying alternative approach...');
-
-      // Try different selector patterns
-      const alternativeSelectors = [
-        '.views-row',
-        '.view-content .item',
-        '.content-list li',
-        '.node-event',
-        '[data-type="event"]',
-        '.upcoming-events li',
-        '.item-list li',
-        '.list-item',
-        'div[class*="event"]'
-      ];
-
-      let events = [];
-
-      for (const selector of alternativeSelectors) {
-        const elements = $(selector);
-        if (elements.length > 0) {
-          console.log(`🔍 Found ${elements.length} events with selector: ${selector}`);
-
-          elements.each((i, el) => {
-            const element = $(el);
-
-            // Extract event data
-            const title = element.find('h2, h3, h4, .title, [class*="title"], a').first().text().trim() || 'OCAD University Event';
-            const description = element.find('p, .description, [class*="description"], .field-content').text().trim() ||
-                               'Visit the OCAD University website for more details.';
-
-            // Get image
-            let imageUrl = '';
-            const img = element.find('img');
-            if (img.length > 0) {
-              imageUrl = img.attr('src') || img.attr('data-src') || '';
-              if (imageUrl && !imageUrl.startsWith('http')) {
-                imageUrl = imageUrl.startsWith('/') ? `${BASE_URL}${imageUrl}` : `${BASE_URL}/${imageUrl}`;
-              }
-            }
-
-            // Get URL
-            let eventUrl = '';
-            const a = element.find('a');
-            if (a.length > 0) {
-              eventUrl = a.attr('href') || '';
-              if (eventUrl && !eventUrl.startsWith('http')) {
-                eventUrl = eventUrl.startsWith('/') ? `${BASE_URL}${eventUrl}` : `${BASE_URL}/${eventUrl}`;
-              }
-            }
-
-            // Get date
-            const dateText = element.find('.date, [class*="date"], time, .datetime, [class*="time"]').text().trim();
-
-            events.push({
-              title,
-              description,
-              imageUrl,
-              eventUrl,
-              dateText
-            };
-          };
-
-          if (events.length > 0) break;
-        }
-      }
-
-      // If still no events, try to find event links
-      if (events.length === 0) {
-        console.log('⚠️ Still no events found, looking for event links...');
-
-        $('a').each((i, el) => {
-          const element = $(el);
-          const href = element.attr('href') || '';
-          const text = element.text().trim();
-
-          // Skip navigation or generic links
-          if (text.toLowerCase().includes('next') ||
-              text.toLowerCase().includes('previous') ||
-              text.toLowerCase().includes('home') ||
-              text.toLowerCase() === 'events' ||
-              text.toLowerCase() === 'what\'s on') return;
-
-          // Look for links that might be events
-          if ((href.includes('event') || href.includes('exhibition') || href.includes('lecture') ||
-               href.includes('workshop') || href.includes('show')) && text) {
-
-            events.push({
-              title: text,
-              description: 'Visit the OCAD University website for more details about this event.',
-              imageUrl: '',
-              eventUrl: href.startsWith('http') ? href : href.startsWith('/') ? `${BASE_URL}${href}` : `${BASE_URL}/${href}`,
-              dateText: ''
-            };
-          }
-        };
-
-        // Filter out duplicates by title
-        const uniqueTitles = new Set();
-        events = events.filter(event => {
-          if (uniqueTitles.has(event.title)) return false;
-          uniqueTitles.add(event.title);
-          return true;
-        };
-      }
-
-      console.log(`🔍 Found ${events.length} events using alternative methods`);
-
-      // Process these events
-      for (const event of events) {
-        try {
-          // Set default dates if not found (next week)
-          const now = new Date();
-          const futureDate = new Date();
-          futureDate.setDate(now.getDate() + 7);
-
-          const { startDate, endDate } = event.dateText ?
-            parseOcaduDate(event.dateText) :
-            { startDate: now, endDate: futureDate };
-
-          // Generate unique ID
-          const id = generateEventId(event.title, startDate);
-
-          // Create formatted event
-          const formattedEvent = {
-            id: id,
-            title: `Toronto - ${event.title}`,
-            description: event.description,
-            categories: extractCategories(event.title, event.description),
-            startDate: startDate,
-            endDate: endDate,
-            venue: { ...RegExp.venue: { ...RegExp.venue: OCADU_VENUE,, city }, city },,
-            imageUrl: event.imageUrl,
-            officialWebsite: event.eventUrl || EVENTS_URL,
-            price: 'See website for details',
-            sourceURL: EVENTS_URL,
-            lastUpdated: new Date()
-          };
-
-          // Check for duplicates
-          const existingEvent = await eventsCollection.findOne({
-            $or: [
-              { id: formattedEvent.id },
-              {
-                title: formattedEvent.title,
-                startDate: formattedEvent.startDate
-              }
-            ]
-          };
-
-          if (!existingEvent) {
-            await eventsCollection.insertOne(formattedEvent);
-            addedEvents++;
-            console.log(`✅ Added event: ${formattedEvent.title}`);
-          } else {
-            console.log(`⏭️ Skipped duplicate event: ${formattedEvent.title}`);
-          }
-        } catch (eventError) {
-          console.error(`❌ Error processing alternative event:`, eventError);
-        }
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    console.log(`📊 Successfully added ${addedEvents} new OCADU events`);
+    if (!response) {
+      console.log('❌ All Ocadu URLs failed, cannot proceed');
+      return [];
+    }
 
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Ocadu page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Ocadu event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Ocadu in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Ocadu events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Ocadu-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Ocadu event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Ocadu event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Ocadu event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Ocadu events`);
+    return events;
   } catch (error) {
-    console.error('❌ Error scraping OCADU events:', error);
+    console.error('Error scraping Ocadu events:', error);
+    throw error;
   } finally {
     await client.close();
-    console.log('✅ MongoDB connection closed');
   }
-
-  return addedEvents;
 }
 
-// Run the scraper
-scrapeOcaduEvents()
-  .then(addedEvents => {
-    console.log(`✅ OCADU scraper completed. Added ${addedEvents} new events.`);
-  }
-  .catch(error => {
-    console.error('❌ Error running OCADU scraper:', error);
-    process.exit(1);
-  };
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeOcaduEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeOcaduEventsClean  };

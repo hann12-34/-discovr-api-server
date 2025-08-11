@@ -1,0 +1,158 @@
+const puppeteer = require('puppeteer');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+
+class BeguilingEventsScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'The Beguiling Books & Art';
+        this.url = 'https://beguilingbooks.com/events';
+        this.venue = {
+            name: 'The Beguiling Books & Art',
+            address: '319 College St, Toronto, ON M5T 1S2',
+            city: city,
+            province: 'ON',
+            country: 'Canada',
+            postalCode: 'M5T 1S2',
+            latitude: 43.657690,
+            longitude: -79.404980
+        };
+    }
+
+    _generateEventId(title, startDate) {
+        const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    _parseDate(dateText) {
+        if (!dateText) {
+            return null;
+        }
+        try {
+            const cleanText = dateText.toUpperCase().replace('@', '');
+            const datePattern = /(\w+)\s+(\d{1,2}(?:\s*[-–]\s*(\d{1,2}?,\s*(\d{4}/;
+            const timePattern = /(\d{1,2}:?(\d{2}?\s*(AM|PM)/;
+
+            const dateMatch = cleanText.match(datePattern);
+            if (!dateMatch) {
+                return null;
+            }
+
+            const [, month, startDay, endDay, year] = dateMatch;
+            let { 1: hours, 2: minutes, 3: ampm } = cleanText.match(timePattern) || { 1: '19', 2: '00', 3: 'PM' };
+
+            hours = parseInt(hours);
+            minutes = parseInt(minutes || '0');
+
+            if (ampm === 'PM' && hours < 12) hours += 12;
+            if (ampm === 'AM' && hours === 12) hours = 0;
+
+            const startDate = new Date(`${month} ${startDay}, ${year} ${hours}:${minutes}`);
+            if (isNaN(startDate.getTime())) return null;
+
+            const endDate = endDay ? new Date(`${month} ${endDay}, ${year} 23:59:59`) : new Date(startDate.getTime() + 2 * 60 * 60 * 1000);
+            if (isNaN(endDate.getTime())) return { startDate, endDate: startDate };
+
+            return { startDate, endDate };
+        } catch (error) {
+            this.log(`Error parsing date "${dateText}": ${error.message}`);
+            return null;
+        }
+    }
+
+    _extractCategories(title, description) {
+        const text = `${title} ${description}`.toLowerCase();
+        const categories = [this.city, 'Books', 'Comics', 'Art', 'Literature'];
+
+        if (text.includes('signing')) categories.push('Book Signing');
+        if (text.includes('launch')) categories.push('Book Launch');
+        if (text.includes('reading')) categories.push('Author Reading');
+        if (text.includes('workshop')) categories.push('Workshop');
+        if (text.includes('manga')) categories.push('Manga');
+
+        return [...new Set(categories)];
+    }
+
+    async scrape(city) {
+        this.log(`Scraping events from ${this.source}`);
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] };
+        try {
+            const page = await browser.newPage();
+            await page.goto(this.url, { waitUntil: 'networkidle2' };
+
+            const events = await page.evaluate((venue, source, city) => {
+                const eventList = [];
+                document.querySelectorAll('article, .event-item, .post').forEach(el => {
+                    const title = el.querySelector('h1, h2, h3')?.innerText.trim();
+                    if (!title || title.length < 5) return;
+
+                    const url = el.querySelector('a')?.href;
+                    const imageUrl = el.querySelector('img')?.src;
+                    const dateText = el.querySelector('.date, .post-date, time')?.innerText.trim() || '';
+                    const description = Array.from(el.querySelectorAll('p')).map(p => p.innerText).join('\n').trim();
+
+                    if (description.length < 10) return;
+
+                    eventList.push({
+                        title,
+                        description,
+                        url,
+                        imageUrl,
+                        dateText,
+                        venue: {
+                name: city, ...venue, city
+            },
+                        source,
+                        price: 'Free'
+                    };
+                };
+                return eventList;
+            }, this.venue, this.source, this.city);
+
+            const processedEvents = events.reduce((acc, event) => {
+                const parsedDates = this._parseDate(event.dateText);
+                if (!parsedDates) {
+                    this.log(`Skipping event with unparsable date: "${event.title}"`);
+                    return acc;
+                }
+
+                const { startDate, endDate } = parsedDates;
+
+                acc.push({
+                    id: this._generateEventId(event.title, startDate),
+                    title: event.title,
+                    description: event.description,
+                    url: event.url,
+                    imageUrl: event.imageUrl,
+                    startDate,
+                    endDate,
+                    venue: event.venue,
+                    categories: this._extractCategories(event.title, event.description),
+                    source: event.source,
+                    price: event.price,
+                    scrapedAt: new Date(),
+                };
+                return acc;
+            }, []);
+
+            this.log(`Found ${processedEvents.length} events from ${this.source}.`);
+            return processedEvents;
+        } catch (error) {
+            this.log(`Error scraping ${this.source}: ${error.message}`);
+            return [];
+        } finally {
+            await browser.close();
+        }
+    }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new BeguilingEventsScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.BeguilingEventsScraper = BeguilingEventsScraper;

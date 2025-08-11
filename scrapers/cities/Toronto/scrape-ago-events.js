@@ -1,164 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const crypto = require('crypto');
-const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-/**
- * Art Gallery of Ontario (AGO) Events Scraper
- * URL: https://ago.ca/events
- */
-class AGOEventsScraper extends AbstractScraper {
-    constructor(city) {
-        super();
-        this.city = city;
-        this.source = 'Art Gallery of Ontario';
-        this.baseUrl = 'https://ago.ca';
-        this.url = 'https://ago.ca/events';
-        this.venue = {
-            name: 'Art Gallery of Ontario',
-            address: '317 Dundas St W, Toronto, ON M5T 1G4',
-            city: this.city,
-            province: 'ON',
-            country: 'Canada',
-            postalCode: 'M5T 1G4',
-            latitude: 43.6537,
-            longitude: -79.3924
-        };
-    }
-
-    _generateEventId(title, startDate) {
-        const dateStr = startDate instanceof Date ? startDate.toISOString() : new Date().toISOString();
-        const data = `${this.source}-${title}-${dateStr}`;
-        return crypto.createHash('md5').update(data).digest('hex');
-    }
-
-    _parseDate(daeventDateText) {
-        if (!daeventDateText) return null;
-
-        const now = new Date();
-        const year = now.getFullYear();
-
-        try {
-            if (daeventDateText.toLowerCase().includes('ongoing')) {
-                return { startDate: now, endDate: new Date(year, 11, 31) };
-            }
-
-            if (daeventDateText.includes('-')) {
-                const parts = daeventDateText.split('-').map(part => part.trim());
-                const startPart = parts[0].includes(',') ? parts[0] : `${parts[0]}, ${year}`;
-                const endPart = parts[1].includes(',') ? parts[1] : `${parts[1]}, ${year}`;
-                const startDate = new Date(startPart);
-                const endDate = new Date(endPart);
-                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-                    return { startDate, endDate };
-                }
-            } else {
-                const singleDatePart = daeventDateText.includes(',') ? daeventDateText : `${daeventDateText}, ${year}`;
-                const startDate = new Date(singleDatePart);
-                if (!isNaN(startDate.getTime())) {
-                    const endDate = new Date(startDate);
-                    endDate.setHours(endDate.getHours() + 2);
-                    return { startDate, endDate };
-                }
-            }
-        } catch (error) {
-            this.log(`Error parsing date "${daeventDateText}": ${error.message}`);
-        }
-
-        this.log(`Could not parse date: "${daeventDateText}".`);
-        return null;
-    }
-
-    _extractCategories(title, description) {
-        const text = `${title} ${description}`.toLowerCase();
-        const categories = [this.city, 'Art', 'Museum'];
-
-        const mappings = {
-            'Exhibition': [/exhibition/i, /gallery/i],
-            'Music': [/music/i, /concert/i, /performance/i],
-            'Education': [/workshop/i, /class/i, /learn/i, /talk/i, /tour/i],
-            'Family': [/family/i, /kids/i, /children/i],
-            'Film': [/film/i, /screening/i],
-            'Special Event': [/special/i, /gala/i, /opening/i]
-        };
-
-        for (const [category, regexes] of Object.entries(mappings)) {
-            if (regexes.some(regex => regex.test(text))) {
-                categories.push(category);
-            }
-        }
-
-        return [...new Set(categories)];
-    }
-
-    _extractPrice(text) {
-        if (!text) return 'Varies';
-        const lowerText = text.toLowerCase();
-        if (lowerText.includes('free')) return 'Free';
-        const priceMatch = lowerText.match(/\$(\d+(\.\d{2}?)/);
-        if (priceMatch) return `$${priceMatch[1]}`;
-        if (lowerText.includes('member')) return 'Free for members';
-        return 'Varies';
-    }
-
-    async scrape() {
-        this.log(`Scraping events from ${this.source}`);
-        try {
-            const { data } = await axios.get(this.url);
-            const $ = cheerio.load(data);
-            let events = [];
-
-            $('.event-card').each((i, el) => {
-                const title = $(el).find('.event-card__title').text().trim();
-                if (!title) return;
-
-                const url = $(el).find('a').attr('href');
-                const imageUrl = $(el).find('img').attr('src');
-                const dateText = $(el).find('.event-card__date').text().trim();
-                const description = $(el).find('.event-card__description').text().trim();
-                const priceText = $(el).find('.event-card__price').text().trim();
-
-                const parsedDates = this._parseDate(dateText);
-                if (!parsedDates) {
-                    this.log(`Skipping event with unparsable date: "${title}"`);
-                    return;
-                }
-                const { startDate, endDate } = parsedDates;
-
-                const categories = this._extractCategories(title, description);
-                const price = this._extractPrice(priceText);
-
-                const event = {
-                    id: this._generateEventId(title, startDate),
-                    title,
-                    description,
-                    url: url.startsWith('http') ? url : `${this.baseUrl}${url}`,
-                    imageUrl: imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`,
-                    startDate,
-                    endDate,
-                    venue: this.venue,
-                    categories,
-                    source: this.source,
-                    price,
-                    scrapedAt: new Date()
-                };
-                events.push(event);
-            };
-
-            this.log(`Found ${events.length} events from ${this.source}.`);
-            return events;
-        } catch (error) {
-            this.log(`Error scraping ${this.source}: ${error.message}`);
-            return [];
-        }
-    }
-}
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new AGOEventsScraper();
-  return await scraper.scrape(city);
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
-// Also export the class for backward compatibility
-module.exports.AGOEventsScraper = AGOEventsScraper;
+
+const BASE_URL = 'https://ago.ca';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
+  ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
+
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Ago',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeAgoEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
+
+  try {
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Ago events (clean version)...');
+
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
+
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
+
+    let response = null;
+    let workingUrl = null;
+
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Ago URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
+
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
+      }
+    }
+
+    if (!response) {
+      console.log('❌ All Ago URLs failed, cannot proceed');
+      return [];
+    }
+
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Ago page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Ago event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Ago in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Ago events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Ago-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Ago event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Ago event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Ago event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Ago events`);
+    return events;
+  } catch (error) {
+    console.error('Error scraping Ago events:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
+// Clean production export
+module.exports = { scrapeEvents: scrapeAgoEventsClean  };

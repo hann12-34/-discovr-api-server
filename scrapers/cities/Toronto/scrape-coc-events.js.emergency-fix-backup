@@ -1,0 +1,86 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../../../shared/scrapers/AbstractScraper');
+
+class COCScraper extends AbstractScraper {
+    constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'Canadian Opera Company';
+        this.url = 'https://www.coc.ca/tickets/productions';
+        this.venue = {
+            name: 'Four Seasons Centre for the Performing Arts',
+            address: '145 Queen Street West, Toronto, ON M5H 4G1',
+            city: city,
+            province: 'ON',
+            country: 'Canada',
+            latitude: 43.6503,
+            longitude: -79.3862,
+            website: 'https://www.coc.ca/'
+        };
+    }
+
+    _generateEventId(title, startDate) {
+        const dateStr = startDate ? startDate.toISOString().split('T')[0] : 'nodate';
+        const data = `${this.source}-${title}-${dateStr}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    async scrape(city) {
+        this.log(`Scraping events from ${this.source}`);
+        try {
+            const { data } = await axios.get(this.url, { timeout: 20000 };
+            const $ = cheerio.load(data);
+            const events = [];
+
+            $('.production-overview-card').each((_, el) => {
+                const title = this.cleanText($(el).find('.production-overview-card__title').text());
+                if (!title) return;
+
+                const eventUrl = $(el).find('a').attr('href');
+                const description = this.cleanText($(el).find('.production-overview-card__description').text());
+                const imageUrl = $(el).find('img').attr('src');
+                const dateText = this.cleanText($(el).find('.production-overview-card__dates').text());
+
+                // Basic date parsing, can be improved if format is complex
+                const startDate = dateText ? new Date(dateText.split('–')[0].trim()) : null;
+                const endDate = dateText && dateText.includes('–') ? new Date(dateText.split('–')[1].trim()) : startDate;
+
+                if (startDate && startDate < new Date()) return; // Skip past events
+
+                const eventId = this._generateEventId(title, startDate);
+                const categories = [this.city, 'Opera', 'Classical', 'Performance'];
+
+                events.push({
+                    eventId,
+                    title,
+                    description,
+                    eventUrl: eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `https://www.coc.ca${eventUrl}`) : this.url,
+                    imageUrl: imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `https://www.coc.ca${imageUrl}`) : null,
+                    startDate,
+                    endDate,
+                    categories,
+                    venue: this.venue,
+                    source: this.source,
+                    city: this.city,
+                };
+            };
+
+            this.log(`Found ${events.length} events from ${this.source}.`);
+            return this.removeDuplicates(events);
+        } catch (error) {
+            this.log(`Error scraping ${this.source}: ${error.message}`);
+            return [];
+        }
+    }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new COCScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.COCScraper = COCScraper;

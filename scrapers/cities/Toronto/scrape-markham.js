@@ -1,338 +1,267 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const crypto = require('crypto');
+const { MongoClient } = require('mongodb');
+const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
-/**
- * Scrape Markham city events
- */
-async function scrapeMarkhamEvents(eventsCollection) {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-markham.js Toronto');
-    process.exit(1);
-  }
-  console.log('🔍 Fetching events from City of Markham...');
+// Safe helper to prevent undefined startsWith errors
+const safeStartsWith = (str, prefix) => {
+  return str && typeof str === 'string' && str.startsWith(prefix);
+};
 
-  // Known Markham events based on their events page
-  const knownEvents = [
-    {
-      title: "Canada Day Celebration",
-      date: "July 1, 2025",
-      time: "3:00 PM - 10:30 PM",
-      description: "Join us for an action-packed Canada Day celebration with free entertainment, children's activities, inflatable activities, fireworks, and more! Featuring performances by Jamie Fine, Alx Veliz, Doo Doo the Clown, and various cultural groups.",
-      location: "Markham Centre in Downtown Markham (Birchmount Rd/Enterprise Blvd)",
-      url: "https://www.markham.ca/about-the-city-of-markham/events/attend-city-event/canada-day",
-      category: "Festival"
-    },
-    {
-      title: "Markham Cycling Day",
-      date: "May 31, 2025", // Typically last Saturday in May
-      time: "9:00 AM - 4:00 PM",
-      description: "Annual cycling event promoting active transportation and healthy living in Markham. Family-friendly activities, bike safety demonstrations, and community rides.",
-      location: "Various locations throughout Markham",
-      url: "https://www.markham.ca/about-the-city-of-markham/events/attend-city-event/markham-cycling-day",
-      category: "Sports"
-    },
-    {
-      title: "Markham-Milliken Children's Festival",
-      date: "June 14, 2025", // Typically mid-June
-      time: "10:00 AM - 4:00 PM",
-      description: "A fun-filled day for families with children's entertainment, activities, games, and performances celebrating community and childhood.",
-      location: "Milliken Mills Community Centre",
-      url: "https://www.markham.ca/about-city-markham/events/attend-city-event/markham-milliken-childrens-festival",
-      category: "Family"
-    },
-    {
-      title: "Doors Open Markham",
-      date: "May 24-25, 2025", // Typically Victoria Day weekend
-      time: "10:00 AM - 4:00 PM",
-      description: "Explore Markham's architectural gems, historic sites, and unique buildings that are normally closed to the public. Free admission to participating locations.",
-      location: "Various heritage and architectural sites throughout Markham",
-      url: "https://www.markham.ca/about-the-city-of-markham/events/attend-city-event/doors-open-markham",
-      category: "Cultural"
-    },
-    {
-      title: "Markham Santa Claus Parade",
-      date: "November 29, 2025", // Typically last Saturday in November
-      time: "1:00 PM - 3:00 PM",
-      description: "Annual holiday parade featuring Santa Claus, festive floats, marching bands, and community groups spreading Christmas cheer throughout Markham.",
-      location: "Main Street Markham",
-      url: "https://www.markham.ca/about-city-markham/events/attend-city-event/markham-santa-claus-parade",
-      category: "Holiday"
-    }
+
+const BASE_URL = 'https://www.markham.com';
+
+// Enhanced anti-bot headers
+const getRandomUserAgent = () => {
+  const userAgents = [
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0'
   ];
+  return userAgents[Math.floor(Math.random() * userAgents.length)];
+};
 
-  console.log('📋 Parsing event content...');
+const getBrowserHeaders = () => ({
+  'User-Agent': getRandomUserAgent(),
+  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9,en-CA;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'DNT': '1',
+  'Connection': 'keep-alive',
+  'Upgrade-Insecure-Requests': '1',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+  'Sec-Fetch-User': '?1',
+  'Cache-Control': 'max-age=0',
+  'Referer': 'https://www.google.com/'
+});
 
-  let addedCount = 0;
-  const processedEventIds = new Set();
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-  for (const eventData of knownEvents) {
-    try {
-      await processEventCandidate(
-        eventData.title,
-        eventData.date,
-        eventData.time,
-        eventData.description,
-        eventData.url,
-        null, // No image URL available
-        eventsCollection,
-        processedEventIds,
-        eventData.location,
-        eventData.category
-      );
-      addedCount++;
-    } catch (error) {
-      console.error(`❌ Error processing event "${eventData.title}":`, error.message);
-    }
+// Enhanced filtering for museum content
+const isValidEvent = (title) => {
+  if (!title || title.length < 5) return false;
+  
+  const skipPatterns = [
+    /^(home|about|contact|menu|search|login|register|subscribe|follow|visit|hours|directions|donate|membership)$/i,
+    /^(gardiner|museum|toronto|ceramics|pottery|art|exhibitions|collections|shop|book|tickets)$/i,
+    /^(share|facebook|twitter|instagram|linkedin|email|print|copy|link|window|opens)$/i,
+    /^(en|fr|\d+|\.\.\.|\s*-\s*|more|info|details|click|here|read|view|see|all)$/i,
+    /share to|opens in a new window|click here|read more|view all|see all/i
+  ];
+  
+  return !skipPatterns.some(pattern => pattern.test(title.trim()));
+};
+
+const hasEventCharacteristics = (title, description, dateText, eventUrl) => {
+  if (!isValidEvent(title)) return false;
+  
+  const eventIndicators = [
+    /exhibition|workshop|class|tour|screening|talk|lecture|program|festival|show|performance/i,
+    /ceramics|pottery|clay|porcelain|contemporary|historic|artist|gallery|installation/i,
+    /\d{4}|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december/i,
+    /evening|morning|afternoon|tonight|today|tomorrow|weekend|monday|tuesday|wednesday|thursday|friday|saturday|sunday/i
+  ];
+  
+  const fullText = `${title} ${description} ${dateText}`.toLowerCase();
+  const hasEventKeywords = eventIndicators.some(pattern => pattern.test(fullText));
+  
+  const hasEventData = dateText?.length > 0 || 
+                       eventUrl?.includes('event') || 
+                       eventUrl?.includes('exhibition') ||
+                       eventUrl?.includes('program');
+  
+  return hasEventKeywords || hasEventData || (title.length > 15 && description?.length > 10);
+};
+
+const getGardinerVenue = (city) => ({
+  name: 'Markham',
+  address: '111 Queens Park, Toronto, ON M5S 2C7',
+  city: 'Toronto',
+  state: 'ON',
+  zip: 'M5S 2C7',
+  latitude: 43.6682,
+  longitude: -79.3927
+});
+
+async function scrapeMarkhamEventsClean(city) {
+  // 🚨 CRITICAL: City validation per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
+  const EXPECTED_CITY = 'Toronto';
+  if (city !== EXPECTED_CITY) {
+    throw new Error(`City mismatch! Expected '${EXPECTED_CITY}', got '${city}'`);
   }
 
-  console.log(`📊 Successfully added ${addedCount} new Markham events`);
-  return addedCount;
-}
-
-/**
- * Process a single event candidate
- */
-async function processEventCandidate(title, dateText, timeText, description, eventUrl, imageUrl, eventsCollection, processedEventIds, location, category) {
-  console.log(`🔍 Processing: "${title}"`);
-  console.log(`🔍 Parsing date: "${dateText}", time: "${timeText}"`);
-
-  // Parse the date
-  const parsedDates = parseDateAndTime(dateText, timeText);
-  if (!parsedDates) {
-    console.log(`⚠️ Could not parse date for: ${title}`);
-    return;
-  }
-
-  console.log(`✅ Parsed dates - Start: ${parsedDates.startDate.toISOString()}, End: ${parsedDates.endDate.toISOString()}`);
-
-  // Generate unique event ID
-  const eventId = crypto.createHash('md5')
-    .update(`City of Markham${title}${parsedDates.startDate.toDaeventDateText()}`)
-    .digest('hex');
-
-  console.log(`🔑 Generated ID: ${eventId} for "${title}"`);
-
-  // Skip if already processed
-  if (processedEventIds.has(eventId)) {
-    console.log(`⏭️ Skipping duplicate event: ${title}`);
-    return;
-  }
-
-  processedEventIds.add(eventId);
-
-  // Determine category
-  const eventCategory = category || categorizeEvent(title, description);
-
-  // Create event object
-  const event = {
-    id: eventId,
-    title: title.trim(),
-    description: description || '',
-    startDate: parsedDates.startDate,
-    endDate: parsedDates.endDate,
-    venue: { ...RegExp.venue: {
-      name: location || 'City of Markham',
-      address: location || 'Markham, ON',
-      city: city,
-      province: 'Ontario',
-      country: 'Canada'
-    }, city },,
-    category: eventCategory,
-    tags: generateTags(title, description, eventCategory),
-    price: '0', // Most city events are free
-    currency: 'CAD',
-    url: eventUrl,
-    imageUrl: imageUrl,
-    source: 'City of Markham',
-    sourceUrl: 'https://www.markham.ca/about-city-markham/events/attend-city-event',
-    scrapedAt: new Date(),
-    lastUpdated: new Date()
-  };
-
-  // Insert or update in MongoDB
-  try {
-    await eventsCollection.replaceOne(
-      { id: eventId },
-      event,
-      { upsert: true }
-    );
-    console.log(`✅ Added/updated event: ${title} (${parsedDates.startDate.toDaeventDateText()}`);
-  } catch (error) {
-    console.error(`❌ Error saving event "${title}":`, error.message);
-  }
-}
-
-/**
- * Parse date and time strings into Date objects
- */
-function parseDateAndTime(dateText, timeText) {
-  if (!dateText) return null;
+  const mongoURI = process.env.MONGODB_URI;
+  const client = new MongoClient(mongoURI);
 
   try {
-    let startDate, endDate;
+    await client.connect();
+    const eventsCollection = client.db('events').collection('events');
+    console.log('🚀 Scraping Markham events (clean version)...');
 
-    // Handle date ranges like "May 24-25, 2025"
-    if (dateText.includes('-') && !dateText.includes('PM') && !dateText.includes('AM')) {
-      const rangeParts = dateText.split('-');
-      if (rangeParts.length === 2) {
-        const startPart = rangeParts[0].trim();
-        const endPart = rangeParts[1].trim();
+    // Anti-bot delay
+    await delay(Math.floor(Math.random() * 2000) + 1000);
 
-        // If end part doesn't have month, inherit from start
-        let endDateStr = endPart;
-        if (!/[A-Za-z]/.test(endPart)) {
-          const monthMatch = startPart.match(/([A-Za-z]+)/);
-          const yearMatch = dateText.match(/(\d{4}/);
-          if (monthMatch && yearMatch) {
-            endDateStr = `${monthMatch[1]} ${endPart}, ${yearMatch[1]}`;
-          }
-        }
+    const urlsToTry = [
+      `${BASE_URL}/events/`,
+      `${BASE_URL}/calendar/`,
+      `${BASE_URL}/shows/`,
+      `${BASE_URL}/whats-on/`,
+      `${BASE_URL}/programs/`,
+      `${BASE_URL}/`
+    ];
 
-        startDate = new Date(startPart);
-        endDate = new Date(endDateStr);
-      }
-    } else {
-      startDate = new Date(dateText);
-      endDate = new Date(dateText);
-    }
+    let response = null;
+    let workingUrl = null;
 
-    // Handle time parsing
-    if (timeText && timeText.includes('-')) {
-      const timeParts = timeText.split('-');
-      if (timeParts.length === 2) {
-        const startTime = timeParts[0].trim();
-        const endTime = timeParts[1].trim();
+    for (const url of urlsToTry) {
+      try {
+        console.log(`🔍 Trying Markham URL: ${url}`);
+        
+        response = await axios.get(url, {
+          headers: getBrowserHeaders(),
+          timeout: 15000,
+          maxRedirects: 5
+        });
 
-        // Parse start time
-        const startTimeMatch = startTime.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
-        if (startTimeMatch) {
-          let hours = parseInt(startTimeMatch[1]);
-          const minutes = parseInt(startTimeMatch[2] || '0');
-          const ampm = startTimeMatch[3];
-
-          if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
-          if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-
-          startDate.setHours(hours, minutes, 0, 0);
-        }
-
-        // Parse end time
-        const endTimeMatch = endTime.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
-        if (endTimeMatch) {
-          let hours = parseInt(endTimeMatch[1]);
-          const minutes = parseInt(endTimeMatch[2] || '0');
-          const ampm = endTimeMatch[3];
-
-          if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
-          if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-
-          endDate.setHours(hours, minutes, 0, 0);
-        }
-      }
-    } else if (timeText) {
-      // Single time
-      const timeMatch = timeText.match(/(\d{1,2}:?(\d{0,2}\s*(AM|PM)?/i);
-      if (timeMatch) {
-        let hours = parseInt(timeMatch[1]);
-        const minutes = parseInt(timeMatch[2] || '0');
-        const ampm = timeMatch[3];
-
-        if (ampm && ampm.toUpperCase() === 'PM' && hours !== 12) hours += 12;
-        if (ampm && ampm.toUpperCase() === 'AM' && hours === 12) hours = 0;
-
-        startDate.setHours(hours, minutes, 0, 0);
-        endDate.setHours(hours + 1, minutes, 0, 0); // Default 1 hour duration
+        workingUrl = url;
+        console.log(`✅ Successfully fetched ${url} (Status: ${response.status})`);
+        break;
+      } catch (error) {
+        console.log(`❌ Failed to fetch ${url}: ${error.response?.status || error.message}`);
+        await delay(1000);
+        continue;
       }
     }
 
-    // Validate dates
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      return null;
+    if (!response) {
+      console.log('❌ All Markham URLs failed, cannot proceed');
+      return [];
     }
 
-    return { startDate, endDate };
+    const $ = cheerio.load(response.data);
+    const candidateEvents = [];
+    const venue = getGardinerVenue(city);
+
+    console.log(`📊 Markham page loaded from ${workingUrl}, analyzing content...`);
+
+    // Enhanced selectors for museum content
+    const eventSelectors = [
+      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      'article, .post, .entry, .item',
+      '.content-item, .card, .tile',
+      'h1, h2, h3, h4, .title'
+    ];
+
+    for (const selector of eventSelectors) {
+      $(selector).each((i, el) => {
+        if (i > 15) return false;
+        
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        let title = '';
+        
+        for (const titleSel of titleSelectors) {
+          title = $(el).find(titleSel).first().text().trim();
+          if (title && title.length > 3) break;
+        }
+
+        if (!title) {
+          title = $(el).text().split('\n')[0].trim();
+        }
+
+        if (!title || !isValidEvent(title)) return;
+
+        const eventUrl = $(el).find('a').first().attr('href') || $(el).closest('a').attr('href');
+        const imageUrl = $(el).find('img').first().attr('src');
+        const dateText = $(el).find('.date, .when, time, .event-date, .datetime, .exhibition-date').first().text().trim();
+        const description = $(el).find('p, .description, .excerpt, .content, .summary').first().text().trim();
+
+        // Enhanced quality filtering
+        if (!hasEventCharacteristics(title, description, dateText, eventUrl)) {
+          return;
+        }
+
+        console.log(`📝 Found qualified Markham event: "${title}"`);
+        
+        // Calculate quality score
+        let qualityScore = 0;
+        qualityScore += dateText ? 3 : 0;
+        qualityScore += description && description.length > 50 ? 2 : description ? 1 : 0;
+        qualityScore += eventUrl?.includes('exhibition') || eventUrl?.includes('program') ? 2 : 0;
+        qualityScore += /ceramics|pottery|clay|porcelain/.test(title.toLowerCase()) ? 1 : 0;
+        qualityScore += title.length > 20 ? 1 : 0;
+        
+        candidateEvents.push({
+          title,
+          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          dateText,
+          description: description || `Experience ${title} at the Markham in Toronto.`,
+          qualityScore
+        });
+      });
+    }
+
+    // Sort by quality score and take the best
+    const events = candidateEvents
+      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .slice(0, 10);
+
+    console.log(`📊 Found ${candidateEvents.length} candidates, selected ${events.length} quality Markham events`);
+
+    let addedEvents = 0;
+    for (const event of events) {
+      try {
+        let startDate, endDate;
+        if (event.dateText) {
+          const parsedDates = parseDateText(event.dateText);
+          startDate = parsedDates.startDate;
+          endDate = parsedDates.endDate;
+        }
+
+        const formattedEvent = {
+          id: generateEventId(event.title, venue.name, startDate),
+          title: event.title,
+          url: event.eventUrl,
+          sourceUrl: event.eventUrl,
+          description: event.description || '',
+          startDate: startDate || new Date(),
+          endDate: endDate || startDate || new Date(),
+          venue: venue,
+          price: extractPrice('Free with admission') || 'Contact venue',
+          categories: extractCategories('Art, Museum, Ceramics, Culture, Toronto'),
+          source: 'Markham-Toronto',
+          city: 'Toronto',
+          featured: false,
+          tags: ['art', 'museum', 'ceramics', 'culture', 'toronto'],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        const existingEvent = await eventsCollection.findOne({ id: formattedEvent.id });
+        
+        if (!existingEvent) {
+          await eventsCollection.insertOne(formattedEvent);
+          addedEvents++;
+          console.log(`✅ Added Markham event: ${formattedEvent.title}`);
+        } else {
+          console.log(`⏭️ Skipped duplicate Markham event: ${formattedEvent.title}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing Markham event "${event.title}":`, error);
+      }
+    }
+
+    console.log(`✅ Successfully added ${addedEvents} new Markham events`);
+    return events;
   } catch (error) {
-    console.error('Date parsing error:', error.message);
-    return null;
+    console.error('Error scraping Markham events:', error);
+    throw error;
+  } finally {
+    await client.close();
   }
 }
 
-/**
- * Categorize event based on title and description
- */
-function categorizeEvent(title, description) {
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('canada day') || text.includes('holiday') || text.includes('christmas') || text.includes('santa')) {
-    return 'Holiday';
-  }
-  if (text.includes('festival') || text.includes('celebration')) {
-    return 'Festival';
-  }
-  if (text.includes('cycling') || text.includes('bike') || text.includes('sport')) {
-    return 'Sports';
-  }
-  if (text.includes('children') || text.includes('family') || text.includes('kids')) {
-    return 'Family';
-  }
-  if (text.includes('doors open') || text.includes('heritage') || text.includes('cultural') || text.includes('arts')) {
-    return 'Cultural';
-  }
-  if (text.includes('parade')) {
-    return 'Community';
-  }
-
-  return 'Community';
-}
-
-/**
- * Generate tags for the event
- */
-function generateTags(title, description, category) {
-  const tags = [category.toLowerCase()];
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('free')) tags.push('free');
-  if (text.includes('family')) tags.push('family-friendly');
-  if (text.includes('outdoor')) tags.push('outdoor');
-  if (text.includes('music')) tags.push('music');
-  if (text.includes('food')) tags.push('food');
-  if (text.includes('children')) tags.push('kids');
-  if (text.includes('fireworks')) tags.push('fireworks');
-  if (text.includes('parade')) tags.push('parade');
-
-  return [...new Set(tags)]; // Remove duplicates
-}
-
-module.exports = { scrapeMarkhamEvents };
-
-// Test runner
-if (require.main === module) {
-  const { MongoClient } = require('mongodb');
-
-  async function testScraper() {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/discovr';
-    const client = new MongoClient(mongoUri);
-
-    try {
-      await client.connect();
-      const db = client.db('discovr');
-      const eventsCollection = dbs');
-
-      const addedCount = await scrapeMarkhamEvents(eventsCollection);
-      console.log(`\n🎉 Test completed! s.`);
-    } catch (error) {
-      console.error('❌ Test failed:', error.message);
-    } finally {
-      await client.close();
-    }
-  }
-
-  testScraper();
-}
-
-
-// Async function export added by targeted fixer
-module.exports = scrapeMarkhamEvents;
+// Clean production export
+module.exports = { scrapeEvents: scrapeMarkhamEventsClean  };

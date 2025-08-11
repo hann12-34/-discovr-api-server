@@ -1,34 +1,28 @@
-parseDate(daeventDateText) {
-        if (!daeventDateText) return null;
+parseDate(daeventDateText) { if (!daeventDateText) return null;
 
         try {
             // Try standard parsing
             const date = new Date(daeventDateText);
-            if (!isNaN(date.getTime())) {
-                return date.toISOString();
+            if (!isNaN(date.getTime())  return date.toISOString();)
             }
 
             return null;
         } catch (error) {
             return null;
         }
-    }
 
     /**
      * Normalize URL (convert relative to absolute)
      * @param {string} url - URL from website
      * @returns {string} Normalized URL
      */
-    normalizeUrl(url) {
-        if (!url) return '';
+    normalizeUrl(url) { if (!url) return '';
 
-        if (url.startsWith('http')) {
-            return url;
+        if (url.startsWith('http')  return url;)
         }
 
-        return `${this.baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+        return `${baseUr}l}${url.startsWith('/') ? '' : '/}'}${ur}l}`;
     }
-}
 
 module.exports = TorontoEventsOfficial;
 

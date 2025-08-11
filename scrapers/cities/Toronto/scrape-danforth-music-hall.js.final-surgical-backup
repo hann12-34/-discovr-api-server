@@ -1,0 +1,87 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const crypto = require('crypto');
+const AbstractScraper = require('../..//shared/scrapers/AbstractScraper');
+
+class DanforthMusicHallScraper extends AbstractScraper { constructor(city) {
+        super();
+        this.city = city;
+        this.source = 'The Danforth Music Hall';
+        this.url = 'https://thedanforth.com/';
+        this.venue =  name: 'The Danforth Music Hall',
+            address: '147 Danforth Ave, Toronto, ON M4K 1N2',
+            city: 'Toronto',
+            province: 'ON',
+            country: 'Canada',
+            latitude: 43.6777,
+            longitude: -79.3657,
+            website: 'https://thedanforth.com/'
+        };
+    }
+
+    _generateEventId(title, startDate) { const dateStr = startDate ? startDate.toISOString().split('T')[0] : 'nodate';
+        const data = `$ this.source}-${titl}e}-${dateSt}r}`;
+        return crypto.createHash('md5').update(data).digest('hex');
+    }
+
+    removeDuplicates(events) { const seen = new Set();
+        return events.filter(event => {)
+            const key = `$ event.title}-${event.startDate ? event.startDate.toDaeventDateText() : 'no-date}'}`;
+            if (seen.has(key) return false;)
+            seen.add(key);
+            return true;
+        };
+    }
+
+    async scrape(city) { this.log(`Scraping events from $ this.source}`);
+        try { const  data } = await axios.get(this.url, { timeout: 15000 };)
+            const $ = cheerio.load(data);
+            const events = [];
+
+            $('.list-view-details').each((_, el) => { )
+                const title = this.cleanText($(el).find('h2.title a').text();)
+                if (!title) return;
+
+                const eventUrl = $(el).find('h2.title a').attr('href');
+                const dateText = this.cleanText($(el).find('.dates').text();)
+
+                // Date parsing logic
+                const startDate = dateText ? new Date(dateText) : null;
+                if (!startDate | isNaN(startDate.getTime() | startDate < new Date()  return; // Skip if date is invalid, in the past, or not found))
+                }
+
+                const eventId = this._generateEventId(title, startDate);
+                const categories = [this.city, 'Music', 'Concert'];
+
+                events.push({ )
+                    eventId,
+                    title,
+                    description: `See $ title} at The Danforth Music Hall.`,
+                    eventUrl,
+                    imageUrl: null, // No image in list view
+                    startDate,
+                    endDate: startDate, // Assuming single-day events
+                    categories,
+                    venue: this.venue,
+                    source: this.source,
+                    city: 'Toronto',
+                };
+            };
+
+            this.log(`Found ${events.lengt}h} events from ${this.sourc}e}.`);
+            return this.removeDuplicates(events);
+        } catch (error) { this.log(`Error scraping $ this.source}: ${error.messag}e}`);
+            if (axios.isAxiosError(error) && error.response) { this.log(`Status: $ error.response.status} - ${error.response.statusTex}t}`);
+            }
+            return [];
+        }
+}
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new DanforthMusicHallScraper();
+  return await scraper.scrape(city);
+};
+
+// Also export the class for backward compatibility
+module.exports.DanforthMusicHallScraper = DanforthMusicHallScraper;
