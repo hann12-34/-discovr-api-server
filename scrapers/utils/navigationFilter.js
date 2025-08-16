@@ -19,46 +19,25 @@ function isNavigationItem(title) {
   // Convert title to lowercase for case-insensitive comparison
   const lowerTitle = title.toLowerCase().trim();
   
-  // List of common navigation/menu/UI item terms that should NOT be events
+  // List of ONLY obvious navigation/menu/UI terms - much more conservative filtering
   const navigationTerms = [
-    // Navigation & Menu Items
-    'learn more', 'events calendar', 'events & public', 'exhibitions', 'projects', 
-    'doors open', 'menu', 'navigation', 'home', 'about', 'plan your visit', 
-    'explore', 'donate', 'support', 'contact', 'search', 'press', 'accessibility',
-    'membership', 'shop', 'calendar', 'programme', 'community', 'visit', 'school',
-    'teacher', 'education', 'learn', 'youth council', 'main menu', 'submenu',
+    // Clear Navigation Items Only
+    'main menu', 'navigation menu', 'nav menu', 'header menu', 'submenu',
+    'events list navigation', 'events navigation', 'event navigation', 'list navigation',
+    'events search and views navigation', 'search and views navigation',
     
-    // UI Elements & Controls
-    'header menu', 'events list navigation', 'about the show', 'events navigation',
-    'event navigation', 'list navigation', 'navigation menu', 'nav menu',
+    // Clear UI Controls Only
     'load more', 'show more', 'view all', 'see all', 'read more', 'continue reading',
     'previous', 'next', 'back', 'return', 'close', 'cancel', 'submit', 'save',
-    'filter', 'sort', 'search results', 'no results', 'loading', 'please wait',
+    'search results', 'no results', 'loading', 'please wait',
     
-    // Generic Pages & Sections
-    'gallery', 'photos', 'images', 'video', 'media', 'downloads', 'resources',
-    'news', 'blog', 'articles', 'publications', 'newsletter', 'updates',
-    'login', 'register', 'sign up', 'sign in', 'account', 'profile', 'settings',
-    
-    // Footer & Legal
-    'privacy policy', 'terms of service', 'copyright', 'legal', 'disclaimer',
-    'cookies', 'site map', 'sitemap', 'help', 'faq', 'frequently asked',
-    
-    // Social & Sharing
-    'share', 'facebook', 'twitter', 'instagram', 'linkedin', 'youtube',
-    'follow us', 'connect', 'social media', 'newsletter signup',
-    
-    // Common Non-Event Content
-    'description', 'overview', 'summary', 'details', 'information', 'more info',
+    // Obvious Non-Events Only
+    'login', 'register', 'sign up', 'sign in', 'privacy policy', 'terms of service',
     'test event', 'sample event', 'demo event', 'placeholder', 'example event',
-    'coming soon', 'tbd', 'to be determined', 'to be announced', 'tba',
     'system message', 'error message', 'debug', 'test data', 'sample data',
-    'directions', 'parking', 'hours', 'admission', 'tickets', 'pricing',
-    'facilities', 'amenities', 'services', 'staff', 'team', 'board',
     
-    // Website Structure
-    'header', 'footer', 'sidebar', 'banner', 'advertisement', 'sponsor',
-    'breadcrumb', 'pagination', 'filter', 'sort', 'search results'
+    // Website Structure Elements Only
+    'header', 'footer', 'sidebar', 'banner', 'breadcrumb', 'pagination'
   ];
   
   // Check if title is too short or is just a single word (likely a header/navigation)
@@ -66,14 +45,12 @@ function isNavigationItem(title) {
     return true;
   }
   
-  // Filter out titles that are exactly common non-event terms
-  if (lowerTitle === 'events' || 
-      lowerTitle === 'exhibitions' || 
+  // Filter out titles that are exactly obvious non-event terms only
+  if (lowerTitle === 'menu' || 
       lowerTitle === 'search' ||
-      lowerTitle === 'about' ||
-      lowerTitle === 'contact' ||
       lowerTitle === 'home' ||
-      lowerTitle === 'menu') {
+      lowerTitle === 'login' ||
+      lowerTitle === 'filters') {
     return true;
   }
   
