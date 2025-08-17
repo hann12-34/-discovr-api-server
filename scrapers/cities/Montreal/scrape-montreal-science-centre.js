@@ -39,7 +39,7 @@ class MontrealScienceCentreEvents {
             const cleanDateStr = dateStr.trim();
 
             // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }

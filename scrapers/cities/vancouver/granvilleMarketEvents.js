@@ -13,7 +13,7 @@ class GranvilleMarketEvents {
     this.venue = {
       name: 'Granville Island Public Market',
       address: '1689 Johnston St, Vancouver, BC V6H 3R9',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2711, lng: -123.1347 }
@@ -29,7 +29,7 @@ class GranvilleMarketEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class GranvilleMarketEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting Granville Market events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class GranvilleMarketEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -listing, .calendar-item', { timeout: 10000 }
+    await page.waitForSelector('-item, -listing, .calendar-item', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -165,7 +165,7 @@ class GranvilleMarketEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -176,7 +176,7 @@ class GranvilleMarketEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       return {
         id: uniqueId,
@@ -190,7 +190,7 @@ class GranvilleMarketEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -215,7 +215,7 @@ class GranvilleMarketEvents {
       }
 
       // Look for date patterns with month names
-      const datePattern = /(\w+ \d{1,2}(?:st|nd|rd|th)?(?:,? \d{4}?)\s*(?:to|-|–)?\s*(\w+ \d{1,2}(?:st|nd|rd|th)?(?:,? \d{4}?)?/i;
+      const datePattern = /(\w+ \d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?)\s*(?:to|-|–)?\s*(\w+ \d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?)?/i;
       const match = dateText.match(datePattern);
 
       if (match) {
@@ -242,7 +242,7 @@ class GranvilleMarketEvents {
         }
 
         // Look for time information
-        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}))?\s*(am|pm))/i;
         const timeMatches = dateText.match(new RegExp(timePattern, 'gi'));
 
         if (timeMatches && timeMatches.length >= 1) {

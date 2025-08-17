@@ -1,6 +1,24 @@
 
 .env
-node_modules
+.env.*
+node_modules/
 .DS_Store
-npm-debug.log
-logs
+npm-debug.log*
+logs/
+*.log
+*_backup*
+*_corrupted*
+*_clean.js
+test-*.js
+debug-*.js
+quick-*.js
+check-*.js
+verify-*.js
+import-*.js
+fix-*.js
+bulk-*.js
+run-*.js
+systematic-*.js
+urgent-*.js
+simple-*.js
+find-*.js

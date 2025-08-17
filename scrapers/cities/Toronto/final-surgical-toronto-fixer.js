@@ -37,7 +37,7 @@ class FinalSurgicalTorontoFixer {
     console.log('========================================');
     
     const files = fs.readdirSync(this.torontoDir)
-      .filter(file => file.endsWith('.js') && !file.includes('backup') && !file.includes('test') && !file.includes('emergency') && !file.includes('advanced') && !file.includes('final') && !file.includes('surgical'))
+      .filter(file => file.endsWith('.js') && !file.includes('backup') && !file.includes("discovr") && !file.includes('emergency') && !file.includes('advanced') && !file.includes('final') && !file.includes('surgical'))
       .sort();
     
     console.log(`📁 Found ${files.length} Toronto scrapers to fix`);
@@ -178,7 +178,7 @@ class FinalSurgicalTorontoFixer {
     fixed = fixed.replace(/\/\(\[A-Za-z\]\+\\s\+\\d\s*1,2\}\\s\*-\\s\*\(\[A-Za-z\]\+\\s\+\\d\{1,2\}\)\/g/g, '/([A-Za-z]+\\s+\\d{1,2}\\s*-\\s*[A-Za-z]+\\s+\\d{1,2})/g');
     
     // Fix unterminated groups
-    fixed = fixed.replace(/\/\(([^)]+)(?!\))/g, '/($1)/g');
+    fixed = fixed.replace(/\/\([^)]+)(?!\))/g, '/($1)/g');
     
     // Fix duplicate flags
     fixed = fixed.replace(/\/([^/]+)\/([gimuy]*)g\1*/g, '/$1/$2g');
@@ -215,7 +215,7 @@ class FinalSurgicalTorontoFixer {
     
     // Ensure every scraper has basic required structure
     if (!fixed.includes('module.exports')) {
-      fixed += '\n\nmodule.exports = { scrape: scrapeEvents };\n';
+      fixed += '\n\nmodule.exports = { scrapeEvents: scrapeEvents };\n';
     }
     
     // Ensure city parameter is handled

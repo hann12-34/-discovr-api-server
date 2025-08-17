@@ -13,7 +13,7 @@ class QueenElizabethTheatreEvents {
     this.venue = {
       name: 'Queen Elizabeth Theatre',
       address: '630 Hamilton St, Vancouver, BC V6B 5N6',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2798, lng: -123.1119 }
@@ -29,7 +29,7 @@ class QueenElizabethTheatreEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class QueenElizabethTheatreEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting Queen Elizabeth Theatre events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class QueenElizabethTheatreEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -card, -listing', { timeout: 10000 }
+    await page.waitForSelector('-item, -card, -listing', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -166,7 +166,7 @@ class QueenElizabethTheatreEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -177,7 +177,7 @@ class QueenElizabethTheatreEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       // Determine categories based on title
       const categories = this.determineCategories(event.title);
@@ -194,7 +194,7 @@ class QueenElizabethTheatreEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -262,7 +262,7 @@ class QueenElizabethTheatreEvents {
       }
 
       // Look for date patterns with month names
-      const datePattern = /(\w+\.?\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s*\d{4}?)/i;
+      const datePattern = /(\w+\.?\s+\d{1,2}(?:st|nd|rd|th)?)(?:,?\s*(\d{4}))?/i;
       const match = dateText.match(datePattern);
 
       if (match) {
@@ -283,7 +283,7 @@ class QueenElizabethTheatreEvents {
         const endDate = new Date(date.getTime() + (3 * 60 * 60 * 1000));
 
         // Look for time information
-        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}))?)\s*(am|pm)/i;
         const timeMatch = dateText.match(timePattern);
 
         if (timeMatch) {

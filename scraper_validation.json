@@ -1,65 +1,100 @@
 {
-  "timestamp": "2025-08-04T17:51:42.739Z",
+  "timestamp": "2025-08-17T03:16:57.297Z",
   "summary": {
-    "total": 163,
-    "valid": 152,
-    "invalid": 11
+    "total": 319,
+    "valid": 2,
+    "invalid": 317
   },
   "scrapers": [
     {
-      "file": "anthropologyMuseumEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "file": "abbotsfordCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "anthropologyMuseumEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected token '{'"
+    },
+    {
       "file": "arcDiningEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "artGalleryEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "artGalleryEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
     },
     {
       "file": "barNoneClub.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "bardOnTheBeach.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "bardOnTheBeachEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "bcLionsEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "bcPlaceEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "bcPlaceStadium.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "bcPlaceStadiumEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "bcitEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
@@ -67,42 +102,70 @@
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": null
+      "error": "missing ) after argument list"
     },
     {
       "file": "biltmoreCabaret.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "biltmoreCabaretEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "biltmoreCabaretEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
     },
     {
       "file": "broadwayVancouverEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "burnabyCentralParkEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "burnabyCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "burnabyCentreForTheArtsEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "burnabyShadboltCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "burnabyVillageMuseum.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "canadaPlaceEvents.js",
@@ -113,80 +176,122 @@
     },
     {
       "file": "capilanoSuspensionBridge.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "capilanoSuspensionBridgeEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "capilanoUniversityEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "carnavalDelSol.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "city is not defined"
     },
     {
       "file": "celebritiesNightclub.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "chanCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Invalid regular expression: /([A-Za-z]+)\\s+(\\d+)(?:,|\\s+)?\\s*(\\d{4}?/: Unterminated group"
     },
     {
       "file": "chanCentreEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "chanCentreEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
     },
     {
       "file": "cherryBlossomFestEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "cherryBlossomFestEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
+      "file": "chilliwackCulturalCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "chineseGardenEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "coastalJazzEvents.js",
-      "valid": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "coastalJazzEvents_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "coastalJazzFestival.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Invalid regular expression: /([A-Za-z]+)\\s+(\\d+),\\s+(\\d{4}(?:\\s+@\\s+(\\d+):(\\d+)\\s+(am|pm))?/i: Unterminated group"
     },
     {
-      "file": "commodoreBallroomEvents.backup.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "file": "columbiaCollegeEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "commodoreBallroomEvents.fixed.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "commodoreBallroomEvents.js",
@@ -197,30 +302,79 @@
     },
     {
       "file": "contemporaryArtGalleryEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "contemporaryArtGalleryEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
       "file": "coquitlamCentreForTheArts.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "coquitlamRiverCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "cultureCrawlEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "cultureCrawlEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
       "file": "danceFestivalEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "danceFestivalEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected token '{'"
+    },
+    {
+      "file": "deltaCommunityCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "deltaHeritageAirParkEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "douglasCollegeEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
@@ -228,161 +382,231 @@
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": null
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "doxaFilmFestivalEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "dragonBoatFestivalEvents.js",
-      "valid": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "dragonBoatFestivalEvents_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "emilyCarrUniversityEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "festivalDEteEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "folkFestEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "folkFestEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
       "file": "fortuneSoundClub.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "fortuneSoundClubBridge.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "foxCabaret.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "fringeFestivalEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "fringeFestivalEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
       "file": "gastownGrandPrixEvents.js",
-      "valid": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "gastownGrandPrixEvents_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "gastownSundaySet.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "granvilleIsland.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "granvilleIslandEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "granvilleIslandEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
     },
     {
       "file": "granvilleIslandMarket.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "granvilleMarketEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "granvilleStreetEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "grouseMountainEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "harbourEventCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "helloBCEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "helloBCEventsAdditional.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "helloBCEventsScraper.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "helloGoodbyeBarEvents.js",
-      "valid": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "helloGoodbyeBarEvents_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "hrMacMillanSpaceCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "hrMacMillanSpaceCentreEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "imperialTheatre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "improvCentreEvents.js",
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": null
+      "error": "missing ) after argument list"
     },
     {
       "file": "index.js",
@@ -393,156 +617,240 @@
     },
     {
       "file": "irishHeather.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "japanMarketEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "joffreLakesVisitorCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "junctionPublicMarket.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "khatsahlanoEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "kitsilanoShowboat.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "laowaiBar.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "levelsNightclub.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "macMillanSpaceCentreEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
-    },
-    {
-      "file": "malonesEvents.js",
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
       "error": null
     },
     {
-      "file": "mansionClubEvents.js",
-      "valid": true,
+      "file": "joffreLakesVisitorCentre.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "junctionPublicMarket.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "city is not defined"
+    },
+    {
+      "file": "khatsahlanoEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "khatsahlanoEvents_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "kitsilanoShowboat.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "kwantlenPolytechnicEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "langleyCollegeEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "langleyEventsCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "langleyTownshipRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "laowaiBar.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "levelsNightclub.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "macMillanSpaceCentreEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "macMillanSpaceCentreEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
+      "file": "malonesEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "mansionClubEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Invalid regular expression: /(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\\.?\\s+\\d{1,2}(?:st|nd|rd|th)?(?:,?\\s+\\d{4}?/i: Unterminated group"
+    },
+    {
+      "file": "mapleRidgeRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "maritimeMuseumEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "maritimeMuseumEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
       "file": "metropolisEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "missionRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "moaUbcEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "museumOfAnthropology.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "museumOfAnthropologyEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "museumOfVancouver.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "museumOfVancouverEvents.js",
-      "valid": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "museumOfVancouverEvents_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "musqueamEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "nanaimoConferenceCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "newWestminsterMasseyTheatre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "newWestminsterRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "northVancouverRecCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "northVancouverRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
@@ -550,146 +858,223 @@
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": "missing ) after argument list"
+      "error": null
+    },
+    {
+      "file": "orpheumEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrollPage'"
+    },
+    {
+      "file": "pembertomRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
     },
     {
       "file": "penthouseNightclubEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "penthouseNightclubEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected token '{'"
+    },
+    {
+      "file": "pittMeadowsRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "pneEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "pneEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
     },
     {
       "file": "pneFair.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "pneSummerNightConcerts.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Missing } in template expression"
     },
     {
       "file": "polygonGallery.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "portCoquitlamRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "portMoodyRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "publicLibraryEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "publicLibraryEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected token '{'"
     },
     {
       "file": "queenElizabethTheatre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Missing } in template expression"
     },
     {
       "file": "queenElizabethTheatreEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "queerArtsFestivalEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "queerFilmFestivalEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "redRoom.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "redRoomEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Missing } in template expression"
     },
     {
       "file": "redRoomEvents_new.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Missing } in template expression"
     },
     {
       "file": "redRoom_OLD.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "richmondCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "richmondNightMarket.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "richmondOlympicOval.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "richmondOlympicOvalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "rickshawTheatreEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "rickshawTheatreEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
     },
     {
       "file": "riverRockCasinoResort.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "rogersArena.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Invalid regular expression: /([A-Za-z]+)\\s+(\\d+),\\s+(\\d{4}/: Unterminated group"
     },
     {
       "file": "rogersArenaEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
@@ -701,212 +1086,268 @@
     },
     {
       "file": "rogersArenaScraperAdapter.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "roxyVancouverEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "runToEndEndoEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "scienceWorld.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "scienceWorldEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "scienceWorldEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
       "file": "scienceWorldVancouverEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "scrape-celebration-of-light.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "scrape-todocanada-vancouver-events.js",
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": "Unexpected token ':'"
+      "error": null
     },
     {
       "file": "scrape-vancouver-folk-music-festival.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "scrape-vancouver-international-jazz-festival.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "shipyardsNightMarket.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "simonFraserUniversityEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "spaceCenter.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "spaceCentreEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "spaceCentreEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected token '{'"
     },
     {
       "file": "squamishAdventureCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "squamishBeerFestival.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "squamishRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "stanleyPark.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "stanleyParkEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "stanleyParkEvents_corrupted_backup.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected token '{'"
     },
     {
       "file": "steamworksBrewing.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "steamworksBrewingEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "stevestonHeritageHarbourEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
       "file": "summerCinemaEvents.js",
-      "valid": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "summerCinemaEvents_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "surreyArtsCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "surreyCivicCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "theCentreVancouver.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "theCultchEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Invalid regular expression: /\\b(\\d{1,2}(?::(\\d{2}?\\s*((?:AM|PM|am|pm))\\b/: Unterminated group"
     },
     {
       "file": "theLivingRoomEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "thePearlEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "theatreUnderTheStars.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "theatreUnderTheStarsEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "tourismVancouverEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "twelveWestEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Invalid regular expression: /(\\d{1,2}\\/(\\d{1,2}(?:\\/(\\d{4}?/: Unterminated group"
     },
     {
       "file": "ubcBotanicalGardenEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
@@ -914,69 +1355,216 @@
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": "Identifier 'dateSelectors' has already been declared"
+      "error": "missing ) after argument list"
     },
     {
-      "file": "vancouverAquarium.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "file": "universityOfBritishColumbiaEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "vanAqmEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vanDusenGardenEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverAcademyOfMusicEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverAnimeConventionEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverAquarium.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
       "file": "vancouverAquariumEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverArtAndLeisure.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "vancouverArtGallery.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "vancouverArtGalleryEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverArtGalleryEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverArtsFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverAsianFilmFestivalEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
-      "file": "vancouverCityEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "file": "vancouverAutomotiveShowEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "vancouverBadmintonEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverBaseballEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverBasketballEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverBluesFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverBoatShowEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverBridalShowEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCampingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCanucksEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "vancouverCityEvents.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "vancouverCivicTheatresEvents.js",
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": "Cannot find module 'puppeteer-extra-plugin-adblocker'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/vancouverCivicTheatresEvents.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/vancouver/validate_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/Import files/import-all-vancouver-events.js"
+      "error": "Unexpected token '{'"
     },
     {
       "file": "vancouverCivicTheatresEvents_new.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "vancouverComedyFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverComicConEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCommunityCollegeEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCommunityNetworkEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverConcertHallEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
@@ -987,165 +1575,669 @@
       "error": null
     },
     {
+      "file": "vancouverCraftBeerFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCraftFairEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCulturalFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverCyclingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverDanceFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverDocumentaryEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFarmersMarketEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFilmEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
       "file": "vancouverFilmFestivalEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
+      "file": "vancouverFilmSchoolEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFireFightersCharityEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFishingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFleaMarketEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverFolkFest.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "vancouverFolkMusicFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFoodBankEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFoodFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverFootballEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverFringe.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "vancouverGamingExpoEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
+    },
+    {
+      "file": "vancouverGolfEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverHealthAndWellnessExpoEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverHeritageFoundationEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverHikingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverHockeyEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverHomeShowEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverHospitalFoundationEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverHuntingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverIceSkatingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverIndependentFilmEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverInternationalAirportEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "vancouverInternationalFilmFestival.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "vancouverJazzFestEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
     },
     {
       "file": "vancouverJazzFestival.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'own'"
+    },
+    {
+      "file": "vancouverJazzFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverJobFairEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverKitesurfingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverLiteratureFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverMarathonEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverMaritimeMuseumEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverMuseumEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverMysteriesEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverNightMarketEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverOperaHouseEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverPetExpoEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverPhotographyEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverPlanetariumEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverPlayhouseEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverPoliceFoundationEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverPride.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "vancouverPublicLibraryEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverRVShowEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverRockClimbingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSailingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverShortFilmEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSkiingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSnowboardingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSoccerEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSportsShowEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverStartupWeekEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverStreetFairEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSurfingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverSwimmingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vancouverSymphony.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "vancouverSymphonyEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
+      "file": "vancouverTechFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverTennisEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverTheatreCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverTheatreFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverTradeShowEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverTriathlonEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverVolleyballEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverWaterSportsEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverWhitecapsEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "vancouverWindsurfingEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverWineFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverWorldMusicFestivalEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverYMCAEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": null
+    },
+    {
+      "file": "vancouverZooEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
       "file": "veganMarketEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "venueNightclub.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "victoriaConferenceCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "victoriaRoyalTheatre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "vogueTheatre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vogueTheatreEvents.js",
-      "valid": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
+      "file": "vogueTheatre_clean.js",
+      "valid": false,
       "hasInstance": true,
-      "hasScrapeMethod": true,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "vsffEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "westVancouverCommunityEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "westVancouverRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "westernFrontEvents.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'scrape'"
+    },
+    {
+      "file": "whistlerBlackcombEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     },
     {
       "file": "whistlerVillageConferenceCentre.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
+    },
+    {
+      "file": "whiteRockRecCentreEvents_clean.js",
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
       "error": null
     },
     {
       "file": "wiseHall.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "Unexpected identifier 'longest'"
     },
     {
       "file": "yaletownJazz.js",
-      "valid": true,
-      "hasInstance": true,
-      "hasScrapeMethod": true,
-      "error": null
+      "valid": false,
+      "hasInstance": false,
+      "hasScrapeMethod": false,
+      "error": "missing ) after argument list"
     }
   ]
 }

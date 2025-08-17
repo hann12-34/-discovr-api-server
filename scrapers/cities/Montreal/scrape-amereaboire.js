@@ -23,7 +23,7 @@ class MreBoireEvents {
         if (!dateStr) return null;
         try {
             const cleanDateStr = dateStr.trim();
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
             if (isoMatch) return new Date(isoMatch[1]);
 
             const frenchMonths = {
@@ -50,13 +50,12 @@ class MreBoireEvents {
         return text.trim().replace(/\s+/g, ' ').replace(/\n+/g, ' ').trim();
     }
 
-    extractVenueInfo() {
+    get venue() {
         return {
             name: 'À Mère À Boire',
-            address: 'Montreal, QC',
-            city: city,
-            province: 'QC',
-            coordinates: this.getDefaultCoordinates()
+            address: '857 Boul Saint-Laurent, Montréal, QC H2Z 1J1',
+            city: 'Montreal',
+            province: 'QC'
         };
     }
 
@@ -73,7 +72,6 @@ class MreBoireEvents {
         const price = priceText ? this.cleanText(priceText) : 'Check website for pricing';
         const eventUrl = $event.find('a').first().attr('href');
         const fullEventUrl = eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `${this.baseUrl}${eventUrl}`) : null;
-        const venue = this.extractVenueInfo();
 
         return {
             id: uuidv4(),
@@ -81,7 +79,7 @@ class MreBoireEvents {
             title: title,
             description: description || `${title} at À Mère À Boire`,
             date: eventDate,
-            venue: { ...RegExp.venue: { ...RegExp.venue: venue,, city }, city },,
+            venue: this.venue,
             city: this.city,
             province: this.province,
             price: price,
@@ -98,7 +96,7 @@ class MreBoireEvents {
             const response = await axios.get(this.eventsUrl, {
                 headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
                 timeout: 30000
-            };
+            });
 
             const $ = cheerio.load(response.data);
             const events = [];
@@ -118,7 +116,7 @@ class MreBoireEvents {
                 eventElements = $('[class*="event"], [class*="show"], [class*="party"]').filter(function() {
                     const text = $(this).text().toLowerCase();
                     return text.includes('2024') || text.includes('2025') || text.includes('party') || text.includes('show');
-                };
+                });
             }
 
             eventElements.each((index, element) => {
@@ -129,13 +127,13 @@ class MreBoireEvents {
                         console.log(`✅ Extracted: ${eventData.name}`);
                     }
                 } catch (error) {
-                    console.error(`❌ Error extracting event ${index + 1}:`, error.message);
+                    console.error(`❌ Error extracting event:`, error.message);
                 }
-            };
+            });
 
             const uniqueEvents = this.removeDuplicateEvents(events);
-            console.log(`🎉 Successfully scraped ${uniqueEvents.length} unique events from ${this.source}`);
-            return uniqueEvents;
+            console.log(`✅ Successfully scraped ${events.length} events from ${this.source}`);
+            return events;
 
         } catch (error) {
             console.error(`❌ Error scraping ${this.source}:`, error.message);
@@ -150,7 +148,7 @@ class MreBoireEvents {
             if (seen.has(key)) return false;
             seen.add(key);
             return true;
-        };
+        });
     }
 
     async getEvents(startDate = null, endDate = null) {

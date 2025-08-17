@@ -1,273 +1,203 @@
-determineCategories(title, description) {
-    const text = `${title} ${description}`.toLowerCase();
-    const categories = ['film', 'festival', 'arts', 'lgbtq', 'queer', 'cultural'];
+/**
+ * Vancouver Queer Film Festival Events Scraper
+ * Extracts events from Vancouver Queer Film Festival
+ */
 
-    if (text.includes('workshop') || text.includes('masterclass')) {
-      categories.push('workshop');
-    }
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
 
-    if (text.includes('panel') || text.includes('discussion') || text.includes('talk')) {
-      categories.push('talk');
-    }
-
-    if (text.includes('award') || text.includes('gala')) {
-      categories.push('gala');
-    }
-
-    if (text.includes('premiere')) {
-      categories.push('premiere');
-    }
-
-    if (text.includes('party') || text.includes('celebration')) {
-      categories.push('party');
-    }
-
-    return categories;
+class QueerFilmFestivalEvents {
+  constructor() {
+    this.name = 'Vancouver Queer Film Festival Events';
+    this.url = 'https://www.outfest.ca/';
+    this.baseUrl = 'https://www.outfest.ca';
+    this.venue = {
+      name: 'Vancouver Queer Film Festival',
+      address: 'Various Venues, Vancouver, BC',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2827, lng: -123.1207 }
+    };
   }
 
   /**
-   * Main scraping function to extract events
-   * @returns {Promise<Array>} - Array of event objects
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
   async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Launch Puppeteer browser
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--ignore-certificate-errors',
-          '--disable-features=IsolateOrigins',
-          '--disable-site-isolation-trials'
-        ]
-      };
-
-      const page = await browser.newPage();
-
-      // Set viewport and user agent
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Navigate to the main page
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, {
-        waitUntil: 'networkidle2',
-        timeout: 60000
-      };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Extract festival info from the main page
-      const festivalInfo = await page.evaluate(() => {
-        // Look for festival dates
-        const datePattern = /(?:August|July|Aug)\s+\d+[-–—]\d+,?\s+202\d/i;
-        const dateElements = Array.from(document.querySelectorAll('h1, h2, h3, h4, p, .date, .festival-date'))
-          .filter(el => datePattern.test(el.textContent));
+      console.log('Extracting Queer Film Festival events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Queer Film Festival events`);
 
-        let festivalDate = '';
-        if (dateElements.length > 0) {
-          const match = dateElements[0].textContent.match(datePattern);
-          festivalDate = match ? match[0] : '';
-        }
+      return events;
+    } catch (error) {
+      console.error(`Error scraping Queer Film Festival events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
+    }
+  }
 
-        // Look for festival title
-        let festivalTitle = '';
-        const titleElements = Array.from(document.querySelectorAll('h1, h2, .festival-title'))
-          .filter(el => /queer film festival|vqff/i.test(el.textContent));
+  /**
+   * Extract events from Queer Film Festival website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .film, .screening, .festival, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
 
-        if (titleElements.length > 0) {
-          festivalTitle = titleElements[0].textContent.trim();
-        } else {
-          festivalTitle = 'Vancouver Queer Film Festival';
-        }
-
-        // Look for festival description
-        const descriptionElements = Array.from(document.querySelectorAll('p, .description, .content'))
-          .filter(el => el.textContent.length > 100 && /film|festival|queer|lgbtq/i.test(el.textContent));
-
-        let festivalDescription = '';
-        if (descriptionElements.length > 0) {
-          festivalDescription = descriptionElements[0].textContent.trim();
-        } else {
-          festivalDescription = 'The Vancouver Queer Film Festival celebrates the best in independent queer cinema and supports queer filmmakers from around the world.';
-        }
-
-        // Look for festival image
-        const images = Array.from(document.querySelectorAll('img'))
-          .filter(img => img.width > 300 && img.height > 200 && !img.src.includes('logo'));
-
-        let festivalImage = '';
-        if (images.length > 0) {
-          festivalImage = images[0].src;
-        }
-
-        return {
-          title: festivalTitle,
-          date: festivalDate,
-          description: festivalDescription,
-          imageUrl: festivalImage
-        };
-      };
-
-      // If we found festival info, create a main festival event
-      if (festivalInfo.date) {
-        const dateInfo = this.parseDateRange(festivalInfo.date);
-
-        if (dateInfo.startDate && dateInfo.endDate) {
-          const eventId = this.generateEventId(festivalInfo.title || this.name, dateInfo.startDate);
-
-          const festivalEvent = this.createEventObject(
-            eventId,
-            festivalInfo.title || this.name,
-            festivalInfo.description || `Annual film festival celebrating queer cinema and filmmakers.`,
-            dateInfo.startDate,
-            dateInfo.endDate,
-            festivalInfo.imageUrl || '',
-            this.url
-          );
-
-          events.push(festivalEvent);
-        }
-      }
-
-      // Check for program or schedule pages
-      const schedulePages = [
-        '/program/',
-        '/schedule/',
-        '/films/',
-        '/events/',
-        '/festival/'
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.film',
+        '.screening',
+        '.festival',
+        'article',
+        '.event-item',
+        '.film-item',
+        '[class*="event"]',
+        '[class*="film"]',
+        '[class*="screening"]'
       ];
 
-      for (const schedulePath of schedulePages) {
-        try {
-          const scheduleUrl = new URL(schedulePath, this.url).href;
-          console.log(`Checking for film program at: ${scheduleUrl}`);
+      let eventElements = [];
 
-          await page.goto(scheduleUrl, { waitUntil: 'networkidle2', timeout: 30000 };
-
-          // Look for film/event items
-          const pageEvents = await page.evaluate(() => {
-            const events = [];
-
-            // Look for film items or event listings
-            const eventElements = Array.from(document.querySelectorAll('.film, , .program-item, article, .card, .post'));
-
-            eventElements.forEach(el => {
-              const title = el.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
-              if (!title) return;
-
-              const description = el.querySelector('p, .description, .excerpt')?.textContent.trim() || '';
-              const dateText = el.querySelector('.date, .datetime, time, .screening-time')?.textContent.trim() || '';
-              const imageEl = el.querySelector('img');
-              const imageUrl = imageEl ? imageEl.src : '';
-
-              const linkEl = el.querySelector('a[href]');
-              const link = linkEl ? new URL(linkEl.href, window.location.href).href : '';
-
-              if (title && (dateText || description)) {
-                events.push({
-                  title,
-                  description,
-                  dateText,
-                  imageUrl,
-                  link
-                };
-              }
-            };
-
-            return events;
-          };
-
-          // Process each event found on the schedule page
-          for (const eventData of pageEvents) {
-            // Parse date if available
-            const dateInfo = this.parseDateRange(eventData.dateText);
-
-            // Generate event ID based on title and date
-            const eventId = this.generateEventId(
-              eventData.title,
-              dateInfo.startDate || new Date()
-            );
-
-            // Create event object
-            const event = this.createEventObject(
-              eventId,
-              eventData.title,
-              eventData.description,
-              dateInfo.startDate,
-              dateInfo.endDate,
-              eventData.imageUrl,
-              eventData.link || scheduleUrl
-            );
-
-            events.push(event);
-          }
-
-          // If we found events on this page, no need to check others
-          if (pageEvents.length > 0) {
-            break;
-          }
-        } catch (error) {
-          console.log(`Error checking ${schedulePath}: ${error.message}`);
-          continue;
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
         }
       }
 
-      // If we still have no events, create a general festival event with estimated dates
-      if (events.length === 0) {
-        // VQFF typically happens in August, so create an estimated event for next August
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        const festivalYear = now.getMonth() >= 8 ? currentYear + 1 : currentYear; // If past August, use next year
-
-        const estimatedStartDate = new Date(festivalYear, 7, 10); // August 10th
-        const estimatedEndDate = new Date(festivalYear, 7, 20, 23, 59, 59); // August 20th
-
-        const estimatedEventId = this.generateEventId(this.name, estimatedStartDate);
-
-        const estimatedEvent = this.createEventObject(
-          estimatedEventId,
-          `${this.name} ${festivalYear}`,
-          `The Vancouver Queer Film Festival is Western Canada's largest queer arts event celebrating film, art, and community. The festival typically takes place in August and features films, workshops, panels, and social events celebrating queer cinema and culture.`,
-          estimatedStartDate,
-          estimatedEndDate,
-          '',
-          this.url
-        );
-
-        events.push(estimatedEvent);
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
       }
 
-      console.log(`Found ${events.length} events from ${this.name}`);
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .film-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .screening-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .film-description, .synopsis');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
 
-    } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
-    } finally {
-      if (browser) {
-        await browser.close();
-      }
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Arts & Culture', 'Film', 'LGBTQ+', 'Festival'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
 }
 
-module.exports = new QueerFilmFestivalEvents();
+module.exports = QueerFilmFestivalEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
   const scraper = new QueerFilmFestivalEvents();
-  return await scraper.scrape(city);
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.QueerFilmFestivalEvents = QueerFilmFestivalEvents;

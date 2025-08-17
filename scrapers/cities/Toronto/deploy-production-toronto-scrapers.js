@@ -142,12 +142,7 @@ async function deployProductionScrapers() {
 }
 
 // Export for use in orchestrator
-module.exports = {
-  PRODUCTION_READY_SCRAPERS,
-  ANTI_BOT_BREAKTHROUGH_BUT_BLOCKED,
-  SITES_NEEDING_INVESTIGATION,
-  deployProductionScrapers
-};
+module.exports = { scrapeEvents: deployProductionScrapers };
 
 // Run summary if called directly
 if (require.main === module) {

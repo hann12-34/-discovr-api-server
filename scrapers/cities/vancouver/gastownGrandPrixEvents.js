@@ -1,8 +1,6 @@
 /**
- * Global Relay Gastown Grand Prix Events Scraper
- *
- * Scrapes events from the Global Relay Gastown Grand Prix website
- * https://globalrelayggp.org/
+ * Vancouver Gastown Grand Prix Events Scraper
+ * Extracts events from Gastown Grand Prix cycling race
  */
 
 const puppeteer = require('puppeteer');
@@ -10,420 +8,196 @@ const slugify = require('slugify');
 
 class GastownGrandPrixEvents {
   constructor() {
-    this.name = 'Global Relay Gastown Grand Prix';
-    this.url = 'https://globalrelayggp.org/';
-    this.sourceIdentifier = 'gastown-grand-prix';
+    this.name = 'Vancouver Gastown Grand Prix Events';
+    this.url = 'https://www.gastowngrandprix.com/';
+    this.baseUrl = 'https://www.gastowngrandprix.com';
+    this.venue = {
+      name: 'Gastown Grand Prix',
+      address: 'Gastown, Vancouver, BC',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2845, lng: -123.1088 }
+    };
   }
 
   /**
-   * Scrape events from Gastown Grand Prix website
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
-  async scrape(city) {
-    console.log(`🔍 Starting ${this.name} scraper...`);
-
-    // Launch browser
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
-
+    });
     const page = await browser.newPage();
 
-    // Set user agent
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
 
-    // Events array
-    const events = [];
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Navigate to the main page
-      console.log(`Navigating to: ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 60000 };
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Save screenshot for debugging
-      await page.screenshot({ path: 'gastown-grand-prix-debug.png' };
-      console.log('✅ Saved debug screenshot to gastown-grand-prix-debug.png');
+      console.log('Extracting Gastown Grand Prix events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Gastown Grand Prix events`);
 
-      // Look for race schedule/information
-      await this.navigateToSchedule(page);
-
-      // Extract event information
-      const raceEvents = await this.extractRaceEvents(page);
-
-      if (raceEvents.length > 0) {
-        events.push(...raceEvents);
-      }
-
-      console.log(`🎉 Successfully scraped ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`❌ Error in ${this.name} scraper: ${error.message}`);
+      console.error(`Error scraping Gastown Grand Prix events: ${error.message}`);
+      return [];
     } finally {
       await browser.close();
     }
-
-    return events;
   }
 
   /**
-   * Navigate to schedule page if available
+   * Extract events from Gastown Grand Prix website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
    */
-  async navigateToSchedule(page) {
-    try {
-      const scheduleLinks = await page.$$eval('a[href*="schedule"], a[href*="races"], a[href*="events"], a[href*="program"]', links => {
-        return links.map(link => ({
-          url: link.href,
-          text: link.textContent.trim().toLowerCase()
-        }.filter(link =>
-          link.text.includes('schedule') ||
-          link.text.includes('race') ||
-          link.text.includes('event') ||
-          link.text.includes('program')
-        );
-      };
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .race, .cycling, .grandprix, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
 
-      if (scheduleLinks.length > 0) {
-        const scheduleUrl = scheduleLinks[0].url;
-        console.log(`Navigating to schedule page: ${scheduleUrl}`);
-        await page.goto(scheduleUrl, { waitUntil: 'networkidle2', timeout: 45000 };
-        await page.screenshot({ path: 'gastown-grand-prix-schedule-debug.png' };
-      } else {
-        console.log('No dedicated schedule page found, using main page');
-      }
-    } catch (error) {
-      console.error(`❌ Error navigating to schedule page: ${error.message}`);
-    }
-  }
-
-  /**
-   * Extract race events from page
-   */
-  async extractRaceEvents(page) {
-    const events = [];
-
-    try {
-      // Get race date
-      const raceDate = await this.extractRaceDate(page);
-
-      if (!raceDate) {
-        console.log('Could not determine race date, no events created');
-        return [];
-      }
-
-      // Try to extract race schedule items
-      const raceSchedule = await this.extractRaceSchedule(page, raceDate);
-
-      if (raceSchedule.length > 0) {
-        // Create individual race events
-        for (const race of raceSchedule) {
-          const event = this.createRaceEvent(race);
-          events.push(event);
-        }
-      } else {
-        // Create main event if no individual races found
-        const mainEvent = this.createMainEvent(raceDate);
-        events.push(mainEvent);
-      }
-
-    } catch (error) {
-      console.error(`❌ Error extracting race events: ${error.message}`);
-    }
-
-    return events;
-  }
-
-  /**
-   * Extract the race date from the page
-   */
-  async extractRaceDate(page) {
-    try {
-      // Get all text content from the page
-      const pageText = await page.evaluate(() => document.body.innerText);
-
-      // Look for date patterns
-      // Format: "July 10, 2024" or "July 10th, 2024" or "10 July 2024"
-      const datePatterns = [
-        /([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{4}/gi,
-        /(\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+,?\s+\d{4}/gi,
-        /(\d{4}\s+[A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?)/gi  // 2024 July 10
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.race',
+        '.cycling',
+        '.grandprix',
+        'article',
+        '.event-item',
+        '.race-item',
+        '[class*="event"]',
+        '[class*="race"]',
+        '[class*="cycling"]'
       ];
 
-      // Find all date matches
-      let allMatches = [];
+      let eventElements = [];
 
-      for (const pattern of datePatterns) {
-        const matches = pageText.match(pattern);
-        if (matches) allMatches.push(...matches);
-      }
-
-      if (allMatches.length >= 1) {
-        // Parse date
-        const da = allMatches[0].replace(/(\d+)(st|nd|rd|th)/g, '$1');
-        const raceDate = new Date(da);
-
-        // Set default time to 5:00 PM (races typically start in the evening)
-        raceDate.setHours(17, 0, 0, 0);
-
-        return raceDate;
-      }
-
-      // If no full date found, look for year and month
-      const yearMatch = pageText.match(/\b(202\d)\b/);  // Match years like 2023, 2024
-      const monthMatch = pageText.match(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/i);
-
-      if (yearMatch && monthMatch) {
-        const year = parseInt(yearMatch[1]);
-        const month = this.getMonthNumber(monthMatch[1]);
-
-        // Gastown Grand Prix is typically held on a Tuesday in July
-        const date = new Date(year, month, 1);
-
-        // Find the second Tuesday in the month
-        let tuesdayCount = 0;
-        while (tuesdayCount < 2) {
-          if (date.getDay() === 2) {  // Tuesday
-            tuesdayCount++;
-          }
-          if (tuesdayCount < 2) {
-            date.setDate(date.getDate() + 1);
-          }
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
         }
-
-        // Set to 5:00 PM
-        date.setHours(17, 0, 0, 0);
-
-        return date;
       }
 
-      return null;
-    } catch (error) {
-      console.error(`❌ Error extracting race date: ${error.message}`);
-      return null;
-    }
-  }
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
 
-  /**
-   * Extract race schedule from page
-   */
-  async extractRaceSchedule(page, raceDate) {
-    const raceSchedule = [];
-
-    try {
-      // Look for schedule items in tables, lists, or structured divs
-      const scheduleItems = await page.$$eval(
-        'table tr, .schedule-item, li, .race-item, -item',
-        items => {
-          return items.map(item => {
-            const text = item.textContent.trim();
-
-            // Try to match time and category patterns
-            const timeMatch = text.match(/(\d{1,2}:(\d{2}\s*(AM|PM|am|pm)/);
-            const categoryMatch = text.match(/\b(Youth|Junior|Elite|Masters|Women|Men|Amateur|Pro|Cat)\b/i);
-
-            return {
-              fullText: text,
-              time: timeMatch ? `${timeMatch[1]}:${timeMatch[2]} ${timeMatch[3]}` : null,
-              category: categoryMatch ? categoryMatch[0] : null
-            };
-          }.filter(item =>
-            // Keep items that have either time or category information
-            (item.time || item.category) &&
-            // And don't have ceremony, registration, etc. keywords
-            !item.fullText.match(/\b(ceremony|registration|sign|setup|course|close)\b/i)
-          );
-        }
-      );
-
-      if (scheduleItems.length > 0) {
-        console.log(`Found ${scheduleItems.length} schedule items`);
-
-        for (const item of scheduleItems) {
-          // Parse the race time
-          let startTime;
-          let endTime;
-
-          if (item.time) {
-            startTime = this.parseRaceTime(item.time, raceDate);
-            // Races typically last 30-60 minutes
-            endTime = startTime ? new Date(startTime.getTime() + 60 * 60 * 1000) : null;
-          } else {
-            // If no time found, generate sequential times starting from 5:00 PM
-            const baseTime = new Date(raceDate);
-            baseTime.setHours(17 + scheduleItems.indexOf(item), 0, 0, 0);
-            startTime = baseTime;
-            endTime = new Date(baseTime.getTime() + 60 * 60 * 1000);
-          }
-
-          // Generate race title and description
-          let title = item.category ?
-            `${this.name}: ${item.category} Race` :
-            `${this.name} Race ${scheduleItems.indexOf(item) + 1}`;
-
-          let description = item.fullText ||
-            `Part of the ${this.name}, a professional cycling race taking place in the historic Gastown neighborhood of Vancouver.`;
-
-          // Create race entry
-          raceSchedule.push({
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .race-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .race-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .race-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
             title,
+            dateText,
             description,
-            startDate: startTime || raceDate,
-            endDate: endTime || new Date(raceDate.getTime() + 60 * 60 * 1000)
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
           };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
         }
-      }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
 
-    } catch (error) {
-      console.error(`❌ Error extracting race schedule: ${error.message}`);
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Sports', 'Cycling', 'Racing', 'Grand Prix'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return raceSchedule;
-  }
-
-  /**
-   * Parse race time from string
-   */
-  parseRaceTime(timeStr, raceDate) {
-    if (!timeStr) return null;
-
-    try {
-      // Match patterns like "8:30PM", "8:30 PM", "8PM", "8 PM"
-      const timeMatch = timeStr.match(/(\d{1,2}:?(\d{2}?\s*(AM|PM|am|pm)/i);
-
-      if (timeMatch) {
-        const hours = parseInt(timeMatch[1]);
-        const minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
-        const isPM = timeMatch[3].toLowerCase() === 'pm';
-
-        // Create a new date based on the race date
-        const date = new Date(raceDate);
-
-        // Set the hours (12-hour format to 24-hour format conversion)
-        date.setHours(
-          isPM ? (hours === 12 ? 12 : hours + 12) : (hours === 12 ? 0 : hours),
-          minutes,
-          0,
-          0
-        );
-
-        return date;
-      }
-
-      return null;
-    } catch (error) {
-      console.error(`❌ Error parsing race time "${timeStr}": ${error.message}`);
-      return null;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
     }
-  }
 
-  /**
-   * Create a race event object
-   */
-  createRaceEvent(race) {
-    const id = this.generateEventId(race.title, race.startDate);
-
+    // Default fallback
     return {
-      id,
-      title: race.title,
-      description: race.description,
-      startDate: race.startDate.toISOString(),
-      endDate: race.endDate.toISOString(),
-      venue: {
-        name: 'Gastown',
-        id: 'gastown-vancouver',
-        address: 'Water Street, Gastown',
-        city: city,
-        state: 'BC',
-        country: 'Canada',
-        coordinates: {
-          lat: 49.2846,
-          lng: -123.1086
-        },
-        websiteUrl: this.url,
-        description: 'Historic Gastown district in downtown Vancouver'
-      },
-      category: 'sports',
-      categories: ['sports', 'cycling', 'race', 'outdoor'],
-      sourceURL: this.url,
-      officialWebsite: this.url,
-      image: null,
-      ticketsRequired: false,
-      lastUpdated: new Date().toISOString()
+      startDate: new Date(),
+      endDate: new Date()
     };
-  }
-
-  /**
-   * Create main event object
-   */
-  createMainEvent(raceDate) {
-    const startDate = raceDate;
-    const endDate = new Date(raceDate);
-    endDate.setHours(endDate.getHours() + 6);  // Typically lasts about 6 hours
-
-    const title = `${this.name} ${startDate.getFullYear()}`;
-    const description = 'The Global Relay Gastown Grand Prix is part of BC Superweek, featuring professional cycling races in the historic Gastown neighborhood of Vancouver. This prestigious event attracts top cyclists from around the world to compete on a challenging 1.2km circuit.';
-
-    const id = this.generateEventId(title, startDate);
-
-    return {
-      id,
-      title,
-      description,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      venue: {
-        name: 'Gastown',
-        id: 'gastown-vancouver',
-        address: 'Water Street, Gastown',
-        city: city,
-        state: 'BC',
-        country: 'Canada',
-        coordinates: {
-          lat: 49.2846,
-          lng: -123.1086
-        },
-        websiteUrl: this.url,
-        description: 'Historic Gastown district in downtown Vancouver'
-      },
-      category: 'sports',
-      categories: ['sports', 'cycling', 'race', 'outdoor'],
-      sourceURL: this.url,
-      officialWebsite: this.url,
-      image: null,
-      ticketsRequired: false,
-      lastUpdated: new Date().toISOString()
-    };
-  }
-
-  /**
-   * Get month number from name
-   */
-  getMonthNumber(monthName) {
-    const months = {
-      'january': 0, 'february': 1, 'march': 2, 'april': 3, 'may': 4, 'june': 5,
-      'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11,
-      'jan': 0, 'feb': 1, 'mar': 2, 'apr': 3, 'jun': 5, 'jul': 6, 'aug': 7, 'sep': 8, 'oct': 9, 'nov': 10, 'dec': 11
-    };
-    return months[monthName.toLowerCase()];
-  }
-
-  /**
-   * Generate event ID
-   */
-  generateEventId(title, date) {
-    const da = date.toISOString().split('T')[0];
-    const slug = slugify(title.toLowerCase());
-    return `${this.sourceIdentifier}-${slug}-${da}`;
   }
 }
 
-module.exports = new GastownGrandPrixEvents();
-
+module.exports = GastownGrandPrixEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
   const scraper = new GastownGrandPrixEvents();
-  return await scraper.scrape(city);
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.GastownGrandPrixEvents = GastownGrandPrixEvents;

@@ -1,346 +1,203 @@
-determineCategories(title, description) {
-    const text = `${title} ${description}`.toLowerCase();
-    const categories = ['arts', 'museum', 'cultural'];
+/**
+ * Vancouver Museum of Anthropology Events Scraper
+ * Extracts events from UBC Museum of Anthropology
+ */
 
-    if (text.includes('exhibition') || text.includes('exhibit')) {
-      categories.push('exhibition');
-    }
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
 
-    if (text.includes('workshop') || text.includes('class')) {
-      categories.push('workshop');
-    }
-
-    if (text.includes('tour') || text.includes('guided')) {
-      categories.push('tour');
-    }
-
-    if (text.includes('family') || text.includes('kid') || text.includes('child')) {
-      categories.push('family');
-    }
-
-    if (text.includes('lecture') || text.includes('talk') || text.includes('panel')) {
-      categories.push('talk');
-    }
-
-    if (text.includes('indigenous') || text.includes('first nations') || text.includes('aboriginal')) {
-      categories.push('indigenous');
-    }
-
-    return categories;
+class MuseumOfAnthropologyEvents {
+  constructor() {
+    this.name = 'Vancouver Museum of Anthropology Events';
+    this.url = 'https://moa.ubc.ca/';
+    this.baseUrl = 'https://moa.ubc.ca';
+    this.venue = {
+      name: 'UBC Museum of Anthropology',
+      address: '6393 NW Marine Dr, Vancouver, BC V6T 1Z2',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2699, lng: -123.2590 }
+    };
   }
 
   /**
-   * Main scraping function to extract events
-   * @returns {Promise<Array>} - Array of event objects
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
   async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Launch Puppeteer browser
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--ignore-certificate-errors',
-          '--disable-features=IsolateOrigins',
-          '--disable-site-isolation-trials'
-        ]
-      };
-
-      const page = await browser.newPage();
-
-      // Set viewport and user agent
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Navigate to the events page
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, {
-        waitUntil: 'networkidle2',
-        timeout: 60000
-      };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Extract events from the main events page
-      const extractedEvents = await page.evaluate(() => {
-        const events = [];
+      console.log('Extracting Museum of Anthropology events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Museum of Anthropology events`);
 
-        // Look for event containers
-        const eventElements = Array.from(document.querySelectorAll('-item, , article, .post, .card, .content-block, -listing'));
-
-        eventElements.forEach(element => {
-          // Extract event data
-          const title = element.querySelector('h2, h3, h4, .title, -title')?.textContent.trim() || '';
-          if (!title) return;
-
-          const description = element.querySelector('p, .description, .excerpt, .summary')?.textContent.trim() || '';
-          const dateText = element.querySelector('.date, -date, time, .datetime')?.textContent.trim() || '';
-
-          // Get image if available
-          let imageUrl = '';
-          const imgElement = element.querySelector('img');
-          if (imgElement && imgElement.src) {
-            imageUrl = imgElement.src;
-          }
-
-          // Get link to event page if available
-          let link = '';
-          const linkElement = element.querySelector('a[href]');
-          if (linkElement) {
-            try {
-              link = new URL(linkElement.href, window.location.href).href;
-            } catch (e) {
-              // Use relative link if URL construction fails
-              link = linkElement.getAttribute('href');
-            }
-          }
-
-          // Only include events with a title
-          if (title) {
-            events.push({
-              title,
-              description,
-              dateText,
-              imageUrl,
-              link
-            };
-          }
-        };
-
-        return events;
-      };
-
-      // Process each extracted event
-      for (const eventData of extractedEvents) {
-        const { title, description, dateText, imageUrl, link } = eventData;
-
-        // Parse date information
-        const dateInfo = this.parseDateRange(dateText);
-
-        // Skip events with no dates
-        if (!dateInfo.startDate && !dateInfo.endDate) {
-          console.log(`Skipping event "${title}" due to missing or invalid date: "${dateText}"`);
-          continue;
-        }
-
-        // Generate event ID
-        const eventId = this.generateEventId(title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          title,
-          description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          imageUrl,
-          link || this.url
-        );
-
-        events.push(event);
-      }
-
-      // If no events found on the main page, look for an upcoming events section or calendar
-      if (events.length === 0) {
-        // Check for a "Calendar" or "Upcoming Events" section
-        const calendarPages = [
-          '/calendar/',
-          '/upcoming-events/',
-          '/exhibitions/',
-          '/whats-on/'
-        ];
-
-        for (const calendarPath of calendarPages) {
-          try {
-            const calendarUrl = new URL(calendarPath, 'https://moa.ubc.ca').href;
-            console.log(`Checking for events at: ${calendarUrl}`);
-
-            await page.goto(calendarUrl, { waitUntil: 'networkidle2', timeout: 30000 };
-
-            // Extract events from calendar page
-            const calendarEvents = await page.evaluate(() => {
-              const events = [];
-
-              // Look for event elements
-              const eventElements = Array.from(document.querySelectorAll(', .calendar-event, .exhibition, article, .card'));
-
-              eventElements.forEach(el => {
-                const title = el.querySelector('h2, h3, h4, .title, -title')?.textContent.trim() || '';
-                if (!title) return;
-
-                const description = el.querySelector('p, .description, .excerpt')?.textContent.trim() || '';
-                const dateText = el.querySelector('.date, -date, time, .datetime')?.textContent.trim() || '';
-
-                const imgElement = el.querySelector('img');
-                const imageUrl = imgElement ? imgElement.src : '';
-
-                const linkElement = el.querySelector('a[href]');
-                const link = linkElement ? new URL(linkElement.href, window.location.href).href : '';
-
-                if (title) {
-                  events.push({
-                    title,
-                    description,
-                    dateText,
-                    imageUrl,
-                    link
-                  };
-                }
-              };
-
-              return events;
-            };
-
-            // Process calendar events
-            for (const eventData of calendarEvents) {
-              const dateInfo = this.parseDateRange(eventData.dateText);
-
-              // Skip events with no dates
-              if (!dateInfo.startDate && !dateInfo.endDate) continue;
-
-              // Generate event ID
-              const eventId = this.generateEventId(eventData.title, dateInfo.startDate);
-
-              // Create event object
-              const event = this.createEventObject(
-                eventId,
-                eventData.title,
-                eventData.description,
-                dateInfo.startDate,
-                dateInfo.endDate,
-                eventData.imageUrl,
-                eventData.link || calendarUrl
-              );
-
-              events.push(event);
-            }
-
-            // If we found events on this page, no need to check others
-            if (calendarEvents.length > 0) {
-              break;
-            }
-          } catch (error) {
-            console.log(`Error checking ${calendarPath}: ${error.message}`);
-            continue;
-          }
-        }
-      }
-
-      // If we still have no events, check the current exhibitions
-      if (events.length === 0) {
-        try {
-          const exhibitionsUrl = 'https://moa.ubc.ca/exhibitions/';
-          console.log(`Checking for exhibitions at: ${exhibitionsUrl}`);
-
-          await page.goto(exhibitionsUrl, { waitUntil: 'networkidle2', timeout: 30000 };
-
-          // Extract exhibition items
-          const exhibitions = await page.evaluate(() => {
-            const items = [];
-
-            // Look for exhibition elements
-            const exhibitionElements = Array.from(document.querySelectorAll('.exhibition, article, .card, .content-block'));
-
-            exhibitionElements.forEach(el => {
-              const title = el.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
-              if (!title) return;
-
-              const description = el.querySelector('p, .description, .excerpt')?.textContent.trim() || '';
-              let dateText = el.querySelector('.date, .exhibition-date, time')?.textContent.trim() || '';
-
-              // Many exhibition pages include dates in the description if not in a specific date element
-              if (!dateText && description) {
-                const dateMatch = description.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d+,\s+202\d\s*[-–—]\s*(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d+,\s+202\d/i);
-                if (dateMatch) {
-                  dateText = dateMatch[0];
-                }
-              }
-
-              const imgElement = el.querySelector('img');
-              const imageUrl = imgElement ? imgElement.src : '';
-
-              const linkElement = el.querySelector('a[href]');
-              const link = linkElement ? new URL(linkElement.href, window.location.href).href : '';
-
-              if (title) {
-                items.push({
-                  title,
-                  description,
-                  dateText,
-                  imageUrl,
-                  link
-                };
-              }
-            };
-
-            return items;
-          };
-
-          // Process exhibitions as events
-          for (const exhibition of exhibitions) {
-            const dateInfo = this.parseDateRange(exhibition.dateText);
-
-            // For exhibitions without clear dates, use a default range
-            let startDate = dateInfo.startDate;
-            let endDate = dateInfo.endDate;
-
-            if (!startDate || !endDate) {
-              // Default to current year exhibition
-              const now = new Date();
-              startDate = new Date(now.getFullYear(), 0, 1); // Jan 1 current year
-              endDate = new Date(now.getFullYear(), 11, 31, 23, 59, 59); // Dec 31 current year
-            }
-
-            // Generate exhibition ID
-            const exhibitionId = this.generateEventId(exhibition.title, startDate);
-
-            // Create exhibition event object
-            const exhibitionEvent = this.createEventObject(
-              exhibitionId,
-              exhibition.title,
-              exhibition.description,
-              startDate,
-              endDate,
-              exhibition.imageUrl,
-              exhibition.link || exhibitionsUrl
-            );
-
-            events.push(exhibitionEvent);
-          }
-        } catch (error) {
-          console.log(`Error checking exhibitions: ${error.message}`);
-        }
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping Museum of Anthropology events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Museum of Anthropology website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .exhibition, .program, .workshop, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.exhibition',
+        '.program',
+        '.workshop',
+        'article',
+        '.event-item',
+        '.exhibition-item',
+        '[class*="event"]',
+        '[class*="exhibition"]',
+        '[class*="program"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .exhibition-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .exhibition-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .exhibition-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Arts & Culture', 'Museum', 'Anthropology', 'Education'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
 }
 
-module.exports = new MuseumOfAnthropologyEvents();
+module.exports = MuseumOfAnthropologyEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
   const scraper = new MuseumOfAnthropologyEvents();
-  return await scraper.scrape(city);
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.MuseumOfAnthropologyEvents = MuseumOfAnthropologyEvents;

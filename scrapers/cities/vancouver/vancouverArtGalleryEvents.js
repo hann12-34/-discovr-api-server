@@ -128,12 +128,12 @@ class VancouverArtGalleryEventsScraper {
           '--ignore-certificate-errors',
           '--ignore-certificate-errors-spki-list'
         ]
-      };
+      });
 
       const page = await browser.newPage();
 
       // Set viewport and user agent
-      await page.setViewport({ width: 1280, height: 800 };
+      await page.setViewport({ width: 1280, height: 800 });
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
 
       // Navigate to the events page
@@ -141,17 +141,17 @@ class VancouverArtGalleryEventsScraper {
       await page.goto(this.url, {
         waitUntil: 'domcontentloaded',
         timeout: 30000
-      };
+      });
 
       // Wait for event elements to load
       console.log('Waiting for event elements to load...');
       await Promise.race([
-        page.waitForSelector('.exhibitions-events__item, -item, -card', { timeout: 10000 },
+        page.waitForSelector('.exhibitions-events__item, .event-item, .event-card', { timeout: 10000 }),
         new Promise(resolve => setTimeout(resolve, 10000))
       ]);
 
       // Save screenshot for debugging
-      await page.screenshot({ path: '/tmp/vancouver-art-gallery-page.png', fullPage: true };
+      await page.screenshot({ path: '/tmp/vancouver-art-gallery-page.png', fullPage: true });
       console.log('Page screenshot saved to /tmp/vancouver-art-gallery-page.png');
 
       // Extra wait time for any dynamic content
@@ -216,8 +216,8 @@ class VancouverArtGalleryEventsScraper {
             imageUrl,
             eventUrl
           };
-        }.filter(e => e.title); // Only include events with a title
-      };
+        }).filter(e => e.title); // Only include events with a title
+      });
 
       console.log(`Found ${extractedEvents.length} events on the page`);
 
@@ -228,7 +228,7 @@ class VancouverArtGalleryEventsScraper {
 
         // Generate a unique ID
         const da = startDate ? startDate.toISOString().split('T')[0] : 'ongoing';
-        const eventId = `vag-${slugify(item.title, { lower: true }}-${da}`;
+        const eventId = `vag-${slugify(item.title, { lower: true })}-${da}`;
 
         // Determine categories
         const categories = this.determineCategories(item.title, item.description);

@@ -3,6 +3,14 @@ const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
 const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
+// Safe URL helper to prevent undefined errors
+const safeUrl = (url, baseUrl, fallback = null) => {
+  if (!url) return fallback;
+  if (typeof url === 'string' && url.startsWith('http')) return url;
+  if (typeof url === 'string') return `${baseUrl}${url}`;
+  return fallback;
+};
+
 // Safe helper to prevent undefined startsWith errors
 const safeStartsWith = (str, prefix) => {
   return str && typeof str === 'string' && str.startsWith(prefix);
@@ -97,7 +105,7 @@ async function scrapeTorontoZooEventsClean(city) {
 
   try {
     await client.connect();
-    const eventsCollection = client.db('events').collection('events');
+    const eventsCollection = client.db('discovr').collection('events');
     console.log('🚀 Scraping Toronto Zoo events (clean version)...');
 
     // Anti-bot delay
@@ -146,19 +154,21 @@ async function scrapeTorontoZooEventsClean(city) {
 
     console.log(`📊 Toronto Zoo page loaded from ${workingUrl}, analyzing content...`);
 
-    // Enhanced selectors for museum content
+    // Enhanced selectors for Toronto Zoo content
     const eventSelectors = [
-      '[class*="exhibition"], [class*="event"], [class*="program"]',
+      '.event, .program, .experience, .activity',
+      '.event-item, .program-item, .experience-item',
+      '.calendar-event, .upcoming-event, .zoo-event',
+      '.card, .tile, .content-item, .attraction',
       'article, .post, .entry, .item',
-      '.content-item, .card, .tile',
-      'h1, h2, h3, h4, .title'
+      'h1, h2, h3, h4, .title, .event-title'
     ];
 
     for (const selector of eventSelectors) {
       $(selector).each((i, el) => {
         if (i > 15) return false;
         
-        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.exhibition-title', '.program-title', '.headline'];
+        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.event-title', '.program-title', '.experience-title', '.headline'];
         let title = '';
         
         for (const titleSel of titleSelectors) {
@@ -194,8 +204,8 @@ async function scrapeTorontoZooEventsClean(city) {
         
         candidateEvents.push({
           title,
-          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
-          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          eventUrl: safeUrl(eventUrl, BASE_URL, workingUrl),
+          imageUrl: safeUrl(imageUrl, BASE_URL, null),
           dateText,
           description: description || `Experience ${title} at the Toronto Zoo in Toronto.`,
           qualityScore

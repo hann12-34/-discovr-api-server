@@ -20,5 +20,5 @@ module.exports = {
   
   // *** SET ACTIVE API HERE ***
   // Change this to use either 'cloudApi' or 'localProxyApi'
-  activeApi: 'localProxyApi'
+  activeApi: 'cloudApi'
 };

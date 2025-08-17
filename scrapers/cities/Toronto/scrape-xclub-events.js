@@ -8,8 +8,14 @@ const safeStartsWith = (str, prefix) => {
   return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
+// Safe URL helper to prevent undefined errors
+const safeUrl = (url, baseUrl, fallback = null) => {
+  if (!url) return fallback;
+  if (typeof url === 'string' && url.startsWith('http')) return url;
+  if (typeof url === 'string') return `${baseUrl}${url}`;
+  return fallback;
+};
 
-const BASE_URL = 'https://xclub.ca';
 
 // Enhanced anti-bot headers
 const getRandomUserAgent = () => {
@@ -97,7 +103,7 @@ async function scrapeXclubEventsClean(city) {
 
   try {
     await client.connect();
-    const eventsCollection = client.db('events').collection('events');
+    const eventsCollection = client.db('discovr').collection('events');
     console.log('🚀 Scraping Xclub events (clean version)...');
 
     // Anti-bot delay
@@ -194,10 +200,10 @@ async function scrapeXclubEventsClean(city) {
         
         candidateEvents.push({
           title,
-          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
-          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          eventUrl: safeUrl(eventUrl, BASE_URL, workingUrl),
+          imageUrl: safeUrl(imageUrl, BASE_URL, null),
           dateText,
-          description: description || `Experience ${title} at the Xclub in Toronto.`,
+          description: description || `Experience ${title} at X Club in Toronto.`,
           qualityScore
         });
       });

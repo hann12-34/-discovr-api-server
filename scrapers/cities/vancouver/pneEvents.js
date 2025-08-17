@@ -1,194 +1,205 @@
-async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+/**
+ * Vancouver PNE Events Scraper
+ * Extracts events from Pacific National Exhibition
+ */
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class PNEEvents {
+  constructor() {
+    this.name = 'PNE Events';
+    this.url = 'https://www.pne.ca/';
+    this.baseUrl = 'https://www.pne.ca';
+    this.venue = {
+      name: 'Pacific National Exhibition (PNE)',
+      address: '2901 E Hastings St, Vancouver, BC V5K 5J1',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2834, lng: -123.0347 }
+    };
+  }
+
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Use shorter timeout
-      page.setDefaultNavigationTimeout(15000);
-
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 15000 };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      try {
-        await page.waitForSelector(', -card, article, -item', { timeout: 8000 };
-      } catch (error) {
-        console.log('Could not find event elements with standard selectors, trying to proceed anyway');
-      }
+      console.log('Extracting PNE events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} PNE events`);
 
-      // Extract events data
-      const eventsData = await page.evaluate(() => {
-        const events = [];
-
-        // Try different selectors for events
-        const eventElements = Array.from(document.querySelectorAll(
-          ', -card, article, -item, s-list-item'
-        ));
-
-        eventElements.forEach(element => {
-          const title = element.querySelector('h2, h3, h4, .title, -title')?.textContent.trim() || '';
-          if (!title) return;
-
-          const description = element.querySelector('p, .description, .excerpt, .summary')?.textContent.trim() || '';
-          const dateText = element.querySelector('.date, time, -date')?.textContent.trim() || '';
-          const imageUrl = element.querySelector('img')?.src || '';
-          const sourceUrl = element.querySelector('a[href]')?.href || '';
-
-          // Try to extract category
-          let category = '';
-          const categoryElement = element.querySelector('.category, -type, -category');
-          if (categoryElement) {
-            category = categoryElement.textContent.trim();
-          } else {
-            // Try to infer category from class names
-            const classes = element.className.split(' ');
-            const categoryClasses = classes.filter(cls =>
-              cls.includes('category-') ||
-              cls.includes('type-') ||
-              cls.includes('event-type-')
-            );
-
-            if (categoryClasses.length > 0) {
-              category = categoryClasses[0].replace(/category-|type-|event-type-/g, '');
-            }
-          }
-
-          events.push({
-            title,
-            description,
-            dateText,
-            imageUrl,
-            sourceUrl,
-            category
-          };
-        };
-
-        return events;
-      };
-
-      console.log(`Found ${eventsData.length} potential events`);
-
-      // If no events found on events page, check for the main PNE Fair dates
-      if (eventsData.length === 0) {
-        console.log('No events found on events page, checking homepage for PNE Fair dates');
-
-        await page.goto('https://www.pne.ca/', { waitUntil: 'networkidle2', timeout: 15000 };
-
-        const pneFairData = await page.evaluate(() => {
-          // Look for PNE Fair date information
-          const datePattern = /(?:august|september)\s+\d{1,2}[-–]\d{1,2},?\s*\d{4}/i;
-          const fullText = document.body.textContent;
-
-          const dateMatch = fullText.match(datePattern);
-          const dateText = dateMatch ? dateMatch[0] : '';
-
-          // Look for a description
-          const description = document.querySelector('p')?.textContent.trim() || 'The annual PNE Fair - Vancouver\'s favorite end-of-summer tradition';
-
-          // Look for an image
-          const imageUrl = document.querySelector('.hero img, .banner img')?.src ||
-                           document.querySelector('img')?.src || '';
-
-          return {
-            title: 'PNE Fair',
-            description,
-            dateText,
-            imageUrl,
-            sourceUrl: 'https://www.pne.ca/fair/',
-            category: 'fair'
-          };
-        };
-
-        if (pneFairData.dateText) {
-          console.log(`Found PNE Fair date: ${pneFairData.dateText}`);
-          eventsData.push(pneFairData);
-        } else {
-          // If no specific date found, create a default entry for August fair
-          const currentYear = new Date().getFullYear();
-          eventsData.push({
-            title: 'PNE Fair',
-            description: 'The annual PNE Fair - Vancouver\'s favorite end-of-summer tradition',
-            dateText: `August 17 - September 2, ${currentYear}`,
-            imageUrl: '',
-            sourceUrl: 'https://www.pne.ca/fair/',
-            category: 'fair'
-          };
-        }
-      }
-
-      // Process each event data
-      for (const eventData of eventsData) {
-        // Parse date information
-        const dateInfo = this.parseDateRange(eventData.dateText);
-
-        // Skip events with no valid dates
-        if (!dateInfo.startDate || !dateInfo.endDate) {
-          console.log(`Skipping event "${eventData.title}" due to invalid date: "${eventData.dateText}"`);
-          continue;
-        }
-
-        // Generate event ID
-        const eventId = this.generateEventId(eventData.title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          eventData.title,
-          eventData.description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          eventData.imageUrl,
-          eventData.sourceUrl,
-          eventData.category
-        );
-
-        // Add event to events array
-        events.push(event);
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping PNE events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from PNE website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .show, .performance, .concert, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.show',
+        '.performance',
+        '.concert',
+        'article',
+        '.event-item',
+        '.show-item',
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="performance"]',
+        '[class*="fair"]',
+        '[class*="attraction"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .show-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Entertainment', 'Fair', 'Concerts', 'Family'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
-};
+}
 
 module.exports = PNEEvents;
 
-
-// Function export wrapper added by targeted fixer
+// Function export for compatibility with runner/validator
 module.exports = async (city) => {
-    const scraper = new names();
-    if (typeof scraper.scrape === 'function') {
-        return await scraper.scrape(city);
-    } else {
-        throw new Error('No scrape method found in names');
-    }
-};
-
-// Invalid syntax fix
-module.exports = async (city) => {
-    const scraper = new names();
-    return await scraper.scrape(city);
+  const scraper = new PNEEvents();
+  return await scraper.scrape('Vancouver');
 };

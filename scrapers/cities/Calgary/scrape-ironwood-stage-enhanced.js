@@ -29,7 +29,7 @@ class IronwoodStageEnhancedEvents {
         if (!dateStr) return null;
         try {
             const cleaned = dateStr.trim();
-            const dateMatch = cleaned.match(/(\w+)\s+(\d{1,2},?\s+(\d{4}/);
+            const dateMatch = cleaned.match(/(\w+)\s+(\d{1,2},?\s+(\d{4})//);
             if (dateMatch) {
                 return new Date(`${dateMatch[1]} ${dateMatch[2]}, ${dateMatch[3]}`);
             }

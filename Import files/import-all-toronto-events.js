@@ -12,8 +12,8 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const colors = require('colors');
 
-// Import the master Toronto scraper with ALL 157 working scrapers
-const { scrapeAllTorontoEventsMaster: scrapeAllTorontoEvents } = require('../scrapers/cities/Toronto/scrape-all-toronto-master');
+// Import the REAL Toronto master orchestrator with ALL working scrapers
+const { scrape: scrapeAllTorontoEvents } = require('../scrapers/cities/Toronto/scrape-all-toronto-clean');
 
 // MongoDB configuration
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -44,7 +44,7 @@ async function importAllTorontoEvents() {
     console.log('\n🔍 Running comprehensive Toronto scraper...'.cyan);
     console.log('This will scrape all 44 Toronto venues (cultural + nightlife)'.gray);
     
-    const totalAdded = await scrapeAllTorontoEvents();
+    const totalAdded = await scrapeAllTorontoEvents('Toronto');
     
     // Get final counts
     const totalEvents = await eventsCollection.countDocuments({});

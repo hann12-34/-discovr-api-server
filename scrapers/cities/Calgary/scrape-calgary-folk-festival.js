@@ -39,13 +39,13 @@ class CalgaryFolkFestivalEvents {
             const cleanDateStr = dateStr.trim();
 
             // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }
 
             // Handle common date formats
-            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2},?\s+(\d{4}/);
+            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2},?\s+(\d{4})//);
             if (dateMatch) {
                 return new Date(`${dateMatch[1]} ${dateMatch[2]}, ${dateMatch[3]}`);
             }

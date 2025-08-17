@@ -40,7 +40,7 @@ class PlaceDesArtsEvents {
             const cleanDateStr = dateStr.trim();
 
             // Try parsing as ISO date first
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }

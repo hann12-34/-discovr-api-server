@@ -31,7 +31,7 @@ class AdvancedTorontoFixer {
     console.log('==========================================');
     
     const files = fs.readdirSync(this.torontoDir)
-      .filter(file => file.endsWith('.js') && !file.includes('backup') && !file.includes('test') && !file.includes('emergency') && !file.includes('advanced'))
+      .filter(file => file.endsWith('.js') && !file.includes('backup') && !file.includes("discovr") && !file.includes('emergency') && !file.includes('advanced'))
       .sort();
     
     console.log(`📁 Found ${files.length} Toronto scrapers to fix`);
@@ -113,7 +113,7 @@ class AdvancedTorontoFixer {
       { from: /\/\(\\d\{1,2\}\(\?\::?\(\\d\{2\}\?/g, to: '/(\\d{1,2}(?::(\\d{2}))?)/g' },
       
       // General unterminated groups
-      { from: /\/\(([^)]+)$/gm, to: (match, group) => `/$(${group})/g` }
+      { from: /\/\([^)]+)$/gm, to: (match, group) => `/$(${group})/g` }
     ];
 
     fixes.forEach(fix => {

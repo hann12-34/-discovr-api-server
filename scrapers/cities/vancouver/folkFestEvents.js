@@ -1,196 +1,206 @@
-async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+/**
+ * Vancouver Folk Music Festival Events Scraper
+ * Extracts events from Vancouver Folk Music Festival
+ */
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class FolkFestEvents {
+  constructor() {
+    this.name = 'Vancouver Folk Music Festival Events';
+    this.url = 'https://thefestival.bc.ca/';
+    this.baseUrl = 'https://thefestival.bc.ca';
+    this.venue = {
+      name: 'Vancouver Folk Music Festival',
+      address: 'Jericho Beach Park, Vancouver, BC',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2762, lng: -123.1956 }
+    };
+  }
+
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Use shorter timeout
-      page.setDefaultNavigationTimeout(15000);
-
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 15000 };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      try {
-        await page.waitForSelector('.artist, .performer, .lineup-item, article', { timeout: 8000 };
-      } catch (error) {
-        console.log('Could not find artist elements with standard selectors, trying to proceed anyway');
-      }
+      console.log('Extracting Folk Festival events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Folk Festival events`);
 
-      // Extract artists/performers data
-      const artistsData = await page.evaluate(() => {
-        const artists = [];
-
-        // Try different selectors for artists/performers
-        const artistElements = Array.from(document.querySelectorAll(
-          '.artist, .performer, .lineup-item, article, .performer-item'
-        ));
-
-        artistElements.forEach(element => {
-          const name = element.querySelector('h2, h3, h4, .name, .title')?.textContent.trim() || '';
-          if (!name) return;
-
-          const description = element.querySelector('p, .description, .bio, .excerpt')?.textContent.trim() || '';
-          const imageUrl = element.querySelector('img')?.src || '';
-          const sourceUrl = element.querySelector('a[href]')?.href || '';
-
-          artists.push({
-            name,
-            description,
-            imageUrl,
-            sourceUrl
-          };
-        };
-
-        return artists;
-      };
-
-      console.log(`Found ${artistsData.length} potential artists/performers`);
-
-      // Check for festival dates on the homepage if no artists found
-      // or to get the overall festival dates
-      console.log('Checking homepage for festival dates');
-
-      await page.goto('https://thefestival.bc.ca/', { waitUntil: 'networkidle2', timeout: 15000 };
-
-      const festivalData = await page.evaluate(() => {
-        // Look for festival date information
-        const datePattern = /(?:july|august)\s+\d{1,2}[-–]\d{1,2},?\s*\d{4}/i;
-        const fullText = document.body.textContent;
-
-        const dateMatch = fullText.match(datePattern);
-        const dateText = dateMatch ? dateMatch[0] : '';
-
-        // Look for a description
-        const description = document.querySelector('p')?.textContent.trim() || '';
-
-        // Look for an image
-        const imageUrl = document.querySelector('.hero img, .banner img')?.src ||
-                        document.querySelector('img')?.src || '';
-
-        return {
-          title: 'Vancouver Folk Music Festival',
-          description: description || 'Annual folk music festival at Jericho Beach Park featuring artists from around the world.',
-          dateText,
-          imageUrl,
-          sourceUrl: 'https://thefestival.bc.ca/'
-        };
-      };
-
-      // If festival dates found, create a main festival event
-      if (festivalData.dateText) {
-        console.log(`Found festival date: ${festivalData.dateText}`);
-
-        const dateInfo = this.parseDateRange(festivalData.dateText);
-
-        if (dateInfo.startDate && dateInfo.endDate) {
-          const eventId = this.generateEventId('Vancouver Folk Music Festival', dateInfo.startDate);
-
-          const festivalEvent = this.createEventObject(
-            eventId,
-            'Vancouver Folk Music Festival',
-            festivalData.description,
-            dateInfo.startDate,
-            dateInfo.endDate,
-            festivalData.imageUrl,
-            festivalData.sourceUrl
-          );
-
-          events.push(festivalEvent);
-        } else {
-          // If no valid dates found in text, use default dates (mid-July)
-          const currentYear = new Date().getFullYear();
-          const defaultStartDate = new Date(currentYear, 6, 15, 12, 0, 0); // July 15th
-          const defaultEndDate = new Date(currentYear, 6, 17, 23, 59, 59); // July 17th
-
-          const eventId = this.generateEventId('Vancouver Folk Music Festival', defaultStartDate);
-
-          const festivalEvent = this.createEventObject(
-            eventId,
-            'Vancouver Folk Music Festival',
-            festivalData.description,
-            defaultStartDate,
-            defaultEndDate,
-            festivalData.imageUrl,
-            festivalData.sourceUrl
-          );
-
-          events.push(festivalEvent);
-        }
-      } else if (artistsData.length === 0) {
-        // If no festival dates found and no artists found, create a default festival event
-        const currentYear = new Date().getFullYear();
-        const defaultStartDate = new Date(currentYear, 6, 15, 12, 0, 0); // July 15th
-        const defaultEndDate = new Date(currentYear, 6, 17, 23, 59, 59); // July 17th
-
-        const eventId = this.generateEventId('Vancouver Folk Music Festival', defaultStartDate);
-
-        const festivalEvent = this.createEventObject(
-          eventId,
-          'Vancouver Folk Music Festival',
-          'Annual folk music festival at Jericho Beach Park featuring artists from around the world.',
-          defaultStartDate,
-          defaultEndDate,
-          '',
-          'https://thefestival.bc.ca/'
-        );
-
-        events.push(festivalEvent);
-      }
-
-      // If artists were found, create events for each artist using the festival dates
-      if (artistsData.length > 0 && events.length > 0) {
-        // Use the main festival event's dates
-        const festivalStartDate = events[0].startDate;
-        const festivalEndDate = events[0].endDate;
-
-        // For each artist, create an event during the festival
-        for (const artistData of artistsData) {
-          // Generate event ID
-          const eventId = this.generateEventId(artistData.name, festivalStartDate);
-
-          // Create event object
-          const artistEvent = this.createEventObject(
-            eventId,
-            `${artistData.name} at Vancouver Folk Music Festival`,
-            artistData.description,
-            festivalStartDate, // Using festival start date
-            festivalEndDate,   // Using festival end date
-            artistData.imageUrl,
-            artistData.sourceUrl,
-            artistData.name
-          );
-
-          // Add event to events array
-          events.push(artistEvent);
-        }
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping Folk Festival events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Folk Festival website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .show, .performance, .concert, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.show',
+        '.performance',
+        '.concert',
+        'article',
+        '.event-item',
+        '.show-item',
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="performance"]',
+        '[class*="concert"]',
+        '[class*="artist"]',
+        '[class*="lineup"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .artist-name') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .bio, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Music', 'Festival', 'Folk', 'Live Performance', 'Outdoor'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
-};
+}
 
 module.exports = FolkFestEvents;
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new FolkFestEvents();
+  return await scraper.scrape('Vancouver');
+};

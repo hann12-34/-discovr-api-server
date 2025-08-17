@@ -3,13 +3,21 @@ const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
 const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
+// Safe URL helper to prevent undefined errors
+const safeUrl = (url, baseUrl, fallback = null) => {
+  if (!url) return fallback;
+  if (typeof url === 'string' && url.startsWith('http')) return url;
+  if (typeof url === 'string') return `${baseUrl}${url}`;
+  return fallback;
+};
+
 // Safe helper to prevent undefined startsWith errors
 const safeStartsWith = (str, prefix) => {
   return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
 
-const BASE_URL = 'https://www.futurenightlife.com';
+const BASE_URL = 'https://futurenightlife.com';
 
 // Enhanced anti-bot headers
 const getRandomUserAgent = () => {
@@ -97,18 +105,18 @@ async function scrapeFutureNightlifeEventsClean(city) {
 
   try {
     await client.connect();
-    const eventsCollection = client.db('events').collection('events');
+    const eventsCollection = client.db('discovr').collection('events');
     console.log('🚀 Scraping Future Nightlife events (clean version)...');
 
     // Anti-bot delay
     await delay(Math.floor(Math.random() * 2000) + 1000);
 
     const urlsToTry = [
-      `${BASE_URL}/events/`,
-      `${BASE_URL}/calendar/`,
-      `${BASE_URL}/shows/`,
-      `${BASE_URL}/whats-on/`,
-      `${BASE_URL}/programs/`,
+      'https://futurenightlife.com/#upcoming-events',
+      'https://futurenightlife.com/events/',
+      'https://futurenightlife.com/calendar/',
+      'https://futurenightlife.com/shows/',
+      'https://futurenightlife.com/',
       `${BASE_URL}/`
     ];
 
@@ -194,8 +202,8 @@ async function scrapeFutureNightlifeEventsClean(city) {
         
         candidateEvents.push({
           title,
-          eventUrl: (eventUrl && typeof eventUrl === "string" && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http"))) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
-          imageUrl: (imageUrl && typeof imageUrl === "string" && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http"))) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          eventUrl: safeUrl(eventUrl, BASE_URL, workingUrl),
+          imageUrl: safeUrl(imageUrl, BASE_URL, null),
           dateText,
           description: description || `Experience ${title} at the Future Nightlife in Toronto.`,
           qualityScore

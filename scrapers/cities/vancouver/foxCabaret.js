@@ -1,193 +1,203 @@
-parseTextForDate(text) {
+/**
+ * Vancouver Fox Cabaret Events Scraper
+ * Extracts events from Fox Cabaret Vancouver
+ */
+
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class FoxCabaretEvents {
+  constructor() {
+    this.name = 'Vancouver Fox Cabaret Events';
+    this.url = 'https://www.foxcabaret.com/';
+    this.baseUrl = 'https://www.foxcabaret.com';
+    this.venue = {
+      name: 'Fox Cabaret',
+      address: '2321 Main St, Vancouver, BC V5T 3C9',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2638, lng: -123.1003 }
+    };
+  }
+
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
+
     try {
-      if (!text) return null;
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      const lowerText = text.toLowerCase();
-      const now = new Date();
-      const result = new Date();
+      console.log('Extracting Fox Cabaret events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Fox Cabaret events`);
 
-      // Extract month names or numbers
-      const months = ['january', 'february', 'march', 'april', 'may', 'june',
-                     'july', 'august', 'september', 'october', 'november', 'december'];
-      const monthAbbr = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+      return events;
+    } catch (error) {
+      console.error(`Error scraping Fox Cabaret events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
+    }
+  }
 
-      // Try to find a month in the text
-      let foundMonth = false;
-      let month = -1;
+  /**
+   * Extract events from Fox Cabaret website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .show, .cabaret, .performance, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
 
-      // Check for month names
-      for (let i = 0; i < months.length; i++) {
-        if (lowerText.includes(months[i]) || lowerText.includes(monthAbbr[i])) {
-          month = i;
-          foundMonth = true;
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.show',
+        '.cabaret',
+        '.performance',
+        'article',
+        '.event-item',
+        '.show-item',
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="cabaret"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
           break;
         }
       }
 
-      // Check for numeric month (MM/DD format)
-      if (!foundMonth) {
-        const dateMatch = lowerText.match(/(\d{1,2}[\/\-\.](\d{1,2}(?:[\/\-\.](\d{2,4}?/);
-        if (dateMatch) {
-          month = parseInt(dateMatch[1], 10) - 1; // 0-indexed month
-          const day = parseInt(dateMatch[2], 10);
-          let year = dateMatch[3] ? parseInt(dateMatch[3], 10) : now.getFullYear();
-
-          // Handle 2-digit years
-          if (year < 100) {
-            year = year < 50 ? 2000 + year : 1900 + year;
-          }
-
-          result.setFullYear(year, month, day);
-
-          // Look for time information after the date
-          const timeAfterDate = lowerText.substring(lowerText.indexOf(dateMatch[0]) + dateMatch[0].length);
-          const timeMatch = timeAfterDate.match(/(\d{1,2}(?::(\d{2}?\s*(am|pm)?/);
-
-          if (timeMatch) {
-            let hours = parseInt(timeMatch[1], 10);
-            const minutes = timeMatch[2] ? parseInt(timeMatch[2], 10) : 0;
-            const ampm = timeMatch[3]?.toLowerCase();
-
-            if (ampm === 'pm' && hours < 12) hours += 12;
-            if (ampm === 'am' && hours === 12) hours = 0;
-
-            result.setHours(hours, minutes, 0, 0);
-          }
-
-          return result;
-        }
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
       }
 
-      // If we found a month
-      if (foundMonth) {
-        // Look for a day
-        const dayMatch = lowerText.match(/\b(\d{1,2}(?:st|nd|rd|th)?\b/);
-        const day = dayMatch ? parseInt(dayMatch[1], 10) : 1;
-
-        // Look for a year
-        const yearMatch = lowerText.match(/\b(20\d{2}\b/);
-        const year = yearMatch ? parseInt(yearMatch[1], 10) : now.getFullYear();
-
-        // Look for time
-        const timeMatch = lowerText.match(/(\d{1,2}(?::(\d{2}?\s*(am|pm)?/);
-
-        result.setFullYear(year, month, day);
-
-        if (timeMatch) {
-          let hours = parseInt(timeMatch[1], 10);
-          const minutes = timeMatch[2] ? parseInt(timeMatch[2], 10) : 0;
-          const ampm = timeMatch[3]?.toLowerCase();
-
-          if (ampm === 'pm' && hours < 12) hours += 12;
-          if (ampm === 'am' && hours === 12) hours = 0;
-
-          result.setHours(hours, minutes, 0, 0);
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .show-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
         }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
 
-        return result;
-      }
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
 
-      // Handle relative dates
-      const relativeTerms = {
-        'today': 0,
-        'tonight': 0,
-        'tomorrow': 1,
-        'this week': 3,
-        'next week': 7,
-        'this weekend': 5,
-        'next weekend': 12
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Entertainment', 'Cabaret', 'Nightlife', 'Performance'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
       };
-
-      for (const [term, daysToAdd] of Object.entries(relativeTerms)) {
-        if (lowerText.includes(term)) {
-          result.setDate(now.getDate() + daysToAdd);
-
-          // Set evening time for 'tonight'
-          if (term === 'tonight') {
-            result.setHours(20, 0, 0, 0);
-          }
-
-          return result;
-        }
-      }
-
-      return null;
-    } catch (error) {
-      console.error('Error parsing text for date:', error);
-      return null;
-    }
+    }));
   }
 
   /**
-   * Determine event categories based on event title
-   * @param {string} title - Event title
-   * @returns {Array<string>} - Array of category strings
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
    */
-  determineCategories(title) {
-    const text = title.toLowerCase();
-
-    if (text.includes('concert') || text.includes('music') ||
-        text.includes('band') || text.includes('dj') ||
-        text.includes('live music') || text.includes('singer') ||
-        text.includes('show')) {
-      return ['Music', 'Entertainment'];
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    if (text.includes('comedy') || text.includes('comedian') ||
-        text.includes('stand-up') || text.includes('laugh')) {
-      return ['Comedy', 'Entertainment'];
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
     }
 
-    if (text.includes('dance') || text.includes('dancing') ||
-        text.includes('party')) {
-      return ['Dance', 'Nightlife'];
-    }
-
-    if (text.includes('film') || text.includes('movie') ||
-        text.includes('cinema') || text.includes('screening')) {
-      return ['Film', 'Arts & Culture'];
-    }
-
-    if (text.includes('art') || text.includes('exhibition') ||
-        text.includes('gallery') || text.includes('culture')) {
-      return ['Arts & Culture'];
-    }
-
-    // Fox Cabaret often hosts cabaret and performance art
-    if (text.includes('cabaret') || text.includes('burlesque') ||
-        text.includes('performance art') || text.includes('drag')) {
-      return ['Performance Art', 'Nightlife'];
-    }
-
-    // Default category
-    return ['Entertainment', 'Nightlife'];
-  }
-
-  /**
-   * Determine season based on date
-   * @param {Date} date - Date object
-   * @returns {string} - Season name
-   */
-  determineSeason(date) {
-    if (!date || isNaN(date.getTime())) return 'Unknown';
-
-    const month = date.getMonth();
-
-    if (month >= 2 && month <= 4) return 'Spring'; // March to May
-    if (month >= 5 && month <= 7) return 'Summer'; // June to August
-    if (month >= 8 && month <= 10) return 'Fall';  // September to November
-    return 'Winter';                               // December to February
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
 }
 
-// Export the scraper class
-module.exports = new FoxCabaretScraper();
+module.exports = FoxCabaretEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
-  const scraper = new FoxCabaretScraper();
-  return await scraper.scrape(city);
+  const scraper = new FoxCabaretEvents();
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.FoxCabaretScraper = FoxCabaretScraper;

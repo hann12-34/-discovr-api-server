@@ -1,312 +1,205 @@
-async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+/**
+ * Vancouver MacMillan Space Centre Events Scraper
+ * Extracts events from H.R. MacMillan Space Centre
+ */
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class MacMillanSpaceCentreEvents {
+  constructor() {
+    this.name = 'MacMillan Space Centre Events';
+    this.url = 'https://spacecentre.ca/';
+    this.baseUrl = 'https://spacecentre.ca';
+    this.venue = {
+      name: 'H.R. MacMillan Space Centre',
+      address: '1100 Chestnut St, Vancouver, BC V6J 3J9',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2762, lng: -123.1456 }
+    };
+  }
+
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-accelerated-2d-canvas',
-          '--no-first-run',
-          '--no-zygote',
-          '--disable-gpu'
-        ]
-      };
-
-      const page = await browser.newPage();
-
-      // Set viewport and user agent
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Reduce timeout to avoid hanging
-      page.setDefaultNavigationTimeout(20000);
-
-      // Navigate to the events page
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, {
-        waitUntil: 'domcontentloaded',
-        timeout: 20000
-      };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Wait for events to load
-      try {
-        await page.waitForSelector(', s-list, article, -item', { timeout: 5000 };
-      } catch (error) {
-        console.log('Could not find event elements using standard selectors, trying to proceed anyway');
-      }
+      console.log('Extracting MacMillan Space Centre events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} MacMillan Space Centre events`);
 
-      // Extract events data
-      console.log('Extracting events data...');
-      const eventsData = await page.evaluate(() => {
-        const events = [];
-
-        // Look for event elements with various possible selectors
-        const eventElements = Array.from(document.querySelectorAll(', s-list article, -item, .tribe-events-calendar-list__event'));
-
-        eventElements.forEach(element => {
-          // Extract title
-          const titleElement = element.querySelector('h2, h3, h4, .tribe-events-calendar-list__event-title, -title, .title');
-          const title = titleElement ? titleElement.textContent.trim() : '';
-
-          if (!title) return; // Skip events without titles
-
-          // Extract description
-          const descriptionElement = element.querySelector('p, .description, -description, .tribe-events-calendar-list__event-description');
-          const description = descriptionElement ? descriptionElement.textContent.trim() : '';
-
-          // Extract date
-          const dateElement = element.querySelector('.date, -date, .tribe-event-date-start, .tribe-events-calendar-list__event-date-tag');
-          const dateText = dateElement ? dateElement.textContent.trim() : '';
-
-          // Extract image URL
-          let imageUrl = '';
-          const imageElement = element.querySelector('img');
-          if (imageElement && imageElement.src) {
-            imageUrl = imageElement.src;
-          }
-
-          // Extract source URL
-          let sourceUrl = '';
-          const linkElement = element.querySelector('a[href]');
-          if (linkElement && linkElement.href) {
-            sourceUrl = linkElement.href;
-          }
-
-          // Only add events with both title and date
-          if (title && (dateText || description)) {
-            events.push({
-              title,
-              description,
-              dateText,
-              imageUrl,
-              sourceUrl
-            };
-          }
-        };
-
-        return events;
-      };
-
-      console.log(`Found ${eventsData.length} potential events`);
-
-      // Process each event
-      for (const eventData of eventsData) {
-        const { title, description, dateText, imageUrl, sourceUrl } = eventData;
-
-        // Parse date information
-        const dateInfo = this.parseDateRange(dateText);
-
-        // Skip events with no valid dates
-        if (!dateInfo.startDate || !dateInfo.endDate) {
-          console.log(`Skipping event "${title}" due to invalid date: "${dateText}"`);
-
-          // If we have a source URL for the event, try to visit the page to get more date info
-          if (sourceUrl) {
-            console.log(`Trying to extract date from event page: ${sourceUrl}`);
-
-            try {
-              await page.goto(sourceUrl, { waitUntil: 'domcontentloaded', timeout: 15000 };
-
-              // Try to extract date from the event detail page
-              const detailDateText = await page.evaluate(() => {
-                const dateElement = document.querySelector('.date, -date, .tribe-events-schedule, time');
-                return dateElement ? dateElement.textContent.trim() : '';
-              };
-
-              if (detailDateText) {
-                const detailDateInfo = this.parseDateRange(detailDateText);
-
-                if (detailDateInfo.startDate && detailDateInfo.endDate) {
-                  console.log(`Found date on detail page: ${detailDateText}`);
-
-                  // Generate event ID
-                  const eventId = this.generateEventId(title, detailDateInfo.startDate);
-
-                  // Get a more detailed description if available
-                  const detailDescription = await page.evaluate(() => {
-                    const descElement = document.querySelector('-description, .tribe-events-content, .content');
-                    return descElement ? descElement.textContent.trim() : '';
-                  };
-
-                  // Get a better image if available
-                  const detailImage = await page.evaluate(() => {
-                    const imgElement = document.querySelector('-image img, .tribe-events-event-image img, .featured-image img');
-                    return imgElement ? imgElement.src : '';
-                  };
-
-                  // Create event object
-                  const event = this.createEventObject(
-                    eventId,
-                    title,
-                    detailDescription || description,
-                    detailDateInfo.startDate,
-                    detailDateInfo.endDate,
-                    detailImage || imageUrl,
-                    sourceUrl
-                  );
-
-                  // Add event to events array
-                  events.push(event);
-                  continue;
-                }
-              }
-            } catch (error) {
-              console.log(`Error accessing event detail page: ${error.message}`);
-            }
-          }
-
-          continue;
-        }
-
-        // Generate event ID
-        const eventId = this.generateEventId(title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          title,
-          description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          imageUrl,
-          sourceUrl
-        );
-
-        // Add event to events array
-        events.push(event);
-      }
-
-      // If no events found, check if there's a calendar page
-      if (events.length === 0) {
-        const calendarUrl = 'https://www.spacecentre.ca/calendar/';
-        console.log(`No events found, checking calendar page: ${calendarUrl}`);
-
-        try {
-          await page.goto(calendarUrl, { waitUntil: 'domcontentloaded', timeout: 15000 };
-
-          // Wait for calendar events to load
-          try {
-            await page.waitForSelector('.calendar-event, .tribe-events-calendar-month__day-cell, ', { timeout: 5000 };
-          } catch (error) {
-            console.log('Could not find calendar event elements, trying to proceed anyway');
-          }
-
-          // Extract calendar events
-          const calendarEvents = await page.evaluate(() => {
-            const events = [];
-
-            // Look for calendar day cells
-            const dayElements = Array.from(document.querySelectorAll('.tribe-events-calendar-month__day-cell, .calendar-day, .day'));
-
-            dayElements.forEach(dayElement => {
-              // Skip empty days
-              const hasEvent = dayElement.classList.contains('tribe-events-has-events') ||
-                              dayElement.querySelector('');
-
-              if (!hasEvent) return;
-
-              // Extract the date for this day
-              const dateElement = dayElement.querySelector('.tribe-events-calendar-month__day-date, .date');
-              const dateText = dateElement ? dateElement.textContent.trim() : '';
-
-              // Extract events from this day
-              const eventElements = Array.from(dayElement.querySelectorAll('.tribe-events-calendar-month__event, '));
-
-              eventElements.forEach(eventElement => {
-                const title = eventElement.querySelector('.tribe-events-calendar-month__event-title, -title')?.textContent.trim() || '';
-                if (!title) return;
-
-                const linkElement = eventElement.querySelector('a[href]');
-                const sourceUrl = linkElement ? linkElement.href : '';
-
-                if (title && dateText) {
-                  events.push({ title, dateText, sourceUrl };
-                }
-              };
-            };
-
-            return events;
-          };
-
-          console.log(`Found ${calendarEvents.length} potential calendar events`);
-
-          // Process calendar events - visit each event page to get details
-          for (const eventData of calendarEvents) {
-            const { title, sourceUrl } = eventData;
-
-            if (sourceUrl) {
-              try {
-                console.log(`Visiting event page: ${sourceUrl}`);
-                await page.goto(sourceUrl, { waitUntil: 'domcontentloaded', timeout: 15000 };
-
-                // Extract full event details
-                const eventDetails = await page.evaluate(() => {
-                  const title = document.querySelector('h1, .tribe-events-single-event-title')?.textContent.trim() || '';
-                  const description = document.querySelector('.tribe-events-content, -description, .content')?.textContent.trim() || '';
-                  const dateText = document.querySelector('.tribe-events-schedule, -date, .date')?.textContent.trim() || '';
-                  const imageElement = document.querySelector('.tribe-events-event-image img, -image img, .featured-image img');
-                  const imageUrl = imageElement ? imageElement.src : '';
-
-                  return { title, description, dateText, imageUrl };
-                };
-
-                // Parse date from event details
-                const dateInfo = this.parseDateRange(eventDetails.dateText);
-
-                if (!dateInfo.startDate || !dateInfo.endDate) {
-                  console.log(`Skipping event "${eventDetails.title}" due to invalid date: "${eventDetails.dateText}"`);
-                  continue;
-                }
-
-                // Generate event ID
-                const eventId = this.generateEventId(eventDetails.title || title, dateInfo.startDate);
-
-                // Create event object
-                const event = this.createEventObject(
-                  eventId,
-                  eventDetails.title || title,
-                  eventDetails.description,
-                  dateInfo.startDate,
-                  dateInfo.endDate,
-                  eventDetails.imageUrl,
-                  sourceUrl
-                );
-
-                // Add event to events array
-                events.push(event);
-
-              } catch (error) {
-                console.log(`Error accessing event page: ${error.message}`);
-              }
-            }
-          }
-        } catch (error) {
-          console.log(`Error checking calendar page: ${error.message}`);
-        }
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping MacMillan Space Centre events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from MacMillan Space Centre website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .show, .program, .workshop, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.show',
+        '.program',
+        '.workshop',
+        'article',
+        '.event-item',
+        '.show-item',
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="program"]',
+        '[class*="space"]',
+        '[class*="planetarium"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .show-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Science', 'Space', 'Planetarium', 'Education', 'Family'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
-};
+}
 
 module.exports = MacMillanSpaceCentreEvents;
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new MacMillanSpaceCentreEvents();
+  return await scraper.scrape('Vancouver');
+};

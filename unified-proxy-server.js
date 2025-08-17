@@ -305,36 +305,75 @@ async function startServer() {
         
         console.log(`🔍 Query: city=${city}, category=${category}, ALL EVENTS (no filtering, no limits)`);
         
-        // Get featured events first
-        const featuredEventIds = await collections.featured.find({}).toArray();
-        const featuredIds = featuredEventIds.map(fe => fe.eventId);
+        // Get featured events first (with consistent sorting and null safety)
+        let featuredIds = [];
+        try {
+          const featuredEventIds = await collections.featured.find({}).sort({ _id: 1 }).toArray();
+          featuredIds = featuredEventIds
+            .filter(fe => fe && fe.eventId) // Filter out null/undefined objects
+            .map(fe => fe.eventId)
+            .filter(Boolean); // Filter out null/undefined eventIds
+        } catch (error) {
+          console.log('⚠️ Featured events query failed, continuing without featured events:', error.message);
+          featuredIds = [];
+        }
         
         // Build minimal query - NO FILTERING BY DEFAULT
         let query = {};
         
         // City filtering ONLY if explicitly requested (case insensitive)
-        // Use venue.name city tags (e.g., "Venue, Vancouver") instead of venue.city
+        // FIXED: Check venue.city first (where NYC events store "New York")
         if (city && city !== 'all') {
-          query['venue.name'] = { $regex: `, ${city}$`, $options: 'i' };
+          query.$or = [
+            { 'venue.city': { $regex: city, $options: 'i' } },
+            { 'venue.name': { $regex: `, ${city}$`, $options: 'i' } },
+            { 'location': { $regex: city, $options: 'i' } },
+            { 'city': { $regex: city, $options: 'i' } }
+          ];
         }
         
         // Category filtering ONLY if explicitly requested
         if (category && category !== 'all') {
-          query.category = { $regex: category, $options: 'i' };
+          // If city filter exists, combine with AND logic
+          if (query.$or) {
+            query = {
+              $and: [
+                { $or: query.$or },
+                { category: { $regex: category, $options: 'i' } }
+              ]
+            };
+          } else {
+            query.category = { $regex: category, $options: 'i' };
+          }
         }
         
-        // NO LIMIT, NO DATE FILTERING - Get ALL events
+        // NO LIMIT, NO DATE FILTERING - Get ALL events (with consistent sorting)
         let events = await collections.cloud.find(query)
-          .sort({ startDate: 1 })
-          .toArray(); // Return ALL events with no limit
+          .sort({ _id: 1, startDate: 1 })
+          .toArray(); // Return ALL events with no limit and consistent order
         
         if (!events || events.length === 0) {
           console.log('⚠️ No events found in database');
           return res.status(404).json({ message: 'No events found' });
         }
 
+        // CRITICAL NULL EVENT FIX: Filter out null events that cause Swift decoder crash
+        console.log(`🚨 NULL EVENT FIX: Filtering out null events before processing. Initial count: ${events.length}`);
+        const nonNullEvents = events.filter(event => {
+          if (!event || event === null || event === undefined) {
+            console.log('🚨 REMOVING NULL EVENT');
+            return false;
+          }
+          if (typeof event !== 'object') {
+            console.log('🚨 REMOVING NON-OBJECT EVENT');
+            return false;
+          }
+          return true;
+        });
+        console.log(`🚨 NULL EVENT FIX COMPLETE: ${events.length} -> ${nonNullEvents.length} events (removed ${events.length - nonNullEvents.length} null events)`);
+
         // COMPREHENSIVE DATA NORMALIZATION (APPLIED: 2025-07-23)
-        const validatedEvents = events.map(event => {
+        const validatedEvents = nonNullEvents.map(event => {
           const validatedEvent = { ...event };
 
           // 1. Normalize Venue and Location
@@ -395,46 +434,107 @@ async function startServer() {
             validatedEvent.title = cleanedTitle.trim();
           }
 
-          // 4. Mark as Featured
-          const eventId = validatedEvent._id ? validatedEvent._id.toString() : validatedEvent.id;
-          validatedEvent.featured = featuredIds.includes(eventId);
+          // 4. Set featured status (with null safety)
+          try {
+            const eventId = validatedEvent._id ? validatedEvent._id.toString() : validatedEvent.id;
+            validatedEvent.featured = Array.isArray(featuredIds) && featuredIds.includes(eventId);
+          } catch (error) {
+            console.log('⚠️ Featured status assignment failed for event, defaulting to false:', error.message);
+            validatedEvent.featured = false;
+          }
 
           // 5. CRITICAL: Ensure price field ALWAYS exists as a string - NO EXCEPTIONS
           // This prevents 422 decoding errors in the Swift app
           if (validatedEvent.price !== undefined && validatedEvent.price !== null && validatedEvent.price !== '') {
             validatedEvent.price = String(validatedEvent.price);
           } else {
-            validatedEvent.price = 'See website for details';
+            validatedEvent.price = 'Free'; // Default to 'Free' instead of long text
           }
 
-          // 6. Ensure other fields are properly typed
-          validatedEvent.id = validatedEvent.id ? String(validatedEvent.id) : '';
-          validatedEvent.startDate = validatedEvent.startDate ? new Date(validatedEvent.startDate).toISOString() : null;
-          validatedEvent.endDate = validatedEvent.endDate ? new Date(validatedEvent.endDate).toISOString() : null;
+          // 6. Ensure other fields are properly typed and NEVER null/undefined
+          validatedEvent.id = validatedEvent.id ? String(validatedEvent.id) : String(validatedEvent._id || 'unknown-id');
+          
+          // Handle dates - provide defaults instead of null
+          if (validatedEvent.startDate) {
+            try {
+              validatedEvent.startDate = new Date(validatedEvent.startDate).toISOString();
+            } catch (e) {
+              validatedEvent.startDate = new Date().toISOString(); // Default to now
+            }
+          } else {
+            validatedEvent.startDate = new Date().toISOString(); // Default to now
+          }
+          
+          if (validatedEvent.endDate) {
+            try {
+              validatedEvent.endDate = new Date(validatedEvent.endDate).toISOString();
+            } catch (e) {
+              validatedEvent.endDate = null;
+            }
+          }
+          
+          // Ensure title exists
+          validatedEvent.title = validatedEvent.title || 'Event Title';
+          
+          // Ensure description exists
+          validatedEvent.description = validatedEvent.description || 'Event details available on venue website.';
+          
+          // Ensure city exists
+          validatedEvent.city = validatedEvent.city || 'Toronto';
 
+          // CRITICAL: Always return the event - never filter out events!
           return validatedEvent;
-        }).filter(Boolean); // Filter out null events
+        }); // Removed .filter(Boolean) to preserve ALL events
         
-        // Sort events to put featured ones first
+        // Sort events to put featured ones first (with null safety)
         validatedEvents.sort((a, b) => {
-          if (a.featured && !b.featured) return -1;
-          if (!a.featured && b.featured) return 1;
+          // Null safety checks first
+          if (!a || !b) {
+            if (!a && !b) return 0;
+            if (!a) return 1;
+            if (!b) return -1;
+          }
+          
+          // Safe access to featured property
+          const aFeatured = a && a.featured === true;
+          const bFeatured = b && b.featured === true;
+          
+          if (aFeatured && !bFeatured) return -1;
+          if (!aFeatured && bFeatured) return 1;
           
           // For featured events, maintain the order from featuredIds
-          if (a.featured && b.featured) {
+          if (aFeatured && bFeatured) {
             const aIndex = featuredIds.indexOf(a._id ? a._id.toString() : a.id);
             const bIndex = featuredIds.indexOf(b._id ? b._id.toString() : b.id);
             return aIndex - bIndex;
           }
           
           // For non-featured events, sort by date
-          return new Date(a.startDate || a.date || 0) - new Date(b.startDate || b.date || 0);
+          const aDate = a && (a.startDate || a.date) ? new Date(a.startDate || a.date) : new Date(0);
+          const bDate = b && (b.startDate || b.date) ? new Date(b.startDate || b.date) : new Date(0);
+          return aDate - bDate;
         });
         
-        console.log(`✅ SUCCESS: Returning ${validatedEvents.length} events for ${city} (${featuredIds.length} featured)`);
+        // FINAL NULL EVENT FILTER: Remove any null events created during data normalization
+        console.log(`🚨 FINAL NULL FILTER: Checking for null events after normalization. Count before: ${validatedEvents.length}`);
+        const finalFilteredEvents = validatedEvents.filter(event => {
+          if (!event || event === null || event === undefined) {
+            console.log('🚨 REMOVING NULL EVENT CREATED DURING NORMALIZATION');
+            return false;
+          }
+          if (typeof event !== 'object') {
+            console.log('🚨 REMOVING NON-OBJECT EVENT CREATED DURING NORMALIZATION');
+            return false;
+          }
+          return true;
+        });
+        console.log(`🚨 FINAL NULL FILTER COMPLETE: ${validatedEvents.length} -> ${finalFilteredEvents.length} events (removed ${validatedEvents.length - finalFilteredEvents.length} null events)`);
+        
+        console.log(`✅ SUCCESS: Returning ${finalFilteredEvents.length} events for ${city} (${featuredIds.length} featured)`);
         console.log('📝 COMPLETE DATA: Returning ALL events with NO filtering or limits');
+        console.log(`🔒 DETERMINISTIC: Events sorted consistently by _id and startDate`);
         res.status(200).json({ 
-          events: validatedEvents,
+          events: finalFilteredEvents,
           performance: {
             source: 'database',
             city: city,

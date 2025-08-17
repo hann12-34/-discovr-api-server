@@ -213,10 +213,10 @@ async function scrapeCasaLomaEventsClean(city) {
         
         candidateEvents.push({
           title,
-          eventUrl: (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith("http")) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
+          eventUrl: (eventUrl && typeof eventUrl === 'string' && eventUrl.startsWith("http")) ? eventUrl : (eventUrl ? `${BASE_URL}${eventUrl}` : workingUrl),
           source: workingUrl,
           city: 'Toronto, ON',
-          imageUrl: (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("http")) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
+          imageUrl: (imageUrl && typeof imageUrl === 'string' && imageUrl.startsWith("http")) ? imageUrl : (imageUrl ? `${BASE_URL}${imageUrl}` : null),
           dateText,
           description: description || `Experience ${title} at the Casa Loma in Toronto.`,
           qualityScore

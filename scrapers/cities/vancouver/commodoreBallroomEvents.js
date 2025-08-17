@@ -26,18 +26,18 @@ const CommodoreBallroomEvents = {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
         }
-      };
+      });
 
       // Save the API response for debugging
       fs.writeFileSync('commodore-ticketmaster-response.json', JSON.stringify(response.data, null, 2));
       console.log('Saved API response to commodore-ticketmaster-response.json');
 
-      if (!response.data?._embedded?s) {
+      if (!response.data?._embedded?.events) {
         console.log('API endpoint did not return expected data structure');
         return [];
       }
 
-      const events = response.data._embeddeds;
+      const events = response.data._embedded.events;
       console.log(`Found ${events.length} events from Ticketmaster API`);
 
       // Process each event
@@ -88,7 +88,7 @@ const CommodoreBallroomEvents = {
             venue: 'Commodore Ballroom',
             organizer: 'Live Nation',
             address: '868 Granville St, Vancouver, BC V6Z 1K3',
-            slug: slugify(name, { lower: true, strict: true },
+            slug: slugify(name, { lower: true, strict: true }),
             city: city,
             source: 'commodore-ballroom'
           };

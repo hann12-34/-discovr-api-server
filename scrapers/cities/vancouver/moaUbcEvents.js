@@ -13,7 +13,7 @@ class MOAUBCEvents {
     this.venue = {
       name: 'Museum of Anthropology at UBC',
       address: '6393 NW Marine Dr, Vancouver, BC V6T 1Z2',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2695, lng: -123.2593 }
@@ -29,7 +29,7 @@ class MOAUBCEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class MOAUBCEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting Museum of Anthropology events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class MOAUBCEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -card, .exhibition, .program', { timeout: 10000 }
+    await page.waitForSelector('-item, -card, .exhibition, .program', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -166,7 +166,7 @@ class MOAUBCEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -177,7 +177,7 @@ class MOAUBCEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       return {
         id: uniqueId,
@@ -191,7 +191,7 @@ class MOAUBCEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -216,7 +216,7 @@ class MOAUBCEvents {
       }
 
       // Look for date ranges like "June 5 - August 25, 2025"
-      const dateRangePattern = /((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2}\s*[-–]\s*((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2}(?:,?\s*(\d{4}?/i;
+      const dateRangePattern = /((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2})\s*[-–]\s*((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2})(?:,?\s*(\d{4}))?/i;
       const rangeMatch = dateText.match(dateRangePattern);
 
       if (rangeMatch) {
@@ -237,7 +237,7 @@ class MOAUBCEvents {
       }
 
       // Look for long exhibition format like "May 12, 2023 – January 28, 2024"
-      const longExhibitionPattern = /((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2},?\s*\d{4}\s*[-–]\s*((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2},?\s*\d{4}/i;
+      const longExhibitionPattern = /((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2},?\s*\d{4})\s*[-–]\s*((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2},?\s*\d{4})/i;
       const longExhibitionMatch = dateText.match(longExhibitionPattern);
 
       if (longExhibitionMatch) {
@@ -252,7 +252,7 @@ class MOAUBCEvents {
       }
 
       // Look for month/day/year format (common in North America)
-      const mdyPattern = /(\d{1,2}[\/\-\.](\d{1,2}[\/\-\.](\d{2,4}/;
+      const mdyPattern = /(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/;
       const mdyMatch = dateText.match(mdyPattern);
 
       if (mdyMatch) {
@@ -278,7 +278,7 @@ class MOAUBCEvents {
       }
 
       // Look for date patterns with month names
-      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2}(?:st|nd|rd|th)?(?:,? (\d{4}?/i;
+      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2})(?:st|nd|rd|th)?(?:,? (\d{4}))?/i;
       const monthMatch = dateText.match(monthPattern);
 
       if (monthMatch) {
@@ -294,7 +294,7 @@ class MOAUBCEvents {
         const date = new Date(year, monthMap[monthStr], day);
 
         // Look for time information
-        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i;
         const timeMatch = dateText.match(timePattern);
 
         if (timeMatch) {

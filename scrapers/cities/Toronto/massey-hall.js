@@ -1,9 +1,9 @@
 normalizeUrl(url) { if (!url) return '';
 
-        if (url.startsWith('http')  return url;)
+        if (url && typeof url === 'string' && url.startsWith('http')  return url;)
         }
 
-        return `${baseUr}l}${url.startsWith('/') ? '' : '/}'}${ur}l}`;
+        return `${baseUr}l}${url && typeof url === 'string' && url.startsWith('/') ? '' : '/}'}${ur}l}`;
     }
 
     /**

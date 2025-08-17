@@ -118,7 +118,7 @@ async function scrape${venueName.replace(/[^a-zA-Z]/g, '')}EventsClean(city) {
 
   try {
     await client.connect();
-    const eventsCollection = client.db('events').collection('events');
+    const eventsCollection = client.db('discovr').collection('events');
     console.log('🚀 Scraping ${venueName} events (clean version)...');
 
     // Anti-bot delay
@@ -175,7 +175,7 @@ async function scrape${venueName.replace(/[^a-zA-Z]/g, '')}EventsClean(city) {
     ];
 
     for (const selector of eventSelectors) {
-      $(selector).each((i, el) => {
+      $(selector).each(i, el) => {
         if (i > 20) return false;
         
         const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '.event-title', '.headline'];
@@ -224,7 +224,7 @@ async function scrape${venueName.replace(/[^a-zA-Z]/g, '')}EventsClean(city) {
 
     // Sort by quality score and take the best
     const events = candidateEvents
-      .sort((a, b) => b.qualityScore - a.qualityScore)
+      .sort(a, b) => b.qualityScore - a.qualityScore)
       .slice(0, 15);
 
     console.log(\`📊 Found \${candidateEvents.length} candidates, selected \${events.length} quality ${venueName} events\`);
@@ -370,7 +370,7 @@ async function repairCorruptedFiles() {
   console.log(`\n PHASE 1 BATCH 1 RESULTS:`);
   console.log(` Successfully repaired: ${repaired}/${batch1.length}`);
   console.log(` Failed repairs: ${failed}/${batch1.length}`);
-  console.log(` Success rate: ${Math.round((repaired/batch1.length)*100)}%`);
+  console.log(` Success rate: ${Math.round(repaired/batch1.length)*100)}%`);
 
   return { repaired, failed, total: batch1.length };
 }

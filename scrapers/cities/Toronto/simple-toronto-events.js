@@ -45,7 +45,7 @@ async function scrapeSimpleTorontoEvents(city) {
   
   try {
     await client.connect();
-    const eventsCollection = client.db('events').collection('events');
+    const eventsCollection = client.db('discovr').collection('events');
     console.log('🚀 Scraping simple Toronto events...');
 
     // Test multiple venues quickly
@@ -107,7 +107,7 @@ async function scrapeSimpleTorontoEvents(city) {
             const eventData = {
               id: generateSimpleId(title, venueInfo.venue.name),
               title: title,
-              url: link ? (link.startsWith('http') ? link : `https://www.blogto.com${link}`) : venueInfo.url,
+              url: link ? (link && typeof link === 'string' && link.startsWith('http') ? link : `https://www.blogto.com${link}`) : venueInfo.url,
               sourceUrl: venueInfo.url,
               description: `Event in Toronto - ${title}`,
               startDate: parseSimpleDate(''),
@@ -124,7 +124,7 @@ async function scrapeSimpleTorontoEvents(city) {
             };
 
             // Try to insert (skip duplicates)
-            eventsCollection.insertOne(eventData).then(() => {
+            eventsCollection.insertOne(eventData).then() => {
               console.log(`     ✅ Added: ${title.substring(0, 50)}...`);
               venueEvents++;
               totalEvents++;
@@ -161,4 +161,4 @@ async function scrapeSimpleTorontoEvents(city) {
   }
 }
 
-module.exports = { scrape: scrapeSimpleTorontoEvents };
+module.exports = { scrapeEvents: scrapeSimpleTorontoEvents };

@@ -1,51 +1,85 @@
-// Load the same environment config that the admin interface uses
-require('./temp-env-config.js');
+/**
+ * 🧹 CLEAN DISCOVR DATABASE
+ * 
+ * Remove ALL events from the "discovr" database for a fresh start.
+ * Now that all scrapers target the correct database, we can start clean.
+ */
 
-const { MongoClient } = require('mongodb');
-
-// Use the EXACT same MongoDB URI that the admin interface uses
-const MONGODB_URI = process.env.MONGODB_URI;
+const mongoose = require('mongoose');
 
 async function cleanDiscovrDatabase() {
-    const client = new MongoClient(MONGODB_URI);
+    console.log('🧹 CLEANING DISCOVR DATABASE\n');
+    console.log('🎯 Goal: Remove ALL events for fresh start with fixed scrapers\n');
+    
+    const MONGODB_URI = 'mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr';
     
     try {
-        await client.connect();
-        console.log('✅ Connected to MongoDB');
-        console.log(`📡 Database URI: ${MONGODB_URI}`);
+        console.log('🔌 Connecting to MongoDB...');
+        await mongoose.connect(MONGODB_URI);
+        console.log('✅ Connected successfully');
         
-        // Target the DISCOVR database which has the 59 events
-        const db = client.db('discovr');
-        const collection = db.collection('events');
+        const client = mongoose.connection.client;
+        const database = client.db('discovr');
+        const eventsCollection = database.collection('events');
         
-        // Get count before cleaning
-        const beforeCount = await collection.countDocuments();
-        console.log(`📊 Total events before cleaning (discovr.events): ${beforeCount}`);
+        console.log('\n📊 BEFORE CLEANUP:');
+        const beforeCount = await eventsCollection.countDocuments();
+        console.log(`   Total events: ${beforeCount}`);
         
-        if (beforeCount === 0) {
-            console.log('⚠️  No events found in discovr.events collection');
-            return;
+        if (beforeCount > 0) {
+            // Sample a few events before deletion
+            const samples = await eventsCollection.find({}).limit(3).toArray();
+            console.log('   Sample events:');
+            samples.forEach((event, i) => {
+                console.log(`     ${i+1}. "${event.title}" in ${event.city}`);
+            });
         }
         
-        // Delete ALL events from discovr database
-        const result = await collection.deleteMany({});
+        console.log('\n🗑️ DELETING ALL EVENTS...');
         
-        console.log(`🗑️  Deleted ${result.deletedCount} events from discovr.events`);
+        const deleteResult = await eventsCollection.deleteMany({});
         
-        // Verify count after cleaning
-        const afterCount = await collection.countDocuments();
-        console.log(`📊 Total events after cleaning: ${afterCount}`);
+        console.log(`✅ Deleted ${deleteResult.deletedCount} events`);
+        
+        console.log('\n📊 AFTER CLEANUP:');
+        const afterCount = await eventsCollection.countDocuments();
+        console.log(`   Total events: ${afterCount}`);
         
         if (afterCount === 0) {
-            console.log('✅ DISCOVR database completely cleaned! Admin interface should now show 0 events.');
+            console.log('✅ Database successfully cleaned!');
         } else {
-            console.log(`⚠️  Warning: ${afterCount} events still remain in discovr database.`);
+            console.log(`⚠️ Warning: ${afterCount} events remain`);
         }
         
+        console.log('\n🔍 VERIFY OTHER COLLECTIONS:');
+        const collections = await database.listCollections().toArray();
+        console.log('   Collections in "discovr" database:');
+        
+        for (const collection of collections) {
+            const count = await database.collection(collection.name).countDocuments();
+            console.log(`     ${collection.name}: ${count} documents`);
+        }
+        
+        await mongoose.disconnect();
+        console.log('\n✅ Disconnected from MongoDB');
+        
+        console.log('\n' + '='.repeat(70));
+        console.log('🧹 DATABASE CLEANUP COMPLETE!');
+        console.log('='.repeat(70));
+        console.log('✅ "discovr" database is now clean and ready');
+        console.log('🔄 Ready for fresh event import from fixed scrapers');
+        console.log('📱 Mobile app will show 0 events until new ones are imported');
+        
+        console.log('\n🚀 NEXT STEPS:');
+        console.log('1. ✅ Database cleaned');
+        console.log('2. 🔄 Run Toronto/NY scrapers to populate fresh events');
+        console.log('3. 📱 Verify events appear correctly in mobile app');
+        console.log('4. 🎯 Production system fully aligned and clean');
+        
     } catch (error) {
-        console.error('❌ Error:', error);
-    } finally {
-        await client.close();
+        console.error('❌ Error cleaning database:', error);
+        await mongoose.disconnect();
+        process.exit(1);
     }
 }
 

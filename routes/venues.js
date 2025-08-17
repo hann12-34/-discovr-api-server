@@ -212,18 +212,46 @@ router.get('/events/all', async (req, res) => {
       query.category = { $regex: category, $options: 'i' };
     }
     
-    // NO LIMIT, NO DATE FILTERING - Get ALL events
-    let events = await Event.find(query)
+    // NO LIMIT, NO DATE FILTERING - Get ALL events + FILTER OUT NULL EVENTS AT QUERY LEVEL
+    let events = await Event.find({
+      ...query,
+      _id: { $ne: null }, // Exclude null _id
+      id: { $ne: null, $exists: true }, // Exclude null id
+      title: { $ne: null, $exists: true }, // Exclude null title
+      venue: { $ne: null, $exists: true } // Exclude null venue
+    })
       .sort({ startDate: 1 })
-      .lean(); // Return ALL events with no limit
+      .lean(); // Return ALL events with no limit, NULL events excluded at query level
+    
+    console.log('🔍 MONGODB QUERY COMPLETED - Found events:', events ? events.length : 'null');
     
     if (!events || events.length === 0) {
       console.log('⚠️ No events found in database');
       return res.status(404).json({ message: 'No events found' });
     }
+    
+    console.log('🔍 PROCEEDING TO NULL FILTERING - Events found:', events.length);
+
+    // CRITICAL FIX: Filter out any null or invalid events that cause Swift decoder to crash
+    console.log('🔧 STARTING NULL EVENT FILTERING - Total events before filtering:', events.length);
+    const validEvents = events.filter(event => {
+      // First check if event exists and is not null
+      if (!event || event === null || typeof event !== 'object') {
+        console.log('🚨 REMOVING NULL/INVALID EVENT:', event);
+        return false;
+      }
+      // Then check if event has required fields
+      if (!event.id || typeof event.id !== 'string') {
+        console.log('🚨 REMOVING EVENT WITH INVALID ID:', event.id);
+        return false;
+      }
+      return true;
+    });
+
+    console.log(`🔧 FILTERED: ${events.length} total events -> ${validEvents.length} valid events (${events.length - validEvents.length} null/invalid events removed)`);
 
     // Normalize data types for app compatibility - ENSURE EVERY EVENT HAS PRICE FIELD
-    const normalizedEvents = events.map(event => {
+    const normalizedEvents = validEvents.map(event => {
       // Create a new normalized event object
       const normalizedEvent = {
         ...event,
@@ -244,11 +272,15 @@ router.get('/events/all', async (req, res) => {
       return normalizedEvent;
     });
 
-    console.log(`✅ SUCCESS: Returning ${normalizedEvents.length} events for ${city}`);
+    // EMERGENCY NULL FIX: Final filter to remove any null events before response
+    const finalEvents = normalizedEvents.filter(event => event !== null && event !== undefined && typeof event === 'object');
+    console.log(`🚨 EMERGENCY NULL FILTER: ${normalizedEvents.length} -> ${finalEvents.length} events (removed ${normalizedEvents.length - finalEvents.length} null events)`);
+    
+    console.log(`✅ SUCCESS: Returning ${finalEvents.length} events for ${city}`);
     console.log('📝 COMPLETE DATA: Returning ALL events with NO filtering or limits');
     
     res.status(200).json({ 
-      events: normalizedEvents,
+      events: finalEvents,
       performance: {
         source: 'database',
         city: city,

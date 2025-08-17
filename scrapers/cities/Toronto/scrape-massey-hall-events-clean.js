@@ -3,13 +3,21 @@ const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
 const { generateEventId, extractCategories, extractPrice, parseDateText } = require('../../utils/city-util');
 
+// Safe URL helper to prevent undefined errors
+const safeUrl = (url, baseUrl, fallback = null) => {
+  if (!url) return fallback;
+  if (typeof url === 'string' && url.startsWith('http')) return url;
+  if (typeof url === 'string') return `${baseUrl}${url}`;
+  return fallback;
+};
+
 // Safe helper to prevent undefined startsWith errors
 const safeStartsWith = (str, prefix) => {
   return str && typeof str === 'string' && str.startsWith(prefix);
 };
 
 
-const BASE_URL = 'https://www.masseyhall.com';
+const BASE_URL = 'https://masseyhall.mhrth.com';
 
 const getMasseyHallVenue = (city) => ({
   name: 'Massey Hall',
@@ -33,7 +41,7 @@ async function scrapeMasseyHallEvents(city) {
 
   try {
     await client.connect();
-    const eventsCollection = client.db('events').collection('events');
+    const eventsCollection = client.db('discovr').collection('events');
     console.log('🚀 Scraping Massey Hall events...');
 
     const { data } = await axios.get(`${BASE_URL}/events/`);
@@ -48,10 +56,17 @@ async function scrapeMasseyHallEvents(city) {
       const dateText = $(el).find('.date, .event-date, .dates').text().trim();
 
       if (title && eventUrl) {
+        const urlsToTry = [
+          `${BASE_URL}/whats-on/`,
+          `${BASE_URL}/events/`,
+          `${BASE_URL}/calendar/`,
+          `${BASE_URL}/shows/`,
+          `${BASE_URL}/`
+        ];
         events.push({
           title,
-          eventUrl: (eventUrl && (eventUrl && typeof eventUrl === "string" && eventUrl.startsWith('http'))) ? eventUrl : `${BASE_URL}${eventUrl}`,
-          imageUrl: imageUrl ? ((imageUrl && (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith('http'))) ? imageUrl : `${BASE_URL}${imageUrl}`) : null,
+          eventUrl: safeUrl(eventUrl, BASE_URL, eventUrl),
+          imageUrl: safeUrl(imageUrl, BASE_URL, null),
           dateText
         });
       }

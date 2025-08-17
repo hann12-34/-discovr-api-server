@@ -18,7 +18,7 @@ class GastownSundaySetScraper {
       name: 'Gastown',
       id: 'gastown',
       address: 'Water Street (Richards to Columbia)',
-      city: city,
+      city: 'Vancouver',
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B',
@@ -76,10 +76,10 @@ class GastownSundaySetScraper {
 
       // Create an event for each Sunday
       for (const date of eventDates) {
-        const formattedDate = date.toLocaleDa('en-US', {
+        const formattedDate = date.toLocaleString('en-US', {
           month: 'long',
           day: 'numeric'
-        };
+        });
 
         // Check if there's a special event title for this date
         let title = `Gastown Sunday Set - ${formattedDate}`;

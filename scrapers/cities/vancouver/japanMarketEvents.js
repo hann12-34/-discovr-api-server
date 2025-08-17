@@ -1,338 +1,203 @@
 /**
- * Japan Market Vancouver Scraper
- *
- * This scraper extracts events from the Japan Market Vancouver website
- * Source: https://japanmarket.ca/
+ * Vancouver Japan Market Events Scraper
+ * Extracts events from Japan Market and Japanese cultural events in Vancouver
  */
 
 const puppeteer = require('puppeteer');
 const slugify = require('slugify');
 
-class JapanMarketScraper {
+class JapanMarketEvents {
   constructor() {
-    this.name = 'Japan Market Vancouver';
-    this.url = 'https://japanmarket.ca/';
-    this.sourceIdentifier = 'japan-market-vancouver';
-
+    this.name = 'Vancouver Japan Market Events';
+    this.url = 'https://www.japanmarket.ca/';
+    this.baseUrl = 'https://www.japanmarket.ca';
     this.venue = {
       name: 'Japan Market Vancouver',
-      id: 'japan-market-vancouver',
-      address: 'Various locations in Vancouver',
-      city: city,
-      state: 'BC',
+      address: 'Vancouver, BC',
+      city: 'Vancouver',
+      province: 'BC',
       country: 'Canada',
-      coordinates: {
-        lat: 49.2827,
-        lng: -123.1207
-      },
-      websiteUrl: 'https://japanmarket.ca/',
-      description: 'Japan Market Vancouver brings authentic Japanese food, products, and culture to Vancouver through regularly scheduled market events.'
+      coordinates: { lat: 49.2827, lng: -123.1207 }
     };
   }
 
   /**
-   * Main scraper function
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
-  async scrape(city) {
-    console.log('🔍 Starting Japan Market events scraper...');
-    const events = [];
-    let browser = null;
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Launch browser
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--ignore-certificate-errors',
-          '--disable-features=IsolateOrigins,site-per-process'
-        ]
-      };
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      const page = await browser.newPage();
-      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+      console.log('Extracting Japan Market events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Japan Market events`);
 
-      // Navigate to the website
-      console.log(`Navigating to: ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 60000 };
+      return events;
+    } catch (error) {
+      console.error(`Error scraping Japan Market events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
+    }
+  }
 
-      // Take a screenshot for debugging
-      await page.screenshot({ path: 'japan-market-debug.png' };
-      console.log('✅ Saved debug screenshot to japan-market-debug.png');
+  /**
+   * Extract events from Japan Market website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .news, .announcement, .market, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
 
-      // Look for event sections using various selectors
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
       const eventSelectors = [
-        '-section',
-        '.market-dates',
-        '.upcoming-events',
-        '-list',
-        's-container',
-        '.calendar-section',
-        '#events',
-        '.market-schedule',
-        '.market-events'
+        '.event',
+        '.news',
+        '.announcement',
+        '.market',
+        'article',
+        '.event-item',
+        '.news-item',
+        '[class*="event"]',
+        '[class*="news"]',
+        '[class*="market"]'
       ];
 
-      let foundEvents = false;
+      let eventElements = [];
 
-      // Try different selectors to find event information
+      // Try each selector until we find events
       for (const selector of eventSelectors) {
-        console.log(`Looking for events with selector: ${selector}`);
-        const eventSections = await page.$$(selector);
-
-        if (eventSections.length > 0) {
-          console.log(`Found ${eventSections.length} potential event sections with selector: ${selector}`);
-          foundEvents = true;
-
-          for (const section of eventSections) {
-            try {
-              // Extract date information from event section
-              const dateElements = await section.$$('time, .date, -date');
-              for (const dateElement of dateElements) {
-                const dateText = await page.evaluate(el => el.textContent.trim(), dateElement);
-                const dateAttr = await page.evaluate(el => el.getAttribute('datetime'), dateElement);
-
-                // Try to parse the date
-                let eventDate;
-                if (dateAttr) {
-                  eventDate = new Date(dateAttr);
-                } else if (dateText) {
-                  // Try to extract date from text using various formats
-                  const dateMatch = dateText.match(/(\w+)\s+(\d{1,2}(?:st|nd|rd|th)?,?\s*(\d{4}?/);
-                  if (dateMatch) {
-                    const month = dateMatch[1];
-                    const day = dateMatch[2];
-                    const year = dateMatch[3] || new Date().getFullYear();
-                    eventDate = new Date(`${month} ${day}, ${year}`);
-                  }
-                }
-
-                if (eventDate && !isNaN(eventDate.getTime())) {
-                  // Extract location if available
-                  const locationElement = await section.$('.location, .venue, .address');
-                  const location = locationElement ?
-                    await page.evaluate(el => el.textContent.trim(), locationElement) :
-                    'Vancouver, BC';
-
-                  // Create event title with date and location
-                  const title = `Japan Market Vancouver - ${eventDate.toLocaleDa('en-US', { month: 'long', day: 'numeric' }}`;
-
-                  // Set event times (default to 11am-6pm)
-                  const startDate = new Date(eventDate);
-                  startDate.setHours(11, 0, 0);
-
-                  const endDate = new Date(eventDate);
-                  endDate.setHours(18, 0, 0);
-
-                  // Generate ID
-                  const da = startDate.toISOString().split('T')[0];
-                  const id = `japan-market-vancouver-${da}`;
-
-                  // Get image if available
-                  const imageElement = await section.$('img');
-                  const image = imageElement ?
-                    await page.evaluate(el => el.src, imageElement) : null;
-
-                  // Create event object
-                  const event = {
-                    id: id,
-                    title: title,
-                    description: 'Japan Market Vancouver showcases authentic Japanese food, crafts, and culture. Explore a variety of Japanese products, enjoy delicious food, and experience Japanese cultural elements in a vibrant market atmosphere.',
-                    startDate: startDate,
-                    endDate: endDate,
-                    venue: {
-                      ...this.venue,
-                      address: location || this.venue.address
-                    },
-                    category: 'market',
-                    categories: ['market', 'food', 'culture', 'japanese', 'shopping'],
-                    sourceURL: this.url,
-                    officialWebsite: this.url,
-                    image: image,
-                    ticketsRequired: false,
-                    lastUpdated: new Date()
-                  };
-
-                  events.push(event);
-                  console.log(`✅ Added Japan Market event on: ${startDate.toDa`);
-                }
-              }
-            } catch (sectionError) {
-              console.error(`❌ Error processing event section: ${sectionError.message}`);
-            }
-          }
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
         }
       }
 
-      // If no events found through structured data, look for date mentions in text
-      if (!foundEvents || events.length === 0) {
-        console.log('Looking for date mentions in text...');
-
-        // Extract all text from the page
-        const bodyText = await page.evaluate(() => document.body.innerText);
-
-        // Look for date patterns in text
-        const datePatterns = [
-          /(\w+)\s+(\d{1,2}(?:st|nd|rd|th)?,?\s*(\d{4}?/g, // "July 15th, 2025" or "July 15"
-          /(\d{1,2}\/(\d{1,2}\/(\d{4}/g,                  // "7/15/2025"
-          /(\d{4}-(\d{1,2}-(\d{1,2}/g                     // "2025-07-15"
-        ];
-
-        const foundDates = new Set();
-
-        for (const pattern of datePatterns) {
-          let match;
-          while ((match = pattern.exec(bodyText)) !== null) {
-            try {
-              let da;
-              if (pattern.toString().includes('\\w+')) {
-                // First pattern: Month Day, Year
-                const month = match[1];
-                const day = match[2];
-                const year = match[3] || new Date().getFullYear();
-                da = `${month} ${day}, ${year}`;
-              } else if (pattern.toString().includes('\\d{1,2}\\/')) {
-                // Second pattern: MM/DD/YYYY
-                const month = match[1];
-                const day = match[2];
-                const year = match[3];
-                da = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-              } else {
-                // Third pattern: YYYY-MM-DD
-                da = match[0];
-              }
-
-              const eventDate = new Date(da);
-
-              // Only include future dates that are valid
-              if (eventDate && !isNaN(eventDate.getTime()) && eventDate >= new Date()) {
-                // Convert to ISO date string to use as key in Set
-                const isoDate = eventDate.toISOString().split('T')[0];
-
-                // Only add if we haven't seen this date before
-                if (!foundDates.has(isoDate)) {
-                  foundDates.add(isoDate);
-
-                  // Set event times (default to 11am-6pm)
-                  const startDate = new Date(eventDate);
-                  startDate.setHours(11, 0, 0);
-
-                  const endDate = new Date(eventDate);
-                  endDate.setHours(18, 0, 0);
-
-                  // Generate ID
-                  const da = startDate.toISOString().split('T')[0];
-                  const id = `japan-market-vancouver-${da}`;
-
-                  // Create event object
-                  const event = {
-                    id: id,
-                    title: `Japan Market Vancouver - ${startDate.toLocaleDa('en-US', { month: 'long', day: 'numeric' }}`,
-                    description: 'Japan Market Vancouver showcases authentic Japanese food, crafts, and culture. Explore a variety of Japanese products, enjoy delicious food, and experience Japanese cultural elements in a vibrant market atmosphere.',
-                    startDate: startDate,
-                    endDate: endDate,
-                    venue: this.venue,
-                    category: 'market',
-                    categories: ['market', 'food', 'culture', 'japanese', 'shopping'],
-                    sourceURL: this.url,
-                    officialWebsite: this.url,
-                    image: null,
-                    ticketsRequired: false,
-                    lastUpdated: new Date()
-                  };
-
-                  events.push(event);
-                  console.log(`✅ Added Japan Market event from text date: ${startDate.toDa`);
-                }
-              }
-            } catch (dateError) {
-              console.log(`❌ Error parsing date from text: ${dateError.message}`);
-            }
-          }
-        }
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
       }
 
-      // If no events found from page scraping, add some projected dates
-      if (events.length === 0) {
-        console.log('⚠️ No events found on website, creating projected market events');
-
-        // Create market events on second Saturday of coming months
-        const now = new Date();
-        let month = now.getMonth();
-        let year = now.getFullYear();
-
-        // Create events for the next 6 months
-         {
-          month++;
-          if (month > 11) {
-            month = 0;
-            year++;
-          }
-
-          // Find second Saturday of the month
-          let date = new Date(year, month, 1);
-          // Get to the first Saturday
-          while (date.getDay() !== 6) {
-            date.setDate(date.getDate() + 1);
-          }
-          // Move to second Saturday
-          date.setDate(date.getDate() + 7);
-
-          // Set event times (11am-6pm)
-          const startDate = new Date(date);
-          startDate.setHours(11, 0, 0);
-
-          const endDate = new Date(date);
-          endDate.setHours(18, 0, 0);
-
-          // Generate ID
-          const da = startDate.toISOString().split('T')[0];
-          const id = `japan-market-vancouver-${da}`;
-
-          // Create event object
-          const event = {
-            id: id,
-            title: `Japan Market Vancouver - ${startDate.toLocaleDa('en-US', { month: 'long', day: 'numeric' }}`,
-            description: 'Japan Market Vancouver showcases authentic Japanese food, crafts, and culture. Explore a variety of Japanese products, enjoy delicious food, and experience Japanese cultural elements in a vibrant market atmosphere. Please check the official website for confirmed dates and details.',
-            startDate: startDate,
-            endDate: endDate,
-            venue: this.venue,
-            category: 'market',
-            categories: ['market', 'food', 'culture', 'japanese', 'shopping'],
-            sourceURL: this.url,
-            officialWebsite: this.url,
-            image: null,
-            ticketsRequired: false,
-            lastUpdated: new Date()
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .news-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .news-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .news-description, .excerpt');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
           };
-
-          events.push(event);
-          console.log(`✅ Added projected Japan Market event on: ${startDate.toDa`);
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
         }
-      }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
 
-    } catch (error) {
-      console.error(`❌ Error in Japan Market scraper: ${error.message}`);
-    } finally {
-      if (browser) {
-        await browser.close();
-      }
-      console.log(`🎉 Successfully scraped ${events.length} events from Japan Market`);
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Arts & Culture', 'Japanese Culture', 'Market', 'Cultural Events'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
 }
 
-module.exports = new JapanMarketScraper();
-
+module.exports = JapanMarketEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
-  const scraper = new JapanMarketScraper();
-  return await scraper.scrape(city);
+  const scraper = new JapanMarketEvents();
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.JapanMarketScraper = JapanMarketScraper;

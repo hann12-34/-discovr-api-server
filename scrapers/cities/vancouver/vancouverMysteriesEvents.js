@@ -1,7 +1,6 @@
 /**
- * Vancouver Mysteries Dinner Theatre Scraper
- *
- * Scrapes events from Vancouver Mysteries interactive theatre experiences
+ * Vancouver Mysteries Events Scraper
+ * Extracts events from Vancouver Mysteries tours and mystery events
  */
 
 const puppeteer = require('puppeteer');
@@ -9,303 +8,196 @@ const slugify = require('slugify');
 
 class VancouverMysteriesEvents {
   constructor() {
-    this.name = 'Vancouver Mysteries Theatre';
-    this.url = 'https://vancouvermysteries.com/';
-    this.sourceIdentifier = 'vancouver-mysteries';
+    this.name = 'Vancouver Mysteries Events';
+    this.url = 'https://www.vancouvermysteries.com/';
+    this.baseUrl = 'https://www.vancouvermysteries.com';
+    this.venue = {
+      name: 'Vancouver Mysteries',
+      address: 'Various Locations, Vancouver',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2827, lng: -123.1207 }
+    };
   }
 
   /**
-   * Scrape events from Vancouver Mysteries website
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
-  async scrape(city) {
-    console.log(`🔍 Starting ${this.name} scraper...`);
-
-    // Launch browser
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
-
+    });
     const page = await browser.newPage();
 
-    // Set user agent
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
 
-    // Events array
-    const events = [];
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Navigate to the main page
-      console.log(`Navigating to: ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 60000 };
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Save screenshot for debugging
-      await page.screenshot({ path: 'vancouver-mysteries-debug.png' };
-      console.log('✅ Saved debug screenshot to vancouver-mysteries-debug.png');
+      console.log('Extracting Vancouver Mysteries events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Vancouver Mysteries events`);
 
-      // First look for regular event listings
+      return events;
+    } catch (error) {
+      console.error(`Error scraping Vancouver Mysteries events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Vancouver Mysteries website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .tour, .mystery, .walk, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
       const eventSelectors = [
-        '-list -item',
-        's-container ',
-        '-card',
-        '.mystery-game',
-        '.game-card',
-        '.experience-card'
+        '.event',
+        '.tour',
+        '.mystery',
+        '.walk',
+        'article',
+        '.event-item',
+        '.tour-item',
+        '[class*="event"]',
+        '[class*="tour"]',
+        '[class*="mystery"]'
       ];
 
       let eventElements = [];
 
-      // Try each selector
+      // Try each selector until we find events
       for (const selector of eventSelectors) {
-        const elements = await page.$$(selector);
-        if (elements.length > 0) {
-          eventElements = elements;
-          console.log(`✅ Found ${elements.length} event elements with selector: ${selector}`);
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
           break;
         }
       }
 
-      // If structured events found, process them
-      if (eventElements.length > 0) {
-        for (const element of eventElements) {
-          try {
-            // Extract event details
-            const title = await element.$eval('h2, h3, h4, .title', el => el.textContent.trim())
-              .catch(() => null);
-
-            const description = await element.$eval('p, .description', el => el.textContent.trim())
-              .catch(() => null);
-
-            const image = await element.$eval('img', el => el.src)
-              .catch(() => null);
-
-            const url = await element.$eval('a', el => el.href)
-              .catch(() => this.url);
-
-            // Skip if no title
-            if (!title) continue;
-
-            // Create event for this mystery game
-            const { startDate, endDate } = this.generateEventDates();
-            const event = this.createEvent(title, description, startDate, endDate, image, url);
-
-            console.log(`✅ Added event: ${event.title} on ${new Date(event.startDate).toLocaleDa`);
-            events.push(event);
-          } catch (error) {
-            console.error(`❌ Error processing event element: ${error.message}`);
-          }
-        }
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
       }
 
-      // If no events found with selectors, look for game listings on the page
-      if (events.length === 0) {
-        console.log('Looking for game descriptions in page content...');
-
-        // Extract mystery games information
-        const games = await this.extractMysteryGames(page);
-
-        if (games.length > 0) {
-          console.log(`✅ Found ${games.length} mystery games from page content`);
-
-          // Create events for each game
-          for (const game of games) {
-            // Create multiple instances of each game (over the next 2 months)
-            const eventCount = Math.floor(Math.random() * 3) + 2; // 2-4 events per game
-
-            for (let i = 0; i < eventCount; i++) {
-              // Generate different dates for each event
-              const { startDate, endDate } = this.generateEventDates(i * 7); // Space them out by weeks
-
-              // Create event
-              const event = this.createEvent(
-                game.title,
-                game.description,
-                startDate,
-                endDate,
-                game.image,
-                game.url
-              );
-
-              console.log(`✅ Added event: ${event.title} on ${new Date(event.startDate).toLocaleDa`);
-              events.push(event);
-            }
-          }
-        }
-      }
-
-      // No  - we only want real events from the website
-      if (events.length === 0) {
-        console.log('No events found on the Vancouver Mysteries website');
-      }
-
-      console.log(`🎉 Successfully scraped ${events.length} events from Vancouver Mysteries`);
-
-    } catch (error) {
-      console.error(`❌ Error in ${this.name} scraper: ${error.message}`);
-    } finally {
-      await browser.close();
-    }
-
-    return events;
-  }
-
-  /**
-   * Extract mystery games information from page content
-   */
-  async extractMysteryGames(page) {
-    try {
-      // Try to find game sections or descriptions
-      return await page.evaluate(() => {
-        const games = [];
-
-        // Look for game titles, descriptions in various elements
-        const sections = document.querySelectorAll('section, div.game, div.experience, div.adventure');
-
-        sections.forEach(section => {
-          // Look for title element
-          const titleEl = section.querySelector('h2, h3, h4');
-          if (!titleEl) return;
-
-          const title = titleEl.textContent.trim();
-
-          // Skip navigation elements, footer links, and other non-event content
-          const skipWords = ['quick links', 'questions', 'awards', 'contact', 'faq', 'about', 'blog', 'login', 'sign up', 'register', 'subscribe', 'newsletter'];
-          if (skipWords.some(word => title.toLowerCase().includes(word))) return;
-
-          // Verify this is a game/mystery by looking for keywords
-          const keywords = ['mystery', 'adventure', 'crime', 'detective', 'secret', 'agent', 'murder', 'case', 'clue', 'puzzle', 'experience', 'game', 'tour', 'quest'];
-
-          const sectionText = section.textContent.toLowerCase();
-          const hasKeywords = keywords.some(keyword => sectionText.includes(keyword));
-
-          if (!hasKeywords) return;
-
-          // Find description
-          const descEl = section.querySelector('p');
-          const description = descEl ? descEl.textContent.trim() : '';
-
-          // Skip if description is too short or looks like a navigation element
-          if (description && description.length < 20) return;
-
-          // Find image
-          const imgEl = section.querySelector('img');
-          const image = imgEl ? imgEl.src : null;
-
-          // Find link
-          const linkEl = section.querySelector('a');
-          const url = linkEl ? linkEl.href : null;
-
-          // Skip social media links
-          if (url && (url.includes('facebook.com') || url.includes('twitter.com') || url.includes('instagram.com'))) return;
-
-          games.push({
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .tour-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .tour-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .tour-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
             title,
-            description: description || 'Join Vancouver Mysteries for an interactive theatre experience that combines puzzle-solving, adventure, and storytelling in the streets of Vancouver.',
+            dateText,
+            description,
             image,
-            url
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
           };
-        };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
 
-        return games;
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Tours', 'Mystery', 'Walking Tours', 'Entertainment'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
       };
-    } catch (error) {
-      console.error(`❌ Error extracting mystery games: ${error.message}`);
-      return [];
-    }
+    }));
   }
 
   /**
-   * Generate event dates for mystery events
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
    */
-  generateEventDates(daysOffset = 0) {
-    // Generate a date within the next 2 months
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() + 14 + daysOffset + Math.floor(Math.random() * 30));
-
-    // Set to evening time (7:00 PM)
-    startDate.setHours(19, 0, 0, 0);
-
-    // End time (3 hours later)
-    const endDate = new Date(startDate);
-    endDate.setHours(startDate.getHours() + 3);
-
-    return { startDate, endDate };
-  }
-
-  /**
-   * Create event object
-   */
-  createEvent(title, description, startDate, endDate, image, url, categoryOverride = null) {
-    // Generate ID
-    const id = this.generateEventId(title, startDate);
-
-    // Determine if dinner event
-    const isDinnerEvent = title.toLowerCase().includes('dinner') ||
-                          (description && description.toLowerCase().includes('dinner'));
-
-    // Set categories
-    const primaryCategory = categoryOverride || (isDinnerEvent ? 'dinner-theatre' : 'mystery');
-
-    const categories = ['entertainment', 'interactive', 'mystery', 'theatre'];
-    if (isDinnerEvent) {
-      categories.push('dinner-theatre');
-      categories.push('food');
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    // Ensure title is properly formatted
-    let finalTitle = title;
-    if (!finalTitle.toLowerCase().includes('vancouver mysteries')) {
-      finalTitle = `Vancouver Mysteries: ${finalTitle}`;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
     }
 
-    // Create event object
+    // Default fallback
     return {
-      id,
-      title: finalTitle,
-      description: description || 'Join Vancouver Mysteries for an interactive theatre experience that combines puzzle-solving, adventure, and storytelling in the streets of Vancouver.',
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      venue: {
-        name: 'Vancouver Mysteries',
-        id: 'vancouver-mysteries',
-        address: '202-1338 Homer Street',
-        city: city,
-        state: 'BC',
-        country: 'Canada',
-        coordinates: {
-          lat: 49.2756,
-          lng: -123.1236
-        },
-        websiteUrl: 'https://vancouvermysteries.com/',
-        description: 'Vancouver Mysteries offers interactive theatre experiences and puzzle-solving adventures throughout downtown Vancouver.'
-      },
-      category: primaryCategory,
-      categories,
-      sourceURL: url || this.url,
-      officialWebsite: this.url,
-      image,
-      ticketsRequired: true,
-      lastUpdated: new Date().toISOString()
+      startDate: new Date(),
+      endDate: new Date()
     };
-  }
-
-  /**
-   * Generate event ID
-   */
-  generateEventId(title, date) {
-    const da = date.toISOString().split('T')[0];
-    const slug = slugify(title.toLowerCase());
-    return `${this.sourceIdentifier}-${slug}-${da}`;
   }
 }
 
-module.exports = new VancouverMysteriesEvents();
+module.exports = VancouverMysteriesEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
   const scraper = new VancouverMysteriesEvents();
-  return await scraper.scrape(city);
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.VancouverMysteriesEvents = VancouverMysteriesEvents;

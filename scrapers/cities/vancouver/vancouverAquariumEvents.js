@@ -13,7 +13,7 @@ class VancouverAquariumEvents {
     this.venue = {
       name: 'Vancouver Aquarium',
       address: '845 Avison Way, Vancouver, BC V6G 3E2',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.3004, lng: -123.1309 }
@@ -29,7 +29,7 @@ class VancouverAquariumEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class VancouverAquariumEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting Vancouver Aquarium events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class VancouverAquariumEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -card, -listing, .calendar-event', { timeout: 10000 }
+    await page.waitForSelector('-item, -card, -listing, .calendar-event', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -170,7 +170,7 @@ class VancouverAquariumEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -181,7 +181,7 @@ class VancouverAquariumEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       return {
         id: uniqueId,
@@ -195,7 +195,7 @@ class VancouverAquariumEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -220,7 +220,7 @@ class VancouverAquariumEvents {
       }
 
       // Look for date ranges like "July 1 - July 15, 2023"
-      const dateRangePattern = /([a-z]+\s+\d{1,2}(?:\s*[-–]\s*([a-z]+\s+\d{1,2}?(?:\s*,\s*(\d{4}?/i;
+      const dateRangePattern = /([a-z]+\s+\d{1,2})\s*[-–]\s*([a-z]+\s+\d{1,2})\s*,?\s*(\d{4})?/i;
       const match = dateText.match(dateRangePattern);
 
       if (match) {
@@ -238,14 +238,14 @@ class VancouverAquariumEvents {
         }
 
         // Look for time information like "7:30pm" or "1pm - 4pm"
-        const timePattern = /(\d{1,2}(?::\d{2}?\s*(?:am|pm))(?:\s*[-–]\s*(\d{1,2}(?::\d{2}?\s*(?:am|pm)))?/i;
+        const timePattern = /(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*(?:[-–]\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm)))?/i;
         const timeMatch = dateText.match(timePattern);
 
         if (timeMatch) {
           const startTimeText = timeMatch[1];
           const endTimeText = timeMatch[2];
 
-          const startTimeParts = startTimeText.match(/(\d{1,2}(?::(\d{2}?\s*(am|pm)/i);
+          const startTimeParts = startTimeText.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i);
           if (startTimeParts) {
             let hours = parseInt(startTimeParts[1]);
             const minutes = startTimeParts[2] ? parseInt(startTimeParts[2]) : 0;
@@ -258,7 +258,7 @@ class VancouverAquariumEvents {
           }
 
           if (endTimeText) {
-            const endTimeParts = endTimeText.match(/(\d{1,2}(?::(\d{2}?\s*(am|pm)/i);
+            const endTimeParts = endTimeText.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i);
             if (endTimeParts) {
               let hours = parseInt(endTimeParts[1]);
               const minutes = endTimeParts[2] ? parseInt(endTimeParts[2]) : 0;

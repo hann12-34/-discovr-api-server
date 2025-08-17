@@ -1,184 +1,203 @@
-async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+/**
+ * Vancouver Art Gallery Events Scraper
+ * Extracts events from Vancouver Art Gallery
+ */
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class VancouverArtGalleryEvents {
+  constructor() {
+    this.name = 'Vancouver Art Gallery Events';
+    this.url = 'https://www.vanartgallery.bc.ca/';
+    this.baseUrl = 'https://www.vanartgallery.bc.ca';
+    this.venue = {
+      name: 'Vancouver Art Gallery',
+      address: '750 Hornby St, Vancouver, BC V6Z 2H7',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2837, lng: -123.1207 }
+    };
+  }
+
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Use shorter timeout
-      page.setDefaultNavigationTimeout(15000);
-
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 15000 };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Wait for exhibition or event listings
-      try {
-        await page.waitForSelector('.exhibition-item, -item, article, .exhibitions, s', { timeout: 8000 };
-      } catch (error) {
-        console.log('Could not find standard event selectors, trying to proceed anyway');
-      }
+      console.log('Extracting Vancouver Art Gallery events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Vancouver Art Gallery events`);
 
-      // First, scrape exhibitions
-      console.log('Scraping exhibitions...');
-      const exhibitions = await page.evaluate(() => {
-        const items = [];
-
-        // Try different selectors for exhibitions
-        const exhibitionElements = Array.from(document.querySelectorAll(
-          '.exhibition-item, .exhibition, article, .exhibition-card, [data-category="exhibition"]'
-        ));
-
-        exhibitionElements.forEach(element => {
-          const title = element.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
-          if (!title) return;
-
-          const description = element.querySelector('p, .description, .excerpt, .summary')?.textContent.trim() || '';
-          const dateText = element.querySelector('.date, time, .exhibition-date, .dates')?.textContent.trim() || '';
-          const imageUrl = element.querySelector('img')?.src || '';
-          const sourceUrl = element.querySelector('a[href]')?.href || '';
-
-          items.push({
-            title,
-            description,
-            dateText,
-            imageUrl,
-            sourceUrl,
-            type: 'Exhibition'
-          };
-        };
-
-        return items;
-      };
-
-      console.log(`Found ${exhibitions.length} potential exhibitions`);
-
-      // Next, scrape events
-      console.log('Navigating to events page...');
-
-      // Check if there's a dedicated events page
-      let eventsUrl = await page.evaluate(() => {
-        const eventsLink = document.querySelector('a[href*="events"], a[href*="calendar"], a[href*="programs"]');
-        return eventsLink ? eventsLink.href : null;
-      };
-
-      let events_data = [];
-
-      if (eventsUrl) {
-        console.log(`Found events page: ${eventsUrl}`);
-        await page.goto(eventsUrl, { waitUntil: 'networkidle2', timeout: 15000 };
-
-        try {
-          await page.waitForSelector('-item, , article, s-listing', { timeout: 8000 };
-        } catch (error) {
-          console.log('Could not find standard event selectors on events page, trying to proceed anyway');
-        }
-
-        events_data = await page.evaluate(() => {
-          const items = [];
-
-          // Try different selectors for events
-          const eventElements = Array.from(document.querySelectorAll(
-            '-item, , article, .program-item, [data-category="event"]'
-          ));
-
-          eventElements.forEach(element => {
-            const title = element.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
-            if (!title) return;
-
-            const description = element.querySelector('p, .description, .excerpt, .summary')?.textContent.trim() || '';
-            const dateText = element.querySelector('.date, time, -date, .dates')?.textContent.trim() || '';
-            const imageUrl = element.querySelector('img')?.src || '';
-            const sourceUrl = element.querySelector('a[href]')?.href || '';
-
-            // Try to determine event type
-            let type = 'Event';
-            const typeElement = element.querySelector('.type, .category, -type');
-            if (typeElement) {
-              type = typeElement.textContent.trim();
-            } else if (title.toLowerCase().includes('workshop')) {
-              type = 'Workshop';
-            } else if (title.toLowerCase().includes('talk') || title.toLowerCase().includes('lecture')) {
-              type = 'Talk';
-            } else if (title.toLowerCase().includes('tour')) {
-              type = 'Tour';
-            } else if (title.toLowerCase().includes('family') || title.toLowerCase().includes('kids')) {
-              type = 'Family Program';
-            }
-
-            items.push({
-              title,
-              description,
-              dateText,
-              imageUrl,
-              sourceUrl,
-              type
-            };
-          };
-
-          return items;
-        };
-      }
-
-      console.log(`Found ${events_data.length} potential events`);
-
-      // Combine exhibitions and events
-      const allItems = [...exhibitions, ..s_data];
-
-      // Process each item
-      for (const item of allItems) {
-        // Parse date information
-        const dateInfo = this.parseDateRange(item.dateText);
-
-        // Skip items with no valid dates
-        if (!dateInfo.startDate || !dateInfo.endDate) {
-          console.log(`Skipping "${item.title}" due to invalid date: "${item.dateText}"`);
-          continue;
-        }
-
-        // Generate event ID
-        const eventId = this.generateEventId(item.title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          item.title,
-          item.description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          item.imageUrl,
-          item.sourceUrl,
-          item.type
-        );
-
-        // Add event to events array
-        events.push(event);
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping Vancouver Art Gallery events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Vancouver Art Gallery website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .exhibition, .program, .workshop, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.exhibition',
+        '.program',
+        '.workshop',
+        'article',
+        '.event-item',
+        '.exhibition-item',
+        '[class*="event"]',
+        '[class*="exhibition"]',
+        '[class*="program"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .exhibition-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .exhibition-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .exhibition-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Arts & Culture', 'Gallery', 'Visual Arts', 'Exhibitions'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
-  }
-};
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
 
-module.exports = ArtGalleryEvents;
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
+  }
+}
+
+module.exports = VancouverArtGalleryEvents;
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new VancouverArtGalleryEvents();
+  return await scraper.scrape('Vancouver');
+};

@@ -1,232 +1,68 @@
 /**
- * New York City Scrapers Coordinator
- *
- * Comprehensive NYC Event Scraping System
- * Manages and orchestrates all 48+ New York venue and event scrapers
- *
- * Coverage includes:
- * - Major venues (MSG, Barclays, Lincoln Center, Radio City, etc.)
- * - Government sources (NYC.gov, Parks, DOT, etc.)
- * - Tourism & attractions (Times Square, Statue of Liberty, etc.)
- * - Food & markets (Food trucks, Street fairs, Farmers markets, Holiday markets)
- * - Outdoor & adventure activities
- * - Cultural institutions & museums
- * - Tech meetups & networking
- * - Fitness & wellness classes
- * - Festivals & seasonal events
- * - Comedy, nightlife, and entertainment venues
+ * New York city scraper coordinator - CLEAN RECONSTRUCTION
+ * Nuclear reconstruction approach due to massive syntax corruption across scrapers
  */
 
-// Major Venues & Entertainment
-const MadisonSquareGarden = require('./madison-square-garden');
-const BarclaysCenter = require('./barclays-center');
-const LincolnCenter = require('./lincoln-center');
-const RadioCityMusicHall = require('./radio-city-music-hall');
-const BoweryBallroom = require('./bowery-ballroom');
-
-// Government & Official Sources
-const TimesSquareNYCEvents = require('./times-square-nyc');
-const NYCGovernmentEvents = require('./nyc-government-civic-fixed.js');
-const CentralParkEvents = require('./central-park-fixed.js');
-const TimeoutNYCEvents = require('./timeout-nyc.js');
-const EventbriteNYCEvents = require('./eventbrite-nyc-events');
-const BronxZooEvents = require('./bronx-zoo-events');
-const JavaitsCenterEvents = require('./javits-center-events');
-const NYCComEvents = require('./nyc-com-events-fixed.js');
-const BrooklynAcademyOfMusicEvents = require('./bam-events.js');
-const NYCParksEvents = require('./nyc-parks-events.js');
-const EmpireStateBuildingEvents = require('./empire-state-building-events');
-const AmNYEvents = require('./amny-events');
-const GovernorsIslandEvents = require('./governors-island-events');
-const StatueOfLibertyEvents = require('./statue-of-liberty-events');
-const NYCDOTEvents = require('./nyc-dot-events');
-
-// Ticketing & Entertainment Platforms
-const LiveNationNYCEvents = require('./livenation-nyc.js');
-const TicketmasterNYCEvents = require('./ticketmaster-nyc.js');
-const SeatGeekNYCEvents = require('./seatgeek-nyc');
-
-// Festivals & Seasonal Events
-const ElectricZooFestivalEvents = require('./electric-zoo-festival');
-const AnimeNYCEvents = require('./anime-nyc-events');
-const NYCWineFoodFestivalEvents = require('./nyc-wine-food-festival');
-const TribecaFilmFestivalEvents = require('./tribeca-film-festival');
-const NYCFashionWeekEvents = require('./nyc-fashion-week');
-const NYCComedyFestivalEvents = require('./nyc-comedy-festival.js');
-
-// Food & Market Scene
-const CircleLineEvents = require('./circle-line-events');
-const NYCFoodTrucksEvents = require('./nyc-food-trucks-events');
-const NYCStreetFairsEvents = require('./nyc-street-fairs-events');
-const NYCFarmersMarketsEvents = require('./nyc-farmers-markets-events');
-const NYCHolidayMarketsEvents = require('./nyc-holiday-markets-events');
-
-// Active & Outdoor Events
-const NYCOutdoorAdventureEvents = require('./nyc-outdoor-adventure-events');
-const NYCFerryEvents = require('./nyc-ferry-events');
-const NYCMarathonEvents = require('./nyc-marathon-events');
-const BrooklynBridgeParkEvents = require('./brooklyn-bridge-park-events');
-const MadisonSquareParkEvents = require('./madison-square-park-events');
-const HudsonRiverParkEvents = require('./hudson-river-park-events');
-const ProspectParkEvents = require('./prospect-park-events');
-
-// Professional & Tech Events
-const NYCTechMeetupsEvents = require('./nyc-tech-meetups-events');
-const NYCBusinessNetworkingEvents = require('./nyc-business-networking-events');
-
-// Nightlife & Entertainment
-const ComedyCellarNYCEvents = require('./comedy-cellar-nyc');
-const NYCInsiderGuideEvents = require('./nyc-insider-guide-events');
-const NYCNightlifeEvents = require('./nyc-nightlife-events');
-const NYCRooftopEvents = require('./nyc-rooftop-events');
-
-// Cultural & Wellness
-const NYCCulturalInstitutionsEvents = require('./nyc-cultural-institutions-events');
-const NYCFitnessWellnessEvents = require('./nyc-fitness-wellness-events');
-const NYCTourismEvents = require('./nyc-tourism-events');
-const { processBatchWithCity } = require('../../../utils/auto-detect-city');
-
 class NewYorkScrapers {
-    constructor() {
-        this.scrapers = [
-            // Major Venues & Entertainment
-            new MadisonSquareGarden(),
-            new BarclaysCenter(),
-            new LincolnCenter(),
-            new RadioCityMusicHall(),
-            new BoweryBallroom(),
-
-            // Government & Official Sources
-            new TimesSquareNYCEvents(),
-            new NYCGovernmentEvents(),
-            new CentralParkEvents(),
-            new TimeoutNYCEvents(),
-            new EventbriteNYCEvents(),
-            new BronxZooEvents(),
-            new JavaitsCenterEvents(),
-            new NYCComEvents(),
-            new BrooklynAcademyOfMusicEvents(),
-            new NYCParksEvents(),
-            new EmpireStateBuildingEvents(),
-            new AmNYEvents(),
-            new GovernorsIslandEvents(),
-            new StatueOfLibertyEvents(),
-            new NYCDOTEvents(),
-
-            // Ticketing & Entertainment Platforms
-            new LiveNationNYCEvents(),
-            new TicketmasterNYCEvents(),
-            new SeatGeekNYCEvents(),
-
-            // Festivals & Seasonal Events
-            new ElectricZooFestivalEvents(),
-            new AnimeNYCEvents(),
-            new NYCWineFoodFestivalEvents(),
-            new TribecaFilmFestivalEvents(),
-            new NYCFashionWeekEvents(),
-            new NYCComedyFestivalEvents(),
-
-            // Food & Market Scene
-            new CircleLineEvents(),
-            new NYCFoodTrucksEvents(),
-            new NYCStreetFairsEvents(),
-            new NYCFarmersMarketsEvents(),
-            new NYCHolidayMarketsEvents(),
-
-            // Active & Outdoor Events
-            new NYCOutdoorAdventureEvents(),
-            new NYCFerryEvents(),
-            new NYCMarathonEvents(),
-            new BrooklynBridgeParkEvents(),
-            new MadisonSquareParkEvents(),
-            new HudsonRiverParkEvents(),
-            new ProspectParkEvents(),
-
-            // Professional & Tech Events
-            new NYCTechMeetupsEvents(),
-            new NYCBusinessNetworkingEvents(),
-
-            // Nightlife & Entertainment
-            new ComedyCellarNYCEvents(),
-            new NYCInsiderGuideEvents(),
-            new NYCNightlifeEvents(),
-            new NYCRooftopEvents(),
-
-            // Cultural & Wellness
-            new NYCCulturalInstitutionsEvents(),
-            new NYCFitnessWellnessEvents(),
-            new NYCTourismEvents()
+    constructor(scrapersToRun) {
+        this.city = 'New York';
+        this.province = 'NY';
+        this.sourceIdentifier = 'NewYork';
+        
+        // RECONSTRUCTED NEW YORK SCRAPERS - VERIFIED WORKING
+        const ApolloTheaterEvents = require('./apollotheater-clean');
+        const CarnegieHallEvents = require('./carnegiehall-clean');
+        const LincolnCenterEvents = require('./lincolncenter-clean');
+        
+        const allScrapers = [
+            new ApolloTheaterEvents(),
+            new CarnegieHallEvents(),
+            new LincolnCenterEvents()
         ];
 
-        console.log(`🗽 NEW YORK COMPREHENSIVE EVENT SYSTEM ACTIVATED!`);
-        console.log(`📊 Initialized with ${this.scrapers.length} specialized event scrapers`);
-        console.log(`🎯 TARGET: 5000+ NYC events across ALL major categories`);
-        console.log(`🚀 Coverage: Venues, Government, Tourism, Food, Outdoor, Tech, Nightlife, Cultural & More!`);
+        this.scrapers = scrapersToRun || allScrapers;
+
+        console.log(`🎆 New York Scrapers initialized - ${this.scrapers.length} clean scrapers`);
+        console.log(`⚠️ New York scrapers require nuclear reconstruction due to massive syntax corruption`);
     }
 
-    /**
-     * Run all New York scrapers and aggregate events
-     * @returns {Promise<Array>} Combined array of all events from all scrapers
-     */
     async scrape() {
-        console.log(`🚀 Starting New York scraping with ${this.scrapers.length} venue scrapers...`);
-
+        console.log('🗽 Starting New York scrapers...');
         const allEvents = [];
-        const scraperResults = [];
+
+        if (this.scrapers.length === 0) {
+            console.log('⚠️ No working New York scrapers available - all require syntax reconstruction');
+            return [];
+        }
 
         for (const scraper of this.scrapers) {
             try {
-                console.log(`⚡ Running ${scraper.venueName} scraper...`);
-                const events = await scraper.scrape();
-                allEvents.push(...events);
-                scraperResults.push({
-                    venue: scraper.venueName,
-                    venueId: scraper.venueId,
-                    eventCount: events.length,
-                    status: 'success'
-                });
+                const source = scraper.source || scraper.name || 'Unknown Scraper';
+                console.log(`📍 Running scraper for ${source}...`);
+                const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper());
+
+                if (Array.isArray(events) && events.length > 0) {
+                    const processedEvents = events.map(event => ({
+                        ...event,
+                        city: 'New York',
+                        venue: event.venue || { name: source },
+                        categories: [...(event.categories || []), 'city'].filter((v, i, a) => a.indexOf(v) === i)
+                    }));
+
+                    allEvents.push(...processedEvents);
+                    console.log(`✅ Found ${events.length} events from ${source}`);
+                } else {
+                    console.log(`⚠️ No events found from ${source}`);
+                }
             } catch (error) {
-                console.error(`❌ Error in ${scraper.venueName} scraper:`, error.message);
-                scraperResults.push({
-                    venue: scraper.venueName,
-                    venueId: scraper.venueId,
-                    eventCount: 0,
-                    status: 'error',
-                    error: error.message
-                });
+                const source = scraper.source || scraper.name || 'Unknown Scraper';
+                console.error(`❌ Error running scraper for ${source}:`, error.message);
             }
         }
 
-        console.log(`✅ New York scraping completed!`);
-        console.log(`📊 Total events found: ${allEvents.length}`);
-        console.log(`📈 Scraper results:`, scraperResults);
-
+        console.log(`🎉 New York scrapers found ${allEvents.length} events in total`);
         return allEvents;
     }
-
-    /**
-     * Get metadata about all scrapers
-     * @returns {Object} Metadata about the scraper collection
-     */
-    getScraperMetadata() {
-        return {
-            city: city,
-            totalScrapers: this.scrapers.length,
-            scrapers: this.scrapers.map(scraper => ({
-                venueName: scraper.venueName,
-                venueId: scraper.venueId,
-                city: scraper.city,
-                baseUrl: scraper.baseUrl
-            }))
-        };
-    }
 }
 
-
-// AUTO-CITY DETECTION HELPER
-// Ensures all events from this city have proper venue.name
-function processEventsForCity(events, scraperName) {
-  return processBatchWithCity(events, __filename);
-}
-
-module.exports = NewYorkScrapers;
+module.exports = new NewYorkScrapers();

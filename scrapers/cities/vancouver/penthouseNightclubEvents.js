@@ -1,153 +1,205 @@
-extractDate(text) {
-    const datePatterns = [
-      /(\w+day),?\s+(\w+)\s+(\d{1,2}/i,
-      /(\w+)\s+(\d{1,2},?\s+(\d{4}/i,
-      /(\d{1,2}\/(\d{1,2}\/(\d{4}/,
-      /(\d{1,2}-(\d{1,2}-(\d{4}/
-    ];
+/**
+ * Vancouver Penthouse Nightclub Events Scraper
+ * Extracts events from Penthouse Nightclub & Strip Club
+ */
 
-    for (const pattern of datePatterns) {
-      const match = text.match(pattern);
-      if (match) {
-        try {
-          const date = new Date(match[0]);
-          if (!isNaN(date.getTime()) && date > new Date()) {
-            return date;
-          }
-        } catch (e) {
-          continue;
-        }
-      }
-    }
-    return null;
-  },
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
 
-  /**
-   * Extract time from text
-   */
-  extractTime(text) {
-    const timePattern = /(\d{1,2}:?(\d{2}?\s*(am|pm|AM|PM)/i;
-    const match = text.match(timePattern);
-    return match ? match[0] : null;
-  },
-
-  /**
-   * Extract price from text
-   */
-  extractPrice(text) {
-    const pricePatterns = [
-      /\$(\d+(?:\.\d{2}?)/,
-      /(\d+(?:\.\d{2}?)\s*dollars?/i,
-      /free/i,
-      /cover/i
-    ];
-
-    for (const pattern of pricePatterns) {
-      const match = text.match(pattern);
-      if (match) {
-        if (pattern.source.includes('free')) {
-          return 'Free';
-        }
-        if (pattern.source.includes('cover')) {
-          return 'Cover charge applies';
-        }
-        return `$${match[1] || match[0]}`;
-      }
-    }
-    return null;
-  },
-
-  /**
-   * Get next event date based on event title
-   */
-  getNextEventDate(title) {
-    const titleLower = title.toLowerCase();
-
-    if (titleLower.includes('amateur') && titleLower.includes('night')) {
-      return this.getLastThursdayOfMonth();
-    }
-
-    if (titleLower.includes('weekend') || titleLower.includes('saturday')) {
-      return this.getNextWeekday('saturday');
-    }
-
-    if (titleLower.includes('friday')) {
-      return this.getNextWeekday('friday');
-    }
-
-    // Default to next weekend
-    return this.getNextWeekday('friday');
-  },
-
-  /**
-   * Get recurring event date based on schedule
-   */
-  getRecurringEventDate(schedule) {
-    switch (schedule) {
-      case 'last-thursday':
-        return this.getLastThursdayOfMonth();
-      case 'weekly':
-        return this.getNextWeekday('friday');
-      case 'weekend':
-        return this.getNextWeekday('saturday');
-      case 'nightly':
-        return this.getNextWeekday('friday');
-      default:
-        return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    }
-  },
-
-  /**
-   * Get last Thursday of current month
-   */
-  getLastThursdayOfMonth() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-
-    // Get last day of month
-    const lastDay = new Date(year, month + 1, 0);
-
-    // Find last Thursday
-    while (lastDay.getDay() !== 4) { // 4 = Thursday
-      lastDay.setDate(lastDay.getDate() - 1);
-    }
-
-    // If it's already passed, get next month's last Thursday
-    if (lastDay < now) {
-      const nextMonth = new Date(year, month + 2, 0);
-      while (nextMonth.getDay() !== 4) {
-        nextMonth.setDate(nextMonth.getDate() - 1);
-      }
-      return nextMonth;
-    }
-
-    return lastDay;
-  },
-
-  /**
-   * Get next occurrence of a weekday
-   */
-  getNextWeekday(dayName) {
-    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const targetDay = days.indexOf(dayName.toLowerCase());
-
-    if (targetDay === -1) return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-
-    const today = new Date();
-    const currentDay = today.getDay();
-    let daysUntilTarget = targetDay - currentDay;
-
-    if (daysUntilTarget <= 0) {
-      daysUntilTarget += 7;
-    }
-
-    const targetDate = new Date(today);
-    targetDate.setDate(today.getDate() + daysUntilTarget);
-    return targetDate;
+class PenthouseNightclubEvents {
+  constructor() {
+    this.name = 'Penthouse Nightclub Events';
+    this.url = 'https://www.penthouseclubvancouver.com/';
+    this.baseUrl = 'https://www.penthouseclubvancouver.com';
+    this.venue = {
+      name: 'Penthouse Nightclub & Strip Club',
+      address: '1019 Seymour St, Vancouver, BC V6B 2M4',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2819, lng: -123.1207 }
+    };
   }
-};
 
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
+
+    try {
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
+
+      console.log('Extracting Penthouse Nightclub events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Penthouse Nightclub events`);
+
+      return events;
+    } catch (error) {
+      console.error(`Error scraping Penthouse Nightclub events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Penthouse Nightclub website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .party, '.show', '.nightlife', article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.party',
+        '.show',
+        '.nightlife',
+        'article',
+        '.event-item',
+        '.party-item',
+        '[class*="event"]',
+        '[class*="party"]',
+        '[class*="show"]',
+        '[class*="nightlife"]',
+        '[class*="penthouse"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
+      }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .party-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .party-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .party-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Nightlife', 'Entertainment', 'Adult Entertainment', '19+'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
+    }
+
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
+  }
+}
+
+module.exports = PenthouseNightclubEvents;
+
+// Function export for compatibility with runner/validator
 module.exports = async (city) => {
-    return await PenthouseNightclubEvents(city);
+  const scraper = new PenthouseNightclubEvents();
+  return await scraper.scrape('Vancouver');
 };

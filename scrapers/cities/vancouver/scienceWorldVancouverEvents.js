@@ -13,7 +13,7 @@ class ScienceWorldVancouverEvents {
     this.venue = {
       name: 'Science World Vancouver',
       address: '1455 Quebec St, Vancouver, BC V6A 3Z7',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2734, lng: -123.1034 }
@@ -29,7 +29,7 @@ class ScienceWorldVancouverEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class ScienceWorldVancouverEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting Science World Vancouver events...');
       const events = await this.extractEvents(page);
@@ -63,9 +63,9 @@ class ScienceWorldVancouverEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-card', { timeout: 10000 }.catch(() => {
+    await page.waitForSelector('-card', { timeout: 10000 }).catch(() => {
       console.log('Event cards not found, using alternative selector');
-    };
+    });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -110,11 +110,11 @@ class ScienceWorldVancouverEvents {
             image,
             link,
             venue: venueInfo
-          };
+          });
         } catch (error) {
           console.log(`Error extracting event: ${error.message}`);
         }
-      };
+      });
 
       return extractedEvents;
     }, this.venue);
@@ -127,7 +127,7 @@ class ScienceWorldVancouverEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       return {
         id: uniqueId,
@@ -141,7 +141,7 @@ class ScienceWorldVancouverEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -158,7 +158,7 @@ class ScienceWorldVancouverEvents {
 
     try {
       // Look for various date patterns
-      const datePattern = /(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:\s*[-–]\s*\w+\s+\d{1,2}(?:st|nd|rd|th)?)?(?:\s*,\s*\d{4}?)/i;
+      const datePattern = /(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:\s*[-–]\s*\w+\s+\d{1,2}(?:st|nd|rd|th)?)?(?:\s*,\s*\d{4})?)/i;
       const timePattern = /(\d{1,2}:\d{2}(?:\s*[ap]m)?(?:\s*[-–]\s*\d{1,2}:\d{2}(?:\s*[ap]m)?)?)/i;
 
       const dateMatch = dateText.match(datePattern);

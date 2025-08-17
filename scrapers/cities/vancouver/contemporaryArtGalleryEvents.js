@@ -1,180 +1,205 @@
-async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+/**
+ * Vancouver Contemporary Art Gallery Events Scraper
+ * Extracts events from Contemporary Art Gallery (CAG)
+ */
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class ContemporaryArtGalleryEvents {
+  constructor() {
+    this.name = 'Contemporary Art Gallery Events';
+    this.url = 'https://contemporaryartgallery.ca/';
+    this.baseUrl = 'https://contemporaryartgallery.ca';
+    this.venue = {
+      name: 'Contemporary Art Gallery (CAG)',
+      address: '555 Nelson St, Vancouver, BC V6B 6R5',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2819, lng: -123.1162 }
+    };
+  }
+
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-
-      const page = await browser.newPage();
-
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Navigate to the events page
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 30000 };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Extract exhibitions data
-      console.log('Extracting exhibition data...');
-      const exhibitionData = await page.evaluate(() => {
-        const exhibitions = [];
+      console.log('Extracting Contemporary Art Gallery events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Contemporary Art Gallery events`);
 
-        // Look for exhibition items
-        const exhibitionItems = Array.from(document.querySelectorAll('.exhibition-item, .exhibition, article, .exhibition-card, .grid-item'));
-
-        exhibitionItems.forEach(item => {
-          const title = item.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
-          if (!title) return;
-
-          const description = item.querySelector('p, .description, .excerpt')?.textContent.trim() || '';
-          const dateText = item.querySelector('.date, .dates, .exhibition-dates, time')?.textContent.trim() || '';
-          const imageElement = item.querySelector('img');
-          const imageUrl = imageElement ? imageElement.src : '';
-          const linkElement = item.querySelector('a[href]');
-          const link = linkElement ? new URL(linkElement.href, window.location.href).href : '';
-
-          if (title) {
-            exhibitions.push({
-              title,
-              description,
-              dateText,
-              imageUrl,
-              link
-            };
-          }
-        };
-
-        return exhibitions;
-      };
-
-      console.log(`Found ${exhibitionData.length} potential exhibitions`);
-
-      // Process each exhibition
-      for (const exhibition of exhibitionData) {
-        const { title, description, dateText, imageUrl, link } = exhibition;
-
-        // Skip items without titles
-        if (!title) continue;
-
-        // Parse date information
-        const dateInfo = this.parseDateRange(dateText);
-
-        // Skip events with no dates
-        if (!dateInfo.startDate || !dateInfo.endDate) {
-          console.log(`Skipping exhibition "${title}" due to invalid date: "${dateText}"`);
-          continue;
-        }
-
-        // Generate event ID
-        const eventId = this.generateEventId(title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          title,
-          description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          imageUrl,
-          link
-        );
-
-        events.push(event);
-      }
-
-      // If no events found on the main page, check for any events page
-      if (events.length === 0) {
-        const eventPaths = ['/whats-on/', '/events/', '/calendar/', '/programs/', '/current/'];
-
-        for (const path of eventPaths) {
-          try {
-            const eventUrl = new URL(path, 'https://cagvancouver.org/').href;
-            console.log(`Checking events at: ${eventUrl}`);
-
-            await page.goto(eventUrl, { waitUntil: 'networkidle2', timeout: 30000 };
-
-            const pageEvents = await page.evaluate(() => {
-              const events = [];
-              const eventItems = Array.from(document.querySelectorAll('-item, article, .card, .program-item'));
-
-              eventItems.forEach(item => {
-                const title = item.querySelector('h2, h3, h4, .title')?.textContent.trim() || '';
-                if (!title) return;
-
-                const description = item.querySelector('p, .description')?.textContent.trim() || '';
-                const dateText = item.querySelector('.date, time, -date')?.textContent.trim() || '';
-                const imageElement = item.querySelector('img');
-                const imageUrl = imageElement ? imageElement.src : '';
-                const linkElement = item.querySelector('a[href]');
-                const link = linkElement ? new URL(linkElement.href, window.location.href).href : '';
-
-                events.push({
-                  title,
-                  description,
-                  dateText,
-                  imageUrl,
-                  link
-                };
-              };
-
-              return events;
-            };
-
-            // Process events from this page
-            for (const eventData of pageEvents) {
-              const dateInfo = this.parseDateRange(eventData.dateText);
-
-              if (!dateInfo.startDate || !dateInfo.endDate) {
-                console.log(`Skipping event "${eventData.title}" due to invalid date: "${eventData.dateText}"`);
-                continue;
-              }
-
-              const eventId = this.generateEventId(eventData.title, dateInfo.startDate);
-
-              const event = this.createEventObject(
-                eventId,
-                eventData.title,
-                eventData.description,
-                dateInfo.startDate,
-                dateInfo.endDate,
-                eventData.imageUrl,
-                eventData.link
-              );
-
-              events.push(event);
-            }
-
-            // If we found events on this page, no need to check others
-            if (events.length > 0) break;
-
-          } catch (error) {
-            console.log(`Error accessing ${path}: ${error.message}`);
-            continue;
-          }
-        }
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping Contemporary Art Gallery events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Contemporary Art Gallery website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .exhibition, .program, .workshop, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.exhibition',
+        '.program',
+        '.workshop',
+        'article',
+        '.event-item',
+        '.exhibition-item',
+        '[class*="event"]',
+        '[class*="exhibition"]',
+        '[class*="program"]',
+        '[class*="contemporary"]',
+        '[class*="gallery"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .exhibition-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .exhibition-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .exhibition-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Arts & Culture', 'Contemporary Art', 'Gallery', 'Exhibitions'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
-};
+}
 
 module.exports = ContemporaryArtGalleryEvents;
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new ContemporaryArtGalleryEvents();
+  return await scraper.scrape('Vancouver');
+};

@@ -1,401 +1,203 @@
 /**
- * Bard on the Beach Special Events Scraper
- *
- * This scraper extracts special events from Bard on the Beach
- * Source: https://bardonthebeach.org/special-events/
+ * Vancouver Bard on the Beach Events Scraper
+ * Extracts events from Bard on the Beach Shakespeare Festival website
  */
 
 const puppeteer = require('puppeteer');
 const slugify = require('slugify');
 
-class BardOnTheBeachScraper {
+class BardOnTheBeachEvents {
   constructor() {
-    this.name = 'Bard on the Beach';
-    this.url = 'https://bardonthebeach.org/special-events/';
-    this.sourceIdentifier = 'bard-on-the-beach';
-
-    // Venue information (actual outdoor venue at Vanier Park)
+    this.name = 'Vancouver Bard on the Beach Events';
+    this.url = 'https://bardonthebeach.org/';
+    this.baseUrl = 'https://bardonthebeach.org';
     this.venue = {
       name: 'Bard on the Beach',
-      id: 'bard-on-the-beach',
-      address: 'Vanier Park, 1695 Whyte Avenue',
-      city: city,
-      state: 'BC',
+      address: 'Vanier Park, Vancouver',
+      city: 'Vancouver',
+      province: 'BC',
       country: 'Canada',
-      coordinates: {
-        lat: 49.2767,
-        lng: -123.1434
-      },
-      websiteUrl: 'https://bardonthebeach.org/',
-      description: 'Bard on the Beach is Western Canada\'s largest professional Shakespeare festival, presented in modern theatre tents in a spectacular waterfront setting in Vancouver\'s Vanier Park.'
+      coordinates: { lat: 49.2754, lng: -123.1393 }
     };
   }
 
   /**
-   * Main scraper function
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
-  async scrape(city) {
-    console.log('🔍 Starting Bard on the Beach events scraper...');
-    const events = [];
-    let browser = null;
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Launch browser with appropriate configuration
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--ignore-certificate-errors',
-          '--disable-features=IsolateOrigins,site-per-process'
-        ]
-      };
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      const page = await browser.newPage();
-      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+      console.log('Extracting Bard on the Beach events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Bard on the Beach events`);
 
-      // Navigate to the special events page
-      console.log(`Navigating to: ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 60000 };
+      return events;
+    } catch (error) {
+      console.error(`Error scraping Bard on the Beach events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
+    }
+  }
 
-      // Take a screenshot for debugging
-      await page.screenshot({ path: 'bard-on-the-beach-debug.png' };
-      console.log('✅ Saved debug screenshot to bard-on-the-beach-debug.png');
+  /**
+   * Extract events from Bard on the Beach website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .show, .performance, .production, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
 
-      // Extract festival season dates (typically June-September)
-      const seasonText = await page.evaluate(() => {
-        const seasonElement = document.querySelector('.season-dates, .festival-dates, header h2, .header-content, .hero-content');
-        return seasonElement ? seasonElement.textContent : '';
-      };
-
-      // Parse season dates or use typical season if not found
-      let seasonStartDate = null;
-      let seasonEndDate = null;
-
-      if (seasonText) {
-        // Look for date patterns like "June 8 to September 30, 2023"
-        const dateRangePattern = /([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?\s*(?:-|–|to)\s*([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?,?\s*(\d{4}|\d{2}?/i;
-        const match = seasonText.match(dateRangePattern);
-
-        if (match) {
-          const startMonth = match[1];
-          const startDay = parseInt(match[2]);
-          const endMonth = match[3];
-          const endDay = parseInt(match[4]);
-          let year = match[5] ? parseInt(match[5]) : new Date().getFullYear();
-          if (year < 100) year += 2000; // Convert 2-digit year to 4-digit
-
-          try {
-            seasonStartDate = new Date(`${startMonth} ${startDay}, ${year}`);
-            seasonEndDate = new Date(`${endMonth} ${endDay}, ${year}`);
-            console.log(`✅ Found festival dates: ${seasonStartDate.toLocaleDa to ${seasonEndDate.toLocaleDa`);
-          } catch (dateError) {
-            console.log(`❌ Error parsing festival dates: ${dateError.message}`);
-          }
-        }
-      }
-
-      // If we couldn't find festival dates, use current year's typical season
-      if (!seasonStartDate || !seasonEndDate) {
-        const currentYear = new Date().getFullYear();
-        seasonStartDate = new Date(`June 8, ${currentYear}`);
-        seasonEndDate = new Date(`September 30, ${currentYear}`);
-        console.log(`⚠️ Using estimated festival dates: ${seasonStartDate.toLocaleDa to ${seasonEndDate.toLocaleDa`);
-      }
-
-      // Look for event containers on the special events page
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
       const eventSelectors = [
-        '.special-events ',
-        '-list ',
-        '.special-event-item',
-        '-card',
-        '-container',
-        's-container article',
-        '-listing',
-        '.bard-event',
-        '.wp-block-group',
-        '.wp-block-columns'
+        '.event',
+        '.show',
+        '.performance',
+        '.production',
+        'article',
+        '.event-item',
+        '.event-card',
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="production"]'
       ];
 
-      let foundEvents = false;
+      let eventElements = [];
 
       // Try each selector until we find events
       for (const selector of eventSelectors) {
-        console.log(`Looking for events with selector: ${selector}`);
-        const eventElements = await page.$$(selector);
-
+        eventElements = document.querySelectorAll(selector);
         if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} potential events with selector: ${selector}`);
-          foundEvents = true;
-
-          // Process each event element
-          for (let i = 0; i < eventElements.length; i++) {
-            try {
-              const element = eventElements[i];
-
-              // Extract event title
-              const titleElement = await element.$('h1, h2, h3, h4, .title, -title');
-              if (!titleElement) continue;
-
-              const title = await page.evaluate(el => el.textContent.trim(), titleElement);
-
-              // Skip if not a meaningful title or if it's a navigation element
-              if (!title || title.length < 3 || title.toLowerCase().includes('menu') || title.toLowerCase().includes('navigation')) {
-                continue;
-              }
-
-              console.log(`Processing event: ${title}`);
-
-              // Extract date information
-              const dateElement = await element.$('.date, time, -date, .datetime');
-              let dateText = dateElement ?
-                await page.evaluate(el => el.textContent.trim(), dateElement) : null;
-
-              // Extract description
-              const descriptionElement = await element.$('p, .description, -description, .content');
-              const description = descriptionElement ?
-                await page.evaluate(el => el.textContent.trim(), descriptionElement) : '';
-
-              // Extract image if available
-              const imageElement = await element.$('img');
-              const imageUrl = imageElement ?
-                await page.evaluate(el => el.src, imageElement) : null;
-
-              // Extract event URL if available
-              const linkElement = await element.$('a');
-              const eventUrl = linkElement ?
-                await page.evaluate(el => el.href, linkElement) : this.url;
-
-              // Parse date or set during festival season
-              let eventDate = null;
-              if (dateText) {
-                try {
-                  // Try to extract specific date from text
-                  const dateMatch = dateText.match(/([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?/);
-                  if (dateMatch) {
-                    const month = dateMatch[1];
-                    const day = parseInt(dateMatch[2]);
-                    const year = seasonStartDate.getFullYear(); // Use festival year
-
-                    eventDate = new Date(`${month} ${day}, ${year}`);
-
-                    // If this date is before the season starts, it might be next year's event
-                    if (eventDate < seasonStartDate && eventDate < new Date()) {
-                      eventDate.setFullYear(year + 1);
-                    }
-                  }
-                } catch (dateError) {
-                  console.log(`❌ Error parsing event date: ${dateError.message}`);
-                }
-              }
-
-              // If no specific date found, distribute events throughout the season
-              if (!eventDate) {
-                // Calculate a date within the festival period based on the event's position in the list
-                const seasonDays = (seasonEndDate - seasonStartDate) / (1000 * 60 * 60 * 24);
-                const interval = eventElements.length > 1 ? seasonDays / eventElements.length : seasonDays / 2;
-                const dayOffset = Math.floor(i * interval);
-
-                eventDate = new Date(seasonStartDate);
-                eventDate.setDate(seasonStartDate.getDate() + dayOffset);
-              }
-
-              // Set start and end times (typically evening events)
-              const eventStartDate = new Date(eventDate);
-              eventStartDate.setHours(19, 30, 0, 0); // 7:30pm start
-
-              const eventEndDate = new Date(eventDate);
-              eventEndDate.setHours(22, 0, 0, 0);    // 10:00pm end
-
-              // Generate a unique ID
-              const daStartDate.toISOString().split('T')[0];
-              const slugTitle = slugify(title, { lower: true, strict: true };
-              const id = `bard-on-the-beach-${slugTitle}-${da}`;
-
-              // Create event object
-              const event = {
-                id: id,
-                title: title,
-                description: description || `${title} - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.`,
-                startDate: eventStartDate,
-                endDate: eventEndDate,
-                venue: this.venue,
-                category: 'theatre',
-                categories: ['theatre', 'arts', 'performance', 'shakespeare', 'festival'],
-                sourceURL: eventUrl,
-                officialWebsite: 'https://bardonthebeach.org/',
-                image: imageUrl,
-                ticketsRequired: true,
-                lastUpdated: new Date()
-              };
-
-              events.push(event);
-              console.log(`✅ Added event: ${title} on ${eventStartDate.toLocaleDa`);
-            } catch (elementError) {
-              console.error(`❌ Error processing event element: ${elementError.message}`);
-            }
-          }
-
-          // If we found and processed events with this selector, break
-          if (events.length > 0) break;
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
         }
       }
 
-      // If no specific events found, try to find individual special event links
-      if (!foundEvents || events.length === 0) {
-        console.log('Looking for special event links...');
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
 
-        const linkSelectors = [
-          'a[href*="event"]',
-          'a[href*="special"]',
-          'a-link',
-          'a.special-event'
-        ];
-
-        for (const selector of linkSelectors) {
-          const links = await page.$$(selector);
-          console.log(`Found ${links.length} potential event links with selector: ${selector}`);
-
-          for (let i = 0; i < links.length; i++) {
-            try {
-              const link = links[i];
-
-              // Get link text and href
-              const linkData = await page.evaluate(el => ({
-                text: el.textContent.trim(),
-                href: el.href
-              }, link);
-
-              // Skip navigation and menu links
-              if (linkData.text.toLowerCase().includes('menu') ||
-                  linkData.text.toLowerCase().includes('navigation') ||
-                  linkData.text.length < 5) {
-                continue;
-              }
-
-              console.log(`Found potential event link: ${linkData.text}`);
-
-              // Create event from link data
-              const linkParts = linkData.text.split(' - ');
-              const title = linkParts[0] || linkData.text;
-              const dateText = linkParts[1] || '';
-
-              // Try to parse date from text or distribute within season
-              let eventDate = null;
-              if (dateText) {
-                try {
-                  const dateMatch = dateText.match(/([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?/);
-                  if (dateMatch) {
-                    const month = dateMatch[1];
-                    const day = parseInt(dateMatch[2]);
-                    const year = seasonStartDate.getFullYear();
-
-                    eventDate = new Date(`${month} ${day}, ${year}`);
-                  }
-                } catch (dateError) {
-                  console.log(`❌ Error parsing date from link text: ${dateError.message}`);
-                }
-              }
-
-              // If no date found, distribute events within season
-              if (!eventDate) {
-                const seasonDays = (seasonEndDate - seasonStartDate) / (1000 * 60 * 60 * 24);
-                const interval = links.length > 1 ? seasonDays / links.length : seasonDays / 2;
-                const dayOffset = Math.floor(i * interval);
-
-                eventDate = new Date(seasonStartDate);
-                eventDate.setDate(seasonStartDate.getDate() + dayOffset);
-              }
-
-              // Set times
-              const eventStartDate = new Date(eventDate);
-              eventStartDate.setHours(19, 30, 0, 0); // 7:30pm
-
-              const eventEndDate = new Date(eventDate);
-              eventEndDate.setHours(22, 0, 0, 0);    // 10:00pm
-
-              // Generate unique ID
-              const daStartDate.toISOString().split('T')[0];
-              const slugTitle = slugify(title, { lower: true, strict: true };
-              const id = `bard-on-the-beach-${slugTitle}-${da}`;
-
-              // Create event object
-              const event = {
-                id: id,
-                title: title,
-                description: `${title} - a special event by Bard on the Beach Shakespeare Festival in Vancouver's Vanier Park.`,
-                startDate: eventStartDate,
-                endDate: eventEndDate,
-                venue: this.venue,
-                category: 'theatre',
-                categories: ['theatre', 'arts', 'performance', 'shakespeare', 'festival'],
-                sourceURL: linkData.href,
-                officialWebsite: 'https://bardonthebeach.org/',
-                image: null,
-                ticketsRequired: true,
-                lastUpdated: new Date()
-              };
-
-              events.push(event);
-              console.log(`✅ Added event from link: ${title} on ${eventStartDate.toLocaleDa`);
-            } catch (linkError) {
-              console.error(`❌ Error processing event link: ${linkError.message}`);
-            }
-          }
-
-          if (events.length > 0) break;
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title, .production-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .show-date, .performance-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .show-description, .synopsis');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
         }
-      }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
 
-      // If we still don't have events, create a generic season event
-      if (events.length === 0) {
-        console.log('Creating generic Bard on the Beach season event...');
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
 
-        // Create event for the season
-        const year = seasonStartDate.getFullYear();
-        const id = `bard-on-the-beach-season-${year}`;
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
 
-        const seasonEvent = {
-          id: id,
-          title: `Bard on the Beach Shakespeare Festival ${year}`,
-          description: `Bard on the Beach is Western Canada's largest professional Shakespeare festival. The festival runs annually from June through September in modern theatre tents in a spectacular waterfront setting in Vancouver's Vanier Park, featuring Shakespeare plays, related dramas, and special events.`,
-          startDate: seasonStartDate,
-          endDate: seasonEndDate,
-          venue: this.venue,
-          category: 'theatre',
-          categories: ['theatre', 'arts', 'performance', 'shakespeare', 'festival'],
-          sourceURL: 'https://bardonthebeach.org/',
-          officialWebsite: 'https://bardonthebeach.org/',
-          image: null,
-          ticketsRequired: true,
-          lastUpdated: new Date()
-        };
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Arts & Culture', 'Theater', 'Shakespeare', 'Performance'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
 
-        events.push(seasonEvent);
-        console.log(`✅ Added generic season event: ${seasonEvent.title}`);
-      }
-
-    } catch (error) {
-      console.error(`❌ Error in Bard on the Beach scraper: ${error.message}`);
-    } finally {
-      if (browser) {
-        await browser.close();
-      }
-      console.log(`🎉 Successfully scraped ${events.length} events from Bard on the Beach`);
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
 }
 
-module.exports = new BardOnTheBeachScraper();
-
+module.exports = BardOnTheBeachEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
-  const scraper = new BardOnTheBeachScraper();
-  return await scraper.scrape(city);
+  const scraper = new BardOnTheBeachEvents();
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.BardOnTheBeachScraper = BardOnTheBeachScraper;

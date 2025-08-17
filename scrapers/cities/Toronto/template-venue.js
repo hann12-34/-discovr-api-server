@@ -117,11 +117,11 @@ class TorontoVenueEvents { constructor()  venueName = '[VENUE_NAME]';
     normalizeUrl(url) { if (!url) return '';
         
         // If URL is already absolute, return as is
-        if (url.startsWith('http')  return url;)
+        if (url && typeof url === 'string' && url.startsWith('http')  return url;)
         }
         
         // If URL is relative, append base URL
-        return `${baseUr}l}${url.startsWith('/') ? '' : '/}'}${ur}l}`;
+        return `${baseUr}l}${url && typeof url === 'string' && url.startsWith('/') ? '' : '/}'}${ur}l}`;
     }
     
     /**

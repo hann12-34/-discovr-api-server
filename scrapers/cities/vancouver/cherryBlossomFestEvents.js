@@ -1,156 +1,205 @@
-async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+/**
+ * Vancouver Cherry Blossom Festival Events Scraper
+ * Extracts events from Vancouver Cherry Blossom Festival
+ */
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
+
+class CherryBlossomFestEvents {
+  constructor() {
+    this.name = 'Vancouver Cherry Blossom Festival Events';
+    this.url = 'https://vcbf.ca/';
+    this.baseUrl = 'https://vcbf.ca';
+    this.venue = {
+      name: 'Vancouver Cherry Blossom Festival',
+      address: 'Various Locations, Vancouver, BC',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2827, lng: -123.1207 }
+    };
+  }
+
+  /**
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
+   */
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      page.setDefaultNavigationTimeout(15000);
-
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 15000 };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      try {
-        await page.waitForSelector(', .tribe-events-calendar-list__event, article, -card, -item', { timeout: 8000 };
-      } catch (error) {
-        console.log('Could not find event elements with standard selectors, trying to proceed anyway');
-      }
+      console.log('Extracting Cherry Blossom Festival events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Cherry Blossom Festival events`);
 
-      // Extract events data
-      const eventsData = await page.evaluate(() => {
-        const events = [];
-
-        // Try different selectors for events
-        const eventElements = Array.from(document.querySelectorAll(
-          ', .tribe-events-calendar-list__event, article, -card, -item, item'
-        ));
-
-        eventElements.forEach(element => {
-          const title = element.querySelector('h2, h3, h4, .title, -title')?.textContent.trim() || '';
-          if (!title) return;
-
-          const description = element.querySelector('p, .description, .excerpt, .summary')?.textContent.trim() || '';
-          const dateText = element.querySelector('.date, time, -date, .tribe-event-date-start')?.textContent.trim() || '';
-          const imageUrl = element.querySelector('img')?.src || '';
-          const sourceUrl = element.querySelector('a[href]')?.href || '';
-          const venueText = element.querySelector('.venue, .location, .tribe-events-venue')?.textContent.trim() || '';
-
-          events.push({
-            title,
-            description,
-            dateText,
-            imageUrl,
-            sourceUrl,
-            venue: venueText
-          };
-        };
-
-        return events;
-      };
-
-      console.log(`Found ${eventsData.length} potential events`);
-
-      // If no events found on events page, check for festival dates on the homepage
-      if (eventsData.length === 0) {
-        console.log('No events found on events page, checking homepage for festival dates');
-
-        await page.goto('https://vcbf.ca/', { waitUntil: 'networkidle2', timeout: 15000 };
-
-        const festivalData = await page.evaluate(() => {
-          // Look for festival date information
-          const datePattern = /(?:march|april|may)\s+\d{1,2}[-–]\d{1,2},?\s*\d{4}/i;
-          const fullText = document.body.textContent;
-
-          const dateMatch = fullText.match(datePattern);
-          const dateText = dateMatch ? dateMatch[0] : '';
-
-          // Look for a description
-          const description = document.querySelector('p')?.textContent.trim() || '';
-
-          // Look for an image
-          const imageUrl = document.querySelector('.hero img, .banner img, .featured img')?.src ||
-                          document.querySelector('img')?.src || '';
-
-          return {
-            title: 'Vancouver Cherry Blossom Festival',
-            description: description || 'Annual celebration of cherry blossoms throughout Vancouver',
-            dateText,
-            imageUrl,
-            sourceUrl: 'https://vcbf.ca/'
-          };
-        };
-
-        if (festivalData.dateText) {
-          console.log(`Found festival date: ${festivalData.dateText}`);
-          eventsData.push(festivalData);
-        } else {
-          // If no specific date found, create a default entry for spring
-          const currentYear = new Date().getFullYear();
-          eventsData.push({
-            title: 'Vancouver Cherry Blossom Festival',
-            description: 'Annual celebration of cherry blossoms throughout Vancouver',
-            dateText: `April 1-15, ${currentYear}`,
-            imageUrl: '',
-            sourceUrl: 'https://vcbf.ca/'
-          };
-        }
-      }
-
-      // Process each event data
-      for (const eventData of eventsData) {
-        // Parse date information
-        const dateInfo = this.parseDateRange(eventData.dateText);
-
-        // Skip events with no valid dates
-        if (!dateInfo.startDate || !dateInfo.endDate) {
-          console.log(`Skipping event "${eventData.title}" due to invalid date: "${eventData.dateText}"`);
-          continue;
-        }
-
-        // Generate event ID
-        const eventId = this.generateEventId(eventData.title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          eventData.title,
-          eventData.description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          eventData.imageUrl,
-          eventData.sourceUrl,
-          eventData.venue
-        );
-
-        // Add event to events array
-        events.push(event);
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping Cherry Blossom Festival events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Cherry Blossom Festival website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .activity, .celebration, .tour, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.activity',
+        '.celebration',
+        '.tour',
+        'article',
+        '.event-item',
+        '.activity-item',
+        '[class*="event"]',
+        '[class*="activity"]',
+        '[class*="celebration"]',
+        '[class*="festival"]',
+        '[class*="blossom"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .activity-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .activity-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .activity-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Festival', 'Nature', 'Cultural', 'Outdoor', 'Spring'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
-};
+}
 
 module.exports = CherryBlossomFestEvents;
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new CherryBlossomFestEvents();
+  return await scraper.scrape('Vancouver');
+};

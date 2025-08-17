@@ -39,14 +39,14 @@ class ComplexeSkyEvents {
             const cleanDateStr = dateStr.trim();
 
             // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2}/);
+            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
             if (isoMatch) {
                 return new Date(isoMatch[1]);
             }
 
             // Handle various date formats
             const datePatterns = [
-                /(\w+)\s+(\d{1,2},?\s+(\d{4}/,  // "December 15, 2024"
+                /(\w+)\s+(\d{1,2},?\s+(\d{4})//,  // "December 15, 2024"
                 /(\d{1,2}\s+(\w+)\s+(\d{4}/,     // "15 December 2024"
                 /(\d{1,2}\/(\d{1,2}\/(\d{4}/,   // "12/15/2024"
                 /(\d{4}\/(\d{1,2}\/(\d{1,2}/    // "2024/12/15"

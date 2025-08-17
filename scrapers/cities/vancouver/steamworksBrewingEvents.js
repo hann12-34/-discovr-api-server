@@ -13,7 +13,7 @@ class SteamworksBrewingEvents {
     this.venue = {
       name: 'Steamworks Brewing Company',
       address: '375 Water St, Vancouver, BC V6B 5C6',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2849, lng: -123.1106 }
@@ -29,7 +29,7 @@ class SteamworksBrewingEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class SteamworksBrewingEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting Steamworks Brewing events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class SteamworksBrewingEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -card, -post', { timeout: 10000 }
+    await page.waitForSelector('-item, -card, -post', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -165,7 +165,7 @@ class SteamworksBrewingEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -176,7 +176,7 @@ class SteamworksBrewingEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       return {
         id: uniqueId,
@@ -190,7 +190,7 @@ class SteamworksBrewingEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -215,7 +215,7 @@ class SteamworksBrewingEvents {
       }
 
       // Look for date patterns with month names
-      const datePattern = /(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4}?)\s*(?:to|-|–)?\s*(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4}?)?/i;
+      const datePattern = /(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?)\s*(?:to|-|–)?\s*(\w+\s+\d{1,2}(?:st|nd|rd|th)?(?:,? \d{4})?)?/i;
       const match = dateText.match(datePattern);
 
       if (match) {
@@ -242,7 +242,7 @@ class SteamworksBrewingEvents {
         }
 
         // Look for time information
-        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}))?\s*(am|pm))/i;
         const timeMatches = dateText.match(new RegExp(timePattern, 'gi'));
 
         if (timeMatches && timeMatches.length >= 1) {

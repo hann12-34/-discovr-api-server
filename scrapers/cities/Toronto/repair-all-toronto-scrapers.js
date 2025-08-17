@@ -126,11 +126,11 @@ async function repairAllTorontoScrapers() {
   // Step 4: Report current state
   console.log('\n📈 CURRENT STATE ANALYSIS:');
   console.log(`📁 Total scrapers: ${analysis.total}`);
-  console.log(`✅ Syntax valid: ${analysis.syntaxValid} (${Math.round((analysis.syntaxValid/analysis.total)*100)}%)`);
-  console.log(`❌ Syntax invalid: ${analysis.syntaxInvalid} (${Math.round((analysis.syntaxInvalid/analysis.total)*100)}%)`);
-  console.log(`🤖 Has anti-bot features: ${analysis.hasAntiBot} (${Math.round((analysis.hasAntiBot/analysis.total)*100)}%)`);
-  console.log(`🏙️ Has city validation: ${analysis.hasCityValidation} (${Math.round((analysis.hasCityValidation/analysis.total)*100)}%)`);
-  console.log(`🔧 Has util imports: ${analysis.hasUtilImports} (${Math.round((analysis.hasUtilImports/analysis.total)*100)}%)`);
+  console.log(`✅ Syntax valid: ${analysis.syntaxValid} (${Math.round(analysis.syntaxValid/analysis.total)*100)}%)`);
+  console.log(`❌ Syntax invalid: ${analysis.syntaxInvalid} (${Math.round(analysis.syntaxInvalid/analysis.total)*100)}%)`);
+  console.log(`🤖 Has anti-bot features: ${analysis.hasAntiBot} (${Math.round(analysis.hasAntiBot/analysis.total)*100)}%)`);
+  console.log(`🏙️ Has city validation: ${analysis.hasCityValidation} (${Math.round(analysis.hasCityValidation/analysis.total)*100)}%)`);
+  console.log(`🔧 Has util imports: ${analysis.hasUtilImports} (${Math.round(analysis.hasUtilImports/analysis.total)*100)}%)`);
   console.log(`💥 Severely corrupted: ${analysis.corrupted.length}`);
 
   if (analysis.corrupted.length > 0) {
@@ -169,7 +169,7 @@ async function createMassRepairPlan(analysis) {
   console.log(`✅ Phase 4: ${strategy.phase4}`);
 
   console.log('\n📊 REPAIR PRIORITIES:');
-  strategy.priorities.forEach((priority, index) => {
+  strategy.priorities.forEach(priority, index) => {
     console.log(`${index + 1}. ${priority.category}: ${priority.count} scrapers`);
   });
 
@@ -180,7 +180,7 @@ async function createMassRepairPlan(analysis) {
 if (require.main === module) {
   repairAllTorontoScrapers()
     .then(analysis => createMassRepairPlan(analysis))
-    .then(() => {
+    .then() => {
       console.log('\n🚀 READY TO BEGIN MASS REPAIR!');
       console.log('Next: Execute repair phases systematically');
     })

@@ -13,7 +13,7 @@ class UBCBotanicalGardenEvents {
     this.venue = {
       name: 'UBC Botanical Garden',
       address: '6804 SW Marine Drive, Vancouver, BC V6T 1Z4',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2540, lng: -123.2459 }
@@ -29,7 +29,7 @@ class UBCBotanicalGardenEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class UBCBotanicalGardenEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting UBC Botanical Garden events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class UBCBotanicalGardenEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -card, .tribe-events-list-event', { timeout: 10000 }
+    await page.waitForSelector('-item, -card, .tribe-events-list-event', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -182,7 +182,7 @@ class UBCBotanicalGardenEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -193,7 +193,7 @@ class UBCBotanicalGardenEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       return {
         id: uniqueId,
@@ -207,7 +207,7 @@ class UBCBotanicalGardenEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -232,7 +232,7 @@ class UBCBotanicalGardenEvents {
       }
 
       // Look for date ranges like "June 5 - August 25, 2025"
-      const dateRangePattern = /((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2}\s*[-–]\s*((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2}(?:,?\s*(\d{4}?/i;
+      const dateRangePattern = /((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2})\s*[-–]\s*((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{1,2})(?:,?\s*(\d{4}))?/i;
       const rangeMatch = dateText.match(dateRangePattern);
 
       if (rangeMatch) {
@@ -253,7 +253,7 @@ class UBCBotanicalGardenEvents {
       }
 
       // Look for month/day/year format (common in North America)
-      const mdyPattern = /(\d{1,2}[\/\-\.](\d{1,2}[\/\-\.](\d{2,4}/;
+      const mdyPattern = /(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/;
       const mdyMatch = dateText.match(mdyPattern);
 
       if (mdyMatch) {
@@ -279,7 +279,7 @@ class UBCBotanicalGardenEvents {
       }
 
       // Look for date patterns with month names
-      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2}(?:st|nd|rd|th)?(?:,? (\d{4}?/i;
+      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2}(?:st|nd|rd|th)?)(?:,? (\d{4}))?/i;
       const monthMatch = dateText.match(monthPattern);
 
       if (monthMatch) {
@@ -295,7 +295,7 @@ class UBCBotanicalGardenEvents {
         const date = new Date(year, monthMap[monthStr], day);
 
         // Look for time information
-        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}))?)\s*(am|pm)/i;
         const timeMatch = dateText.match(timePattern);
 
         if (timeMatch) {

@@ -91,7 +91,7 @@ async function scrapeAllTorontoEventsClean(city) {
 
   try {
     await client.connect();
-    const eventsCollection = client.db('events').collection('events');
+    const eventsCollection = client.db('discovr').collection('events');
     console.log('🚀 Scraping All Toronto events (clean version)...');
 
     // Anti-bot delay
@@ -188,8 +188,8 @@ async function scrapeAllTorontoEventsClean(city) {
         
         candidateEvents.push({
           title,
-          eventUrl: eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `${BASE_URL}${eventUrl}`) : workingUrl,
-          imageUrl: imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `${BASE_URL}${imageUrl}`) : null,
+          eventUrl: eventUrl ? (eventUrl && typeof eventUrl === 'string' && eventUrl.startsWith('http') ? eventUrl : `${BASE_URL}${eventUrl}`) : workingUrl,
+          imageUrl: imageUrl ? (imageUrl && typeof imageUrl === 'string' && imageUrl.startsWith('http') ? imageUrl : `${BASE_URL}${imageUrl}`) : null,
           dateText,
           description: description || `Experience ${title} at the All Toronto in Toronto.`,
           qualityScore

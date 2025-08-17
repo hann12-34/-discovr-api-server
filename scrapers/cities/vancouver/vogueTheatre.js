@@ -1,265 +1,203 @@
 /**
- * Vogue Theatre scraper for Vancouver events
+ * Vancouver Vogue Theatre Events Scraper
+ * Extracts events from Vogue Theatre Vancouver
  */
 
 const puppeteer = require('puppeteer');
-const axios = require('axios');
-const cheerio = require('cheerio');
+const slugify = require('slugify');
 
-class VogueTheatreScraper {
+class VogueTheatreEvents {
   constructor() {
-    this.name = 'Vogue Theatre';
-    this.url = 'https://voguetheatre.com/calendar/';
-    this.enabled = true;
+    this.name = 'Vancouver Vogue Theatre Events';
+    this.url = 'https://www.voguetheatre.com/';
+    this.baseUrl = 'https://www.voguetheatre.com';
+    this.venue = {
+      name: 'Vogue Theatre',
+      address: '918 Granville St, Vancouver, BC V6Z 1K3',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2802, lng: -123.1230 }
+    };
   }
 
   /**
-   * Parse date from string format
-   * @param {string} da - Date string
-   * @returns {Date|null} - Parsed Date object or null
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
-  parseDate(da) {
-    if (!da) return null;
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Try parsing the date
-      const parsedDate = new Date(da);
-      if (!isNaN(parsedDate.getTime())) return parsedDate;
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // For format "Month Day, Year"
-      const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-      const lowerDa = da.toLowerCase();
+      console.log('Extracting Vogue Theatre events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Vogue Theatre events`);
 
-      for (let i = 0; i < monthNames.length; i++) {
-        if (lowerDa.includes(monthNames[i])) {
-          const year = new Date().getFullYear();
-          const day = parseInt(lowerDa.match(/\\d+/)?.[0] || '1');
-          return new Date(year, i, day);
-        }
-      }
-
-      return null;
+      return events;
     } catch (error) {
-      console.error('Error parsing date:', error.message);
-      return null;
+      console.error(`Error scraping Vogue Theatre events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
     }
   }
 
   /**
    * Extract events from Vogue Theatre website
-   * @returns {Promise<Array>} - Array of events
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
    */
-  async scrape(city) {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .show, .concert, .performance, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
 
-    console.log(`Scraping events from ${this.name}...`);
-    const events = [];
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.show',
+        '.concert',
+        '.performance',
+        'article',
+        '.event-item',
+        '.show-item',
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="concert"]'
+      ];
 
-    try {
-      // Using Axios + Cheerio approach first
-      console.log(`Requesting ${this.url}`);
-      const response = await axios.get(this.url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
         }
-      };
-
-      if (response.status !== 200) {
-        console.error(`Failed to fetch ${this.url}, status: ${response.status}`);
-        return [];
       }
 
-      // Parse the HTML
-      const $ = cheerio.load(response.data);
-      const eventElements = $('.bit-events-container .bit-event');
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
 
-      console.log(`Found ${eventElements.length} potential events`);
-
-      // Extract event data
-      eventElements.each((index, element) => {
+      return Array.from(eventElements).map((event, index) => {
         try {
-          const $element = $(element);
-
-          // Extract event details
-          const title = $element.find('.bit-event-name').text().trim();
-          if (!title) return;
-
-          const dateText = $element.find('.bit-event-date-line').text().trim();
-          const venueText = $element.find('.bit-venue-name').text().trim();
-          const ticketLink = $element.find('.bit-button').attr('href');
-
-          // Find image
-          const imgSrc = $element.find('img').attr('src') || '';
-
-          // Parse date
-          const startDate = this.parseDate(dateText);
-          if (!startDate) return;
-
-          // Create end date (assume 3 hours later)
-          const endDate = new Date(startDate.getTime() + (3 * 60 * 60 * 1000));
-
-          // Create event object
-          events.push({
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .show-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
             title,
-            description: `${title} at ${this.name}`,
-            image: imgSrc.startsWith('http') ? imgSrc : null,
-            startDate,
-            endDate,
-            categories: ['Music', 'Performance'],
-            location: this.name,
-            venue: {
-              name: this.name,
-              address: '918 Granville St',
-              city: city,
-              state: 'BC',
-              country: 'Canada',
-              coordinates: { lat: 49.2810, lng: -123.1210 }
-            },
-            sourceURL: this.url,
-            officialWebsite: ticketLink || 'https://voguetheatre.com/',
-            tickets: ticketLink
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
           };
-        } catch (err) {
-          console.error('Error processing event element:', err.message);
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
         }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Entertainment', 'Theatre', 'Concert', 'Performance'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
       };
-
-      // If cheerio approach failed, try puppeteer
-      if (events.length === 0) {
-        console.log('No events found with Cheerio, trying Puppeteer approach...');
-
-        // Launch browser
-        const browser = await puppeteer.launch({
-          headless: 'new',
-          args: ['--no-sandbox', '--disable-setuid-sandbox']
-        };
-
-        const page = await browser.newPage();
-
-        // Set user agent
-        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-        // Navigate to events page
-        await page.goto(this.url, {
-          waitUntil: 'networkidle2',
-          timeout: 60000
-        };
-
-        // Wait for events to load
-        await page.waitForSelector('.bit-events-container', { timeout: 30000 };
-
-        // Extract event data
-        const eventData = await page.evaluate(() => {
-          const eventElements = document.querySelectorAll('.bit-events-container .bit-event');
-          const data = [];
-
-          eventElements.forEach(element => {
-            try {
-              const title = element.querySelector('.bit-event-name')?.innerText.trim();
-              if (!title) return;
-
-              const dateText = element.querySelector('.bit-event-date-line')?.innerText.trim();
-              const venueText = element.querySelector('.bit-venue-name')?.innerText.trim();
-              const ticketLink = element.querySelector('.bit-button')?.href;
-              const imgElement = element.querySelector('img');
-              const imgSrc = imgElement ? imgElement.src : null;
-
-              data.push({
-                title,
-                dateText,
-                venueText,
-                ticketLink,
-                imgSrc
-              };
-            } catch (err) {
-              console.error('Error extracting event data:', err);
-            }
-          };
-
-          return data;
-        };
-
-        // Close browser
-        await browser.close();
-
-        // Process the raw event data
-        for (const rawEvent of eventData) {
-          try {
-            const startDate = this.parseDate(rawEvent.dateText);
-            if (!startDate) continue;
-
-            // Create end date (assume 3 hours later)
-            const endDate = new Date(startDate.getTime() + (3 * 60 * 60 * 1000));
-
-            // Create event object with iOS app compatibility
-            events.push({
-              id: `vogue-${rawEvent.title.replace(/\s+/g, '-').toLowerCase()}-${startDate.getTime()}`,
-              name: rawEvent.title, // Include name for compatibility
-              title: rawEvent.title,
-              description: `${rawEvent.title} at ${this.name}`,
-              image: rawEvent.imgSrc,
-              date: startDate.toISOString(), // Add ISO date string format
-              startDate,
-              endDate,
-              season: this.determineSeason(startDate),
-              category: 'Music', // Single category string for iOS compatibility
-              categories: ['Music', 'Performance'],
-              location: this.name,
-              venue: {
-                name: this.name,
-                address: '918 Granville St',
-                city: city,
-                state: 'BC',
-                country: 'Canada',
-                coordinates: { lat: 49.2810, lng: -123.1210 }
-              },
-              sourceURL: this.url,
-              officialWebsite: rawEvent.ticketLink || 'https://voguetheatre.com/',
-              tickets: rawEvent.ticketLink
-            };
-          } catch (err) {
-            console.error('Error processing event:', err.message);
-          }
-        }
-      }
-
-      console.log(`${this.name} scraper found ${events.length} events`);
-    } catch (error) {
-      console.error(`Error scraping ${this.name}:`, error.message);
-    }
-
-    return events;
+    }));
   }
 
   /**
-   * Determine season based on date
-   * @param {Date} date - Date object
-   * @returns {string} - Season name
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
    */
-  determineSeason(date) {
-    if (!date || isNaN(date.getTime())) return 'Unknown';
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
+    }
 
-    const month = date.getMonth();
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
 
-    if (month >= 2 && month <= 4) return 'Spring'; // March to May
-    if (month >= 5 && month <= 7) return 'Summer'; // June to August
-    if (month >= 8 && month <= 10) return 'Fall';  // September to November
-    return 'Winter';                               // December to February
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
 }
 
-// Export the scraper class
-module.exports = new VogueTheatreScraper();
-
+module.exports = VogueTheatreEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
-  const scraper = new VogueTheatreScraper();
-  return await scraper.scrape(city);
+  const scraper = new VogueTheatreEvents();
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.VogueTheatreScraper = VogueTheatreScraper;

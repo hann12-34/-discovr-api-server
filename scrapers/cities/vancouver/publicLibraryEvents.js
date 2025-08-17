@@ -1,173 +1,205 @@
-cleanHtmlContent(htmlContent) {
-    if (!htmlContent) return '';
+/**
+ * Vancouver Public Library Events Scraper
+ * Extracts events from Vancouver Public Library
+ */
 
-    // Remove HTML tags
-    let text = htmlContent.replace(/<[^>]*>/g, ' ');
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
 
-    // Replace multiple spaces, newlines with single space
-    text = text.replace(/\s+/g, ' ');
-
-    // Decode HTML entities
-    text = text.replace(/&amp;/g, '&')
-               .replace(/&lt;/g, '<')
-               .replace(/&gt;/g, '>')
-               .replace(/&quot;/g, '"')
-               .replace(/&#039;/g, "'");
-
-    return text.trim();
-  },
+class PublicLibraryEvents {
+  constructor() {
+    this.name = 'Vancouver Public Library Events';
+    this.url = 'https://www.vpl.ca/';
+    this.baseUrl = 'https://www.vpl.ca';
+    this.venue = {
+      name: 'Vancouver Public Library',
+      address: '350 W Georgia St, Vancouver, BC V6B 6B1',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2798, lng: -123.1146 }
+    };
+  }
 
   /**
-   * Main scraping function
-   * @returns {Promise<Array>} - Array of event objects
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
   async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Use shorter timeout
-      page.setDefaultNavigationTimeout(15000);
-
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2', timeout: 15000 };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Wait for events to load
-      try {
-        await page.waitForSelector('.views-row, -item, , .views-field', { timeout: 8000 };
-      } catch (error) {
-        console.log('Could not find event elements with standard selectors, trying to proceed anyway');
-      }
+      console.log('Extracting Vancouver Public Library events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Vancouver Public Library events`);
 
-      // Extract events data
-      const eventsData = await page.evaluate(() => {
-        const events = [];
-
-        // Try different selectors for events (VPL likely uses Drupal with Views)
-        const eventElements = Array.from(document.querySelectorAll(
-          '.views-row, -item, , .views-field'
-        ));
-
-        eventElements.forEach(element => {
-          // Try to extract title
-          let title = '';
-          const titleElement = element.querySelector('-title, h2, h3, .field-content a, .views-field-title');
-          if (titleElement) {
-            title = titleElement.textContent.trim();
-          }
-
-          if (!title) return;
-
-          // Try to extract description
-          let description = '';
-          const descElement = element.querySelector('-description, .field-event-description, .views-field-body, .views-field-field-description');
-          if (descElement) {
-            description = descElement.textContent.trim();
-          }
-
-          // Try to extract date
-          let dateText = '';
-          const dateElement = element.querySelector('.date-display-single, .date, .datetime, .views-field-field-date, .views-field-field-event-date');
-          if (dateElement) {
-            dateText = dateElement.textContent.trim();
-          }
-
-          // Try to extract location/branch
-          let location = '';
-          const locationElement = element.querySelector('.location, .branch, .views-field-field-branch, .views-field-field-location');
-          if (locationElement) {
-            location = locationElement.textContent.trim();
-          }
-
-          // Try to extract image URL
-          let imageUrl = '';
-          const imgElement = element.querySelector('img');
-          if (imgElement && imgElement.src) {
-            imageUrl = imgElement.src;
-          }
-
-          // Try to extract link URL
-          let sourceUrl = '';
-          const linkElement = element.querySelector('a');
-          if (linkElement && linkElement.href) {
-            sourceUrl = linkElement.href;
-          }
-
-          events.push({
-            title,
-            description,
-            dateText,
-            location,
-            imageUrl,
-            sourceUrl
-          };
-        };
-
-        return events;
-      };
-
-      console.log(`Found ${eventsData.length} potential events`);
-
-      // Process each event data
-      for (const eventData of eventsData) {
-        // Parse date information
-        const dateInfo = this.parseDateRange(eventData.dateText);
-
-        // Skip events with no valid dates
-        if (!dateInfo.startDate || !dateInfo.endDate) {
-          console.log(`Skipping event "${eventData.title}" due to invalid date: "${eventData.dateText}"`);
-          continue;
-        }
-
-        // Extract branch name from location
-        const branchName = this.extractBranchName(eventData.location);
-
-        // Generate event ID
-        const eventId = this.generateEventId(eventData.title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          eventData.title,
-          eventData.description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          eventData.imageUrl,
-          eventData.sourceUrl,
-          branchName
-        );
-
-        // Add event to events array
-        events.push(event);
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping Vancouver Public Library events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Vancouver Public Library website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .program, .workshop, .lecture, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.program',
+        '.workshop',
+        '.lecture',
+        'article',
+        '.event-item',
+        '.program-item',
+        '[class*="event"]',
+        '[class*="program"]',
+        '[class*="workshop"]',
+        '[class*="lecture"]',
+        '[class*="library"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .program-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .program-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .program-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Education', 'Community', 'Literature', 'Workshops', 'Learning'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
-};
+}
 
 module.exports = PublicLibraryEvents;
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new PublicLibraryEvents();
+  return await scraper.scrape('Vancouver');
+};

@@ -1,411 +1,203 @@
-determineCategories(title, description) {
-    const text = `${title} ${description}`.toLowerCase();
-    const categories = ['film', 'festival', 'arts', 'asian', 'cultural'];
+/**
+ * Vancouver Asian Film Festival Events Scraper
+ * Extracts events from Vancouver Asian Film Festival
+ */
 
-    if (text.includes('workshop') || text.includes('masterclass')) {
-      categories.push('workshop');
-    }
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
 
-    if (text.includes('panel') || text.includes('discussion') || text.includes('talk')) {
-      categories.push('talk');
-    }
-
-    if (text.includes('award') || text.includes('gala')) {
-      categories.push('gala');
-    }
-
-    if (text.includes('premiere')) {
-      categories.push('premiere');
-    }
-
-    return categories;
+class VancouverAsianFilmFestivalEvents {
+  constructor() {
+    this.name = 'Vancouver Asian Film Festival Events';
+    this.url = 'https://www.vaff.org/';
+    this.baseUrl = 'https://www.vaff.org';
+    this.venue = {
+      name: 'Vancouver Asian Film Festival',
+      address: 'Various Venues, Vancouver, BC',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2827, lng: -123.1207 }
+    };
   }
 
   /**
-   * Main scraping function to extract events
-   * @returns {Promise<Array>} - Array of event objects
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
   async scrape() {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Launch Puppeteer browser
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--ignore-certificate-errors',
-          '--disable-features=IsolateOrigins',
-          '--disable-site-isolation-trials'
-        ]
-      };
-
-      const page = await browser.newPage();
-
-      // Set viewport and user agent
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Navigate to the events page
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, {
-        waitUntil: 'networkidle2',
-        timeout: 60000
-      };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // First, try to extract festival dates from any element on the page
-      const festivalDateInfo = await page.evaluate(() => {
-        // Look for common date formats in any element
-        const datePatterns = [
-          // November 1-7, 2024 format
-          /(November|Oct|October|Aug|August|Sept|September)\s+\d{1,2}\s*[-–—]\s*\d{1,2},?\s+(202\d)/i,
-          // Nov 1-7, 2024 format
-          /(Nov|Oct|Aug|Sep)\s+\d{1,2}\s*[-–—]\s*\d{1,2},?\s+(202\d)/i,
-          // 1-7 November 2024 format
-          /(\d{1,2}\s*[-–—]\s*(\d{1,2}\s+(November|October|August|September),?\s+(202\d)/i,
-          // Just the year with festival mentions
-          /VAFF\s+202\d|202\d\s+VAFF|Vancouver\s+Asian\s+Film\s+Festival\s+202\d|202\d\s+Vancouver\s+Asian\s+Film\s+Festival/i
-        ];
+      console.log('Extracting Vancouver Asian Film Festival events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Vancouver Asian Film Festival events`);
 
-        // Check all text elements for date patterns
-        const textElements = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, p, div, span, a, li'));
-
-        let festivalDate = '';
-        let festivalTitle = '';
-        let festivalDescription = '';
-        let festivalImage = '';
-
-        // Find date elements
-        for (const el of textElements) {
-          const text = el.textContent.trim();
-
-          // Skip very short or empty texts
-          if (text.length < 3) continue;
-
-          // Check for festival title
-          if (!festivalTitle && (text.includes('VAFF') ||
-              text.toLowerCase().includes('vancouver asian film festival') ||
-              text.toLowerCase().includes('asian film festival'))) {
-            festivalTitle = text;
-          }
-
-          // Check for date patterns
-          for (const pattern of datePatterns) {
-            const match = text.match(pattern);
-            if (match) {
-              festivalDate = match[0];
-              break;
-            }
-          }
-
-          // Once we find both title and date, we can stop
-          if (festivalTitle && festivalDate) break;
-        }
-
-        // Find a description
-        const descElements = Array.from(document.querySelectorAll('p'));
-        for (const el of descElements) {
-          const text = el.textContent.trim();
-          if (text.length > 100 &&
-              (text.toLowerCase().includes('film') ||
-               text.toLowerCase().includes('festival') ||
-               text.toLowerCase().includes('asian'))) {
-            festivalDescription = text;
-            break;
-          }
-        }
-
-        // Find an image
-        const images = Array.from(document.querySelectorAll('img'))
-          .filter(img => img.width > 200 && img.height > 150 &&
-                  img.src && !img.src.includes('logo') &&
-                  (img.src.includes('festival') || img.src.includes('film') ||
-                   img.alt && (img.alt.includes('festival') || img.alt.includes('VAFF'))));
-
-        if (images.length > 0) {
-          festivalImage = images[0].src;
-        }
-
-        return {
-          date: festivalDate,
-          title: festivalTitle || 'Vancouver Asian Film Festival',
-          description: festivalDescription,
-          imageUrl: festivalImage
-        };
-      };
-
-      // If we have festival date information, create the main festival event
-      if (festivalDateInfo.date) {
-        // Try to parse the date string
-        const dateMatch = festivalDateInfo.date.match(/(November|Oct|October|Aug|August|Sept|September)\s+(\d{1,2}\s*[-–—]\s*(\d{1,2},?\s+(202\d)/i) ||
-                           festivalDateInfo.date.match(/(Nov|Oct|Aug|Sep)\s+(\d{1,2}\s*[-–—]\s*(\d{1,2},?\s+(202\d)/i) ||
-                           festivalDateInfo.date.match(/(\d{1,2}\s*[-–—]\s*(\d{1,2}\s+(November|October|August|September),?\s+(202\d)/i);
-
-        let startDate, endDate;
-
-        if (dateMatch) {
-          // We have a full date range match
-          const dateInfo = this.parseDateRange(festivalDateInfo.date);
-          startDate = dateInfo.startDate;
-          endDate = dateInfo.endDate;
-        } else {
-          // Look for just a year
-          const yearMatch = festivalDateInfo.date.match(/(202\d)/i);
-
-          if (yearMatch) {
-            const year = parseInt(yearMatch[1]);
-
-            // VAFF is typically held in November, so use estimated dates
-            startDate = new Date(year, 10, 1); // November 1
-            endDate = new Date(year, 10, 10, 23, 59, 59); // November 10
-          }
-        }
-
-        // Create main festival event if we have dates
-        if (startDate && endDate) {
-          const eventId = this.generateEventId('VAFF', startDate);
-
-          const festivalEvent = this.createEventObject(
-            eventId,
-            festivalDateInfo.title || `Vancouver Asian Film Festival ${startDate.getFullYear()}`,
-            festivalDateInfo.description || `The Vancouver Asian Film Festival (VAFF) is an annual film festival held in Vancouver, Canada that showcases films and videos by North American Asian filmmakers. The festival typically features screenings, panels, workshops and more.`,
-            startDate,
-            endDate,
-            festivalDateInfo.imageUrl || '',
-            this.url
-          );
-
-          events.push(festivalEvent);
-        }
-      }
-
-      // Check for events section or links
-      console.log('Looking for event elements...');
-
-      // Extract events from the main page
-      const mainPageEvents = await page.evaluate(() => {
-        const events = [];
-
-        // Look for event containers with various selectors
-        const eventContainers = Array.from(document.querySelectorAll(', s, -item, article, .post, .card, .upcoming-events li, s-list li, .wp-block-column'));
-
-        eventContainers.forEach(container => {
-          const title = container.querySelector('h2, h3, h4, h5, .title, -title')?.textContent.trim() || '';
-          if (!title || title.length < 3) return;
-
-          const description = container.querySelector('p, .description, .excerpt, .content')?.textContent.trim() || '';
-          const dateText = container.querySelector('.date, -date, time, .datetime')?.textContent.trim() || '';
-          const imageUrl = container.querySelector('img')?.src || '';
-          const linkElement = container.querySelector('a[href]');
-          const link = linkElement ? new URL(linkElement.href, window.location.href).href : '';
-
-          // Only add if we have a title and some other information
-          if (title && (dateText || description)) {
-            events.push({
-              title,
-              description,
-              dateText,
-              imageUrl,
-              link
-            };
-          }
-        };
-
-        return events;
-      };
-
-      // Process each main page event
-      for (const eventData of mainPageEvents) {
-        const { title, description, dateText, imageUrl, link } = eventData;
-
-        // Parse date information
-        const dateInfo = this.parseDateRange(dateText);
-
-        // Skip events with no dates if we want only properly dated events
-        if (!dateInfo.startDate && !dateInfo.endDate) {
-          continue; // Skip if we couldn't find any date information
-        }
-
-        // Generate event ID and create event object
-        const eventId = this.generateEventId(title, dateInfo.startDate);
-
-        const event = this.createEventObject(
-          eventId,
-          title,
-          description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          imageUrl,
-          link || this.url
-        );
-
-        events.push(event);
-      }
-
-      // If we found no events from main page, try to visit potential events pages
-      if (events.length === 0) {
-        const eventPages = [
-          '/events/',
-          '/whats-on/',
-          '/festival/',
-          '/program/',
-          '/schedule/',
-          '/about/',
-          '/films/',
-        ];
-
-        for (const eventPage of eventPages) {
-          const eventPageUrl = new URL(eventPage, this.url).href;
-          console.log(`Checking potential events page: ${eventPageUrl}`);
-
-          try {
-            await page.goto(eventPageUrl, { waitUntil: 'networkidle2', timeout: 30000 };
-
-            // Extract events from this page
-            const pageEvents = await page.evaluate(() => {
-              const events = [];
-
-              // Look for event elements
-              const eventElements = Array.from(document.querySelectorAll(', article, .post, .card, -item, .festival-item, .wp-block-column'));
-
-              eventElements.forEach(el => {
-                const title = el.querySelector('h2, h3, h4, h5, .title, -title')?.textContent.trim() || '';
-                if (!title || title.length < 3) return;
-
-                const description = el.querySelector('p, .description, .excerpt')?.textContent.trim() || '';
-                const dateText = el.querySelector('.date, time, .datetime, -date')?.textContent.trim() || '';
-                const imageUrl = el.querySelector('img')?.src || '';
-                const linkEl = el.querySelector('a[href]');
-                const link = linkEl ? new URL(linkEl.href, window.location.href).href : '';
-
-                if (title) {
-                  events.push({
-                    title,
-                    description,
-                    dateText,
-                    imageUrl,
-                    link
-                  };
-                }
-              };
-
-              return events;
-            };
-
-            // Process each event from this page
-            for (const eventData of pageEvents) {
-              const dateInfo = this.parseDateRange(eventData.dateText);
-
-              // Skip events with no dates
-              if (!dateInfo.startDate && !dateInfo.endDate) continue;
-
-              // Create event object
-              const eventId = this.generateEventId(eventData.title, dateInfo.startDate);
-
-              const event = this.createEventObject(
-                eventId,
-                eventData.title,
-                eventData.description,
-                dateInfo.startDate,
-                dateInfo.endDate,
-                eventData.imageUrl,
-                eventData.link || eventPageUrl
-              );
-
-              events.push(event);
-            }
-
-            // If we found events on this page, no need to check others
-            if (events.length > 0) {
-              break;
-            }
-          } catch (error) {
-            console.log(`Error accessing ${eventPageUrl}: ${error.message}`);
-            continue;
-          }
-        }
-      }
-
-      // If we still don't have any events, create a  for the upcoming festival
-      if (events.length === 0) {
-        // VAFF is typically held in November
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        const festivalYear = now.getMonth() >= 10 ? currentYear + 1 : currentYear; // If past November, use next year
-
-        const startDate = new Date(festivalYear, 10, 1); // November 1
-        const endDate = new Date(festivalYear, 10, 10, 23, 59, 59); // November 10
-
-        const eventId = this.generateEventId(`VAFF ${festivalYear}`, startDate);
-
-        const festivalEvent = this.createEventObject(
-          eventId,
-          `Vancouver Asian Film Festival ${festivalYear}`,
-          `The Vancouver Asian Film Festival (VAFF) is an annual film festival that showcases works by North American Asian filmmakers. The festival typically features film screenings, panels, workshops, and networking events celebrating Asian diaspora cinema.`,
-          startDate,
-          endDate,
-          '', // No image URL
-          this.url
-        );
-
-        events.push(festivalEvent);
-      }
-
-      console.log(`Found ${events.length} events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
-
-      // If there was an error and no events were found, create a
-      if (events.length === 0) {
-        // VAFF is typically held in November
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        const festivalYear = now.getMonth() >= 10 ? currentYear + 1 : currentYear; // If past November, use next year
-
-        const startDate = new Date(festivalYear, 10, 1); // November 1
-        const endDate = new Date(festivalYear, 10, 10, 23, 59, 59); // November 10
-
-        const eventId = this.generateEventId(`VAFF ${festivalYear}`, startDate);
-
-        const festivalEvent = this.createEventObject(
-          eventId,
-          `Vancouver Asian Film Festival ${festivalYear}`,
-          `The Vancouver Asian Film Festival (VAFF) is an annual film festival that showcases works by North American Asian filmmakers. The festival typically features film screenings, panels, workshops, and networking events celebrating Asian diaspora cinema.`,
-          startDate,
-          endDate,
-          '', // No image URL
-          this.url
-        );
-
-        events.push(festivalEvent);
-        console.log(`Added  for VAFF ${festivalYear}`);
-      }
+      console.error(`Error scraping Vancouver Asian Film Festival events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Vancouver Asian Film Festival website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .film, .screening, .festival, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.film',
+        '.screening',
+        '.festival',
+        'article',
+        '.event-item',
+        '.film-item',
+        '[class*="event"]',
+        '[class*="film"]',
+        '[class*="screening"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .film-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .screening-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .film-description, .synopsis');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Arts & Culture', 'Film', 'Asian Cinema', 'Festival'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
 }
 
-module.exports = new VancouverAsianFilmFestivalEvents();
+module.exports = VancouverAsianFilmFestivalEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
   const scraper = new VancouverAsianFilmFestivalEvents();
-  return await scraper.scrape(city);
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.VancouverAsianFilmFestivalEvents = VancouverAsianFilmFestivalEvents;

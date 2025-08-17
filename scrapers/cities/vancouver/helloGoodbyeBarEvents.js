@@ -1,196 +1,203 @@
-findEventPatternsInText(text) {
-    const events = [];
+/**
+ * Vancouver Hello Goodbye Bar Events Scraper
+ * Extracts events from Hello Goodbye Bar Vancouver
+ */
 
-    // Look for patterns like "Event Title - July 5th, 2024" or "July 5th - Event Title"
-    const patterns = [
-      // "Event Title - July 5, 2024" or "Event Title - July 5"
-      /([^-\n]+)\s*-\s*(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{0,4}/gi,
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
 
-      // "July 5, 2024 - Event Title" or "July 5 - Event Title"
-      /(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{0,4}\s*-\s*([^-\n]+)/gi,
-
-      // "Event Title | July 5, 2024" or "Event Title | July 5"
-      /([^|\n]+)\s*\|\s*(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{0,4}/gi,
-
-      // Look for DJ names followed by dates
-      /DJ\s+([A-Za-z\s]+).*?(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{0,4}/gi
-    ];
-
-    for (const pattern of patterns) {
-      const matches = [...text.matchAll(pattern)];
-
-      for (const match of matches) {
-        // Extract title and date based on pattern
-        let title, date;
-
-        if (pattern.source.startsWith('([^-')) {
-          // Title first patterns
-          title = match[1].trim();
-          date = match[2] + match[0].substring(match[1].length + match[2].length + 1);
-        } else if (pattern.source.startsWith('(January|February')) {
-          // Date first patterns
-          date = match[1] + match[0].substring(0, match[0].indexOf('-')).substring(match[1].length);
-          title = match[2].trim();
-        } else if (pattern.source.startsWith('([^|')) {
-          // Title first with pipe separator
-          title = match[1].trim();
-          date = match[2] + match[0].substring(match[1].length + match[2].length + 1);
-        } else if (pattern.source.startsWith('DJ')) {
-          // DJ pattern
-          title = `DJ ${match[1].trim()}`;
-          date = match[2] + match[0].substring(match[0].indexOf(match[2])).substring(match[2].length);
-        }
-
-        events.push({
-          title,
-          date,
-          description: `${title} performing at ${this.name}`
-        };
-      }
-    }
-
-    return events;
+class HelloGoodbyeBarEvents {
+  constructor() {
+    this.name = 'Vancouver Hello Goodbye Bar Events';
+    this.url = 'https://www.hellogoodbyebar.com/';
+    this.baseUrl = 'https://www.hellogoodbyebar.com';
+    this.venue = {
+      name: 'Hello Goodbye Bar',
+      address: '1093 Hamilton St, Vancouver, BC V6B 5T4',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2748, lng: -123.1201 }
+    };
   }
 
   /**
-   * Parse event date from string
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
-  parseEventDate(dateText) {
-    if (!dateText) return null;
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      // Clean up the date string
-      dateText = dateText.trim().replace(/\s+/g, ' ');
+      console.log(`Navigating to ${this.url}`);
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Handle various date formats
-      let startDate;
-      let endDate;
+      console.log('Extracting Hello Goodbye Bar events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Hello Goodbye Bar events`);
 
-      // Format: "July 10, 2024" or "July 10 2024"
-      const fullDateMatch = dateText.match(/([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?,?\s+(\d{4}/i);
-      if (fullDateMatch) {
-        const month = this.getMonthNumber(fullDateMatch[1]);
-        const day = parseInt(fullDateMatch[2]);
-        const year = parseInt(fullDateMatch[3]);
-        startDate = new Date(year, month, day);
-      }
-
-      // Format: "July 10" (no year specified)
-      const partialDateMatch = dateText.match(/([A-Za-z]+)\s+(\d{1,2}(?:st|nd|rd|th)?/i);
-      if (!startDate && partialDateMatch) {
-        const month = this.getMonthNumber(partialDateMatch[1]);
-        const day = parseInt(partialDateMatch[2]);
-        const year = new Date().getFullYear(); // Current year
-        startDate = new Date(year, month, day);
-      }
-
-      // Format: "MM/DD/YYYY"
-      const slashDateMatch = dateText.match(/(\d{1,2}\/(\d{1,2}\/(\d{4}/);
-      if (!startDate && slashDateMatch) {
-        const month = parseInt(slashDateMatch[1]) - 1; // 0-based month
-        const day = parseInt(slashDateMatch[2]);
-        const year = parseInt(slashDateMatch[3]);
-        startDate = new Date(year, month, day);
-      }
-
-      // Look for time in the string
-      const timeMatch = dateText.match(/(\d{1,2}(?::(\d{2}?\s*(AM|PM|am|pm)/i);
-
-      if (startDate) {
-        // Set default time to 9 PM if not specified
-        let hours = 21;
-        let minutes = 0;
-
-        // Use extracted time if available
-        if (timeMatch) {
-          hours = parseInt(timeMatch[1]);
-          minutes = timeMatch[2] ? parseInt(timeMatch[2]) : 0;
-          const isPM = timeMatch[3].toLowerCase() === 'pm';
-
-          // Convert to 24-hour format
-          if (isPM && hours < 12) hours += 12;
-          if (!isPM && hours === 12) hours = 0;
-        }
-
-        startDate.setHours(hours, minutes, 0, 0);
-
-        // Set end time to 2 hours after start time
-        endDate = new Date(startDate);
-        endDate.setHours(endDate.getHours() + 3);
-
-        return { startDate, endDate };
-      }
-
-      return null;
+      return events;
     } catch (error) {
-      console.error(`❌ Error parsing event date "${dateText}": ${error.message}`);
-      return null;
+      console.error(`Error scraping Hello Goodbye Bar events: ${error.message}`);
+      return [];
+    } finally {
+      await browser.close();
     }
   }
 
   /**
-   * Get month number from name
+   * Extract events from Hello Goodbye Bar website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
    */
-  getMonthNumber(monthName) {
-    const months = {
-      'january': 0, 'february': 1, 'march': 2, 'april': 3, 'may': 4, 'june': 5,
-      'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11,
-      'jan': 0, 'feb': 1, 'mar': 2, 'apr': 3, 'jun': 5, 'jul': 6, 'aug': 7, 'sep': 8, 'oct': 9, 'nov': 10, 'dec': 11
-    };
-    return months[monthName.toLowerCase()];
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .show, .party, .nightlife, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.show',
+        '.party',
+        '.nightlife',
+        'article',
+        '.event-item',
+        '.show-item',
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="party"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
+      }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .show-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Nightlife', 'Bar', 'Entertainment', 'Music'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
   }
 
   /**
-   * Create event object
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
    */
-  createEventObject(id, title, description, startDate, endDate, image, sourceURL) {
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
+    }
+
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
     return {
-      id,
-      title,
-      description,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      venue: {
-        name: this.name,
-        id: this.sourceIdentifier,
-        address: '110 Davie St',
-        city: city,
-        state: 'BC',
-        country: 'Canada',
-        coordinates: {
-          lat: 49.2738,
-          lng: -123.1131
-        },
-        websiteUrl: this.url,
-        description: 'Hello Goodbye is an underground bar in Yaletown, Vancouver, known for live DJ sets and cocktails.'
-      },
-      category: 'nightlife',
-      categories: ['music', 'nightlife', 'bar', 'entertainment', 'dj'],
-      sourceURL,
-      officialWebsite: this.url,
-      image,
-      ticketsRequired: false,
-      lastUpdated: new Date().toISOString()
+      startDate: new Date(),
+      endDate: new Date()
     };
-  }
-
-  /**
-   * Generate event ID
-   */
-  generateEventId(title, date) {
-    const da = date.toISOString().split('T')[0];
-    const slug = slugify(title.toLowerCase());
-    return `${this.sourceIdentifier}-${slug}-${da}`;
   }
 }
 
-module.exports = new HelloGoodbyeBarEvents();
+module.exports = HelloGoodbyeBarEvents;
 
 // Function export for compatibility with runner/validator
 module.exports = async (city) => {
   const scraper = new HelloGoodbyeBarEvents();
-  return await scraper.scrape(city);
+  return await scraper.scrape('Vancouver');
 };
-
-// Also export the class for backward compatibility
-module.exports.HelloGoodbyeBarEvents = HelloGoodbyeBarEvents;

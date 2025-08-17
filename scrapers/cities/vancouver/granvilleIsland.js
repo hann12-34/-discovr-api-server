@@ -20,7 +20,7 @@ class GranvilleIslandScraper {
       name: 'Granville Island',
       id: 'granville-island',
       address: '1661 Duranleau St',
-      city: city,
+      city: 'Vancouver',
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6H 3S3',
@@ -57,7 +57,7 @@ class GranvilleIslandScraper {
       if (dateTimeText) {
         console.log(`📅 Found date info: ${dateTimeText}`);
         // Extract date and time using regex
-        const dateMatch = dateTimeText.match(/(\w+\s\d+,\s\d{4}/);
+        const dateMatch = dateTimeText.match(/(\w+\s\d+,\s\d{4})/);
         const timeMatch = dateTimeText.match(/(\d+:\d+\s?[ap]m)\s*-\s*(\d+:\d+\s?[ap]m)/i);
 
         if (dateMatch && dateMatch[1]) {
@@ -182,7 +182,7 @@ class GranvilleIslandScraper {
         if (href && href.includes('/event/') && !eventLinks.includes(href)) {
           eventLinks.push(href);
         }
-      };
+      });
 
       console.log(`🔗 Found ${eventLinks.length} event links`);
 
@@ -216,7 +216,7 @@ class GranvilleIslandScraper {
           let basicDescription = '';
           $(`a[href="${eventPath}"]`).closest('div').find('p').each((i, el) => {
             basicDescription += $(el).text().trim() + ' ';
-          };
+          });
 
           if (!basicDescription) {
             basicDescription = 'Event at Granville Island. Visit the website for more details.';

@@ -13,7 +13,7 @@ class HRMacMillanSpaceCentreEvents {
     this.venue = {
       name: 'H.R. MacMillan Space Centre',
       address: '1100 Chestnut St, Vancouver, BC V6J 3J9',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2760, lng: -123.1444 }
@@ -29,7 +29,7 @@ class HRMacMillanSpaceCentreEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class HRMacMillanSpaceCentreEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting H.R. MacMillan Space Centre events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class HRMacMillanSpaceCentreEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -card, s-list-item', { timeout: 10000 }
+    await page.waitForSelector('-item, -card, s-list-item', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -166,7 +166,7 @@ class HRMacMillanSpaceCentreEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -177,7 +177,7 @@ class HRMacMillanSpaceCentreEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       return {
         id: uniqueId,
@@ -191,7 +191,7 @@ class HRMacMillanSpaceCentreEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -216,7 +216,7 @@ class HRMacMillanSpaceCentreEvents {
       }
 
       // Look for month/day/year format (common in North America)
-      const mdyPattern = /(\d{1,2}[\/\-\.](\d{1,2}[\/\-\.](\d{2,4}/;
+      const mdyPattern = /(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/;
       const mdyMatch = dateText.match(mdyPattern);
 
       if (mdyMatch) {
@@ -241,7 +241,7 @@ class HRMacMillanSpaceCentreEvents {
       }
 
       // Look for date patterns with month names
-      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2}(?:st|nd|rd|th)?(?:,? (\d{4}?/i;
+      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2}(?:st|nd|rd|th)?)(?:,? (\d{4}))?/i;
       const monthMatch = dateText.match(monthPattern);
 
       if (monthMatch) {
@@ -257,7 +257,7 @@ class HRMacMillanSpaceCentreEvents {
         const date = new Date(year, monthMap[monthStr], day);
 
         // Look for time information
-        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}))?)\s*(am|pm)/i;
         const timeMatch = dateText.match(timePattern);
 
         if (timeMatch) {

@@ -13,7 +13,7 @@ class RogersArenaEvents {
     this.venue = {
       name: 'Rogers Arena',
       address: '800 Griffiths Way, Vancouver, BC V6B 6G1',
-      city: city,
+      city: 'Vancouver',
       province: 'BC',
       country: 'Canada',
       coordinates: { lat: 49.2778, lng: -123.1088 }
@@ -29,7 +29,7 @@ class RogersArenaEvents {
     const browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    });
     const page = await browser.newPage();
 
     // Set user agent to avoid detection
@@ -40,7 +40,7 @@ class RogersArenaEvents {
 
     try {
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
       console.log('Extracting Rogers Arena events...');
       const events = await this.extractEvents(page);
@@ -63,10 +63,10 @@ class RogersArenaEvents {
    */
   async extractEvents(page) {
     // Wait for event containers to load
-    await page.waitForSelector('-item, -card, -listing', { timeout: 10000 }
+    await page.waitForSelector('-item, -card, -listing', { timeout: 10000 })
       .catch(() => {
         console.log('Primary event selectors not found, trying alternative selectors');
-      };
+      });
 
     // Extract events
     const events = await page.evaluate((venueInfo) => {
@@ -165,7 +165,7 @@ class RogersArenaEvents {
           console.log(`Error processing event: ${error.message}`);
           return null;
         }
-      }.filter(Boolean); // Remove any null entries
+      }).filter(Boolean); // Remove any null entries
     }, this.venue);
 
     // Process dates and create final event objects
@@ -176,7 +176,7 @@ class RogersArenaEvents {
       const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
         lower: true,
         strict: true
-      };
+      });
 
       // Determine categories based on title
       const categories = this.determineCategories(event.title);
@@ -193,7 +193,7 @@ class RogersArenaEvents {
         sourceURL: event.link || this.url,
         lastUpdated: new Date()
       };
-    };
+    }));
   }
 
   /**
@@ -264,7 +264,7 @@ class RogersArenaEvents {
       }
 
       // Look for month/day/year format (common in North America)
-      const mdyPattern = /(\d{1,2}[\/\-\.](\d{1,2}[\/\-\.](\d{2,4}/;
+      const mdyPattern = /(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/;
       const mdyMatch = dateText.match(mdyPattern);
 
       if (mdyMatch) {
@@ -289,7 +289,7 @@ class RogersArenaEvents {
       }
 
       // Look for date patterns with month names
-      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2}(?:st|nd|rd|th)?(?:,? (\d{4}?/i;
+      const monthPattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* (\d{1,2}(?:st|nd|rd|th)?)(?:,? (\d{4}))?/i;
       const monthMatch = dateText.match(monthPattern);
 
       if (monthMatch) {
@@ -305,7 +305,7 @@ class RogersArenaEvents {
         const date = new Date(year, monthMap[monthStr], day);
 
         // Look for time information
-        const timePattern = /(\d{1,2}(?::(\d{2}?\s*(am|pm)/i;
+        const timePattern = /(\d{1,2}(?::(\d{2}))?)\s*(am|pm)/i;
         const timeMatch = dateText.match(timePattern);
 
         if (timeMatch) {

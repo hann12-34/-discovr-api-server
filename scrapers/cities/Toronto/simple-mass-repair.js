@@ -115,7 +115,7 @@ async function simpleRepairAll() {
   console.log(`✅ Successfully repaired: ${repaired}`);
   console.log(`⏭️ Already clean (skipped): ${skipped}`);
   console.log(`📁 Total processed: ${allFiles.length}`);
-  console.log(`📈 Repair success rate: ${Math.round((repaired/(allFiles.length-skipped))*100)}%`);
+  console.log(`📈 Repair success rate: ${Math.round(repaired/(allFiles.length-skipped))*100)}%`);
 
   return { repaired, skipped, total: allFiles.length };
 }

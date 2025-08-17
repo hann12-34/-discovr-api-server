@@ -1,225 +1,205 @@
-extractVenue(text) {
-    if (!text) return null;
+/**
+ * Vancouver Dance Festival Events Scraper
+ * Extracts events from Vancouver International Dance Festival
+ */
 
-    // Common venues for the festival
-    const venues = [
-      {
-        keywords: ['roundhouse', 'community arts', 'recreation centre'],
-        name: 'Roundhouse Community Arts & Recreation Centre',
-        address: '181 Roundhouse Mews',
-        city: city,
-        province: 'BC',
-        country: 'Canada',
-        postalCode: 'V6Z 2W3',
-        website: 'https://vidf.ca',
-        googleMapsUrl: 'https://goo.gl/maps/j2iYjXZqTLcZdvZZ7'
-      },
-      {
-        keywords: ['scotiabank dance centre', 'dance centre'],
-        name: 'Scotiabank Dance Centre',
-        address: '677 Davie St',
-        city: city,
-        province: 'BC',
-        country: 'Canada',
-        postalCode: 'V6B 2G6',
-        website: 'https://vidf.ca',
-        googleMapsUrl: 'https://goo.gl/maps/bNvThEQDsi4W8TL38'
-      },
-      {
-        keywords: ['vancouver playhouse'],
-        name: 'Vancouver Playhouse',
-        address: '600 Hamilton St',
-        city: city,
-        province: 'BC',
-        country: 'Canada',
-        postalCode: 'V6B 2P1',
-        website: 'https://vidf.ca',
-        googleMapsUrl: 'https://goo.gl/maps/KbidxJixaxTo8YLK9'
-      }
-    ];
+const puppeteer = require('puppeteer');
+const slugify = require('slugify');
 
-    const lowerText = text.toLowerCase();
-
-    for (const venue of venues) {
-      for (const keyword of venue.keywords) {
-        if (lowerText.includes(keyword)) {
-          return venue;
-        }
-      }
-    }
-
-    return null;
-  },
+class DanceFestivalEvents {
+  constructor() {
+    this.name = 'Vancouver Dance Festival Events';
+    this.url = 'https://vidf.ca/';
+    this.baseUrl = 'https://vidf.ca';
+    this.venue = {
+      name: 'Vancouver International Dance Festival',
+      address: 'Various Venues, Vancouver, BC',
+      city: 'Vancouver',
+      province: 'BC',
+      country: 'Canada',
+      coordinates: { lat: 49.2827, lng: -123.1207 }
+    };
+  }
 
   /**
-   * Main scraping function
-   * @returns {Promise<Array>} - Array of event objects
+   * Main scraping method
+   * @returns {Promise<Array>} Array of event objects
    */
-  async scrape(city) {
-    if (!this.enabled) {
-      console.log(`${this.name} scraper is disabled`);
-      return [];
-    }
+  async scrape() {
+    console.log(`Starting ${this.name} scraper...`);
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
 
-    console.log(`🔍 Scraping events from ${this.name}...`);
-    const events = [];
-    let browser;
+    // Set user agent to avoid detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
+    // Set default timeout
+    await page.setDefaultNavigationTimeout(30000);
 
     try {
-      browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      };
-
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1280, height: 800 };
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
-
-      // Set shorter timeout
-      page.setDefaultNavigationTimeout(30000);
-
       console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' };
+      await page.goto(this.url, { waitUntil: 'networkidle2' });
 
-      // Extract performances
-      const performances = await page.evaluate(() => {
-        const performances = [];
+      console.log('Extracting Dance Festival events...');
+      const events = await this.extractEvents(page);
+      console.log(`Found ${events.length} Dance Festival events`);
 
-        // Try different selectors for performances
-        const performanceElements = Array.from(document.querySelectorAll(
-          '.performance, , .show, article, .card, .program-item, -item'
-        ));
-
-        performanceElements.forEach(element => {
-          // Extract title
-          let title = '';
-          const titleElement = element.querySelector('h2, h3, h4, .title, .heading');
-          if (titleElement) {
-            title = titleElement.textContent.trim();
-          }
-
-          if (!title) return;
-
-          // Extract description
-          let description = '';
-          const descElement = element.querySelector('p, .description, .excerpt, .content');
-          if (descElement) {
-            description = descElement.textContent.trim();
-          }
-
-          // Extract date
-          let dateText = '';
-          const dateElement = element.querySelector('.date, .dates, time, .schedule');
-          if (dateElement) {
-            dateText = dateElement.textContent.trim();
-          }
-
-          // If no date element found, search in the text
-          if (!dateText) {
-            const text = element.textContent;
-
-            // Look for common date patterns
-            const datePatterns = [
-              /(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{4}/i,
-              /\d{1,2}\/\d{1,2}\/\d{4}/,
-              /\d{4}-\d{2}-\d{2}/
-            ];
-
-            for (const pattern of datePatterns) {
-              const match = text.match(pattern);
-              if (match) {
-                dateText = match[0];
-                break;
-              }
-            }
-          }
-
-          // Extract image
-          let imageUrl = '';
-          const imgElement = element.querySelector('img');
-          if (imgElement && imgElement.src) {
-            imageUrl = imgElement.src;
-          }
-
-          // Extract URL
-          let sourceUrl = '';
-          const linkElement = element.querySelector('a');
-          if (linkElement && linkElement.href) {
-            sourceUrl = linkElement.href;
-          }
-
-          // Extract venue information from text
-          const venueInfo = element.textContent;
-
-          // Skip items without essential information
-          if (title && (dateText || description.length > 20)) {
-            performances.push({
-              title,
-              description,
-              dateText,
-              imageUrl,
-              sourceUrl,
-              venueInfo
-            };
-          }
-        };
-
-        return performances;
-      };
-
-      console.log(`Found ${performances.length} potential performances`);
-
-      // Process performances
-      for (const performance of performances) {
-        // Skip if no date and very short description
-        if (!performance.dateText && performance.description.length < 20) {
-          console.log(`Skipping performance "${performance.title}" - insufficient information`);
-          continue;
-        }
-
-        // Parse date
-        const dateInfo = this.parseDateRange(performance.dateText);
-
-        // Skip events with no valid dates
-        if (!dateInfo.startDate || !dateInfo.endDate) {
-          console.log(`Skipping performance "${performance.title}" - invalid date: "${performance.dateText}"`);
-          continue;
-        }
-
-        // Extract venue from description
-        const venue = this.extractVenue(performance.venueInfo || performance.description);
-
-        // Generate event ID
-        const eventId = this.generateEventId(performance.title, dateInfo.startDate);
-
-        // Create event object
-        const event = this.createEventObject(
-          eventId,
-          performance.title,
-          performance.description,
-          dateInfo.startDate,
-          dateInfo.endDate,
-          performance.imageUrl,
-          performance.sourceUrl,
-          venue
-        );
-
-        // Add to events array
-        events.push(event);
-      }
-
-      console.log(`Found ${events.length} total events from ${this.name}`);
-
+      return events;
     } catch (error) {
-      console.error(`Error scraping ${this.name}: ${error.message}`);
+      console.error(`Error scraping Dance Festival events: ${error.message}`);
+      return [];
     } finally {
-      if (browser) {
-        await browser.close();
+      await browser.close();
+    }
+  }
+
+  /**
+   * Extract events from Dance Festival website
+   * @param {Page} page - Puppeteer page object
+   * @returns {Promise<Array>} - Array of event objects
+   */
+  async extractEvents(page) {
+    // Wait for event containers to load
+    await page.waitForSelector('.event, .performance, .show, .dance, article', { timeout: 10000 })
+      .catch(() => {
+        console.log('Primary event selectors not found, trying alternative selectors');
+      });
+
+    // Extract events
+    const events = await page.evaluate((venueInfo, baseUrl) => {
+      // Try multiple potential selectors for event containers
+      const eventSelectors = [
+        '.event',
+        '.performance',
+        '.show',
+        '.dance',
+        'article',
+        '.event-item',
+        '.performance-item',
+        '[class*="event"]',
+        '[class*="performance"]',
+        '[class*="show"]',
+        '[class*="dance"]',
+        '[class*="festival"]'
+      ];
+
+      let eventElements = [];
+
+      // Try each selector until we find events
+      for (const selector of eventSelectors) {
+        eventElements = document.querySelectorAll(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
+          break;
+        }
       }
+
+      // If no events found with standard selectors, try to extract from any structured content
+      if (eventElements.length === 0) {
+        eventElements = document.querySelectorAll('div, section');
+        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
+      }
+
+      return Array.from(eventElements).map((event, index) => {
+        try {
+          // Extract title
+          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .performance-title') || event;
+          const title = titleElement.textContent?.trim();
+          
+          // Extract date information
+          const dateElement = event.querySelector('.date, .event-date, .performance-date, time, [datetime]');
+          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
+          
+          // Extract description
+          const descElement = event.querySelector('p, .description, .event-description, .performance-description, .details');
+          const description = descElement?.textContent?.trim();
+          
+          // Extract image
+          const imgElement = event.querySelector('img');
+          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
+          
+          // Extract link
+          const linkElement = event.querySelector('a') || event.closest('a');
+          const link = linkElement?.href || '';
+          
+          if (!title || title.length < 3) return null;
+          
+          return {
+            title,
+            dateText,
+            description,
+            image,
+            link: link.startsWith('http') ? link : `${baseUrl}${link}`
+          };
+        } catch (error) {
+          console.log(`Error processing event: ${error.message}`);
+          return null;
+        }
+      }).filter(Boolean);
+    }, this.venue, this.baseUrl);
+
+    // Process dates and create final event objects
+    return Promise.all(events.map(async event => {
+      const { startDate, endDate } = this.parseDates(event.dateText);
+
+      // Generate a unique ID based on title and date
+      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
+        lower: true,
+        strict: true
+      });
+
+      return {
+        id: uniqueId,
+        title: event.title,
+        description: event.description,
+        startDate,
+        endDate,
+        image: event.image,
+        venue: this.venue,
+        categories: ['Dance', 'Performing Arts', 'Festival', 'Arts & Culture'],
+        sourceURL: event.link || this.url,
+        lastUpdated: new Date()
+      };
+    }));
+  }
+
+  /**
+   * Parse dates from text
+   * @param {string} dateText - Text containing date information
+   * @returns {Object} - Object with startDate and endDate
+   */
+  parseDates(dateText) {
+    if (!dateText) {
+      return {
+        startDate: new Date(),
+        endDate: new Date()
+      };
     }
 
-    return events;
+    const date = new Date(dateText);
+    
+    if (!isNaN(date.getTime())) {
+      return {
+        startDate: date,
+        endDate: date
+      };
+    }
+
+    // Default fallback
+    return {
+      startDate: new Date(),
+      endDate: new Date()
+    };
   }
-};
+}
 
 module.exports = DanceFestivalEvents;
+
+// Function export for compatibility with runner/validator
+module.exports = async (city) => {
+  const scraper = new DanceFestivalEvents();
+  return await scraper.scrape('Vancouver');
+};
