@@ -45,13 +45,13 @@ class AtticBarStageEvents {
             }
 
             // Handle common date formats
-            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2},?\s+(\d{4})//);
+            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2},?\s+(\d{4}))/);
             if (dateMatch) {
                 return new Date(`${dateMatch[1]} ${dateMatch[2]}, ${dateMatch[3]}`);
             }
 
             // Handle numeric date formats
-            const numericMatch = cleanDateStr.match(/(\d{1,2}\/(\d{1,2}\/(\d{4}/);
+            const numericMatch = cleanDateStr.match(/(\d{1,2}\/)?(\d{1,2}\/)?(\d{4})/);
             if (numericMatch) {
                 return new Date(`${numericMatch[1]}/${numericMatch[2]}/${numericMatch[3]}`);
             }
@@ -240,13 +240,13 @@ class AtticBarStageEvents {
     removeDuplicates(events) {
         const seen = new Set();
         return events.filter(event => {
-            const key = `${event.title}-${event.date ? event.date.toDaeventDateText() : 'no-date'}`;
+            const key = `${event.title}-${event.date ? event.date.toDateString() : 'no-date'}`;
             if (seen.has(key)) {
                 return false;
             }
             seen.add(key);
             return true;
-        };
+        });
     }
 
     /**

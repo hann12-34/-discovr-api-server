@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 
-class Metropolis MontrealEvents {
+class MetropolisMontrealEvents {
     constructor() {
         this.source = 'Metropolis Montreal';
         this.city = 'Montreal';
@@ -122,4 +122,4 @@ class Metropolis MontrealEvents {
     }
 }
 
-module.exports = Metropolis MontrealEvents;
+module.exports = MetropolisMontrealEvents;

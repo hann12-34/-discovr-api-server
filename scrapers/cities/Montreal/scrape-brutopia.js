@@ -81,7 +81,11 @@ class BrutopiaEvents {
             title: title,
             description: description || `${title} at Brutopia`,
             date: eventDate,
-            venue: { ...RegExp.venue: { ...RegExp.venue: venue,, city }, city },,
+            venue: {
+                name: this.source,
+                city: this.city,
+                province: this.province
+            },
             city: this.city,
             province: this.province,
             price: price,

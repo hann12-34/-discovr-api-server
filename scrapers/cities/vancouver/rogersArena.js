@@ -20,7 +20,7 @@ class RogersArenaScraper {
       name: 'Rogers Arena',
       id: 'rogers-arena-vancouver',
       address: '800 Griffiths Way',
-      city: city,
+      city: "Vancouver",
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 6G1',
@@ -59,7 +59,7 @@ class RogersArenaScraper {
 
           try {
             // Example date parsing assuming format like "Jul 26, 2025"
-            const dateMatch = dateText.match(/([A-Za-z]+)\s+(\d+),\s+(\d{4}/);
+            const dateMatch = dateText.match(/([A-Za-z]+)\s+(\d+),\s+(\d{4})/);
             if (dateMatch) {
               const month = dateMatch[1];
               const day = parseInt(dateMatch[2]);
@@ -127,7 +127,7 @@ class RogersArenaScraper {
         } catch (eventError) {
           console.error(`❌ Error extracting event details: ${eventError.message}`);
         }
-      };
+      });
 
       console.log(`🎉 Successfully scraped ${events.length} Rogers Arena events`);
       return events;

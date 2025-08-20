@@ -321,14 +321,11 @@ async function startServer() {
         // Build minimal query - NO FILTERING BY DEFAULT
         let query = {};
         
-        // City filtering ONLY if explicitly requested (case insensitive)
-        // FIXED: Check venue.city first (where NYC events store "New York")
+        // City filtering ONLY if explicitly requested (STRICT MATCHING to prevent contamination)
         if (city && city !== 'all') {
           query.$or = [
-            { 'venue.city': { $regex: city, $options: 'i' } },
-            { 'venue.name': { $regex: `, ${city}$`, $options: 'i' } },
-            { 'location': { $regex: city, $options: 'i' } },
-            { 'city': { $regex: city, $options: 'i' } }
+            { 'venue.city': city },  // Exact match for venue.city
+            { 'city': city }         // Exact match for city field
           ];
         }
         
@@ -417,14 +414,12 @@ async function startServer() {
             }
           }
 
-          // 3. Enhanced Navigation/Non-Event Filtering
+          // 3. Title Cleaning (NO FILTERING - keep all events)
           if (validatedEvent.title && typeof validatedEvent.title === 'string') {
             let cleanedTitle = validatedEvent.title.trim();
 
-            // Use enhanced navigation filter to catch non-event items
-            if (!isValidEventTitle(cleanedTitle)) {
-              return null; // Filter out non-event items
-            }
+            // REMOVED FILTERING - Allow all events through
+            // The navigationFilter is now minimal and won't block real events
 
             // Remove city prefixes like "Vancouver - "
             cleanedTitle = cleanedTitle.replace(/^(Vancouver|Calgary|Toronto|Montreal) - /i, '');

@@ -18,7 +18,7 @@ class VancouverArtGalleryScraper {
       name: "Vancouver Art Gallery",
       id: "vancouver-art-gallery",
       address: "750 Hornby St",
-      city: city,
+      city: "Vancouver",
       state: "BC",
       country: "Canada",
       postalCode: "V6Z 2H7",

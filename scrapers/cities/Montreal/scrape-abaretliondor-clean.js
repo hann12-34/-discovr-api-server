@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 
-class Cabaret Lion d OrEvents {
+class CabaretLionDOrEvents {
     constructor() {
         this.source = 'Cabaret Lion d Or';
         this.city = 'Montreal';
@@ -122,4 +122,4 @@ class Cabaret Lion d OrEvents {
     }
 }
 
-module.exports = Cabaret Lion d OrEvents;
+module.exports = CabaretLionDOrEvents;

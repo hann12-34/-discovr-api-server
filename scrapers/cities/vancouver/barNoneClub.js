@@ -20,7 +20,7 @@ class BarNoneClubScraper {
       name: 'Bar None Club',
       id: 'bar-none-club',
       address: '1222 Hamilton Street',
-      city: city,
+      city: 'Vancouver',
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6B 2S8',

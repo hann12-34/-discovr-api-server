@@ -50,7 +50,7 @@ class MontrealScienceCentreEvents {
                 'avril': 'April', 'mai': 'May', 'juin': 'June',
                 'juillet': 'July', 'août': 'August', 'septembre': 'September',
                 'octobre': 'October', 'novembre': 'November', 'décembre': 'December'
-            };
+            });
 
             let englishDateStr = cleanDateStr;
             for (const [french, english] of Object.entries(frenchMonths)) {
@@ -194,7 +194,7 @@ class MontrealScienceCentreEvents {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            };
+            });
 
             const $ = cheerio.load(response.data);
 
@@ -225,10 +225,10 @@ class MontrealScienceCentreEvents {
                             url: href.startsWith('http') ? href : `${this.baseUrl}${href}`,
                             image: null,
                             scrapedAt: new Date()
-                        };
+                        });
                     }
                 }
-            };
+            });
 
         } catch (error) {
             console.error('Error scraping special events:', error.message);
@@ -247,7 +247,7 @@ class MontrealScienceCentreEvents {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            };
+            });
 
             const $ = cheerio.load(response.data);
 
@@ -276,10 +276,10 @@ class MontrealScienceCentreEvents {
                             url: imaxUrl,
                             image: null,
                             scrapedAt: new Date()
-                        };
+                        });
                     }
                 }
-            };
+            });
 
         } catch (error) {
             console.error('Error scraping IMAX shows:', error.message);
@@ -329,7 +329,7 @@ class MontrealScienceCentreEvents {
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 },
                 timeout: 30000
-            };
+            });
 
             const $ = cheerio.load(response.data);
             const events = [];
@@ -369,7 +369,7 @@ class MontrealScienceCentreEvents {
                     return text.includes('2024') || text.includes('2025') ||
                            text.includes('exhibition') || text.includes('workshop') ||
                            text.includes('janvier') || text.includes('février');
-                };
+                });
             }
 
             console.log(`📅 Processing ${eventElements.length} potential events...`);
@@ -384,7 +384,7 @@ class MontrealScienceCentreEvents {
                 } catch (error) {
                     console.error(`❌ Error extracting event ${index + 1}:`, error.message);
                 }
-            };
+            });
 
             const uniqueEvents = this.removeDuplicateEvents(events);
             console.log(`🎉 Successfully scraped ${uniqueEvents.length} unique events from ${this.source}`);

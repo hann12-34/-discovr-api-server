@@ -20,7 +20,7 @@ class ChanCentreScraper {
       name: 'Chan Centre for the Performing Arts',
       id: 'chan-centre-ubc',
       address: '6265 Crescent Road',
-      city: city,
+      city: "Vancouver",
       state: 'BC',
       country: 'Canada',
       postalCode: 'V6T 1Z1',
@@ -65,7 +65,7 @@ class ChanCentreScraper {
 
           try {
             // Example date parsing assuming format like "September 28, 2025"
-            const dateMatch = dateText.match(/([A-Za-z]+)\s+(\d+)(?:,|\s+)?\s*(\d{4}?/);
+            const dateMatch = dateText.match(/([A-Za-z]+)\s+(\d+)(?:,|\s+)?\s*(\d{4})/);
             if (dateMatch) {
               const month = dateMatch[1];
               const day = parseInt(dateMatch[2]);
@@ -155,7 +155,7 @@ class ChanCentreScraper {
         } catch (eventError) {
           console.error(`❌ Error extracting event details: ${eventError.message}`);
         }
-      };
+      });
 
       console.log(`🎉 Successfully scraped ${events.length} Chan Centre events`);
       return events;

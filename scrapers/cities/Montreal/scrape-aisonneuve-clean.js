@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 
-class Theatre MaisonneuveEvents {
+class TheatreMaisonneuveEvents {
     constructor() {
         this.source = 'Theatre Maisonneuve';
         this.city = 'Montreal';
@@ -122,4 +122,4 @@ class Theatre MaisonneuveEvents {
     }
 }
 
-module.exports = Theatre MaisonneuveEvents;
+module.exports = TheatreMaisonneuveEvents;

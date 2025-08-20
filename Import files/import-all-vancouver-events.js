@@ -1,316 +1,214 @@
-/**
- * Vancouver Event Scrapers Master Import Script
- * 
- * This script automatically detects and runs all available Vancouver event scrapers
- * and imports their events into the MongoDB database.
- * 
- * Following the official workflow for the Discovr API system
- * 
- * Usage: node import-all-vancouver-events.js
- */
+#!/usr/bin/env node
+
+// Improved Vancouver Master Scraper - replaces broken mass import
+const { MongoClient } = require('mongodb');
+const path = require('path');
+const fs = require('fs');
 
 require('dotenv').config();
-const mongoose = require('mongoose');
-const colors = require('colors');
-const fs = require('fs');
-const path = require('path');
-
-// MongoDB configuration
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  console.error('❌ Error: MONGODB_URI environment variable is not defined!'.red);
-  console.error('Please make sure your .env file contains the correct MongoDB connection string.'.yellow);
-  process.exit(1);
+// 50+ Syntax-valid scrapers (expanding towards 100)
+const reliableScrapers = [
+    'artGalleryEvents.js', 
+    'bardOnTheBeachEvents.js',
+    'bcPlaceStadiumEvents_clean.js',
+    'canadaPlaceEvents.js',
+    'capilanoSuspensionBridgeEvents_clean.js',
+    'chanCentre.js',  
+    'cherryBlossomFestEvents.js',
+    'chineseGardenEvents.js',
+    'coastalJazzEvents.js',
+    'contemporaryArtGalleryEvents.js',
+    'cultureCrawlEvents.js',
+    'danceFestivalEvents.js',
+    'dragonBoatFestivalEvents.js',
+    'emilyCarrUniversityEvents_clean.js',
+    'folkFestEvents.js',
+    'fortuneSoundClub.js',
+    'foxCabaret.js',
+    'fringeFestivalEvents.js',
+    'gastownGrandPrixEvents.js',
+    'gastownSundaySet.js',
+    'granvilleIsland.js',
+    'granvilleIslandEvents.js',
+    'granvilleMarketEvents.js',
+    'grouseMountainEvents_clean.js',
+    'helloGoodbyeBarEvents.js',
+    'hrMacMillanSpaceCentreEvents.js',
+    'japanMarketEvents.js',
+    'khatsahlanoEvents.js',
+    'macMillanSpaceCentreEvents.js',
+    'maritimeMuseumEvents.js',
+    'metropolisEvents.js',
+    'museumOfAnthropologyEvents.js',
+    'museumOfVancouverEvents.js',
+    'musqueamEvents.js',
+    'orpheumEvents.js',
+    'pneEvents.js',
+    'publicLibraryEvents.js',
+    'vancouverSymphonyEvents.js',
+    'vogueTheatre_clean.js',
+    'vogueTheatre.js',
+    'vsffEvents.js',
+    // Adding more syntax-valid scrapers
+    'richmondOvalEvents_clean.js',
+    'roundhouseEvents_clean.js',
+    'scienceWorldEvents_clean.js',
+    'stanleyParkEvents_clean.js',
+    'summerNightMarketEvents_clean.js',
+    'surreyCentreEvents_clean.js',
+    'surreyLibraryEvents_clean.js',
+    'surreyMuseumEvents_clean.js',
+    'theRioTheatreEvents_clean.js',
+    'ubcBookstoreEvents_clean.js',
+    'vancouverAquariumEvents_clean.js',
+    'vancouverCanucksEvents_clean.js',
+    'vancouverComicArtsEvents_clean.js',
+    'vancouverConventionCentreEvents_clean.js',
+    'vancouverFilmFestivalEvents_clean.js',
+    'vancouverOperaEvents_clean.js',
+    'vanDusenGardenEvents_clean.js'
+];
+
+// Date validation and correction
+function validateAndFixDate(dateString, eventTitle) {
+    if (!dateString) {
+        console.log(`⚠️  No date for "${eventTitle}" - skipping`);
+        return null;
+    }
+    
+    const date = new Date(dateString);
+    const now = new Date();
+    const oneYearFromNow = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+    
+    // Skip events with invalid dates
+    if (isNaN(date.getTime())) {
+        console.log(`❌ Invalid date for "${eventTitle}": ${dateString}`);
+        return null;
+    }
+    
+    // Skip events older than 1 year or more than 1 year in future
+    if (date < oneYearAgo || date > oneYearFromNow) {
+        console.log(`📅 Date out of range for "${eventTitle}": ${date.toDateString()}`);
+        return null;
+    }
+    
+    return date;
 }
 
-// Create MongoDB Event model schema
-const eventSchema = new mongoose.Schema({
-  id: String,
-  title: String,
-  name: String,
-  description: String,
-  startDate: Date,
-  endDate: Date,
-  venue: {
-    name: String,
-    id: String,
-    address: String,
-    city: String,
-    state: String, 
-    country: String,
-    postalCode: String,
-    coordinates: {
-      lat: Number,
-      lng: Number
-    },
-    websiteUrl: String,
-    description: String
-  },
-  category: String,
-  categories: [String],
-  sourceURL: String,
-  officialWebsite: String,
-  image: String,
-  imageUrl: String,
-  price: String,
-  ticketsRequired: Boolean,
-  lastUpdated: { type: Date, default: Date.now }
-}, { 
-  timestamps: true,
-  strict: false  // Allow additional fields beyond the schema
-});
-
-// Create model
-const Event = mongoose.model('Event', eventSchema);
-
-// Function to check if file is a valid scraper
-function isValidScraper(filePath) {
-  try {
-    // Only check .js files (skip backups, test files, etc.)
-    if (!filePath.endsWith('.js')) {
-      return false;
-    }
+async function importReliableEvents() {
+    const client = new MongoClient(MONGODB_URI);
     
-    // Skip test files, utility files, index files
-    if (filePath.includes('test-') || 
-        filePath.includes('index.js') ||
-        filePath.includes('utils') || 
-        filePath.includes('verify-')) {
-      return false;
-    }
-    
-    // Try to require the file to see if it's valid
-    const ScraperClass = require(filePath);
-    
-    // More comprehensive validation
-    const isValidClass = typeof ScraperClass === 'function' && 
-                        (ScraperClass.prototype && typeof ScraperClass.prototype.scrape === 'function');
-    const isValidFunction = typeof ScraperClass === 'function' && !ScraperClass.prototype;
-    const isValidObjectWithScrape = typeof ScraperClass === 'object' && 
-                                   typeof ScraperClass.scrape === 'function';
-    const isValidObjectWithScrapeEvents = typeof ScraperClass === 'object' && 
-                                          typeof ScraperClass.scrapeEvents === 'function';
-    
-    const isValid = isValidClass || isValidFunction || isValidObjectWithScrape || isValidObjectWithScrapeEvents;
-    
-    if (!isValid) {
-      console.log(`⚠️  ${path.basename(filePath)} - Invalid export format (type: ${typeof ScraperClass})`.yellow);
-    }
-    
-    return isValid;
-           
-  } catch (error) {
-    console.log(`❌ ${path.basename(filePath)} - Error loading: ${error.message}`.red);
-    return false;
-  }
-}
-
-// Function to run a single scraper
-async function runScraper(scraperPath, importedEvents) {
-  const scraperName = path.basename(scraperPath, '.js');
-  
-  try {
-    console.log(`\n=========================================`.blue);
-    console.log(`🔍 Running ${scraperName} scraper...`.cyan);
-    
-    // Import the scraper
-    const ScraperClass = require(scraperPath);
-    
-    // Check if the scraper needs to be instantiated or is a function
-    let scraper;
-    let scrapeFunction;
-    let scraperType;
-    
-    if (typeof ScraperClass === 'function' && ScraperClass.prototype && typeof ScraperClass.prototype.scrape === 'function') {
-      // Class-based scraper with prototype.scrape
-      scraper = new ScraperClass();
-      scrapeFunction = async () => await scraper.scrape();
-      scraperType = 'class-based';
-    } else if (typeof ScraperClass === 'function' && !ScraperClass.prototype) {
-      // Function-based scraper
-      scrapeFunction = ScraperClass;
-      scraperType = 'function-based';
-    } else if (typeof ScraperClass === 'object' && typeof ScraperClass.scrape === 'function') {
-      // Object with scrape method
-      scrapeFunction = async () => await ScraperClass.scrape();
-      scraperType = 'object with scrape';
-    } else if (typeof ScraperClass === 'object' && typeof ScraperClass.scrapeEvents === 'function') {
-      // Festival scraper with scrapeEvents method
-      scrapeFunction = async () => await ScraperClass.scrapeEvents();
-      scraperType = 'object with scrapeEvents';
-    } else {
-      console.error(`❌ ${scraperName} - Cannot determine scraper type:`.red);
-      console.error(`   Type: ${typeof ScraperClass}`.gray);
-      console.error(`   Has prototype: ${!!ScraperClass.prototype}`.gray);
-      console.error(`   Has scrape: ${typeof ScraperClass.scrape}`.gray);
-      console.error(`   Has scrapeEvents: ${typeof ScraperClass.scrapeEvents}`.gray);
-      throw new Error(`Cannot determine how to run this scraper: ${scraperName}`);
-    }
-    
-    console.log(`📋 Scraper type: ${scraperType}`.gray);
-    
-    // Get the venue name
-    const venueName = scraper && scraper.name ? scraper.name : scraperName;
-    console.log(`Scraping events from: ${venueName}`.cyan);
-    
-    const startTime = Date.now();
-    const events = await scrapeFunction();
-    const duration = (Date.now() - startTime) / 1000;
-    
-    // Check if events is an array
-    if (!Array.isArray(events)) {
-      console.error(`❌ ${scraperName} did not return an array of events`.red);
-      return 0;
-    }
-    
-    console.log(`✅ Found ${events.length} events in ${duration.toFixed(2)} seconds`.green);
-    
-    // Import events to MongoDB
-    let importCount = 0;
-    
-    for (const event of events) {
-      try {
-        // Skip events without required data
-        if (!event.title && !event.name) {
-          console.log(`Skipping event: missing title/name`.yellow);
-          continue;
+    try {
+        await client.connect();
+        console.log('✅ Connected to MongoDB');
+        
+        const db = client.db('discovr');
+        const collection = db.collection('events');
+        
+        let totalImported = 0;
+        let totalSkipped = 0;
+        
+        for (const scraperFile of reliableScrapers) {
+            const scraperPath = path.join(__dirname, '..', 'scrapers', 'cities', 'vancouver', scraperFile);
+            
+            if (!fs.existsSync(scraperPath)) {
+                console.log(`⚠️  Scraper not found: ${scraperFile}`);
+                continue;
+            }
+            
+            try {
+                console.log(`\n🔄 Running: ${scraperFile}`);
+                const scraper = require(scraperPath);
+                
+                if (typeof scraper === 'function') {
+                    let events;
+                    try {
+                        events = await scraper('Vancouver');
+                    } catch (scraperError) {
+                        console.log(`❌ Runtime error in ${scraperFile}: ${scraperError.message.split('\n')[0]}`);
+                        continue;
+                    }
+                    
+                    if (events && events.length > 0) {
+                        let scraperImported = 0;
+                        let scraperSkipped = 0;
+                        
+                        for (const event of events) {
+                            // Validate dates before importing
+                            const validStartDate = validateAndFixDate(event.startDate, event.title);
+                            
+                            if (!validStartDate) {
+                                scraperSkipped++;
+                                totalSkipped++;
+                                continue;
+                            }
+                            
+                            // Ensure proper Vancouver tagging
+                            const cleanEvent = {
+                                ...event,
+                                startDate: validStartDate,
+                                endDate: validateAndFixDate(event.endDate, event.title) || validStartDate,
+                                venue: {
+                                    ...event.venue,
+                                    city: 'Vancouver'
+                                },
+                                city: 'Vancouver'
+                            };
+                            
+                            try {
+                                await collection.updateOne(
+                                    { 
+                                        title: cleanEvent.title,
+                                        'venue.name': cleanEvent.venue.name,
+                                        startDate: cleanEvent.startDate
+                                    },
+                                    { $set: cleanEvent },
+                                    { upsert: true }
+                                );
+                                scraperImported++;
+                                totalImported++;
+                            } catch (insertError) {
+                                if (!insertError.message.includes('duplicate key')) {
+                                    console.log(`❌ Insert error for ${cleanEvent.title}: ${insertError.message}`);
+                                }
+                            }
+                        }
+                        
+                        console.log(`✅ ${scraperFile}: ${scraperImported} imported, ${scraperSkipped} skipped`);
+                    }
+                } else {
+                    console.log(`❌ ${scraperFile}: Not a function`);
+                }
+            } catch (error) {
+                console.log(`❌ Error in ${scraperFile}: ${error.message}`);
+            }
         }
         
-        // Normalize event data to ensure consistent structure
-        const normalizedEvent = {
-          // Generate ID if not present
-          id: event.id || `${venueName.toLowerCase().replace(/\s+/g, '-')}-${new Date().getTime()}-${Math.floor(Math.random() * 1000)}`,
-          
-          // Use title or name (some scrapers use name instead of title)
-          title: event.title || event.name,
-          
-          // Other fields
-          description: event.description,
-          startDate: event.startDate,
-          endDate: event.endDate,
-          venue: event.venue,
-          imageUrl: event.imageUrl || event.image,
-          ticketUrl: event.ticketUrl,
-          sourceURL: event.sourceURL || event.url,
-          category: event.category,
-          categories: event.categories || [],
-          lastUpdated: new Date()
-        };
+        // Final summary
+        const vancouverCount = await collection.countDocuments({ 'venue.city': 'Vancouver' });
+        const futureEvents = await collection.countDocuments({ 
+            'venue.city': 'Vancouver',
+            startDate: { $gte: new Date() }
+        });
         
-        // Check if event already exists (based on ID or title + date combo)
-        const query = event.id ? { id: event.id } : { 
-          title: normalizedEvent.title, 
-          startDate: normalizedEvent.startDate
-        };
+        console.log(`\n📊 IMPORT SUMMARY:`);
+        console.log(`✅ Total imported: ${totalImported}`);
+        console.log(`⚠️  Total skipped (bad dates): ${totalSkipped}`);
+        console.log(`📈 Total Vancouver events: ${vancouverCount}`);
+        console.log(`🔮 Future Vancouver events: ${futureEvents}`);
         
-        // Use findOneAndUpdate with upsert to either update existing or create new
-        await Event.findOneAndUpdate(
-          query,
-          normalizedEvent,
-          { 
-            upsert: true, 
-            new: true,
-            setDefaultsOnInsert: true 
-          }
-        );
-        
-        importCount++;
-        importedEvents.push(normalizedEvent);
-      } catch (err) {
-        console.error(`❌ Error importing event: ${event.title || event.name || 'Unknown'}`.red);
-        console.error(err.message);
-      }
+    } catch (error) {
+        console.error('❌ Database error:', error);
+    } finally {
+        await client.close();
     }
-    
-    console.log(`✅ Successfully imported ${importCount} events from ${venueName} to MongoDB`.green);
-    return importCount;
-    
-  } catch (error) {
-    console.error(`❌ Error running ${scraperName} scraper:`.red);
-    console.error(error.message);
-    return 0;
-  }
 }
 
-// Main function
-async function importAllEvents() {
-  const startTime = Date.now();
-  console.log('Starting Vancouver events import process...'.cyan.bold);
-  console.log(`Using MongoDB URI: ${MONGODB_URI.substring(0, 20)}...`.gray);
-  
-  try {
-    // Connect to MongoDB
-    console.log('Connecting to MongoDB...'.yellow);
-    await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    console.log('✅ Connected to MongoDB successfully!'.green);
-    
-    // Path to Vancouver scrapers directory
-    const scrapersDir = path.join(__dirname, '..', 'scrapers', 'cities', 'vancouver');
-    
-    // Get all potential scraper files
-    const files = fs.readdirSync(scrapersDir);
-    
-    // Filter valid scrapers
-    const scraperPaths = [];
-    
-    for (const file of files) {
-      const filePath = path.join(scrapersDir, file);
-      
-      // Skip directories
-      if (fs.statSync(filePath).isDirectory()) {
-        continue;
-      }
-      
-      if (isValidScraper(filePath)) {
-        scraperPaths.push(filePath);
-      }
-    }
-    
-    console.log(`Found ${scraperPaths.length} valid scrapers to run`.cyan);
-    
-    // Track all imported events
-    const importedEvents = [];
-    
-    // Run each scraper
-    for (const scraperPath of scraperPaths) {
-      try {
-        await runScraper(scraperPath, importedEvents);
-      } catch (err) {
-        console.error(`Error with scraper ${path.basename(scraperPath)}:`, err);
-      }
-    }
-    
-    // Log summary
-    const totalDuration = (Date.now() - startTime) / 1000;
-    console.log('\n========================================='.blue);
-    console.log('📊 IMPORT SUMMARY:'.yellow.bold);
-    console.log(`✅ Total events imported: ${importedEvents.length}`.green);
-    console.log(`✅ Events now available in your MongoDB database`.green);
-    console.log(`✅ Import process took ${totalDuration.toFixed(2)} seconds`.green);
-    console.log('\nNext Steps (following the FINAL_WORKFLOW):'.cyan);
-    console.log('1. Test your API locally:'.yellow);
-    console.log('   node unified-proxy-server.js'.gray);
-    console.log('2. Deploy to Render to update the live API'.yellow);
-    console.log('   (Follow Step 3 & 4 in the workflow document)'.gray);
-    console.log('=========================================\n'.blue);
-    
-  } catch (error) {
-    console.error('❌ MongoDB connection error:'.red);
-    console.error(error.message);
-  } finally {
-    // Close MongoDB connection
-    await mongoose.connection.close();
-    console.log('MongoDB connection closed.'.gray);
-  }
+if (require.main === module) {
+    importReliableEvents();
 }
 
-// Run the import process
-importAllEvents().catch(err => {
-  console.error('❌ Unhandled error in importAllEvents:'.red);
-  console.error(err.message);
-  process.exit(1);
-});
+module.exports = { importReliableEvents };

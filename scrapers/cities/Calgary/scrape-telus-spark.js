@@ -131,4 +131,5 @@ class TelusSparkEvents {
     }
 }
 
+// Export the class properly
 module.exports = TelusSparkEvents;

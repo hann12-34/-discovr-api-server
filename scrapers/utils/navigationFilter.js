@@ -19,43 +19,24 @@ function isNavigationItem(title) {
   // Convert title to lowercase for case-insensitive comparison
   const lowerTitle = title.toLowerCase().trim();
   
-  // List of ONLY obvious navigation/menu/UI terms - much more conservative filtering
-  const navigationTerms = [
-    // Clear Navigation Items Only
-    'main menu', 'navigation menu', 'nav menu', 'header menu', 'submenu',
-    'events list navigation', 'events navigation', 'event navigation', 'list navigation',
-    'events search and views navigation', 'search and views navigation',
-    
-    // Clear UI Controls Only
-    'load more', 'show more', 'view all', 'see all', 'read more', 'continue reading',
-    'previous', 'next', 'back', 'return', 'close', 'cancel', 'submit', 'save',
-    'search results', 'no results', 'loading', 'please wait',
-    
-    // Obvious Non-Events Only
-    'login', 'register', 'sign up', 'sign in', 'privacy policy', 'terms of service',
-    'test event', 'sample event', 'demo event', 'placeholder', 'example event',
-    'system message', 'error message', 'debug', 'test data', 'sample data',
-    
-    // Website Structure Elements Only
-    'header', 'footer', 'sidebar', 'banner', 'breadcrumb', 'pagination'
-  ];
+  // EXTREMELY MINIMAL filtering - only block absolutely obvious non-events
+  // Allow ALL messy scraped content through since that's real event data
   
-  // Check if title is too short or is just a single word (likely a header/navigation)
-  if (title.length < 5 || (!title.includes(' ') && title.length < 8)) {
+  // Only filter out completely empty or single character titles
+  if (title.trim().length < 1) {
     return true;
   }
   
-  // Filter out titles that are exactly obvious non-event terms only
+  // Only filter exact matches of obvious non-event terms (very short list)
   if (lowerTitle === 'menu' || 
-      lowerTitle === 'search' ||
-      lowerTitle === 'home' ||
       lowerTitle === 'login' ||
-      lowerTitle === 'filters') {
+      lowerTitle === 'home' ||
+      lowerTitle === 'search') {
     return true;
   }
   
-  // Return true if the title contains any navigation terms
-  return navigationTerms.some(term => lowerTitle.includes(term));
+  // Everything else is considered a valid event (including messy HTML)
+  return false;
 }
 
 /**
