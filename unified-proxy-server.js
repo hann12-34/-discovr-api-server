@@ -16,7 +16,7 @@ const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const Event = require('./models/Event');
 const { filterNavigationItems, isValidEventTitle } = require('./scrapers/utils/navigationFilter');
-const roxyScraper = require('./scrapers/cities/vancouver/roxyVancouverEvents.js');
+// const roxyScraper = require('./scrapers/cities/vancouver/roxyVancouverEvents.js');
 // const orpheumScraper = require('./scrapers/orpheumEvents.js'); // Commented out - file doesn't exist
 
 const app = express();
