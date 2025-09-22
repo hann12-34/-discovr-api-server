@@ -552,6 +552,7 @@ async function startServer() {
         // Get filter parameters
         const venue = req.query.venue;
         const category = req.query.category;
+        const city = req.query.city;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
         
@@ -566,6 +567,17 @@ async function startServer() {
           query.category = new RegExp(category, 'i');
         }
         
+        // Enhanced Vancouver city filtering
+        if (city) {
+          console.log(`City filter requested: ${city}`);
+          if (city.toLowerCase().includes('vancouver')) {
+            query.city = new RegExp('Vancouver|Burnaby|Richmond|North Vancouver|West Vancouver', 'i');
+            console.log('Applied Vancouver city filter');
+          } else {
+            query.city = new RegExp(city, 'i');
+          }
+        }
+        
         if (startDate) {
           query.startDate = { $gte: new Date(startDate) };
         }
@@ -575,11 +587,47 @@ async function startServer() {
         }
         
         // Get events from local database for admin UI
-        const events = await collections.cloud.find(query).sort({ startDate: 1 }).toArray();
-        console.log(`Found ${events.length} events for admin UI from local database`);
+        const allEvents = await collections.cloud.find(query).sort({ startDate: 1 }).toArray();
+        console.log(`Found ${allEvents.length} events from database for admin UI`);
+        
+        // BALANCED FILTERING - Only remove obvious navigation/admin elements
+        const filteredEvents = allEvents.filter(event => {
+          const title = event.title ? event.title.trim() : '';
+          
+          // Must have title
+          if (!title || title.length < 3) return false;
+          
+          const lowerTitle = title.toLowerCase();
+          
+          // Only block clear navigation/admin elements - be much more selective
+          // REMOVED 'nightlife' from blocked terms - it's a legitimate event category
+          const navigationElements = [
+            'today', 'now', 'upcoming events', 'views navigation', 'leasing', 'go to',
+            'explore art', 'explore artists', 'explore buildings', 'festival info', 'faq',
+            'crawl map', 'getting around', 'accessibility', 'program guide', 'about us',
+            'media & press', 'contact us', 'support us', 'ways to donate', 'be a partner',
+            'volunteer', 'community affiliates', 'donate', 'artist login', 'members play',
+            'become a member', 'visit cag', 'plan your visit', 'explore the cag archive'
+          ];
+          
+          // Block only if it's clearly a navigation element
+          if (navigationElements.some(nav => 
+            lowerTitle === nav || 
+            lowerTitle.startsWith(nav + ' ') ||
+            (lowerTitle.includes(nav) && lowerTitle.length < 50) // Short titles containing nav terms
+          )) return false;
+          
+          // Block very short generic words (likely navigation)
+          if (/^(mon|tue|wed|thu|fri|sat|sun)$/i.test(title)) return false;
+          
+          // Otherwise, keep the event (much more permissive)
+          return true;
+        });
+        
+        console.log(`Filtered from ${allEvents.length} to ${filteredEvents.length} events (removed ${allEvents.length - filteredEvents.length} navigation elements)`);
         
         // Format response in the structure expected by the admin dashboard
-        res.status(200).json({ events: events });
+        res.status(200).json({ events: filteredEvents });
       } catch (err) {
         console.error('Error fetching events for admin UI:', err);
         res.status(500).json({ error: 'Failed to fetch events' });
