@@ -88,8 +88,10 @@ router.get('/', async (req, res) => {
       order = 'asc'
     } = req.query;
     
-    // Build query filters
+    // Build query filters - only include legitimate events
     let query = {};
+    
+    // Apply post-query filtering in JavaScript since MongoDB regex isn't working as expected
     
     if (type) query.type = type;
     if (season) query.season = season;
@@ -98,7 +100,17 @@ router.get('/', async (req, res) => {
     
     // Venue filters
     if (venue) query['venue.name'] = { $regex: venue, $options: 'i' };
-    if (city) query['venue.city'] = { $regex: city, $options: 'i' };
+    
+    // Enhanced Vancouver city filtering
+    if (city) {
+      console.log(`City filter requested: ${city}`);
+      if (city.toLowerCase().includes('vancouver')) {
+        query.city = 'Vancouver';  // Direct match for now
+        console.log('Applied Vancouver city filter:', query.city);
+      } else {
+        query.city = { $regex: city, $options: 'i' };
+      }
+    }
     
     // Accessibility filters
     if (accessibility) {
@@ -153,12 +165,90 @@ router.get('/', async (req, res) => {
     
     // Execute query with pagination and timeout
 
-    // Execute query with pagination and timeout (PERFORMANCE PATCHED)
-    const events = await Event.find(query, null, options)
+    // Debug logging
+    console.log('MongoDB Query:', JSON.stringify(query, null, 2));
+    
+    // Get all events matching query first, then apply quality filtering
+    const allEvents = await Event.find(query, null, options)
       .lean() // PATCH: Use lean() for 50-80% performance improvement
-      .skip(skip)
-      .limit(parseInt(limit))
       .sort(sortOptions);
+      
+    console.log(`Query returned ${allEvents.length} events`);
+    
+    // Filter for real events only with aggressive quality control
+    const realEvents = allEvents.filter(event => {
+      const title = event.title ? event.title.trim() : '';
+      const venue = event.venue || {};
+      const venueName = typeof venue === 'object' ? venue.name : venue;
+      
+      // Must have title
+      if (!title || title.length < 3) return false;
+      
+      // BLOCK LIST - Exact matches to exclude
+      const blockedTitles = [
+        'hello! looking', 'hello!', 'reach out', 'legacy related', 'financial',
+        'camping site', 'camping', 'vanierpark.com', 'park site', 'tourism',
+        'conservation p', 'bfc saturday', 'outdoor', 'museum',
+        'festival', 'harrisonspring', 'today', 'now', 'upcoming events',
+        'views navigation', 'leasing', 'go to', 'mon', 'tue', 'wed', 'thu',
+        'fri', 'sat', 'sun', 'leasing, event bookings or film permits'
+      ];
+      
+      const lowerTitle = title.toLowerCase();
+      
+      // Block exact matches and partial matches
+      if (blockedTitles.some(blocked => 
+        lowerTitle === blocked || 
+        lowerTitle.startsWith(blocked + ' ') ||
+        lowerTitle.startsWith(blocked)
+      )) return false;
+      
+      // Block date patterns like "June 8 2025 @ 7:30 pm"
+      if (/^\w+\s+\d+\s+\d{4}\s+@\s+\d+:\d+\s+(am|pm)/i.test(title)) return false;
+      
+      // Block month names at start
+      if (/^(june|july|august|september|october|november|december|january|february|march|april|may)\s/i.test(title)) return false;
+      
+      // Block very short generic words
+      if (/^\w{1,15}$/i.test(title) && !/™|®|©/.test(title)) return false;
+      
+      // ALLOW LIST - Must have real event characteristics
+      const hasEventKeywords = /\b(show|concert|exhibition|theater|theatre|performance|live|disney|music|art|comedy|dance|workshop|class|tour|experience|play|musical|opera|ballet|night)\b/i.test(title);
+      const hasColon = title.includes(':');
+      const hasTrademark = /™|®|©/.test(title);
+      const isDescriptive = title.length >= 25 && !lowerTitle.includes('admin') && !lowerTitle.includes('leasing');
+      const isKnownVenue = /rogers arena|science world|aquarium|queen elizabeth|chan centre|orpheum/i.test(venueName || '');
+      
+      return hasEventKeywords || hasColon || hasTrademark || isDescriptive || isKnownVenue;
+    });
+    
+    // CRITICAL: Filter out events missing required fields for iOS app
+    const validEvents = realEvents.filter(event => {
+      // Must have id field (critical for iOS decoding)
+      if (!event.id && !event._id) {
+        console.warn(`⚠️ Event missing id field: ${event.title || 'Unknown'}`);
+        return false;
+      }
+      
+      // Must have title
+      if (!event.title || typeof event.title !== 'string') {
+        console.warn(`⚠️ Event missing valid title field`);
+        return false;
+      }
+      
+      // Must have venue object with name
+      if (!event.venue || typeof event.venue !== 'object' || !event.venue.name) {
+        console.warn(`⚠️ Event missing valid venue: ${event.title}`);
+        return false;
+      }
+      
+      return true;
+    });
+    
+    console.log(`✅ Validated events: ${validEvents.length} of ${realEvents.length} passed validation`);
+    
+    // Apply pagination to validated results
+    const events = validEvents.slice(skip, skip + parseInt(limit));
     
     // Return with pagination metadata
     res.json({
@@ -571,17 +661,64 @@ router.get('/search', async (req, res) => {
     // Get total count for pagination metadata
     const totalEvents = await Event.countDocuments(searchQuery);
     
-    // Execute the search
-    const events = await Event.find(searchQuery)
-      .skip(skip)
-      .limit(parseInt(limit))
-      .sort({ startDate: 1 });
+    // Get events from database
+    let allEvents = await Event.find(searchQuery)
+      .sort({ startDate: 1 })
+      .lean();
+    
+    // JavaScript-based quality filtering to exclude non-events
+    const isRealEvent = (event) => {
+      const title = event.title ? event.title.trim() : '';
+      const venue = event.venue || {};
+      const venueName = typeof venue === 'object' ? venue.name : venue;
+      
+      // Skip if no title
+      if (!title || title.length < 3) return false;
+      
+      // Skip navigation/admin elements
+      const badTitles = [
+        'today', 'now', 'upcoming events', 'views navigation', 'leasing', 'go to',
+        'hello!', 'reach out', 'legacy related', 'financial', 'camping site', 
+        'camping', 'vanierpark.com', 'park site', 'tourism', 'conservation p',
+        'bfc saturday', 'outdoor', 'museum', 'festival',
+        'harrisonspring', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'
+      ];
+      
+      if (badTitles.some(bad => title.toLowerCase() === bad)) return false;
+      
+      // Skip date strings like "June 8 2025 @ 7:30 pm"
+      if (/^\w+\s+\d+\s+\d{4}\s+@\s+\d+:\d+\s+(am|pm)/i.test(title)) return false;
+      
+      // Skip month names at start
+      if (/^(june|july|august|september|october|november|december|january|february|march|april|may)\s/i.test(title)) return false;
+      
+      // Skip very short generic words
+      if (/^\w{1,15}$/i.test(title) && !/™|®|©/.test(title)) return false;
+      
+      // Skip obvious placeholder venues
+      if (venueName && /^(sample|test|placeholder|demo|naopen|nsw|vancouver maritime|nyc)/i.test(venueName)) return false;
+      
+      // POSITIVE FILTER: Must have real event characteristics
+      const hasEventKeywords = /\b(show|concert|exhibition|festival|theater|theatre|performance|event|live|disney|night|music|art|comedy|dance|workshop|class|tour|experience|play|musical|opera|ballet)\b/i.test(title);
+      const hasColon = title.includes(':');
+      const hasTrademark = /™|®|©/.test(title);
+      const isLongTitle = title.length >= 20;
+      const isKnownVenue = /rogers arena|science world|aquarium|queen elizabeth|chan centre|orpheum|granville island|vogue theatre|commodore ballroom/i.test(venueName || '');
+      
+      return hasEventKeywords || hasColon || hasTrademark || isLongTitle || isKnownVenue;
+    };
+    
+    // Filter for real events only
+    const realEvents = allEvents.filter(isRealEvent);
+    
+    // Apply pagination to filtered results
+    const events = realEvents.slice(skip, skip + limit);
     
     // Return with pagination metadata
     res.json({
       events,
       pagination: {
-        total: totalEvents,
+        total: realEvents.length,
         page: parseInt(page),
         limit: parseInt(limit),
         pages: Math.ceil(totalEvents / parseInt(limit))
