@@ -16,7 +16,7 @@ const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const Event = require('./models/Event');
 const { filterNavigationItems, isValidEventTitle } = require('./scrapers/utils/navigationFilter');
-const roxyScraper = require('./scrapers/cities/vancouver/roxyVancouverEvents.js');
+// const roxyScraper = require('./scrapers/cities/vancouver/roxyVancouverEvents.js'); // Commented out - file doesn't exist
 // const orpheumScraper = require('./scrapers/orpheumEvents.js'); // Commented out - file doesn't exist
 
 const app = express();
@@ -449,15 +449,21 @@ async function startServer() {
           // 6. Ensure other fields are properly typed and NEVER null/undefined
           validatedEvent.id = validatedEvent.id ? String(validatedEvent.id) : String(validatedEvent._id || 'unknown-id');
           
-          // Handle dates - provide defaults instead of null
+          // Handle dates - NEVER fake dates! Skip events without real dates
           if (validatedEvent.startDate) {
             try {
-              validatedEvent.startDate = new Date(validatedEvent.startDate).toISOString();
+              const parsedDate = new Date(validatedEvent.startDate);
+              // Validate the date is actually valid
+              if (isNaN(parsedDate.getTime())) {
+                validatedEvent.startDate = null; // Invalid date, set to null
+              } else {
+                validatedEvent.startDate = parsedDate.toISOString();
+              }
             } catch (e) {
-              validatedEvent.startDate = new Date().toISOString(); // Default to now
+              validatedEvent.startDate = null; // Error parsing, set to null
             }
           } else {
-            validatedEvent.startDate = new Date().toISOString(); // Default to now
+            validatedEvent.startDate = null; // No date provided, keep as null
           }
           
           if (validatedEvent.endDate) {
@@ -510,8 +516,8 @@ async function startServer() {
           return aDate - bDate;
         });
         
-        // FINAL NULL EVENT FILTER: Remove any null events created during data normalization
-        console.log(`🚨 FINAL NULL FILTER: Checking for null events after normalization. Count before: ${validatedEvents.length}`);
+        // FINAL FILTER: Remove null events AND events without valid dates
+        console.log(`🚨 FINAL FILTER: Checking for null events and events without dates. Count before: ${validatedEvents.length}`);
         const finalFilteredEvents = validatedEvents.filter(event => {
           if (!event || event === null || event === undefined) {
             console.log('🚨 REMOVING NULL EVENT CREATED DURING NORMALIZATION');
@@ -521,9 +527,14 @@ async function startServer() {
             console.log('🚨 REMOVING NON-OBJECT EVENT CREATED DURING NORMALIZATION');
             return false;
           }
+          // CRITICAL: Remove events with null/invalid dates to prevent fake "TODAY" badges
+          if (!event.startDate || event.startDate === null || event.startDate === 'null') {
+            console.log(`🚨 REMOVING EVENT WITHOUT VALID DATE: ${event.title || 'Unknown'}`);
+            return false;
+          }
           return true;
         });
-        console.log(`🚨 FINAL NULL FILTER COMPLETE: ${validatedEvents.length} -> ${finalFilteredEvents.length} events (removed ${validatedEvents.length - finalFilteredEvents.length} null events)`);
+        console.log(`🚨 FINAL FILTER COMPLETE: ${validatedEvents.length} -> ${finalFilteredEvents.length} events (removed ${validatedEvents.length - finalFilteredEvents.length} events without dates)`);
         
         console.log(`✅ SUCCESS: Returning ${finalFilteredEvents.length} events for ${city} (${featuredIds.length} featured)`);
         console.log('📝 COMPLETE DATA: Returning ALL events with NO filtering or limits');
@@ -552,6 +563,7 @@ async function startServer() {
         // Get filter parameters
         const venue = req.query.venue;
         const category = req.query.category;
+        const city = req.query.city;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
         
@@ -566,6 +578,17 @@ async function startServer() {
           query.category = new RegExp(category, 'i');
         }
         
+        // Enhanced Vancouver city filtering
+        if (city) {
+          console.log(`City filter requested: ${city}`);
+          if (city.toLowerCase().includes('vancouver')) {
+            query.city = new RegExp('Vancouver|Burnaby|Richmond|North Vancouver|West Vancouver', 'i');
+            console.log('Applied Vancouver city filter');
+          } else {
+            query.city = new RegExp(city, 'i');
+          }
+        }
+        
         if (startDate) {
           query.startDate = { $gte: new Date(startDate) };
         }
@@ -575,11 +598,47 @@ async function startServer() {
         }
         
         // Get events from local database for admin UI
-        const events = await collections.cloud.find(query).sort({ startDate: 1 }).toArray();
-        console.log(`Found ${events.length} events for admin UI from local database`);
+        const allEvents = await collections.cloud.find(query).sort({ startDate: 1 }).toArray();
+        console.log(`Found ${allEvents.length} events from database for admin UI`);
+        
+        // BALANCED FILTERING - Only remove obvious navigation/admin elements
+        const filteredEvents = allEvents.filter(event => {
+          const title = event.title ? event.title.trim() : '';
+          
+          // Must have title
+          if (!title || title.length < 3) return false;
+          
+          const lowerTitle = title.toLowerCase();
+          
+          // Only block clear navigation/admin elements - be much more selective
+          // REMOVED 'nightlife' from blocked terms - it's a legitimate event category
+          const navigationElements = [
+            'today', 'now', 'upcoming events', 'views navigation', 'leasing', 'go to',
+            'explore art', 'explore artists', 'explore buildings', 'festival info', 'faq',
+            'crawl map', 'getting around', 'accessibility', 'program guide', 'about us',
+            'media & press', 'contact us', 'support us', 'ways to donate', 'be a partner',
+            'volunteer', 'community affiliates', 'donate', 'artist login', 'members play',
+            'become a member', 'visit cag', 'plan your visit', 'explore the cag archive'
+          ];
+          
+          // Block only if it's clearly a navigation element
+          if (navigationElements.some(nav => 
+            lowerTitle === nav || 
+            lowerTitle.startsWith(nav + ' ') ||
+            (lowerTitle.includes(nav) && lowerTitle.length < 50) // Short titles containing nav terms
+          )) return false;
+          
+          // Block very short generic words (likely navigation)
+          if (/^(mon|tue|wed|thu|fri|sat|sun)$/i.test(title)) return false;
+          
+          // Otherwise, keep the event (much more permissive)
+          return true;
+        });
+        
+        console.log(`Filtered from ${allEvents.length} to ${filteredEvents.length} events (removed ${allEvents.length - filteredEvents.length} navigation elements)`);
         
         // Format response in the structure expected by the admin dashboard
-        res.status(200).json({ events: events });
+        res.status(200).json({ events: filteredEvents });
       } catch (err) {
         console.error('Error fetching events for admin UI:', err);
         res.status(500).json({ error: 'Failed to fetch events' });
