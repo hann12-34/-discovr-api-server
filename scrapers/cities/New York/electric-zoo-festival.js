@@ -1,12 +1,15 @@
+const { filterEvents } = require('../../utils/eventFilter');
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * Electric Zoo Festival Events Scraper
- *
+ * 
  * Scrapes events from Electric Zoo Festival NYC
  * URL: http://www.electriczoofestival.com
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
 
 class ElectricZooFestival {
     constructor() {
@@ -23,7 +26,14 @@ class ElectricZooFestival {
      */
     async scrape() {
         console.log(`🎵 Scraping events from ${this.venueName}...`);
-
+        
+        // DISABLED: Electric Zoo Festival is an annual event (Labor Day weekend only)
+        // This scraper was incorrectly scraping general Randall's Island Park events
+        // which caused UI elements and unrelated events to be imported
+        console.log('⚠️ Electric Zoo scraper disabled - only runs 1 weekend per year');
+        return [];
+        
+        /* ORIGINAL CODE - DISABLED
         try {
             const response = await axios.get(this.eventsUrl, {
                 headers: {
@@ -45,7 +55,7 @@ class ElectricZooFestival {
                     'Connection': 'keep-alive'
                 },
                 timeout: 15000
-            };
+            });
 
             const $ = cheerio.load(response.data);
             const events = [];
@@ -64,7 +74,7 @@ class ElectricZooFestival {
                 $(selector).each((index, element) => {
                     const $el = $(element);
                     let title = $el.find('h1, h2, h3, h4, .title, .artist-name, .name, .headline').first().text().trim();
-
+                    
                     if (!title) {
                         const textContent = $el.text().trim();
                         const lines = textContent.split('\n').filter(line => line.trim().length > 0);
@@ -75,11 +85,11 @@ class ElectricZooFestival {
                         // Look for date information
                         let dateText = '';
                         const dateSelectors = [
-                            '.date', '.event-date', '[class*="date"]',
+                            '.date', '.event-date', '[class*="date"]', 
                             'time', '.datetime', '.when', '.schedule', '.time-info',
                             '.day', '.festival-date'
                         ];
-
+                        
                         for (const dateSelector of dateSelectors) {
                             const dateElement = $el.find(dateSelector).first();
                             if (dateElement.length > 0) {
@@ -117,8 +127,9 @@ class ElectricZooFestival {
                         }
 
                         const event = {
+                            id: uuidv4(),
                             title: title,
-                            venue: this.venueName,
+                            venue: { name: this.venueName, city: 'New York' },
                             location: this.venueLocation,
                             date: dateText || 'Check website for dates',
                             category: this.category,
@@ -130,28 +141,29 @@ class ElectricZooFestival {
 
                         events.push(event);
                     }
-                };
-            };
+                });
+            });
 
             // Look for general festival information
             $('div, section, article').each((index, element) => {
                 if (index > 100) return false; // Limit processing
-
+                
                 const $el = $(element);
                 const text = $el.text().trim();
-
+                
                 if (text.length > 20 && text.length < 300) {
                     const hasFestivalKeywords = text.match(/\b(electric zoo|festival|lineup|artist|dj|electronic|stage|ticket|weekend)\b/i);
-                    const hasDatePattern = text.match(/\b(2024|2025|sep|sept|september|labor day|weekend|\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2}\b/i);
-
+                    const hasDatePattern = text.match(/\b(2024|2025|sep|sept|september|labor day|weekend|\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2})\b/i);
+                    
                     if (hasFestivalKeywords && hasDatePattern) {
                         const lines = text.split('\n').filter(line => line.trim().length > 0);
                         const title = lines[0]?.trim() || '';
-
+                        
                         if (title && this.isValidEvent(title) && title.length > 10) {
                             const event = {
+                                id: uuidv4(),
                                 title: title,
-                                venue: this.venueName,
+                                venue: { name: this.venueName, city: 'New York' },
                                 location: this.venueLocation,
                                 date: hasDatePattern[0] || 'Check website for dates',
                                 category: this.category,
@@ -163,7 +175,7 @@ class ElectricZooFestival {
                         }
                     }
                 }
-            };
+            });
 
             // Remove duplicates
             const uniqueEvents = this.removeDuplicateEvents(events);
@@ -191,7 +203,7 @@ class ElectricZooFestival {
             }
             seen.add(key);
             return true;
-        };
+        });
     }
 
     /**
@@ -201,9 +213,9 @@ class ElectricZooFestival {
      */
     isValidEvent(title) {
         if (!title || title.length < 3 || title.length > 200) return false;
-
+        
         const invalidKeywords = [
-            'home', 'about', 'contact', 'privacy', 'terms', 'cookie',
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
             'newsletter', 'subscribe', 'follow', 'social', 'menu',
             'navigation', 'search', 'login', 'register', 'sign up',
             'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
@@ -211,7 +223,7 @@ class ElectricZooFestival {
             'click here', 'find out', 'discover', 'buy tickets',
             'purchase', 'checkout', 'cart'
         ];
-
+        
         const titleLower = title.toLowerCase();
         return !invalidKeywords.some(keyword => titleLower.includes(keyword));
     }
@@ -230,12 +242,12 @@ class ElectricZooFestival {
     }
 }
 
+// Convert to function export for orchestrator compatibility
+async function scrapeElectricZooFestival() {
+    const scraper = new ElectricZooFestival();
+    return await scraper.scrape();
+}
 
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new ElectricZooFestival();
-  return await scraper.scrape(city);
-};
+module.exports = scrapeElectricZooFestival;
 
-// Also export the class for backward compatibility
-module.exports.ElectricZooFestival = ElectricZooFestival;
+*/

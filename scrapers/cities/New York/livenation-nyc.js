@@ -1,12 +1,15 @@
+const { filterEvents } = require('../../utils/eventFilter');
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * LiveNation NYC Events Scraper
- *
+ * 
  * Scrapes events from LiveNation NYC venues and concerts
  * URL: https://www.livenation.com/venue/KovZpZA7AAEA/madison-square-garden-events
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
 
 class LiveNationNYC {
     constructor() {
@@ -23,7 +26,7 @@ class LiveNationNYC {
      */
     async scrape() {
         console.log(`🎵 Scraping events from ${this.venueName}...`);
-
+        
         try {
             const response = await axios.get(this.eventsUrl, {
                 headers: {
@@ -45,31 +48,31 @@ class LiveNationNYC {
                     'Connection': 'keep-alive'
                 },
                 timeout: 15000
-            };
+            });
 
             const $ = cheerio.load(response.data);
             const events = [];
 
             // Extract real LiveNation concert data based on discovered structure
             console.log('🎵 Extracting LiveNation concerts with artists and showtimes...');
-
+            
             // Look for H2/H3 headings that contain artist names
             $('h2, h3').each((index, element) => {
                 const $el = $(element);
                 const text = $el.text().trim();
-
+                
                 // Target headings with artist/concert names (not navigation)
-                if (text.length > 5 && text.length < 150 &&
+                if (text.length > 5 && text.length < 150 && 
                     !text.match(/^(Explore|New York|About|Company|Newsletter|Advertise)/i) &&
                     (text.match(/\b(tour|show|live|concert|all-american|road show)\b/i) ||
                      text.match(/^[A-Z][a-z]+ [A-Z]/))) { // Artist name pattern
-
+                    
                     // Look for associated date information in nearby elements
                     let dateText = '';
                     const parent = $el.parent();
                     const siblings = $el.siblings();
                     const nextElements = $el.nextAll().slice(0, 3);
-
+                    
                     // Check current element and nearby elements for dates
                     const searchElements = [parent, ...siblings.toArray(), ...nextElements.toArray()];
                     searchElements.forEach(searchEl => {
@@ -79,8 +82,8 @@ class LiveNationNYC {
                         if (dateMatch && !dateText) {
                             dateText = dateMatch[0];
                         }
-                    };
-
+                    });
+                    
                     // Also check the page for any date patterns related to this event
                     if (!dateText) {
                         $('div, span, p').each((i, dateEl) => {
@@ -91,52 +94,58 @@ class LiveNationNYC {
                                     return false; // Break
                                 }
                             }
-                        };
+                        });
                     }
-
+                    
                     if (this.isValidEvent(text)) {
                         const event = {
+                            id: uuidv4(),
                             title: text,
-                            venue: 'Madison Square Garden', // From LiveNation MSG page
+                            venue: { name: 'Madison Square Garden', address: '4 Pennsylvania Plaza, New York, NY 10001', city: 'New York' }, // From LiveNation MSG page
                             location: 'Madison Square Garden, New York, NY',
                             date: dateText || 'Check LiveNation for dates',
                             category: this.category,
-                            description: `Live concert at Madison Square Garden`,
+                            description: description && description.length > 20 ? description : `${title} - Live concert at Madison Square Garden`,
                             link: this.eventsUrl,
                             source: 'LiveNationNYC'
                         };
                         events.push(event);
                     }
                 }
-            };
-
+            });
+            
             // If no events found with headings, try broader concert-related content
             if (events.length === 0) {
                 console.log('🔍 No artist headings found, trying broader concert content...');
-
+                
                 $('div, section, li, article').each((index, element) => {
                     if (index > 200 || events.length >= 15) return false; // Limit processing
-
+                    
                     const $el = $(element);
                     const text = $el.text().trim();
-
+                    
                     if (text.length > 15 && text.length < 300) {
                         // Look for concert-related keywords with dates
                         const hasConcert = text.match(/\b(concert|tour|live|show|tickets|artist|performer|musician|band)\b/i);
-                        const hasDate = text.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2}\b/i);
-
+                        const hasDate = text.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2})\b/i);
+                        
                         if (hasConcert && hasDate) {
                             const lines = text.split('\n').filter(line => line.trim().length > 0);
                             const title = lines[0]?.trim() || text.slice(0, 50).trim();
+                
+                // Extract description from element
+                const description = $element.text().trim() || $element.find('p, .description, .summary').first().text().trim() || '';
 
+                            
                             if (title && this.isValidEvent(title)) {
                                 const event = {
+                                    id: uuidv4(),
                                     title: title,
-                                    venue: this.venueName,
+                                    venue: { name: this.venueName, city: 'New York' },
                                     location: this.venueLocation,
                                     date: hasDate[0] || 'Check website for dates',
                                     category: this.category,
-                                    description: 'Live concert event',
+                                    description: description && description.length > 20 ? description : `${title} in New York`,
                                     link: this.eventsUrl,
                                     source: 'LiveNationNYC'
                                 };
@@ -144,7 +153,7 @@ class LiveNationNYC {
                             }
                         }
                     }
-                };
+                });
             }
 
             // Also look for JSON-LD structured data
@@ -153,10 +162,11 @@ class LiveNationNYC {
                     const jsonData = JSON.parse($(element).html());
                     if (jsonData['@type'] === 'Event' || (Array.isArray(jsonData) && jsonData.some(item => item['@type'] === 'Event'))) {
                         const eventData = Array.isArray(jsonData) ? jsonData.filter(item => item['@type'] === 'Event') : [jsonData];
-
+                        
                         eventData.forEach(eventItem => {
                             if (eventItem.name && this.isValidEvent(eventItem.name)) {
                                 const event = {
+                                    id: uuidv4(),
                                     title: eventItem.name,
                                     venue: eventItem.location?.name || this.venueName,
                                     location: eventItem.location?.address?.addressLocality || this.venueLocation,
@@ -168,12 +178,12 @@ class LiveNationNYC {
 
                                 events.push(event);
                             }
-                        };
+                        });
                     }
                 } catch (e) {
                     // Ignore JSON parsing errors
                 }
-            };
+            });
 
             // Remove duplicates
             const uniqueEvents = this.removeDuplicateEvents(events);
@@ -201,7 +211,7 @@ class LiveNationNYC {
             }
             seen.add(key);
             return true;
-        };
+        });
     }
 
     /**
@@ -211,9 +221,9 @@ class LiveNationNYC {
      */
     isValidEvent(title) {
         if (!title || title.length < 3 || title.length > 200) return false;
-
+        
         const invalidKeywords = [
-            'home', 'about', 'contact', 'privacy', 'terms', 'cookie',
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
             'newsletter', 'subscribe', 'follow', 'social', 'menu',
             'navigation', 'search', 'login', 'register', 'sign up',
             'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
@@ -221,7 +231,7 @@ class LiveNationNYC {
             'click here', 'find out', 'discover', 'advertisement',
             'sponsored', 'livenation', 'ticketmaster'
         ];
-
+        
         const titleLower = title.toLowerCase();
         return !invalidKeywords.some(keyword => titleLower.includes(keyword));
     }
@@ -240,12 +250,10 @@ class LiveNationNYC {
     }
 }
 
+// Convert to function export for orchestrator compatibility
+async function scrapeLiveNationNYC() {
+    const scraper = new LiveNationNYC();
+    return await scraper.scrape();
+}
 
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new LiveNationNYC();
-  return await scraper.scrape(city);
-};
-
-// Also export the class for backward compatibility
-module.exports.LiveNationNYC = LiveNationNYC;
+module.exports = scrapeLiveNationNYC;

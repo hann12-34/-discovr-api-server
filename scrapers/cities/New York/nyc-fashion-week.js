@@ -1,12 +1,15 @@
+const { filterEvents } = require('../../utils/eventFilter');
+const { getCityFromArgs } = require('../../utils/city-util.js');
 /**
  * NYC Fashion Week Events Scraper
- *
+ * 
  * Scrapes events from NYC Fashion Week
  * URL: https://www.nyfw.com
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
 
 class NYCFashionWeek {
     constructor() {
@@ -23,7 +26,7 @@ class NYCFashionWeek {
      */
     async scrape() {
         console.log(`👗 Scraping events from ${this.venueName}...`);
-
+        
         try {
             const response = await axios.get(this.eventsUrl, {
                 headers: {
@@ -45,7 +48,7 @@ class NYCFashionWeek {
                     'Connection': 'keep-alive'
                 },
                 timeout: 15000
-            };
+            });
 
             const $ = cheerio.load(response.data);
             const events = [];
@@ -62,7 +65,7 @@ class NYCFashionWeek {
                 $(selector).each((index, element) => {
                     const $el = $(element);
                     let title = $el.find('h1, h2, h3, h4, .title, .show-title, .designer-name, .name, .headline').first().text().trim();
-
+                    
                     if (!title) {
                         const textContent = $el.text().trim();
                         const lines = textContent.split('\n').filter(line => line.trim().length > 0);
@@ -73,11 +76,11 @@ class NYCFashionWeek {
                         // Look for show date/time information
                         let dateText = '';
                         const dateSelectors = [
-                            '.date', '.show-date', '[class*="date"]',
+                            '.date', '.show-date', '[class*="date"]', 
                             'time', '.datetime', '.when', '.schedule', '.time-info',
                             '.fashion-date', '.runway-time'
                         ];
-
+                        
                         for (const dateSelector of dateSelectors) {
                             const dateElement = $el.find(dateSelector).first();
                             if (dateElement.length > 0) {
@@ -162,8 +165,9 @@ class NYCFashionWeek {
                         }
 
                         const event = {
+                            id: uuidv4(),
                             title: title,
-                            venue: this.venueName,
+                            venue: { name: this.venueName, city: 'New York' },
                             location: location,
                             date: dateText || 'Check website for fashion week dates',
                             category: this.category,
@@ -171,35 +175,40 @@ class NYCFashionWeek {
                             season: season,
                             showType: showType,
                             accessInfo: accessInfo,
-                            description: description,
+                            description: description && description.length > 20 ? description : `${title} in New York`,
                             link: eventLink || this.eventsUrl,
                             source: 'NYCFashionWeek'
                         };
 
                         events.push(event);
                     }
-                };
-            };
+                });
+            });
 
             // Look for general fashion week information
             $('div, section, article, p').each((index, element) => {
                 if (index > 100) return false; // Limit processing
-
+                
                 const $el = $(element);
                 const text = $el.text().trim();
-
+                
                 if (text.length > 30 && text.length < 400) {
                     const hasFashionKeywords = text.match(/\b(fashion|week|designer|runway|show|collection|model|brand|style|couture)\b/i);
-                    const hasDatePattern = text.match(/\b(2024|2025|feb|february|sep|september|spring|fall|ss|fw|\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2}\b/i);
-
+                    const hasDatePattern = text.match(/\b(2024|2025|feb|february|sep|september|spring|fall|ss|fw|\d{1,2}\/\d{1,2}|\d{1,2}-\d{1,2})\b/i);
+                    
                     if (hasFashionKeywords && hasDatePattern) {
                         const sentences = text.split('.').filter(sentence => sentence.trim().length > 15);
                         const title = sentences[0]?.trim() || '';
+                
+                // Extract description from element
+                const description = $element.text().trim() || $element.find('p, .description, .summary').first().text().trim() || '';
 
+                        
                         if (title && this.isValidEvent(title) && title.length > 20) {
                             const event = {
+                                id: uuidv4(),
                                 title: title.length > 150 ? title.substring(0, 150) + '...' : title,
-                                venue: this.venueName,
+                                venue: { name: this.venueName, city: 'New York' },
                                 location: this.venueLocation,
                                 date: hasDatePattern[0] || 'Check website for fashion week dates',
                                 category: this.category,
@@ -211,7 +220,7 @@ class NYCFashionWeek {
                         }
                     }
                 }
-            };
+            });
 
             // Remove duplicates
             const uniqueEvents = this.removeDuplicateEvents(events);
@@ -239,7 +248,7 @@ class NYCFashionWeek {
             }
             seen.add(key);
             return true;
-        };
+        });
     }
 
     /**
@@ -249,16 +258,16 @@ class NYCFashionWeek {
      */
     isValidEvent(title) {
         if (!title || title.length < 5 || title.length > 200) return false;
-
+        
         const invalidKeywords = [
-            'home', 'about', 'contact', 'privacy', 'terms', 'cookie',
+            'home', 'about', 'contact', 'privacy', 'terms', 'cookie', 
             'newsletter', 'subscribe', 'follow', 'social', 'menu',
             'navigation', 'search', 'login', 'register', 'sign up',
             'facebook', 'twitter', 'instagram', 'youtube', 'linkedin',
             'more info', 'read more', 'learn more', 'view all',
             'click here', 'find out', 'discover', 'buy tickets'
         ];
-
+        
         const titleLower = title.toLowerCase();
         return !invalidKeywords.some(keyword => titleLower.includes(keyword));
     }
@@ -277,12 +286,10 @@ class NYCFashionWeek {
     }
 }
 
+// Convert to function export for orchestrator compatibility
+async function scrapeNYCFashionWeek() {
+    const scraper = new NYCFashionWeek();
+    return await scraper.scrape();
+}
 
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new NYCFashionWeek();
-  return await scraper.scrape(city);
-};
-
-// Also export the class for backward compatibility
-module.exports.NYCFashionWeek = NYCFashionWeek;
+module.exports = scrapeNYCFashionWeek;

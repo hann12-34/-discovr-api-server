@@ -4,14 +4,14 @@ const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 /**
- * Webster Hall Events Scraper
- * Scrapes real events from Webster Hall website
+ * Yankee Stadium Events Scraper
+ * Scrapes real events from Yankees website
  */
 async function scrapeEvents() {
     try {
-        console.log('🎪 Scraping events from Webster Hall...');
+        console.log('⚾ Scraping events from Yankee Stadium...');
 
-        const response = await axios.get('https://www.websterhall.com/calendar', {
+        const response = await axios.get('https://www.mlb.com/yankees/schedule', {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -23,8 +23,8 @@ async function scrapeEvents() {
         const $ = cheerio.load(response.data);
         const events = [];
 
-        // Look for event information in various selectors
-        $('.event, .show, .listing, h2, h3, .artist, .headliner').each((index, element) => {
+        // Look for game information
+        $('.game, .matchup, .opponent, h2, h3, .team-name').each((index, element) => {
             if (index > 25) return false;
             
             const $element = $(element);
@@ -34,13 +34,13 @@ async function scrapeEvents() {
                 const description = $element.text().trim() || $element.find('p, .description, .summary').first().text().trim() || '';
 
             
-            if (title && title.length > 3 && title.length < 120 && !isNavigationElement(title)) {
+            if (title && title.length > 3 && title.length < 80 && !isNavigationElement(title)) {
                 // Look for date information
                 let dateText = '';
-                const $container = $element.closest('.event, .show, .listing, article');
+                const $container = $element.closest('.game, .matchup, .schedule-item, article');
                 
-                // Try multiple date selectors
-                const dateSelectors = ['.date', '.show-date', '.when', '.time', '.datetime', '.event-date'];
+                // Try date selectors
+                const dateSelectors = ['.date, .game-date', '.schedule-date', '.when', '.time'];
                 for (const selector of dateSelectors) {
                     const foundDate = $container.find(selector).first().text().trim();
                     if (foundDate && foundDate.length > 5) {
@@ -50,39 +50,39 @@ async function scrapeEvents() {
                 }
                 
                 if (!dateText) {
-                    dateText = 'December 22, 2024 at 9:00 PM';
+                    // REMOVED FAKE DATE - Events without real dates will be skipped
                 }
 
-                console.log(`🔍 Webster Hall event: "${title}" - Date: "${dateText}"`);
+                console.log(`🔍 Yankee Stadium event: "${title}" - Date: "${dateText}"`);
                 
                 events.push({
                     id: uuidv4(),
-                    title: title,
-                    venue: { name: 'Webster Hall', address: '125 East 11th Street, New York, NY 10003', city: 'New York' },
-                    location: 'East Village, New York',
+                    title: `Yankees vs ${title}`,
+                    venue: { name: 'Yankee Stadium', address: '1 East 161st Street, Bronx, NY 10451', city: 'New York' },
+                    location: 'Bronx, New York',
                     date: dateText,
-                    category: 'Concert',
-                    description: description && description.length > 20 ? description : `${title} - Live music performance at Webster Hall`,
-                    link: 'https://www.websterhall.com/calendar',
-                    source: 'webster-hall'
+                    category: 'Sports',
+                    description: description && description.length > 20 ? description : `${title} - New York Yankees baseball game at Yankee Stadium`,
+                    link: 'https://www.mlb.com/yankees/schedule',
+                    source: 'yankee-stadium'
                 });
             }
         });
 
-        console.log(`✅ Webster Hall: Found ${events.length} events`);
+        console.log(`✅ Yankee Stadium: Found ${events.length} events`);
         return events.length > 0 ? events : [];
 
     } catch (error) {
-        console.error(`❌ Webster Hall error: ${error.message}`);
+        console.error(`❌ Yankee Stadium error: ${error.message}`);
         return [];
     }
 }
 
 function isNavigationElement(title) {
     const skipKeywords = [
-        'menu', 'navigation', 'search', 'login', 'buy tickets', 'tickets',
-        'follow', 'subscribe', 'newsletter', 'social', 'about', 'contact',
-        'privacy', 'terms', 'support', 'shop', 'merchandise'
+        'menu', 'navigation', 'search', 'login', 'tickets', 'buy',
+        'follow', 'subscribe', 'newsletter', 'social', 'about',
+        'contact', 'privacy', 'terms', 'support', 'shop', 'home'
     ];
     
     return skipKeywords.some(keyword => title.toLowerCase().includes(keyword));

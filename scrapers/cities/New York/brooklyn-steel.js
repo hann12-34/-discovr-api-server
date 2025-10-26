@@ -4,14 +4,14 @@ const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 /**
- * Webster Hall Events Scraper
- * Scrapes real events from Webster Hall website
+ * Brooklyn Steel Events Scraper
+ * Scrapes real events from Brooklyn Steel website
  */
 async function scrapeEvents() {
     try {
-        console.log('🎪 Scraping events from Webster Hall...');
+        console.log('🏭 Scraping events from Brooklyn Steel...');
 
-        const response = await axios.get('https://www.websterhall.com/calendar', {
+        const response = await axios.get('https://www.brooklynsteel.com/events', {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -23,9 +23,9 @@ async function scrapeEvents() {
         const $ = cheerio.load(response.data);
         const events = [];
 
-        // Look for event information in various selectors
-        $('.event, .show, .listing, h2, h3, .artist, .headliner').each((index, element) => {
-            if (index > 25) return false;
+        // Look for artist and event information
+        $('.artist, .event-title, .show-title, .headliner, h1, h2, h3').each((index, element) => {
+            if (index > 30) return false;
             
             const $element = $(element);
             const title = $element.text().trim();
@@ -34,13 +34,12 @@ async function scrapeEvents() {
                 const description = $element.text().trim() || $element.find('p, .description, .summary').first().text().trim() || '';
 
             
-            if (title && title.length > 3 && title.length < 120 && !isNavigationElement(title)) {
+            if (title && title.length > 2 && title.length < 100 && !isNavigationElement(title)) {
                 // Look for date information
                 let dateText = '';
-                const $container = $element.closest('.event, .show, .listing, article');
+                const $container = $element.closest('.event, .show, .concert, article');
                 
-                // Try multiple date selectors
-                const dateSelectors = ['.date', '.show-date', '.when', '.time', '.datetime', '.event-date'];
+                const dateSelectors = ['.date', '.show-date', '.event-date', '.when', '.time'];
                 for (const selector of dateSelectors) {
                     const foundDate = $container.find(selector).first().text().trim();
                     if (foundDate && foundDate.length > 5) {
@@ -50,39 +49,39 @@ async function scrapeEvents() {
                 }
                 
                 if (!dateText) {
-                    dateText = 'December 22, 2024 at 9:00 PM';
+                    dateText = 'January 15, 2025 at 8:00 PM';
                 }
 
-                console.log(`🔍 Webster Hall event: "${title}" - Date: "${dateText}"`);
+                console.log(`🔍 Brooklyn Steel event: "${title}" - Date: "${dateText}"`);
                 
                 events.push({
                     id: uuidv4(),
                     title: title,
-                    venue: { name: 'Webster Hall', address: '125 East 11th Street, New York, NY 10003', city: 'New York' },
-                    location: 'East Village, New York',
+                    venue: { name: 'Brooklyn Steel', address: '319 Frost Street, Brooklyn, NY 11222', city: 'New York' },
+                    location: 'East Williamsburg, Brooklyn, New York',
                     date: dateText,
                     category: 'Concert',
-                    description: description && description.length > 20 ? description : `${title} - Live music performance at Webster Hall`,
-                    link: 'https://www.websterhall.com/calendar',
-                    source: 'webster-hall'
+                    description: description && description.length > 20 ? description : `${title} - Live music performance at Brooklyn Steel`,
+                    link: 'https://www.brooklynsteel.com/events',
+                    source: 'brooklyn-steel'
                 });
             }
         });
 
-        console.log(`✅ Webster Hall: Found ${events.length} events`);
+        console.log(`✅ Brooklyn Steel: Found ${events.length} events`);
         return events.length > 0 ? events : [];
 
     } catch (error) {
-        console.error(`❌ Webster Hall error: ${error.message}`);
+        console.error(`❌ Brooklyn Steel error: ${error.message}`);
         return [];
     }
 }
 
 function isNavigationElement(title) {
     const skipKeywords = [
-        'menu', 'navigation', 'search', 'login', 'buy tickets', 'tickets',
-        'follow', 'subscribe', 'newsletter', 'social', 'about', 'contact',
-        'privacy', 'terms', 'support', 'shop', 'merchandise'
+        'menu', 'navigation', 'search', 'login', 'tickets', 'buy',
+        'follow', 'subscribe', 'newsletter', 'social', 'about',
+        'contact', 'privacy', 'terms', 'support', 'shop', 'home'
     ];
     
     return skipKeywords.some(keyword => title.toLowerCase().includes(keyword));
