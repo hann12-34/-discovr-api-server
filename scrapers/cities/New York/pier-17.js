@@ -47,18 +47,34 @@ async function scrapeEvents() {
                     }
                 }
                 
-                if (!dateText) {
-                    dateText = 'April 5, 2025 at 7:00 PM';
+                // CRITICAL: Skip events without real dates!
+                if (!dateText || dateText.trim() === '') {
+                    console.log(`🔍 Pier 17 event: "${title}" - ❌ No date found, skipping`);
+                    return;
                 }
 
-                console.log(`🔍 Pier 17 event: "${title}" - Date: "${dateText}"`);
+                console.log(`🔍 Pier 17 event: "${title}" - ✅ Date: "${dateText}"`);
+                
+                // Parse and validate date
+                let startDate = null;
+                try {
+                    startDate = new Date(dateText);
+                    if (isNaN(startDate.getTime())) {
+                        console.log(`   ❌ Invalid date: ${dateText}, skipping`);
+                        return;
+                    }
+                } catch (e) {
+                    console.log(`   ❌ Parse error, skipping`);
+                    return;
+                }
                 
                 events.push({
                     id: uuidv4(),
                     title: title,
                     venue: { name: 'Pier 17', address: '89 South Street, New York, NY 10038', city: 'New York' },
                     location: 'South Street Seaport, New York',
-                    date: dateText,
+                    startDate: startDate,
+                    date: startDate.toISOString(),
                     category: 'Concert',
                     description: description && description.length > 20 ? description : `${title} in New York`,
                     link: 'https://www.pier17ny.com/events',

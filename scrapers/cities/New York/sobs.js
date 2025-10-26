@@ -47,18 +47,34 @@ async function scrapeEvents() {
                     }
                 }
                 
-                if (!dateText) {
-                    dateText = 'February 10, 2025 at 9:00 PM';
+                // CRITICAL: Skip events without real dates!
+                if (!dateText || dateText.trim() === '') {
+                    console.log(`🔍 SOBs event: "${title}" - ❌ No date found, skipping`);
+                    return;
                 }
 
-                console.log(`🔍 SOBs event: "${title}" - Date: "${dateText}"`);
+                console.log(`🔍 SOBs event: "${title}" - ✅ Date: "${dateText}"`);
+                
+                // Parse and validate date
+                let startDate = null;
+                try {
+                    startDate = new Date(dateText);
+                    if (isNaN(startDate.getTime())) {
+                        console.log(`   ❌ Invalid date: ${dateText}, skipping`);
+                        return;
+                    }
+                } catch (e) {
+                    console.log(`   ❌ Parse error, skipping`);
+                    return;
+                }
                 
                 events.push({
                     id: uuidv4(),
                     title: title,
                     venue: { name: 'SOBs (Sounds of Brazil)', address: '204 Varick Street, New York, NY 10014', city: 'New York' },
                     location: 'SoHo, New York',
-                    date: dateText,
+                    startDate: startDate,
+                    date: startDate.toISOString(),
                     category: 'World Music',
                     description: description && description.length > 20 ? description : `${title} in New York`,
                     link: 'https://www.sobs.com/events',
