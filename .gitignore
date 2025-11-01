@@ -22,3 +22,60 @@ systematic-*.js
 urgent-*.js
 simple-*.js
 find-*.js
+
+# Debug and temporary files
+*.html
+*.png
+*.jpg
+*.jpeg
+*.gif
+temp_*.js
+*-debug.*
+*-temp.*
+*_temp.*
+*_debug.*
+
+# Development tools and configs not needed in production
+tools/
+*.key
+*.txt
+*.json
+!package.json
+!package-lock.json
+netlify.toml
+
+# City-specific files that aren't needed for deployment
+# calgary-*.js
+# montreal-*.js
+# toronto-*.js
+# nyc-*.js
+# *-master-scraper.js
+# !vancouver-master-scraper.js
+
+# Cleanup and migration scripts
+cleanup-*.js
+migrate-*.js
+normalize-*.js
+populate-*.js
+# scrape-*.js
+add-*.js
+
+# Large directories not needed for production API
+# scrapers/
+node_modules/
+.git/
+dist/
+build/
+coverage/
+
+# Individual scraper files not needed for API deployment
+vancouver-rogers-arena-scraper.js
+vancouver-science-world-scraper.js
+vancouver-granville-island-scraper.js
+vancouver-aquarium-scraper.js
+
+# Additional development files
+*.sqlite
+*.db
+*.backup
+windsurf_deployment.yaml

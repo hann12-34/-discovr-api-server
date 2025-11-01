@@ -1,205 +1,216 @@
 /**
  * Vancouver Fringe Festival Events Scraper
- * Extracts events from Vancouver International Fringe Festival
+ * Scrapes events from Vancouver Fringe Festival
  */
 
-const puppeteer = require('puppeteer');
-const slugify = require('slugify');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
-class FringeFestivalEvents {
-  constructor() {
-    this.name = 'Vancouver Fringe Festival Events';
-    this.url = 'https://vancouverfringe.com/';
-    this.baseUrl = 'https://vancouverfringe.com';
-    this.venue = {
-      name: 'Vancouver International Fringe Festival',
-      address: 'Various Venues, Vancouver, BC',
-      city: 'Vancouver',
-      province: 'BC',
-      country: 'Canada',
-      coordinates: { lat: 49.2827, lng: -123.1207 }
-    };
-  }
-
-  /**
-   * Main scraping method
-   * @returns {Promise<Array>} Array of event objects
-   */
-  async scrape() {
-    console.log(`Starting ${this.name} scraper...`);
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    const page = await browser.newPage();
-
-    // Set user agent to avoid detection
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-
-    // Set default timeout
-    await page.setDefaultNavigationTimeout(30000);
+const VancouverFringeEvents = {
+  async scrape(city) {
+    console.log('🔍 Scraping events from Vancouver Fringe Festival...');
 
     try {
-      console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' });
-
-      console.log('Extracting Fringe Festival events...');
-      const events = await this.extractEvents(page);
-      console.log(`Found ${events.length} Fringe Festival events`);
-
-      return events;
-    } catch (error) {
-      console.error(`Error scraping Fringe Festival events: ${error.message}`);
-      return [];
-    } finally {
-      await browser.close();
-    }
-  }
-
-  /**
-   * Extract events from Fringe Festival website
-   * @param {Page} page - Puppeteer page object
-   * @returns {Promise<Array>} - Array of event objects
-   */
-  async extractEvents(page) {
-    // Wait for event containers to load
-    await page.waitForSelector('.event, .show, .performance, .production, article', { timeout: 10000 })
-      .catch(() => {
-        console.log('Primary event selectors not found, trying alternative selectors');
+      const response = await axios.get('https://www.vancouverfringe.com/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
       });
 
-    // Extract events
-    const events = await page.evaluate((venueInfo, baseUrl) => {
-      // Try multiple potential selectors for event containers
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
+
       const eventSelectors = [
-        '.event',
-        '.show',
-        '.performance',
-        '.production',
-        'article',
-        '.event-item',
-        '.show-item',
-        '[class*="event"]',
-        '[class*="show"]',
-        '[class*="performance"]',
-        '[class*="production"]',
-        '[class*="fringe"]'
+        'a[href*="/event/"]',
+        'a[href*="/events/"]',
+        'a[href*="/show/"]',
+        'a[href*="/shows/"]',
+        'a[href*="/performance/"]',
+        'a[href*="/performances/"]',
+        'a[href*="/theatre/"]',
+        'a[href*="/festival/"]',
+        '.event-item a',
+        '.show-item a',
+        '.performance-item a',
+        '.theatre-item a',
+        '.festival-item a',
+        '.listing a',
+        '.event-listing a',
+        '.show-listing a',
+        '.event-card a',
+        '.show-card a',
+        'h3 a',
+        'h2 a',
+        'h1 a',
+        '.event-title a',
+        '.show-title a',
+        '.performance-title a',
+        'article a',
+        '.event a',
+        '.show a',
+        '.performance a',
+        '.theatre a',
+        '.festival a',
+        'a[title]',
+        '[data-testid*="event"] a',
+        '[data-testid*="show"] a',
+        'a:contains("Show")',
+        'a:contains("Performance")',
+        'a:contains("Theatre")',
+        'a:contains("Festival")',
+        'a:contains("Event")',
+        'a:contains("Fringe")',
+        'a:contains("Play")',
+        'a:contains("Drama")'
       ];
 
-      let eventElements = [];
-
-      // Try each selector until we find events
+      let foundCount = 0;
       for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
-          break;
+        const links = $(selector);
+        if (links.length > 0) {
+          console.log(`Found ${links.length} events with selector: ${selector}`);
+          foundCount += links.length;
         }
+
+        links.each((index, element) => {
+          const $element = $(element);
+          let title = $element.text().trim();
+          let url = $element.attr('href');
+
+          if (!title || !url) return;
+          if (seenUrls.has(url)) return;
+
+          if (url.startsWith('/')) {
+            url = 'https://www.vancouverfringe.com' + url;
+          }
+
+          const skipPatterns = [
+            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
+            /\/about/i, /\/contact/i, /\/home/i, /\/search/i,
+            /\/login/i, /\/register/i, /\/account/i, /\/cart/i,
+            /mailto:/i, /tel:/i, /javascript:/i, /#/,
+            /\/privacy/i, /\/terms/i, /\/policy/i
+          ];
+
+          if (skipPatterns.some(pattern => pattern.test(url))) {
+            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
+            return;
+          }
+
+          title = title.replace(/\s+/g, ' ').trim();
+          
+          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?)$/i.test(title)) {
+            console.log(`✗ Filtered out generic title: "${title}"`);
+            return;
+          }
+
+          seenUrls.add(url);
+
+          // Only log valid events (junk will be filtered out)
+          // Extract date from event element
+
+
+          let dateText = null;
+
+
+          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
+
+
+          for (const selector of dateSelectors) {
+
+
+            const dateEl = $element.find(selector).first();
+
+
+            if (dateEl.length > 0) {
+
+
+              dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+              if (dateText && dateText.length > 0) break;
+
+
+            }
+
+
+          }
+
+
+          if (!dateText) {
+
+
+            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
+
+
+            if ($parent.length > 0) {
+
+
+              for (const selector of dateSelectors) {
+
+
+                const dateEl = $parent.find(selector).first();
+
+
+                if (dateEl.length > 0) {
+
+
+                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                  if (dateText && dateText.length > 0) break;
+
+
+                }
+
+
+              }
+
+
+            }
+
+
+          }
+
+
+          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
+
+
+          
+
+
+          events.push({
+            id: uuidv4(),
+            title: title,
+            url: url,
+            venue: { name: 'Vancouver Fringe Festival', address: 'Vancouver', city: 'Vancouver' },
+            city: city,
+            date: dateText || null,
+            source: 'Vancouver Fringe Festival'
+          });
+        });
       }
 
-      // If no events found with standard selectors, try to extract from any structured content
-      if (eventElements.length === 0) {
-        eventElements = document.querySelectorAll('div, section');
-        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
-      }
+      console.log(`Found ${events.length} total events from Vancouver Fringe Festival`);
+      const filtered = filterEvents(events);
+      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
+      return filtered;
 
-      return Array.from(eventElements).map((event, index) => {
-        try {
-          // Extract title
-          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title, .production-title') || event;
-          const title = titleElement.textContent?.trim();
-          
-          // Extract date information
-          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
-          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
-          
-          // Extract description
-          const descElement = event.querySelector('p, .description, .event-description, .show-description, .details');
-          const description = descElement?.textContent?.trim();
-          
-          // Extract image
-          const imgElement = event.querySelector('img');
-          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
-          
-          // Extract link
-          const linkElement = event.querySelector('a') || event.closest('a');
-          const link = linkElement?.href || '';
-          
-          if (!title || title.length < 3) return null;
-          
-          return {
-            title,
-            dateText,
-            description,
-            image,
-            link: link.startsWith('http') ? link : `${baseUrl}${link}`
-          };
-        } catch (error) {
-          console.log(`Error processing event: ${error.message}`);
-          return null;
-        }
-      }).filter(Boolean);
-    }, this.venue, this.baseUrl);
-
-    // Process dates and create final event objects
-    return Promise.all(events.map(async event => {
-      const { startDate, endDate } = this.parseDates(event.dateText);
-
-      // Generate a unique ID based on title and date
-      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
-        lower: true,
-        strict: true
-      });
-
-      return {
-        id: uniqueId,
-        title: event.title,
-        description: event.description,
-        startDate,
-        endDate,
-        image: event.image,
-        venue: this.venue,
-        categories: ['Theatre', 'Arts & Culture', 'Festival', 'Independent Theatre'],
-        sourceURL: event.link || this.url,
-        lastUpdated: new Date()
-      };
-    }));
-  }
-
-  /**
-   * Parse dates from text
-   * @param {string} dateText - Text containing date information
-   * @returns {Object} - Object with startDate and endDate
-   */
-  parseDates(dateText) {
-    if (!dateText) {
-      return {
-        startDate: new Date(),
-        endDate: new Date()
-      };
+    } catch (error) {
+      console.error('Error scraping Vancouver Fringe Festival events:', error.message);
+      return [];
     }
-
-    const date = new Date(dateText);
-    
-    if (!isNaN(date.getTime())) {
-      return {
-        startDate: date,
-        endDate: date
-      };
-    }
-
-    // Default fallback
-    return {
-      startDate: new Date(),
-      endDate: new Date()
-    };
   }
-}
-
-module.exports = FringeFestivalEvents;
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new FringeFestivalEvents();
-  return await scraper.scrape('Vancouver');
 };
+
+
+module.exports = VancouverFringeEvents.scrape;

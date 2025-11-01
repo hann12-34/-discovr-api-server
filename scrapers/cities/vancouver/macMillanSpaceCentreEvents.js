@@ -1,205 +1,117 @@
 /**
- * Vancouver MacMillan Space Centre Events Scraper
- * Extracts events from H.R. MacMillan Space Centre
+ * Science World Events Scraper
+ * Scrapes upcoming events from Science World at TELUS World of Science
+ * Vancouver's interactive science museum
  */
 
-const puppeteer = require('puppeteer');
-const slugify = require('slugify');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
 
-class MacMillanSpaceCentreEvents {
-  constructor() {
-    this.name = 'MacMillan Space Centre Events';
-    this.url = 'https://spacecentre.ca/';
-    this.baseUrl = 'https://spacecentre.ca';
-    this.venue = {
-      name: 'H.R. MacMillan Space Centre',
-      address: '1100 Chestnut St, Vancouver, BC V6J 3J9',
-      city: 'Vancouver',
-      province: 'BC',
-      country: 'Canada',
-      coordinates: { lat: 49.2762, lng: -123.1456 }
-    };
-  }
-
-  /**
-   * Main scraping method
-   * @returns {Promise<Array>} Array of event objects
-   */
-  async scrape() {
-    console.log(`Starting ${this.name} scraper...`);
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    const page = await browser.newPage();
-
-    // Set user agent to avoid detection
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-
-    // Set default timeout
-    await page.setDefaultNavigationTimeout(30000);
+const ScienceWorldEvents = {
+  async scrape(city) {
+    console.log('🔍 Scraping events from Science World...');
 
     try {
-      console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' });
-
-      console.log('Extracting MacMillan Space Centre events...');
-      const events = await this.extractEvents(page);
-      console.log(`Found ${events.length} MacMillan Space Centre events`);
-
-      return events;
-    } catch (error) {
-      console.error(`Error scraping MacMillan Space Centre events: ${error.message}`);
+      // Science World website only shows privacy policy - no accessible event listings
+      console.log('Science World website does not provide accessible event listings');
       return [];
-    } finally {
-      await browser.close();
-    }
-  }
-
-  /**
-   * Extract events from MacMillan Space Centre website
-   * @param {Page} page - Puppeteer page object
-   * @returns {Promise<Array>} - Array of event objects
-   */
-  async extractEvents(page) {
-    // Wait for event containers to load
-    await page.waitForSelector('.event, .show, .program, .workshop, article', { timeout: 10000 })
-      .catch(() => {
-        console.log('Primary event selectors not found, trying alternative selectors');
+      
+      const response = await axios.get('https://www.scienceworld.ca/events', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
       });
 
-    // Extract events
-    const events = await page.evaluate((venueInfo, baseUrl) => {
-      // Try multiple potential selectors for event containers
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
+
+      // Multiple selectors for different event layouts
       const eventSelectors = [
-        '.event',
-        '.show',
-        '.program',
-        '.workshop',
-        'article',
         '.event-item',
-        '.show-item',
-        '[class*="event"]',
-        '[class*="show"]',
-        '[class*="program"]',
-        '[class*="space"]',
-        '[class*="planetarium"]'
+        '.event-card',
+        '.event-listing',
+        'article.event',
+        '.upcoming-event',
+        '.program-item',
+        '.card',
+        'a[href*="/event"]',
+        'a[href*="/events/"]',
+        '.post',
+        '.listing'
       ];
 
-      let eventElements = [];
-
-      // Try each selector until we find events
       for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
+        const eventElements = $(selector);
         if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
-          break;
+          console.log(`Found ${eventElements.length} events with selector: ${selector}`);
+
+          eventElements.each((i, element) => {
+            const $event = $(element);
+            
+            // Extract event title
+            let title = $event.find('h1, h2, h3, h4, h5, .title, .event-title, .card-title, .post-title').first().text().trim() ||
+                       $event.find('a').first().text().trim() ||
+                       $event.text().trim().split('\n')[0];
+
+            let url = $event.find('a').first().attr('href') || $event.attr('href') || '';
+            if (url && !url.startsWith('http')) {
+              url = 'https://www.scienceworld.ca' + url;
+            }
+
+            // Skip if no meaningful title or already seen
+            if (!title || title.length < 3 || seenUrls.has(url)) {
+              return;
+            }
+
+            // Filter out navigation and non-event links
+            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter', 'read more', 'view all', 'shop', 'visit', 'donate', 'learn more'];
+            if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
+              return;
+            }
+
+            seenUrls.add(url);
+
+            // Extract date information
+            let eventDate = null;
+            const dateText = $event.find('.date, .event-date, time, .datetime, .when').first().text().trim();
+            if (dateText) {
+              eventDate = dateText;
+            }
+
+            // Only log valid events (junk will be filtered out)
+
+            events.push({
+              id: uuidv4(),
+              title: title,
+              date: eventDate,
+              time: null,
+              url: url,
+              venue: { name: 'Science World', address: '1455 Quebec Street, Vancouver, BC V6A 3Z7', city: 'Vancouver' },
+              location: 'Vancouver, BC',
+              description: null,
+              image: null
+            });
+          });
         }
       }
 
-      // If no events found with standard selectors, try to extract from any structured content
-      if (eventElements.length === 0) {
-        eventElements = document.querySelectorAll('div, section');
-        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
-      }
+      console.log(`Found ${events.length} total events from Science World`);
+      return events;
 
-      return Array.from(eventElements).map((event, index) => {
-        try {
-          // Extract title
-          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .show-title') || event;
-          const title = titleElement.textContent?.trim();
-          
-          // Extract date information
-          const dateElement = event.querySelector('.date, .event-date, .show-date, time, [datetime]');
-          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
-          
-          // Extract description
-          const descElement = event.querySelector('p, .description, .event-description, .show-description, .details');
-          const description = descElement?.textContent?.trim();
-          
-          // Extract image
-          const imgElement = event.querySelector('img');
-          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
-          
-          // Extract link
-          const linkElement = event.querySelector('a') || event.closest('a');
-          const link = linkElement?.href || '';
-          
-          if (!title || title.length < 3) return null;
-          
-          return {
-            title,
-            dateText,
-            description,
-            image,
-            link: link.startsWith('http') ? link : `${baseUrl}${link}`
-          };
-        } catch (error) {
-          console.log(`Error processing event: ${error.message}`);
-          return null;
-        }
-      }).filter(Boolean);
-    }, this.venue, this.baseUrl);
-
-    // Process dates and create final event objects
-    return Promise.all(events.map(async event => {
-      const { startDate, endDate } = this.parseDates(event.dateText);
-
-      // Generate a unique ID based on title and date
-      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
-        lower: true,
-        strict: true
-      });
-
-      return {
-        id: uniqueId,
-        title: event.title,
-        description: event.description,
-        startDate,
-        endDate,
-        image: event.image,
-        venue: this.venue,
-        categories: ['Science', 'Space', 'Planetarium', 'Education', 'Family'],
-        sourceURL: event.link || this.url,
-        lastUpdated: new Date()
-      };
-    }));
-  }
-
-  /**
-   * Parse dates from text
-   * @param {string} dateText - Text containing date information
-   * @returns {Object} - Object with startDate and endDate
-   */
-  parseDates(dateText) {
-    if (!dateText) {
-      return {
-        startDate: new Date(),
-        endDate: new Date()
-      };
+    } catch (error) {
+      console.error('Error scraping Science World events:', error.message);
+      return [];
     }
-
-    const date = new Date(dateText);
-    
-    if (!isNaN(date.getTime())) {
-      return {
-        startDate: date,
-        endDate: date
-      };
-    }
-
-    // Default fallback
-    return {
-      startDate: new Date(),
-      endDate: new Date()
-    };
   }
-}
-
-module.exports = MacMillanSpaceCentreEvents;
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new MacMillanSpaceCentreEvents();
-  return await scraper.scrape('Vancouver');
 };
+
+
+module.exports = ScienceWorldEvents.scrape;

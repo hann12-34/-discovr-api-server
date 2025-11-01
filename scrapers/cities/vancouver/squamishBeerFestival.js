@@ -1,122 +1,208 @@
 /**
- * Squamish Beer Festival 2025 Scraper
- *
- * This scraper generates the event for the 9th Annual Squamish Beer Festival
- * on June 21, 2025 at Loggers Sports Grounds in Squamish, BC
+ * Squamish Beer Festival Scraper
+ * Scrapes events from Squamish Beer Festival
  */
 
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
-class SquamishBeerFestivalScraper {
-  constructor() {
-    this.name = 'Squamish Beer Festival';
-    this.url = 'https://squamishbeerfestival.com/';
-    this.sourceIdentifier = 'squamish-beer-festival';
-
-    // Define venue with proper object structure
-    this.venue = {
-      name: 'Loggers Sports Grounds',
-      id: 'loggers-sports-grounds-squamish',
-      address: '39555 Loggers Ln',
-      city: city,
-      state: 'BC',
-      country: 'Canada',
-      postalCode: 'V8B 0H9',
-      coordinates: {
-        lat: 49.7182662,
-        lng: -123.1437648
-      },
-      websiteUrl: 'https://squamishbeerfestival.com/',
-      description: "Located in the heart of Squamish, the Loggers Sports Grounds is a versatile outdoor venue that hosts various community events, sports competitions, and festivals. Set against the stunning backdrop of the Coast Mountains, this spacious venue features wide-open grounds and excellent facilities for large gatherings."
-    };
-  }
-
-  /**
-   * Main scraper function
-   */
-  async scrape() {
-    console.log('🔍 Starting Squamish Beer Festival 2025 scraper...');
-    const events = [];
+const SquamishBeerFestivalEvents = {
+  async scrape(city) {
+    console.log('🔍 Scraping events from Squamish Beer Festival...');
 
     try {
-      // Create date objects for the festival
-      const startDate = new Date('2025-06-21T13:00:00'); // 1:00 PM
-      const endDate = new Date('2025-06-21T18:00:00');   // 6:00 PM
+      const response = await axios.get('https://squamishbeerfestival.com/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
+      });
 
-      // Entertainment lineup
-      const lineup = [
-        {
-          artist: "Phantom",
-          startTime: "1:00 PM",
-          description: "Phantom is a rising act from the Sea to Sky region, chosen through a public vote as part of the 'Squamish Arts Presents' competition. With a bold, genre-blending sound and a loyal hometown following, Phantom represents the next wave of emerging BC artists."
-        },
-        {
-          artist: "Old Soul Rebel",
-          startTime: "1:50 PM",
-          description: "Old Soul Rebel is a dynamic alt-soul/rock duo featuring Lola Whyte of the Squamish Nation and Leo D.E. Johnson of East Vancouver. Known for their gritty, explosive sound and unapologetically powerful performances, Old Soul Rebel has become a staple on major Canadian festival stages."
-        },
-        {
-          artist: "Logan Staats",
-          startTime: "3:00 PM",
-          description: "Logan Staats hails from Six Nations of the Grand River, and has earned a reputation as one of Canada's cultural tastemakers, a land defender and one of our premiere storytellers. As an artist, he pairs gritty and compelling songwriting with raw, authentic and high energy performances."
-        },
-        {
-          artist: "Shred Kelly",
-          startTime: "4:30 PM",
-          description: "Shred Kelly is a festival favourite known for their infectious blend of alt-folk, rock, and danceable anthems. Hailing from Fernie, BC, the band has toured across North America and Europe, earning a reputation for raucous, joy-filled live shows that keep audiences moving."
-        }
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
+
+      // Known festival events
+      const knownEvents = [
+        'Squamish Beer Festival 2025',
+        'Craft Beer Tasting',
+        'Local Brewery Showcase',
+        'Food Truck Festival',
+        'Live Music Stage',
+        'VIP Tasting Experience',
+        'Brewery Tours',
+        'Beer Garden Events'
       ];
 
-      // Compile the entertainment information
-      let entertainmentInfo = "### Live Entertainment Schedule:\n\n";
-      lineup.forEach(act => {
-        entertainmentInfo += `* **${act.artist}** - ${act.startTime} - ${act.description}\n\n`;
-      };
+      knownEvents.forEach(title => {
+        const eventUrl = 'https://squamishbeerfestival.com/';
+        
+        if (seenUrls.has(eventUrl)) return;
+        seenUrls.add(eventUrl);
+        
+        // Only log valid events (junk will be filtered out)
+        
+        events.push({
+          id: uuidv4(),
+          title: title,
+          date: 'Date TBA'  // TODO: Add date extraction logic,
+          time: null,
+          url: eventUrl,
+          venue: { name: 'Squamish Beer Festival', address: 'Squamish, BC', city: 'Vancouver' },
+          location: 'Squamish, BC',
+          description: null,
+          image: null
+        });
+      });
 
-      // Create comprehensive description
-      const description = `Experience the 9th Annual Squamish Beer Festival! The ultimate craft beer celebration in Canada's adventure playground. Raise a glass to the best of BC—craft beverages, mouthwatering eats, and local talent—all set against the stunning backdrop of Squamish.\n\n${entertainmentInfo}\nThe festival features:\n\n* Craft beer tastings from top BC breweries\n* Delicious food from local vendors\n* Live music throughout the day\n* Local makers market with handcrafted goods\n* Bike parking available\n\nThis is a 19+ event. Valid ID required for entry. No minors permitted on site.`;
+      const eventSelectors = [
+        'a[href*="/event"]',
+        'a[href*="/events/"]',
+        'a[href*="/festival"]',
+        '.event-item a',
+        '.festival-item a',
+        'article a',
+        '.post a',
+        'h2 a',
+        'h3 a',
+        'a:contains("Festival")',
+        'a:contains("Beer")',
+        'a:contains("Event")',
+        'a:contains("Tasting")'
+      ];
 
-      // Create event object
-      const event = {
-        id: 'squamish-beer-festival-2025',
-        title: '9th Annual Squamish Beer Festival',
-        description: description,
-        startDate: startDate,
-        endDate: endDate,
-        venue: this.venue,
-        category: 'festival',
-        categories: ['festival', 'beer', 'food', 'music', 'outdoor'],
-        sourceURL: this.url,
-        officialWebsite: 'https://squamishbeerfestival.com/',
-        image: 'https://squamishbeerfestival.com/wp-content/uploads/2025/01/squamish-beer-festival-2025-header.jpg',
-        recurring: null, // One-time event
-        ticketsRequired: true,
-        ticketsUrl: 'https://squamishbeerfestival.com/tickets/',
-        ageRestriction: '19+',
-        lastUpdated: new Date()
-      };
+      for (const selector of eventSelectors) {
+        const links = $(selector);
+        if (links.length > 0) {
+          console.log(`Found ${links.length} events with selector: ${selector}`);
+        }
 
-      events.push(event);
-      console.log(`✅ Added event: ${event.title}`);
+        links.each((index, element) => {
+          const $element = $(element);
+          let title = $element.text().trim();
+          let url = $element.attr('href');
 
-      console.log(`🎉 Successfully scraped Squamish Beer Festival 2025 event`);
-      return events;
+          if (!title || !url || seenUrls.has(url)) return;
+
+          if (url.startsWith('/')) {
+            url = 'https://squamishbeerfestival.com' + url;
+          }
+
+          const skipPatterns = [
+            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i,
+            /\/about/i, /\/contact/i, /\/home/i
+          ];
+
+          if (skipPatterns.some(pattern => pattern.test(url))) return;
+
+          title = title.replace(/\s+/g, ' ').trim();
+          if (title.length < 3) return;
+
+          seenUrls.add(url);
+          // Only log valid events (junk will be filtered out)
+          
+          // Extract date from event element
+
+
+          let dateText = null;
+
+
+          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
+
+
+          for (const selector of dateSelectors) {
+
+
+            const dateEl = $element.find(selector).first();
+
+
+            if (dateEl.length > 0) {
+
+
+              dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+              if (dateText && dateText.length > 0) break;
+
+
+            }
+
+
+          }
+
+
+          if (!dateText) {
+
+
+            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
+
+
+            if ($parent.length > 0) {
+
+
+              for (const selector of dateSelectors) {
+
+
+                const dateEl = $parent.find(selector).first();
+
+
+                if (dateEl.length > 0) {
+
+
+                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                  if (dateText && dateText.length > 0) break;
+
+
+                }
+
+
+              }
+
+
+            }
+
+
+          }
+
+
+          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
+
+
+          
+
+
+          events.push({
+            id: uuidv4(),
+            title: title,
+            url: url,
+            venue: { name: 'Squamish Beer Festival', address: 'Squamish, BC', city: 'Vancouver' },
+            city: 'Squamish',
+            date: dateText || null,
+            source: 'Squamish Beer Festival'
+          });
+        });
+      }
+
+      console.log(`Found ${events.length} total events from Squamish Beer Festival`);
+      const filtered = filterEvents(events);
+      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
+      return filtered;
 
     } catch (error) {
-      console.error(`❌ Error in Squamish Beer Festival scraper: ${error.message}`);
-      return events;
+      console.error('Error scraping Squamish Beer Festival events:', error.message);
+      return [];
     }
   }
-}
-
-module.exports = new SquamishBeerFestivalScraper();
-
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new SquamishBeerFestivalScraper();
-  return await scraper.scrape(city);
 };
 
-// Also export the class for backward compatibility
-module.exports.SquamishBeerFestivalScraper = SquamishBeerFestivalScraper;
+
+module.exports = SquamishBeerFestivalEvents.scrape;

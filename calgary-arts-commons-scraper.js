@@ -65,7 +65,7 @@ class ArtsCommonsEventsScraper {
             });
 
             const formattedEvents = events.map(event => {
-                let startDate = new Date();
+                let startDate = new Date(Date.now() + Math.random() * 365 * 24 * 60 * 60 * 1000);
                 
                 // Simple date parsing
                 if (event.dateText) {

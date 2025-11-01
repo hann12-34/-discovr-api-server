@@ -1,0 +1,70 @@
+const { filterEvents } = require('../../utils/eventFilter');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { parseDateText } = require('../../utils/city-util');
+
+const EVENT_URLS = [
+  'https://www.todocanada.ca/city/calgary/events/',
+  'https://www.eventbrite.ca/d/canada--calgary/events/',
+  'https://www.showpass.com/cities/calgary-ab/',
+  'https://www.visitcalgary.com/things-to-do/events',
+  'https://www.avenuecalgary.com/events/'
+];
+
+async function princesislandparkeventsEvents(city = 'Calgary') {
+  if (city !== 'Calgary') {
+    throw new Error(`City mismatch! Expected 'Calgary', got '${city}'`);
+  }
+  
+  console.log(`🎪 Scraping Calgary events...`);
+  
+  let allEvents = [];
+  
+  for (const url of EVENT_URLS) {
+    try {
+      const response = await axios.get(url, {
+        timeout: 15000,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        }
+      });
+      
+      const $ = cheerio.load(response.data);
+      
+      $('.event, [class*="event"], article, .card').each((i, el) => {
+        const $event = $(el);
+        const title = $event.find('h1, h2, h3, h4, .title').first().text().trim();
+        if (!title || title.length < 5) return;
+        
+        let dateText = $event.find('[datetime], time, .date').first().text().trim();
+        if (!dateText) {
+          const match = $event.text().match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i);
+          if (match) dateText = match[0];
+        }
+        
+        if (!dateText) return;
+        const parsedDate = parseDateText(dateText);
+        if (!parsedDate || !parsedDate.startDate) return;
+        
+        allEvents.push({
+          title: title,
+          date: parsedDate.startDate.toISOString(),
+          venue: { name: 'Calgary Venue', city: 'Calgary' },
+          location: 'Calgary, AB',
+          description: title,
+          url: url,
+          category: 'Events'
+        });
+      });
+      
+      if (allEvents.length > 20) break;
+    } catch (e) {
+      continue;
+    }
+  }
+  
+  console.log(`   ✅ Extracted ${allEvents.length} events`);
+  return filterEvents(allEvents);
+}
+
+module.exports = princesislandparkeventsEvents;

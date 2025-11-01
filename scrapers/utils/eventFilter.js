@@ -1,0 +1,184 @@
+/**
+ * Event Filter Utility
+ * Filters out navigation links, junk, and non-event items from scraped data
+ */
+
+const JUNK_PATTERNS = [
+  // Navigation and UI elements
+  /^Events?$/i,
+  /^View\s+(Full|All|More|Event)/i,
+  /View\s+All/i,  // Catch "View All" anywhere
+  /^Check\s+Out/i,
+  /^Click\s+(here|for)/i,
+  /^Read\s+More/i,
+  /Learn\s+More/i,  // Catch "Learn More" anywhere
+  /^See\s+(All|More)/i,
+  /^Show\s+(All|More)/i,
+  /^More\s+(Details|Info|Events)/i,
+  
+  // Ticket/Purchase related - more flexible patterns
+  /Buy\s+Tickets?/i,  // Catch "Buy Tickets" anywhere in title
+  /^Get\s+Tickets?/i,
+  /^Purchase\s+Tickets?/i,
+  /^Tickets?$/i,
+  /^Buy\s+Now/i,
+  /Buy.*Now/i,  // Catch "BUY TICKETS NOW" etc
+  /^Book\s+Now$/i,
+  /^Reserve\s+Now$/i,
+  /^(Find|Get)\s+Info$/i,
+  
+  // Shows/Near You type navigation
+  /^Shows?\s+Near\s+You$/i,
+  /^Events?\s+Near\s+You$/i,
+  /^Find\s+(Shows?|Events?)$/i,
+  
+  // Calendar/List pages
+  /events?\s+(this\s+week|calendar|list|page|archive)/i,
+  /^(signature|featured|upcoming|past|recent)\s+events?$/i,
+  /^Event\s+(Calendar|List|Archive|Page)$/i,
+  
+  // Month listings
+  /^(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s+Events/i,
+  /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4}$/i,
+  
+  // Generic categories
+  /^Shows?\s*&\s*Entertain/i,
+  /^Festivals?\s*&\s*Eve/i,
+  /^Events?\s*&\s*Activities/i,
+  
+  // HTML/Image tags
+  /^<img/i,
+  /^<a\s+/i,
+  /^<div/i,
+  /srcset=/i,
+  /class="/i,
+  
+  // Sponsorship/Support
+  /becoming\s+a\s+sponsor/i,
+  /support(s|ing)/i,
+  /donate/i,
+  
+  // Generic words
+  /^(Home|About|Contact|Menu|Login|Register|Subscribe)$/i,
+  /^(Facebook|Twitter|Instagram|YouTube)$/i,
+  /^(Blog|News|Press|Media)$/i,
+  
+  // Venue-specific junk
+  /^(Awards?|Panels?|Archive)$/i,
+  /^Industry\s+/i,
+  /^First\s+Look:/i,
+  /^The\s+Next\s+Gen/i,
+  
+  // Company/Service names (not events)
+  /^(Eventbrite|Eventim|Ticketmaster|Live Nation|Stubhub)$/i,
+  /^About\s+(Eventbrite|Ticketmaster|Live Nation)/i,
+  /Productions?$/i,
+  
+  // Premium/VIP navigation
+  /^Premium\s+Tickets?$/i,
+  /^VIP\s+(Tickets?|Access)$/i,
+  
+  // Very short/generic
+  /^(OUT|UPU|sp|ICS)$/i,
+  /^→$/,  // Just an arrow
+  
+  // Cancelled/Postponed events
+  /^\*?cancelled\*?/i,
+  /^\*?postponed\*?/i,
+  /^\[cancelled\]/i,
+  /^\(cancelled\)/i,
+  
+  // JavaScript code/tech junk
+  /^(if|var|const|let|function)\s*\(/i,
+  /^var\s+\w+\s*=/i,
+  /S3_BUCKET/i,
+  
+  // UI Navigation elements
+  /^Recent\s+search/i,
+  /^Quick\s+access/i,
+  /^Event\s+Views\s+Navigation/i,
+  /^Coming\s+to\s+a\s+Concert\?/i,
+  /^TODAY'S\s+SHOWS$/i,
+  
+  // Generic promotional text
+  /^(Welcome|Bienvenue)\s+(to|à)/i,
+  /^Powered\s+by/i,
+  /^Events?\s+that\s+will\s+set\s+you\s+free/i,
+  /^Concerts?\s+and\s+events$/i,
+  /^The\s+show\s+rooms?\s+are\s+located/i,
+  /^(Venez|Come)\s+(nous\s+)?voir/i,
+  /^Meet\s+the\s+(Tenants|Suppliers)/i,
+  
+  // Malformed titles with Learn More/Buy Tickets appended
+  /\d{4}Learn\s+More/i,  // "September 18, 2025Learn More"
+  /[A-Za-z]{3,}Learn\s+More/,  // Letters followed by "Learn More" with no space
+  /[A-Za-z]{3,}Buy\s+Tickets/,  // Letters followed by "Buy Tickets" with no space
+  
+  // Generic junk titles
+  /^Filters?$/i,
+  /^UpcomingEvents?$/i,
+  /^Families$/i,
+  /^EVENTS\s+AT\s+THE\s+[A-Z]{2,}$/i,  // "EVENTS AT THE AGO" etc
+];
+
+/**
+ * Check if a title is likely junk/navigation
+ * @param {string} title - Event title to check
+ * @returns {boolean} - True if junk, false if valid event
+ */
+function isJunkTitle(title) {
+  if (!title || typeof title !== 'string') return true;
+  
+  const trimmed = title.trim();
+  
+  // Too short (but allow PNE, VSO, etc)
+  if (trimmed.length < 4 && !['PNE', 'VSO', 'UBC'].includes(trimmed)) {
+    return true;
+  }
+  
+  // Too long (likely scraped HTML)
+  if (trimmed.length > 200) {
+    return true;
+  }
+  
+  // Check against patterns
+  for (const pattern of JUNK_PATTERNS) {
+    if (pattern.test(trimmed)) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+/**
+ * Filter an array of events to remove junk
+ * @param {Array} events - Array of event objects with 'title' property
+ * @returns {Array} - Filtered array of valid events
+ */
+function filterEvents(events) {
+  if (!Array.isArray(events)) return [];
+  
+  const filtered = events.filter(event => {
+    if (!event || !event.title) return false;
+    
+    const isJunk = isJunkTitle(event.title);
+    if (isJunk) {
+      console.log(`  ❌ Filtered out: "${event.title}"`);
+    }
+    return !isJunk;
+  });
+  
+  const removed = events.length - filtered.length;
+  if (removed > 0) {
+    console.log(`  🧹 Filtered out ${removed} junk items`);
+  }
+  
+  return filtered;
+}
+
+module.exports = {
+  isJunkTitle,
+  filterEvents,
+  JUNK_PATTERNS
+};

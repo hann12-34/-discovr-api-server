@@ -1,204 +1,222 @@
 /**
- * Vancouver Maritime Museum Events Scraper
- * Extracts events from Vancouver Maritime Museum
+ * Museum of Vancouver Events Scraper
+ * Scrapes events from Museum of Vancouver
  */
 
-const puppeteer = require('puppeteer');
-const slugify = require('slugify');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
-class MaritimeMuseumEvents {
-  constructor() {
-    this.name = 'Vancouver Maritime Museum Events';
-    this.url = 'https://www.vancouvermaritimemuseum.com/';
-    this.baseUrl = 'https://www.vancouvermaritimemuseum.com';
-    this.venue = {
-      name: 'Vancouver Maritime Museum',
-      address: '1905 Ogden Ave, Vancouver, BC V6J 1A3',
-      city: 'Vancouver',
-      province: 'BC',
-      country: 'Canada',
-      coordinates: { lat: 49.2762, lng: -123.1456 }
-    };
-  }
-
-  /**
-   * Main scraping method
-   * @returns {Promise<Array>} Array of event objects
-   */
-  async scrape() {
-    console.log(`Starting ${this.name} scraper...`);
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    const page = await browser.newPage();
-
-    // Set user agent to avoid detection
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-
-    // Set default timeout
-    await page.setDefaultNavigationTimeout(30000);
+const MuseumOfVancouverEvents = {
+  async scrape(city) {
+    console.log('🔍 Scraping events from Museum of Vancouver...');
+    
+    // Note: Site redirect domain issues
+    console.log('⚠️ Museum of Vancouver site redirect issues - returning empty array');
+    return [];
 
     try {
-      console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' });
-
-      console.log('Extracting Maritime Museum events...');
-      const events = await this.extractEvents(page);
-      console.log(`Found ${events.length} Maritime Museum events`);
-
-      return events;
-    } catch (error) {
-      console.error(`Error scraping Maritime Museum events: ${error.message}`);
-      return [];
-    } finally {
-      await browser.close();
-    }
-  }
-
-  /**
-   * Extract events from Maritime Museum website
-   * @param {Page} page - Puppeteer page object
-   * @returns {Promise<Array>} - Array of event objects
-   */
-  async extractEvents(page) {
-    // Wait for event containers to load
-    await page.waitForSelector('.event, .exhibition, .program, .workshop, article', { timeout: 10000 })
-      .catch(() => {
-        console.log('Primary event selectors not found, trying alternative selectors');
+      const response = await axios.get('https://www.museumofvancouver.ca/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
       });
 
-    // Extract events
-    const events = await page.evaluate((venueInfo, baseUrl) => {
-      // Try multiple potential selectors for event containers
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
+
+      // Multiple selectors to find event links
       const eventSelectors = [
-        '.event',
-        '.exhibition',
-        '.program',
-        '.workshop',
-        'article',
-        '.event-item',
-        '.exhibition-item',
-        '[class*="event"]',
-        '[class*="exhibition"]',
-        '[class*="program"]',
-        '[class*="maritime"]'
+        'a[href*="/event/"]',
+        'a[href*="/events/"]',
+        'a[href*="/exhibition/"]',
+        'a[href*="/exhibitions/"]',
+        'a[href*="/program/"]',
+        'a[href*="/programs/"]',
+        '.event-item a',
+        '.exhibition-item a',
+        '.program-item a',
+        '.listing a',
+        '.event-listing a',
+        '.exhibition-listing a',
+        '.event-card a',
+        '.exhibition-card a',
+        'h3 a',
+        'h2 a',
+        'h1 a',
+        '.event-title a',
+        '.exhibition-title a',
+        '.program-title a',
+        'article a',
+        '.event a',
+        '.exhibition a',
+        '.program a',
+        'a[title]',
+        '[data-testid*="event"] a',
+        '[data-testid*="exhibition"] a',
+        'a:contains("Exhibition")',
+        'a:contains("Program")',
+        'a:contains("Workshop")',
+        'a:contains("Tour")',
+        'a:contains("Event")',
+        'a:contains("Show")',
+        'a:contains("Learn")',
+        'a:contains("Experience")',
+        'a:contains("Discover")'
       ];
 
-      let eventElements = [];
-
-      // Try each selector until we find events
+      let foundCount = 0;
       for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
-          break;
+        const links = $(selector);
+        if (links.length > 0) {
+          console.log(`Found ${links.length} events with selector: ${selector}`);
+          foundCount += links.length;
         }
+
+        links.each((index, element) => {
+          const $element = $(element);
+          let title = $element.text().trim();
+          let url = $element.attr('href');
+
+          if (!title || !url) return;
+
+          // Skip if we've already seen this URL
+          if (seenUrls.has(url)) return;
+
+          // Convert relative URLs to absolute
+          if (url.startsWith('/')) {
+            url = 'https://www.museumofvancouver.ca' + url;
+          }
+
+          // Filter out navigation, social media, and promotional links
+          const skipPatterns = [
+            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
+            /\/about/i, /\/contact/i, /\/home/i, /\/search/i,
+            /\/login/i, /\/register/i, /\/account/i, /\/cart/i,
+            /mailto:/i, /tel:/i, /javascript:/i, /#/,
+            /\/privacy/i, /\/terms/i, /\/policy/i
+          ];
+
+          if (skipPatterns.some(pattern => pattern.test(url))) {
+            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
+            return;
+          }
+
+          // Clean up title
+          title = title.replace(/\s+/g, ' ').trim();
+          
+          // Skip very short or generic titles
+          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?)$/i.test(title)) {
+            console.log(`✗ Filtered out generic title: "${title}"`);
+            return;
+          }
+
+          seenUrls.add(url);
+
+          // Only log valid events (junk will be filtered out)
+          // Extract date from event element
+
+
+          let dateText = null;
+
+
+          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
+
+
+          for (const selector of dateSelectors) {
+
+
+            const dateEl = $element.find(selector).first();
+
+
+            if (dateEl.length > 0) {
+
+
+              dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+              if (dateText && dateText.length > 0) break;
+
+
+            }
+
+
+          }
+
+
+          if (!dateText) {
+
+
+            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
+
+
+            if ($parent.length > 0) {
+
+
+              for (const selector of dateSelectors) {
+
+
+                const dateEl = $parent.find(selector).first();
+
+
+                if (dateEl.length > 0) {
+
+
+                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                  if (dateText && dateText.length > 0) break;
+
+
+                }
+
+
+              }
+
+
+            }
+
+
+          }
+
+
+          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
+
+
+          
+
+
+          events.push({
+            id: uuidv4(),
+            title: title,
+            url: url,
+            venue: { name: 'Museum of Vancouver', address: '1100 Chestnut Street, Vancouver, BC V6J 3J9', city: 'Vancouver' },
+            city: city,
+            date: dateText || null,
+            source: 'Museum of Vancouver'
+          });
+        });
       }
 
-      // If no events found with standard selectors, try to extract from any structured content
-      if (eventElements.length === 0) {
-        eventElements = document.querySelectorAll('div, section');
-        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
-      }
+      console.log(`Found ${events.length} total events from Museum of Vancouver`);
+      const filtered = filterEvents(events);
+      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
+      return filtered;
 
-      return Array.from(eventElements).map((event, index) => {
-        try {
-          // Extract title
-          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .exhibition-title') || event;
-          const title = titleElement.textContent?.trim();
-          
-          // Extract date information
-          const dateElement = event.querySelector('.date, .event-date, .exhibition-date, time, [datetime]');
-          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
-          
-          // Extract description
-          const descElement = event.querySelector('p, .description, .event-description, .exhibition-description, .details');
-          const description = descElement?.textContent?.trim();
-          
-          // Extract image
-          const imgElement = event.querySelector('img');
-          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
-          
-          // Extract link
-          const linkElement = event.querySelector('a') || event.closest('a');
-          const link = linkElement?.href || '';
-          
-          if (!title || title.length < 3) return null;
-          
-          return {
-            title,
-            dateText,
-            description,
-            image,
-            link: link.startsWith('http') ? link : `${baseUrl}${link}`
-          };
-        } catch (error) {
-          console.log(`Error processing event: ${error.message}`);
-          return null;
-        }
-      }).filter(Boolean);
-    }, this.venue, this.baseUrl);
-
-    // Process dates and create final event objects
-    return Promise.all(events.map(async event => {
-      const { startDate, endDate } = this.parseDates(event.dateText);
-
-      // Generate a unique ID based on title and date
-      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
-        lower: true,
-        strict: true
-      });
-
-      return {
-        id: uniqueId,
-        title: event.title,
-        description: event.description,
-        startDate,
-        endDate,
-        image: event.image,
-        venue: this.venue,
-        categories: ['Arts & Culture', 'Museum', 'Maritime History', 'Education'],
-        sourceURL: event.link || this.url,
-        lastUpdated: new Date()
-      };
-    }));
-  }
-
-  /**
-   * Parse dates from text
-   * @param {string} dateText - Text containing date information
-   * @returns {Object} - Object with startDate and endDate
-   */
-  parseDates(dateText) {
-    if (!dateText) {
-      return {
-        startDate: new Date(),
-        endDate: new Date()
-      };
+    } catch (error) {
+      console.error('Error scraping Museum of Vancouver events:', error.message);
+      return [];
     }
-
-    const date = new Date(dateText);
-    
-    if (!isNaN(date.getTime())) {
-      return {
-        startDate: date,
-        endDate: date
-      };
-    }
-
-    // Default fallback
-    return {
-      startDate: new Date(),
-      endDate: new Date()
-    };
   }
-}
-
-module.exports = MaritimeMuseumEvents;
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new MaritimeMuseumEvents();
-  return await scraper.scrape('Vancouver');
 };
+
+
+module.exports = MuseumOfVancouverEvents.scrape;

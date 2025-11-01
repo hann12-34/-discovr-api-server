@@ -1,250 +1,122 @@
 const { filterEvents } = require('../../utils/eventFilter');
-const { getCityFromArgs } = require('../../utils/city-util.js');
-/**
- * Scraper for Radio City Music Hall in New York
- * 
- * This scraper extracts event data from Radio City Music Hall's official website
- */
-
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { v4: uuidv4 } = require('uuid');
+const { parseDateText } = require('../../utils/city-util');
 
-class RadioCityMusicHall {
-    constructor() {
-        this.venueName = 'Radio City Music Hall';
-        this.venueId = 'radio-city-music-hall';
-        this.baseUrl = 'https://www.msg.com';
-        this.eventsUrl = 'https://www.msg.com/radio-city-music-hall'; // Use main venue page like MSG
-        this.city = 'New York';
-        this.state = 'NY';
-        this.country = 'USA';
-        this.venue = {
-            name: 'Radio City Music Hall',
-            address: '1260 6th Ave, New York, NY 10020',
-            coordinates: {
-                lat: 40.7599,
-                lng: -73.9799
-            }
-        };
-    }
-
-    /**
-     * Fetch and parse events from Radio City Music Hall
-     * @returns {Promise<Array>} Array of event objects
-     */
-    async fetchEvents() {
-        try {
-            console.log(`🔍 Fetching events from ${this.venueName}...`);
-            
-            const response = await axios.get(this.eventsUrl, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                }
-            });
-            
-            if (response.status !== 200) {
-                throw new Error(`Failed to fetch events from ${this.venueName}. Status code: ${response.status}`);
-            }
-            
-            const $ = cheerio.load(response.data);
-            const events = [];
-            
-            // Parse Radio City Music Hall events using MSG-style h3 approach
-            $('h3').each((index, element) => {
-                try {
-                    const $el = $(element);
-                    
-                    // Extract event title from h3 tag text (clean any markdown link brackets)
-                    let title = $el.text().trim();
-                    // Remove markdown link brackets if present
-                    title = title.replace(/^\[(.*)\]$/, '$1');
-                    
-                    console.log(`🔍 Processing Radio City h3[${index}]: "${title}"`);
-                    
-                    if (!title || title.length < 3) {
-                        console.log(`   ❌ Skipped: title too short or empty`);
-                        return;
-                    }
-                    
-                    // Find the date element - try multiple approaches (like MSG)
-                    let dateText = '';
-                    
-                    // Try 1: Next h4 sibling
-                    let $dateEl = $el.next('h4');
-                    if ($dateEl.length > 0) {
-                        dateText = $dateEl.text().trim();
-                    }
-                    
-                    // Try 2: Look for h4 within the parent container
-                    if (!dateText) {
-                        $dateEl = $el.parent().find('h4').first();
-                        if ($dateEl.length > 0) {
-                            dateText = $dateEl.text().trim();
-                        }
-                    }
-                    
-                    // Try 3: Look for any following h4 in the document
-                    if (!dateText) {
-                        $dateEl = $el.nextAll('h4').first();
-                        if ($dateEl.length > 0) {
-                            dateText = $dateEl.text().trim();
-                        }
-                    }
-                    
-                    console.log(`   📅 Date text: "${dateText}"`);
-                    
-                    // CRITICAL: Skip events without real dates!
-                    if (!dateText || dateText.trim() === '') {
-                        console.log(`   ❌ No date found, skipping this event`);
-                        return;
-                    }
-                    
-                    // Extract time information
-                    const timeText = dateText;
-                    
-                    // Extract event link
-                    const eventLink = $el.find('a').attr('href');
-                    const fullEventUrl = eventLink ? 
-                        (eventLink.startsWith('http') ? eventLink : `${this.baseUrl}${eventLink}`) : null;
-                    
-                    // Extract description
-                    const description = $el.find('.event-description, .description, .summary, .details, .show-description').text().trim();
-                    
-                    // Extract price information
-                    const priceText = $el.find('.price, .ticket-price, .cost, .tickets').text().trim();
-                    
-                    // Extract artist/performer information
-                    const artistText = $el.find('.artist, .performer, .headliner').text().trim();
-                    
-                    // Extract show type/genre
-                    const genreText = $el.find('.genre, .category, .show-type').text().trim();
-                    
-                    // Parse date - must be valid or skip
-                    let startDate = null;
-                    try {
-                        startDate = new Date(dateText);
-                        if (isNaN(startDate.getTime())) {
-                            console.log(`   ❌ Invalid date: ${dateText}, skipping`);
-                            return; // Skip if invalid
-                        }
-                        console.log(`   ✅ Parsed date: ${startDate.toDateString()}`);
-                    } catch (e) {
-                        console.log(`   ❌ Parse error: ${dateText}, skipping`);
-                        return; // Skip on error
-                    }
-                    
-                    // Build full description
-                    let fullDescription = description || `Event at ${this.venueName}`;
-                    if (artistText) {
-                        fullDescription += ` featuring ${artistText}`;
-                    }
-                    
-                    const event = {
-                        id: uuidv4(),
-                        title: title,
-                        description: fullDescription && fullDescription.length > 20 ? fullDescription : `${title} in New York`,
-                        startDate: startDate,
-                        endDate: null,
-                        venue: { name: this.venueName, address: '1260 Avenue of the Americas, New York, NY 10020', city: 'New York' },
-                        city: this.city,
-                        state: this.state,
-                        country: this.country,
-                        url: fullEventUrl,
-                        price: priceText || null,
-                        category: this.determineCategory(title, description, genreText),
-                        source: 'Radio City Music Hall Official',
-                        venueId: this.venueId,
-                        artist: artistText || null,
-                        genre: genreText || null,
-                        rawDateText: dateText,
-                        rawTimeText: timeText,
-                        scrapedAt: new Date().toISOString()
-                    };
-                    
-                    events.push(event);
-                    
-                } catch (error) {
-                    console.error(`Error parsing event at index ${index}:`, error.message);
-                }
-            });
-            
-            console.log(`✅ ${this.venueName}: Found ${events.length} events`);
-            return filterEvents(events);
-            
-        } catch (error) {
-            console.error(`❌ Error fetching events from ${this.venueName}:`, error.message);
-            return [];
-        }
-    }
-
-    /**
-     * Determine event category based on title, description, and genre
-     * @param {string} title - Event title
-     * @param {string} description - Event description
-     * @param {string} genre - Event genre
-     * @returns {string} - Event category
-     */
-    determineCategory(title, description = '', genre = '') {
-        const combined = `${title} ${description} ${genre}`.toLowerCase();
+async function scrapeEvents(city = 'New York') {
+  console.log('🎪 Scraping NYC events...');
+  const events = [];
+  
+  try {
+    const url = 'https://www.msg.com/radio-city-music-hall';
+    const response = await axios.get(url, {
+      timeout: 15000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        'Accept': 'text/html'
+      }
+    });
+    
+    const $ = cheerio.load(response.data);
+    
+    // Cast very wide net for events
+    const selectors = [
+      '.event', '[class*="event" i]', '[class*="Event"]',
+      'article', '.show', '[class*="show" i]',
+      '.card', '[class*="card" i]',
+      '.listing', '[class*="listing" i]',
+      'li[class*="item" i]', '[data-event]',
+      '.performance', '.concert', '.game'
+    ];
+    
+    const containers = new Set();
+    selectors.forEach(sel => {
+      $(sel).each((i, el) => {
+        if (i < 100) containers.add(el);
+      });
+    });
+    
+    // Also find by date elements
+    $('[datetime], time, .date, [class*="date" i]').each((i, el) => {
+      let parent = $(el).parent()[0];
+      for (let depth = 0; depth < 5 && parent; depth++) {
+        containers.add(parent);
+        parent = $(parent).parent()[0];
+      }
+    });
+    
+    Array.from(containers).forEach((el) => {
+      const $e = $(el);
+      
+      // Extract title
+      const title = (
+        $e.find('h1').first().text().trim() ||
+        $e.find('h2').first().text().trim() ||
+        $e.find('h3').first().text().trim() ||
+        $e.find('h4').first().text().trim() ||
+        $e.find('.title, [class*="title" i]').first().text().trim() ||
+        $e.find('.name, [class*="name" i]').first().text().trim() ||
+        $e.find('a').first().text().trim()
+      );
+      
+      if (!title || title.length < 5 || title.length > 250) return;
+      if (title.match(/^(Menu|Nav|Skip|Login|Subscribe|Search|Home|View All|Load More|Filter|Sort)/i)) return;
+      
+      // Extract date
+      let dateText = '';
+      const dateEl = $e.find('[datetime]').first();
+      if (dateEl.length) {
+        dateText = dateEl.attr('datetime') || dateEl.text().trim();
+      }
+      
+      if (!dateText) {
+        dateText = $e.find('time, .date, [class*="date" i], .when, .schedule').first().text().trim();
+      }
+      
+      if (!dateText) {
+        const patterns = [
+          /\d{4}-\d{2}-\d{2}/,
+          /(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,?\s+\d{4})?/i,
+          /(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i,
+          /\d{1,2}\/\d{1,2}\/\d{2,4}/
+        ];
         
-        if (combined.includes('christmas spectacular') || combined.includes('rockettes')) {
-            return 'Christmas Spectacular';
-        } else if (combined.includes('concert') || combined.includes('tour') || combined.includes('live music')) {
-            return 'Concert';
-        } else if (combined.includes('comedy') || combined.includes('comedian') || combined.includes('stand-up')) {
-            return 'Comedy';
-        } else if (combined.includes('tony') || combined.includes('awards') || combined.includes('ceremony')) {
-            return 'Awards Show';
-        } else if (combined.includes('dance') || combined.includes('ballet') || combined.includes('performance')) {
-            return 'Dance Performance';
-        } else if (combined.includes('family') || combined.includes('children') || combined.includes('kids')) {
-            return 'Family Entertainment';
-        } else if (combined.includes('graduation') || combined.includes('ceremony') || combined.includes('commencement')) {
-            return 'Graduation';
-        } else if (combined.includes('benefit') || combined.includes('gala') || combined.includes('fundraiser')) {
-            return 'Benefit/Gala';
-        } else if (combined.includes('gospel') || combined.includes('religious') || combined.includes('spiritual')) {
-            return 'Gospel/Religious';
-        } else if (combined.includes('television') || combined.includes('tv') || combined.includes('taping') || combined.includes('filming')) {
-            return 'Television Production';
+        for (const pattern of patterns) {
+          const match = $e.text().match(pattern);
+          if (match) {
+            dateText = match[0];
+            break;
+          }
         }
-        
-        return 'Entertainment';
-    }
-
-    /**
-     * Main scrape method that handles the scraping process
-     * @returns {Promise<Array>} Array of formatted events
-     */
-    async scrape() {
-        try {
-            const events = await this.fetchEvents();
-            
-            // Filter out events with invalid titles (temporarily allow events without proper dates)
-            const validEvents = events.filter(event => {
-                return event.title && 
-                       event.title.length >= 3 && 
-                       !event.title.toLowerCase().includes('concessions') &&
-                       !event.title.toLowerCase().includes('rockettes merch') &&
-                       !event.title.toLowerCase().includes('tour');
-                       // Temporarily removed date validation to extract real events
-            });
-            
-            console.log(`🗽 ${this.venueName}: Returning ${validEvents.length} valid events`);
-            return validEvents;
-            
-        } catch (error) {
-            console.error(`❌ ${this.venueName} scraper failed:`, error.message);
-            return [];
-        }
-    }
+      }
+      
+      if (!dateText || dateText.length < 4) return;
+      
+      const parsedDate = parseDateText(dateText);
+      if (!parsedDate || !parsedDate.startDate) return;
+      
+      const eventUrl = $e.find('a').first().attr('href') || url;
+      const fullUrl = eventUrl.startsWith('http') ? eventUrl : 
+                     eventUrl.startsWith('/') ? `https://${new URL(url).hostname}${eventUrl}` : url;
+      
+      events.push({
+        title,
+        date: parsedDate.startDate.toISOString(),
+        venue: { name: 'Radio City Music Hall', address: '1260 6th Ave, New York, NY 10020', city: 'New York' },
+        location: 'New York, NY',
+        description: title,
+        url: fullUrl,
+        category: 'Events'
+      });
+    });
+    
+    console.log(`   ✅ Extracted ${events.length} events`);
+    
+  } catch (error) {
+    console.log(`   ⚠️  Error: ${error.message.substring(0, 50)}`);
+  }
+  
+  return filterEvents(events);
 }
 
-// Convert to function export for orchestrator compatibility
-async function scrapeRadioCityMusicHall() {
-    const scraper = new RadioCityMusicHall();
-    return await scraper.scrape();
-}
-
-module.exports = scrapeRadioCityMusicHall;
+module.exports = scrapeEvents;

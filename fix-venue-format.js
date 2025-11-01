@@ -1,79 +1,43 @@
 /**
- * Script to fix the venue format for Toronto events
- * to ensure it's a string value as expected by the app's filtering logic
+ * Fix venue format - change from string to object
+ * venue: 'Name' -> venue: { name: 'Name', city: 'Vancouver' }
  */
-const { MongoClient } = require('mongodb');
 
-async function fixVenueFormat() {
-  const uri = 'mongodb://localhost:27017';
-  const client = new MongoClient(uri);
+const fs = require('fs');
+const path = require('path');
+
+const scrapersDir = path.join(__dirname, 'scrapers/cities/vancouver');
+
+function fixVenueFormat() {
+  const files = fs.readdirSync(scrapersDir)
+    .filter(f => f.endsWith('.js') && !f.includes('.bak') && !f.includes('test'));
   
-  try {
-    await client.connect();
-    console.log('🔌 Connected to MongoDB');
+  let fixedCount = 0;
+  
+  for (const file of files) {
+    const filePath = path.join(scrapersDir, file);
+    let content = fs.readFileSync(filePath, 'utf8');
+    let modified = false;
     
-    const db = client.db('discovr');
-    const eventsCollection = db.collection('events');
+    // Pattern: venue: 'Venue Name' -> venue: { name: 'Venue Name', city: 'Vancouver' }
+    // But NOT if it's already an object
+    const venueStringPattern = /venue:\s*'([^']+)'/g;
     
-    // Find all Toronto events
-    const torontoEvents = await eventsCollection.find({
-      city: 'Toronto'
-    }).toArray();
-    
-    console.log(`📊 Found ${torontoEvents.length} Toronto events to fix venue format`);
-    
-    // Fix venue format for all Toronto events
-    let updateCount = 0;
-    for (const event of torontoEvents) {
-      // Make sure venue is a string, not an object
-      let venueString = 'Toronto Venue';
-      
-      if (typeof event.venue === 'string') {
-        venueString = event.venue;
-      } else if (event.venue && typeof event.venue.name === 'string') {
-        venueString = event.venue.name;
-      }
-      
-      // Ensure venue string mentions Toronto
-      if (!venueString.toLowerCase().includes('toronto')) {
-        venueString = `Toronto ${venueString}`;
-      }
-      
-      // Update the event document
-      const result = await eventsCollection.updateOne(
-        { _id: event._id }, 
-        { $set: { 
-          venue: venueString,
-          // Additional fields to enhance city detection:
-          cityId: 'Toronto',
-          // Ensure name has Toronto mentioned prominently
-          name: event.name && event.name.toLowerCase().includes('toronto') ? 
-            event.name : `Toronto: ${event.name || event.title || 'Event'}`,
-          // Add a 'toronto_' prefix to any id fields
-          venueId: `toronto_${event._id.toString()}`
-        }}
-      );
-      
-      if (result.modifiedCount > 0) {
-        updateCount++;
-      }
+    if (venueStringPattern.test(content)) {
+      content = content.replace(/venue:\s*'([^']+)'/g, "venue: { name: '$1', city: 'Vancouver' }");
+      modified = true;
     }
     
-    console.log(`✅ Updated ${updateCount} out of ${torontoEvents.length} Toronto events with proper venue format`);
-    
-    // Print example of an updated event
-    if (torontoEvents.length > 0) {
-      const updatedEvent = await eventsCollection.findOne({ _id: torontoEvents[0]._id });
-      console.log('📝 Example of updated event:');
-      console.log(JSON.stringify(updatedEvent, null, 2));
+    if (modified) {
+      fs.writeFileSync(filePath, content, 'utf8');
+      console.log(`✅ Fixed ${file}`);
+      fixedCount++;
     }
-    
-  } catch (error) {
-    console.error('❌ Error fixing venue format:', error);
-  } finally {
-    await client.close();
-    console.log('🔌 Disconnected from MongoDB');
   }
+  
+  console.log(`\n📊 SUMMARY:`);
+  console.log(`✅ Fixed: ${fixedCount} scrapers`);
+  console.log(`\nAll venues now use object format: { name: '...', city: 'Vancouver' }`);
 }
 
-fixVenueFormat().catch(console.error);
+fixVenueFormat();

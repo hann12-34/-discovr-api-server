@@ -1,219 +1,201 @@
 /**
- * Celebrities Nightclub Scraper
- *
- * This scraper provides information about events at Celebrities Nightclub in Vancouver
- * Source: https://www.celebritiesnightclub.com/
+ * Celebrities Nightclub Events Scraper
+ * Scrapes events from Celebrities Nightclub Vancouver
  */
 
-const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
 
-class CelebritiesNightclubScraper {
-  constructor() {
-    this.name = 'Celebrities Nightclub';
-    this.url = 'https://www.celebritiesnightclub.com/';
-    this.sourceIdentifier = 'celebrities-nightclub';
-
-    // Venue information
-    this.venue = {
-      name: "Celebrities Nightclub",
-      id: "celebrities-nightclub-vancouver",
-      address: "1022 Davie St",
-      city: city,
-      state: "BC",
-      country: "Canada",
-      postalCode: "V6E 1M3",
-      coordinates: {
-        lat: 49.2808878,
-        lng: -123.1300321
-      },
-      websiteUrl: "https://www.celebritiesnightclub.com/",
-      description: "Celebrities Nightclub is an iconic Vancouver nightlife institution established in 1984. Located in the heart of the Davie Village, it's one of the city's longest-running and most popular LGBTQ+ friendly nightclubs, featuring state-of-the-art sound and lighting systems, multiple rooms, and themed nights that welcome everyone."
-    };
-
-    // Upcoming events for 2025
-    thiss = [
-      {
-        title: "PARADISE SATURDAYS",
-        description: "Paradise Saturdays is Celebrities Nightclub's flagship weekly event featuring the best local DJs spinning house, progressive, and top 40 remixes. Experience the club's legendary atmosphere with stunning light shows, talented dancers, and special effects that have made Paradise a Vancouver nightlife tradition for over two decades.",
-        date: new Date("2025-07-05T22:00:00"),
-        endTime: new Date("2025-07-06T03:00:00"),
-        doorTime: "10:00 PM",
-        ageRestriction: "19+",
-        imageUrl: "https://www.celebritiesnightclub.com/wp-content/uploads/2025/01/paradise-saturdays.jpg",
-        ticketLink: "https://www.celebritiesnightclub.com/events/paradise-saturdays/",
-        genre: "Dance/Electronic",
-        djs: ["DJ Del Stamp", "DJ Drew Allen"]
-      },
-      {
-        title: "FVDED Friday",
-        description: "FVDED Friday brings the best in trap, hip hop, and bass music to Celebrities. This Blueprint Events production transforms the club into a high-energy playground with guest DJs and artists from around the world. Expect cutting-edge music, special guests, and a packed dance floor.",
-        date: new Date("2025-07-11T22:00:00"),
-        endTime: new Date("2025-07-12T03:00:00"),
-        doorTime: "10:00 PM",
-        ageRestriction: "19+",
-        imageUrl: "https://www.celebritiesnightclub.com/wp-content/uploads/2025/01/fvded-friday.jpg",
-        ticketLink: "https://www.celebritiesnightclub.com/events/fvded-friday/",
-        genre: "Hip Hop/Bass",
-        djs: ["DJ Flipout", "Guest DJ TBA"]
-      },
-      {
-        title: "DRAG ME TO HELL: Celestial Showdown",
-        description: "Celebrities presents a night of extraordinary drag performances featuring local legends and special guests. Hosted by Vancouver's own Jaylene Tyme, this celestial-themed extravaganza promises jaw-dropping performances, outrageous costumes, and non-stop entertainment. The evening includes a drag competition with audience participation and surprise celebrity judges.",
-        date: new Date("2025-07-17T21:00:00"),
-        endTime: new Date("2025-07-18T02:00:00"),
-        doorTime: "9:00 PM",
-        ageRestriction: "19+",
-        imageUrl: "https://www.celebritiesnightclub.com/wp-content/uploads/2025/02/drag-me-to-hell.jpg",
-        ticketLink: "https://www.celebritiesnightclub.com/events/drag-me-to-hell/",
-        genre: "Drag Performance",
-        performers: ["Jaylene Tyme", "Mina Mercury", "Rogue", "Heaven Lee Hytes"]
-      },
-      {
-        title: "Nina Kraviz: Techno Revolution Tour",
-        description: "Internationally acclaimed DJ and producer Nina Kraviz brings her Techno Revolution Tour to Celebrities. Known for her hypnotic sets and experimental approach to techno, Kraviz will take control of the club's powerful sound system for an unforgettable night of cutting-edge electronic music. This rare Vancouver appearance is presented in partnership with Blueprint Events.",
-        date: new Date("2025-07-24T22:00:00"),
-        endTime: new Date("2025-07-25T04:00:00"),
-        doorTime: "10:00 PM",
-        ageRestriction: "19+",
-        imageUrl: "https://www.celebritiesnightclub.com/wp-content/uploads/2025/03/nina-kraviz.jpg",
-        ticketLink: "https://www.celebritiesnightclub.com/events/nina-kraviz/",
-        genre: "Techno",
-        performerUrl: "https://www.ninakraviz.com/"
-      },
-      {
-        title: "PRIDE WEEKEND: Love Revolution",
-        description: "Celebrate Vancouver Pride at Celebrities' legendary Pride Weekend party. The Love Revolution edition features international guest DJs, spectacular performances, and the inclusive atmosphere that has made Celebrities a cornerstone of Vancouver's LGBTQ+ community for decades. Expect a packed house, special surprises, and the most vibrant pride celebration in the city.",
-        date: new Date("2025-08-02T21:00:00"),
-        endTime: new Date("2025-08-03T06:00:00"),
-        doorTime: "9:00 PM",
-        ageRestriction: "19+",
-        imageUrl: "https://www.celebritiesnightclub.com/wp-content/uploads/2025/04/pride-weekend.jpg",
-        ticketLink: "https://www.celebritiesnightclub.com/events/pride-weekend-2025/",
-        genre: "Pride/Dance",
-        djs: ["DJ GSP", "DJ Cyndi Lauper", "International Guest DJ TBA"]
-      }
-    ];
-  }
-
-  /**
-   * Main scraper function
-   */
+const CelebritiesNightclubEvents = {
   async scrape(city) {
-    console.log('🔍 Starting Celebrities Nightclub scraper...');
-    const events = [];
+    console.log('🔍 Scraping events from Celebrities Nightclub...');
 
     try {
-      // In a real implementation, we would scrape the website here
-      // For now, we'll use the predefined events
+      const response = await axios.get('https://www.celebritiesnightclub.com/events', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
+      });
 
-      for (const eventData of thiss) {
-        // Create unique ID for each event
-        const eventDate = eventData.date.toISOString().split('T')[0];
-        const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-        const eventId = `celebrities-nightclub-${slugifiedTitle}-${eventDate}`;
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
 
-        // Format the date for display
-        const dateFormat = new Intl.DateTimeFormat('en-US', {
-          weekday: 'long',
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        };
+      // Selectors for Celebrities Nightclub events page
+      const eventSelectors = [
+        'a[href*="/events/"]',
+        'a:contains("FFFForeal fridays")',
+        'a:contains("LOCAL LOVE")',
+        'a:contains("WUKI")',
+        'a:contains("BED BY 10PM")', 
+        'a:contains("WESTEND")',
+        'a:contains("JAUZ")',
+        'a:contains("MATHAME")',
+        'a:contains("ZERB")',
+        'a:contains("J WORRA")',
+        'a:contains("BUNT")',
+        'a:contains("FORESTER")',
+        'a:contains("BAYNK")',
+        'a:contains("DEEP DISH")',
+        'a:contains("Playhouse")',
+        'a:contains("STACKED")',
+        'a:contains("Stereotype")',
+        'h3 a',
+        'h2 a',
+        '.event-card a',
+        '.event-item a'
+      ];
 
-        const timeFormat = new Intl.DateTimeFormat('en-US', {
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true
-        };
-
-        const formattedDate = dateFormat.format(eventData.date);
-        const formattedTime = timeFormat.format(eventData.date);
-
-        // Create detailed description with formatted date and time
-        let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        detailedDescription += `Date: ${formattedDate}\n`;
-        detailedDescription += `Time: ${formattedTime}\n`;
-        detailedDescription += `Doors: ${eventData.doorTime}\n`;
-        detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
-        detailedDescription += `Genre: ${eventData.genre}\n`;
-
-        // Add performer information if available
-        if (eventData.djs && eventData.djs.length > 0) {
-          detailedDescription += `DJs: ${eventData.djs.join(', ')}\n`;
+      let foundCount = 0;
+      for (const selector of eventSelectors) {
+        const links = $(selector);
+        if (links.length > 0) {
+          console.log(`Found ${links.length} events with selector: ${selector}`);
+          foundCount += links.length;
         }
 
-        if (eventData.performers && eventData.performers.length > 0) {
-          detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
-        }
+        links.each((index, element) => {
+          const $element = $(element);
+          let title = $element.text().trim();
+          let url = $element.attr('href');
 
-        if (eventData.performerUrl) {
-          detailedDescription += `Artist Website: ${eventData.performerUrl}\n`;
-        }
+          if (!title || !url) return;
 
-        detailedDescription += `\nCelebrities Nightclub is located at 1022 Davie Street in Vancouver's vibrant Davie Village.`;
+          // Skip if we've already seen this URL
+          if (seenUrls.has(url)) return;
 
-        // Create categories based on genre
-        const categories = ['nightlife', 'music', 'dance', 'club', 'entertainment'];
+          // Convert relative URLs to absolute
+          if (url.startsWith('/')) {
+            url = 'https://www.celebritiesnightclub.com' + url;
+          }
 
-        // Add genre-specific categories
-        const genreLower = eventData.genre.toLowerCase();
-        categories.push(genreLower);
+          // Filter out navigation, social media, and promotional links
+          const skipPatterns = [
+            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
+            /\/about/i, /\/contact/i, /\/home/i, /\/search/i,
+            /\/login/i, /\/register/i, /\/account/i, /\/cart/i,
+            /mailto:/i, /tel:/i, /javascript:/i, /#/,
+            /\/privacy/i, /\/terms/i, /\/policy/i
+          ];
 
-        // Add LGBTQ+ category
-        categories.push('lgbtq+');
+          if (skipPatterns.some(pattern => pattern.test(url))) {
+            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
+            return;
+          }
 
-        // Add drag category if applicable
-        if (genreLower.includes('drag')) {
-          categories.push('drag');
-          categories.push('performance');
-        }
+          // Clean up title
+          title = title.replace(/\s+/g, ' ').trim();
+          
+          // Skip very short or generic titles
+          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?|ics|view event|→|view event →)$/i.test(title)) {
+            console.log(`✗ Filtered out generic title: "${title}"`);
+            return;
+          }
 
-        // Add pride category if applicable
-        if (genreLower.includes('pride')) {
-          categories.push('pride');
-        }
+          seenUrls.add(url);
 
-        // Create event object
-        const event = {
-          id: eventId,
-          title: eventData.title,
-          description: detailedDescription.trim(),
-          startDate: eventData.date,
-          endDate: eventData.endTime,
-          venue: this.venue,
-          category: 'nightlife',
-          categories: categories,
-          sourceURL: this.url,
-          officialWebsite: eventData.ticketLink,
-          image: eventData.imageUrl || null,
-          ticketsRequired: true,
-          lastUpdated: new Date()
-        };
+          // Only log valid events (junk will be filtered out)
+          // Extract date from event element
 
-        events.push(event);
-        console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
+
+          let dateText = null;
+
+
+          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
+
+
+          for (const selector of dateSelectors) {
+
+
+            const dateEl = $element.find(selector).first();
+
+
+            if (dateEl.length > 0) {
+
+
+              dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+              if (dateText && dateText.length > 0) break;
+
+
+            }
+
+
+          }
+
+
+          if (!dateText) {
+
+
+            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
+
+
+            if ($parent.length > 0) {
+
+
+              for (const selector of dateSelectors) {
+
+
+                const dateEl = $parent.find(selector).first();
+
+
+                if (dateEl.length > 0) {
+
+
+                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                  if (dateText && dateText.length > 0) break;
+
+
+                }
+
+
+              }
+
+
+            }
+
+
+          }
+
+
+          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
+
+
+          
+
+
+          events.push({
+            id: uuidv4(),
+            title: title,
+            url: url,
+            venue: { name: 'Celebrities Nightclub', address: '1022 Davie Street, Vancouver, BC V6E 1M3', city: 'Vancouver' },
+            city: city,
+            date: dateText || null,
+            source: 'Celebrities Nightclub',
+            category: 'Nightlife'
+          });
+        });
       }
 
-      console.log(`🎧 Successfully created ${events.length} Celebrities Nightclub events`);
+      console.log(`Found ${events.length} total events from Celebrities Nightclub`);
       return events;
 
     } catch (error) {
-      console.error(`❌ Error in Celebrities Nightclub scraper: ${error.message}`);
-      return events;
+      console.error('Error scraping Celebrities Nightclub events:', error.message);
+      return [];
     }
   }
-}
-
-module.exports = new CelebritiesNightclubScraper();
-
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new CelebritiesNightclubScraper();
-  return await scraper.scrape(city);
 };
 
-// Also export the class for backward compatibility
-module.exports.CelebritiesNightclubScraper = CelebritiesNightclubScraper;
+
+module.exports = CelebritiesNightclubEvents.scrape;

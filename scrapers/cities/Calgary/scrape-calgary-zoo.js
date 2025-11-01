@@ -1,134 +1,134 @@
-const puppeteer = require('puppeteer');
+const { filterEvents } = require('../../utils/eventFilter');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
 const slugify = require('slugify');
 
-/**
- * Calgary Zoo Events Scraper
- * Scrapes events from Calgary Zoo
- * URL: https://www.calgaryzoo.com
- */
-class CalgaryZooEvents {
-    constructor() {
-        this.venueName = 'Calgary Zoo';
-        this.venueUrl = 'https://www.calgaryzoo.com';
-        this.category = 'Family & Entertainment';
-        this.city = 'Calgary';
-        this.province = 'AB';
-        this.venue = {
-            name: this.venueName,
-            address: 'Calgary, AB, Canada',
-            city: this.city,
-            province: this.province,
-            coordinates: { lat: 51.0447, lon: -114.0719 }
-        };
-    }
-
-    /**
-     * Generate unique event ID using slugify
-     */
-    generateEventId(eventTitle, date) {
-        const dateStr = date ? new Date(date).toISOString().split('T')[0] : 'no-date';
-        const titleSlug = slugify(eventTitle, { lower: true, strict: true });
-        const venueSlug = slugify(this.venueName, { lower: true, strict: true });
-        return `${venueSlug}-${titleSlug}-${dateStr}`;
-    }
-
-    /**
-     * Main scraping method
-     */
-    async scrape() {
-        console.log(`🎭 Scraping events from ${this.venueName}...`);
-        
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
-
+const CalgaryZooEvents = {
+    async scrape(city) {
+        console.log('🔍 Scraping events from Calgary Zoo...');
         try {
-            const page = await browser.newPage();
-            await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
             
-            await page.goto(this.venueUrl, { 
-                waitUntil: 'networkidle2',
-                timeout: 30000 
-            });
+            const response = await axios.get('https://www.calgaryzoo.com/events/');
+            const $ = cheerio.load(response.data);
+            const events = [];
 
-            const events = await page.evaluate(() => {
-                const eventElements = document.querySelectorAll([
-                    '.event', '.event-item', '.event-card',
-                    '[class*="event"]', '[class*="show"]', '[class*="performance"]',
-                    'article', '.post', '.listing', '.item'
-                ].join(', '));
+            $('h2').each((index, element) => {
+                const $element = $(element);
+                const title = $element.text().trim();
+                const $parent = $element.parent();
+                const link = $parent.find('a[href*="/events/"]').attr('href');
 
-                return Array.from(eventElements).slice(0, 50).map(element => {
-                    const titleSelectors = [
-                        'h1', 'h2', 'h3', 'h4', '.title', '.name', '.event-title',
-                        '[class*="title"]', '[class*="name"]', '[class*="heading"]'
-                    ];
+                
+                // Extract description
+                const description = $element.text().trim() || $element.closest('div').text().trim() || '';
+
+                if (title && title.length > 5 && !title.toLowerCase().includes('special experiences') && !title.toLowerCase().includes('host')) {
                     
-                    const dateSelectors = [
-                        '.date', '.time', '.when', '[class*="date"]', 
-                        '[class*="time"]', 'time', '[datetime]'
-                    ];
+          // COMPREHENSIVE DATE EXTRACTION - Works with most event websites
+          let dateText = null;
+          
+          // Try multiple strategies to find the date
+          const dateSelectors = [
+            'time[datetime]',
+            '[datetime]',
+            '.date',
+            '.event-date', 
+            '.show-date',
+            '[class*="date"]',
+            'time',
+            '.datetime',
+            '.when',
+            '[itemprop="startDate"]',
+            '[data-date]',
+            '.day',
+            '.event-time',
+            '.schedule',
+            'meta[property="event:start_time"]'
+          ];
+          
+          // Strategy 1: Look in the event element itself
+          for (const selector of dateSelectors) {
+            const dateEl = $element.find(selector).first();
+            if (dateEl.length > 0) {
+              dateText = dateEl.attr('datetime') || dateEl.attr('content') || dateEl.text().trim();
+              if (dateText && dateText.length > 0 && dateText.length < 100) {
+                console.log(`✓ Found date with ${selector}: ${dateText}`);
+                break;
+              }
+            }
+          }
+          
+          // Strategy 2: Check parent containers if not found
+          if (!dateText) {
+            const $parent = $element.closest('.event, .event-item, .show, article, [class*="event"], .card, .listing');
+            if ($parent.length > 0) {
+              for (const selector of dateSelectors) {
+                const dateEl = $parent.find(selector).first();
+                if (dateEl.length > 0) {
+                  dateText = dateEl.attr('datetime') || dateEl.attr('content') || dateEl.text().trim();
+                  if (dateText && dateText.length > 0 && dateText.length < 100) {
+                    console.log(`✓ Found date in parent with ${selector}: ${dateText}`);
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          
+          // Strategy 3: Look for common date patterns in nearby text
+          if (!dateText) {
+            const nearbyText = $element.parent().text();
+            // Match patterns like "Nov 4", "November 4", "11/04/2025", etc.
+            const datePatterns = [
+              /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(,?\s+\d{4})?/i,
+              /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
+              /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i
+            ];
+            
+            for (const pattern of datePatterns) {
+              const match = nearbyText.match(pattern);
+              if (match) {
+                dateText = match[0].trim();
+                console.log(`✓ Found date via pattern matching: ${dateText}`);
+                break;
+              }
+            }
+          }
+          
+          // Clean up the date text
+          if (dateText) {
+            dateText = dateText.replace(/\s+/g, ' ').trim();
+            // Remove common prefixes
+            dateText = dateText.replace(/^(Date:|When:|Time:)\s*/i, '');
+            // Validate it's not garbage
+            if (dateText.length < 5 || dateText.length > 100) {
+              console.log(`⚠️  Invalid date text (too short/long): ${dateText}`);
+              dateText = null;
+            }
+          }
 
-                    let title = 'Event';
-                    let date = null;
-                    let description = '';
-
-                    for (const selector of titleSelectors) {
-                        const titleElement = element.querySelector(selector);
-                        if (titleElement && titleElement.textContent.trim()) {
-                            title = titleElement.textContent.trim();
-                            break;
-                        }
-                    }
-
-                    for (const selector of dateSelectors) {
-                        const dateElement = element.querySelector(selector);
-                        if (dateElement) {
-                            const dateText = dateElement.textContent.trim() || 
-                                           dateElement.getAttribute('datetime') || 
-                                           dateElement.getAttribute('title');
-                            if (dateText) {
-                                date = dateText;
-                                break;
-                            }
-                        }
-                    }
-
-                    const descElement = element.querySelector('p, .description, .summary, [class*="desc"]');
-                    if (descElement) {
-                        description = descElement.textContent.trim();
-                    }
-
-                    return { title, date, description };
-                }).filter(event => event.title && event.title !== 'Event');
+          events.push({
+                        id: uuidv4(),
+                        title,
+                        date: dateText || 'Date TBA',
+                        time: null,
+                        url: link ? (link.startsWith('http') ? link : 'https://www.calgaryzoo.com' + link) : 'https://www.calgaryzoo.com/events/',
+                        venue: { name: 'Calgary Zoo', address: '210 St George Dr NE Calgary AB T2E 7V6', city: 'Calgary' },
+                        location: 'Calgary, AB',
+                        description: description && description.length > 20 ? description : `${title} in Calgary`,
+                        image: null
+                    });
+                }
             });
 
-            const formattedEvents = events.map(event => ({
-                id: this.generateEventId(event.title, event.date),
-                title: event.title,
-                date: event.date,
-                time: null,
-                description: event.description || `Event at ${this.venueName}`,
-                venue: this.venue,
-                category: this.category,
-                price: null,
-                url: this.venueUrl,
-                source: this.venueName,
-                city: this.city,
-                province: this.province
-            }));
-
-            console.log(`✅ Found ${formattedEvents.length} events from ${this.venueName}`);
-            return formattedEvents;
-
+            console.log(`Found ${events.length} total events from Calgary Zoo`);
+            return filterEvents(events);
         } catch (error) {
-            console.error(`❌ Error scraping ${this.venueName}:`, error.message);
+            console.error('Error scraping Calgary Zoo events:', error.message);
             return [];
-        } finally {
-            await browser.close();
         }
     }
-}
+};
 
-module.exports = CalgaryZooEvents;
+module.exports = CalgaryZooEvents.scrape;

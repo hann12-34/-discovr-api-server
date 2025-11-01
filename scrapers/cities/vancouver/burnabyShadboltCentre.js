@@ -1,164 +1,180 @@
-const puppeteer = require('puppeteer');
+/**
+ * Burnaby Shadbolt Centre Scraper
+ * Scrapes events from Burnaby Shadbolt Centre for the Arts
+ */
 
-class BurnabyShadboltCentreScraper {
-  constructor() {
-    this.name = 'Burnaby Shadbolt Centre for the Arts';
-    this.source = 'Burnaby Shadbolt Centre for the Arts';
-  }
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
+const BurnabyShadboltCentreEvents = {
   async scrape(city) {
-    console.log(`🎭 Scraping ${this.name}...`);
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    };
+    console.log('🔍 Scraping events from Burnaby Shadbolt Centre...');
 
     try {
-      const page = await browser.newPage();
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-
-      // Navigate to Shadbolt Centre events
-      await page.goto('https://www.burnaby.ca/explore-burnaby/arts-heritage/shadbolt-centre-arts', {
-        waitUntil: 'networkidle2',
+      const response = await axios.get('https://www.burnaby.ca/parks-recreation-culture/culture/shadbolt-centre-arts', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
         timeout: 30000
-      };
+      });
 
-      const events = await page.evaluate(() => {
-        const eventElements = document.querySelectorAll('-item, .program, .workshop, .performance, [class*="event"], [class*="class"]');
-        const events = [];
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
 
-        eventElements.forEach((element, index) => {
-          if (index >= 10) return;
+      const eventSelectors = [
+        'a[href*="/event"]',
+        'a[href*="/events/"]',
+        'a[href*="/show"]',
+        'a[href*="/performance"]',
+        '.event-item a',
+        '.show-item a',
+        'article a',
+        '.post a',
+        'h2 a',
+        'h3 a',
+        'a:contains("Show")',
+        'a:contains("Performance")',
+        'a:contains("Theatre")',
+        'a:contains("Play")',
+        'a:contains("Concert")',
+        'a:contains("Musical")',
+        'a:contains("Dance")',
+        'a:contains("Arts")'
+      ];
 
-          const title = element.querySelector('h1, h2, h3, .title, .program-title, .class-title, .name')?.textContent?.trim() ||
-                       element.textContent?.trim()?.split('\n')[0] ||
-                       `Shadbolt Arts Program ${index + 1}`;
-
-          const date = element.querySelector('.date, .program-date, .time, [class*="date"]')?.textContent?.trim() ||
-                      element.textContent?.match(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}/i)?.[0];
-
-          const description = element.querySelector('.description, .excerpt, .summary, p')?.textContent?.trim() ||
-                             'Discover arts and culture programs at Burnaby\'s premier arts centre.';
-
-          const price = element.querySelector('.price, .cost, .fee, [class*="price"]')?.textContent?.trim() ||
-                       element.textContent?.match(/\$[\d,]+/)?.[0] || '$25';
-
-          events.push({
-            title: title.substring(0, 200),
-            description: description.substring(0, 500),
-            date,
-            price: typeof price === 'string' ? price : String(price)
-          };
-        };
-
-        return events;
-      };
-
-      const processedEvents = [];
-
-      for (const event of events) {
-        let eventDate = new Date();
-
-        if (event.date) {
-          const parsedDate = new Date(event.date);
-          if (!isNaN(parsedDate.getTime())) {
-            eventDate = parsedDate;
-          }
+      for (const selector of eventSelectors) {
+        const links = $(selector);
+        if (links.length > 0) {
+          console.log(`Found ${links.length} events with selector: ${selector}`);
         }
 
-        eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 90));
+        links.each((index, element) => {
+          const $element = $(element);
+          let title = $element.text().trim();
+          let url = $element.attr('href');
 
-        const processedEvent = {
-          title: event.title,
-          description: event.description,
-          startDate: eventDate.toISOString(),
-          endDate: eventDate.toISOString(),
-          source: this.source,
-          sourceId: `shadbolt-centre-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          url: 'https://www.burnaby.ca/explore-burnaby/arts-heritage/shadbolt-centre-arts',
-          price: event.price,
-          category: 'Arts & Culture',
-          venue: {
-            name: 'Shadbolt Centre for the Arts',
-            address: '6450 Deer Lake Ave, Burnaby, BC V5G 2J3',
-            city: city,
-            province: 'BC',
-            country: 'Canada',
-            location: {
-              type: 'Point',
-              coordinates: [-122.9901, 49.2341]
-            }
-          },
-          city: city
-        };
+          if (!title || !url || seenUrls.has(url)) return;
 
-        processedEvents.push(processedEvent);
-      }
-
-      // Add realistic Shadbolt Centre events if none found
-      if (processedEvents.length === 0) {
-        const shadboltEvents = [
-          {
-            title: 'Burnaby Arts Festival',
-            description: 'Annual celebration of local artists with exhibitions, workshops, and performances at the Shadbolt Centre.',
-            category: 'Festival'
-          },
-          {
-            title: 'Pottery and Ceramics Workshop Series',
-            description: 'Hands-on pottery workshops for all skill levels in the centre\'s fully equipped ceramics studio.',
-            category: 'Workshop'
+          if (url.startsWith('/')) {
+            url = 'https://www.burnaby.ca' + url;
           }
-        ];
 
-        shadboltEvents.forEach((event, index) => {
-          const eventDate = new Date();
-          eventDate.setDate(eventDate.getDate() + (index + 1) * 18);
+          const skipPatterns = [
+            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i,
+            /\/about/i, /\/contact/i, /\/home/i
+          ];
 
-          processedEvents.push({
-            ..,
-            startDate: eventDate.toISOString(),
-            endDate: eventDate.toISOString(),
-            source: this.source,
-            sourceId: `shadbolt-centre-realistic-${Date.now()}-${index}`,
-            url: 'https://www.burnaby.ca/explore-burnaby/arts-heritage/shadbolt-centre-arts',
-            price: '$30',
-            venue: {
-              name: 'Shadbolt Centre for the Arts',
-              address: '6450 Deer Lake Ave, Burnaby, BC V5G 2J3',
-              city: city,
-              province: 'BC',
-              country: 'Canada',
-              location: {
-                type: 'Point',
-                coordinates: [-122.9901, 49.2341]
+          if (skipPatterns.some(pattern => pattern.test(url))) return;
+
+          title = title.replace(/\s+/g, ' ').trim();
+          if (title.length < 3) return;
+
+          seenUrls.add(url);
+          // Only log valid events (junk will be filtered out)
+          
+          // Extract date from event element
+
+
+          let dateText = null;
+
+
+          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
+
+
+          for (const selector of dateSelectors) {
+
+
+            const dateEl = $element.find(selector).first();
+
+
+            if (dateEl.length > 0) {
+
+
+              dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+              if (dateText && dateText.length > 0) break;
+
+
+            }
+
+
+          }
+
+
+          if (!dateText) {
+
+
+            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
+
+
+            if ($parent.length > 0) {
+
+
+              for (const selector of dateSelectors) {
+
+
+                const dateEl = $parent.find(selector).first();
+
+
+                if (dateEl.length > 0) {
+
+
+                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                  if (dateText && dateText.length > 0) break;
+
+
+                }
+
+
               }
-            },
-            city: city
-          };
-        };
+
+
+            }
+
+
+          }
+
+
+          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
+
+
+          
+
+
+          events.push({
+            id: uuidv4(),
+            title: title,
+            url: url,
+            venue: { name: 'Burnaby Shadbolt Centre', address: '6450 Deer Lake Avenue, Burnaby, BC V5G 2J3', city: 'Vancouver' },
+            city: 'Burnaby',
+            date: dateText || null,
+            source: 'Burnaby Shadbolt Centre'
+          });
+        });
       }
 
-      console.log(`✅ Found ${processedEvents.length} events from ${this.name}`);
-      return processedEvents;
+      console.log(`Found ${events.length} total events from Burnaby Shadbolt Centre`);
+      const filtered = filterEvents(events);
+      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
+      return filtered;
 
     } catch (error) {
-      console.error(`❌ Error scraping ${this.name}:`, error.message);
+      console.error('Error scraping Burnaby Shadbolt Centre events:', error.message);
       return [];
-    } finally {
-      await browser.close();
     }
   }
-}
-
-module.exports = new BurnabyShadboltCentreScraper();
-
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new BurnabyShadboltCentreScraper();
-  return await scraper.scrape(city);
 };
 
-// Also export the class for backward compatibility
-module.exports.BurnabyShadboltCentreScraper = BurnabyShadboltCentreScraper;
+
+module.exports = BurnabyShadboltCentreEvents.scrape;

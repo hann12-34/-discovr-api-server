@@ -1,0 +1,74 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+
+async function scrapeRogersArena() {
+  console.log('🏒 Scraping Rogers Arena from official site...');
+  
+  try {
+    const response = await axios.get('https://rogersarena.com/events', {
+      headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'},
+      timeout: 15000
+    });
+    
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
+    
+    // Extract JSON-LD event data
+    $('script[type="application/ld+json"]').each((i, el) => {
+      const content = $(el).html();
+      if (content && content.includes('"@type":"Event"')) {
+        try {
+          const data = JSON.parse(content);
+          const eventList = Array.isArray(data) ? data : [data];
+          
+          eventList.forEach(event => {
+            if (event['@type'] === 'Event' && event.name) {
+              const eventUrl = event.url || 'https://rogersarena.com/events';
+              
+              if (!seen.has(eventUrl)) {
+                seen.add(eventUrl);
+                
+                // Parse date from ISO format (2025-10-01T18:30:00-07:00)
+                let eventDate = null;
+                if (event.startDate) {
+                  const dateMatch = event.startDate.match(/(\d{4})-(\d{2})-(\d{2})/);
+                  if (dateMatch) {
+                    eventDate = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}`;
+                  }
+                }
+                
+                // Decode HTML entities in title
+                const title = event.name.replace(/&#8211;/g, '–').replace(/&amp;/g, '&');
+                
+                events.push({
+                  id: uuidv4(),
+                  title: title,
+                  date: eventDate,
+                  url: eventUrl,
+                  venue: 'Rogers Arena',
+                  city: 'Vancouver',
+                  source: 'Rogers Arena'
+                });
+                
+                console.log(`✓ ${title} | ${eventDate || 'NO DATE'}`);
+              }
+            }
+          });
+        } catch (e) {
+          // Skip invalid JSON
+        }
+      }
+    });
+    
+    console.log(`\n✅ Found ${events.length} Rogers Arena events`);
+    return events;
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+    return [];
+  }
+}
+
+module.exports = { scrape: scrapeRogersArena };

@@ -214,48 +214,8 @@ class RedRoomEventsScraper {
                 // Check if this appears to be a special event (not a weekly event or navigation item)
                 const elementText = await page.evaluate(el => el.textContent, element);
                 
-                // Filter out navigation links and weekly events
-                const isWeeklyEvent = ['CANCUN', 'FRIDAY', 'SUBCULTURE', 'SATURDAY'].some(
-                  keyword => elementText.toUpperCase().includes(keyword)
-                );
-                const isNavigationLink = ['VIEW ALL', 'EVENTS', 'HOME', 'ABOUT', 'WEEKLIES', 'CONTACT'].some(
-                  keyword => elementText.toUpperCase().trim() === keyword || 
-                             elementText.toUpperCase().includes(`${keyword} `)
-                );
-                
-                if (!isWeeklyEvent && !isNavigationLink && elementText.length > 5) {
-                  // This might be a special event - extract what info we can
-                  const linkHref = await page.evaluate(
-                    el => el.href || el.querySelector('a')?.href || null, 
-                    element
-                  );
-                  
-                  if (linkHref) {
-                    const title = await page.evaluate(
-                      el => el.innerText.trim().split('\n')[0] || 'Special Event at Red Room', 
-                      element
-                    );
-                    
-                    const specialEvent = {
-                      id: `red-room-special-${slugify(title, { lower: true, strict: true })}-${new Date().toISOString().split('T')[0]}`,
-                      title: title,
-                      description: `Special event at Red Room Vancouver. Visit ${linkHref} for more details.`,
-                      startDate: new Date(new Date().setHours(21, 0, 0)), // Assume 9 PM, common start time
-                      endDate: new Date(new Date().setHours(2, 0, 0)), // Assume 2 AM end time
-                      venue: this.venue,
-                      category: 'nightlife',
-                      categories: ['nightlife', 'music', 'special event'],
-                      sourceURL: linkHref,
-                      officialWebsite: this.url,
-                      image: null,
-                      ticketsRequired: true,
-                      lastUpdated: new Date()
-                    };
-                    
-                    events.push(specialEvent);
-                    console.log(`✅ Found potential special event: ${title}`);
-                  }
-                }
+                // Skip all special events - only use weekly events with known dates
+                console.log(`❌ Skipping potential special event (no real dates available): ${elementText.substring(0, 50)}...`);
               } catch (elementError) {
                 console.error(`❌ Error processing potential special event: ${elementError.message}`);
               }

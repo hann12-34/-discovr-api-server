@@ -1,145 +1,179 @@
 /**
- * Theatre Under the Stars (TUTS) Scraper
- *
- * This scraper provides information about Theatre Under the Stars performances
- * Source: https://www.tuts.ca/
+ * Theatre Under The Stars Events Scraper
+ * Scrapes events from Theatre Under The Stars (TUTS) Vancouver
+ * Stanley Park's Malkin Bowl outdoor theatre
  */
 
-const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
-class TheatreUnderTheStarsScraper {
-  constructor() {
-    this.name = 'Theatre Under the Stars';
-    this.url = 'https://www.tuts.ca/';
-    this.sourceIdentifier = 'theatre-under-the-stars';
-
-    // Define venue with proper object structure
-    this.venue = {
-      name: 'Malkin Bowl in Stanley Park',
-      id: 'malkin-bowl-stanley-park',
-      address: '610 Pipeline Road, Stanley Park',
-      city: city,
-      state: 'BC',
-      country: 'Canada',
-      postalCode: 'V6G 1Z4',
-      coordinates: {
-        lat: 49.2982155,
-        lng: -123.1397601
-      },
-      websiteUrl: 'https://www.tuts.ca/',
-      description: "The Malkin Bowl is an outdoor theatre venue nestled in Vancouver's Stanley Park, home to Theatre Under the Stars (TUTS) summer productions. This enchanting open-air venue is surrounded by towering trees and lush greenery, creating a magical atmosphere for theatrical performances. With a history dating back to 1940, TUTS at Malkin Bowl has become a beloved Vancouver summer tradition, presenting professional musical theatre productions under the stars."
-    };
-
-    // Season details - typically runs July to August
-    // Using 2025 estimated dates
-    this.seasonStartDate = new Date('2025-07-03');
-    this.seasonEndDate = new Date('2025-08-29');
-  }
-
-  /**
-   * Main scraper function
-   */
+const TheatreUnderTheStarsEvents = {
   async scrape(city) {
-    console.log('🔍 Starting Theatre Under the Stars scraper...');
-    const events = [];
+    console.log('🔍 Scraping events from Theatre Under The Stars...');
 
     try {
-      // Generate events for the two alternating shows
-      // TUTS typically runs two shows that alternate nights throughout the season
-      // For 2025, we're creating s for their summer season
+      // TUTS 2025 season has ended - they only run summer seasons
+      console.log('Theatre Under The Stars 2025 season has ended. Next season: Summer 2026');
+      return [];
 
-      // Show #1
-      const show1Title = 'Mamma Mia!';
-      const show1Description = "Theatre Under the Stars presents the hit musical \"Mamma Mia!\" at the beautiful Malkin Bowl in Stanley Park. Set on a Greek island paradise, this sunny, funny tale of love, friendship and identity is told through the timeless hits of ABBA. On the eve of her wedding, a daughter's quest to discover the identity of her father brings three men from her mother's past back to the island they last visited 20 years ago. This enchanting outdoor production in Stanley Park will have you dancing in your seat under the summer stars!";
+      const response = await axios.get('https://www.tuts.ca/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
+      });
 
-      // Show #2
-      const show2Title = 'Newsies';
-      const show2Description = "Theatre Under the Stars presents Disney's \"Newsies\" at the Malkin Bowl in Stanley Park. Based on the true story of the 1899 newsboys' strike, this Tony Award-winning Broadway musical tells the rousing tale of Jack Kelly, a charismatic newsboy and leader of a band of teenage \"newsies\" who dreams of a better life. When publishing titans Joseph Pulitzer and William Randolph Hearst raise distribution prices, Jack rallies newsies from across the city to strike for what's right. This high-energy production features non-stop thrills with spectacular dancing, songs from the beloved Disney film, and a timeless message about fighting for what's right.";
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
 
-      // Generate alternating performance dates
-      const currentDate = new Date(this.seasonStartDate);
-      let showToggle = 1; // Start with Show #1
+      // Look for show announcements and ticket links
+      const eventSelectors = [
+        'a[href*="/show"]',
+        'a[href*="/ticket"]', 
+        'a[href*="/season"]',
+        'a:contains("Charlie")',
+        'a:contains("Legally Blonde")',
+        'a:contains("2026")',
+        'h3 a',
+        'h2 a',
+        '.show a',
+        '.event a'
+      ];
 
-      while (currentDate <= this.seasonEndDate) {
-        // Only performances on specific days (typically Tuesday through Saturday)
-        const dayOfWeek = currentDate.getDay();
+      for (const selector of eventSelectors) {
+        const eventElements = $(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events with selector: ${selector}`);
 
-        // Skip Sundays and Mondays (0 = Sunday, 1 = Monday)
-        if (dayOfWeek !== 0 && dayOfWeek !== 1) {
-          // Create performance for this date
-          const showTitle = showToggle === 1 ? show1Title : show2Title;
-          const showDescription = showToggle === 1 ? show1Description : show2Description;
+          eventElements.each((i, element) => {
+            const $event = $(element);
+            
+            let title = $event.text().trim();
+            let url = $event.attr('href');
 
-          // Format date
-          const formattedDate = currentDate.toLocaleDa('en-US', {
-            weekday: 'long',
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
-          };
+            if (!title || !url) return;
+            if (seenUrls.has(url)) return;
 
-          // Create start and end times (shows typically start at 8pm)
-          const startTime = new Date(currentDate);
-          startTime.setHours(20, 0, 0); // 8:00 PM
+            if (url && !url.startsWith('http')) {
+              url = 'https://www.tuts.ca' + url;
+            }
 
-          const endTime = new Date(startTime);
-          endTime.setHours(endTime.getHours() + 2, endTime.getMinutes() + 30); // 2.5 hour show
+            // Filter out navigation and non-event links
+            const skipTerms = ['donate', 'volunteer', 'sponsor', 'instagram', 'facebook', 'about', 'contact'];
+            if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
+              return;
+            }
 
-          // Create unique ID
-          const da = currentDate.toISOString().split('T')[0];
-          const slugifiedTitle = showTitle.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-          const eventId = `tuts-${slugifiedTitle}-${da}`;
+            seenUrls.add(url);
 
-          // Create event object
-          const event = {
-            id: eventId,
-            title: `${showTitle} - Theatre Under the Stars`,
-            description: `${showDescription}\n\nPerformance Date: ${formattedDate} at 8:00 PM\n\nExperience the magic of outdoor musical theatre at Vancouver's Malkin Bowl in Stanley Park. Bring a blanket for cooler evenings and arrive early to enjoy the beautiful surroundings before the show.`,
-            startDate: startTime,
-            endDate: endTime,
-            venue: this.venue,
-            category: 'theatre',
-            categories: ['theatre', 'musical', 'performance', 'arts', 'outdoor', 'family-friendly'],
-            sourceURL: this.url,
-            officialWebsite: 'https://www.tuts.ca/tickets',
-            image: showToggle === 1
-              ? 'https://www.tuts.ca/wp-content/uploads/2025/05/mamma-mia-tuts.jpg'
-              : 'https://www.tuts.ca/wp-content/uploads/2025/05/newsies-tuts.jpg',
-            ticketsRequired: true,
-            lastUpdated: new Date()
-          };
+            // Only log valid events (junk will be filtered out)
 
-          events.push(event);
-          console.log(`✅ Added event: ${event.title} on ${formattedDate}`);
+            // Extract date from event element
 
-          // Toggle show for next performance
-          showToggle = showToggle === 1 ? 2 : 1;
+
+            let dateText = null;
+
+
+            const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
+
+
+            for (const selector of dateSelectors) {
+
+
+              const dateEl = $element.find(selector).first();
+
+
+              if (dateEl.length > 0) {
+
+
+                dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                if (dateText && dateText.length > 0) break;
+
+
+              }
+
+
+            }
+
+
+            if (!dateText) {
+
+
+              const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
+
+
+              if ($parent.length > 0) {
+
+
+                for (const selector of dateSelectors) {
+
+
+                  const dateEl = $parent.find(selector).first();
+
+
+                  if (dateEl.length > 0) {
+
+
+                    dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                    if (dateText && dateText.length > 0) break;
+
+
+                  }
+
+
+                }
+
+
+              }
+
+
+            }
+
+
+            if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
+
+
+            
+
+
+            events.push({
+              id: uuidv4(),
+              title: title,
+              date: 'Date TBA'  // TODO: Add date extraction logic,
+              time: null,
+              url: url,
+              venue: { name: 'Theatre Under The Stars', address: 'Vancouver', city: 'Vancouver' },
+              location: 'Stanley Park, Vancouver, BC',
+              description: null,
+              image: null
+            });
+          });
         }
-
-        // Move to next day
-        currentDate.setDate(currentDate.getDate() + 1);
       }
 
-      console.log(`🎉 Successfully created ${events.length} Theatre Under the Stars events`);
-      return events;
+      console.log(`Found ${events.length} total events from Theatre Under The Stars`);
+      const filtered = filterEvents(events);
+      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
+      return filtered;
 
     } catch (error) {
-      console.error(`❌ Error in Theatre Under the Stars scraper: ${error.message}`);
-      return events;
+      console.error('Error scraping Theatre Under The Stars events:', error.message);
+      return [];
     }
   }
-}
-
-module.exports = new TheatreUnderTheStarsScraper();
-
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new TheatreUnderTheStarsScraper();
-  return await scraper.scrape(city);
 };
 
-// Also export the class for backward compatibility
-module.exports.TheatreUnderTheStarsScraper = TheatreUnderTheStarsScraper;
+
+module.exports = TheatreUnderTheStarsEvents.scrape;

@@ -1,203 +1,208 @@
 /**
- * Vancouver Khatsahlano Street Party Events Scraper
- * Extracts events from Khatsahlano Street Festival
+ * Vancouver Pride Events Scraper
+ * Scrapes events from Vancouver Pride Festival
  */
 
-const puppeteer = require('puppeteer');
-const slugify = require('slugify');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
-class KhatsahlanoEvents {
-  constructor() {
-    this.name = 'Vancouver Khatsahlano Street Party Events';
-    this.url = 'https://www.khatsahlano.com/';
-    this.baseUrl = 'https://www.khatsahlano.com';
-    this.venue = {
-      name: 'Khatsahlano Street Festival',
-      address: 'West 4th Avenue, Vancouver, BC',
-      city: 'Vancouver',
-      province: 'BC',
-      country: 'Canada',
-      coordinates: { lat: 49.2676, lng: -123.1452 }
-    };
-  }
-
-  /**
-   * Main scraping method
-   * @returns {Promise<Array>} Array of event objects
-   */
-  async scrape() {
-    console.log(`Starting ${this.name} scraper...`);
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    const page = await browser.newPage();
-
-    // Set user agent to avoid detection
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-
-    // Set default timeout
-    await page.setDefaultNavigationTimeout(30000);
+const VancouverPrideEvents = {
+  async scrape(city) {
+    console.log('🔍 Scraping events from Vancouver Pride...');
 
     try {
-      console.log(`Navigating to ${this.url}`);
-      await page.goto(this.url, { waitUntil: 'networkidle2' });
-
-      console.log('Extracting Khatsahlano events...');
-      const events = await this.extractEvents(page);
-      console.log(`Found ${events.length} Khatsahlano events`);
-
-      return events;
-    } catch (error) {
-      console.error(`Error scraping Khatsahlano events: ${error.message}`);
-      return [];
-    } finally {
-      await browser.close();
-    }
-  }
-
-  /**
-   * Extract events from Khatsahlano website
-   * @param {Page} page - Puppeteer page object
-   * @returns {Promise<Array>} - Array of event objects
-   */
-  async extractEvents(page) {
-    // Wait for event containers to load
-    await page.waitForSelector('.event, .festival, .street, .party, article', { timeout: 10000 })
-      .catch(() => {
-        console.log('Primary event selectors not found, trying alternative selectors');
+      const response = await axios.get('https://www.vancouverpride.ca/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
       });
 
-    // Extract events
-    const events = await page.evaluate((venueInfo, baseUrl) => {
-      // Try multiple potential selectors for event containers
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
+
       const eventSelectors = [
-        '.event',
-        '.festival',
-        '.street',
-        '.party',
-        'article',
-        '.event-item',
-        '.festival-item',
-        '[class*="event"]',
-        '[class*="festival"]',
-        '[class*="street"]'
+        'a[href*="/event/"]',
+        'a[href*="/events/"]',
+        'a[href*="/parade/"]',
+        'a[href*="/festival/"]',
+        'a[href*="/party/"]',
+        'a[href*="/parties/"]',
+        '.event-item a',
+        '.parade-item a',
+        '.festival-item a',
+        '.party-item a',
+        '.listing a',
+        '.event-listing a',
+        '.event-card a',
+        '.festival-card a',
+        'h3 a',
+        'h2 a',
+        'h1 a',
+        '.event-title a',
+        '.festival-title a',
+        'article a',
+        '.event a',
+        '.festival a',
+        '.parade a',
+        '.party a',
+        'a[title]',
+        '[data-testid*="event"] a',
+        'a:contains("Event")',
+        'a:contains("Festival")',
+        'a:contains("Parade")',
+        'a:contains("Party")',
+        'a:contains("Pride")',
+        'a:contains("Celebration")',
+        'a:contains("Show")'
       ];
 
-      let eventElements = [];
-
-      // Try each selector until we find events
+      let foundCount = 0;
       for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} events using selector: ${selector}`);
-          break;
+        const links = $(selector);
+        if (links.length > 0) {
+          console.log(`Found ${links.length} events with selector: ${selector}`);
+          foundCount += links.length;
         }
+
+        links.each((index, element) => {
+          const $element = $(element);
+          let title = $element.text().trim();
+          let url = $element.attr('href');
+
+          if (!title || !url) return;
+          if (seenUrls.has(url)) return;
+
+          if (url.startsWith('/')) {
+            url = 'https://www.vancouverpride.ca' + url;
+          }
+
+          const skipPatterns = [
+            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
+            /\/about/i, /\/contact/i, /\/home/i, /\/search/i,
+            /\/login/i, /\/register/i, /\/account/i, /\/cart/i,
+            /mailto:/i, /tel:/i, /javascript:/i, /#/,
+            /\/privacy/i, /\/terms/i, /\/policy/i
+          ];
+
+          if (skipPatterns.some(pattern => pattern.test(url))) {
+            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
+            return;
+          }
+
+          title = title.replace(/\s+/g, ' ').trim();
+          
+          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?)$/i.test(title)) {
+            console.log(`✗ Filtered out generic title: "${title}"`);
+            return;
+          }
+
+          seenUrls.add(url);
+
+          // Only log valid events (junk will be filtered out)
+          // Extract date from event element
+
+
+          let dateText = null;
+
+
+          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
+
+
+          for (const selector of dateSelectors) {
+
+
+            const dateEl = $element.find(selector).first();
+
+
+            if (dateEl.length > 0) {
+
+
+              dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+              if (dateText && dateText.length > 0) break;
+
+
+            }
+
+
+          }
+
+
+          if (!dateText) {
+
+
+            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
+
+
+            if ($parent.length > 0) {
+
+
+              for (const selector of dateSelectors) {
+
+
+                const dateEl = $parent.find(selector).first();
+
+
+                if (dateEl.length > 0) {
+
+
+                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
+
+
+                  if (dateText && dateText.length > 0) break;
+
+
+                }
+
+
+              }
+
+
+            }
+
+
+          }
+
+
+          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
+
+
+          
+
+
+          events.push({
+            id: uuidv4(),
+            title: title,
+            url: url,
+            venue: { name: 'Vancouver Pride', address: 'Vancouver', city: 'Vancouver' },
+            city: city,
+            date: dateText || null,
+            source: 'Vancouver Pride'
+          });
+        });
       }
 
-      // If no events found with standard selectors, try to extract from any structured content
-      if (eventElements.length === 0) {
-        eventElements = document.querySelectorAll('div, section');
-        console.log(`Trying fallback selectors, found ${eventElements.length} potential events`);
-      }
+      console.log(`Found ${events.length} total events from Vancouver Pride`);
+      const filtered = filterEvents(events);
+      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
+      return filtered;
 
-      return Array.from(eventElements).map((event, index) => {
-        try {
-          // Extract title
-          const titleElement = event.querySelector('h1, h2, h3, h4, .title, .event-title, .festival-title') || event;
-          const title = titleElement.textContent?.trim();
-          
-          // Extract date information
-          const dateElement = event.querySelector('.date, .event-date, .festival-date, time, [datetime]');
-          const dateText = dateElement?.textContent?.trim() || dateElement?.getAttribute('datetime') || '';
-          
-          // Extract description
-          const descElement = event.querySelector('p, .description, .event-description, .festival-description, .details');
-          const description = descElement?.textContent?.trim();
-          
-          // Extract image
-          const imgElement = event.querySelector('img');
-          const image = imgElement?.src || imgElement?.getAttribute('data-src') || '';
-          
-          // Extract link
-          const linkElement = event.querySelector('a') || event.closest('a');
-          const link = linkElement?.href || '';
-          
-          if (!title || title.length < 3) return null;
-          
-          return {
-            title,
-            dateText,
-            description,
-            image,
-            link: link.startsWith('http') ? link : `${baseUrl}${link}`
-          };
-        } catch (error) {
-          console.log(`Error processing event: ${error.message}`);
-          return null;
-        }
-      }).filter(Boolean);
-    }, this.venue, this.baseUrl);
-
-    // Process dates and create final event objects
-    return Promise.all(events.map(async event => {
-      const { startDate, endDate } = this.parseDates(event.dateText);
-
-      // Generate a unique ID based on title and date
-      const uniqueId = slugify(`${event.title}-${startDate.toISOString().split('T')[0]}`, {
-        lower: true,
-        strict: true
-      });
-
-      return {
-        id: uniqueId,
-        title: event.title,
-        description: event.description,
-        startDate,
-        endDate,
-        image: event.image,
-        venue: this.venue,
-        categories: ['Music', 'Festival', 'Street Festival', 'Community'],
-        sourceURL: event.link || this.url,
-        lastUpdated: new Date()
-      };
-    }));
-  }
-
-  /**
-   * Parse dates from text
-   * @param {string} dateText - Text containing date information
-   * @returns {Object} - Object with startDate and endDate
-   */
-  parseDates(dateText) {
-    if (!dateText) {
-      return {
-        startDate: new Date(),
-        endDate: new Date()
-      };
+    } catch (error) {
+      console.error('Error scraping Vancouver Pride events:', error.message);
+      return [];
     }
-
-    const date = new Date(dateText);
-    
-    if (!isNaN(date.getTime())) {
-      return {
-        startDate: date,
-        endDate: date
-      };
-    }
-
-    // Default fallback
-    return {
-      startDate: new Date(),
-      endDate: new Date()
-    };
   }
-}
-
-module.exports = KhatsahlanoEvents;
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new KhatsahlanoEvents();
-  return await scraper.scrape('Vancouver');
 };
+
+
+module.exports = VancouverPrideEvents.scrape;

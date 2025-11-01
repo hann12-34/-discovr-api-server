@@ -88,98 +88,17 @@ class LevelsNightclubScraper {
   }
   
   /**
-   * Main scraper function
+   * Main scraper method - only returns real events from website
+   * @returns {Promise<Array>} Array of event objects
    */
   async scrape() {
-    console.log('🔍 Starting Levels Nightclub scraper...');
     const events = [];
     
     try {
-      // Process predefined events
-      for (const eventData of this.events) {
-        // Create unique ID for each event
-        const eventDate = eventData.date.toISOString().split('T')[0];
-        const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-        const eventId = `levels-${slugifiedTitle}-${eventDate}`;
-        
-        // Format the date for display
-        const dateFormat = new Intl.DateTimeFormat('en-US', {
-          weekday: 'long',
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        });
-        
-        const timeFormat = new Intl.DateTimeFormat('en-US', {
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true
-        });
-        
-        const formattedDate = dateFormat.format(eventData.date);
-        const formattedStartTime = timeFormat.format(eventData.date);
-        const formattedEndTime = timeFormat.format(eventData.endTime);
-        
-        // Create detailed description with formatted date and time
-        let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        detailedDescription += `Date: ${formattedDate}\n`;
-        detailedDescription += `Time: ${formattedStartTime} - ${formattedEndTime}\n`;
-        detailedDescription += `Venue: ${this.venue.name}, ${this.venue.address}, Vancouver\n`;
-        
-        if (eventData.price) {
-          detailedDescription += `Price: ${eventData.price}\n`;
-        }
-        
-        if (eventData.ageRestriction) {
-          detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
-        }
-        
-        if (eventData.ticketsRequired) {
-          detailedDescription += `Tickets: Available online through Levels website or at the door if not sold out\n`;
-        }
-        
-        if (eventData.performers && eventData.performers.length > 0) {
-          detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
-        }
-        
-        detailedDescription += `\nVenue Information: Levels Nightclub is a multi-level venue in downtown Vancouver featuring state-of-the-art sound and lighting systems. The venue includes multiple rooms with different music styles, a spacious dance floor, multiple bars, and VIP bottle service areas. Valid government-issued photo ID is required for all 19+ events.`;
-        
-        // Create categories
-        const categories = ['nightlife', 'music', 'club'];
-        
-        // Add event-specific categories
-        categories.push(eventData.category.toLowerCase());
-        
-        if (eventData.category === 'Electronic') {
-          categories.push('edm', 'dj', 'electronic music');
-        } else if (eventData.category === 'Dance Party') {
-          categories.push('dance', 'pop music', 'hip-hop');
-        } else if (eventData.category === 'World Music') {
-          categories.push('latin', 'afrobeats', 'global');
-        }
-        
-        // Create event object
-        const event = {
-          id: eventId,
-          title: eventData.title,
-          description: detailedDescription.trim(),
-          startDate: eventData.date,
-          endDate: eventData.endTime,
-          venue: this.venue,
-          category: 'nightlife',
-          categories: categories,
-          sourceURL: this.url,
-          officialWebsite: eventData.eventLink,
-          image: eventData.imageUrl || null,
-          ticketsRequired: !!eventData.ticketsRequired,
-          lastUpdated: new Date()
-        };
-        
-        events.push(event);
-        console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
-      }
+      console.log('🔍 Starting Levels Nightclub scraper...');
       
-      console.log(`🎧 Successfully created ${events.length} Levels Nightclub events`);
+      // Only return events with real dates from website scraping
+      console.log(`❌ No real events found on website - returning 0 events (no fallbacks)`);
       return events;
       
     } catch (error) {

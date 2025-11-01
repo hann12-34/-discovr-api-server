@@ -26,38 +26,110 @@ const extractPrice = (priceText) => {
 };
 
 const parseDateText = (dateText) => {
-  if (!dateText) {
-    return { startDate: new Date(), endDate: new Date() };
+  if (!dateText || typeof dateText !== 'string' || dateText.trim() === '') {
+    return null;
   }
   
-  // Simple date parsing - can be enhanced later
-  const now = new Date();
-  const cleanText = dateText.toLowerCase().trim();
+  const cleanText = dateText.trim();
   
-  // Look for year patterns
-  const yearMatch = cleanText.match(/20\d{2}/);
-  const year = yearMatch ? parseInt(yearMatch[0]) : now.getFullYear();
-  
-  // Look for month names
-  const months = ['january', 'february', 'march', 'april', 'may', 'june', 
-                  'july', 'august', 'september', 'october', 'november', 'december'];
-  let month = now.getMonth();
-  for (let i = 0; i < months.length; i++) {
-    if (cleanText.includes(months[i])) {
-      month = i;
-      break;
+  // Try ISO format first: 2025-10-26 or 2025-10-26T14:00:00
+  const isoMatch = cleanText.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (isoMatch) {
+    const startDate = new Date(isoMatch[0]);
+    if (!isNaN(startDate.getTime())) {
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 1);
+      return { startDate, endDate };
     }
   }
   
-  // Look for day numbers
-  const dayMatch = cleanText.match(/\b(\d{1,2})\b/);
-  const day = dayMatch ? parseInt(dayMatch[1]) : 1;
+  // Try US format: 10/26/2025 or 10-26-2025
+  const usMatch = cleanText.match(/(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);
+  if (usMatch) {
+    const startDate = new Date(parseInt(usMatch[3]), parseInt(usMatch[1]) - 1, parseInt(usMatch[2]));
+    if (!isNaN(startDate.getTime())) {
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 1);
+      return { startDate, endDate };
+    }
+  }
   
-  const startDate = new Date(year, month, day);
-  const endDate = new Date(startDate);
-  endDate.setDate(endDate.getDate() + 1); // Default to next day
+  const lowerText = cleanText.toLowerCase();
   
-  return { startDate, endDate };
+  // Month mapping with abbreviations
+  const monthMap = {
+    'jan': 0, 'january': 0, 'feb': 1, 'february': 1, 'mar': 2, 'march': 2,
+    'apr': 3, 'april': 3, 'may': 4, 'jun': 5, 'june': 5, 'jul': 6, 'july': 6,
+    'aug': 7, 'august': 7, 'sep': 8, 'sept': 8, 'september': 8, 
+    'oct': 9, 'october': 9, 'nov': 10, 'november': 10, 'dec': 11, 'december': 11
+  };
+  
+  // Try "Oct 26, 2025" or "October 26, 2025"
+  for (const [name, monthNum] of Object.entries(monthMap)) {
+    const regex = new RegExp(`${name}\\w*\\s+(\\d{1,2}),?\\s+(\\d{4})`, 'i');
+    const match = cleanText.match(regex);
+    if (match) {
+      const startDate = new Date(parseInt(match[2]), monthNum, parseInt(match[1]));
+      if (!isNaN(startDate.getTime())) {
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1);
+        return { startDate, endDate };
+      }
+    }
+  }
+  
+  // Try "26 Oct 2025" or "26 October 2025"
+  for (const [name, monthNum] of Object.entries(monthMap)) {
+    const regex = new RegExp(`(\\d{1,2})\\s+${name}\\w*\\s+(\\d{4})`, 'i');
+    const match = cleanText.match(regex);
+    if (match) {
+      const startDate = new Date(parseInt(match[2]), monthNum, parseInt(match[1]));
+      if (!isNaN(startDate.getTime())) {
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1);
+        return { startDate, endDate };
+      }
+    }
+  }
+  
+  // Try without year - assume current/next year
+  const currentYear = new Date().getFullYear();
+  for (const [name, monthNum] of Object.entries(monthMap)) {
+    const regex = new RegExp(`${name}\\w*\\s+(\\d{1,2})`, 'i');
+    const match = cleanText.match(regex);
+    if (match) {
+      let startDate = new Date(currentYear, monthNum, parseInt(match[1]));
+      // If date is in the past, try next year
+      if (startDate < new Date()) {
+        startDate = new Date(currentYear + 1, monthNum, parseInt(match[1]));
+      }
+      if (!isNaN(startDate.getTime())) {
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 1);
+        return { startDate, endDate };
+      }
+    }
+  }
+  
+  return null;
+};
+
+const parseEventDate = (dateText) => {
+  // Use parseDateText and return just the startDate
+  const result = parseDateText(dateText);
+  return result ? result.startDate : null;
+};
+
+const getBrowserHeaders = () => {
+  return {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'Cache-Control': 'max-age=0'
+  };
 };
 
 module.exports = { 
@@ -65,5 +137,7 @@ module.exports = {
   generateEventId, 
   extractCategories, 
   extractPrice, 
-  parseDateText 
+  parseDateText,
+  parseEventDate,
+  getBrowserHeaders
 };

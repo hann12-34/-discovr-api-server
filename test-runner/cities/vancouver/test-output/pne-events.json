@@ -1,383 +1,5 @@
 [
   {
-    "id": "pne-ar-rahman-the-wonderment-tour-2025-07-19",
-    "title": "A.R. Rahman: The Wonderment Tour",
-    "description": "The legendary A.R. Rahman is bringing The Wonderment Tour to the Pacific Coliseum on July 18!",
-    "startDate": "2025-07-19T01:30:00.000Z",
-    "endDate": "2025-07-19T04:30:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/a-r-rahman-the-wonderment-tour/",
-    "ticketUrl": "https://www.pne.ca/event/a-r-rahman-the-wonderment-tour/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.270Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-rolla-skate-club-2025-07-20",
-    "title": "Rolla Skate Club",
-    "description": "Join Rolla Skate Club for exhilarating public rollerskating events, weekly! Assemble your crew, and dress to impress. Hit the selfie station, groove to our DJs’ magic, and skate the night away with us at Rollerland, our incredible 20,000 square foot rollerskate palace! Rollerskate rentals are available onsite for $6.50 + GST (Sizes kids 10 to […]",
-    "startDate": "2025-07-20T01:00:00.000Z",
-    "endDate": "2025-07-20T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/series/rolla-skate-club-3/",
-    "ticketUrl": "https://www.pne.ca/series/rolla-skate-club-3/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-punchbowl-2025-07-26",
-    "title": "Punchbowl",
-    "description": "VANCOUVER’S FESTIVAL OF COCKTAILS & TACOS RETURNS WITH 2000’S THROWBACK DJ SET BY HUSH MUSIC PARTY AND AN INCREDIBLE LINE UP OF LOCAL DJ'S HOLDING DOWN THE FEEL GOOD SUMMER VIBE!   Come and join us under the blue skies on Saturday July 26th as the PNE Fairgrounds welcomes Punchbowl. A festival celebrating devilishly creative […]",
-    "startDate": "2025-07-26T19:00:00.000Z",
-    "endDate": "2025-07-27T04:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/punchbowl-2025/",
-    "ticketUrl": "https://www.pne.ca/event/punchbowl-2025/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-rolla-skate-club-2025-07-27",
-    "title": "Rolla Skate Club",
-    "description": "Join Rolla Skate Club for exhilarating public rollerskating events, weekly! Assemble your crew, and dress to impress. Hit the selfie station, groove to our DJs’ magic, and skate the night away with us at Rollerland, our incredible 20,000 square foot rollerskate palace! Rollerskate rentals are available onsite for $6.50 + GST (Sizes kids 10 to […]",
-    "startDate": "2025-07-27T01:00:00.000Z",
-    "endDate": "2025-07-27T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/series/rolla-skate-club-3/",
-    "ticketUrl": "https://www.pne.ca/series/rolla-skate-club-3/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-rose-disco-2025-07-27",
-    "title": "ROSÉ DISCO",
-    "description": "Enjoy 30+ rose wines, a culinary feast from top chefs, food trucks & live DJ sets from Felix Cartal & friends; all while immersed in a party of pink & white! Rosé Disco Vancouver is the pink and white party of the summer. sip on over 30 local and international rosé wines, indulge in charcuterie, […]",
-    "startDate": "2025-07-27T20:00:00.000Z",
-    "endDate": "2025-07-28T03:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/rosedisco-2025/",
-    "ticketUrl": "https://www.pne.ca/event/rosedisco-2025/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-counting-crows-the-complete-sweets-tour-or-summer--2025-08-17",
-    "title": "Counting Crows: The Complete Sweets! Tour | Summer Night Concerts",
-    "description": "For more than two decades, the GRAMMY and Academy Award-nominated rock band Counting Crows have enchanted listeners worldwide with their intensely soulful and intricate take on timeless rock & roll. Exploding onto the music scene in 1993 with their multi-platinum breakout album, August and Everything After, the band has gone on to release seven studio […]",
-    "startDate": "2025-08-17T02:00:00.000Z",
-    "endDate": "2025-08-17T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/countingcrows-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/countingcrows-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-lynyrd-skynyrd-or-2025-summer-night-concerts-2025-08-18",
-    "title": "LYNYRD SKYNYRD | 2025 Summer Night Concerts",
-    "description": "More than a half century after the release of Lynyrd Skynyrd’s critically acclaimed debut album ‘Pronounced 'Lĕh-'nérd 'Skin-'nérd,’ they resonate as deeply with their multi-generational fan base today as when they first emerged out of Jacksonville, Florida in 1973. Few ensembles have had the deep impact in creating a lifestyle as Skynyrd has. The band […]",
-    "startDate": "2025-08-18T02:00:00.000Z",
-    "endDate": "2025-08-18T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/lynyrdskynrd-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/lynyrdskynrd-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-bleachers-or-2025-summer-night-concerts-2025-08-20",
-    "title": "Bleachers | 2025 Summer Night Concerts",
-    "description": "Described as “anthemic, life affirming pop rock” by the New York Times, Bleachers are fronted by globally celebrated, eleven-time Grammy Award-winning singer, songwriter, musician, and producer, Jack Antonoff. Both with Bleachers and as a songwriter and producer, Antonoff, who, in 2021, was credited by the BBC for having “redefined pop music”, has collaborated with the […]",
-    "startDate": "2025-08-20T02:00:00.000Z",
-    "endDate": "2025-08-20T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/bleachers-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/bleachers-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-gipsy-kings-or-2025-summer-night-concerts-2025-08-21",
-    "title": "Gipsy Kings | 2025 Summer Night Concerts",
-    "description": "Nicolas Reyes has been the leader and co-founder of the Gipsy Kings for well over 30 years. In the past three decades, they have dominated the World Music charts and sold more than 14 million albums worldwide. Their platinum compilation, The Best of the Gipsy Kings, was charting for over a year upon its release […]",
-    "startDate": "2025-08-21T02:00:00.000Z",
-    "endDate": "2025-08-21T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/gipsykings-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/gipsykings-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.271Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-mother-mother-or-2025-summer-night-concerts-2025-08-22",
-    "title": "Mother Mother | 2025 Summer Night Concerts",
-    "description": "Globally successful alt-rock phenomenon Mother Mother celebrate their 20th anniversary with the release of their 10th studio album, Nostalgia. This 12-track song-cycle reveals a sonic palette that calls back to their earlier works, while simultaneously pushing further into the stellar regions of melodic rock and glam-pop; they fearlessly charge forth into often lyrically and emotionally […]",
-    "startDate": "2025-08-22T02:00:00.000Z",
-    "endDate": "2025-08-22T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/mothermother-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/mothermother-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-flo-rida-or-2025-summer-night-concerts-2025-08-23",
-    "title": "Flo Rida | 2025 Summer Night Concerts",
-    "description": "Back by popular demand, Flo Rida is one of today’s most vibrant and recognizable superstars, a true international icon and history-making hip-hop hero. Since bursting out of the gate over a decade ago with the RIAA Diamond certified hit, “Low (Feat. T-Pain)” – which spent 10 consecutive weeks atop the Billboard “Hot 100” – the […]",
-    "startDate": "2025-08-23T02:00:00.000Z",
-    "endDate": "2025-08-23T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/flo-rida-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/flo-rida-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-leon-bridges-or-2025-summer-night-concerts-2025-08-24",
-    "title": "Leon Bridges | 2025 Summer Night Concerts",
-    "description": "Grammy Award Winning Recording Artist, Songwriter, Dancer, Actor and Philanthropist. Grammy Award winning recording artist and songwriter, Leon Bridges, brings to the stage all elements of his career spanning experiences, inspirations, and award winning catalog of songs with every performance. From working as a dishwasher and busking on the streets of his beloved Fort Worth, […]",
-    "startDate": "2025-08-24T02:00:00.000Z",
-    "endDate": "2025-08-24T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/leonbridges-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/leonbridges-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-marianas-trench-or-2025-summer-night-concerts-2025-08-25",
-    "title": "Marianas Trench | 2025 Summer Night Concerts",
-    "description": "Since their 2006 debut, Canadian band Marianas Trench have consistently raised the musical bar both in the studio and via their explosive live shows around the globe. Amongst their many accomplishments, the band has two certified triple-platinum records, one platinum record, a certified gold-selling record, triple-platinum digital singles, multiple awards including 2013 JUNO Award for […]",
-    "startDate": "2025-08-25T02:00:00.000Z",
-    "endDate": "2025-08-25T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/marianastrench-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/marianastrench-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
-    "sourceIdentifier": "pne"
-  },
-  {
-    "id": "pne-sean-paul-or-2025-summer-night-concerts-2025-08-27",
-    "title": "Sean Paul | 2025 Summer Night Concerts",
-    "description": "With countless hits and over 120 countries toured, Sean Paul is arguably Jamaica’s top export, the biggest global star the “little island with the big sound” has yet produced. Born Sean Paul Henriques in Kingston in 1973, the dancehall deejay (as a mic controller is known in JA) has dominated global charts since he burst […]",
-    "startDate": "2025-08-27T02:00:00.000Z",
-    "endDate": "2025-08-27T05:00:00.000Z",
-    "imageUrl": "",
-    "sourceUrl": "https://www.pne.ca/event/seanpaul-snc25/",
-    "ticketUrl": "https://www.pne.ca/event/seanpaul-snc25/",
-    "venue": {
-      "name": "Pacific National Exhibition",
-      "address": "2901 East Hastings Street",
-      "city": "Vancouver",
-      "province": "BC",
-      "country": "Canada",
-      "postalCode": "V5K 5J1",
-      "website": "https://www.pne.ca",
-      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
-    },
-    "categories": [
-      "entertainment",
-      "events"
-    ],
-    "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
-    "sourceIdentifier": "pne"
-  },
-  {
     "id": "pne-wilco-or-2025-summer-night-concerts-2025-08-28",
     "title": "Wilco | 2025 Summer Night Concerts",
     "description": "For 30 years, Wilco has been a pioneering force in independent music. The Chicago rock band has released 13 studio albums and won multiple Grammy Awards. They have founded their own record label, dBpm Records, and renowned Solid Sound festival. The sextet comprised of Jeff Tweedy, John Stirratt, Glenn Kotche, Pat Sansone, Nels Cline, and […]",
@@ -401,7 +23,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
+    "lastUpdated": "2025-08-28T01:25:00.309Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -428,7 +50,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
+    "lastUpdated": "2025-08-28T01:25:00.310Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -455,7 +77,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
+    "lastUpdated": "2025-08-28T01:25:00.310Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -482,7 +104,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
+    "lastUpdated": "2025-08-28T01:25:00.310Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -509,7 +131,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
+    "lastUpdated": "2025-08-28T01:25:00.310Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -536,7 +158,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.272Z",
+    "lastUpdated": "2025-08-28T01:25:00.310Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -563,7 +185,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -590,15 +212,15 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
     "id": "pne-the-world-of-hans-zimmer-2025-10-12",
     "title": "The World of Hans Zimmer",
-    "description": "The World of Hans Zimmer comes to North America for the first time. Immerse yourself in this cinematic experience conducted by Matt Dunkley, curated by Hans Zimmer at the Pacific Coliseum!",
-    "startDate": "2025-10-12T03:00:00.000Z",
-    "endDate": "2025-10-12T06:00:00.000Z",
+    "description": "The World of Hans Zimmer comes to North America for the first time. Immerse yourself in this cinematic experience conducted by Matt Dunkley, curated by Hans Zimmer at the Pacific Coliseum! The World of Hans Zimmer – A New Dimension / Show Description Hans Zimmer Presents The World of Hans Zimmer – A New Dimension, […]",
+    "startDate": "2025-10-12T02:30:00.000Z",
+    "endDate": "2025-10-12T05:30:00.000Z",
     "imageUrl": "",
     "sourceUrl": "https://www.pne.ca/event/wohz/",
     "ticketUrl": "https://www.pne.ca/event/wohz/",
@@ -617,7 +239,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -644,7 +266,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -671,7 +293,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -698,7 +320,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -725,7 +347,115 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-jid-god-does-like-paradise-tour-2025-11-11",
+    "title": "J.I.D – God Does Like Paradise Tour",
+    "description": "J.I.D ANNOUNCES “GOD DOES LIKE WORLD TOURS” Kicks Off October 15th in Virginia Beach, VA and Continues Across North America, Europe, United Kingdom, Australia, New Zealand and Asia in 2026 YOUNG NUDY TO BE SPECIAL GUEST ON ALL U.S.A DATES, MICK JENKINS SUPPORTS ALL EUROPEAN DATES AND JORDAN WARD TO SUPPORT ON ALL AUS/NZ DATES […]",
+    "startDate": "2025-11-11T03:00:00.000Z",
+    "endDate": "2025-11-11T06:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/event/jid25/",
+    "ticketUrl": "https://www.pne.ca/event/jid25/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-27",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-27T03:00:00.000Z",
+    "endDate": "2025-11-27T05:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-28",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-28T03:00:00.000Z",
+    "endDate": "2025-11-28T05:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-29",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-29T03:00:00.000Z",
+    "endDate": "2025-11-29T06:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -752,7 +482,142 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-29",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-29T19:00:00.000Z",
+    "endDate": "2025-11-29T21:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-29",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-29T23:00:00.000Z",
+    "endDate": "2025-11-30T01:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-30",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-30T03:00:00.000Z",
+    "endDate": "2025-11-30T05:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-30",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-30T19:00:00.000Z",
+    "endDate": "2025-11-30T21:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
+    "sourceIdentifier": "pne"
+  },
+  {
+    "id": "pne-disney-on-ice-presents-lets-dance-2025-11-30",
+    "title": "Disney On Ice presents LET’S DANCE",
+    "description": "Mickey and pals are rocking the DJ table at Disney On Ice and you're on the guest list! Feel the electric atmosphere as they remix favorite Disney tunes into colorful worlds. Wish upon a star with Asha as she and Valentino save the Kingdom of Rosas from King Magnifico. Roar with delight as Simba, Timon […]",
+    "startDate": "2025-11-30T23:00:00.000Z",
+    "endDate": "2025-12-01T01:00:00.000Z",
+    "imageUrl": "",
+    "sourceUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "ticketUrl": "https://www.pne.ca/series/disney-on-ice-presents-lets-dance/",
+    "venue": {
+      "name": "Pacific National Exhibition",
+      "address": "2901 East Hastings Street",
+      "city": "Vancouver",
+      "province": "BC",
+      "country": "Canada",
+      "postalCode": "V5K 5J1",
+      "website": "https://www.pne.ca",
+      "googleMapsUrl": "https://goo.gl/maps/eVcP7s9vrytQY7Y86"
+    },
+    "categories": [
+      "entertainment",
+      "events"
+    ],
+    "isFallback": false,
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -779,7 +644,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.311Z",
     "sourceIdentifier": "pne"
   },
   {
@@ -806,7 +671,7 @@
       "events"
     ],
     "isFallback": false,
-    "lastUpdated": "2025-07-13T07:45:29.273Z",
+    "lastUpdated": "2025-08-28T01:25:00.312Z",
     "sourceIdentifier": "pne"
   }
 ]

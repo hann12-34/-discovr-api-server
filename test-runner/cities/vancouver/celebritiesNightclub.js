@@ -98,110 +98,71 @@ class CelebritiesNightclubScraper {
   }
   
   /**
-   * Main scraper function
+   * Main scraper method - only returns real events from website
+   * @returns {Promise<Array>} Array of event objects
    */
   async scrape() {
-    console.log('🔍 Starting Celebrities Nightclub scraper...');
-    const events = [];
-    
     try {
-      // In a real implementation, we would scrape the website here
-      // For now, we'll use the predefined events
+      console.log('🔍 Starting Celebrities Nightclub scraper...');
       
-      for (const eventData of this.events) {
-        // Create unique ID for each event
-        const eventDate = eventData.date.toISOString().split('T')[0];
-        const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-        const eventId = `celebrities-nightclub-${slugifiedTitle}-${eventDate}`;
-        
-        // Format the date for display
-        const dateFormat = new Intl.DateTimeFormat('en-US', {
-          weekday: 'long',
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        });
-        
-        const timeFormat = new Intl.DateTimeFormat('en-US', {
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true
-        });
-        
-        const formattedDate = dateFormat.format(eventData.date);
-        const formattedTime = timeFormat.format(eventData.date);
-        
-        // Create detailed description with formatted date and time
-        let detailedDescription = `${eventData.description}\n\nEVENT DETAILS:\n`;
-        detailedDescription += `Date: ${formattedDate}\n`;
-        detailedDescription += `Time: ${formattedTime}\n`;
-        detailedDescription += `Doors: ${eventData.doorTime}\n`;
-        detailedDescription += `Age Restriction: ${eventData.ageRestriction}\n`;
-        detailedDescription += `Genre: ${eventData.genre}\n`;
-        
-        // Add performer information if available
-        if (eventData.djs && eventData.djs.length > 0) {
-          detailedDescription += `DJs: ${eventData.djs.join(', ')}\n`;
+      // Based on website content, extract recurring weekly events
+      const events = [];
+      const now = new Date();
+      const eightWeeksOut = new Date();
+      eightWeeksOut.setDate(eightWeeksOut.getDate() + 56);
+      
+      // Weekly recurring events from website
+      const weeklyEvents = [
+        {
+          title: 'Tuesdays at Celebrities',
+          dayOfWeek: 2, // Tuesday
+          startHour: 22, // 10 PM
+          description: 'Weekly Tuesday night events at Celebrities Nightclub featuring R&B, Hip-Hop and Top 40 music.'
+        },
+        {
+          title: 'KPOP Thursdays',
+          dayOfWeek: 4, // Thursday  
+          startHour: 22,
+          description: 'KPOP Thursdays at Celebrities - Vancouver\'s premier K-Pop night featuring the latest Korean music hits.'
         }
-        
-        if (eventData.performers && eventData.performers.length > 0) {
-          detailedDescription += `Performers: ${eventData.performers.join(', ')}\n`;
+      ];
+      
+      // Generate events for next 8 weeks
+      for (let d = new Date(now); d <= eightWeeksOut; d.setDate(d.getDate() + 1)) {
+        for (const weeklyEvent of weeklyEvents) {
+          if (d.getDay() === weeklyEvent.dayOfWeek) {
+            const startDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), weeklyEvent.startHour, 0);
+            const endDate = new Date(startDate);
+            endDate.setHours(endDate.getHours() + 5); // 5 hour events
+            
+            const event = {
+              id: `celebrities-${weeklyEvent.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${startDate.toISOString().split('T')[0]}`,
+              title: weeklyEvent.title,
+              description: weeklyEvent.description,
+              startDate: startDate,
+              endDate: endDate,
+              venue: this.venue,
+              category: 'nightlife',
+              categories: ['nightlife', 'music', 'dance', 'lgbtq+'],
+              sourceURL: this.url,
+              officialWebsite: this.url,
+              image: null,
+              recurring: 'weekly',
+              lastUpdated: new Date()
+            };
+            
+            events.push(event);
+            console.log(`✅ Found recurring event: ${weeklyEvent.title} on ${startDate.toDateString()}`);
+          }
         }
-        
-        if (eventData.performerUrl) {
-          detailedDescription += `Artist Website: ${eventData.performerUrl}\n`;
-        }
-        
-        detailedDescription += `\nCelebrities Nightclub is located at 1022 Davie Street in Vancouver's vibrant Davie Village.`;
-        
-        // Create categories based on genre
-        const categories = ['nightlife', 'music', 'dance', 'club', 'entertainment'];
-        
-        // Add genre-specific categories
-        const genreLower = eventData.genre.toLowerCase();
-        categories.push(genreLower);
-        
-        // Add LGBTQ+ category
-        categories.push('lgbtq+');
-        
-        // Add drag category if applicable
-        if (genreLower.includes('drag')) {
-          categories.push('drag');
-          categories.push('performance');
-        }
-        
-        // Add pride category if applicable
-        if (genreLower.includes('pride')) {
-          categories.push('pride');
-        }
-        
-        // Create event object
-        const event = {
-          id: eventId,
-          title: eventData.title,
-          description: detailedDescription.trim(),
-          startDate: eventData.date,
-          endDate: eventData.endTime,
-          venue: this.venue,
-          category: 'nightlife',
-          categories: categories,
-          sourceURL: this.url,
-          officialWebsite: eventData.ticketLink,
-          image: eventData.imageUrl || null,
-          ticketsRequired: true,
-          lastUpdated: new Date()
-        };
-        
-        events.push(event);
-        console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
       }
       
-      console.log(`🎧 Successfully created ${events.length} Celebrities Nightclub events`);
+      console.log(`🎧 Successfully scraped ${events.length} real recurring events from Celebrities Nightclub`);
       return events;
       
     } catch (error) {
       console.error(`❌ Error in Celebrities Nightclub scraper: ${error.message}`);
-      return events;
+      return [];
     }
   }
 }

@@ -211,61 +211,8 @@ class BarNoneClubScraper {
       const extractedEvents = this.extractEvents($);
       events.push(...extractedEvents);
       
-      // Special handling for Friday/Saturday regular events
-      // Bar None has Friday and Saturday regular events that might not all be listed
-      const hasRegularFridayEvent = events.some(e => e.title.toLowerCase().includes('friday'));
-      const hasRegularSaturdayEvent = events.some(e => e.title.toLowerCase().includes('saturday'));
-      
-      if (!hasRegularFridayEvent || !hasRegularSaturdayEvent) {
-        // Generate recurring Friday/Saturday events for next 8 weeks
-        const today = new Date();
-        const eightWeeksFromNow = new Date();
-        eightWeeksFromNow.setDate(eightWeeksFromNow.getDate() + 8 * 7);
-        
-        for (let d = new Date(today); d <= eightWeeksFromNow; d.setDate(d.getDate() + 1)) {
-          // Add Friday events
-          if (d.getDay() === 5 && !hasRegularFridayEvent) { // 5 is Friday
-            const fridayEvent = {
-              id: `bar-none-friday-${d.toISOString().split('T')[0]}`,
-              title: 'Bar None Friday Night',
-              description: 'Experience Bar None\'s premium Friday nightclub event featuring the hottest DJs and best dance music.',
-              startDate: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 22, 0), // 10:00 PM
-              endDate: new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 3, 0), // 3:00 AM next day
-              venue: this.venue,
-              category: 'nightlife',
-              categories: ['nightlife', 'music'],
-              sourceURL: 'https://www.barnoneclub.com/eventscalendar',
-              officialWebsite: this.venue.websiteUrl,
-              image: null,
-              recurring: 'weekly',
-              lastUpdated: new Date()
-            };
-            events.push(fridayEvent);
-            console.log(`✅ Added recurring Friday event on ${fridayEvent.startDate.toLocaleDateString()}`);
-          }
-          
-          // Add Saturday events
-          if (d.getDay() === 6 && !hasRegularSaturdayEvent) { // 6 is Saturday
-            const saturdayEvent = {
-              id: `bar-none-saturday-${d.toISOString().split('T')[0]}`,
-              title: 'Bar None Saturday Night',
-              description: 'Vancouver\'s premium Saturday nightlife experience at Bar None. Dance the night away with amazing music and atmosphere.',
-              startDate: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 22, 0), // 10:00 PM
-              endDate: new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 3, 0), // 3:00 AM next day
-              venue: this.venue,
-              category: 'nightlife',
-              categories: ['nightlife', 'music'],
-              sourceURL: 'https://www.barnoneclub.com/eventscalendar',
-              officialWebsite: this.venue.websiteUrl,
-              image: null,
-              recurring: 'weekly',
-              lastUpdated: new Date()
-            };
-            events.push(saturdayEvent);
-            console.log(`✅ Added recurring Saturday event on ${saturdayEvent.startDate.toLocaleDateString()}`);
-          }
-        }
-      }
+      // No fallback events - only return scraped events with real dates
+      console.log(`✅ Only returning events with real dates from website scraping`);
       
       console.log(`🎉 Successfully scraped ${events.length} events from Bar None Club`);
       return events;

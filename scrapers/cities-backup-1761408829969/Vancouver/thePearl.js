@@ -1,0 +1,127 @@
+/**
+ * The Pearl Events Scraper
+ * Scrapes upcoming events from The Pearl Vancouver
+ * Vancouver's live music and entertainment venue
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+
+const ThePearlEvents = {
+  async scrape(city) {
+    console.log('🔍 Scraping events from The Pearl...');
+
+    try {
+      const response = await axios.get('https://thepearlvancouver.com/all-shows/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
+      });
+
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
+
+      // Multiple selectors for different event layouts
+      const eventSelectors = [
+        '.show-item',
+        '.event-item',
+        '.show-listing',
+        '.event-card', 
+        'article.show',
+        'article.event',
+        '.upcoming-show',
+        '.concert-listing',
+        'a[href*="/show/"]',
+        'a[href*="/event/"]',
+        'a[href*="ticketmaster"]',
+        'a[href*="eventbrite"]',
+        '.show',
+        '.event'
+      ];
+
+      for (const selector of eventSelectors) {
+        const eventElements = $(selector);
+        if (eventElements.length > 0) {
+          console.log(`Found ${eventElements.length} events with selector: ${selector}`);
+
+          eventElements.each((i, element) => {
+            const $event = $(element);
+            
+            // Extract event details
+            let title = $event.find('h1, h2, h3, .title, .show-title, .event-title, .artist-name').first().text().trim() ||
+                       $event.find('a').first().text().trim() ||
+                       $event.text().trim().split('\n')[0];
+
+            let url = $event.find('a').first().attr('href') || '';
+            if (url && !url.startsWith('http')) {
+              url = 'https://thepearlvancouver.com' + url;
+            }
+
+            // Skip if no meaningful title or already seen
+            if (!title || title.length < 3 || seenUrls.has(url)) {
+              return;
+            }
+
+            // Filter out navigation and non-event links
+            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter', 'view all'];
+            if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
+              return;
+            }
+
+            seenUrls.add(url);
+
+            // Extract date information
+            let eventDate = null;
+            const dateText = $event.find('.date, .show-date, .event-date, time, .datetime').first().text().trim();
+            if (dateText) {
+              eventDate = dateText;
+            }
+
+            // Extract time information
+            let eventTime = null;
+            const timeText = $event.find('.time, .show-time, .start-time').first().text().trim();
+            if (timeText) {
+              eventTime = timeText;
+            }
+
+            // Extract price information
+            let price = $event.find('.price, .cost, .ticket-price').first().text().trim();
+
+            // Only log valid events (junk will be filtered out)
+
+            events.push({
+              id: uuidv4(),
+              title: title,
+              date: eventDate,
+              time: eventTime,
+              url: url,
+              venue: { name: 'The Pearl', city: 'Vancouver' },
+              location: 'Vancouver, BC',
+              description: null,
+              price: price || null,
+              image: null
+            });
+          });
+        }
+      }
+
+      console.log(`Found ${events.length} total events from The Pearl`);
+      return events;
+
+    } catch (error) {
+      console.error('Error scraping The Pearl events:', error.message);
+      return [];
+    }
+  }
+};
+
+
+module.exports = ThePearlEvents.scrape;

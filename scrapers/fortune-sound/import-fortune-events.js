@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // MongoDB connection string - using the exact credentials from the project
-const MONGODB_URI = "mongodb+srv://materaccount:materaccount123@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr";
+const MONGODB_URI = "mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr";
 
 // Fortune Sound events file path
 const EVENTS_FILE_PATH = path.join(__dirname, 'Scrapers', 'FortuneSound', 'fortune_events.json');
@@ -56,7 +56,7 @@ const Event = mongoose.model('Event', eventSchema);
 
 async function importEvents() {
   try {
-    console.log(`🔄 Connecting to MongoDB at ${MONGODB_URI.replace(/:[^:@]+@/, ':****@')}...`);
+    console.log(`🔄 Connecting to MongoDB at ${MONGODB_URI}...`);
     
     // Connect to MongoDB
     await mongoose.connect(MONGODB_URI, {

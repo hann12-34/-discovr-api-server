@@ -207,7 +207,7 @@ app.get('/api/v1/db-status', (req, res) => {
 const eventsRouter = require('./routes/events');
 const authRouter = require('./routes/auth');
 const venuesRouter = require('./routes/venues');
-const artGalleryRoutes = require('./routes/artGalleryRoutes');
+// const artGalleryRoutes = require('./routes/artGalleryRoutes'); // Temporarily disabled - missing scrapers
 
 // Import static routes that don't require MongoDB connection
 const staticRoutes = require('./routes/staticRoutes');
@@ -218,7 +218,7 @@ const apiRoutes = express.Router();
 // Only use DB routes when MongoDB is connected
 apiRoutes.use('/events', checkDbConnection, eventsRouter);
 apiRoutes.use('/venues', checkDbConnection, venuesRouter);
-apiRoutes.use('/art-galleries', checkDbConnection, artGalleryRoutes);
+// apiRoutes.use('/art-galleries', checkDbConnection, artGalleryRoutes); // Temporarily disabled
 
 // Mount static routes that work even without DB (no DB check middleware)
 app.use('/api/v1/static', staticRoutes);

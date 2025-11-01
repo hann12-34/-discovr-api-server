@@ -1,151 +1,264 @@
 /**
  * Rogers Arena Events Scraper
- *
- * This scraper provides information about events at Rogers Arena in Vancouver
- * Source: https://rogersarena.com/event/
+ * Scrapes upcoming events from Rogers Arena official website
  */
 
-const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
-class RogersArenaScraper {
-  constructor() {
-    this.name = 'Rogers Arena';
-    this.url = 'https://rogersarena.com/event/';
-    this.sourceIdentifier = 'rogers-arena';
-
-    // Define venue with proper object structure
-    this.venue = {
-      name: 'Rogers Arena',
-      id: 'rogers-arena-vancouver',
-      address: '800 Griffiths Way',
-      city: "Vancouver",
-      state: 'BC',
-      country: 'Canada',
-      postalCode: 'V6B 6G1',
-      coordinates: {
-        lat: 49.2778358,
-        lng: -123.1088227
-      },
-      websiteUrl: 'https://rogersarena.com/',
-      description: "Rogers Arena is a multi-purpose indoor arena located in downtown Vancouver. Home to the NHL's Vancouver Canucks, the arena also hosts major concerts and entertainment events throughout the year. With a seating capacity of over 18,000, Rogers Arena is one of the premier entertainment venues in Western Canada."
-    };
-  }
-
-  /**
-   * Main scraper function
-   */
+const RogersArenaEvents = {
   async scrape(city) {
-    console.log('🔍 Starting Rogers Arena events scraper...');
-    const events = [];
-
+    console.log('🏒 Scraping Rogers Arena events (Canucks + Concerts)...');
+    
     try {
-      // Fetch event data from the website
-      const response = await axios.get(this.url);
-      const $ = cheerio.load(response.data);
-
-      // Select all event containers
-      $('-item, -listing').each((i, element) => {
-        try {
-          // Extract event details (adjust selectors based on actual website structure)
-          const title = $(element).find('-title, h3').text().trim();
-          const dateText = $(element).find('-date, .date').text().trim();
-          const eventUrl = $(element).find('a').attr('href');
-          const imageUrl = $(element).find('img').attr('src');
-
-          // Parse the date (adjust based on actual date format)
-          let startDate, endDate;
-
-          try {
-            // Example date parsing assuming format like "Jul 26, 2025"
-            const dateMatch = dateText.match(/([A-Za-z]+)\s+(\d+),\s+(\d{4})/);
-            if (dateMatch) {
-              const month = dateMatch[1];
-              const day = parseInt(dateMatch[2]);
-              const year = parseInt(dateMatch[3]);
-
-              const months = {
-                'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
-                'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
-              };
-
-              startDate = new Date(year, months[month], day);
-              // Default event time to 7:30 PM if not specified
-              startDate.setHours(19, 30, 0);
-
-              endDate = new Date(startDate);
-              // Default event duration to 3 hours if not specified
-              endDate.setHours(endDate.getHours() + 3);
+      const events = [];
+      const seen = new Set();
+      
+      // 1. Get Canucks schedule from NHL API
+      console.log('Fetching Canucks games...');
+      try {
+        const nhlResponse = await axios.get('https://api-web.nhle.com/v1/club-schedule-season/van/now', {
+          headers: {
+            'User-Agent': 'Mozilla/5.0',
+            'Accept': 'application/json'
+          },
+          timeout: 15000
+        });
+        
+        if (nhlResponse.data && nhlResponse.data.games) {
+          nhlResponse.data.games.forEach(game => {
+            const gameDate = game.gameDate;
+            const homeTeam = game.homeTeam?.placeName?.default || '';
+            const awayTeam = game.awayTeam?.placeName?.default || '';
+            
+            // Only include home games at Rogers Arena
+            if (homeTeam === 'Vancouver' && gameDate) {
+              const title = `Vancouver Canucks vs ${awayTeam}`;
+              
+              if (!seen.has(gameDate + title)) {
+                seen.add(gameDate + title);
+                
+                console.log(`✓ ${title} | ${gameDate}`);
+                
+                
+          // COMPREHENSIVE DATE EXTRACTION - Works with most event websites
+          let dateText = null;
+          
+          // Try multiple strategies to find the date
+          const dateSelectors = [
+            'time[datetime]',
+            '[datetime]',
+            '.date',
+            '.event-date', 
+            '.show-date',
+            '[class*="date"]',
+            'time',
+            '.datetime',
+            '.when',
+            '[itemprop="startDate"]',
+            '[data-date]',
+            '.day',
+            '.event-time',
+            '.schedule',
+            'meta[property="event:start_time"]'
+          ];
+          
+          // Strategy 1: Look in the event element itself
+          for (const selector of dateSelectors) {
+            const dateEl = $element.find(selector).first();
+            if (dateEl.length > 0) {
+              dateText = dateEl.attr('datetime') || dateEl.attr('content') || dateEl.text().trim();
+              if (dateText && dateText.length > 0 && dateText.length < 100) {
+                console.log(`✓ Found date with ${selector}: ${dateText}`);
+                break;
+              }
             }
-          } catch (dateError) {
-            console.error(`⚠️ Error parsing date for event "${title}": ${dateError.message}`);
-
-            startDate = new Date();
-            startDate.setDate(startDate.getDate() + 30);
-            endDate = new Date(startDate);
-            endDate.setHours(endDate.getHours() + 3);
+          }
+          
+          // Strategy 2: Check parent containers if not found
+          if (!dateText) {
+            const $parent = $element.closest('.event, .event-item, .show, article, [class*="event"], .card, .listing');
+            if ($parent.length > 0) {
+              for (const selector of dateSelectors) {
+                const dateEl = $parent.find(selector).first();
+                if (dateEl.length > 0) {
+                  dateText = dateEl.attr('datetime') || dateEl.attr('content') || dateEl.text().trim();
+                  if (dateText && dateText.length > 0 && dateText.length < 100) {
+                    console.log(`✓ Found date in parent with ${selector}: ${dateText}`);
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          
+          // Strategy 3: Look for common date patterns in nearby text
+          if (!dateText) {
+            const nearbyText = $element.parent().text();
+            // Match patterns like "Nov 4", "November 4", "11/04/2025", etc.
+            const datePatterns = [
+              /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(,?\s+\d{4})?/i,
+              /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
+              /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i
+            ];
+            
+            for (const pattern of datePatterns) {
+              const match = nearbyText.match(pattern);
+              if (match) {
+                dateText = match[0].trim();
+                console.log(`✓ Found date via pattern matching: ${dateText}`);
+                break;
+              }
+            }
+          }
+          
+          // Clean up the date text
+          if (dateText) {
+            dateText = dateText.replace(/\s+/g, ' ').trim();
+            // Remove common prefixes
+            dateText = dateText.replace(/^(Date:|When:|Time:)\s*/i, '');
+            // Validate it's not garbage
+            if (dateText.length < 5 || dateText.length > 100) {
+              console.log(`⚠️  Invalid date text (too short/long): ${dateText}`);
+              dateText = null;
+            }
           }
 
-          // Create unique ID for this event
-          const eventId = uuidv4();
-          const slugifiedTitle = title.toLowerCase()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/\s+/g, '-');
-
-          // Determine categories based on title keywords
-          const categories = ['concert', 'entertainment'];
-
-          if (title.toLowerCase().includes('hockey') ||
-              title.toLowerCase().includes('canucks') ||
-              title.toLowerCase().includes('nhl')) {
-            categories.push('sports');
-            categories.push('hockey');
-          } else {
-            categories.push('music');
-          }
-
-          // Create event object
-          const event = {
-            id: `rogers-arena-${slugifiedTitle}-${eventId.substring(0, 8)}`,
-            title: title,
-            description: `${title} at Rogers Arena. This event takes place at Vancouver's premier indoor arena with a capacity of over 18,000. Located in downtown Vancouver, Rogers Arena hosts major concerts and sporting events throughout the year. Visit the official website for more details and ticket information.`,
-            startDate: startDate,
-            endDate: endDate,
-            venue: this.venue,
-            category: categories[0],
-            categories: categories,
-            sourceURL: this.url,
-            officialWebsite: eventUrl || this.url,
-            image: imageUrl || null,
-            ticketsRequired: true,
-            lastUpdated: new Date()
-          };
-
-          events.push(event);
-          console.log(`✅ Added event: ${event.title}`);
-        } catch (eventError) {
-          console.error(`❌ Error extracting event details: ${eventError.message}`);
+          events.push({
+                  id: uuidv4(),
+                  title: title,
+                  date: gameDate,
+                  time: game.startTimeUTC || null,
+                  url: `https://www.nhl.com/canucks/schedule`,
+                  venue: { name: 'Rogers Arena', address: '800 Griffiths Way, Vancouver, BC V6B 6G1', city: 'Vancouver' },
+                  location: 'Vancouver, BC',
+                  description: `${title} at Rogers Arena, home of the Vancouver Canucks.`,
+                  category: 'Sports',
+                  image: null,
+                  source: 'Rogers Arena',
+                  city: 'Vancouver'
+                });
+              }
+            }
+          });
         }
-      });
-
-      console.log(`🎉 Successfully scraped ${events.length} Rogers Arena events`);
-      return events;
-
+      } catch (nhlError) {
+        console.log('NHL API error:', nhlError.message);
+      }
+      
+      // 2. Get concerts and other events from Rogers Arena website using Puppeteer
+      console.log('Fetching concerts with headless browser...');
+      let browser;
+      try {
+        browser = await puppeteer.launch({
+          headless: true,
+          args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+        
+        const page = await browser.newPage();
+        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+        
+        console.log('Loading Rogers Arena concerts page...');
+        await page.goto('https://rogersarena.com/events/?tribe_eventcategory%5B0%5D=13', {
+          waitUntil: 'networkidle2',
+          timeout: 30000
+        });
+        
+        // Wait for events to load
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        // Extract JSON-LD data
+        const eventData = await page.evaluate(() => {
+          const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+          const allEvents = [];
+          
+          scripts.forEach(script => {
+            try {
+              const data = JSON.parse(script.textContent);
+              const eventList = Array.isArray(data) ? data : [data];
+              eventList.forEach(item => {
+                if (item['@type'] === 'Event') {
+                  allEvents.push(item);
+                }
+              });
+            } catch (e) {}
+          });
+          
+          return allEvents;
+        });
+        
+        console.log(`Found ${eventData.length} events from Rogers Arena website`);
+        
+        eventData.forEach(event => {
+          if (event.name) {
+            const title = event.name
+              .replace(/&#8211;/g, '–')
+              .replace(/&amp;/g, '&')
+              .replace(/&#8217;/g, "'")
+              .replace(/&#038;/g, '&');
+            
+            // Skip Canucks games (already got from NHL API)
+            if (title.toLowerCase().includes('canucks')) {
+              return;
+            }
+            
+            let eventDate = null;
+            if (event.startDate) {
+              const dateMatch = event.startDate.match(/(\d{4})-(\d{2})-(\d{2})/);
+              if (dateMatch) {
+                eventDate = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}`;
+              }
+            }
+            
+            const key = title + eventDate;
+            if (!seen.has(key) && eventDate) {
+              seen.add(key);
+              
+              // Determine category
+              let category = 'Concert';
+              if (title.toLowerCase().includes('ufc') || title.toLowerCase().includes('fight')) {
+                category = 'Sports';
+              }
+              
+              console.log(`✓ ${title} | ${eventDate}`);
+              
+              events.push({
+                id: uuidv4(),
+                title: title,
+                date: eventDate,
+                time: null,
+                url: event.url || 'https://rogersarena.com/events/',
+                venue: { name: 'Rogers Arena', address: '800 Griffiths Way, Vancouver, BC V6B 6G1', city: 'Vancouver' },
+                location: 'Vancouver, BC',
+                description: `${title} at Rogers Arena.`,
+                category: category,
+                image: event.image || null,
+                source: 'Rogers Arena',
+                city: 'Vancouver'
+              });
+            }
+          }
+        });
+        
+      } catch (raError) {
+        console.log('Rogers Arena browser error:', raError.message);
+      } finally {
+        if (browser) {
+          await browser.close();
+        }
+      }
+      
+      console.log(`\n✅ Found ${events.length} Rogers Arena events (Canucks + Concerts)`);
+      return filterEvents(events);
+      
     } catch (error) {
-      console.error(`❌ Error in Rogers Arena scraper: ${error.message}`);
-      return events;
+      console.error('Error scraping Rogers Arena:', error.message);
+      return [];
     }
   }
-}
-
-module.exports = new RogersArenaScraper();
-
-// Function export for compatibility with runner/validator
-module.exports = async (city) => {
-  const scraper = new RogersArenaScraper();
-  return await scraper.scrape(city);
 };
 
-// Also export the class for backward compatibility
-module.exports.RogersArenaScraper = RogersArenaScraper;
+module.exports = RogersArenaEvents.scrape;

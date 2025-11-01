@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 require('dotenv').config();
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 
 // Working Vancouver scrapers - mix of legacy and new clean scrapers
 const reliableScrapers = [
@@ -20,8 +20,48 @@ const reliableScrapers = [
     'khatsahlanoEvents.js',
     'maritimeMuseumEvents.js',
     'vancouverCanucksEvents_clean.js',
-    'vanDusenGardenEvents_clean.js'
+    'vanDusenGardenEvents_clean.js',
+    // Working nightlife scrapers that return real events only
+    'test-runner/cities/vancouver/celebritiesNightclub.js',
+    'test-runner/cities/vancouver/fortuneSoundClub.js',
+    'test-runner/cities/vancouver/levelsNightclub.js',
+    'test-runner/cities/vancouver/venueNightclub.js',
+    'commodoreBallroomEvents.js'
 ];
+
+// Title validation - filter out garbage titles like IDs
+function validateEventTitle(title) {
+    if (!title || typeof title !== 'string') {
+        return false;
+    }
+    
+    title = title.trim();
+    
+    // Skip empty or very short titles
+    if (title.length < 3) {
+        return false;
+    }
+    
+    // Skip Ticketmaster event IDs (like 110062E8B17F3568)
+    if (/^110062[A-F0-9]{8,}$/i.test(title)) {
+        console.log(`🚫 Skipping Ticketmaster ID as title: "${title}"`);
+        return false;
+    }
+    
+    // Skip other random hex/numeric IDs
+    if (/^[0-9A-F]{12,}$/i.test(title)) {
+        console.log(`🚫 Skipping random ID as title: "${title}"`);
+        return false;
+    }
+    
+    // Skip pure numeric IDs
+    if (/^\d{8,}$/.test(title)) {
+        console.log(`🚫 Skipping numeric ID as title: "${title}"`);
+        return false;
+    }
+    
+    return true;
+}
 
 // Date validation and correction
 function validateAndFixDate(dateString, eventTitle) {
@@ -57,7 +97,7 @@ async function importReliableEvents() {
         await client.connect();
         console.log('✅ Connected to MongoDB');
         
-        const db = client.db('discovr');
+        const db = client.db('events');
         const collection = db.collection('events');
         
         let totalImported = 0;
@@ -68,6 +108,9 @@ async function importReliableEvents() {
             if (scraperFile.startsWith('vancouver-') && scraperFile.includes('-scraper.js')) {
                 // New clean scrapers are in the root directory
                 scraperPath = path.join(__dirname, scraperFile);
+            } else if (['barNoneClub.js', 'celebritiesNightclub.js', 'redRoomEvents.js', 'fortuneSoundClub.js', 'levelsNightclub.js', 'venueNightclub.js', 'commodoreBallroomEvents.js'].includes(scraperFile)) {
+                // Nightlife scrapers are in test-runner directory
+                scraperPath = path.join(__dirname, 'test-runner', 'cities', 'vancouver', scraperFile);
             } else {
                 // Legacy scrapers are in the vancouver subdirectory
                 scraperPath = path.join(__dirname, 'scrapers', 'cities', 'vancouver', scraperFile);
@@ -93,6 +136,14 @@ async function importReliableEvents() {
                         console.log(`❌ Runtime error in ${scraperFile}: ${scraperError.message.split('\n')[0]}`);
                         continue;
                     }
+                } else if (scraper && typeof scraper.scrape === 'function') {
+                    // Handle instance-based scrapers (exported as instances)
+                    try {
+                        events = await scraper.scrape();
+                    } catch (scraperError) {
+                        console.log(`❌ Runtime error in ${scraperFile}: ${scraperError.message.split('\n')[0]}`);
+                        continue;
+                    }
                 } else if (typeof scraper === 'function') {
                     try {
                         events = await scraper('Vancouver');
@@ -112,6 +163,13 @@ async function importReliableEvents() {
                     for (const event of events) {
                         // Ensure event has required fields
                         if (!event.title || !event.venue?.name) {
+                            scraperSkipped++;
+                            totalSkipped++;
+                            continue;
+                        }
+                        
+                        // Validate event title to skip garbage IDs
+                        if (!validateEventTitle(event.title)) {
                             scraperSkipped++;
                             totalSkipped++;
                             continue;
@@ -160,7 +218,7 @@ async function importReliableEvents() {
                                 console.log(`🐛 Attempting import: ${cleanEvent.title}`);
                             }
                             
-                            await collection.updateOne(
+                            const result = await collection.updateOne(
                                 { 
                                     title: cleanEvent.title,
                                     'venue.name': cleanEvent.venue.name,
@@ -169,8 +227,17 @@ async function importReliableEvents() {
                                 { $set: cleanEvent },
                                 { upsert: true }
                             );
-                            scraperImported++;
-                            totalImported++;
+                            
+                            // Remove verbose logging to prevent EPIPE errors
+                            
+                            // Simple increment - stop over-complicating
+                            if (result.upsertedCount > 0 || result.modifiedCount > 0) {
+                                scraperImported++;
+                                totalImported++;
+                            } else {
+                                scraperSkipped++;
+                                totalSkipped++;
+                            }
                             
                             if (isCleanScraper) {
                                 console.log(`✅ Successfully imported: ${cleanEvent.title}`);
@@ -189,17 +256,27 @@ async function importReliableEvents() {
             }
         }
         
-        // Final summary
-        const vancouverCount = await collection.countDocuments({ 'venue.city': 'Vancouver' });
+        // Final summary - DEBUG THE ACTUAL DATABASE
+        console.log(`\n🔍 DEBUGGING DATABASE CONNECTION:`);
+        console.log(`Expected database: events`);
+        console.log(`Actually connected to: ${db.databaseName}`);
+        console.log(`Collection: events`);
+        
+        const vancouverCount = await collection.countDocuments({ city: 'Vancouver' });
+        const totalCount = await collection.countDocuments({});
+        const allCities = await collection.distinct('city');
         const futureEvents = await collection.countDocuments({ 
-            'venue.city': 'Vancouver',
+            city: 'Vancouver',
             startDate: { $gte: new Date() }
         });
         
-        console.log(`\n📊 IMPORT SUMMARY:`);
-        console.log(`✅ Total imported: ${totalImported}`);
+        console.log(`📊 IMPORT SUMMARY:`);
+        console.log(`✅ Total imported (claimed): ${totalImported}`);
         console.log(`⚠️  Total skipped (bad dates): ${totalSkipped}`);
-        console.log(`📈 Total Vancouver events: ${vancouverCount}`);
+        console.log(`📈 ACTUAL DATABASE STATS:`);
+        console.log(`   - Total events in DB: ${totalCount}`);
+        console.log(`   - Vancouver events in DB: ${vancouverCount}`);
+        console.log(`   - All cities in DB: ${JSON.stringify(allCities)}`);
         console.log(`🔮 Future Vancouver events: ${futureEvents}`);
         
     } catch (error) {

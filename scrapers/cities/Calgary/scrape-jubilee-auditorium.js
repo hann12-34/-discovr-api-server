@@ -1,340 +1,133 @@
+const { filterEvents } = require('../../utils/eventFilter');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const slugify = require('slugify');
 
-/**
- * Jubilee Auditorium Events Scraper
- * Scrapes events from Jubilee Auditorium Calgary
- * URL: https://jubileeauditorium.com
- */
-class JubileeAuditoriumEvents {
-    constructor() {
-        this.baseUrl = 'https://jubileeauditorium.com';
-        this.eventsUrl = 'https://jubileeauditorium.com/events/calgary';
-        this.source = 'Jubilee Auditorium';
-        this.city = 'Calgary';
-        this.province = 'AB';
-    }
-
-    /**
-     * Get default coordinates for Jubilee Auditorium
-     * @returns {Object} Default coordinates
-     */
-    getDefaultCoordinates() {
-        return {
-            latitude: 51.0456,
-            longitude: -114.0611
-        };
-    }
-
-    /**
-     * Parse date from various formats
-     * @param {string} dateStr - Date string to parse
-     * @returns {Date} Parsed date
-     */
-    parseDate(dateStr) {
-        if (!dateStr) return null;
-
+const JubileeAuditoriumEvents = {
+    async scrape(city) {
+        console.log('🔍 Scraping events from Jubilee Auditorium...');
         try {
-            const cleanDateStr = dateStr.trim();
-
-            // Handle ISO date format
-            const isoMatch = cleanDateStr.match(/(\d{4}-\d{2}-\d{2})/);
-            if (isoMatch) {
-                return new Date(isoMatch[1]);
-            }
-
-            // Handle common date formats
-            const dateMatch = cleanDateStr.match(/(\w+)\s+(\d{1,2},?\s+(\d{4})//);
-            if (dateMatch) {
-                return new Date(`${dateMatch[1]} ${dateMatch[2]}, ${dateMatch[3]}`);
-            }
-
-            // Handle numeric date formats
-            const numericMatch = cleanDateStr.match(/(\d{1,2}\/(\d{1,2}\/(\d{4}/);
-            if (numericMatch) {
-                return new Date(`${numericMatch[1]}/${numericMatch[2]}/${numericMatch[3]}`);
-            }
-
-            // Try direct parsing
-            const parsed = new Date(cleanDateStr);
-            if (!isNaN(parsed.getTime())) {
-                return parsed;
-            }
-
-            return null;
-        } catch (error) {
-            console.log(`Error parsing date: ${dateStr}`, error);
-            return null;
-        }
-    }
-
-    /**
-     * Clean text by removing extra whitespace and HTML entities
-     * @param {string} text - Text to clean
-     * @returns {string} Cleaned text
-     */
-    cleanText(text) {
-        if (!text) return '';
-        return text.replace(/\s+/g, ' ').trim();
-    }
-
-    /**
-     * Extract venue information from the page
-     * @param {CheerioAPI} $ - Cheerio instance
-     * @param {CheerioElement} eventElement - Event element
-     * @returns {Object} Venue information
-     */
-    extractVenueInfo($, eventElement) {
-        const venueElement = $(eventElement).find('.venue, .location, .where, .place, .auditorium').first();
-        const venueName = venueElement.length > 0 ? this.cleanText(venueElement.text()) : null;
-
-        const defaultCoords = this.getDefaultCoordinates();
-
-        return {
-            name: venueName || 'Jubilee Auditorium',
-            address: '1415 14 Ave NW, Calgary, AB T2N 1M5',
-            city: this.city,
-            province: this.province,
-            latitude: defaultCoords.latitude,
-            longitude: defaultCoords.longitude
-        };
-    }
-
-    /**
-     * Extract event details from a single event element
-     * @param {CheerioAPI} $ - Cheerio instance
-     * @param {CheerioElement} eventElement - Event element
-     * @returns {Object} Event details
-     */
-    extractEventDetails($, eventElement) {
-        const $event = $(eventElement);
-
-        // Extract title
-        const title = this.cleanText(
-            $event.find('.title, .event-title, .show-title, .production-title, .performer, .artist, h1, h2, h3, h4, a[href*="event"]').first().text()
-        );
-
-        if (!title) return null;
-
-        // Extract date
-        const dateText = $event.find('.date, .when, .time, .event-date, .show-date, .performance-date').first().text();
-        const eventDate = this.parseDate(dateText);
-
-        // Extract description
-        const description = this.cleanText(
-            $event.find('.description, .summary, .excerpt, .content, p, .show-description').first().text()
-        );
-
-        // Extract price
-        const priceText = $event.find('.price, .cost, .ticket-price, .admission').text();
-        const price = priceText ? this.cleanText(priceText) : 'Check website for pricing';
-
-        // Extract event URL
-        const eventUrl = $event.find('a').first().attr('href');
-        const fullEventUrl = eventUrl ? (eventUrl.startsWith('http') ? eventUrl : `${this.baseUrl}${eventUrl}`) : null;
-
-        // Extract image
-        const imageUrl = $event.find('img').first().attr('src');
-        const fullImageUrl = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : `${this.baseUrl}${imageUrl}`) : null;
-
-        // Get venue info
-        const venue = this.extractVenueInfo($, eventElement);
-
-        // Determine category based on title/description
-        let category = 'Theatre';
-        const titleLower = title.toLowerCase();
-        if (titleLower.includes('musical') || titleLower.includes('broadway')) {
-            category = 'Musical Theatre';
-        } else if (titleLower.includes('concert') || titleLower.includes('music') || titleLower.includes('symphony')) {
-            category = 'Music';
-        } else if (titleLower.includes('opera')) {
-            category = 'Opera';
-        } else if (titleLower.includes('ballet') || titleLower.includes('dance')) {
-            category = 'Dance';
-        } else if (titleLower.includes('comedy')) {
-            category = 'Comedy';
-        } else if (titleLower.includes('drama') || titleLower.includes('play')) {
-            category = 'Drama';
-        } else if (titleLower.includes('family') || titleLower.includes('children')) {
-            category = 'Family';
-        } else if (titleLower.includes('classical')) {
-            category = 'Classical Music';
-        }
-
-        return {
-            id: uuidv4(),
-            name: title,
-            title: title,
-            description: description || `${title} at Jubilee Auditorium`,
-            date: eventDate,
-            venue: { ...RegExp.venue: { ...RegExp.venue: venue,, city }, city },,
-            city: this.city,
-            province: this.province,
-            price: price,
-            category: category,
-            source: this.source,
-            url: fullEventUrl,
-            image: fullImageUrl,
-            scrapedAt: new Date()
-        };
-    }
-
-    /**
-     * Check if event is still live (today or in the future)
-     * @param {Date} eventDate - Event date
-     * @returns {boolean} True if event is live
-     */
-    isEventLive(eventDate) {
-        if (!eventDate) return true; // Include events with no date
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        return eventDate >= today;
-    }
-
-    /**
-     * Remove duplicate events by title and date
-     * @param {Array} events - Array of events
-     * @returns {Array} Deduplicated events
-     */
-    removeDuplicates(events) {
-        const seen = new Set();
-        return events.filter(event => {
-            const key = `${event.title}-${event.date ? event.date.toDaeventDateText() : 'no-date'}`;
-            if (seen.has(key)) {
-                return false;
-            }
-            seen.add(key);
-            return true;
-        };
-    }
-
-    /**
-     * Main scraping method
-     * @returns {Array} Array of events
-     */
-    async scrapeEvents() {
-        try {
-            console.log(`🎭 Scraping events from ${this.source}...`);
-
-            const response = await axios.get(this.eventsUrl, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                },
-                timeout: 30000
-            };
-
+            
+            const response = await axios.get('https://www.jubileeauditorium.com/calgary/whats-on');
             const $ = cheerio.load(response.data);
             const events = [];
 
-            // Look for common event selectors
-            const eventSelectors = [
-                '.event',
-                '.event-item',
-                '.event-card',
-                '.show',
-                '.show-item',
-                '.show-card',
-                '.performance',
-                '.production',
-                '.concert',
-                '.listing',
-                '.card',
-                '.post',
-                '.event-listing',
-                '.show-listing'
-            ];
+            $('a[href*="/calgary/"]').each((index, element) => {
+                const $element = $(element);
+                const title = $element.text().trim();
+                const link = $element.attr('href');
 
-            let eventElements = $();
-            for (const selector of eventSelectors) {
-                const elements = $(selector);
-                if (elements.length > 0) {
-                    eventElements = elements;
-                    console.log(`✅ Found ${elements.length} events using selector: ${selector}`);
+                
+                // Extract description
+                const description = $element.text().trim() || $element.closest('div').text().trim() || '';
+
+                if (title && title.length > 5 && !title.toLowerCase().includes('details') && !title.toLowerCase().includes('tickets') && !title.toLowerCase().includes('menu')) {
+                    
+          // COMPREHENSIVE DATE EXTRACTION - Works with most event websites
+          let dateText = null;
+          
+          // Try multiple strategies to find the date
+          const dateSelectors = [
+            'time[datetime]',
+            '[datetime]',
+            '.date',
+            '.event-date', 
+            '.show-date',
+            '[class*="date"]',
+            'time',
+            '.datetime',
+            '.when',
+            '[itemprop="startDate"]',
+            '[data-date]',
+            '.day',
+            '.event-time',
+            '.schedule',
+            'meta[property="event:start_time"]'
+          ];
+          
+          // Strategy 1: Look in the event element itself
+          for (const selector of dateSelectors) {
+            const dateEl = $element.find(selector).first();
+            if (dateEl.length > 0) {
+              dateText = dateEl.attr('datetime') || dateEl.attr('content') || dateEl.text().trim();
+              if (dateText && dateText.length > 0 && dateText.length < 100) {
+                console.log(`✓ Found date with ${selector}: ${dateText}`);
+                break;
+              }
+            }
+          }
+          
+          // Strategy 2: Check parent containers if not found
+          if (!dateText) {
+            const $parent = $element.closest('.event, .event-item, .show, article, [class*="event"], .card, .listing');
+            if ($parent.length > 0) {
+              for (const selector of dateSelectors) {
+                const dateEl = $parent.find(selector).first();
+                if (dateEl.length > 0) {
+                  dateText = dateEl.attr('datetime') || dateEl.attr('content') || dateEl.text().trim();
+                  if (dateText && dateText.length > 0 && dateText.length < 100) {
+                    console.log(`✓ Found date in parent with ${selector}: ${dateText}`);
                     break;
+                  }
                 }
+              }
             }
-
-            if (eventElements.length === 0) {
-                console.log('⚠️  No events found with standard selectors, trying alternative approach...');
-
-                // Try finding events by looking for elements with theatre content
-                eventElements = $('[class*="event"], [class*="show"], [class*="performance"]').filter(function() {
-                    const text = $(this).text().toLowerCase();
-                    return text.includes('show') || text.includes('performance') || text.includes('musical') ||
-                           text.includes('concert') || text.includes('event') || text.includes('theatre');
-                };
+          }
+          
+          // Strategy 3: Look for common date patterns in nearby text
+          if (!dateText) {
+            const nearbyText = $element.parent().text();
+            // Match patterns like "Nov 4", "November 4", "11/04/2025", etc.
+            const datePatterns = [
+              /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(,?\s+\d{4})?/i,
+              /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/,
+              /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i
+            ];
+            
+            for (const pattern of datePatterns) {
+              const match = nearbyText.match(pattern);
+              if (match) {
+                dateText = match[0].trim();
+                console.log(`✓ Found date via pattern matching: ${dateText}`);
+                break;
+              }
             }
+          }
+          
+          // Clean up the date text
+          if (dateText) {
+            dateText = dateText.replace(/\s+/g, ' ').trim();
+            // Remove common prefixes
+            dateText = dateText.replace(/^(Date:|When:|Time:)\s*/i, '');
+            // Validate it's not garbage
+            if (dateText.length < 5 || dateText.length > 100) {
+              console.log(`⚠️  Invalid date text (too short/long): ${dateText}`);
+              dateText = null;
+            }
+          }
 
-            console.log(`📅 Processing ${eventElements.length} potential events...`);
-
-            // Process each event
-            eventElements.each((index, element) => {
-                try {
-                    const eventData = this.extractEventDetails($, element);
-                    if (eventData && eventData.title && eventData.title.length > 3) {
-                        events.push(eventData);
-                        console.log(`✅ Extracted: ${eventData.title}`);
-                    }
-                } catch (error) {
-                    console.log(`❌ Error extracting event ${index + 1}:`, error.message);
+          events.push({
+                        id: uuidv4(),
+                        title,
+                        date: 'Date TBA',
+                        time: null,
+                        url: link ? (link.startsWith('http') ? link : 'https://www.jubileeauditorium.com' + link) : 'https://www.jubileeauditorium.com/calgary/whats-on',
+                        venue: { name: 'Jubilee Auditorium', address: '1415 14 Avenue NW, Calgary, AB T2N 1M5', city: 'Calgary' },
+                        location: 'Calgary, AB',
+                        description: description && description.length > 20 ? description : `${title} in Calgary`,
+                        image: null
+                    });
                 }
-            };
+            });
 
-            // Remove duplicates
-            const uniqueEvents = this.removeDuplicates(events);
-
-            // Filter for live events
-            const liveEvents = uniqueEvents.filter(event => this.isEventLive(event.date));
-
-            console.log(`🎉 Successfully scraped ${liveEvents.length} unique events from ${this.source}`);
-            return liveEvents;
-
+            console.log(`Found ${events.length} total events from Jubilee Auditorium`);
+            return filterEvents(events);
         } catch (error) {
-            console.error(`❌ Error scraping events from ${this.source}:`, error.message);
+            console.error('Error scraping Jubilee Auditorium events:', error.message);
             return [];
         }
     }
-}
-
-module.exports = JubileeAuditoriumEvents;
-
-// Test runner
-if (require.main === module) {
-    async function testScraper() {
-  const city = city;
-  if (!city) {
-    console.error('❌ City argument is required. e.g. node scrape-jubilee-auditorium.js Toronto');
-    process.exit(1);
-  }
-        const scraper = new JubileeAuditoriumEvents();
-        const events = await scraper.scrapeEvents();
-        console.log('\n' + '='.repeat(50));
-        console.log('JUBILEE AUDITORIUM TEST RESULTS');
-        console.log('='.repeat(50));
-        console.log(`Found ${events.length} events`);
-
-        events.slice(0, 3).forEach((event, index) => {
-            console.log(`\n${index + 1}. ${event.title}`);
-            console.log(`   Date: ${event.date ? event.date.toDaeventDateText() : 'TBD'}`);
-            console.log(`   Category: ${event.category}`);
-            console.log(`   Venue: ${event.venue.name}`);
-            if (event.url) console.log(`   URL: ${event.url}`);
-        };
-    }
-
-    testScraper();
-}
-
-
-// Function export wrapper added by targeted fixer
-module.exports = async (city) => {
-    const scraper = new JubileeAuditoriumEvents();
-    if (typeof scraper.scrape === 'function') {
-        return await scraper.scrape(city);
-    } else {
-        throw new Error('No scrape method found in JubileeAuditoriumEvents');
-    }
 };
+
+module.exports = JubileeAuditoriumEvents.scrape;

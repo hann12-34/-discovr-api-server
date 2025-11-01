@@ -202,9 +202,16 @@ router.get('/events/all', async (req, res) => {
     // Build minimal query - NO FILTERING BY DEFAULT
     let query = {};
     
-    // City filtering ONLY if explicitly requested (case insensitive)
+    // Enhanced Vancouver city filtering (case insensitive)
     if (city && city !== 'all') {
-      query['venue.city'] = { $regex: city, $options: 'i' };
+      // Support multiple Vancouver city variants
+      if (city.toLowerCase().includes('vancouver')) {
+        query['venue.city'] = { 
+          $regex: /^(Vancouver|Vancouver BC|North Vancouver|West Vancouver|Burnaby|Richmond)$/i 
+        };
+      } else {
+        query['venue.city'] = { $regex: city, $options: 'i' };
+      }
     }
     
     // Category filtering ONLY if explicitly requested
@@ -212,16 +219,32 @@ router.get('/events/all', async (req, res) => {
       query.category = { $regex: category, $options: 'i' };
     }
     
-    // NO LIMIT, NO DATE FILTERING - Get ALL events + FILTER OUT NULL EVENTS AT QUERY LEVEL
+    // Enhanced filtering to exclude synthetic/placeholder events
     let events = await Event.find({
       ...query,
       _id: { $ne: null }, // Exclude null _id
       id: { $ne: null, $exists: true }, // Exclude null id
-      title: { $ne: null, $exists: true }, // Exclude null title
-      venue: { $ne: null, $exists: true } // Exclude null venue
+      // QUALITY FILTER: Exclude synthetic/placeholder events, navigation elements, and generic categories
+      title: { 
+        $not: { 
+          $regex: /^(naOpen\.com|Web Site|TownshipPlumb|Plumber in Can|Our services inc|Submit a Googl|Web Site Hostin|You Choose|nsw|MISC|Sporting Event|Leasing.*|Views Navigation|Today$|Now$|Upcoming Events|Go to.*|Submit a|Sample|Test|Demo|Placeholder|Hello!|Reach Out|Legacy Related|Financial|HarrisonSpring|Camping Site|Camping$|VanierPark\.com|Park Site|Tourism$|Conservation P|BFC Saturday|Outdoor$|Museum$|Nightlife$|Festival$|\w+\.com$|^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$|^\w{1,15}$|^\w+\s\d+\s\d{4}\s@\s\d+:\d+\s(am|pm)|^June\s|^July\s|^August\s|^September\s|^October\s|^November\s|^December\s|^January\s|^February\s|^March\s|^April\s|^May\s)/, 
+          $options: 'i' 
+        },
+        $ne: null, 
+        $exists: true 
+      },
+      venue: { $ne: null, $exists: true }, // Exclude null venue
+      // Exclude events with placeholder venue names
+      'venue.name': { 
+        $not: { 
+          $regex: /^(Sample|Test|Placeholder|Demo|naOpen|nsw)/i 
+        },
+        $ne: null, 
+        $exists: true 
+      }
     })
       .sort({ startDate: 1 })
-      .lean(); // Return ALL events with no limit, NULL events excluded at query level
+      .lean(); // Return filtered events with quality control
     
     console.log('🔍 MONGODB QUERY COMPLETED - Found events:', events ? events.length : 'null');
     

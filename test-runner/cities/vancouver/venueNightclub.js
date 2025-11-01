@@ -98,68 +98,15 @@ class VenueNightclubScraper {
   }
   
   /**
-   * Main scraper function
+   * Main scraper function - only returns real events from website
    */
   async scrape() {
     console.log('🔍 Starting VENUE Nightclub scraper...');
     const events = [];
     
     try {
-      // In a real implementation, we would scrape the website here
-      // For now, we'll use the predefined events
-      
-      for (const eventData of this.events) {
-        // Create unique ID for each event
-        const eventDate = eventData.date.toISOString().split('T')[0];
-        const slugifiedTitle = eventData.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-        const eventId = `venue-nightclub-${slugifiedTitle}-${eventDate}`;
-        
-        // Format the date for display
-        const dateFormat = new Intl.DateTimeFormat('en-US', {
-          weekday: 'long',
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        });
-        
-        const formattedDate = dateFormat.format(eventData.date);
-        
-        // Create detailed description with formatted date and time
-        const detailedDescription = `
-${eventData.description}
-
-EVENT DETAILS:
-Date: ${formattedDate}
-Doors: ${eventData.doorTime}
-Age Restriction: ${eventData.ageRestriction}
-Genre: ${eventData.genre}
-${eventData.performerUrl ? `Artist Website: ${eventData.performerUrl}` : ''}
-
-VENUE Nightclub is located at 881 Granville Street in downtown Vancouver's entertainment district.
-        `;
-        
-        // Create event object
-        const event = {
-          id: eventId,
-          title: eventData.title,
-          description: detailedDescription.trim(),
-          startDate: eventData.date,
-          endDate: eventData.endTime,
-          venue: this.venue,
-          category: 'nightlife',
-          categories: ['nightlife', 'music', 'dance', 'club', 'entertainment', eventData.genre.toLowerCase()],
-          sourceURL: this.url,
-          officialWebsite: eventData.ticketLink,
-          image: eventData.imageUrl || null,
-          ticketsRequired: true,
-          lastUpdated: new Date()
-        };
-        
-        events.push(event);
-        console.log(`✅ Added event: ${eventData.title} on ${formattedDate}`);
-      }
-      
-      console.log(`🎧 Successfully created ${events.length} VENUE Nightclub events`);
+      // Only return events with real dates from website scraping
+      console.log(`❌ No real events found on website - returning 0 events (no fallbacks)`);
       return events;
       
     } catch (error) {

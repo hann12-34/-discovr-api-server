@@ -32,7 +32,7 @@ const WORKING_SCRAPERS = [
   'scrape-royal-alexandra-theatre-events-clean.js'
 ];
 
-const TORONTO_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_DIR = '/Users/seongwoohan/Desktop/discovr-api-server/scrapers/cities/Toronto';
 
 async function runWorkingTorontoScrapers() {
   console.log('🚀 RUNNING 18 WORKING TORONTO SCRAPERS');
