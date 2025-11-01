@@ -15,8 +15,8 @@ const EventSchema = new mongoose.Schema({
     state: String,
     country: String,
     coordinates: {
-      lat: Number,
-      lng: Number
+      latitude: Number,
+      longitude: Number
     }
   },
   category: { type: String, default: 'music' },
