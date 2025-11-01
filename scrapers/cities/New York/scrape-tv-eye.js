@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "TV Eye";
+const VENUE_ADDRESS = '313 Meserole St, Brooklyn, NY 11206';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { parseDateText } = require('../../utils/city-util');
@@ -32,7 +35,7 @@ async function scrapeEvents(city = 'New York') {
       
       events.push({
         title, date: parsedDate.startDate.toISOString(),
-        venue: { name: 'TV Eye', address: '309 Starr St, Brooklyn, NY 11237', city: 'New York' },
+        venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
         location: 'New York, NY', description: title, url: 'https://www.tveyenyc.com/', category: 'Events'
       });
     });

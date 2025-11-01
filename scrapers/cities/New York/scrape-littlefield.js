@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Littlefield";
+const VENUE_ADDRESS = '635 Sackett St, Brooklyn, NY 11217';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { parseDateText } = require('../../utils/city-util');
@@ -43,7 +46,7 @@ async function scrapeEvents(city = 'New York') {
       
       events.push({
         title, date: parsedDate.startDate.toISOString(),
-        venue: { name: 'Littlefield', address: '635 Sackett St, Brooklyn, NY 11217', city: 'New York' },
+        venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
         location: 'New York, NY', description: title, url: 'https://littlefieldnyc.com/', category: 'Events'
       });
     });

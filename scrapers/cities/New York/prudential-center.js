@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Prudential Center";
+const VENUE_ADDRESS = '25 Lafayette St, Newark, NJ 07102';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
@@ -57,7 +60,7 @@ async function scrapeEvents() {
                 events.push({
                     id: uuidv4(),
                     title: title,
-                    venue: { name: 'Prudential Center', address: '25 Lafayette Street, Newark, NJ 07102', city: 'New York' },
+                    venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
                     location: 'Newark, New Jersey (NYC Metro)',
                     date: dateText,
                     category: 'Sports/Entertainment',

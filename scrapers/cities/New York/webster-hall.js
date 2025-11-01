@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Webster Hall";
+const VENUE_ADDRESS = '125 E 11th St, New York, NY 10003';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
@@ -58,7 +61,7 @@ async function scrapeEvents() {
                 events.push({
                     id: uuidv4(),
                     title: title,
-                    venue: { name: 'Webster Hall', address: '125 East 11th Street, New York, NY 10003', city: 'New York' },
+                    venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
                     location: 'East Village, New York',
                     date: dateText,
                     category: 'Concert',

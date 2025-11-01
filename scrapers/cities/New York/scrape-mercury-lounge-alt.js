@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Mercury Lounge";
+const VENUE_ADDRESS = '217 E Houston St, New York, NY 10002';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { parseDateText } = require('../../utils/city-util');
@@ -22,7 +25,7 @@ async function scrapeEvents(city = 'New York') {
       if (!dateText || dateText.length < 4) return;
       const parsedDate = parseDateText(dateText);
       if (!parsedDate || !parsedDate.startDate) return;
-      events.push({ title, date: parsedDate.startDate.toISOString(), venue: { name: 'Mercury Lounge', address: '217 E Houston St New York NY 10002', city: 'New York' }, location: 'New York, NY', description: title, url: 'https://www.mercuryloungenyc.com/', category: 'Events' });
+      events.push({ title, date: parsedDate.startDate.toISOString(), venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' }, location: 'New York, NY', description: title, url: 'https://www.mercuryloungenyc.com/', category: 'Events' });
     });
     console.log(`   ✅ Extracted ${events.length} events`);
   } catch (error) { console.log(`   ⚠️  Error: ${error.message.substring(0, 50)}`); }

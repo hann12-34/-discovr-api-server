@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Terminal 5";
+const VENUE_ADDRESS = '610 W 56th St, New York, NY 10019';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
@@ -58,7 +61,7 @@ async function scrapeEvents() {
                 events.push({
                     id: uuidv4(),
                     title: title,
-                    venue: { name: 'Terminal 5', address: '610 W 56th Street, New York, NY 10019', city: 'New York' },
+                    venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
                     location: 'Hell\'s Kitchen, New York',
                     date: dateText,
                     category: 'Concert',

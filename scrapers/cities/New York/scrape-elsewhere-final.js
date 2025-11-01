@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Elsewhere";
+const VENUE_ADDRESS = '599 Johnson Ave, Brooklyn, NY 11237';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { parseDateText } = require('../../utils/city-util');
@@ -32,7 +35,7 @@ async function scrapeEvents(city = 'New York') {
       
       events.push({
         title, date: parsedDate.startDate.toISOString(),
-        venue: { name: 'Elsewhere', address: '599 Johnson Ave, Brooklyn, NY 11237', city: 'New York' },
+        venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
         location: 'New York, NY', description: title, url: 'https://www.elsewherebrooklyn.com/', category: 'Events'
       });
     });

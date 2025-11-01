@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Mercury Lounge";
+const VENUE_ADDRESS = '217 E Houston St, New York, NY 10002';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
@@ -56,7 +59,7 @@ async function scrapeEvents() {
                 events.push({
                     id: uuidv4(),
                     title: title,
-                    venue: { name: 'Mercury Lounge', address: '217 East Houston Street, New York, NY 10002', city: 'New York' },
+                    venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
                     location: 'Lower East Side, New York',
                     date: dateText,
                     category: 'Concert',

@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "The Cutting Room";
+const VENUE_ADDRESS = '44 E 32nd St, New York, NY 10016';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { parseDateText } = require('../../utils/city-util');
@@ -32,7 +35,7 @@ async function scrapeEvents(city = 'New York') {
       
       events.push({
         title, date: parsedDate.startDate.toISOString(),
-        venue: { name: 'The Cutting Room', address: '44 E 32nd St, New York, NY 10016', city: 'New York' },
+        venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
         location: 'New York, NY', description: title, url: 'https://thecuttingroomnyc.com/', category: 'Events'
       });
     });

@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Brooklyn Steel";
+const VENUE_ADDRESS = '319 Frost St, Brooklyn, NY 11222';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { parseDateText } = require('../../utils/city-util');
@@ -32,7 +35,7 @@ async function scrapeEvents(city = 'New York') {
       
       events.push({
         title, date: parsedDate.startDate.toISOString(),
-        venue: { name: 'Brooklyn Steel', address: '319 Frost St Brooklyn NY 11222', city: 'New York' },
+        venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
         location: 'New York, NY', description: title, url: 'https://www.brooklynsteel.com/events', category: 'Events'
       });
     });

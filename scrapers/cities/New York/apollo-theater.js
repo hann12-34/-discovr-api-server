@@ -1,4 +1,7 @@
 const { filterEvents } = require('../../utils/eventFilter');
+
+const VENUE_NAME = "Apollo Theater";
+const VENUE_ADDRESS = '253 W 125th St, New York, NY 10027';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { parseDateText } = require('../../utils/city-util');
@@ -102,7 +105,7 @@ async function scrapeEvents(city = 'New York') {
       events.push({
         title,
         date: parsedDate.startDate.toISOString(),
-        venue: { name: 'Apollo Theater', address: '253 W 125th St, New York, NY 10027', city: 'New York' },
+        venue: { name: VENUE_NAME, address: VENUE_ADDRESS, city: 'New York' },
         location: 'New York, NY',
         description: title,
         url: fullUrl,
