@@ -390,13 +390,29 @@ async function startServer() {
               normalizedVenue.name = event.venue.name || 'Unknown Venue';
               normalizedVenue.id = event.venue.id || null;
 
-              if (typeof event.venue.location === 'string') {
+              // Handle address
+              if (event.venue.address && typeof event.venue.address === 'string') {
+                normalizedVenue.location.address = event.venue.address;
+              } else if (typeof event.venue.location === 'string') {
                 normalizedVenue.location.address = event.venue.location;
               } else if (typeof event.venue.location === 'object' && event.venue.location !== null) {
                 normalizedVenue.location.address = event.venue.location.address || 'Unknown Address';
+              }
+
+              // Handle coordinates - check both formats
+              // Format 1: venue.location.coordinates (array)
+              if (event.venue.location && Array.isArray(event.venue.location.coordinates)) {
                 let coords = event.venue.location.coordinates;
-                if (Array.isArray(coords) && coords.length === 2 && typeof coords[0] === 'number' && typeof coords[1] === 'number') {
+                if (coords.length === 2 && typeof coords[0] === 'number' && typeof coords[1] === 'number') {
                   normalizedVenue.location.coordinates = coords;
+                }
+              }
+              // Format 2: venue.coordinates.latitude/longitude (object)
+              else if (event.venue.coordinates && typeof event.venue.coordinates === 'object') {
+                const lat = event.venue.coordinates.latitude;
+                const lng = event.venue.coordinates.longitude;
+                if (typeof lat === 'number' && typeof lng === 'number') {
+                  normalizedVenue.location.coordinates = [lat, lng];
                 }
               }
             }
