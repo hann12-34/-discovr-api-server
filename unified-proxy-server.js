@@ -229,6 +229,28 @@ async function connectToMongoDB() {
         console.log(`✅ DELETED ${result.deletedCount} events with malformed dates`);
       }
 
+      // 5. Remove events with garbage date values
+      const garbageDates = await eventsCollection.countDocuments({
+        $or: [
+          { date: 'Today' },
+          { date: 'On now' },
+          { date: { $regex: /^Subscribe/, $options: 'i' } },
+          { date: { $lt: '2024-01-01' } } // Remove old events before 2024
+        ]
+      });
+      if (garbageDates > 0) {
+        console.log(`🧹 STEP 5: Found ${garbageDates} events with garbage/old dates`);
+        const result = await eventsCollection.deleteMany({
+          $or: [
+            { date: 'Today' },
+            { date: 'On now' },
+            { date: { $regex: /^Subscribe/, $options: 'i' } },
+            { date: { $lt: '2024-01-01' } }
+          ]
+        });
+        console.log(`✅ DELETED ${result.deletedCount} events with garbage dates`);
+      }
+
       const finalCount = await eventsCollection.countDocuments();
       console.log(`📊 Database now has ${finalCount} clean events`);
       console.log('✅ AUTO-CLEANUP COMPLETE!');
