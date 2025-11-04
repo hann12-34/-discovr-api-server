@@ -704,8 +704,32 @@ async function startServer() {
         
         console.log(`Filtered from ${allEvents.length} to ${filteredEvents.length} events (removed ${allEvents.length - filteredEvents.length} navigation elements)`);
         
+        // NORMALIZE DATES: Add year to dates missing it
+        const currentYear = new Date().getFullYear();
+        const normalizedEvents = filteredEvents.map(event => {
+          if (event.date && typeof event.date === 'string') {
+            // Check if date is missing year (e.g., "November 26" or "Sept 20")
+            if (!/\d{4}/.test(event.date)) {
+              // Add current year or next year if month has passed
+              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+              const currentMonth = new Date().getMonth();
+              const dateLower = event.date.toLowerCase();
+              
+              // Find month in date string
+              const monthIndex = months.findIndex(m => dateLower.includes(m));
+              
+              if (monthIndex !== -1) {
+                // If event month has passed, assume next year
+                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+                event.date = `${event.date}, ${year}`;
+              }
+            }
+          }
+          return event;
+        });
+        
         // Format response in the structure expected by the admin dashboard
-        res.status(200).json({ events: filteredEvents });
+        res.status(200).json({ events: normalizedEvents });
       } catch (err) {
         console.error('Error fetching events for admin UI:', err);
         res.status(500).json({ error: 'Failed to fetch events' });
