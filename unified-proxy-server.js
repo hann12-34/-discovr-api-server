@@ -173,6 +173,22 @@ async function connectToMongoDB() {
     const eventsCount = await eventsCollection.countDocuments();
     console.log(`📊 Found ${eventsCount} events in cloud database`);
 
+    // AUTO-CLEANUP: Remove events without 'id' field
+    try {
+      const missingIdCount = await eventsCollection.countDocuments({ id: { $exists: false } });
+      if (missingIdCount > 0) {
+        console.log(`🧹 CLEANING DATABASE: Found ${missingIdCount} events without 'id' field`);
+        const result = await eventsCollection.deleteMany({ id: { $exists: false } });
+        console.log(`✅ DELETED ${result.deletedCount} events without 'id' field`);
+        const remaining = await eventsCollection.countDocuments();
+        console.log(`📊 Database now has ${remaining} clean events`);
+      } else {
+        console.log('✅ All events have id field - database is clean');
+      }
+    } catch (cleanupError) {
+      console.error('⚠️ Error during auto-cleanup:', cleanupError.message);
+    }
+
     return { 
       cloud: eventsCollection, // This is the correct name used throughout the code
       events: eventsCollection, // Adding an alias for clarity
