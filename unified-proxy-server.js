@@ -173,18 +173,53 @@ async function connectToMongoDB() {
     const eventsCount = await eventsCollection.countDocuments();
     console.log(`📊 Found ${eventsCount} events in cloud database`);
 
-    // AUTO-CLEANUP: Remove events without 'id' field
+    // AUTO-CLEANUP: Remove events with bad data
     try {
+      // 1. Remove events without 'id' field
       const missingIdCount = await eventsCollection.countDocuments({ id: { $exists: false } });
       if (missingIdCount > 0) {
-        console.log(`🧹 CLEANING DATABASE: Found ${missingIdCount} events without 'id' field`);
+        console.log(`🧹 STEP 1: Found ${missingIdCount} events without 'id' field`);
         const result = await eventsCollection.deleteMany({ id: { $exists: false } });
         console.log(`✅ DELETED ${result.deletedCount} events without 'id' field`);
-        const remaining = await eventsCollection.countDocuments();
-        console.log(`📊 Database now has ${remaining} clean events`);
-      } else {
-        console.log('✅ All events have id field - database is clean');
       }
+
+      // 2. Remove events where date is an array (invalid)
+      const arrayDateCount = await eventsCollection.countDocuments({ date: { $type: 'array' } });
+      if (arrayDateCount > 0) {
+        console.log(`🧹 STEP 2: Found ${arrayDateCount} events with ARRAY dates`);
+        const result = await eventsCollection.deleteMany({ date: { $type: 'array' } });
+        console.log(`✅ DELETED ${result.deletedCount} events with array dates`);
+      }
+
+      // 3. Remove events with NULL or missing critical fields
+      const invalidEvents = await eventsCollection.countDocuments({
+        $or: [
+          { title: { $exists: false } },
+          { title: null },
+          { title: '' },
+          { url: { $exists: false } },
+          { url: null },
+          { url: '' }
+        ]
+      });
+      if (invalidEvents > 0) {
+        console.log(`🧹 STEP 3: Found ${invalidEvents} events with missing title/url`);
+        const result = await eventsCollection.deleteMany({
+          $or: [
+            { title: { $exists: false } },
+            { title: null },
+            { title: '' },
+            { url: { $exists: false } },
+            { url: null },
+            { url: '' }
+          ]
+        });
+        console.log(`✅ DELETED ${result.deletedCount} invalid events`);
+      }
+
+      const finalCount = await eventsCollection.countDocuments();
+      console.log(`📊 Database now has ${finalCount} clean events`);
+      console.log('✅ AUTO-CLEANUP COMPLETE!');
     } catch (cleanupError) {
       console.error('⚠️ Error during auto-cleanup:', cleanupError.message);
     }
