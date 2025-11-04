@@ -677,26 +677,38 @@ async function startServer() {
           
           const lowerTitle = title.toLowerCase();
           
-          // Only block clear navigation/admin elements - be much more selective
-          // REMOVED 'nightlife' from blocked terms - it's a legitimate event category
-          const navigationElements = [
-            'today', 'now', 'upcoming events', 'views navigation', 'leasing', 'go to',
-            'explore art', 'explore artists', 'explore buildings', 'festival info', 'faq',
-            'crawl map', 'getting around', 'accessibility', 'program guide', 'about us',
-            'media & press', 'contact us', 'support us', 'ways to donate', 'be a partner',
-            'volunteer', 'community affiliates', 'donate', 'artist login', 'members play',
-            'become a member', 'visit cag', 'plan your visit', 'explore the cag archive'
+          // Block navigation and junk titles
+          const junkPatterns = [
+            /download for (ios|android)/i,
+            /about the show/i,
+            /get (e)?club tickets/i,
+            /word to your mother/i,
+            /odds & ends/i,
+            /cue ['"]wedding/i,
+            /^starts /i,
+            /adjusted hours/i,
+            /^upcoming events$/i,
+            /^today$/i,
+            /^now$/i,
+            /views navigation/i,
+            /explore art/i,
+            /festival info/i,
+            /program guide/i,
+            /^about us$/i,
+            /contact us/i,
+            /donate/i,
+            /become a member/i,
+            /^(mon|tue|wed|thu|fri|sat|sun)$/i,
+            /weekly events/i,
+            /club weeklies/i,
+            /what to do/i,
+            /for you$/i,
+            /search$/i
           ];
           
-          // Block only if it's clearly a navigation element
-          if (navigationElements.some(nav => 
-            lowerTitle === nav || 
-            lowerTitle.startsWith(nav + ' ') ||
-            (lowerTitle.includes(nav) && lowerTitle.length < 50) // Short titles containing nav terms
-          )) return false;
-          
-          // Block very short generic words (likely navigation)
-          if (/^(mon|tue|wed|thu|fri|sat|sun)$/i.test(title)) return false;
+          if (junkPatterns.some(pattern => pattern.test(title))) {
+            return false;
+          }
           
           // Otherwise, keep the event (much more permissive)
           return true;
@@ -715,26 +727,46 @@ async function startServer() {
             }
             
             try {
-              // Add year if missing
-              let dateWithYear = dateStr;
-              if (!/\d{4}/.test(dateStr)) {
+              let dateToConvert = dateStr;
+              
+              // Handle date RANGES - extract start date only
+              if (dateStr.includes(' - ')) {
+                // "Nov 25 - 30, 2025" -> "Nov 25, 2025"
+                // "January 19, 2025 - November 2, 2025" -> "January 19, 2025"
+                const parts = dateStr.split(' - ');
+                if (parts.length === 2) {
+                  const startPart = parts[0].trim();
+                  const endPart = parts[1].trim();
+                  
+                  // If start part has year, use it
+                  if (/\d{4}/.test(startPart)) {
+                    dateToConvert = startPart;
+                  } else if (/\d{4}/.test(endPart)) {
+                    // Extract year from end part and add to start
+                    const yearMatch = endPart.match(/\d{4}/);
+                    if (yearMatch) {
+                      dateToConvert = `${startPart}, ${yearMatch[0]}`;
+                    }
+                  }
+                }
+              }
+              
+              // Add year if still missing
+              if (!/\d{4}/.test(dateToConvert)) {
                 const currentYear = new Date().getFullYear();
                 const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
                 const currentMonth = new Date().getMonth();
-                const dateLower = dateStr.toLowerCase();
+                const dateLower = dateToConvert.toLowerCase();
                 
-                // Find month in date string
                 const monthIndex = months.findIndex(m => dateLower.includes(m));
-                
                 if (monthIndex !== -1) {
-                  // If event month has passed, use next year
                   const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                  dateWithYear = `${dateStr}, ${year}`;
+                  dateToConvert = `${dateToConvert}, ${year}`;
                 }
               }
               
               // Parse to Date object
-              const parsed = new Date(dateWithYear);
+              const parsed = new Date(dateToConvert);
               
               // Convert to ISO format if valid
               if (!isNaN(parsed.getTime())) {
