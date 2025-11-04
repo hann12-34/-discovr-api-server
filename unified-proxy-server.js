@@ -727,13 +727,15 @@ async function startServer() {
             }
             
             try {
-              let dateToConvert = dateStr;
+              // CRITICAL: Strip ordinal suffixes (st, nd, rd, th) that break Date parsing
+              // "Nov 15th" -> "Nov 15", "Dec 9th" -> "Dec 9"
+              let dateToConvert = dateStr.replace(/(\d+)(st|nd|rd|th)/gi, '$1');
               
               // Handle date RANGES - extract start date only
-              if (dateStr.includes(' - ')) {
+              if (dateToConvert.includes(' - ')) {
                 // "Nov 25 - 30, 2025" -> "Nov 25, 2025"
                 // "January 19, 2025 - November 2, 2025" -> "January 19, 2025"
-                const parts = dateStr.split(' - ');
+                const parts = dateToConvert.split(' - ');
                 if (parts.length === 2) {
                   const startPart = parts[0].trim();
                   const endPart = parts[1].trim();
