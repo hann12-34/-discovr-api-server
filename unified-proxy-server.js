@@ -217,6 +217,18 @@ async function connectToMongoDB() {
         console.log(`✅ DELETED ${result.deletedCount} invalid events`);
       }
 
+      // 4. Remove events with dates containing newlines (malformed)
+      const malformedDates = await eventsCollection.countDocuments({ 
+        date: { $regex: /\n/, $options: 'i' } 
+      });
+      if (malformedDates > 0) {
+        console.log(`🧹 STEP 4: Found ${malformedDates} events with newlines in dates`);
+        const result = await eventsCollection.deleteMany({ 
+          date: { $regex: /\n/, $options: 'i' } 
+        });
+        console.log(`✅ DELETED ${result.deletedCount} events with malformed dates`);
+      }
+
       const finalCount = await eventsCollection.countDocuments();
       console.log(`📊 Database now has ${finalCount} clean events`);
       console.log('✅ AUTO-CLEANUP COMPLETE!');

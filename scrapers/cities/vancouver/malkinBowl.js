@@ -86,7 +86,12 @@ const MalkinBowlEvents = {
           let dateText = null;
           const dateEl = $container.find('.event-date, .eventlist-meta-date, time, [class*="date"]').first();
           if (dateEl.length) {
-            dateText = dateEl.text().trim();
+            // CRITICAL: Clean up whitespace, newlines, and extra spaces
+            dateText = dateEl.text()
+              .replace(/\n/g, ' ')           // Replace newlines with spaces
+              .replace(/\s+/g, ' ')          // Collapse multiple spaces
+              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '') // Remove duplicate times like "6:00 PM18:00"
+              .trim();
           }
           
           events.push({
