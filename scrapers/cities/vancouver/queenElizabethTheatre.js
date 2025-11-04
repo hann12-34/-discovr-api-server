@@ -161,6 +161,29 @@ const QueenElizabethTheatreEvents = {
             }
           }
 
+          if (eventDate) {
+            eventDate = eventDate
+              .replace(/\n/g, ' ')
+              .replace(/\s+/g, ' ')
+              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
+              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
+              .trim();
+            
+            if (!/\d{4}/.test(eventDate)) {
+              const currentYear = new Date().getFullYear();
+              const currentMonth = new Date().getMonth();
+              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+              const dateLower = eventDate.toLowerCase();
+              const monthIndex = months.findIndex(m => dateLower.includes(m));
+              if (monthIndex !== -1) {
+                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+                eventDate = `${eventDate}, ${year}`;
+              } else {
+                eventDate = `${eventDate}, ${currentYear}`;
+              }
+            }
+          }
+
           events.push({
           id: uuidv4(),
           title: title,
@@ -209,6 +232,29 @@ const QueenElizabethTheatreEvents = {
         seenUrls.add(normalizedUrl);
         // Only log valid events (junk will be filtered out)
         
+        if (eventDate) {
+          eventDate = eventDate
+            .replace(/\n/g, ' ')
+            .replace(/\s+/g, ' ')
+            .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
+            .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
+            .trim();
+          
+          if (!/\d{4}/.test(eventDate)) {
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth();
+            const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+            const dateLower = eventDate.toLowerCase();
+            const monthIndex = months.findIndex(m => dateLower.includes(m));
+            if (monthIndex !== -1) {
+              const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+              eventDate = `${eventDate}, ${year}`;
+            } else {
+              eventDate = `${eventDate}, ${currentYear}`;
+            }
+          }
+        }
+
         events.push({
           id: uuidv4(),
           title: title,
