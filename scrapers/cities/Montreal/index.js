@@ -9,16 +9,18 @@ class MontrealScrapers {
         this.province = 'QC';
         this.sourceIdentifier = 'Montreal';
         
-        // RECONSTRUCTED MONTREAL SCRAPERS - VERIFIED WORKING (9 SCRAPERS)
-        const scrapeCasaDelPopolo = require('./scrape-casa-del-popolo');
+        // RECONSTRUCTED MONTREAL SCRAPERS - VERIFIED WORKING (11 SCRAPERS)
+        const scrapeCasaDelPopolo = require('./scrape-casa-del-popolo-real');
         const scrapeComedyNest = require('./scrape-comedy-nest');
         const scrapeMutekFestival = require('./scrape-mutek-festival');
         const scrapeLastral = require('./scrape-lastral');
         const scrapeCentaurTheatre = require('./scrape-centaur-theatre');
-        const scrapeTheatreStDenis = require('./scrape-theatre-st-denis');
-        const scrapeMonumentNational = require('./scrape-monument-national');
-        const scrapePhiCentre = require('./scrape-phi-centre');
-        const scrapeCoronaTheatre = require('./scrape-corona-theatre');
+        const scrapeTheatreStDenis = require('./scrape-theatre-st-denis-real');
+        const scrapeMonumentNational = require('./scrape-monument-national-real');
+        const scrapePhiCentre = require('./scrape-phi-centre-real');
+        const scrapeCoronaTheatre = require('./scrape-corona-theatre-real');
+        const scrapeBarLeRitzPDB = require('./scrape-bar-le-ritz-pdb-nightlife');
+        const scrapePlaceDesArts = require('./scrape-place-des-arts-real');
         
         const allScrapers = [
             scrapeCasaDelPopolo,
@@ -29,7 +31,9 @@ class MontrealScrapers {
             scrapeTheatreStDenis,
             scrapeMonumentNational,
             scrapePhiCentre,
-            scrapeCoronaTheatre
+            scrapeCoronaTheatre,
+            scrapeBarLeRitzPDB,
+            scrapePlaceDesArts
         ];
 
         this.scrapers = scrapersToRun || allScrapers;

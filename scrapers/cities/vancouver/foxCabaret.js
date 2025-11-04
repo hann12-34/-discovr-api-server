@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const FoxCabaretEvents = {
   async scrape(city) {
@@ -71,7 +72,7 @@ const FoxCabaretEvents = {
       });
       
       console.log(`\n✅ Found ${events.length} Fox Cabaret events`);
-      return events;
+      return filterEvents(events);
       
     } catch (error) {
       console.error('Error:', error.message);

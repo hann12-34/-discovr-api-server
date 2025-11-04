@@ -56,8 +56,7 @@ const WhistlerFilmFestivalEvents = {
         events.push({
           id: uuidv4(),
           title: title,
-          date: 'Date TBA'  // TODO: Add date extraction logic,
-          time: null,
+          date: null,  // TODO: Add date extraction logic
           url: eventUrl,
           venue: { name: 'Whistler Film Festival', address: 'Vancouver', city: 'Vancouver' },
           location: 'Whistler, BC',

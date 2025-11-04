@@ -6,6 +6,7 @@
 
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const FortuneSoundClubEvents = {
   async scrape(city) {

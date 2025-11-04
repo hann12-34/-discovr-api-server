@@ -12,10 +12,6 @@ const { filterEvents } = require('../../utils/eventFilter');
 const QueenElizabethTheatreEvents = {
   async scrape(city) {
     console.log('🔍 Scraping events from Queen Elizabeth Theatre...');
-    
-    // Note: Connection issues to vancouvercivictheatres.com, returning empty array
-    console.log('⚠️ Vancouver Civic Theatres site connection issues - returning empty array');
-    return [];
 
     try {
       const response = await axios.get('https://vancouvercivictheatres.com/', {
@@ -168,8 +164,7 @@ const QueenElizabethTheatreEvents = {
           events.push({
           id: uuidv4(),
           title: title,
-          date: 'Date TBA'  // TODO: Add date extraction logic,
-          time: null,
+          date: null,  // TODO: Add date extraction logic
           url: eventUrl,
           venue: { name: 'Queen Elizabeth Theatre', address: '630 Hamilton Street, Vancouver, BC V6B 5N6', city: 'Vancouver' },
           location: 'Vancouver, BC',
@@ -217,8 +212,7 @@ const QueenElizabethTheatreEvents = {
         events.push({
           id: uuidv4(),
           title: title,
-          date: 'Date TBA'  // TODO: Add date extraction logic,
-          time: null,
+          date: null,  // TODO: Add date extraction logic
           url: url,
           venue: { name: 'Queen Elizabeth Theatre', address: '630 Hamilton Street, Vancouver, BC V6B 5N6', city: 'Vancouver' },
           location: 'Vancouver, BC',

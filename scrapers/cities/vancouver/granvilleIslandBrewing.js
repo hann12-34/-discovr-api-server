@@ -157,7 +157,7 @@ const GranvilleIslandBrewingEvents = {
           let dateText = null;
           
           // Try multiple strategies to find the date
-          const dateSelectors = [
+          dateSelectors = [
             'time[datetime]',
             '[datetime]',
             '.date',

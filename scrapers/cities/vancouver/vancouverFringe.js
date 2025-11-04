@@ -29,69 +29,35 @@ const VancouverFringeEvents = {
       const events = [];
       const seenUrls = new Set();
 
-      const eventSelectors = [
-        'a[href*="/event/"]',
-        'a[href*="/events/"]',
-        'a[href*="/show/"]',
-        'a[href*="/shows/"]',
-        'a[href*="/performance/"]',
-        'a[href*="/performances/"]',
-        'a[href*="/theatre/"]',
-        'a[href*="/festival/"]',
-        '.event-item a',
-        '.show-item a',
-        '.performance-item a',
-        '.theatre-item a',
-        '.festival-item a',
-        '.listing a',
-        '.event-listing a',
-        '.show-listing a',
-        '.event-card a',
-        '.show-card a',
-        'h3 a',
-        'h2 a',
-        'h1 a',
-        '.event-title a',
-        '.show-title a',
-        '.performance-title a',
-        'article a',
-        '.event a',
-        '.show a',
-        '.performance a',
-        '.theatre a',
-        '.festival a',
-        'a[title]',
-        '[data-testid*="event"] a',
-        '[data-testid*="show"] a',
-        'a:contains("Show")',
-        'a:contains("Performance")',
-        'a:contains("Theatre")',
-        'a:contains("Festival")',
-        'a:contains("Event")',
-        'a:contains("Fringe")',
-        'a:contains("Play")',
-        'a:contains("Drama")'
-      ];
+      // Use only specific selectors to avoid duplicates
+      const eventSelectors = ['a[href*="/events/"]', 'a[href*="/fringe-presents/"]'];
 
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
+      // Collect unique URLs first
+      const allLinks = new Set();
+      eventSelectors.forEach(selector => {
+        $(selector).each((i, el) => {
+          const href = $(el).attr('href');
+          if (href) allLinks.add(href);
+        });
+      });
+
+      console.log(`Found ${allLinks.size} unique events from Vancouver Fringe`);
+
+      allLinks.forEach(href => {
+        let url = href;
+        
+        // Make URL absolute FIRST
+        if (url.startsWith('/')) {
+          url = 'https://www.vancouverfringe.com' + url;
         }
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
-
-          if (!title || !url) return;
-          if (seenUrls.has(url)) return;
-
-          if (url.startsWith('/')) {
-            url = 'https://www.vancouverfringe.com' + url;
-          }
+        // Skip if already seen
+        if (seenUrls.has(url)) return;
+        
+        const $element = $(`a[href="${href}"]`).first();
+        let title = $element.text().trim();
+        
+        if (!title || !url) return;
 
           const skipPatterns = [
             /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
@@ -205,7 +171,6 @@ const VancouverFringeEvents = {
             source: 'Vancouver Fringe Festival'
           });
         });
-      }
 
       console.log(`Found ${events.length} total events from Vancouver Fringe Festival`);
       const filtered = filterEvents(events);

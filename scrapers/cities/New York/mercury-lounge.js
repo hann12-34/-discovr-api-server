@@ -71,7 +71,7 @@ async function scrapeEvents() {
         });
 
         console.log(`✅ Mercury Lounge: Found ${events.length} events`);
-        return events.length > 0 ? events : [];
+        return filterEvents(events);
 
     } catch (error) {
         console.error(`❌ Mercury Lounge error: ${error.message}`);

@@ -173,6 +173,8 @@ const VancouverSymphonyEvents = {
             title: title,
             url: url,
             venue: { name: 'Vancouver Symphony Orchestra', address: 'Vancouver', city: 'Vancouver' },
+              city: "Vancouver",
+              source: "vancouver Symphony",
             city: city,
             date: dateText || null,
             source: 'Vancouver Symphony Orchestra'

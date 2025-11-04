@@ -151,8 +151,7 @@ const TheatreUnderTheStarsEvents = {
             events.push({
               id: uuidv4(),
               title: title,
-              date: 'Date TBA'  // TODO: Add date extraction logic,
-              time: null,
+              date: null,  // TODO: Add date extraction logic
               url: url,
               venue: { name: 'Theatre Under The Stars', address: 'Vancouver', city: 'Vancouver' },
               location: 'Stanley Park, Vancouver, BC',

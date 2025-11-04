@@ -70,7 +70,7 @@ async function scrapeEvents() {
         });
 
         console.log(`✅ Music Hall of Williamsburg: Found ${events.length} events`);
-        return events.length > 0 ? events : [];
+        return filterEvents(events);
 
     } catch (error) {
         console.error(`❌ Music Hall of Williamsburg error: ${error.message}`);

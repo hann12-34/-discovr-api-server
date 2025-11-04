@@ -111,7 +111,7 @@ const CalgaryZooEvents = {
           events.push({
                         id: uuidv4(),
                         title,
-                        date: dateText || 'Date TBA',
+                        date: dateText || null,
                         time: null,
                         url: link ? (link.startsWith('http') ? link : 'https://www.calgaryzoo.com' + link) : 'https://www.calgaryzoo.com/events/',
                         venue: { name: 'Calgary Zoo', address: '210 St George Dr NE Calgary AB T2E 7V6', city: 'Calgary' },

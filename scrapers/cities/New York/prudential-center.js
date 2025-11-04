@@ -72,7 +72,7 @@ async function scrapeEvents() {
         });
 
         console.log(`✅ Prudential Center: Found ${events.length} events`);
-        return events.length > 0 ? events : [];
+        return filterEvents(events);
 
     } catch (error) {
         console.error(`❌ Prudential Center error: ${error.message}`);

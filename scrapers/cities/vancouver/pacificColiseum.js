@@ -7,6 +7,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const PacificColiseumEvents = {
   async scrape(city) {
@@ -80,12 +81,42 @@ const PacificColiseumEvents = {
             if (title.toLowerCase().includes('coliseum') || url.toLowerCase().includes('coliseum') || title.toLowerCase().includes('concert') || title.toLowerCase().includes('show')) {
               seenUrls.add(url);
 
-              // Extract date information
-              let eventDate = null;
-              const dateText = $event.find('.date, .event-date, .show-date, time, .datetime, .when').first().text().trim();
-              if (dateText) {
-                eventDate = dateText;
+              
+            // SUPER COMPREHENSIVE date extraction
+            let eventDate = null;
+            
+            // Strategy 1: datetime attributes
+            const datetimeAttr = $event.find('[datetime]').first().attr('datetime');
+            if (datetimeAttr) eventDate = datetimeAttr;
+            
+            // Strategy 2: extensive selectors
+            if (!eventDate) {
+              const selectors = ['.date', '.event-date', '.show-date', 'time', '[class*="date"]', 
+                               '[data-date]', '.datetime', '.when', '[itemprop="startDate"]',
+                               '.performance-date', '[data-start-date]'];
+              for (const sel of selectors) {
+                const text = $event.find(sel).first().text().trim();
+                if (text && text.length >= 5 && text.length <= 100) {
+                  eventDate = text;
+                  break;
+                }
               }
+            }
+            
+            // Strategy 3: URL pattern
+            if (!eventDate && url) {
+              const urlMatch = url.match(/\/(\d{4})-(\d{2})-(\d{2})|\/(\d{4})\/(\d{2})\/(\d{2})/);
+              if (urlMatch) {
+                eventDate = urlMatch[1] ? `${urlMatch[1]}-${urlMatch[2]}-${urlMatch[3]}` : `${urlMatch[4]}-${urlMatch[5]}-${urlMatch[6]}`;
+              }
+            }
+            
+            // Strategy 4: text pattern
+            if (!eventDate) {
+              const text = $event.text() + ' ' + $event.parent().text();
+              const dateMatch = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{4})?/i);
+              if (dateMatch) eventDate = dateMatch[0];
+            }
 
               // Only log valid events (junk will be filtered out)
 
@@ -96,6 +127,8 @@ const PacificColiseumEvents = {
                 time: null,
                 url: url,
                 venue: { name: 'Pacific Coliseum', address: '100 North Renfrew Street, Vancouver, BC V5K 3N7', city: 'Vancouver' },
+              city: "Vancouver",
+              source: "pacific Coliseum",
                 location: 'Vancouver, BC',
                 description: null,
                 image: null
@@ -106,7 +139,7 @@ const PacificColiseumEvents = {
       }
 
       console.log(`Found ${events.length} total events from Pacific Coliseum`);
-      return events;
+      return filterEvents(events);
 
     } catch (error) {
       console.error('Error scraping Pacific Coliseum events:', error.message);

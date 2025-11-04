@@ -145,7 +145,7 @@ const RickshawTheatreEvents = {
           }
         });
 
-        return events;
+        return filterEvents(events);
       });
 
       console.log(`Found ${eventData.length} events from Rickshaw Theatre`);

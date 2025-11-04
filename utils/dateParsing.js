@@ -98,17 +98,10 @@ function parseEventDate(dateString, customLogger = null, venue = 'Unknown Venue'
       }
     }
 
-    // If we have a day number only, assume current month
-    const dayMatch = /\b(\d{1,2})\b/.exec(normalized);
-    if (dayMatch) {
-      try {
-        const now = new Date();
-        return new Date(now.getFullYear(), now.getMonth(), parseInt(dayMatch[1]));
-      } catch (error) {
-        logger.warn(`Day-only parsing failed: ${error.message}`);
-      }
-    }
-
+    // 🔥 REMOVED: DO NOT guess dates from day numbers alone!
+    // Just a number like "2" or "15" is NOT enough to create a valid date.
+    // Return null instead of guessing with today's month/year.
+    
     logger.debug(`No valid date format found in: "${dateString}"`);
     return null;
   } catch (error) {

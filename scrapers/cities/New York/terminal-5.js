@@ -73,7 +73,7 @@ async function scrapeEvents() {
         });
 
         console.log(`✅ Terminal 5: Found ${events.length} events`);
-        return events.length > 0 ? events : [];
+        return filterEvents(events);
 
     } catch (error) {
         console.error(`❌ Terminal 5 error: ${error.message}`);

@@ -138,6 +138,32 @@ async function vaticangiftshopEvents(city = 'Toronto') {
     }
   }
   
+  
+  // DEDUPLICATION: Track seen events
+  const seenEvents = new Set();
+  const dedupedEvents = [];
+  
+  for (const event of events) {
+    // Create unique key from title + date + venue
+    const key = `${event.title?.toLowerCase().trim()}|${event.date}|${event.venue?.name}`;
+    
+    if (!seenEvents.has(key)) {
+      seenEvents.add(key);
+      
+      // Additional junk filtering
+      const title = event.title || '';
+      if (title.length >= 10 &&  // Min length
+          !/^(tickets?|cancelled|buy|view|show|info|more|home|menu)$/i.test(title) &&  // Junk words
+          !/^\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(title) &&  // Date-only titles
+          event.date &&  // Must have date
+          event.date !== null) {  // No NULL
+        dedupedEvents.push(event);
+      }
+    }
+  }
+  
+  events = dedupedEvents;
+
   return filterEvents(events);
 }
 

@@ -29,57 +29,38 @@ const VancouversBestPlacesEvents = {
       const events = [];
       const seenUrls = new Set();
 
-      // Multiple selectors for different event layouts
-      const eventSelectors = [
-        '.event-item a',
-        '.event-card a',
-        '.event-listing a',
-        '.calendar-event a',
-        '.event a',
-        'article a',
-        '.post a',
-        '.listing a',
-        '.card a',
-        'h2 a',
-        'h3 a',
-        '.title a',
-        '.event-title a',
-        'a[href*="/event"]',
-        'a[href*="/events/"]',
-        'a[title]',
-        '[data-testid*="event"] a',
-        'a:contains("Event")',
-        'a:contains("Festival")',
-        'a:contains("Concert")',
-        'a:contains("Show")',
-        'a:contains("Performance")',
-        'a:contains("Exhibition")',
-        'a:contains("Market")',
-        'a:contains("Fair")'
-      ];
+      // Use article links and h3 links to avoid duplicates
+      const eventSelectors = ['article a', 'h3 a'];
 
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
+      // Collect unique URLs first
+      const allLinks = new Set();
+      eventSelectors.forEach(selector => {
+        $(selector).each((i, el) => {
+          const href = $(el).attr('href');
+          // Only add internal links
+          if (href && (href.startsWith('/') || href.includes('vancouversbestplaces.com'))) {
+            allLinks.add(href);
+          }
+        });
+      });
+
+      console.log(`Found ${allLinks.size} unique events from Vancouver's Best Places`);
+
+      allLinks.forEach(href => {
+        let url = href;
+        
+        // Make URL absolute FIRST
+        if (url.startsWith('/')) {
+          url = 'https://vancouversbestplaces.com' + url;
         }
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
-
-          if (!title || !url) return;
-
-          // Skip if we've already seen this URL
-          if (seenUrls.has(url)) return;
-
-          // Convert relative URLs to absolute
-          if (url.startsWith('/')) {
-            url = 'https://vancouversbestplaces.com' + url;
-          }
+        // Skip if already seen
+        if (seenUrls.has(url)) return;
+        
+        const $element = $(`a[href="${href}"]`).first();
+        let title = $element.text().trim();
+        
+        if (!title || !url) return;
 
           // Filter out navigation, social media, and promotional links
           const skipPatterns = [
@@ -184,13 +165,12 @@ const VancouversBestPlacesEvents = {
             id: uuidv4(),
             title: title,
             url: url,
-            venue: { name: 'Vancouver's Best Places', address: 'Various Locations, Vancouver, BC', city: 'Vancouver' },
+            venue: { name: "Vancouver's Best Places", address: 'Various Locations, Vancouver, BC', city: 'Vancouver' },
             city: 'Vancouver',
             date: dateText || null,
             source: "Vancouver's Best Places"
           });
         });
-      }
 
       console.log(`Found ${events.length} total events from Vancouver's Best Places`);
       const filtered = filterEvents(events);

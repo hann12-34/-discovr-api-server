@@ -7,6 +7,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const GranvilleIslandEvents = {
   async scrape(city) {
@@ -105,7 +106,7 @@ const GranvilleIslandEvents = {
       }
 
       console.log(`Found ${events.length} total events from Granville Island`);
-      return events;
+      return filterEvents(events);
 
     } catch (error) {
       console.error('Error scraping Granville Island events:', error.message);

@@ -29,65 +29,23 @@ const MalkinBowlEvents = {
       const events = [];
       const seenUrls = new Set();
 
-      // Multiple selectors to find event links
-      const eventSelectors = [
-        'a[href*="/event/"]',
-        'a[href*="/events/"]',
-        'a[href*="/show/"]',
-        'a[href*="/shows/"]',
-        'a[href*="/concert/"]',
-        'a[href*="/concerts/"]',
-        '.event-item a',
-        '.show-item a',
-        '.concert-item a',
-        '.listing a',
-        '.event-listing a',
-        '.show-listing a',
-        '.concert-listing a',
-        '.event-card a',
-        '.show-card a',
-        '.concert-card a',
-        'h3 a',
-        'h2 a',
-        'h1 a',
-        '.event-title a',
-        '.show-title a',
-        '.concert-title a',
-        '.artist-name a',
-        '.performer-name a',
-        'article a',
-        '.event a',
-        '.show a',
-        '.concert a',
-        'a[title]',
-        '[data-testid*="event"] a',
-        '[data-testid*="show"] a',
-        '[data-testid*="concert"] a',
-        'a:contains("Tour")',
-        'a:contains("Concert")',
-        'a:contains("Show")',
-        'a:contains("Live")',
-        'a:contains("Tickets")',
-        'a:contains("Buy")',
-        'a:contains("RSVP")',
-        'a:contains("Event")',
-        'a:contains("Performance")',
-        'a:contains("Music")',
-        'a:contains("Festival")'
-      ];
-
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
-        }
-
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
+      // Get event containers and take ONE link per container to avoid duplicates
+      const eventContainers = $('.eventlist-event');
+      
+      console.log(`Found ${eventContainers.length} events from Malkin Bowl`);
+      
+      eventContainers.each((index, container) => {
+        const $container = $(container);
+        // Get the first link from this event container
+        const $link = $container.find('a[href*="/upcoming/"]').filter((i, el) => {
+          const href = $(el).attr('href');
+          return href && href.match(/\/upcoming\/\d{4}\/\d{1,2}\/\d{1,2}/) && !href.includes('?format=');
+        }).first();
+        
+        if (!$link.length) return;
+        
+        let title = $container.find('.eventlist-title').text().trim();
+        let url = $link.attr('href');
 
           if (!title || !url) return;
 
@@ -124,12 +82,10 @@ const MalkinBowlEvents = {
 
           seenUrls.add(url);
 
-          // Only log valid events (junk will be filtered out)
-          // Extract date from surrounding context
+          // Extract date from the event container
           let dateText = null;
-          const $parent = $element.closest('.event-item, article, .event, .listing');
-          if ($parent.length > 0) {
-            const dateEl = $parent.find('.date, time, [class*="date"]').first();
+          const dateEl = $container.find('.event-date, .eventlist-meta-date, time, [class*="date"]').first();
+          if (dateEl.length) {
             dateText = dateEl.text().trim();
           }
           
@@ -143,12 +99,11 @@ const MalkinBowlEvents = {
               city: 'Vancouver' 
             },
             city: city,
-            date: dateText || 'Check website for dates',
+            date: dateText || null,
             source: 'Malkin Bowl',
             category: 'Concert'
           });
         });
-      }
 
       console.log(`Found ${events.length} total events from Malkin Bowl`);
       const filtered = filterEvents(events);

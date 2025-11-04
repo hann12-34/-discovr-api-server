@@ -110,7 +110,7 @@ const JubileeAuditoriumEvents = {
           events.push({
                         id: uuidv4(),
                         title,
-                        date: 'Date TBA',
+                        date: null,
                         time: null,
                         url: link ? (link.startsWith('http') ? link : 'https://www.jubileeauditorium.com' + link) : 'https://www.jubileeauditorium.com/calgary/whats-on',
                         venue: { name: 'Jubilee Auditorium', address: '1415 14 Avenue NW, Calgary, AB T2N 1M5', city: 'Calgary' },

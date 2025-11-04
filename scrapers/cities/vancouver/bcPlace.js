@@ -90,11 +90,38 @@ const BCPlaceEvents = {
 
             seenUrls.add(url);
 
-            // Extract date information
+            // SUPER COMPREHENSIVE date extraction
             let eventDate = null;
-            const dateText = $event.find('.date, .event-date, time, .datetime').first().text().trim();
-            if (dateText) {
-              eventDate = dateText;
+            
+            // Strategy 1: Try datetime attributes
+            const datetimeAttr = $event.find('[datetime]').first().attr('datetime');
+            if (datetimeAttr) eventDate = datetimeAttr;
+            
+            // Strategy 2: Try common selectors
+            if (!eventDate) {
+              const selectors = ['.date', '.event-date', 'time', '.datetime', '.when', '[class*="date"]'];
+              for (const sel of selectors) {
+                const text = $event.find(sel).first().text().trim();
+                if (text && text.length >= 5 && text.length <= 100) {
+                  eventDate = text;
+                  break;
+                }
+              }
+            }
+            
+            // Strategy 3: Extract from URL (e.g., /events/2025-01-15)
+            if (!eventDate && url) {
+              const urlMatch = url.match(/\/(\d{4})-(\d{2})-(\d{2})|\/(\d{4})\/(\d{2})\/(\d{2})/);
+              if (urlMatch) {
+                eventDate = urlMatch[1] ? `${urlMatch[1]}-${urlMatch[2]}-${urlMatch[3]}` : `${urlMatch[4]}-${urlMatch[5]}-${urlMatch[6]}`;
+              }
+            }
+            
+            // Strategy 4: Look in parent/sibling elements
+            if (!eventDate) {
+              const parentText = $event.parent().text();
+              const dateMatch = parentText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{4})?/i);
+              if (dateMatch) eventDate = dateMatch[0];
             }
 
             // Only log valid events (junk will be filtered out)
@@ -107,6 +134,8 @@ const BCPlaceEvents = {
               time: null,
               url: url,
               venue: { name: 'BC Place', address: '777 Pacific Boulevard, Vancouver, BC V6B 4Y8', city: 'Vancouver' },
+              city: "Vancouver",
+              source: "bc Place",
               location: 'Vancouver, BC',
               city: 'Vancouver',
               image: null

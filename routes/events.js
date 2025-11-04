@@ -799,4 +799,56 @@ router.put('/:eventId', async (req, res) => {
   }
 });
 
+/**
+ * @route   GET /api/v1/events/admin/cleanup-missing-ids
+ * @desc    ADMIN: Clean up events missing the 'id' field from MongoDB
+ * @access  Public (one-time cleanup endpoint)
+ */
+router.get('/admin/cleanup-missing-ids', async (req, res) => {
+  try {
+    console.log('🔍 CLEANING DATABASE - REMOVING EVENTS WITHOUT ID FIELD');
+
+    // Find events missing 'id' field
+    const missingId = await Event.find({ id: { $exists: false } }).lean();
+    console.log(`❌ Events missing 'id' field: ${missingId.length}`);
+
+    if (missingId.length > 0) {
+      // Show sample
+      const samples = missingId.slice(0, 5).map(e => ({
+        title: e.title,
+        city: e.city,
+        _id: e._id
+      }));
+
+      // Delete events that don't have 'id' field
+      const result = await Event.deleteMany({ id: { $exists: false } });
+      console.log(`✅ DELETED: ${result.deletedCount} events`);
+
+      const remaining = await Event.countDocuments({});
+      
+      res.json({
+        success: true,
+        deleted: result.deletedCount,
+        samples: samples,
+        remainingTotal: remaining,
+        message: `✅ Cleaned up ${result.deletedCount} events without id field. Database now has ${remaining} events.`
+      });
+    } else {
+      const total = await Event.countDocuments({});
+      res.json({
+        success: true,
+        deleted: 0,
+        remainingTotal: total,
+        message: '✅ All events already have id field - nothing to clean!'
+      });
+    }
+  } catch (error) {
+    console.error('❌ Error cleaning database:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 module.exports = router;

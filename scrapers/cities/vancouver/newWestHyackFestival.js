@@ -55,8 +55,7 @@ const NewWestHyackFestivalEvents = {
         events.push({
           id: uuidv4(),
           title: title,
-          date: 'Date TBA'  // TODO: Add date extraction logic,
-          time: null,
+          date: null,  // TODO: Add date extraction logic
           url: eventUrl,
           venue: { name: 'New Westminster Hyack Festival', address: 'Various Locations, New Westminster, BC', city: 'Vancouver' },
           location: 'New Westminster, BC',

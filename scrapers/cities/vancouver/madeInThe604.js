@@ -6,10 +6,12 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const MadeInThe604Events = {
   async scrape(city) {
-    console.log('🔍 Scraping events from Made in the 604...');
+    console.log('⚠️  Made in the 604 scraper disabled - no upcoming events found with valid dates');
+    return [];
 
     try {
       const response = await axios.get('https://www.madeinthe604.ca/', {
@@ -50,8 +52,7 @@ const MadeInThe604Events = {
         events.push({
           id: uuidv4(),
           title: title,
-          date: 'Date TBA'  // TODO: Add date extraction logic,
-          time: null,
+          date: null,  // TODO: Add date extraction logic
           url: eventUrl,
           venue: { name: 'Made in the 604', address: 'Various Locations, Vancouver, BC', city: 'Vancouver' },
           location: 'Vancouver, BC',
@@ -60,44 +61,35 @@ const MadeInThe604Events = {
         });
       });
 
-      // Try to scrape additional events from website
-      const eventSelectors = [
-        'a[href*="/market"]',
-        'a[href*="/event"]',
-        'a[href*="/show"]',
-        '.market-item a',
-        '.event-item a',
-        '.show a',
-        'article a',
-        '.post a',
-        'h2 a',
-        'h3 a',
-        'a:contains("Market")',
-        'a:contains("Event")',
-        'a:contains("Show")',
-        'a:contains("Fair")',
-        'a:contains("Craft")',
-        'a:contains("Artisan")',
-        'a:contains("Maker")',
-        'a:contains("Local")'
-      ];
-
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
+      // Scrape events from blog (recaps and announcements)
+      const eventSelectors = ['a[href*="/blog/"]', 'a[href*="/markets"]', 'a[href*="/apply"]'];
+      
+      // Collect unique URLs first
+      const allLinks = new Set();
+      eventSelectors.forEach(selector => {
+        $(selector).each((i, el) => {
+          const href = $(el).attr('href');
+          if (href) allLinks.add(href);
+        });
+      });
+      
+      console.log(`Found ${allLinks.size} unique URLs from Made in the 604`);
+      
+      allLinks.forEach(href => {
+        let url = href;
+        
+        // Make URL absolute
+        if (url.startsWith('/')) {
+          url = 'https://www.madeinthe604.ca' + url;
         }
-
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
-
-          if (!title || !url || seenUrls.has(url)) return;
-
-          if (url.startsWith('/')) {
-            url = 'https://www.madeinthe604.ca' + url;
-          }
+        
+        // Skip if already seen
+        if (seenUrls.has(url)) return;
+        
+        const $element = $(`a[href="${href}"]`).first();
+        let title = $element.text().trim();
+        
+        if (!title || !url) return;
 
           // Filter out navigation
           const skipPatterns = [
@@ -194,10 +186,9 @@ const MadeInThe604Events = {
             source: 'Made in the 604'
           });
         });
-      }
 
       console.log(`Found ${events.length} total events from Made in the 604`);
-      return events;
+      return filterEvents(events);
 
     } catch (error) {
       console.error('Error scraping Made in the 604 events:', error.message);
@@ -205,4 +196,6 @@ const MadeInThe604Events = {
     }
   }
 };
+
+module.exports = MadeInThe604Events.scrape;
 

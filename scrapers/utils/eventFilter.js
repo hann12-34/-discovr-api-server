@@ -119,6 +119,12 @@ const JUNK_PATTERNS = [
   /^UpcomingEvents?$/i,
   /^Families$/i,
   /^EVENTS\s+AT\s+THE\s+[A-Z]{2,}$/i,  // "EVENTS AT THE AGO" etc
+  
+  // "Featured" and date-only titles
+  /^Featured$/i,
+  /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}$/i,  // "Nov 04", "Aug 3"
+  /^\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/i,  // "04 Nov", "3 Aug"
+  /^(MTWTFSS|Online)$/i,  // Weekday codes, "Online"
 ];
 
 /**
@@ -161,6 +167,19 @@ function filterEvents(events) {
   
   const filtered = events.filter(event => {
     if (!event || !event.title) return false;
+    
+    // Filter NULL dates
+    if (!event.date || event.date === null) {
+      console.log(`  ❌ Filtered out (NULL date): "${event.title}"`);
+      return false;
+    }
+    
+    // Filter short titles (< 10 chars) except known exceptions
+    const VALID_SHORT = ['PNE', 'VSO', 'UBC', 'VIFF', 'BMO'];
+    if (event.title.length < 10 && !VALID_SHORT.includes(event.title.trim())) {
+      console.log(`  ❌ Filtered out (too short): "${event.title}"`);
+      return false;
+    }
     
     const isJunk = isJunkTitle(event.title);
     if (isJunk) {

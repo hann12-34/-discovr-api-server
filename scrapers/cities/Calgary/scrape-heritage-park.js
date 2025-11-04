@@ -28,7 +28,7 @@ const HeritageParkEvents = {
                     events.push({
                         id: uuidv4(),
                         title,
-                        date: dateText || 'Date TBA',  // FIXED: Extract date from page
+                        date: dateText || null,  // FIXED: Extract date from page
                         time: null,
                         url: link ? (link.startsWith('http') ? link : 'https://heritagepark.ca' + link) : 'https://heritagepark.ca/whats-on-now/',
                         venue: { name: 'Heritage Park', address: '1900 Heritage Drive SW, Calgary, AB T2V 2X3', city: 'Calgary' },

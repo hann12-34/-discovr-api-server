@@ -29,43 +29,35 @@ const BellPerformingArtsCentreEvents = {
       const events = [];
       const seenUrls = new Set();
 
-      const eventSelectors = [
-        'a[href*="/event/"]',
-        'a:contains("IKONS OF ROCK")',
-        'a:contains("Love, Death & Ketchup")',
-        'a:contains("Folk Lore Festival")',
-        'a:contains("Khan Saab")',
-        'a:contains("Vancouver Symphony Orchestra")',
-        'a:contains("Nisansala Rayak")',
-        'a:contains("Warfaze")',
-        'a:contains("More Details")',
-        'a:contains("More Events")',
-        'h3 a',
-        'h2 a',
-        '.event-card a',
-        '.event-item a',
-        'article a'
-      ];
+      // Use only specific event selector to avoid duplicates
+      const eventSelectors = ['a[href*="/event/"]'];
 
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
+      // Collect unique URLs first
+      const allLinks = new Set();
+      eventSelectors.forEach(selector => {
+        $(selector).each((i, el) => {
+          const href = $(el).attr('href');
+          if (href) allLinks.add(href);
+        });
+      });
+
+      console.log(`Found ${allLinks.size} unique events from Bell Performing Arts Centre`);
+
+      allLinks.forEach(href => {
+        let url = href;
+        
+        // Make URL absolute FIRST
+        if (url.startsWith('/')) {
+          url = 'https://www.bellperformingarts.com' + url;
         }
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
-
-          if (!title || !url) return;
-          if (seenUrls.has(url)) return;
-
-          if (url.startsWith('/')) {
-            url = 'https://www.bellperformingarts.com' + url;
-          }
+        // Skip if already seen
+        if (seenUrls.has(url)) return;
+        
+        const $element = $(`a[href="${href}"]`).first();
+        let title = $element.text().trim();
+        
+        if (!title || !url) return;
 
           const skipPatterns = [
             /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
@@ -172,7 +164,6 @@ const BellPerformingArtsCentreEvents = {
             source: 'Bell Performing Arts Centre'
           });
         });
-      }
 
       console.log(`Found ${events.length} total events from Bell Performing Arts Centre`);
       const filtered = filterEvents(events);

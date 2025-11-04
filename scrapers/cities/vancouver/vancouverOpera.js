@@ -67,11 +67,14 @@ const VancouverOperaEvents = {
           let url = $element.attr('href');
 
           if (!title || !url) return;
-          if (seenUrls.has(url)) return;
 
+          // Make URL absolute FIRST before checking duplicates
           if (url.startsWith('/')) {
             url = 'https://www.vancouveropera.ca' + url;
           }
+          
+          // NOW check for duplicates with absolute URL
+          if (seenUrls.has(url)) return;
 
           const skipPatterns = [
             /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
@@ -162,11 +165,17 @@ const VancouverOperaEvents = {
           }
 
 
-          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
-
-
+          // Extract date from title if not found (Vancouver Opera embeds dates in titles)
+          if (!dateText && title) {
+            const dateMatch = title.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}\s*(?:–|-)\s*\d{1,2},?\s*\d{4}/i);
+            if (dateMatch) {
+              dateText = dateMatch[0];
+              // Clean title by removing date and "Learn More"
+              title = title.replace(dateMatch[0], '').replace(/Learn More/gi, '').trim();
+            }
+          }
           
-
+          if (dateText) dateText = dateText.replace(/\s+/g, ' ').trim();
 
           events.push({
             id: uuidv4(),

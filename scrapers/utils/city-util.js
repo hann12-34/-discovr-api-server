@@ -56,12 +56,20 @@ const parseDateText = (dateText) => {
   
   const lowerText = cleanText.toLowerCase();
   
-  // Month mapping with abbreviations
+  // Month mapping with abbreviations (English + French)
   const monthMap = {
-    'jan': 0, 'january': 0, 'feb': 1, 'february': 1, 'mar': 2, 'march': 2,
-    'apr': 3, 'april': 3, 'may': 4, 'jun': 5, 'june': 5, 'jul': 6, 'july': 6,
-    'aug': 7, 'august': 7, 'sep': 8, 'sept': 8, 'september': 8, 
-    'oct': 9, 'october': 9, 'nov': 10, 'november': 10, 'dec': 11, 'december': 11
+    'jan': 0, 'january': 0, 'janvier': 0,
+    'feb': 1, 'february': 1, 'février': 1, 'fevrier': 1, 'fev': 1,
+    'mar': 2, 'march': 2, 'mars': 2,
+    'apr': 3, 'april': 3, 'avril': 3, 'avr': 3,
+    'may': 4, 'mai': 4,
+    'jun': 5, 'june': 5, 'juin': 5,
+    'jul': 6, 'july': 6, 'juillet': 6, 'juil': 6,
+    'aug': 7, 'august': 7, 'août': 7, 'aout': 7, 'aoû': 7,
+    'sep': 8, 'sept': 8, 'september': 8, 'septembre': 8,
+    'oct': 9, 'october': 9, 'octobre': 9,
+    'nov': 10, 'november': 10, 'novembre': 10,
+    'dec': 11, 'december': 11, 'décembre': 11, 'decembre': 11, 'déc': 11
   };
   
   // Try "Oct 26, 2025" or "October 26, 2025"
@@ -132,6 +140,26 @@ const getBrowserHeaders = () => {
   };
 };
 
+// Check if a title is actually just a date (common issue on some Montreal venues)
+const isTitleJustADate = (title) => {
+  if (!title || typeof title !== 'string') return false;
+  
+  const cleaned = title.trim();
+  
+  // Match patterns like "30 SEPTEMBRE 2025", "13 DÉCEMBRE 2025", etc.
+  const frenchDatePattern = /^\d{1,2}\s+(JANVIER|FÉVRIER|FEVRIER|MARS|AVRIL|MAI|JUIN|JUILLET|AOÛT|AOUT|SEPTEMBRE|OCTOBRE|NOVEMBRE|DÉCEMBRE|DECEMBRE)\s+\d{4}$/i;
+  if (frenchDatePattern.test(cleaned)) return true;
+  
+  // Match "Oct 26, 2025", "October 26 2025", etc.
+  const englishDatePattern = /^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*\s+\d{1,2},?\s+\d{4}$/i;
+  if (englishDatePattern.test(cleaned)) return true;
+  
+  // Match ISO dates "2025-10-26"
+  if (/^\d{4}-\d{2}-\d{2}$/.test(cleaned)) return true;
+  
+  return false;
+};
+
 module.exports = { 
   getCityFromArgs, 
   generateEventId, 
@@ -139,5 +167,6 @@ module.exports = {
   extractPrice, 
   parseDateText,
   parseEventDate,
-  getBrowserHeaders
+  getBrowserHeaders,
+  isTitleJustADate
 };

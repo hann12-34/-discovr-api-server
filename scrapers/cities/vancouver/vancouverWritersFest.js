@@ -186,6 +186,8 @@ const VancouverWritersFestEvents = {
             title: title,
             url: url,
             venue: { name: 'Vancouver Writers Fest', address: 'Various Locations, Vancouver, BC', city: 'Vancouver' },
+              city: "Vancouver",
+              source: "vancouver Writers Fest",
             city: city,
             date: dateText || null,
             source: 'Vancouver Writers Fest'

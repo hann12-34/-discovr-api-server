@@ -6,6 +6,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const Do604Events = {
   async scrape(city) {
@@ -28,55 +29,35 @@ const Do604Events = {
       const events = [];
       const seenUrls = new Set();
 
-      // Multiple selectors for different event layouts
-      const eventSelectors = [
-        'a[href*="/events/"]',
-        'a[href*="/event/"]',
-        '.event-item a',
-        '.event-card a',
-        '.event-listing a',
-        'article a',
-        '.post a',
-        '.listing a',
-        '.card a',
-        'h2 a',
-        'h3 a',
-        '.title a',
-        '.event-title a',
-        'a[title]',
-        '[data-testid*="event"] a',
-        'a:contains("Event")',
-        'a:contains("Show")',
-        'a:contains("Festival")',
-        'a:contains("Concert")',
-        'a:contains("Party")',
-        'a:contains("Night")',
-        'a:contains("Live")',
-        'a:contains("Performance")'
-      ];
+      // Use only specific event selectors to avoid duplicates
+      const eventSelectors = ['a[href*="/events/"]', 'a[href*="/event/"]'];
 
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
+      // Collect all unique URLs first
+      const allLinks = new Set();
+      eventSelectors.forEach(selector => {
+        $(selector).each((i, el) => {
+          const href = $(el).attr('href');
+          if (href) allLinks.add(href);
+        });
+      });
+
+      console.log(`Found ${allLinks.size} unique event URLs from Do604`);
+
+      allLinks.forEach(href => {
+        let url = href;
+        
+        // Convert relative URLs to absolute FIRST
+        if (url.startsWith('/')) {
+          url = 'https://do604.com' + url;
         }
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
-
-          if (!title || !url) return;
-
-          // Skip if we've already seen this URL
-          if (seenUrls.has(url)) return;
-
-          // Convert relative URLs to absolute
-          if (url.startsWith('/')) {
-            url = 'https://do604.com' + url;
-          }
+        // Skip if already seen
+        if (seenUrls.has(url)) return;
+        
+        const $element = $(`a[href="${href}"]`).first();
+        let title = $element.text().trim();
+        
+        if (!title || !url) return;
 
           // Filter out navigation, social media, and promotional links
           const skipPatterns = [
@@ -187,10 +168,9 @@ const Do604Events = {
             source: 'Do604'
           });
         });
-      }
 
       console.log(`Found ${events.length} total events from Do604`);
-      return events;
+      return filterEvents(events);
 
     } catch (error) {
       console.error('Error scraping Do604 events:', error.message);
@@ -198,4 +178,6 @@ const Do604Events = {
     }
   }
 };
+
+module.exports = Do604Events.scrape;
 

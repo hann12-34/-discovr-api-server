@@ -29,61 +29,39 @@ const VancouverPrideEvents = {
       const events = [];
       const seenUrls = new Set();
 
+      // Use only the most specific selectors to avoid duplicates
       const eventSelectors = [
-        'a[href*="/event/"]',
-        'a[href*="/events/"]',
-        'a[href*="/parade/"]',
-        'a[href*="/festival/"]',
-        'a[href*="/party/"]',
-        'a[href*="/parties/"]',
-        '.event-item a',
-        '.parade-item a',
-        '.festival-item a',
-        '.party-item a',
-        '.listing a',
-        '.event-listing a',
-        '.event-card a',
-        '.festival-card a',
-        'h3 a',
-        'h2 a',
-        'h1 a',
-        '.event-title a',
-        '.festival-title a',
-        'article a',
-        '.event a',
-        '.festival a',
-        '.parade a',
-        '.party a',
-        'a[title]',
-        '[data-testid*="event"] a',
-        'a:contains("Event")',
-        'a:contains("Festival")',
-        'a:contains("Parade")',
-        'a:contains("Party")',
-        'a:contains("Pride")',
-        'a:contains("Celebration")',
-        'a:contains("Show")'
+        'a[href*="/prideevents/"]',
+        'a[href*="/parade-applications"]',
+        'a[href*="/program-pride"]'
       ];
 
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
+      // Collect all links with ONE pass
+      const allLinks = new Set();
+      eventSelectors.forEach(selector => {
+        $(selector).each((i, el) => {
+          const href = $(el).attr('href');
+          if (href) allLinks.add(href);
+        });
+      });
+
+      console.log(`Found ${allLinks.size} unique event URLs from Vancouver Pride`);
+
+      allLinks.forEach(href => {
+        let url = href;
+        
+        // Make URL absolute
+        if (url.startsWith('/')) {
+          url = 'https://www.vancouverpride.ca' + url;
         }
+        
+        // Skip if already seen
+        if (seenUrls.has(url)) return;
+        
+        const $element = $(`a[href="${href}"]`).first();
+        let title = $element.text().trim();
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
-
-          if (!title || !url) return;
-          if (seenUrls.has(url)) return;
-
-          if (url.startsWith('/')) {
-            url = 'https://www.vancouverpride.ca' + url;
-          }
+        if (!title || !url) return;
 
           const skipPatterns = [
             /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
@@ -190,7 +168,6 @@ const VancouverPrideEvents = {
             source: 'Vancouver Pride'
           });
         });
-      }
 
       console.log(`Found ${events.length} total events from Vancouver Pride`);
       const filtered = filterEvents(events);

@@ -6,6 +6,7 @@
 
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const TheRoxyEvents = {
   async scrape(city) {
@@ -68,10 +69,14 @@ const TheRoxyEvents = {
               if (title && title.length > 2 && !seen.has(title + eventDate)) {
                 seen.add(title + eventDate);
                 
+                // Create unique URL using date and slugified title
+                const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                const uniqueUrl = `https://www.roxyvan.com/events/${eventDate}/${slug}`;
+                
                 results.push({
                   title: title,
                   date: eventDate,
-                  url: 'https://www.roxyvan.com/events'
+                  url: uniqueUrl
                 });
               }
             }

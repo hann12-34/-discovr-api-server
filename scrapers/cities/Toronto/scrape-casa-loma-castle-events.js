@@ -138,6 +138,33 @@ async function scrapeCasaLomaCastleEvents(city = 'Toronto') {
     }
   }
   
+  
+  // AGGRESSIVE DEDUPLICATION
+  const seenKeys = new Set();
+  const dedupedEvents = [];
+  
+  for (const event of events) {
+    const key = `${event.title?.toLowerCase().trim()}|${event.date}`;
+    
+    // Skip if duplicate, NULL date, or junk
+    if (seenKeys.has(key)) continue;
+    if (!event.date || event.date === null) continue;
+    if (!event.title || event.title.length < 10) continue;
+    
+    const title = event.title.toLowerCase();
+    if (title === 'featured' || title === 'learn more' || 
+        title === 'buy tickets' || title === 'view all' ||
+        /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s+\d{1,2}$/i.test(title) ||
+        /^\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(title)) {
+      continue;
+    }
+    
+    seenKeys.add(key);
+    dedupedEvents.push(event);
+  }
+  
+  events = dedupedEvents;
+
   return filterEvents(events);
 }
 

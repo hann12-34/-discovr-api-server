@@ -56,8 +56,7 @@ const VancouverQueerFilmFestivalEvents = {
         events.push({
           id: uuidv4(),
           title: title,
-          date: 'Date TBA'  // TODO: Add date extraction logic,
-          time: null,
+          date: null,  // TODO: Add date extraction logic
           url: eventUrl,
           venue: { name: 'Vancouver Queer Film Festival', address: 'Various Locations, Vancouver, BC', city: 'Vancouver' },
           location: 'Vancouver, BC',

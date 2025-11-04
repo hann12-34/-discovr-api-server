@@ -51,8 +51,7 @@ const GreaterVancouverFoodTruckFestEvents = {
         events.push({
           id: uuidv4(),
           title: title,
-          date: 'Date TBA'  // TODO: Add date extraction logic,
-          time: null,
+          date: null,  // TODO: Add date extraction logic
           url: eventUrl,
           venue: { name: 'Greater Vancouver Food Truck Festival', address: 'Vancouver', city: 'Vancouver' },
           location: 'Vancouver, BC',

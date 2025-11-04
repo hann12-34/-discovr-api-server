@@ -7,6 +7,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
 
 const VanDusenGardenEvents = {
   async scrape(city) {
@@ -88,11 +89,41 @@ const VanDusenGardenEvents = {
 
             seenUrls.add(url);
 
-            // Extract date information
+            
+            // SUPER COMPREHENSIVE date extraction
             let eventDate = null;
-            const dateText = $event.find('.date, .event-date, time, .datetime, .when').first().text().trim();
-            if (dateText) {
-              eventDate = dateText;
+            
+            // Strategy 1: datetime attributes
+            const datetimeAttr = $event.find('[datetime]').first().attr('datetime');
+            if (datetimeAttr) eventDate = datetimeAttr;
+            
+            // Strategy 2: extensive selectors
+            if (!eventDate) {
+              const selectors = ['.date', '.event-date', '.show-date', 'time', '[class*="date"]', 
+                               '[data-date]', '.datetime', '.when', '[itemprop="startDate"]',
+                               '.performance-date', '[data-start-date]'];
+              for (const sel of selectors) {
+                const text = $event.find(sel).first().text().trim();
+                if (text && text.length >= 5 && text.length <= 100) {
+                  eventDate = text;
+                  break;
+                }
+              }
+            }
+            
+            // Strategy 3: URL pattern
+            if (!eventDate && url) {
+              const urlMatch = url.match(/\/(\d{4})-(\d{2})-(\d{2})|\/(\d{4})\/(\d{2})\/(\d{2})/);
+              if (urlMatch) {
+                eventDate = urlMatch[1] ? `${urlMatch[1]}-${urlMatch[2]}-${urlMatch[3]}` : `${urlMatch[4]}-${urlMatch[5]}-${urlMatch[6]}`;
+              }
+            }
+            
+            // Strategy 4: text pattern
+            if (!eventDate) {
+              const text = $event.text() + ' ' + $event.parent().text();
+              const dateMatch = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{4})?/i);
+              if (dateMatch) eventDate = dateMatch[0];
             }
 
             // Only log valid events (junk will be filtered out)
@@ -101,19 +132,17 @@ const VanDusenGardenEvents = {
               id: uuidv4(),
               title: title,
               date: eventDate,
-              time: null,
               url: url,
-              venue: { name: 'VanDusen Botanical Garden', address: 'Vancouver', city: 'Vancouver' },
-              location: 'Vancouver, BC',
-              description: null,
-              image: null
+              venue: { name: 'VanDusen Botanical Garden', address: '5251 Oak Street, Vancouver, BC V6M 4H1', city: 'Vancouver' },
+              city: 'Vancouver',
+              source: 'VanDusen Garden'
             });
           });
         }
       }
 
       console.log(`Found ${events.length} total events from VanDusen Botanical Garden`);
-      return events;
+      return filterEvents(events);
 
     } catch (error) {
       console.error('Error scraping VanDusen Botanical Garden events:', error.message);

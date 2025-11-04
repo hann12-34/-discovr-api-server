@@ -1,16 +1,13 @@
 /**
- * Vancouver Pride Events Scraper
- * Scrapes events from Vancouver Pride Festival
+ * Khatsahlano Festival Events Scraper - DISABLED
+ * This file was incorrectly scraping Vancouver Pride (duplicate of vancouverPride.js)
+ * TODO: Implement actual Khatsahlano Festival scraper at khatsahlano.com
  */
 
-const axios = require('axios');
-const cheerio = require('cheerio');
-const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VancouverPrideEvents = {
+const KhatsahlanoEvents = {
   async scrape(city) {
-    console.log('🔍 Scraping events from Vancouver Pride...');
+    console.log('⚠️  khatsahlanoEvents scraper disabled - was duplicate of vancouverPride.js');
+    return [];
 
     try {
       const response = await axios.get('https://www.vancouverpride.ca/', {
@@ -205,4 +202,4 @@ const VancouverPrideEvents = {
 };
 
 
-module.exports = VancouverPrideEvents.scrape;
+module.exports = KhatsahlanoEvents.scrape;
