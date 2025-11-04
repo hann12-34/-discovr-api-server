@@ -121,6 +121,25 @@ const connectWithRetry = (retryCount = 0, maxRetries = MAX_MONGO_RETRIES) => {
     console.log('✅ Successfully connected to MongoDB!');
     isMongoConnected = true;
     
+    // AUTO-CLEANUP: Remove events without 'id' field on startup
+    (async () => {
+      try {
+        const Event = require('./models/Event');
+        const missingIdCount = await Event.countDocuments({ id: { $exists: false } });
+        if (missingIdCount > 0) {
+          console.log(`🧹 CLEANING DATABASE: Found ${missingIdCount} events without 'id' field`);
+          const result = await Event.deleteMany({ id: { $exists: false } });
+          console.log(`✅ DELETED ${result.deletedCount} events without 'id' field`);
+          const remaining = await Event.countDocuments({});
+          console.log(`📊 Database now has ${remaining} clean events`);
+        } else {
+          console.log('✅ All events have id field - database is clean');
+        }
+      } catch (cleanupError) {
+        console.error('⚠️ Error during auto-cleanup:', cleanupError.message);
+      }
+    })();
+    
     if (mongoose.connection.db) {
       console.log('Database name:', mongoose.connection.db.databaseName || 'unknown');
       
