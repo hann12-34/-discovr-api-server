@@ -704,25 +704,44 @@ async function startServer() {
         
         console.log(`Filtered from ${allEvents.length} to ${filteredEvents.length} events (removed ${allEvents.length - filteredEvents.length} navigation elements)`);
         
-        // NORMALIZE DATES: Add year to dates missing it
-        const currentYear = new Date().getFullYear();
+        // CONVERT DATES TO ISO FORMAT for iOS compatibility
         const normalizedEvents = filteredEvents.map(event => {
-          if (event.date && typeof event.date === 'string') {
-            // Check if date is missing year (e.g., "November 26" or "Sept 20")
-            if (!/\d{4}/.test(event.date)) {
-              // Add current year or next year if month has passed
-              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-              const currentMonth = new Date().getMonth();
-              const dateLower = event.date.toLowerCase();
-              
-              // Find month in date string
-              const monthIndex = months.findIndex(m => dateLower.includes(m));
-              
-              if (monthIndex !== -1) {
-                // If event month has passed, assume next year
-                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                event.date = `${event.date}, ${year}`;
+          if (event.date && typeof event.date === 'string' && event.date.trim()) {
+            const dateStr = event.date.trim();
+            
+            // Skip if already in ISO format
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+              return event;
+            }
+            
+            try {
+              // Add year if missing
+              let dateWithYear = dateStr;
+              if (!/\d{4}/.test(dateStr)) {
+                const currentYear = new Date().getFullYear();
+                const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+                const currentMonth = new Date().getMonth();
+                const dateLower = dateStr.toLowerCase();
+                
+                // Find month in date string
+                const monthIndex = months.findIndex(m => dateLower.includes(m));
+                
+                if (monthIndex !== -1) {
+                  // If event month has passed, use next year
+                  const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+                  dateWithYear = `${dateStr}, ${year}`;
+                }
               }
+              
+              // Parse to Date object
+              const parsed = new Date(dateWithYear);
+              
+              // Convert to ISO format if valid
+              if (!isNaN(parsed.getTime())) {
+                event.date = parsed.toISOString().split('T')[0];
+              }
+            } catch (err) {
+              // Keep original date if parsing fails
             }
           }
           return event;
