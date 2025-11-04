@@ -761,55 +761,65 @@ async function startServer() {
             }
             
             try {
-              // CRITICAL: Strip ordinal suffixes (st, nd, rd, th) that break Date parsing
-              // "Nov 15th" -> "Nov 15", "Dec 9th" -> "Dec 9"
-              let dateToConvert = dateStr.replace(/(\d+)(st|nd|rd|th)/gi, '$1');
+              // STEP 1: Clean up the date string
+              let cleaned = dateStr
+                .replace(/(\d+)(st|nd|rd|th)/gi, '$1')  // Remove ordinals
+                .replace(/\|.*$/, '')                    // Remove everything after |
+                .replace(/\d{1,2}:\d{2}\s*(AM|PM)?/gi, '') // Remove times
+                .replace(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*[,\s]*/gi, '') // Remove day names
+                .trim();
               
-              // Handle date RANGES - extract start date only
-              if (dateToConvert.includes(' - ')) {
-                // "Nov 25 - 30, 2025" -> "Nov 25, 2025"
-                // "January 19, 2025 - November 2, 2025" -> "January 19, 2025"
-                const parts = dateToConvert.split(' - ');
-                if (parts.length === 2) {
-                  const startPart = parts[0].trim();
-                  const endPart = parts[1].trim();
-                  
-                  // If start part has year, use it
-                  if (/\d{4}/.test(startPart)) {
-                    dateToConvert = startPart;
-                  } else if (/\d{4}/.test(endPart)) {
-                    // Extract year from end part and add to start
-                    const yearMatch = endPart.match(/\d{4}/);
-                    if (yearMatch) {
-                      dateToConvert = `${startPart}, ${yearMatch[0]}`;
-                    }
-                  }
+              // STEP 2: Handle date ranges - extract ONLY the start date
+              if (cleaned.includes('–') || cleaned.includes(' - ') || cleaned.includes(' to ')) {
+                cleaned = cleaned.split(/[–-]|\sto\s/)[0].trim();
+              }
+              
+              // STEP 3: Try to extract a valid date pattern
+              // Pattern 1: "Month Day, Year" or "Month Day Year"
+              const monthDayYear = cleaned.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s,]+(\d{1,2})[\s,]+(\d{4})/i);
+              if (monthDayYear) {
+                const [, month, day, year] = monthDayYear;
+                const monthNum = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                  .indexOf(month.toLowerCase().substring(0,3)) + 1;
+                if (monthNum > 0) {
+                  event.date = `${year}-${String(monthNum).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                  return event;
                 }
               }
               
-              // Add year if still missing
-              if (!/\d{4}/.test(dateToConvert)) {
-                const currentYear = new Date().getFullYear();
-                const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-                const currentMonth = new Date().getMonth();
-                const dateLower = dateToConvert.toLowerCase();
-                
-                const monthIndex = months.findIndex(m => dateLower.includes(m));
-                if (monthIndex !== -1) {
-                  const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                  dateToConvert = `${dateToConvert}, ${year}`;
+              // Pattern 2: "YYYY-MM-DD" or variations
+              const isoLike = cleaned.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
+              if (isoLike) {
+                const [, year, month, day] = isoLike;
+                event.date = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                return event;
+              }
+              
+              // Pattern 3: "Month Day" without year - add current or next year
+              const monthDay = cleaned.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s]+(\d{1,2})/i);
+              if (monthDay) {
+                const [, month, day] = monthDay;
+                const monthNum = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                  .indexOf(month.toLowerCase().substring(0,3));
+                if (monthNum !== -1) {
+                  const currentYear = new Date().getFullYear();
+                  const currentMonth = new Date().getMonth();
+                  const year = monthNum < currentMonth ? currentYear + 1 : currentYear;
+                  event.date = `${year}-${String(monthNum + 1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                  return event;
                 }
               }
               
-              // Parse to Date object
-              const parsed = new Date(dateToConvert);
-              
-              // Convert to ISO format if valid
-              if (!isNaN(parsed.getTime())) {
+              // FALLBACK: Try basic Date parsing as last resort
+              const parsed = new Date(cleaned);
+              if (!isNaN(parsed.getTime()) && parsed.getFullYear() > 2020 && parsed.getFullYear() < 2030) {
                 event.date = parsed.toISOString().split('T')[0];
+              } else {
+                // Cannot parse - set to null so iOS app knows it's invalid
+                event.date = null;
               }
             } catch (err) {
-              // Keep original date if parsing fails
+              event.date = null;
             }
           }
           return event;
