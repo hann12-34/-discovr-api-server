@@ -30,6 +30,27 @@ async function scrapeEvents(city = 'New York') {
       const parsedDate = parseDateText(dateText);
       if (!parsedDate || !parsedDate.startDate) return;
       
+      // Normalize date
+      if (dateText) {
+        dateText = String(dateText)
+          .replace(/\n/g, ' ')
+          .replace(/\s+/g, ' ')
+          .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
+          .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
+          .trim();
+        if (!/\d{4}/.test(dateText)) {
+          const currentYear = new Date().getFullYear();
+          const currentMonth = new Date().getMonth();
+          const months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+          const dateLower = dateText.toLowerCase();
+          const monthIndex = months.findIndex(m => dateLower.includes(m));
+          if (monthIndex !== -1) {
+            const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+            dateText = `${dateText}, ${year}`;
+          }
+        }
+      }
+
       events.push({
         title, date: parsedDate.startDate.toISOString(),
         venue: { name: 'Knitting Factory Brooklyn', address: '361 Metropolitan Ave, Brooklyn, NY 11211', city: 'New York' },

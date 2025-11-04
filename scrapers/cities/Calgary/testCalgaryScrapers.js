@@ -59,6 +59,27 @@ async function testAllCalgaryScrapers() {
           console.log(`  ${i + 1}. ${event.title}`);
         });
         
+        // Normalize date
+        if (dateText) {
+          dateText = String(dateText)
+            .replace(/\n/g, ' ')
+            .replace(/\s+/g, ' ')
+            .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
+            .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
+            .trim();
+          if (!/\d{4}/.test(dateText)) {
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth();
+            const months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+            const dateLower = dateText.toLowerCase();
+            const monthIndex = months.findIndex(m => dateLower.includes(m));
+            if (monthIndex !== -1) {
+              const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+              dateText = `${dateText}, ${year}`;
+            }
+          }
+        }
+
         results.push({
           venue: name,
           status: 'working',
@@ -69,6 +90,27 @@ async function testAllCalgaryScrapers() {
       } else {
         failedScrapers++;
         console.log(`❌ ${name}: No events found`);
+        // Normalize date
+        if (dateText) {
+          dateText = String(dateText)
+            .replace(/\n/g, ' ')
+            .replace(/\s+/g, ' ')
+            .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
+            .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
+            .trim();
+          if (!/\d{4}/.test(dateText)) {
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth();
+            const months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+            const dateLower = dateText.toLowerCase();
+            const monthIndex = months.findIndex(m => dateLower.includes(m));
+            if (monthIndex !== -1) {
+              const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+              dateText = `${dateText}, ${year}`;
+            }
+          }
+        }
+
         results.push({
           venue: name,
           status: 'no_events',
@@ -80,6 +122,27 @@ async function testAllCalgaryScrapers() {
     } catch (error) {
       failedScrapers++;
       console.log(`💥 ${name}: Error - ${error.message}`);
+      // Normalize date
+      if (dateText) {
+        dateText = String(dateText)
+          .replace(/\n/g, ' ')
+          .replace(/\s+/g, ' ')
+          .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
+          .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
+          .trim();
+        if (!/\d{4}/.test(dateText)) {
+          const currentYear = new Date().getFullYear();
+          const currentMonth = new Date().getMonth();
+          const months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+          const dateLower = dateText.toLowerCase();
+          const monthIndex = months.findIndex(m => dateLower.includes(m));
+          if (monthIndex !== -1) {
+            const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+            dateText = `${dateText}, ${year}`;
+          }
+        }
+      }
+
       results.push({
         venue: name,
         status: 'error',
