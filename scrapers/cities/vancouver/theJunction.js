@@ -125,6 +125,19 @@ const TheJunctionEvents = {
           // Clean up the date text
           if (dateText) {
             dateText = dateText.replace(/\s+/g, ' ').trim();
+            if (!/\d{4}/.test(dateText)) {
+              const currentYear = new Date().getFullYear();
+              const currentMonth = new Date().getMonth();
+              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+              const dateLower = dateText.toLowerCase();
+              const monthIndex = months.findIndex(m => dateLower.includes(m));
+              if (monthIndex !== -1) {
+                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+                dateText = `${dateText}, ${year}`;
+              } else {
+                dateText = `${dateText}, ${currentYear}`;
+              }
+            }
             // Remove common prefixes
             dateText = dateText.replace(/^(Date:|When:|Time:)\s*/i, '');
             // Validate it's not garbage

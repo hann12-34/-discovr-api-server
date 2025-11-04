@@ -90,8 +90,24 @@ const MalkinBowlEvents = {
             dateText = dateEl.text()
               .replace(/\n/g, ' ')           // Replace newlines with spaces
               .replace(/\s+/g, ' ')          // Collapse multiple spaces
+              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')  // Remove ordinals
               .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '') // Remove duplicate times like "6:00 PM18:00"
               .trim();
+            
+            // Add year if missing
+            if (dateText && !/\d{4}/.test(dateText)) {
+              const currentYear = new Date().getFullYear();
+              const currentMonth = new Date().getMonth();
+              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+              const dateLower = dateText.toLowerCase();
+              const monthIndex = months.findIndex(m => dateLower.includes(m));
+              if (monthIndex !== -1) {
+                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+                dateText = `${dateText}, ${year}`;
+              } else {
+                dateText = `${dateText}, ${currentYear}`;
+              }
+            }
           }
           
           events.push({
