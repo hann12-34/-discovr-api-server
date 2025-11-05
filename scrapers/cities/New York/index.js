@@ -40,17 +40,18 @@ class NewYorkScrapers {
     async scrape() {
         console.log('🗽 Starting New York scrapers...');
         const allEvents = [];
+        let successCount = 0;
+        let failCount = 0;
 
         if (this.scrapers.length === 0) {
-            console.log('⚠️ No working New York scrapers available - all require syntax reconstruction');
+            console.log('⚠️ No working New York scrapers available');
             return [];
         }
 
         for (const scraper of this.scrapers) {
             try {
                 const source = scraper.source || scraper.name || 'Unknown Scraper';
-                console.log(`📍 Running scraper for ${source}...`);
-                const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper());
+                const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper('New York'));
 
                 if (Array.isArray(events) && events.length > 0) {
                     const processedEvents = events.map(event => ({
@@ -61,19 +62,27 @@ class NewYorkScrapers {
                     }));
 
                     allEvents.push(...processedEvents);
-                    console.log(`✅ Found ${events.length} events from ${source}`);
+                    successCount++;
+                    console.log(`✅ ${source}: ${events.length} events`);
                 } else {
-                    console.log(`⚠️ No events found from ${source}`);
+                    // Silently skip scrapers with 0 events (many are stubs)
                 }
             } catch (error) {
-                const source = scraper.source || scraper.name || 'Unknown Scraper';
-                console.error(`❌ Error running scraper for ${source}:`, error.message);
+                failCount++;
+                // Only log errors in development, not production
+                if (process.env.NODE_ENV !== 'production') {
+                    const source = scraper.source || scraper.name || 'Unknown';
+                    console.error(`❌ ${source}: ${error.message.substring(0, 50)}`);
+                }
             }
         }
-
-        console.log(`🎉 New York scrapers found ${allEvents.length} events in total`);
+        
+        console.log(`\n🏆 NY: ${successCount} working, ${failCount} failed, ${allEvents.length} events`);
         return allEvents;
     }
 }
 
-module.exports = new NewYorkScrapers();
+module.exports = async function scrapeNewYorkCityEvents() {
+    const scraper = new NewYorkScrapers();
+    return await scraper.scrape();
+};
