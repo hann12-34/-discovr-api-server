@@ -86,15 +86,35 @@ function createUniversalScraper(venueName, url, address) {
         ];
         
         for (const sel of titleSelectors) {
-          const text = $e.find(sel).first().text().trim();
-          if (text && text.length >= 5 && text.length < 250) {
+          let text = $e.find(sel).first().text().trim();
+          
+          // Clean the text: stop at first newline, long dash, or description marker
+          text = text.split(/\n/)[0];  // Take only first line
+          text = text.split(/\s+—\s+/)[0];  // Stop at em dash
+          text = text.split(/\|\s+/)[0];  // Stop at pipe separator
+          text = text.replace(/\s+/g, ' ').trim();  // Clean whitespace
+          
+          // Title must be reasonable length
+          if (text && text.length >= 5 && text.length <= 150) {
             title = text;
             break;
           }
         }
         
         if (!title || title.length < 5) return;
-        if (title.match(/^(Menu|Nav|Skip|Login|Subscribe|Search|Home|View All|Load More|Filter|Sort|Click|Read More|Learn More|See All)/i)) return;
+        
+        // STRICT junk filtering - reject common non-event patterns
+        const junkPatterns = [
+          /^(Menu|Nav|Skip|Login|Subscribe|Search|Home|View All|Load More|Filter|Sort|Click|Read More|Learn More|See All)/i,
+          /^(Stay in the Know|Join|Sign Up|Newsletter|Follow|Connect|Share)/i,
+          /^(Today|Tomorrow|This Week|This Month|Upcoming|Past|Calendar)/i,
+          /^(Where everyone|Everyone|Community|The Mastermind|Date Range|One Battle)/i,
+          /^(DanceAfrica|Bugonia|LunAtico|Sublime|Blink)/i,  // Generic single words without context
+          /^[A-Z][a-z]+$/,  // Single capitalized word (likely not an event)
+          /A-LIST|JOIN THE|WICKED L/i
+        ];
+        
+        if (junkPatterns.some(pattern => pattern.test(title))) return;
         
         // Extract date - try MANY patterns
         let dateText = '';
@@ -149,13 +169,35 @@ function createUniversalScraper(venueName, url, address) {
         
         if (!dateText || dateText.length < 4) return;
         
-        // Normalize date
+        // Reject if date appears to be page-wide "today" indicator
+        // (Events should have specific dates, not just "Nov 4" everywhere)
+        const today = new Date();
+        const todayStr = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+        const todayMonthDay = `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()]} ${today.getDate()}`;
+        
+        // If the ONLY date we found is today's date and there's no year, it's likely a page header
+        if (dateText.toLowerCase().includes(todayMonthDay.toLowerCase()) && !/\d{4}/.test(dateText)) {
+          // This is suspicious - likely a "last updated" or page header date
+          return;
+        }
+        
+        // Normalize and clean date
         dateText = String(dateText)
+          .split(/\n/)[0]  // Take only first line
+          .split(/\|\s+/)[0]  // Stop at pipe
+          .split(/Buy Tickets/i)[0]  // Stop at "Buy Tickets"
+          .split(/View Event/i)[0]  // Stop at "View Event"
+          .split(/Daily/i)[0]  // Stop at "Daily"  
           .replace(/\n/g, ' ')
           .replace(/\s+/g, ' ')
           .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
           .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
           .trim();
+        
+        // Limit date text length (dates shouldn't be super long)
+        if (dateText.length > 100) {
+          dateText = dateText.substring(0, 100);
+        }
           
         if (!/\d{4}/.test(dateText)) {
           const currentYear = new Date().getFullYear();
@@ -173,6 +215,25 @@ function createUniversalScraper(venueName, url, address) {
         const fullUrl = eventUrl.startsWith('http') ? eventUrl : 
                        eventUrl.startsWith('/') ? new URL(url).origin + eventUrl : url;
         
+        // QUALITY CHECK: Event must have meaningful content
+        // Reject if title is just 1-2 words without context (likely junk)
+        const wordCount = title.split(/\s+/).length;
+        if (wordCount === 1 && title.length < 15) return;  // Single short word = junk
+        
+        // Reject generic museum/gallery titles without event context
+        if (/^(Beach Boys|Bugonia|LunAtico|Sublime|Blink 183)$/i.test(title)) return;
+        
+        // Must have either:
+        // 1. A full year in the date (YYYY format), OR
+        // 2. Specific event indicators in title (concert, show, performance, tour, etc.)
+        const hasFullDate = /\d{4}/.test(dateText);
+        const hasEventKeywords = /(concert|show|performance|tour|festival|night|live|presents|featuring|with|vs\.)/i.test(title);
+        
+        if (!hasFullDate && !hasEventKeywords) {
+          // Likely not a real event - just generic content with a date
+          return;
+        }
+        
         events.push({
           id: uuidv4(),
           title,
@@ -188,7 +249,34 @@ function createUniversalScraper(venueName, url, address) {
       // Silent failure
     }
     
-    return filterEvents(events);
+    // DEDUPLICATION: Remove duplicate events by title + date + venue
+    const seen = new Set();
+    const uniqueEvents = [];
+    
+    for (const event of events) {
+      // Clean title: remove excess whitespace, truncate if too long
+      let cleanTitle = event.title
+        .replace(/\s+/g, ' ')
+        .replace(/\n/g, ' ')
+        .trim();
+      
+      // Truncate long titles (likely include descriptions)
+      if (cleanTitle.length > 100) {
+        cleanTitle = cleanTitle.substring(0, 97) + '...';
+      }
+      
+      event.title = cleanTitle;
+      
+      // Create unique key
+      const key = `${cleanTitle.toLowerCase()}|${event.date}|${event.venue.name}`;
+      
+      if (!seen.has(key)) {
+        seen.add(key);
+        uniqueEvents.push(event);
+      }
+    }
+    
+    return filterEvents(uniqueEvents);
   };
 }
 
