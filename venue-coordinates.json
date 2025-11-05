@@ -128,5 +128,45 @@
     "latitude": 49.2820,
     "longitude": -123.0463,
     "address": "2901 East Hastings Street, Vancouver, BC V5K 5J1"
+  },
+  "Firehall Arts Centre": {
+    "latitude": 49.2807,
+    "longitude": -123.0980,
+    "address": "280 East Cordova Street, Vancouver, BC V6A 1L3"
+  },
+  "Celebrities Nightclub": {
+    "latitude": 49.2814,
+    "longitude": -123.1106,
+    "address": "1022 Davie Street, Vancouver, BC V6E 1M3"
+  },
+  "Bell Performing Arts Centre": {
+    "latitude": 49.2000,
+    "longitude": -122.8458,
+    "address": "6450 Deer Lake Avenue, Burnaby, BC V5G 2J3"
+  },
+  "Broadway Vancouver": {
+    "latitude": 49.2630,
+    "longitude": -123.1139,
+    "address": "1588 West Broadway, Vancouver, BC V6J 1W8"
+  },
+  "Made in the 604": {
+    "latitude": 49.2827,
+    "longitude": -123.1207,
+    "address": "Vancouver, BC"
+  },
+  "Vancouver Fringe Festival": {
+    "latitude": 49.2827,
+    "longitude": -123.1207,
+    "address": "Vancouver, BC"
+  },
+  "Vancouver Pride": {
+    "latitude": 49.2827,
+    "longitude": -123.1207,
+    "address": "Vancouver, BC"
+  },
+  "Vancouver Writers Fest": {
+    "latitude": 49.2711,
+    "longitude": -123.1347,
+    "address": "Granville Island, Vancouver, BC"
   }
 }
