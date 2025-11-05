@@ -23,6 +23,36 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Load venue coordinates
+const venueCoordinates = require('./venue-coordinates.json');
+
+// Function to inject coordinates into venue objects
+function addVenueCoordinates(event) {
+  if (event && event.venue && event.venue.name) {
+    const venueName = event.venue.name.trim();
+    
+    // Try exact match first
+    if (venueCoordinates[venueName]) {
+      event.venue.latitude = venueCoordinates[venueName].latitude;
+      event.venue.longitude = venueCoordinates[venueName].longitude;
+      return event;
+    }
+    
+    // Try fuzzy matching - check if venue name contains known venue
+    for (const [knownVenue, coords] of Object.entries(venueCoordinates)) {
+      const knownLower = knownVenue.toLowerCase();
+      const eventLower = venueName.toLowerCase();
+      
+      if (eventLower.includes(knownLower) || knownLower.includes(eventLower)) {
+        event.venue.latitude = coords.latitude;
+        event.venue.longitude = coords.longitude;
+        return event;
+      }
+    }
+  }
+  return event;
+}
+
 // MongoDB connection URI (must be set in Render environment)
 const CLOUD_MONGODB_URI = process.env.MONGODB_URI;
 
@@ -825,8 +855,11 @@ async function startServer() {
           return event;
         });
         
+        // Add venue coordinates for map display
+        const eventsWithCoordinates = normalizedEvents.map(event => addVenueCoordinates(event));
+        
         // Format response in the structure expected by the admin dashboard
-        res.status(200).json({ events: normalizedEvents });
+        res.status(200).json({ events: eventsWithCoordinates });
       } catch (err) {
         console.error('Error fetching events for admin UI:', err);
         res.status(500).json({ error: 'Failed to fetch events' });
@@ -842,7 +875,10 @@ async function startServer() {
           return res.status(404).json({ error: 'Event not found' });
         }
         
-        res.status(200).json(event);
+        // Add venue coordinates
+        const eventWithCoordinates = addVenueCoordinates(event);
+        
+        res.status(200).json(eventWithCoordinates);
       } catch (err) {
         console.error('Error fetching event:', err);
         res.status(500).json({ error: 'Failed to fetch event' });

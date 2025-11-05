@@ -1,0 +1,132 @@
+{
+  "Fortune Sound Club": {
+    "latitude": 49.2809,
+    "longitude": -123.1033,
+    "address": "147 East Pender Street, Vancouver, BC V6A 1T6"
+  },
+  "Commodore Ballroom": {
+    "latitude": 49.2795,
+    "longitude": -123.1216,
+    "address": "868 Granville Street, Vancouver, BC V6Z 1K3"
+  },
+  "Rogers Arena": {
+    "latitude": 49.2778,
+    "longitude": -123.1089,
+    "address": "800 Griffiths Way, Vancouver, BC V6B 6G1"
+  },
+  "Orpheum Theatre": {
+    "latitude": 49.2803,
+    "longitude": -123.1245,
+    "address": "601 Smithe Street, Vancouver, BC V6B 5G1"
+  },
+  "Queen Elizabeth Theatre": {
+    "latitude": 49.2802,
+    "longitude": -123.1116,
+    "address": "630 Hamilton Street, Vancouver, BC V6B 5N6"
+  },
+  "Vancouver Art Gallery": {
+    "latitude": 49.2829,
+    "longitude": -123.1202,
+    "address": "750 Hornby Street, Vancouver, BC V6Z 2H7"
+  },
+  "BC Place": {
+    "latitude": 49.2768,
+    "longitude": -123.1119,
+    "address": "777 Pacific Boulevard, Vancouver, BC V6B 4Y8"
+  },
+  "The Roxy": {
+    "latitude": 49.2804,
+    "longitude": -123.1217,
+    "address": "932 Granville Street, Vancouver, BC V6Z 1L2"
+  },
+  "Fox Cabaret": {
+    "latitude": 49.2627,
+    "longitude": -123.0799,
+    "address": "2321 Main Street, Vancouver, BC V5T 3C9"
+  },
+  "Rickshaw Theatre": {
+    "latitude": 49.2808,
+    "longitude": -123.1042,
+    "address": "254 East Hastings Street, Vancouver, BC V6A 1P1"
+  },
+  "The Biltmore Cabaret": {
+    "latitude": 49.2638,
+    "longitude": -123.0798,
+    "address": "2755 Prince Edward Street, Vancouver, BC V5T 3M8"
+  },
+  "Electric Owl": {
+    "latitude": 49.2646,
+    "longitude": -123.0790,
+    "address": "928 Main Street, Vancouver, BC V6A 2V7"
+  },
+  "Vancouver Playhouse": {
+    "latitude": 49.2802,
+    "longitude": -123.1116,
+    "address": "600 Hamilton Street, Vancouver, BC V6B 5N6"
+  },
+  "Granville Island": {
+    "latitude": 49.2711,
+    "longitude": -123.1347,
+    "address": "1661 Duranleau Street, Vancouver, BC V6H 3S3"
+  },
+  "UBC Chan Centre": {
+    "latitude": 49.2697,
+    "longitude": -123.2548,
+    "address": "6265 Crescent Road, Vancouver, BC V6T 1Z1"
+  },
+  "Malkin Bowl": {
+    "latitude": 49.3016,
+    "longitude": -123.1386,
+    "address": "610 Pipeline Road, Vancouver, BC V6G 1Z4"
+  },
+  "Science World": {
+    "latitude": 49.2733,
+    "longitude": -123.1036,
+    "address": "1455 Quebec Street, Vancouver, BC V6A 3Z7"
+  },
+  "Vancouver Symphony Orchestra": {
+    "latitude": 49.2803,
+    "longitude": -123.1245,
+    "address": "601 Smithe Street, Vancouver, BC V6B 5G1"
+  },
+  "Vancouver Opera": {
+    "latitude": 49.2803,
+    "longitude": -123.1245,
+    "address": "500-845 Cambie Street, Vancouver, BC V6B 4Z9"
+  },
+  "Arts Club Theatre": {
+    "latitude": 49.2711,
+    "longitude": -123.1347,
+    "address": "1585 Johnston Street, Vancouver, BC V6H 3R9"
+  },
+  "Vogue Theatre": {
+    "latitude": 49.2800,
+    "longitude": -123.1220,
+    "address": "918 Granville Street, Vancouver, BC V6Z 1L2"
+  },
+  "Museum of Anthropology": {
+    "latitude": 49.2697,
+    "longitude": -123.2592,
+    "address": "6393 NW Marine Drive, Vancouver, BC V6T 1Z2"
+  },
+  "Museum of Vancouver": {
+    "latitude": 49.2755,
+    "longitude": -123.1442,
+    "address": "1100 Chestnut Street, Vancouver, BC V6J 3J9"
+  },
+  "The Cultch": {
+    "latitude": 49.2650,
+    "longitude": -123.0697,
+    "address": "1895 Venables Street, Vancouver, BC V5L 2H6"
+  },
+  "Pacific Coliseum": {
+    "latitude": 49.2807,
+    "longitude": -123.0449,
+    "address": "100 North Renfrew Street, Vancouver, BC V5K 3N7"
+  },
+  "PNE Forum": {
+    "latitude": 49.2820,
+    "longitude": -123.0463,
+    "address": "2901 East Hastings Street, Vancouver, BC V5K 5J1"
+  }
+}
