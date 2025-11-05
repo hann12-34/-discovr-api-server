@@ -174,9 +174,10 @@ function filterEvents(events) {
       return false;
     }
     
-    // Filter short titles (< 10 chars) except known exceptions
+    // Filter short titles (< 4 chars) except known exceptions
+    // Allow DJ names and short event titles (JAUZ, WUKI, ZERB, etc.)
     const VALID_SHORT = ['PNE', 'VSO', 'UBC', 'VIFF', 'BMO'];
-    if (event.title.length < 10 && !VALID_SHORT.includes(event.title.trim())) {
+    if (event.title.length < 4 && !VALID_SHORT.includes(event.title.trim())) {
       console.log(`  ❌ Filtered out (too short): "${event.title}"`);
       return false;
     }

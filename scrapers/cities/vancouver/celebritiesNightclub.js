@@ -27,187 +27,53 @@ const CelebritiesNightclubEvents = {
 
       const $ = cheerio.load(response.data);
       const events = [];
-      const seenUrls = new Set();
+      const seenTitles = new Set();
 
-      // Selectors for Celebrities Nightclub events page
-      const eventSelectors = [
-        'a[href*="/events/"]',
-        'a:contains("FFFForeal fridays")',
-        'a:contains("LOCAL LOVE")',
-        'a:contains("WUKI")',
-        'a:contains("BED BY 10PM")', 
-        'a:contains("WESTEND")',
-        'a:contains("JAUZ")',
-        'a:contains("MATHAME")',
-        'a:contains("ZERB")',
-        'a:contains("J WORRA")',
-        'a:contains("BUNT")',
-        'a:contains("FORESTER")',
-        'a:contains("BAYNK")',
-        'a:contains("DEEP DISH")',
-        'a:contains("Playhouse")',
-        'a:contains("STACKED")',
-        'a:contains("Stereotype")',
-        'h3 a',
-        'h2 a',
-        '.event-card a',
-        '.event-item a'
-      ];
+      console.log('Parsing Celebrities events from new Squarespace structure...');
 
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
+      // New structure: Each event is in a .sqs-html-content block
+      // with h3 containing date and title like "11.6.25 • ODD MOB"
+      $('.sqs-html-content').each((i, block) => {
+        const $block = $(block);
+        
+        // Find h3 with date and title
+        const h3 = $block.find('h3').first().text().trim();
+        if (!h3) return;
+        
+        // Parse format: "11.6.25 • ODD MOB" or "11.7.25 • Jessica Audiffred"
+        const match = h3.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2})\s*[•·]\s*(.+)$/i);
+        if (!match) return;
+        
+        const [, month, day, year, title] = match;
+        const fullYear = `20${year}`; // 25 -> 2025
+        const dateText = `${month}/${day}/${fullYear}`;
+        
+        if (!title || title.length < 2) return;
+        if (seenTitles.has(title)) return;
+        seenTitles.add(title);
+        
+        // Find ticket link
+        let url = 'https://www.celebritiesnightclub.com/events';
+        const ticketLink = $block.find('a[href*="celebritiesnightclub.com"]').first().attr('href');
+        if (ticketLink) {
+          url = ticketLink.startsWith('http') ? ticketLink : `https://www.celebritiesnightclub.com${ticketLink}`;
         }
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
-
-          if (!title || !url) return;
-
-          // Skip if we've already seen this URL
-          if (seenUrls.has(url)) return;
-
-          // Convert relative URLs to absolute
-          if (url.startsWith('/')) {
-            url = 'https://www.celebritiesnightclub.com' + url;
-          }
-
-          // Filter out navigation, social media, and promotional links
-          const skipPatterns = [
-            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
-            /\/about/i, /\/contact/i, /\/home/i, /\/search/i,
-            /\/login/i, /\/register/i, /\/account/i, /\/cart/i,
-            /mailto:/i, /tel:/i, /javascript:/i, /#/,
-            /\/privacy/i, /\/terms/i, /\/policy/i
-          ];
-
-          if (skipPatterns.some(pattern => pattern.test(url))) {
-            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
-            return;
-          }
-
-          // Clean up title
-          title = title.replace(/\s+/g, ' ').trim();
-          
-          // Skip very short or generic titles
-          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?|ics|view event|→|view event →)$/i.test(title)) {
-            console.log(`✗ Filtered out generic title: "${title}"`);
-            return;
-          }
-
-          seenUrls.add(url);
-
-          // Only log valid events (junk will be filtered out)
-          // Extract date from event element
-
-
-          let dateText = null;
-
-
-          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
-
-
-          for (const selector of dateSelectors) {
-
-
-            const dateEl = $element.find(selector).first();
-
-
-            if (dateEl.length > 0) {
-
-
-              dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-              if (dateText && dateText.length > 0) break;
-
-
-            }
-
-
-          }
-
-
-          if (!dateText) {
-
-
-            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
-
-
-            if ($parent.length > 0) {
-
-
-              for (const selector of dateSelectors) {
-
-
-                const dateEl = $parent.find(selector).first();
-
-
-                if (dateEl.length > 0) {
-
-
-                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-                  if (dateText && dateText.length > 0) break;
-
-
-                }
-
-
-              }
-
-
-            }
-
-
-          }
-
-
-          if (dateText) {
-            dateText = dateText
-              .replace(/\n/g, ' ')
-              .replace(/\s+/g, ' ')
-              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
-              .trim();
-            
-            if (!/\d{4}/.test(dateText)) {
-              const currentYear = new Date().getFullYear();
-              const currentMonth = new Date().getMonth();
-              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-              const dateLower = dateText.toLowerCase();
-              const monthIndex = months.findIndex(m => dateLower.includes(m));
-              if (monthIndex !== -1) {
-                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                dateText = `${dateText}, ${year}`;
-              } else {
-                dateText = `${dateText}, ${currentYear}`;
-              }
-            }
-          }
-
-
-          
-
-
-          events.push({
-            id: uuidv4(),
-            title: title,
-            url: url,
-            venue: { name: 'Celebrities Nightclub', address: '1022 Davie Street, Vancouver, BC V6E 1M3', city: 'Vancouver' },
-            city: city,
-            date: dateText || null,
-            source: 'Celebrities Nightclub',
-            category: 'Nightlife'
-          });
+        events.push({
+          id: uuidv4(),
+          title: title,
+          url: url,
+          venue: {
+            name: 'Celebrities Nightclub',
+            address: '1022 Davie Street, Vancouver, BC V6E 1M3',
+            city: 'Vancouver'
+          },
+          city: city,
+          date: dateText,
+          source: 'Celebrities Nightclub',
+          category: 'Nightlife'
         });
-      }
+      });
 
       console.log(`Found ${events.length} total events from Celebrities Nightclub`);
       return filterEvents(events);
