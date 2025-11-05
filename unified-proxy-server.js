@@ -30,24 +30,50 @@ const venueCoordinates = require('./venue-coordinates.json');
 function addVenueCoordinates(event) {
   if (event && event.venue && event.venue.name) {
     const venueName = event.venue.name.trim();
+    let coords = null;
     
     // Try exact match first
     if (venueCoordinates[venueName]) {
-      event.venue.latitude = venueCoordinates[venueName].latitude;
-      event.venue.longitude = venueCoordinates[venueName].longitude;
-      return event;
+      coords = venueCoordinates[venueName];
+    } else {
+      // Try fuzzy matching - check if venue name contains known venue
+      for (const [knownVenue, venueCoords] of Object.entries(venueCoordinates)) {
+        const knownLower = knownVenue.toLowerCase();
+        const eventLower = venueName.toLowerCase();
+        
+        if (eventLower.includes(knownLower) || knownLower.includes(eventLower)) {
+          coords = venueCoords;
+          break;
+        }
+      }
     }
     
-    // Try fuzzy matching - check if venue name contains known venue
-    for (const [knownVenue, coords] of Object.entries(venueCoordinates)) {
-      const knownLower = knownVenue.toLowerCase();
-      const eventLower = venueName.toLowerCase();
+    // Add coordinates in MULTIPLE formats for iOS compatibility
+    if (coords) {
+      // Format 1: latitude/longitude (full names)
+      event.venue.latitude = coords.latitude;
+      event.venue.longitude = coords.longitude;
       
-      if (eventLower.includes(knownLower) || knownLower.includes(eventLower)) {
-        event.venue.latitude = coords.latitude;
-        event.venue.longitude = coords.longitude;
-        return event;
-      }
+      // Format 2: lat/lon (short names)
+      event.venue.lat = coords.latitude;
+      event.venue.lon = coords.longitude;
+      
+      // Format 3: lat/lng (alternative short)
+      event.venue.lng = coords.longitude;
+      
+      // Format 4: coordinates object
+      event.venue.coordinates = {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        lat: coords.latitude,
+        lng: coords.longitude
+      };
+      
+      // Format 5: location object
+      event.venue.location = {
+        latitude: coords.latitude,
+        longitude: coords.longitude
+      };
     }
   }
   return event;
