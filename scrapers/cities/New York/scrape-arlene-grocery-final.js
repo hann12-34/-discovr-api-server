@@ -8,7 +8,7 @@ const VENUE_ADDRESS = '95 Stanton St, New York, NY 10002';
 
 async function scrapeEvents(city = 'New York') {
   console.log('🎪 Scraping events...');
-  const events = [];
+  let events = [];
   
   try {
     const response = await axios.get('https://arlenesgrocery.net/', {

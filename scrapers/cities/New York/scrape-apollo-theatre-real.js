@@ -5,7 +5,7 @@ const { parseDateText } = require('../../utils/city-util');
 
 async function scrapeEvents(city = 'New York') {
   console.log('🎪 Scraping Apollo Theater events...');
-  const events = [];
+  let events = [];
   
   try {
     const response = await axios.get('https://www.apollotheater.org/', {

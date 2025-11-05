@@ -24,7 +24,7 @@ async function scrapeEvents() {
         });
 
         const $ = cheerio.load(response.data);
-        const events = [];
+        let events = [];
 
         // Look for event titles and artist names
         $('.artist-name, .event-title, .show-title, h1, h2, h3').each((index, element) => {

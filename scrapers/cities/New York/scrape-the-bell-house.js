@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'The Bell House';
-const VENUE_ADDRESS = '149 7th St, Brooklyn, NY 11215';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for The Bell House
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping The Bell House events...');
+  const scraper = createUniversalScraper(
+    'The Bell House',
+    'https://www.thebellhouseny.com/events.html',
+    '149 7th St, Brooklyn, NY 11215'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

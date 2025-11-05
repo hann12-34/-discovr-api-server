@@ -8,7 +8,7 @@ const VENUE_ADDRESS = '709 Lorimer St, Brooklyn, NY 11211';
 
 async function scrapeEvents(city = 'New York') {
   console.log('🎪 Scraping events...');
-  const events = [];
+  let events = [];
   
   try {
     const response = await axios.get('https://petescandystore.com/', {

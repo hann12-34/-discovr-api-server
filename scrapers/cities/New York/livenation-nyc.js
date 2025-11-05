@@ -1,13 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log('🎪 Scraping NYC events...');
-  
-  // Returns empty - needs real venue URL research
-  // NO aggregator fallbacks per user requirement
-  console.log('   ⚠️  0 events (needs real venue URL)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping LiveNation NYC events...');
+  const scraper = createUniversalScraper(
+    'LiveNation NYC',
+    'https://www.livenation.com/city/new-york-ny/12766',
+    'New York, NY'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

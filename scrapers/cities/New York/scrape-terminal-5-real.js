@@ -8,7 +8,7 @@ const { parseDateText } = require('../../utils/city-util');
 
 async function scrapeEvents(city = 'New York') {
   console.log('🎪 Scraping Terminal 5 events...');
-  const events = [];
+  let events = [];
   
   try {
     const response = await axios.get('https://www.terminal5nyc.com/events', {

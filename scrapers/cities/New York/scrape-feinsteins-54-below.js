@@ -8,7 +8,7 @@ const VENUE_ADDRESS = '254 W 54th St, New York, NY 10019';
 
 async function scrapeEvents(city = 'New York') {
   console.log('🎪 Scraping events...');
-  const events = [];
+  let events = [];
   
   try {
     const response = await axios.get('https://54below.com/', {

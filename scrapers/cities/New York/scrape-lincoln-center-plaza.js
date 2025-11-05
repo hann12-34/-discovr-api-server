@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'Lincoln Center';
-const VENUE_ADDRESS = '10 Lincoln Center Plaza, New York, NY 10023';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for Lincoln Center
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Lincoln Center Plaza events...');
+  const scraper = createUniversalScraper(
+    'Lincoln Center Plaza',
+    'https://www.linc olncenter.org/events',
+    'Lincoln Center Plaza, New York, NY 10023'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'The Town Hall';
-const VENUE_ADDRESS = '123 W 43rd St, New York, NY 10036';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for The Town Hall
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Town Hall events...');
+  const scraper = createUniversalScraper(
+    'Town Hall',
+    'https://thetownhall.org/calendar',
+    '123 W 43rd St, New York, NY 10036'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

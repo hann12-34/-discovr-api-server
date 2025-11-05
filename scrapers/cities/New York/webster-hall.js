@@ -24,7 +24,7 @@ async function scrapeEvents() {
         });
 
         const $ = cheerio.load(response.data);
-        const events = [];
+        let events = [];
 
         // Look for event information in various selectors
         $('.event, .show, .listing, h2, h3, .artist, .headliner').each((index, element) => {

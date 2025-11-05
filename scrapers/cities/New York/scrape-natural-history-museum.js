@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'American Museum of Natural History';
-const VENUE_ADDRESS = 'Central Park W & 79th St, New York, NY 10024';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for American Museum of Natural History
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Natural History Museum events...');
+  const scraper = createUniversalScraper(
+    'Natural History Museum',
+    'https://www.amnh.org/calendar',
+    'Central Park West, New York, NY 10024'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

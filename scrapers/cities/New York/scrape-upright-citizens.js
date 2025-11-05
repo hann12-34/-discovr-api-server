@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'Upright Citizens Brigade';
-const VENUE_ADDRESS = '555 W 42nd St, New York, NY 10036';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for Upright Citizens Brigade
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Upright Citizens Brigade events...');
+  const scraper = createUniversalScraper(
+    'Upright Citizens Brigade',
+    'https://ucbtheatre.com/shows',
+    '307 W 26th St, New York, NY 10001'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

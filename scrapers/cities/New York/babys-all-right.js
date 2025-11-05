@@ -8,7 +8,7 @@ const VENUE_ADDRESS = '146 Broadway, Brooklyn, NY 11211';
 
 async function scrapeEvents(city = 'New York') {
   console.log('🎪 Scraping NYC events...');
-  const events = [];
+  let events = [];
   
   try {
     const url = 'https://www.babysallright.com/';

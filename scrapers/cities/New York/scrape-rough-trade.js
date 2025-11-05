@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'Rough Trade NYC';
-const VENUE_ADDRESS = '64 N 9th St, Brooklyn, NY 11249';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for Rough Trade NYC
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Rough Trade NYC events...');
+  const scraper = createUniversalScraper(
+    'Rough Trade NYC',
+    'https://www.roughtradenyc.com/events',
+    '64 N 9th St, Brooklyn, NY 11249'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

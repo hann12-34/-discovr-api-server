@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'Trans-Pecos';
-const VENUE_ADDRESS = '915 Wyckoff Ave, Queens, NY 11385';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for Trans-Pecos
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Trans-Pecos events...');
+  const scraper = createUniversalScraper(
+    'Trans-Pecos',
+    'https://trans-pecos.com',
+    '915 Wyckoff Ave, Queens, NY 11385'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

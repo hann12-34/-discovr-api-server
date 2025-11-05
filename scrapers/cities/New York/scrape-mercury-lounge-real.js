@@ -9,7 +9,7 @@ const { parseDateText } = require('../../utils/city-util');
 async function scrapeEvents(city = 'New York') {
   console.log('🎵 Scraping Mercury Lounge events...');
   
-  const events = [];
+  let events = [];
   
   try {
     const response = await axios.get('https://www.mercuryloungenyc.com/events', {

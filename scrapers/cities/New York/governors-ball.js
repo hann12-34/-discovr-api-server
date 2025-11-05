@@ -5,7 +5,7 @@ const { parseDateText } = require('../../utils/city-util');
 
 async function scrapeEvents(city = 'New York') {
   console.log('🎪 Scraping NYC events...');
-  const events = [];
+  let events = [];
   
   try {
     const url = 'https://www.governorsballmusicfestival.com/';

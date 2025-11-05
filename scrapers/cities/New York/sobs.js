@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'S.O.B.\'s';
-const VENUE_ADDRESS = '204 Varick St, New York, NY 10014';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for S.O.B.'s
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping S.O.B.'s events...');
+  const scraper = createUniversalScraper(
+    'S.O.B.'s',
+    'https://www.sobs.com/events',
+    '204 Varick St, New York, NY 10014'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

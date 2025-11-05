@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'Sleep No More';
-const VENUE_ADDRESS = '530 W 27th St, New York, NY 10001';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for Sleep No More
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Sleep No More events...');
+  const scraper = createUniversalScraper(
+    'Sleep No More',
+    'https://mckittrickhotel.com/events',
+    '530 W 27th St, New York, NY 10001'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;

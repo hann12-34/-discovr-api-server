@@ -1,16 +1,13 @@
-const { filterEvents } = require('../../utils/eventFilter');
-
-const VENUE_NAME = 'Brooklyn Bowl';
-const VENUE_ADDRESS = '61 Wythe Ave, Brooklyn, NY 11249';
+const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'New York') {
-  console.log(`🎪 Scraping ${VENUE_NAME} events...`);
-  
-  // TODO: Add actual scraping logic for Brooklyn Bowl
-  // URL needed for scraping
-  console.log('   ⚠️  0 events (scraping logic not yet implemented)');
-  
-  return filterEvents([]);
+  console.log('🎪 Scraping Brooklyn Bowl events...');
+  const scraper = createUniversalScraper(
+    'Brooklyn Bowl',
+    'https://www.brooklynbowl.com/new-york/events',
+    '61 Wythe Ave, Brooklyn, NY 11249'
+  );
+  return await scraper(city);
 }
 
 module.exports = scrapeEvents;
