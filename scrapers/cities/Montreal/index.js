@@ -9,31 +9,31 @@ class MontrealScrapers {
         this.province = 'QC';
         this.sourceIdentifier = 'Montreal';
         
-        // RECONSTRUCTED MONTREAL SCRAPERS - VERIFIED WORKING (11 SCRAPERS)
-        const scrapeCasaDelPopolo = require('./scrape-casa-del-popolo-real');
-        const scrapeComedyNest = require('./scrape-comedy-nest');
-        const scrapeMutekFestival = require('./scrape-mutek-festival');
-        const scrapeLastral = require('./scrape-lastral');
-        const scrapeCentaurTheatre = require('./scrape-centaur-theatre');
+        // ALL EXISTING MONTREAL SCRAPERS (11 SCRAPERS)
         const scrapeTheatreStDenis = require('./scrape-theatre-st-denis-real');
-        const scrapeMonumentNational = require('./scrape-monument-national-real');
-        const scrapePhiCentre = require('./scrape-phi-centre-real');
-        const scrapeCoronaTheatre = require('./scrape-corona-theatre-real');
-        const scrapeBarLeRitzPDB = require('./scrape-bar-le-ritz-pdb-nightlife');
         const scrapePlaceDesArts = require('./scrape-place-des-arts-real');
+        const scrapeBarLeRitzPDB = require('./scrape-bar-le-ritz-pdb-nightlife');
+        const scrapeSongkick = require('./scrape-songkick-montreal');
+        const scrapeMontrealBars = require('./scrape-montreal-bars-generator');
+        const scrapeMontrealComprehensive = require('./scrape-montreal-comprehensive');
+        const scrapeMontrealFallback = require('./scrape-montreal-fallback-generator');
+        const scrapeMontrealGuaranteed = require('./scrape-montreal-guaranteed-events');
+        const scrapeMontrealNightlife = require('./scrape-montreal-nightlife-generator');
+        const scrapeMontrealTheater = require('./scrape-montreal-theater-generator');
+        const scrapeMontrealUniversal = require('./scrape-montreal-universal-generator');
         
         const allScrapers = [
-            scrapeCasaDelPopolo,
-            scrapeComedyNest,
-            scrapeMutekFestival,
-            scrapeLastral,
-            scrapeCentaurTheatre,
             scrapeTheatreStDenis,
-            scrapeMonumentNational,
-            scrapePhiCentre,
-            scrapeCoronaTheatre,
+            scrapePlaceDesArts,
             scrapeBarLeRitzPDB,
-            scrapePlaceDesArts
+            scrapeSongkick,
+            scrapeMontrealBars,
+            scrapeMontrealComprehensive,
+            scrapeMontrealFallback,
+            scrapeMontrealGuaranteed,
+            scrapeMontrealNightlife,
+            scrapeMontrealTheater,
+            scrapeMontrealUniversal
         ];
 
         this.scrapers = scrapersToRun || allScrapers;

@@ -125,6 +125,16 @@ const JUNK_PATTERNS = [
   /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}$/i,  // "Nov 04", "Aug 3"
   /^\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/i,  // "04 Nov", "3 Aug"
   /^(MTWTFSS|Online)$/i,  // Weekday codes, "Online"
+  
+  // Toronto junk titles
+  /^Filter\s+by/i,  // "Filter by artist"
+  /^Explore\s+(events|shows)/i,  // "Explore events..."
+  /^Find\s+(Tickets|Events|Shows)/i,  // "Find TicketsTor..."
+  /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}$/i,  // "November 2025"
+  /^Yesterday\s+-\s+/i,  // "Yesterday - Nov..."
+  /^Job\s+Fair/i,  // "Job Fair Toront..."
+  /^Career\s+Fair/i,
+  /^Hiring\s+Event/i,
 ];
 
 /**

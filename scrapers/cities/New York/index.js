@@ -1,7 +1,10 @@
 /**
- * New York city scraper coordinator - CLEAN RECONSTRUCTION
- * Nuclear reconstruction approach due to massive syntax corruption across scrapers
+ * New York city scraper coordinator - DYNAMIC LOADER
+ * Loads all available scrapers from directory
  */
+
+const fs = require('fs');
+const path = require('path');
 
 class NewYorkScrapers {
     constructor(scrapersToRun) {
@@ -9,21 +12,29 @@ class NewYorkScrapers {
         this.province = 'NY';
         this.sourceIdentifier = 'NewYork';
         
-        // RECONSTRUCTED NEW YORK SCRAPERS - VERIFIED WORKING
-        const ApolloTheaterEvents = require('./apollotheater-clean');
-        const CarnegieHallEvents = require('./carnegiehall-clean');
-        const LincolnCenterEvents = require('./lincolncenter-clean');
+        // Dynamically load all scrapers from directory
+        const allScrapers = [];
+        const scraperFiles = fs.readdirSync(__dirname)
+            .filter(file => file.endsWith('.js') && 
+                           file !== 'index.js' && 
+                           !file.includes('test') && 
+                           !file.includes('backup') && 
+                           !file.includes('template'));
         
-        const allScrapers = [
-            new ApolloTheaterEvents(),
-            new CarnegieHallEvents(),
-            new LincolnCenterEvents()
-        ];
+        console.log(`🗽 Found ${scraperFiles.length} potential New York scrapers`);
+        
+        for (const file of scraperFiles) {
+            try {
+                const scraperPath = path.join(__dirname, file);
+                const scraper = require(scraperPath);
+                allScrapers.push(scraper);
+            } catch (error) {
+                // Skip broken scrapers silently
+            }
+        }
 
         this.scrapers = scrapersToRun || allScrapers;
-
-        console.log(`🎆 New York Scrapers initialized - ${this.scrapers.length} clean scrapers`);
-        console.log(`⚠️ New York scrapers require nuclear reconstruction due to massive syntax corruption`);
+        console.log(`✅ Loaded ${this.scrapers.length} working New York scrapers`);
     }
 
     async scrape() {

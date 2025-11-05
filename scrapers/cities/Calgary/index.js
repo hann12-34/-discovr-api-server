@@ -3,27 +3,35 @@
  * Manages all working Calgary venue scrapers
  */
 
-// Working Calgary scrapers
-const scrapeSaddledome = require('./scrape-saddledome');
+// All working Calgary scrapers (13 total)
 const scrapeJubileeAuditorium = require('./scrape-jubilee-auditorium');
-const scrapeTheatreCalgary = require('./scrape-theatre-calgary');
 const scrapeCalgaryZoo = require('./scrape-calgary-zoo');
 const scrapeHeritagePark = require('./scrape-heritage-park');
-const scrapeArtsCommons = require('./scrape-calgary-centre-for-performing-arts');
-const scrapeCommonwealth = require('./scrape-commonwealth-bar-stage');
-const scrapeCalgaryStampede = require('./scrape-calgary-stampede');
-const scrapePalaceTheatre = require('./scrape-palace-theatre');
+const scrapePalaceTheatreEvents = require('./scrape-the-palace-theatre-events');
+const scrapePalaceTheatreNightlife = require('./scrape-the-palace-theatre-nightlife');
+const scrapeSpruceMeadows = require('./scrape-spruce-meadows-events');
+const scrapeGreyEagle = require('./scrape-grey-eagle-resort-events');
+const scrapeCommonwealthNightlife = require('./scrape-commonwealth-bar-stage-nightlife');
+const scrapeBrokenCityNightlife = require('./scrape-broken-city-nightlife');
+const scrapeCowboysNightlife = require('./scrape-cowboys-music-festival-nightlife');
+const scrapeDickensPubNightlife = require('./scrape-dickens-pub-nightlife');
+const scrapeNationalOn10thNightlife = require('./scrape-national-on-10th-nightlife');
+const scrapeHiFiClubNightlife = require('./scrape-the-hifi-club-nightlife');
 
 const scrapers = [
-    { name: 'Scotiabank Saddledome', scraper: scrapeSaddledome },
     { name: 'Jubilee Auditorium', scraper: scrapeJubileeAuditorium },
-    { name: 'Theatre Calgary', scraper: scrapeTheatreCalgary },
     { name: 'Calgary Zoo', scraper: scrapeCalgaryZoo },
     { name: 'Heritage Park', scraper: scrapeHeritagePark },
-    { name: 'Arts Commons Calgary', scraper: scrapeArtsCommons },
-    { name: 'Commonwealth Bar & Stage', scraper: scrapeCommonwealth },
-    { name: 'Calgary Stampede', scraper: scrapeCalgaryStampede },
-    { name: 'Palace Theatre', scraper: scrapePalaceTheatre }
+    { name: 'Palace Theatre Events', scraper: scrapePalaceTheatreEvents },
+    { name: 'Palace Theatre Nightlife', scraper: scrapePalaceTheatreNightlife },
+    { name: 'Spruce Meadows', scraper: scrapeSpruceMeadows },
+    { name: 'Grey Eagle Resort', scraper: scrapeGreyEagle },
+    { name: 'Commonwealth Bar & Stage Nightlife', scraper: scrapeCommonwealthNightlife },
+    { name: 'Broken City Nightlife', scraper: scrapeBrokenCityNightlife },
+    { name: 'Cowboys Music Festival Nightlife', scraper: scrapeCowboysNightlife },
+    { name: 'Dickens Pub Nightlife', scraper: scrapeDickensPubNightlife },
+    { name: 'National on 10th Nightlife', scraper: scrapeNationalOn10thNightlife },
+    { name: 'HiFi Club Nightlife', scraper: scrapeHiFiClubNightlife }
 ];
 
 async function scrapeCalgaryCityEvents() {
