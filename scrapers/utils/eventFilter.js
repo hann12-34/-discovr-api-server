@@ -135,6 +135,37 @@ const JUNK_PATTERNS = [
   /^Job\s+Fair/i,  // "Job Fair Toront..."
   /^Career\s+Fair/i,
   /^Hiring\s+Event/i,
+  
+  // NEW: Generic navigation/page elements
+  /^Calendar$/i,
+  /^Location$/i,
+  /^What'?s\s+New$/i,
+  /^Stay\s+Up\s+to\s+Date/i,
+  /^Interactive\s+Map$/i,
+  /^Splash\s+Page$/i,
+  /^explore\s+the\s+space$/i,
+  /^It'?s\s+a\s+feeling$/i,
+  /^Join\s+THE\s+A-LIST/i,
+  /^Support\s+musician$/i,
+  
+  // NEW: Date-only titles (NOT real events)
+  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(day)?,?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*\d{0,2}$/i,  // "Friday, Novemb", "Tue Nov 04"
+  /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+Nove?m?b?e?r?\.{3}$/i,  // "Thursday, Nove..."
+  /^Today\s*\+\s*Tomo?r?r?\.{0,3}$/i,  // "Today + Tomorr..."
+  
+  // NEW: Generic content titles
+  /^School\s+Group\s+Vi/i,  // "School Group Vi..."
+  /^Met\s+Expert\s+Talk/i,
+  /^Faculty\s+Afterno/i,
+  /^Fall\s+First\s+Discov/i,
+  /^FETCH\s+TIGER/i,
+  /^VIJAY\s+IYER\s+QU/i,
+  
+  // NEW: Generic promotional/page titles
+  /^(30th|20th|10th)\s+ANNIVERS/i,  // "30th ANNIVERS..."
+  /^Election\s+Night/i,
+  /^Ice[\s-]?Theatre\s+ov/i,  // "Ice Theatre ov..."
+  /^Cooling\s+Class/i,  // "Cooling Class" (likely exhibit not event)
 ];
 
 /**
@@ -154,6 +185,21 @@ function isJunkTitle(title) {
   
   // Too long (likely scraped HTML)
   if (trimmed.length > 200) {
+    return true;
+  }
+  
+  // Reject single-word generic titles (unless they're known valid)
+  const wordCount = trimmed.split(/\s+/).length;
+  const VALID_SINGLE_WORDS = ['JAUZ', 'WUKI', 'ZERB', 'TIESTO', 'ALESSO', 'REZZ', 'ZEDD'];
+  if (wordCount === 1 && trimmed.length < 15 && !VALID_SINGLE_WORDS.includes(trimmed.toUpperCase())) {
+    // Single word titles are suspicious unless they're DJ names or have context
+    if (/^(Calendar|Location|Search|Filter|Today|Tomorrow|Explore|Discover|Join|Support)$/i.test(trimmed)) {
+      return true;
+    }
+  }
+  
+  // Reject truncated titles ending with "..." that look generic
+  if (trimmed.endsWith('...') && trimmed.length < 20) {
     return true;
   }
   
