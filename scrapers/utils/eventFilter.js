@@ -166,6 +166,19 @@ const JUNK_PATTERNS = [
   /^Election\s+Night/i,
   /^Ice[\s-]?Theatre\s+ov/i,  // "Ice Theatre ov..."
   /^Cooling\s+Class/i,  // "Cooling Class" (likely exhibit not event)
+  
+  // CRITICAL: Specific junk that keeps getting through
+  /^Beach\s+Boys$/i,
+  /^Stay\s+in\s+the\s+Know$/i,
+  /^Bugonia$/i,
+  /^The\s+Mastermind$/i,
+  /^LunAtico$/i,
+  /^Date\s+Range$/i,
+  /^Sublime$/i,
+  /^Blink\s*183?$/i,
+  /^Views\s+Navigation$/i,
+  /^Jam\s+Session\s+Hosted\s+By/i,
+  /^Vinyl\s+After\s+Hours$/i,
 ];
 
 /**

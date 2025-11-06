@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { toISODate } = require('../../utils/dateNormalizer');
 
 class NewYorkScrapers {
     constructor(scrapersToRun) {
@@ -82,6 +83,14 @@ class NewYorkScrapers {
         const uniqueEvents = [];
         
         for (const event of allEvents) {
+            // Convert date to ISO format for reliable iOS parsing
+            if (event.date) {
+                const isoDate = toISODate(event.date);
+                if (isoDate) {
+                    event.date = isoDate; // Replace with ISO format: YYYY-MM-DD
+                }
+            }
+            
             // Create unique key: title + date + venue (case-insensitive, normalized)
             const normalizedTitle = event.title.toLowerCase().trim().replace(/\s+/g, ' ');
             const normalizedDate = (event.date || '').toLowerCase().trim().replace(/\s+/g, ' ');
