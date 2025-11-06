@@ -77,8 +77,31 @@ class NewYorkScrapers {
             }
         }
         
-        console.log(`\n🏆 NY: ${successCount} working, ${failCount} failed, ${allEvents.length} events`);
-        return allEvents;
+        // GLOBAL DEDUPLICATION: Remove duplicates across all scrapers
+        const seen = new Set();
+        const uniqueEvents = [];
+        
+        for (const event of allEvents) {
+            // Create unique key: title + date + venue (case-insensitive, normalized)
+            const normalizedTitle = event.title.toLowerCase().trim().replace(/\s+/g, ' ');
+            const normalizedDate = (event.date || '').toLowerCase().trim().replace(/\s+/g, ' ');
+            const venueName = (event.venue?.name || event.source || '').toLowerCase().trim();
+            
+            const key = `${normalizedTitle}|${normalizedDate}|${venueName}`;
+            
+            if (!seen.has(key)) {
+                seen.add(key);
+                uniqueEvents.push(event);
+            }
+        }
+        
+        const duplicatesRemoved = allEvents.length - uniqueEvents.length;
+        if (duplicatesRemoved > 0) {
+            console.log(`\n🧹 Removed ${duplicatesRemoved} duplicate events`);
+        }
+        
+        console.log(`\n🏆 NY: ${successCount} working, ${failCount} failed, ${uniqueEvents.length} events`);
+        return uniqueEvents;
     }
 }
 

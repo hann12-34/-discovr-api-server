@@ -230,6 +230,65 @@ function filterEvents(events) {
       return false;
     }
     
+    // Filter invalid or partial dates (must have a specific day, not just "Nov, 2025")
+    const dateStr = event.date.toString().trim();
+    
+    // Reject dates that are just "Month, Year" with no day
+    if (/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*,?\s+\d{4}$/i.test(dateStr)) {
+      console.log(`  ❌ Filtered out (no specific day): "${event.title}" - ${dateStr}`);
+      return false;
+    }
+    
+    // Reject dates with truncated years like "Nov 7, 202"
+    if (/\d{1,2},\s+\d{3}$/.test(dateStr) || /\d{1,2},\s+20\d$/.test(dateStr)) {
+      console.log(`  ❌ Filtered out (invalid year): "${event.title}" - ${dateStr}`);
+      return false;
+    }
+    
+    // Reject dates like "November 0" (invalid day)
+    if (/November\s+0/i.test(dateStr) || /\s+0,\s+/.test(dateStr)) {
+      console.log(`  ❌ Filtered out (invalid day): "${event.title}" - ${dateStr}`);
+      return false;
+    }
+    
+    // Require dates to have at least a number (day) in them
+    if (!/\d/.test(dateStr)) {
+      console.log(`  ❌ Filtered out (no date number): "${event.title}" - ${dateStr}`);
+      return false;
+    }
+    
+    // STRICT: Require dates to have a 4-digit year (2024, 2025, 2026, etc.)
+    // This prevents "Nov 7, 2" or "October 14, " from getting through
+    if (!/\b20\d{2}\b/.test(dateStr)) {
+      console.log(`  ❌ Filtered out (missing 4-digit year): "${event.title}" - ${dateStr}`);
+      return false;
+    }
+    
+    // Filter events where title is EXACTLY the venue name (venue headers, not events)
+    const venueName = event.venue?.name || event.source;
+    if (venueName && event.title.trim() === venueName.trim()) {
+      console.log(`  ❌ Filtered out (venue header): "${event.title}"`);
+      return false;
+    }
+    
+    // Filter events where title is venue name with minimal extra text
+    if (venueName) {
+      const titleLower = event.title.toLowerCase().trim();
+      const venueLower = venueName.toLowerCase().trim();
+      
+      // If title starts with venue name and is very short, it's likely a header
+      if (titleLower.startsWith(venueLower) && event.title.length < venueName.length + 10) {
+        console.log(`  ❌ Filtered out (venue header variant): "${event.title}"`);
+        return false;
+      }
+      
+      // If title ends with venue name only
+      if (titleLower.endsWith(venueLower) && event.title.length < venueName.length + 10) {
+        console.log(`  ❌ Filtered out (venue name only): "${event.title}"`);
+        return false;
+      }
+    }
+    
     // Filter short titles (< 4 chars) except known exceptions
     // Allow DJ names and short event titles (JAUZ, WUKI, ZERB, etc.)
     const VALID_SHORT = ['PNE', 'VSO', 'UBC', 'VIFF', 'BMO'];
