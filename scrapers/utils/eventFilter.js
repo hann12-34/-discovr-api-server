@@ -186,6 +186,7 @@ const JUNK_PATTERNS = [
   /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}$/i,  // "Thu, Nov 6" or "Thu Nov 6"
   /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{3}\.{0,3}$/i,  // "Thu, Nov 6, 202..."
   /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*\/\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i,  // "Thu / Nov 6Dino..."
+  /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}$/i,  // "Thursday, November 6, 2025"
   
   // Generic/vague event titles
   /^Upcoming\s+Even/i,  // "Upcoming Even..."
