@@ -290,8 +290,28 @@ app.use('/api/v1/health', (req, res) => {
     status: 'ok',
     timestamp: new Date().toISOString(),
     service: 'Discovr API',
-    dbConnected: isMongoConnected
+    dbConnected: isMongoConnected,
+    version: '1.1.0' // Increment to force cache invalidation
   });
+});
+
+// FORCE CACHE CLEAR
+app.get('/api/admin/clear-cache', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  
+  // Force process exit to restart server and clear all caches
+  res.json({ 
+    success: true, 
+    message: 'Server restarting to clear all caches...',
+    timestamp: new Date().toISOString()
+  });
+  
+  setTimeout(() => {
+    console.log('🔄 FORCE RESTART - Clearing all caches');
+    process.exit(0); // Render will automatically restart
+  }, 100);
 });
 
 // Mount all API routes under /api/v1
