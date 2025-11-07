@@ -88,7 +88,14 @@ class NewYorkScrapers {
                 const isoDate = toISODate(event.date);
                 if (isoDate) {
                     event.date = isoDate; // Replace with ISO format: YYYY-MM-DD
+                } else {
+                    // Skip events with unparseable dates to avoid 1970-01-01 in iOS app
+                    console.log(`  ❌ Skipping event with bad date: "${event.date}" - ${event.title}`);
+                    continue;
                 }
+            } else {
+                // Skip events with no date
+                continue;
             }
             
             // Create unique key: title + date + venue (case-insensitive, normalized)

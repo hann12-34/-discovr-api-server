@@ -103,6 +103,36 @@ function toISODate(dateText) {
     }
   }
 
+  // Format: "Nov 8-11:30 am, 2025" (day with time, extract first number as day)
+  if (!match) {
+    match = cleaned.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\s+(\d{1,2})-\d{1,2}:\d{2}\s*[ap]m,?\s*(\d{4})/i);
+    if (match) {
+      month = monthMap[match[1].toLowerCase()];
+      day = parseInt(match[2]);
+      year = parseInt(match[3]);
+    }
+  }
+
+  // Format: "Oct 2025—Jan 2026" (date range with em-dash, take first month)
+  if (!match) {
+    match = cleaned.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\s+(\d{4})[—–-]/i);
+    if (match) {
+      month = monthMap[match[1].toLowerCase()];
+      day = 1; // Default to first day of month for ranges
+      year = parseInt(match[2]);
+    }
+  }
+
+  // Format: "17-Nov, 2025" (day-month, year)
+  if (!match) {
+    match = cleaned.match(/(\d{1,2})-(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december),?\s*(\d{4})/i);
+    if (match) {
+      day = parseInt(match[1]);
+      month = monthMap[match[2].toLowerCase()];
+      year = parseInt(match[3]);
+    }
+  }
+
   // If we found all components, return ISO format
   if (year && month && day) {
     // Validate ranges
