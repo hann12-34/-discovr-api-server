@@ -180,13 +180,14 @@ const JUNK_PATTERNS = [
   /^Jam\s+Session\s+Hosted\s+By/i,
   /^Vinyl\s+After\s+Hours$/i,
   
-  // Date/Time patterns (not real events)
-  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}\s*-\s*\d{1,2}:\d{2}/i,  // "Thu, Nov 6, 2025 - 8:00 PM"
+  // Date/Time patterns (not real events) - COMPREHENSIVE
+  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}/i,  // "Sat, Nov 8, 2025" (with or without time)
+  /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(st|nd|rd|th)?,?\s*\d{0,4}/i,  // "Thursday, November 6, 2025" or "Saturday, November 8"
+  /^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*\s+\d{1,2}(st|nd|rd|th)?/i,  // "SUNDAY NOV 2nd"
+  /^(MONDAYS|TUESDAYS|WEDNESDAYS|THURSDAYS|FRIDAYS|SATURDAYS|SUNDAYS)\s+\d/i,  // "MONDAYS 7.00pm" - recurring events
   /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(day)?,?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.{0,3}$/i,  // "Thursday, Nove..." or "Thu Nov"
   /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}$/i,  // "Thu, Nov 6" or "Thu Nov 6"
-  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{3}\.{0,3}$/i,  // "Thu, Nov 6, 202..."
   /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*\/\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i,  // "Thu / Nov 6Dino..."
-  /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}$/i,  // "Thursday, November 6, 2025"
   
   // Generic/vague event titles
   /^Upcoming\s+Even/i,  // "Upcoming Even..."
