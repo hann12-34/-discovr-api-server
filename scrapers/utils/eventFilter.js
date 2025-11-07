@@ -182,6 +182,19 @@ const JUNK_PATTERNS = [
   
   // Date/Time patterns (not real events)
   /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}\s*-\s*\d{1,2}:\d{2}/i,  // "Thu, Nov 6, 2025 - 8:00 PM"
+  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(day)?,?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.{0,3}$/i,  // "Thursday, Nove..." or "Thu Nov"
+  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}$/i,  // "Thu, Nov 6" or "Thu Nov 6"
+  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{3}\.{0,3}$/i,  // "Thu, Nov 6, 202..."
+  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*\/\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i,  // "Thu / Nov 6Dino..."
+  
+  // Generic/vague event titles
+  /^Upcoming\s+Even/i,  // "Upcoming Even..."
+  /^Christmas\s+Spec\.{3}$/i,  // "Christmas Spec..." (truncated, but allow "Christmas Spectacular")
+  /^NUOVO\s+TESTA/i,  // "NUOVO TESTA..." - museum exhibit
+  /^Grumpy,?\s+\d+(nd|rd|th)\s+Gr/i,  // "Grumpy, 2nd Gr..." - exhibit
+  /^Maximillian\s+Gor/i,  // "Maximillian Gor..." - exhibit
+  /^Vortxz$/i,  // Generic/DJ name without context
+  /^Ecovadis$/i,  // Company/corporate event
   
   // Generic activities (not specific events)
   /^Ice\s+Skating$/i,
@@ -226,8 +239,29 @@ function isJunkTitle(title) {
     }
   }
   
-  // Reject truncated titles ending with "..." that look generic
-  if (trimmed.endsWith('...') && trimmed.length < 20) {
+  // Reject truncated titles ending with "..." that look generic or incomplete
+  if (trimmed.endsWith('...')) {
+    // If very short (< 15 chars), definitely junk
+    if (trimmed.length < 15) {
+      return true;
+    }
+    
+    // If ends with incomplete word + "..." (e.g., "Thursday, Nove...", "Upcoming Even...")
+    const beforeEllipsis = trimmed.slice(0, -3).trim();
+    const lastWord = beforeEllipsis.split(/\s+/).pop();
+    
+    // Allow if it's a complete word that makes sense (Comedy, Festival, etc.)
+    const validLastWords = /^(Comedy|Festival|Show|Concert|Tour|Night|Club|Music|Jazz|Theatre|Theater|Lounge|Party|Event)$/i;
+    if (validLastWords.test(lastWord)) {
+      // This is fine - it's a truncated but recognizable event type
+    } else if (lastWord.length < 5) {
+      // Incomplete word before ... (like "Nove", "Even", "Spec")
+      return true;
+    }
+  }
+  
+  // Reject titles ending with "..." in the middle of common words
+  if (/\b(Nov|Nove|Even|Spec|Gr|Gor|Testa|Dino)\.{3}$/i.test(trimmed)) {
     return true;
   }
   
