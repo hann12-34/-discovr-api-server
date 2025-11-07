@@ -226,6 +226,7 @@ app.get('/api/v1/db-status', (req, res) => {
 const eventsRouter = require('./routes/events');
 const authRouter = require('./routes/auth');
 const venuesRouter = require('./routes/venues');
+const adminScraperRouter = require('./routes/admin-scraper');
 // const artGalleryRoutes = require('./routes/artGalleryRoutes'); // Temporarily disabled - missing scrapers
 
 // Import static routes that don't require MongoDB connection
@@ -296,6 +297,7 @@ app.use('/api/v1/health', (req, res) => {
 // Mount all API routes under /api/v1
 app.use('/api/v1', apiRoutes);
 app.use('/api/v1/auth', authRouter); // Auth routes don't need DB checking
+app.use('/api/admin', adminScraperRouter); // Admin scraper routes
 
 // Basic root route
 app.get('/', (req, res) => {
