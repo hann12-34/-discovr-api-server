@@ -59,6 +59,12 @@ router.get('/test', (req, res) => {
  */
 router.get('/', async (req, res) => {
   try {
+    // FORCE NO CACHE - ensure fresh data every time
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
+    
     // Check MongoDB connection status first
     const connectionState = mongoose.connection.readyState;
     if (connectionState !== 1) {
