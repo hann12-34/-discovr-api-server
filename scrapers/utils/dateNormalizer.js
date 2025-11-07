@@ -83,6 +83,26 @@ function toISODate(dateText) {
     }
   }
 
+  // Format: "November 7 & 8, 2025" or "Nov 7-8, 2025" (multi-day, extract first date)
+  if (!match) {
+    match = cleaned.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\s+(\d{1,2})\s*[&\-—]\s*\d{1,2},?\s+(\d{4})/i);
+    if (match) {
+      month = monthMap[match[1].toLowerCase()];
+      day = parseInt(match[2]); // Take the first day
+      year = parseInt(match[3]);
+    }
+  }
+  
+  // Format: "Saturday, November 8, 2:30PM to 4PM, 2025" (with time, extract date)
+  if (!match) {
+    match = cleaned.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\s+(\d{1,2}),\s+\d{1,2}:\d{2}[AP]M.*?(\d{4})/i);
+    if (match) {
+      month = monthMap[match[1].toLowerCase()];
+      day = parseInt(match[2]);
+      year = parseInt(match[3]);
+    }
+  }
+
   // If we found all components, return ISO format
   if (year && month && day) {
     // Validate ranges

@@ -179,6 +179,21 @@ const JUNK_PATTERNS = [
   /^Views\s+Navigation$/i,
   /^Jam\s+Session\s+Hosted\s+By/i,
   /^Vinyl\s+After\s+Hours$/i,
+  
+  // Date/Time patterns (not real events)
+  /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}\s*-\s*\d{1,2}:\d{2}/i,  // "Thu, Nov 6, 2025 - 8:00 PM"
+  
+  // Generic activities (not specific events)
+  /^Ice\s+Skating$/i,
+  /^Le\s+Carrousel$/i,
+  /^Skating$/i,
+  /^Carousel$/i,
+  
+  // Search/navigation UI elements
+  /Events?\s+Search/i,
+  /Search\s+and\s+Views/i,
+  /^Previous\s+month/i,
+  /^Next\s+\d+\s+Days$/i,
 ];
 
 /**
@@ -246,6 +261,12 @@ function filterEvents(events) {
     // Filter invalid or partial dates (must have a specific day, not just "Nov, 2025")
     const dateStr = event.date.toString().trim();
     
+    // Reject date ranges spanning multiple months (e.g., "Oct 2025—Jan 2026", "Jan—Jun 2026")
+    if (/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*[—\-–]\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i.test(dateStr)) {
+      console.log(`  ❌ Filtered out (multi-month range): "${event.title}" - ${dateStr}`);
+      return false;
+    }
+    
     // Reject dates that are just "Month, Year" with no day
     if (/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*,?\s+\d{4}$/i.test(dateStr)) {
       console.log(`  ❌ Filtered out (no specific day): "${event.title}" - ${dateStr}`);
@@ -299,6 +320,18 @@ function filterEvents(events) {
       if (titleLower.endsWith(venueLower) && event.title.length < venueName.length + 10) {
         console.log(`  ❌ Filtered out (venue name only): "${event.title}"`);
         return false;
+      }
+      
+      // Check if title contains ONLY the venue name (case insensitive match)
+      // This catches "Radio City Music Hall" when venue is "Radio City"
+      if (titleLower === venueLower || 
+          titleLower.includes(venueLower) && event.title.length < venueName.length + 20) {
+        // Make sure it's not a real event that just happens to mention the venue
+        const hasEventKeywords = /\b(show|concert|tour|festival|night|presents|vs|ft|feat|starring)\b/i.test(event.title);
+        if (!hasEventKeywords) {
+          console.log(`  ❌ Filtered out (venue name only - no event keywords): "${event.title}"`);
+          return false;
+        }
       }
     }
     
