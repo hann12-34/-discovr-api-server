@@ -228,6 +228,7 @@ const authRouter = require('./routes/auth');
 const venuesRouter = require('./routes/venues');
 const adminScraperRouter = require('./routes/admin-scraper');
 const directDbRouter = require('./routes/direct-db');
+const freshEventsRouter = require('./routes/fresh-events');
 // const artGalleryRoutes = require('./routes/artGalleryRoutes'); // Temporarily disabled - missing scrapers
 
 // Import static routes that don't require MongoDB connection
@@ -320,6 +321,7 @@ app.use('/api/v1', apiRoutes);
 app.use('/api/v1/auth', authRouter); // Auth routes don't need DB checking
 app.use('/api/admin', adminScraperRouter); // Admin scraper routes
 app.use('/api/direct', directDbRouter); // Direct database access - bypasses all caches
+app.use('/api/fresh', freshEventsRouter); // BRAND NEW PATH - cannot be cached
 
 // Basic root route
 app.get('/', (req, res) => {
