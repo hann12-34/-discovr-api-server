@@ -7,7 +7,7 @@
 const venueDefaultImages = {
   // Major Music Venues
   'Commodore Ballroom': 'https://placehold.co/800x600/2563eb/white?text=Commodore%20Ballroom',
-  'The Roxy': 'https://placehold.co/800x600/dc2626/white?text=The%20Roxy',
+  'The Roxy': 'https://picsum.photos/800/600',
   'Rogers Arena': 'https://placehold.co/800x600/059669/white?text=Rogers%20Arena',
   'Vogue Theatre': 'https://placehold.co/800x600/7c3aed/white?text=Vogue%20Theatre',
   'Orpheum': 'https://placehold.co/800x600/b91c1c/white?text=Orpheum',
