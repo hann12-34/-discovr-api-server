@@ -6,39 +6,67 @@
 
 const venueDefaultImages = {
   // Major Music Venues
-  'Commodore Ballroom': 'https://placehold.co/800x600/2563eb/white?text=Commodore%20Ballroom',
-  'The Roxy': 'https://picsum.photos/800/600',
-  'Rogers Arena': 'https://placehold.co/800x600/059669/white?text=Rogers%20Arena',
-  'Vogue Theatre': 'https://placehold.co/800x600/7c3aed/white?text=Vogue%20Theatre',
-  'Orpheum': 'https://placehold.co/800x600/b91c1c/white?text=Orpheum',
-  'Queen Elizabeth Theatre': 'https://placehold.co/800x600/0284c7/white?text=Queen%20Elizabeth%20Theatre',
-  'Fortune Sound Club': 'https://placehold.co/800x600/ea580c/white?text=Fortune%20Sound%20Club',
-  'Fox Cabaret': 'https://placehold.co/800x600/16a34a/white?text=Fox%20Cabaret',
-  'Rickshaw Theatre': 'https://placehold.co/800x600/0891b2/white?text=Rickshaw%20Theatre',
-  'Biltmore Cabaret': 'https://placehold.co/800x600/be123c/white?text=Biltmore%20Cabaret',
+  'Commodore Ballroom': 'https://picsum.photos/seed/commodore/800/600',
+  'The Roxy': 'https://picsum.photos/seed/roxy/800/600',
+  'Rogers Arena': 'https://picsum.photos/seed/rogers/800/600',
+  'Vogue Theatre': 'https://picsum.photos/seed/vogue/800/600',
+  'Orpheum': 'https://picsum.photos/seed/orpheum/800/600',
+  'Orpheum Theatre': 'https://picsum.photos/seed/orpheum/800/600',
+  'Queen Elizabeth Theatre': 'https://picsum.photos/seed/qet/800/600',
+  'Fortune Sound Club': 'https://picsum.photos/seed/fortune/800/600',
+  'Fox Cabaret': 'https://picsum.photos/seed/fox/800/600',
+  'Rickshaw Theatre': 'https://picsum.photos/seed/rickshaw/800/600',
+  'Biltmore Cabaret': 'https://picsum.photos/seed/biltmore/800/600',
+  'The Wise Hall': 'https://picsum.photos/seed/wisehall/800/600',
+  'The Imperial': 'https://picsum.photos/seed/imperial/800/600',
+  'The Cobalt': 'https://picsum.photos/seed/cobalt/800/600',
+  'Pat\'s Pub': 'https://picsum.photos/seed/pats/800/600',
+  'Railway Stage': 'https://picsum.photos/seed/railway/800/600',
+  'The Princeton': 'https://picsum.photos/seed/princeton/800/600',
+  'The Backstage Lounge': 'https://picsum.photos/seed/backstage/800/600',
+  'The Cultch': 'https://picsum.photos/seed/cultch/800/600',
+  'The Rio Theatre': 'https://picsum.photos/seed/rio/800/600',
   
   // Sports & Large Venues
-  'BC Place': 'https://placehold.co/800x600/1e40af/white?text=BC%20Place',
-  'Pacific Coliseum': 'https://placehold.co/800x600/7c2d12/white?text=Pacific%20Coliseum',
+  'BC Place': 'https://picsum.photos/seed/bcplace/800/600',
+  'Pacific Coliseum': 'https://picsum.photos/seed/coliseum/800/600',
   
   // Theatres & Arts
-  'Chan Centre': 'https://placehold.co/800x600/4338ca/white?text=Chan%20Centre',
-  'Playhouse Theatre': 'https://placehold.co/800x600/be185d/white?text=Playhouse',
-  'Arts Club Theatre': 'https://placehold.co/800x600/0369a1/white?text=Arts%20Club%20Theatre',
-  'Gateway Theatre': 'https://placehold.co/800x600/7e22ce/white?text=Gateway%20Theatre',
+  'Chan Centre': 'https://picsum.photos/seed/chan/800/600',
+  'Playhouse Theatre': 'https://picsum.photos/seed/playhouse/800/600',
+  'Vancouver Playhouse': 'https://picsum.photos/seed/playhouse/800/600',
+  'Arts Club Theatre': 'https://picsum.photos/seed/artsclub/800/600',
+  'Gateway Theatre': 'https://picsum.photos/seed/gateway/800/600',
+  'Studio 58': 'https://picsum.photos/seed/studio58/800/600',
+  'Jericho Arts Centre': 'https://picsum.photos/seed/jericho/800/600',
+  'Presentation House': 'https://picsum.photos/seed/presentationhouse/800/600',
+  'Waterfront Theatre': 'https://picsum.photos/seed/waterfront/800/600',
+  'Performance Works': 'https://picsum.photos/seed/perfworks/800/600',
   
   // Museums & Cultural
-  'Vancouver Art Gallery': 'https://placehold.co/800x600/0f766e/white?text=Vancouver%20Art%20Gallery',
-  'Science World': 'https://placehold.co/800x600/c026d3/white?text=Science%20World',
-  'Museum of Vancouver': 'https://placehold.co/800x600/0369a1/white?text=Museum%20of%20Vancouver',
-  'Museum of Anthropology': 'https://placehold.co/800x600/0891b2/white?text=Museum%20of%20Anthropology',
+  'Vancouver Art Gallery': 'https://picsum.photos/seed/vag/800/600',
+  'Science World': 'https://picsum.photos/seed/scienceworld/800/600',
+  'Museum of Vancouver': 'https://picsum.photos/seed/mov/800/600',
+  'Museum of Anthropology': 'https://picsum.photos/seed/moa/800/600',
+  'Bill Reid Gallery': 'https://picsum.photos/seed/billreid/800/600',
+  'Beaty Biodiversity Museum': 'https://picsum.photos/seed/beaty/800/600',
   
   // Festivals & Events
-  'PNE': 'https://placehold.co/800x600/dc2626/white?text=PNE',
-  'Vancouver Pride': 'https://placehold.co/800x600/db2777/white?text=Vancouver%20Pride',
+  'PNE': 'https://picsum.photos/seed/pne/800/600',
+  'Vancouver Pride': 'https://picsum.photos/seed/pride/800/600',
+  'Bard on the Beach': 'https://picsum.photos/seed/bard/800/600',
+  
+  // Comedy & Entertainment
+  'The Comedy Mix': 'https://picsum.photos/seed/comedymix/800/600',
+  'Yuk Yuks Vancouver': 'https://picsum.photos/seed/yukyuks/800/600',
+  
+  // Nightlife
+  'Celebrities Nightclub': 'https://picsum.photos/seed/celebrities/800/600',
+  'The Pumpjack Pub': 'https://picsum.photos/seed/pumpjack/800/600',
+  'The Yale': 'https://picsum.photos/seed/yale/800/600',
   
   // Default fallback
-  'default': 'https://placehold.co/800x600/6b7280/white?text=Event%20in%20Vancouver'
+  'default': 'https://picsum.photos/seed/vancouver/800/600'
 };
 
 /**
