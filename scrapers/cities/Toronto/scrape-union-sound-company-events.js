@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Union Sound Company events...');
   const scraper = createUniversalScraper(
     'Union Sound Company',
-    'https://www.blogto.com/events/',
+    'https://unionsoundcompany.com',
     '15 Soudan Ave, Toronto, ON M4S 1V5'
   );
   return await scraper(city);

@@ -7,6 +7,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { filterGenericPrograms } = require('../../utils/genericProgramFilter');
 
 const Do604Events = {
   async scrape(city) {
@@ -191,7 +192,11 @@ const Do604Events = {
         });
 
       console.log(`Found ${events.length} total events from Do604`);
-      return filterEvents(events);
+      
+      // Filter out generic programs like "Weekly Events"
+      const withoutGenericPrograms = filterGenericPrograms(events);
+      
+      return filterEvents(withoutGenericPrograms);
 
     } catch (error) {
       console.error('Error scraping Do604 events:', error.message);

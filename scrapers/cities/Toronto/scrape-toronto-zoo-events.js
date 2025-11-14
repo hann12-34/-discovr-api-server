@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Toronto Zoo events...');
   const scraper = createUniversalScraper(
     'Toronto Zoo',
-    'https://nowtoronto.com/music',
+    'https://www.torontozoo.com/Events',
     '2000 Meadowvale Rd, Scarborough, ON M1B 5K7'
   );
   return await scraper(city);

@@ -99,9 +99,29 @@ class NewYorkScrapers {
             }
             
             // Create unique key: title + date + venue (case-insensitive, normalized)
-            const normalizedTitle = event.title.toLowerCase().trim().replace(/\s+/g, ' ');
+            let normalizedTitle = event.title.toLowerCase().trim();
+            
+            // Aggressive title normalization for better deduplication
+            normalizedTitle = normalizedTitle
+                .replace(/\s+/g, ' ')                    // Collapse whitespace
+                .replace(/\s*[-–—:]\s*/g, ' ')           // Remove separators: " - ", " : ", etc.
+                .replace(/\b(performance of|presents?|featuring)\b/gi, '') // Remove filler words
+                .replace(/\s+/g, ' ')                    // Collapse again
+                .trim();
+            
             const normalizedDate = (event.date || '').toLowerCase().trim().replace(/\s+/g, ' ');
-            const venueName = (event.venue?.name || event.source || '').toLowerCase().trim();
+            
+            // Normalize venue name: handle "Theater" vs "Theatre", remove extra spaces
+            let venueName = (event.venue?.name || event.source || '').toLowerCase().trim();
+            venueName = venueName
+                .replace(/\s+/g, ' ')           // Collapse whitespace
+                .replace(/\btheatre\b/g, 'theater')  // Normalize theater spelling
+                .replace(/\bcentre\b/g, 'center')    // Normalize center spelling
+                .replace(/\bmusic hall\b/g, '')      // "Radio City Music Hall" → "Radio City"
+                .replace(/\bhall\b/g, '')            // Remove "Hall" suffix
+                .replace(/[^\w\s]/g, '')             // Remove punctuation
+                .replace(/\s+/g, ' ')                // Collapse again
+                .trim();
             
             const key = `${normalizedTitle}|${normalizedDate}|${venueName}`;
             

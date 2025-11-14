@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Td Place events...');
   const scraper = createUniversalScraper(
     'Td Place',
-    'https://www.blogto.com/events/',
+    'https://tdplace.ca/events',
     '1001 Queens Quay W, Toronto, ON M6J 3B2'
   );
   return await scraper(city);

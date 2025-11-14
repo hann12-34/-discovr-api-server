@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Alumnae Theatre events...');
   const scraper = createUniversalScraper(
     'Alumnae Theatre',
-    'https://www.blogto.com/events/',
+    'https://www.alumnaetheatre.com/season',
     '70 Berkeley St, Toronto, ON M5A 2W9'
   );
   return await scraper(city);

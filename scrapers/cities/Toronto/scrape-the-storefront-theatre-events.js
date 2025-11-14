@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping The Storefront Theatre events...');
   const scraper = createUniversalScraper(
     'The Storefront Theatre',
-    'https://www.blogto.com/events/',
+    'https://thestorefronttheatre.com/current-season',
     '955 Bloor St W, Toronto, ON M6H 1L7'
   );
   return await scraper(city);

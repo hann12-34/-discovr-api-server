@@ -1,0 +1,221 @@
+/**
+ * Bovine Sex Club Scraper (Puppeteer)
+ * SAFE & LEGAL: Official venue website
+ * Iconic punk/alternative venue on Queen West
+ * URL: https://www.bovinesexclub.com
+ */
+
+const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+async function scrape(city = 'Toronto') {
+  console.log('🐮 Scraping Bovine Sex Club events (Puppeteer)...');
+  
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    });
+    
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    
+    await page.goto('https://www.bovinesexclub.com', {
+      waitUntil: 'networkidle2',
+      timeout: 30000
+    });
+    
+    // Wait longer for events to load
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    
+    // Try to scroll to trigger lazy loading
+    await page.evaluate(() => {
+      window.scrollTo(0, document.body.scrollHeight / 2);
+    });
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const events = await page.evaluate(() => {
+      const eventList = [];
+      
+      // Try multiple selectors - Bovine uses specific structure
+      const selectors = [
+        '[class*="event"]',
+        '[class*="show"]',
+        '[class*="Event"]',
+        '[class*="Show"]',
+        'article',
+        '.card',
+        'a[href*="event"]',
+        'div[class*="item"]'
+      ];
+      
+      let eventElements = [];
+      for (const selector of selectors) {
+        const elements = document.querySelectorAll(selector);
+        if (elements.length > 0) {
+          eventElements = Array.from(elements);
+          console.log(`Found ${elements.length} with selector: ${selector}`);
+          break;
+        }
+      }
+      
+      // If still no elements, try getting all divs with text content
+      if (eventElements.length === 0) {
+        eventElements = Array.from(document.querySelectorAll('div')).filter(el => {
+          const text = el.textContent;
+          return text && text.match(/(NOV|DEC|JAN|FEB|MAR)\s+\d{1,2}/i);
+        });
+      }
+      
+      eventElements.forEach(el => {
+        const fullText = el.textContent;
+        
+        // Extract date from text (e.g., "NOV 12") - look in whole element tree
+        let dateText = '';
+        
+        // First try to find date element directly
+        const dateElements = el.querySelectorAll('*');
+        for (const dateEl of dateElements) {
+          const text = dateEl.textContent.trim();
+          // Look for standalone date text like "NOV" followed by "12"
+          if (text.match(/^(NOV|DEC|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT)$/i)) {
+            // Found month, look for day in siblings or nearby
+            const parent = dateEl.parentElement;
+            if (parent) {
+              const parentText = parent.textContent;
+              const dayMatch = parentText.match(/(\d{1,2})/);
+              if (dayMatch) {
+                dateText = `${text} ${dayMatch[1]}`;
+                break;
+              }
+            }
+          }
+          // Or look for combined format
+          const combinedMatch = text.match(/(NOV|DEC|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT)\s+(\d{1,2})/i);
+          if (combinedMatch) {
+            dateText = combinedMatch[0];
+            break;
+          }
+        }
+        
+        // Fallback: search in full text
+        if (!dateText) {
+          const dateMatch = fullText.match(/(NOV|DEC|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT)\s+(\d{1,2})/i);
+          if (dateMatch) {
+            dateText = dateMatch[0];
+          }
+        }
+        
+        // Extract title - look for band/artist names
+        let title = '';
+        const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="artist"]');
+        if (titleEl) {
+          title = titleEl.textContent.trim();
+        } else {
+          // Try to extract from text content
+          // Look for lines that aren't dates, times, or common words
+          const lines = fullText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+          for (const line of lines) {
+            // Skip if it's a date, time, or generic text
+            if (!line.match(/(NOV|DEC|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|\d{1,2}:\d{2}|PM|AM|UPCOMING|EVENTS)/i) && 
+                line.length > 3 && line.length < 100) {
+              title = line;
+              break;
+            }
+          }
+        }
+        
+        // Get URL
+        let url = '';
+        const linkEl = el.querySelector('a');
+        if (linkEl) {
+          url = linkEl.href;
+        } else if (el.tagName === 'A') {
+          url = el.href;
+        }
+        
+        if ((title && title.length > 2) || dateText) {
+          // Even if no title, keep if we have a date (we'll filter later)
+          eventList.push({ 
+            title: title || 'Event at Bovine Sex Club', 
+            dateText, 
+            url: url || '' 
+          });
+        }
+      });
+      
+      return eventList;
+    });
+    
+    await browser.close();
+    
+    console.log(`  Found ${events.length} raw events`);
+    
+    const processedEvents = [];
+    const seenKeys = new Set();
+    
+    for (const event of events) {
+      // Skip junk titles first
+      const titleLower = event.title.toLowerCase();
+      if (titleLower === 'events' || titleLower === 'upcoming' || 
+          titleLower.includes('view all') || titleLower.includes('upcoming events') ||
+          titleLower === 'event at bovine sex club' && !event.dateText) {
+        continue;
+      }
+      
+      // Create unique key from title + date
+      const key = `${event.title.toLowerCase().trim()}|${event.dateText}`;
+      if (seenKeys.has(key)) continue;
+      seenKeys.add(key);
+      
+      // Parse date
+      let eventDate = null;
+      if (event.dateText) {
+        try {
+          // Handle formats like "NOV 12", "DEC 5", etc.
+          const monthMatch = event.dateText.match(/(NOV|DEC|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT)\s+(\d{1,2})/i);
+          if (monthMatch) {
+            const monthMap = {
+              'NOV': 11, 'DEC': 12, 'JAN': 1, 'FEB': 2, 'MAR': 3,
+              'APR': 4, 'MAY': 5, 'JUN': 6, 'JUL': 7, 'AUG': 8,
+              'SEP': 9, 'OCT': 10
+            };
+            const month = monthMap[monthMatch[1].toUpperCase()];
+            const day = parseInt(monthMatch[2]);
+            // Nov/Dec = 2025, Jan-Oct = 2026
+            const year = (month >= 11) ? 2025 : 2026;
+            const dateObj = new Date(year, month - 1, day);
+            eventDate = dateObj.toISOString().split('T')[0];
+          }
+        } catch (e) {}
+      }
+      
+      processedEvents.push({
+        id: uuidv4(),
+        title: event.title,
+        date: eventDate,
+        url: event.url || 'https://www.bovinesexclub.com',
+        venue: {
+          name: 'Bovine Sex Club',
+          address: '542 Queen St W, Toronto, ON M5V 2B5',
+          city: 'Toronto'
+        },
+        city: city,
+        category: 'Concert',
+        source: 'Bovine Sex Club'
+      });
+    }
+    
+    console.log(`✅ Bovine Sex Club: ${processedEvents.length} events`);
+    return filterEvents(processedEvents);
+    
+  } catch (error) {
+    if (browser) await browser.close();
+    console.error('  ⚠️  Bovine Sex Club error:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrape;

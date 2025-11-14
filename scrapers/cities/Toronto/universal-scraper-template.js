@@ -9,6 +9,31 @@ const { filterEvents } = require('../../utils/eventFilter');
  */
 function createUniversalScraper(venueName, url, address) {
   return async function scrape(city = 'New York') {
+    // BLACKLIST: Only news sites and aggregators
+    // DO NOT block universities/venues - we'll filter junk events by title instead
+    const blacklist = [
+      // NEWS SITES (article headlines, not events)
+      'thestar.com',
+      'blogto.com',
+      'nowtoronto.com',
+      'citynews.ca',
+      
+      // AGGREGATORS (we have direct venue scrapers instead)
+      'google.com',
+      'ticketmaster.ca',
+      'songkick.com',
+      'allevents.in',
+      'eventbrite.ca/d/canada--toronto'
+    ];
+    
+    // Check if this URL is blacklisted
+    const isBlacklisted = blacklist.some(domain => url.toLowerCase().includes(domain));
+    
+    if (isBlacklisted) {
+      // Silently return empty array for blacklisted websites
+      return [];
+    }
+    
     let events = [];
     
     try {
@@ -105,13 +130,77 @@ function createUniversalScraper(venueName, url, address) {
         
         // STRICT junk filtering - reject common non-event patterns
         const junkPatterns = [
+          // UI ELEMENTS
           /^(Menu|Nav|Skip|Login|Subscribe|Search|Home|View All|Load More|Filter|Sort|Click|Read More|Learn More|See All)/i,
           /^(Stay in the Know|Join|Sign Up|Newsletter|Follow|Connect|Share)/i,
-          /^(Today|Tomorrow|This Week|This Month|Upcoming|Past|Calendar)/i,
-          /^(Where everyone|Everyone|Community|The Mastermind|Date Range|One Battle)/i,
-          /^(DanceAfrica|Bugonia|LunAtico|Sublime|Blink)/i,  // Generic single words without context
-          /^[A-Z][a-z]+$/,  // Single capitalized word (likely not an event)
-          /A-LIST|JOIN THE|WICKED L/i
+          /^(Today|Tomorrow|This Week|This Month|Upcoming|Past|Calendar)$/i,
+          /^[A-Z][a-z]+$/,  // Single capitalized word only
+          /\*SOLD OUT\*/i,  // Remove sold out markers
+          /^Events at Our/i,  // Generic venue listings
+          /^Latest Past Events/i,  // Navigation links
+          /^(Past|Upcoming|All) Events$/i,
+          /^See All Events/i,
+          /^View All Events/i,
+          /^List of events/i,
+          /^Unionnale:/i,
+          /^Fresh Mart:/i,
+          /^Westerly Winds/i,
+          /^ICYMI:/i,
+          /^OTTB Spotlight/i,
+          // DATE-ONLY TITLES (not real event names)
+          /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{4}/i,  // "Nov 11, 2025..." or "November 22, 20254x2"
+          /^\d{1,2}\/\d{1,2}\/\d{2,4}$/,  // "11/11/2025"
+          /^\d{4}-\d{2}-\d{2}$/,  // "2025-11-11"
+          /^20\d{2}\s/,  // "2025 ..." (year-prefixed titles like "2025 Duende Festival")
+          
+          // INTERNAL UNIVERSITY/COLLEGE EVENTS (not public shows)
+          // Allow: "Concert at Faculty of Music" ✅
+          // Block: "Information Session" ❌
+          /Information Session/i,
+          /Orientation Session/i,
+          /Open House/i,
+          /Alumni[- ]Student Mentorship/i,
+          /Career (Café|Cafe|Fair|Workshop|Centre)/i,
+          /^Lunch (with|and|Series)/i,
+          /Mindfulness (Practice|Session)/i,
+          /^(Online|Virtual) Tours?$/i,
+          /^Wake Up Toronto/i,
+          /^Cabot Cape Breton Information/i,
+          /^Let's Talk!/i,  // George Brown internal sessions
+          /^Rec tournament/i,  // George Brown rec activities
+          /^Black Student (Summit|Network|Speaker Series|Success Network)/i,  // Internal student events
+          /Wellness (Tuesday|Wednesday|Thursday|Friday|Monday|Session)/i,  // Student wellness sessions
+          /Overcoming Imposter Syndrome/i,  // Student support sessions
+          /^Union Samples/i,  // Generic union events
+          /^Dance Curation/i,  // Generic workshop titles
+          
+          // ACADEMIC ADMIN (not public events)
+          /^(Graduate|Undergrad|PhD|Masters|MBA) Studies/i,
+          /^Engineering Graduate Studies/i,
+          /^Faculty of .+ Studies$/i,  // "Faculty of Kinesiology Studies" but allow "Concert at Faculty"
+          
+          // HOSPITAL/FITNESS CLASSES (not public events)
+          /^TAHSN Fitness Class/i,
+          /^Fitness Class:/i,
+          /Strength and Conditioning/i,
+          /Patient (Education|Support|Care)/i,
+          
+          // GENERIC WORKSHOPS (not entertainment)
+          /^Resume Workshop/i,
+          /^Job Search Project/i,
+          /^DIY Marketing/i,
+          /^Black (Student|Research) Network$/i,
+          /^Intersectional Gaming:/i,
+          /^Trinity Minds on Hot Topics/i,
+          /Using AI Responsibly$/i,
+          
+          // NEWS SITE JUNK
+          /^Here's what's open and closed/i,
+          /^You can squeeze in one last/i,
+          /^How to bet the/i,
+          /^Watch Races$/i,
+          /^WOT:/i,
+          /^INSIDE THE NUMBERS:/i
         ];
         
         if (junkPatterns.some(pattern => pattern.test(title))) return;
@@ -169,16 +258,27 @@ function createUniversalScraper(venueName, url, address) {
         
         if (!dateText || dateText.length < 4) return;
         
-        // Reject if date appears to be page-wide "today" indicator
-        // (Events should have specific dates, not just "Nov 4" everywhere)
+        // AGGRESSIVE FILTERING: Reject dates without full 4-digit year
+        // This prevents scraping "Last Updated: Nov 8" as event dates
+        const hasFull4DigitYear = /\d{4}/.test(dateText);
+        
+        if (!hasFull4DigitYear) {
+          // NO YEAR = likely a page header/timestamp, NOT an event date
+          // Real events always have full dates like "Nov 8, 2025"
+          return;
+        }
+        
+        // ALSO reject if it matches today's date (could be "last updated")
         const today = new Date();
-        const todayStr = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
         const todayMonthDay = `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()]} ${today.getDate()}`;
         
-        // If the ONLY date we found is today's date and there's no year, it's likely a page header
-        if (dateText.toLowerCase().includes(todayMonthDay.toLowerCase()) && !/\d{4}/.test(dateText)) {
-          // This is suspicious - likely a "last updated" or page header date
-          return;
+        if (dateText.toLowerCase().includes(todayMonthDay.toLowerCase())) {
+          // Even with a year, if it's today's date, it's suspicious
+          // (unless the event has other indicators it's real)
+          const hasEventKeywords = /(concert|show|performance|tour|festival|live|presents)/i.test(title);
+          if (!hasEventKeywords) {
+            return; // Likely a "last updated" timestamp
+          }
         }
         
         // Normalize and clean date
@@ -215,6 +315,28 @@ function createUniversalScraper(venueName, url, address) {
         const fullUrl = eventUrl.startsWith('http') ? eventUrl : 
                        eventUrl.startsWith('/') ? new URL(url).origin + eventUrl : url;
         
+        // Extract image
+        const img = $e.find('img').first();
+        let imageUrl = null;
+        if (img.length) {
+          imageUrl = img.attr('src') || img.attr('data-src') || img.attr('data-lazy-src') || img.attr('data-original');
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            if (imageUrl.startsWith('//')) {
+              imageUrl = 'https:' + imageUrl;
+            } else if (imageUrl.startsWith('/')) {
+              try {
+                imageUrl = new URL(url).origin + imageUrl;
+              } catch (e) {
+                imageUrl = null;
+              }
+            }
+          }
+          // Filter out tiny/placeholder images
+          if (imageUrl && (imageUrl.includes('1x1') || imageUrl.includes('placeholder') || imageUrl.includes('spinner'))) {
+            imageUrl = null;
+          }
+        }
+        
         // QUALITY CHECK: Event must have meaningful content
         // Reject if title is just 1-2 words without context (likely junk)
         const wordCount = title.split(/\s+/).length;
@@ -240,6 +362,7 @@ function createUniversalScraper(venueName, url, address) {
           date: dateText,
           venue: { name: venueName, address: address, city: city },
           url: fullUrl,
+          imageUrl: imageUrl,
           source: venueName,
           category: 'Events'
         });

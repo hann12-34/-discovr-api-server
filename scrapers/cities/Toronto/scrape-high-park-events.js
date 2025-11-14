@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping High Park events...');
   const scraper = createUniversalScraper(
     'High Park',
-    'https://www.blogto.com/events/',
+    'https://www.highpark.org/events.htm',
     '1873 Bloor St W, Toronto, ON M6R 2Z3'
   );
   return await scraper(city);

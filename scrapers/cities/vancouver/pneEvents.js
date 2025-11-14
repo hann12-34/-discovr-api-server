@@ -125,105 +125,12 @@ const PNEForumEvents = {
           seenUrls.add(url);
 
           // Only log valid events (junk will be filtered out)
-          // Extract date from event element
-
-
-          let dateText = null;
-
-
-          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
-
-
-          for (const selector of dateSelectors) {
-
-
-            const dateEl = $element.find(selector).first();
-
-
-            if (dateEl.length > 0) {
-
-
-              dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-              if (dateText && dateText.length > 0) break;
-
-
-            }
-
-
-          }
-
-
-          if (!dateText) {
-
-
-            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
-
-
-            if ($parent.length > 0) {
-
-
-              for (const selector of dateSelectors) {
-
-
-                const dateEl = $parent.find(selector).first();
-
-
-                if (dateEl.length > 0) {
-
-
-                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-                  if (dateText && dateText.length > 0) break;
-
-
-                }
-
-
-              }
-
-
-            }
-
-
-          }
-
-
-          if (dateText) {
-            dateText = dateText
-              .replace(/\n/g, ' ')
-              .replace(/\s+/g, ' ')
-              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
-              .trim();
-            
-            if (!/\d{4}/.test(dateText)) {
-              const currentYear = new Date().getFullYear();
-              const currentMonth = new Date().getMonth();
-              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-              const dateLower = dateText.toLowerCase();
-              const monthIndex = months.findIndex(m => dateLower.includes(m));
-              if (monthIndex !== -1) {
-                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                dateText = `${dateText}, ${year}`;
-              } else {
-                dateText = `${dateText}, ${currentYear}`;
-              }
-            }
-          }
-
-
-          
-
-
           
           // COMPREHENSIVE DATE EXTRACTION - Works with most event websites
           let dateText = null;
           
           // Try multiple strategies to find the date
-          dateSelectors = [
+          const dateSelectors = [
             'time[datetime]',
             '[datetime]',
             '.date',

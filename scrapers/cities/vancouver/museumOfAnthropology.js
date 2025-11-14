@@ -8,6 +8,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { filterGenericPrograms } = require('../../utils/genericProgramFilter');
 
 const MuseumOfAnthropologyEvents = {
   async scrape(city) {
@@ -67,6 +68,11 @@ const MuseumOfAnthropologyEvents = {
             if (url && !url.startsWith('http')) {
               url = 'https://moa.ubc.ca' + url;
             }
+            
+            // Skip if no URL - ensure every event has a URL
+            if (!url || url === 'https://moa.ubc.ca') {
+              return;
+            }
 
             // Skip if no meaningful title or already seen
             if (!title || title.length < 3 || seenUrls.has(url)) {
@@ -82,6 +88,14 @@ const MuseumOfAnthropologyEvents = {
             // Filter out navigation and non-event links
             const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter', 'read more', 'view all', 'tickets', 'buy', 'donate', 'support', 'rental', 'shows', 'events', 'exhibitions'];
             if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
+              return;
+            }
+            
+            // Filter out the museum's own name as an "event"
+            if (title.toLowerCase().includes('museum of anthropology at ubc') || 
+                title.toLowerCase() === 'museum of anthropology' ||
+                title.toLowerCase().includes('moa at ubc')) {
+              console.log(`✗ Filtered out museum name as event: "${title}"`);
               return;
             }
 
@@ -155,8 +169,6 @@ const MuseumOfAnthropologyEvents = {
               date: eventDate,
               url: url,
               venue: { name: 'Museum of Anthropology', address: '6393 NW Marine Drive, Vancouver, BC V6T 1Z2', city: 'Vancouver' },
-              city: "Vancouver",
-              source: "museum Of Anthropology",
               city: 'Vancouver',
               source: 'Museum of Anthropology'
             });
@@ -165,7 +177,11 @@ const MuseumOfAnthropologyEvents = {
       }
 
       console.log(`Found ${events.length} total events from Museum of Anthropology`);
-      return filterEvents(events);
+      
+      // Filter out generic programs
+      const withoutGenericPrograms = filterGenericPrograms(events);
+      
+      return filterEvents(withoutGenericPrograms);
 
     } catch (error) {
       console.error('Error scraping Museum of Anthropology events:', error.message);

@@ -1,0 +1,141 @@
+/**
+ * Lost & Found Scraper (Toronto)
+ * SAFE & LEGAL: Official venue website
+ * Popular bar and live music venue
+ * URL: https://www.lost577.com/events
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+async function scrape(city = 'Toronto') {
+  console.log('🎵 Scraping Lost & Found events...');
+  
+  try {
+    const response = await axios.get('https://www.lost577.com/events', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml'
+      },
+      timeout: 15000
+    });
+    
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seenUrls = new Set();
+    
+    // Look for event listings
+    $('.event, .show, article, [class*="event"], [class*="show"], .list-item').each((i, el) => {
+      const $event = $(el);
+      
+      // Extract title
+      const title = $event.find('h1, h2, h3, h4, .title, .event-title, .artist').first().text().trim();
+      
+      // Extract URL
+      let eventUrl = $event.find('a').first().attr('href');
+      if (eventUrl && !eventUrl.startsWith('http')) {
+        if (eventUrl.startsWith('/')) {
+          eventUrl = 'https://www.lost577.com' + eventUrl;
+        } else {
+          eventUrl = 'https://www.lost577.com/' + eventUrl;
+        }
+      }
+      
+      // Default to events page if no specific URL
+      if (!eventUrl) {
+        eventUrl = 'https://www.lost577.com/events';
+      }
+      
+      // Skip if invalid or duplicate
+      if (!title || title.length < 2 || seenUrls.has(eventUrl + title)) return;
+      
+      // Skip navigation/junk
+      const titleLower = title.toLowerCase();
+      if (titleLower === 'events' || titleLower === 'calendar' || 
+          titleLower.includes('upcoming') || titleLower.includes('view all') ||
+          titleLower.includes('load more') || titleLower === 'more') {
+        return;
+      }
+      
+      seenUrls.add(eventUrl + title);
+      
+      // Extract date - try element first, then parse from title if needed
+      const dateEl = $event.find('time, .date, [datetime], [class*="date"]').first();
+      let dateText = dateEl.attr('datetime') || dateEl.text().trim();
+      
+      // If no date element, try to extract from title (e.g., "Event - Friday November 15th")
+      if (!dateText && title) {
+        const titleDateMatch = title.match(/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(st|nd|rd|th)?/i);
+        if (titleDateMatch) {
+          const month = titleDateMatch[2];
+          const day = titleDateMatch[3];
+          // Determine year based on month (Nov/Dec = 2025, Jan-Oct = 2026)
+          const year = (month === 'November' || month === 'December') ? 2025 : 2026;
+          dateText = `${month} ${day}, ${year}`;
+        }
+      }
+      
+      let eventDate = null;
+      if (dateText) {
+        try {
+          const parsed = new Date(dateText);
+          if (!isNaN(parsed.getTime()) && parsed.getFullYear() >= 2025) {
+            eventDate = parsed.toISOString().split('T')[0];
+          }
+        } catch (e) {
+          // Try pattern matching for various formats
+          const patterns = [
+            /(\w{3,9})\s+(\d{1,2}),?\s+(\d{4})/i,  // "November 15, 2025"
+            /(\d{1,2})\s+(\w{3,9})\s+(\d{4})/i,    // "15 November 2025"
+            /(\d{4})-(\d{2})-(\d{2})/,              // "2025-11-15"
+            /(\d{1,2})\/(\d{1,2})\/(\d{4})/,       // "11/15/2025"
+            /(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\w{3})\s+(\d{1,2})/i  // "Fri Nov 15"
+          ];
+          
+          for (const pattern of patterns) {
+            if (pattern.test(dateText)) {
+              try {
+                // Try to parse with current year if not specified
+                let testDate = dateText;
+                if (!testDate.match(/\d{4}/)) {
+                  testDate += ' 2025';
+                }
+                const testParsed = new Date(testDate);
+                if (!isNaN(testParsed.getTime()) && testParsed.getFullYear() >= 2025) {
+                  eventDate = testParsed.toISOString().split('T')[0];
+                  break;
+                }
+              } catch (e2) {}
+            }
+          }
+        }
+      }
+      
+      events.push({
+        id: uuidv4(),
+        title: title,
+        date: eventDate,
+        url: eventUrl,
+        venue: {
+          name: 'Lost & Found',
+          address: '577 King St W, Toronto, ON M5V 1M1',
+          city: 'Toronto'
+        },
+        city: city,
+        category: 'Concert',
+        source: 'Lost & Found'
+      });
+    });
+    
+    console.log(`✅ Lost & Found: ${events.length} events`);
+    return filterEvents(events);
+    
+  } catch (error) {
+    console.error('  ⚠️  Lost & Found error:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrape;

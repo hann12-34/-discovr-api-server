@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Queen Street West Venues events...');
   const scraper = createUniversalScraper(
     'Queen Street West Venues',
-    'https://www.blogto.com/arts/',
+    'https://www.toronto.ca',
     '1087 Queen St W, Toronto, ON M6J 1H3'
   );
   return await scraper(city);

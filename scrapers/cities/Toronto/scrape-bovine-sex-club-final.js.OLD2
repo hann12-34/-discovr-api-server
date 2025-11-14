@@ -1,0 +1,227 @@
+/**
+ * Bovine Sex Club Scraper (FINAL VERSION)
+ * SAFE & LEGAL: Official venue website
+ * Uses exact selectors from DOM inspection
+ * URL: https://www.bovinesexclub.com
+ */
+
+const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+async function scrape(city = 'Toronto') {
+  console.log('🐮 Scraping Bovine Sex Club events (FINAL)...');
+  
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    });
+    
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    
+    await page.goto('https://www.bovinesexclub.com', {
+      waitUntil: 'networkidle2',
+      timeout: 30000
+    });
+    
+    // Wait for events widget to load
+    console.log('  ⏳ Waiting for events to load...');
+    await new Promise(resolve => setTimeout(resolve, 6000));
+    
+    // Click "Next Events" button repeatedly to load ALL events
+    console.log('  📄 Loading all pages of events...');
+    let clickCount = 0;
+    const maxClicks = 50; // Safety limit (100+ events ÷ ~10 per page = ~10-15 clicks)
+    let previousEventCount = 0;
+    
+    while (clickCount < maxClicks) {
+      // Scroll to bottom to make sure button is visible
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Count current events
+      const currentEventCount = await page.evaluate(() => {
+        return document.querySelectorAll('.eapp-events-calendar-grid-item').length;
+      });
+      
+      // If no new events loaded, we're done
+      if (clickCount > 0 && currentEventCount === previousEventCount) {
+        console.log(`    No new events loaded, stopping.`);
+        break;
+      }
+      
+      previousEventCount = currentEventCount;
+      
+      // Find and click "Next Events" button using exact text match
+      const clicked = await page.evaluate(() => {
+        const buttons = Array.from(document.querySelectorAll('button, a, [role="button"]'));
+        const nextBtn = buttons.find(b => b.textContent.trim() === 'Next Events');
+        if (nextBtn) {
+          nextBtn.click();
+          return true;
+        }
+        return false;
+      });
+      
+      if (!clicked) {
+        console.log(`    "Next Events" button not found, stopping.`);
+        break;
+      }
+      
+      clickCount++;
+      console.log(`    Clicked "Next Events" (${currentEventCount} events so far)...`);
+      
+      // Wait for new events to load
+      await new Promise(resolve => setTimeout(resolve, 2500));
+    }
+    
+    // Get final count
+    const finalCount = await page.evaluate(() => {
+      return document.querySelectorAll('.eapp-events-calendar-grid-item').length;
+    });
+    
+    console.log(`  ✅ Loaded all events after ${clickCount} clicks (${finalCount} events visible)`);
+    
+    // Scroll to ensure all loaded content is visible
+    await page.evaluate(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const events = await page.evaluate(() => {
+      const eventList = [];
+      
+      // METHOD 1: Parse Schema.org JSON-LD data (most reliable!)
+      const scriptTags = document.querySelectorAll('script[type="application/ld+json"]');
+      scriptTags.forEach(script => {
+        try {
+          const data = JSON.parse(script.textContent);
+          if (data['@type'] === 'Event') {
+            eventList.push({
+              title: data.name || '',
+              dateText: data.startDate || '',
+              url: data.url || '',
+              method: 'schema'
+            });
+          }
+        } catch (e) {}
+      });
+      
+      // METHOD 2: Use the exact event item selectors found
+      const eventItems = document.querySelectorAll('.eapp-events-calendar-grid-item');
+      eventItems.forEach(item => {
+        // Get title from aria-label
+        let title = item.querySelector('[aria-label]')?.getAttribute('aria-label') || '';
+        if (title.startsWith('Event: ')) {
+          title = title.substring(7); // Remove "Event: " prefix
+        }
+        
+        // Get date from datetime attribute
+        let dateText = '';
+        const dateEl = item.querySelector('time[datetime], [datetime]');
+        if (dateEl) {
+          dateText = dateEl.getAttribute('datetime');
+        }
+        
+        // Get URL
+        const link = item.querySelector('a');
+        const url = link ? link.href : '';
+        
+        if (title && title.length > 2) {
+          eventList.push({
+            title: title,
+            dateText: dateText,
+            url: url,
+            method: 'dom'
+          });
+        }
+      });
+      
+      return eventList;
+    });
+    
+    await browser.close();
+    
+    console.log(`  Found ${events.length} raw events`);
+    
+    const processedEvents = [];
+    const seenKeys = new Set();
+    
+    for (const event of events) {
+      // Skip if no title
+      if (!event.title || event.title.length < 2) continue;
+      
+      // Skip junk titles
+      const titleLower = event.title.toLowerCase();
+      if (titleLower === 'events' || titleLower === 'upcoming' ||
+          titleLower === 'event' || titleLower.includes('upcoming events')) {
+        continue;
+      }
+      
+      // Create unique key
+      const key = `${event.title.toLowerCase().trim()}|${event.dateText}`;
+      if (seenKeys.has(key)) continue;
+      seenKeys.add(key);
+      
+      // Parse date
+      let eventDate = null;
+      if (event.dateText) {
+        try {
+          // Try ISO format first (from schema.org)
+          let parsed = new Date(event.dateText);
+          if (!isNaN(parsed.getTime()) && parsed.getFullYear() >= 2025) {
+            eventDate = parsed.toISOString().split('T')[0];
+          } else {
+            // Try month abbreviation format
+            const monthMatch = event.dateText.match(/(NOV|DEC|JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT)\s+(\d{1,2})/i);
+            if (monthMatch) {
+              const monthMap = {
+                'NOV': 11, 'DEC': 12, 'JAN': 1, 'FEB': 2, 'MAR': 3,
+                'APR': 4, 'MAY': 5, 'JUN': 6, 'JUL': 7, 'AUG': 8,
+                'SEP': 9, 'OCT': 10
+              };
+              const month = monthMap[monthMatch[1].toUpperCase()];
+              const day = parseInt(monthMatch[2]);
+              // Nov/Dec = 2025, Jan-Oct = 2026
+              const year = (month >= 11) ? 2025 : 2026;
+              const dateObj = new Date(year, month - 1, day);
+              eventDate = dateObj.toISOString().split('T')[0];
+            }
+          }
+        } catch (e) {
+          console.log(`  ⚠️  Date parse error for "${event.dateText}"`);
+        }
+      }
+      
+      processedEvents.push({
+        id: uuidv4(),
+        title: event.title,
+        date: eventDate,
+        url: event.url || 'https://www.bovinesexclub.com',
+        venue: {
+          name: 'Bovine Sex Club',
+          address: '542 Queen St W, Toronto, ON M5V 2B5',
+          city: 'Toronto'
+        },
+        city: city,
+        category: 'Concert',
+        source: 'Bovine Sex Club'
+      });
+    }
+    
+    console.log(`✅ Bovine Sex Club: ${processedEvents.length} events`);
+    return filterEvents(processedEvents);
+    
+  } catch (error) {
+    if (browser) await browser.close();
+    console.error('  ⚠️  Bovine Sex Club error:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrape;

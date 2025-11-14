@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Cn Tower 360 Restaurant events...');
   const scraper = createUniversalScraper(
     'Cn Tower 360 Restaurant',
-    'https://www.blogto.com/eat_drink/',
+    'https://www.cntower.ca/en-ca/plan-your-visit/events.html',
     '290 Bremner Blvd, Toronto, ON M5V 3L9'
   );
   return await scraper(city);

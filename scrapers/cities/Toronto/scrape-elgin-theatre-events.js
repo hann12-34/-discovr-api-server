@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Elgin Theatre events...');
   const scraper = createUniversalScraper(
     'Elgin Theatre',
-    'https://www.blogto.com/arts/',
+    'https://www.hto.ca/elgin-and-winter-garden-theatres',
     '189 Yonge St, Toronto, ON M5B 1M4'
   );
   return await scraper(city);

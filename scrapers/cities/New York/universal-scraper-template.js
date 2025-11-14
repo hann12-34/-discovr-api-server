@@ -103,6 +103,28 @@ function createUniversalScraper(venueName, url, address) {
         
         if (!title || title.length < 5) return;
         
+        // VENUE NAME BLACKLIST - these are venue names, NOT events
+        const venueNameBlacklist = [
+          /^Basilica Hudson$/i,
+          /^Carnegie Hall$/i,
+          /^Beacon Theatre$/i,
+          /^Brooklyn Steel$/i,
+          /^Terminal 5$/i,
+          /^Radio City$/i,
+          /^Madison Square Garden$/i,
+          /^Barclays Center$/i,
+          /^Webster Hall$/i,
+          /^Apollo Theater$/i,
+          /^Music Hall Williamsburg$/i,
+          /^Mercury Lounge$/i,
+          /^Bowery Ballroom$/i
+        ];
+        
+        if (venueNameBlacklist.some(pattern => pattern.test(title))) {
+          console.log(`  ❌ Filtered out (venue name): "${title}"`);
+          return;
+        }
+        
         // STRICT junk filtering - reject common non-event patterns
         const junkPatterns = [
           /^(Menu|Nav|Skip|Login|Subscribe|Search|Home|View All|Load More|Filter|Sort|Click|Read More|Learn More|See All)/i,
@@ -111,7 +133,16 @@ function createUniversalScraper(venueName, url, address) {
           /^(Where everyone|Everyone|Community|The Mastermind|Date Range|One Battle)/i,
           /^(DanceAfrica|Bugonia|LunAtico|Sublime|Blink)/i,  // Generic single words without context
           /^[A-Z][a-z]+$/,  // Single capitalized word (likely not an event)
-          /A-LIST|JOIN THE|WICKED L/i
+          /A-LIST|JOIN THE|WICKED L/i,
+          
+          // NEW YORK SPECIFIC JUNK PATTERNS
+          /\*SOLD OUT\*/i,  // Remove sold out markers
+          /^Events at Our/i,  // Generic "Events at Our Other Venues" titles
+          /^Newsreel Retrospective/i,  // Old retrospective, not current event
+          /^Latest Past Events/i,  // Navigation link, not event
+          /^Past Events$/i,  // Navigation link
+          /^Upcoming Events$/i,  // Navigation link
+          /^All Events$/i  // Navigation link
         ];
         
         if (junkPatterns.some(pattern => pattern.test(title))) return;

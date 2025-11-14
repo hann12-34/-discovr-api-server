@@ -1,0 +1,115 @@
+/**
+ * Bovine Sex Club Scraper (Toronto)
+ * SAFE & LEGAL: Official venue website
+ * Iconic punk/alternative venue on Queen West
+ * URL: https://www.bovinesexclub.com
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+async function scrape(city = 'Toronto') {
+  console.log('🐮 Scraping Bovine Sex Club events...');
+  
+  try {
+    const response = await axios.get('https://www.bovinesexclub.com', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml'
+      },
+      timeout: 15000
+    });
+    
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seenUrls = new Set();
+    
+    // Look for event listings
+    $('.event, .show, article, [class*="event"], [class*="show"]').each((i, el) => {
+      const $event = $(el);
+      
+      // Extract title
+      const title = $event.find('h1, h2, h3, h4, .title, .artist, .band').first().text().trim();
+      
+      // Extract URL
+      let eventUrl = $event.find('a').first().attr('href');
+      if (eventUrl && !eventUrl.startsWith('http')) {
+        if (eventUrl.startsWith('/')) {
+          eventUrl = 'https://www.bovinesexclub.com' + eventUrl;
+        }
+      }
+      
+      // Skip if invalid or duplicate
+      if (!title || title.length < 2 || !eventUrl || seenUrls.has(eventUrl)) return;
+      
+      // Skip navigation/junk
+      const titleLower = title.toLowerCase();
+      if (titleLower === 'events' || titleLower === 'calendar' || 
+          titleLower.includes('upcoming') || titleLower.includes('view all')) {
+        return;
+      }
+      
+      seenUrls.add(eventUrl);
+      
+      // Extract date
+      const dateEl = $event.find('time, .date, [datetime], [class*="date"]').first();
+      let dateText = dateEl.attr('datetime') || dateEl.text().trim();
+      
+      let eventDate = null;
+      if (dateText) {
+        try {
+          const parsed = new Date(dateText);
+          if (!isNaN(parsed.getTime()) && parsed.getFullYear() >= 2025) {
+            eventDate = parsed.toISOString().split('T')[0];
+          }
+        } catch (e) {
+          // Try pattern matching
+          const patterns = [
+            /(\w{3,9})\s+(\d{1,2}),?\s+(\d{4})/i,  // "November 15, 2025"
+            /(\d{1,2})\s+(\w{3,9})\s+(\d{4})/i,    // "15 November 2025"
+            /(\d{4})-(\d{2})-(\d{2})/,              // "2025-11-15"
+            /(\d{1,2})\/(\d{1,2})\/(\d{4})/        // "11/15/2025"
+          ];
+          
+          for (const pattern of patterns) {
+            if (pattern.test(dateText)) {
+              try {
+                const testParsed = new Date(dateText);
+                if (!isNaN(testParsed.getTime()) && testParsed.getFullYear() >= 2025) {
+                  eventDate = testParsed.toISOString().split('T')[0];
+                  break;
+                }
+              } catch (e2) {}
+            }
+          }
+        }
+      }
+      
+      events.push({
+        id: uuidv4(),
+        title: title,
+        date: eventDate,
+        url: eventUrl,
+        venue: {
+          name: 'Bovine Sex Club',
+          address: '542 Queen St W, Toronto, ON M5V 2B5',
+          city: 'Toronto'
+        },
+        city: city,
+        category: 'Concert',
+        source: 'Bovine Sex Club'
+      });
+    });
+    
+    console.log(`✅ Bovine Sex Club: ${events.length} events`);
+    return filterEvents(events);
+    
+  } catch (error) {
+    console.error('  ⚠️  Bovine Sex Club error:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrape;

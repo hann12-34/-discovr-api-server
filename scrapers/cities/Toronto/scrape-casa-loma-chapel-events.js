@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Casa Loma Chapel events...');
   const scraper = createUniversalScraper(
     'Casa Loma Chapel',
-    'https://www.blogto.com/music/',
+    'https://casaloma.ca/visit/events',
     '1 Austin Terrace, Toronto, ON M5R 1X8'
   );
   return await scraper(city);

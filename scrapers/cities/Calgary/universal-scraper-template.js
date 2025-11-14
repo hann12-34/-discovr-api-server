@@ -11,6 +11,20 @@ function createUniversalScraper(venueName, url, address) {
   return async function scrape(city = 'New York') {
     let events = [];
     
+    // BLACKLIST: News sites and aggregators that shouldn't be scraped
+    const blacklist = [
+      'blogto.com', 'narcity.com', 'timeout.com', 'torontostar.com',
+      'nowtoronto.com', 'thestar.com', 'cbc.ca', 'globalnews.ca',
+      'eventbrite.com', 'ticketmaster.com', 'ticketweb.com',
+      'instagram.com', 'facebook.com', 'twitter.com', 'tiktok.com',
+      'songkick.com', 'bandsintown.com', 'ra.co', 'dice.fm'
+    ];
+    
+    if (blacklist.some(domain => url.includes(domain))) {
+      console.log(`  ⚠️  Skipping blacklisted domain: ${url}`);
+      return [];
+    }
+    
     try {
       const response = await axios.get(url, {
         timeout: 15000,
@@ -105,12 +119,26 @@ function createUniversalScraper(venueName, url, address) {
         
         // STRICT junk filtering - reject common non-event patterns
         const junkPatterns = [
+          // UI ELEMENTS
           /^(Menu|Nav|Skip|Login|Subscribe|Search|Home|View All|Load More|Filter|Sort|Click|Read More|Learn More|See All)/i,
           /^(Stay in the Know|Join|Sign Up|Newsletter|Follow|Connect|Share)/i,
-          /^(Today|Tomorrow|This Week|This Month|Upcoming|Past|Calendar)/i,
+          /^(Today|Tomorrow|This Week|This Month|Upcoming|Past|Calendar)$/i,
+          /^(Google Calendar|Outlook Calendar|iCal|Add to Calendar)/i,  // Calendar app names
+          /^[A-Z][a-z]+$/,  // Single capitalized word only
+          /\*SOLD OUT\*/i,  // Remove sold out markers
+          /^Events at Our/i,  // Generic venue listings
+          /^Latest Past Events/i,  // Navigation links
+          /^(Past|Upcoming|All) Events$/i,  // Navigation links
+          
+          // DATE-ONLY TITLES (not real event names)
+          /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{4}/i,  // "Nov 11, 2025..." or malformed dates
+          /^\d{1,2}\/\d{1,2}\/\d{2,4}$/,  // "11/11/2025"
+          /^\d{4}-\d{2}-\d{2}$/,  // "2025-11-11"
+          /^20\d{2}\s/,  // "2025 ..." (year-prefixed titles)
+          
+          // GENERIC PATTERNS
           /^(Where everyone|Everyone|Community|The Mastermind|Date Range|One Battle)/i,
-          /^(DanceAfrica|Bugonia|LunAtico|Sublime|Blink)/i,  // Generic single words without context
-          /^[A-Z][a-z]+$/,  // Single capitalized word (likely not an event)
+          /^(DanceAfrica|Bugonia|LunAtico|Sublime|Blink)/i,
           /A-LIST|JOIN THE|WICKED L/i
         ];
         

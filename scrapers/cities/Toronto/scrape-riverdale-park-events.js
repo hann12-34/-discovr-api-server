@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Riverdale Park events...');
   const scraper = createUniversalScraper(
     'Riverdale Park',
-    'https://www.blogto.com/eat_drink/',
+    'https://www.toronto.ca/explore-enjoy/parks-gardens-beaches/riverdale-park',
     '550 Broadview Ave, Toronto, ON M4K 2N6'
   );
   return await scraper(city);

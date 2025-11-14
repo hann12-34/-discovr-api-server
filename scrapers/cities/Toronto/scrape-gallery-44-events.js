@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Gallery 44 events...');
   const scraper = createUniversalScraper(
     'Gallery 44',
-    'https://www.blogto.com/events/',
+    'https://gallery44.org/exhibitions',
     '401 Richmond St W Suite 120, Toronto, ON M5V 3A8'
   );
   return await scraper(city);

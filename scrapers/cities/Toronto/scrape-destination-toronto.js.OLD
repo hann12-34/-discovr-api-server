@@ -1,0 +1,149 @@
+/**
+ * Destination Toronto Events Scraper
+ * Official Toronto tourism site - government/non-profit
+ * SAFE & LEGAL: Public tourism promotion site
+ * URL: https://www.destinationtoronto.com/events/
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+async function scrape(city = 'Toronto') {
+  console.log('🏙️ Scraping Destination Toronto events...');
+  
+  try {
+    const events = [];
+    const seenUrls = new Set();
+    
+    // Scrape main events page and category pages
+    const urls = [
+      'https://www.destinationtoronto.com/events/',
+      'https://www.destinationtoronto.com/events/annual-festivals-and-events/',
+      'https://www.destinationtoronto.com/nightlife/'
+    ];
+    
+    for (const url of urls) {
+      try {
+        console.log(`  Fetching: ${url}`);
+        const response = await axios.get(url, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+          },
+          timeout: 20000
+        });
+        
+        const $ = cheerio.load(response.data);
+        
+        // Try multiple selectors for events
+        const eventSelectors = [
+          '.event-item',
+          '.event-card',
+          '.event',
+          '[class*="event-"]',
+          'article',
+          '.listing-item'
+        ];
+        
+        let $events = $();
+        for (const selector of eventSelectors) {
+          const found = $(selector);
+          if (found.length > 0) {
+            console.log(`    Found ${found.length} items with: ${selector}`);
+            $events = found;
+            break;
+          }
+        }
+        
+        $events.each((i, el) => {
+          const $event = $(el);
+          
+          // Extract title
+          const title = $event.find('h1, h2, h3, h4, .title, .name, [class*="title"]')
+            .first()
+            .text()
+            .trim();
+          
+          // Extract URL
+          let eventUrl = $event.find('a').first().attr('href');
+          if (eventUrl && !eventUrl.startsWith('http')) {
+            if (eventUrl.startsWith('/')) {
+              eventUrl = 'https://www.destinationtoronto.com' + eventUrl;
+            } else {
+              eventUrl = 'https://www.destinationtoronto.com/' + eventUrl;
+            }
+          }
+          
+          // Skip duplicates and invalid URLs
+          if (!eventUrl || seenUrls.has(eventUrl) || !title || title.length < 3) return;
+          seenUrls.add(eventUrl);
+          
+          // Extract date
+          const dateEl = $event.find('time, .date, [datetime], [class*="date"]').first();
+          let dateText = dateEl.attr('datetime') || dateEl.text().trim();
+          
+          let eventDate = null;
+          if (dateText) {
+            try {
+              const parsed = new Date(dateText);
+              if (!isNaN(parsed.getTime()) && parsed.getFullYear() > 2020) {
+                eventDate = parsed.toISOString().split('T')[0];
+              }
+            } catch (e) {
+              // Try pattern matching
+              const monthMatch = dateText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+(\\d{1,2}),?\\s+(\\d{4})/i);
+              if (monthMatch) {
+                try {
+                  const testParsed = new Date(dateText);
+                  if (!isNaN(testParsed.getTime())) {
+                    eventDate = testParsed.toISOString().split('T')[0];
+                  }
+                } catch (e2) {}
+              }
+            }
+          }
+          
+          // Categorize
+          let category = 'Events';
+          const titleLower = title.toLowerCase();
+          if (titleLower.includes('festival') || titleLower.includes('fest')) {
+            category = 'Festival';
+          } else if (titleLower.includes('night') || titleLower.includes('club') || 
+                     titleLower.includes('bar') || titleLower.includes('dj')) {
+            category = 'Nightlife';
+          } else if (titleLower.includes('concert') || titleLower.includes('music')) {
+            category = 'Concert';
+          }
+          
+          events.push({
+            id: uuidv4(),
+            title: title,
+            date: eventDate,
+            url: eventUrl,
+            venue: {
+              name: 'Various Venues',
+              city: 'Toronto'
+            },
+            city: city,
+            category: category,
+            source: 'Destination Toronto'
+          });
+        });
+        
+      } catch (err) {
+        console.log(`    ⚠️  Error on ${url}: ${err.message}`);
+      }
+    }
+    
+    console.log(`✅ Destination Toronto: ${events.length} events found`);
+    return filterEvents(events);
+    
+  } catch (error) {
+    console.error('Error scraping Destination Toronto:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrape;

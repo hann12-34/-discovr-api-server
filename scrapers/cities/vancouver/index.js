@@ -6,7 +6,6 @@
 const fs = require('fs');
 const path = require('path');
 const { toISODate } = require('../../utils/dateNormalizer');
-const { getVenueDefaultImage } = require('./venue-default-images');
 
 class VancouverScrapers {
     constructor(scrapersToRun) {
@@ -57,13 +56,12 @@ class VancouverScrapers {
 
                 if (Array.isArray(events) && events.length > 0) {
                     const processedEvents = events.map(event => {
-                        // Add default venue image if no imageUrl present
-                        const venueName = event.venue?.name || source;
-                        const imageUrl = event.imageUrl || getVenueDefaultImage(venueName);
-                        
+                        // NO FALLBACKS - only use real poster images from scrapers
+                        // If scraper didn't find an image, leave it null
                         return {
                             ...event,
-                            imageUrl,
+                            imageUrl: event.imageUrl || event.image || null,
+                            image: event.imageUrl || event.image || null,
                             city: 'Vancouver',
                             venue: event.venue || { name: source },
                             categories: [...(event.categories || []), 'city'].filter((v, i, a) => a.indexOf(v) === i)

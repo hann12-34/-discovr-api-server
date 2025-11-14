@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Alexandra Park Community Centre events...');
   const scraper = createUniversalScraper(
     'Alexandra Park Community Centre',
-    'https://www.blogto.com/events/',
+    'https://www.toronto.ca/data/parks/prd/facilities/complex/141/index.html',
     '200 Bathurst St, Toronto, ON M5T 2R8'
   );
   return await scraper(city);

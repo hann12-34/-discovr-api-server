@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping University Of Toronto events...');
   const scraper = createUniversalScraper(
     'University Of Toronto',
-    'https://www.blogto.com/events/',
+    'https://www.events.utoronto.ca',
     '27 King'
   );
   return await scraper(city);

@@ -43,38 +43,55 @@ const FoxCabaretEvents = {
         let eventDate = null;
         if (dateMatch) {
           const months = {jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'};
-          const month = months[dateMatch[1].toLowerCase().substring(0,3)];
+          const monthStr = dateMatch[1].toLowerCase().substring(0,3);
+          const month = months[monthStr];
           const day = dateMatch[2].padStart(2, '0');
-          const year = new Date().getFullYear();
-          eventDate = `${year}-${month}-${day}`;
+          
+          // Year logic: if month has passed this year, use next year
+          const currentYear = new Date().getFullYear();
+          const currentMonth = new Date().getMonth(); // 0-indexed
+          const monthIndex = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(monthStr);
+          const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+          
+          // Use proper date format: "Month DD, YYYY" for parsing
+          eventDate = `${dateMatch[1]} ${dateMatch[2]}, ${year}`;
         }
         
-        // Use title or fallback to date+time
-        const eventTitle = title || (dateText + ' ' + timeText).trim() || `Fox Cabaret Event ${eventDate}`;
+        // Use title or fallback
+        const eventTitle = title || (dateText + ' ' + timeText).trim() || `Fox Cabaret Event`;
         
-        if (eventTitle && eventTitle.length > 2 && !seen.has(eventTitle + eventDate)) {
+        // Skip if no date or no title
+        if (!eventDate || !eventTitle || eventTitle.length < 3) return;
+        
+        // DEDUPLICATION: Skip recurring weekly/monthly events beyond first occurrence
+        const recurringPatterns = [
+          'The Sunday Service', 
+          'Sweet Neens KARAOKE', 
+          'KARAOKE at the Fox',
+          '80s vs 90s Night',
+          '90s vs 00s Night',
+          'GOLDEN: 80s/90s/00s Hip Hop Dance Party',
+          'Millennium',
+          '4x4: Four Bands for Four Bucks',
+          'Non-Stop Disco Party',
+          'Teen Angst Night',
+          'Absolute 80s Night',
+          'Guilty Pleasures:',
+          'Pump Up The Jam:'
+        ];
+        const isRecurring = recurringPatterns.some(pattern => eventTitle.includes(pattern));
+        const isDuplicateRecurring = isRecurring && recurringPatterns.some(pattern => 
+          eventTitle.includes(pattern) && seen.has(pattern)
+        );
+        
+        if (!seen.has(eventTitle + eventDate) && !isDuplicateRecurring) {
           seen.add(eventTitle + eventDate);
           
-          if (eventDate) {
-            eventDate = eventDate
-              .replace(/\n/g, ' ')
-              .replace(/\s+/g, ' ')
-              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
-              .trim();
-            
-            if (!/\d{4}/.test(eventDate)) {
-              const currentYear = new Date().getFullYear();
-              const currentMonth = new Date().getMonth();
-              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-              const dateLower = eventDate.toLowerCase();
-              const monthIndex = months.findIndex(m => dateLower.includes(m));
-              if (monthIndex !== -1) {
-                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                eventDate = `${eventDate}, ${year}`;
-              } else {
-                eventDate = `${eventDate}, ${currentYear}`;
-              }
+          // Mark recurring events as seen to prevent duplicates
+          if (isRecurring) {
+            const matchedPattern = recurringPatterns.find(pattern => eventTitle.includes(pattern));
+            if (matchedPattern) {
+              seen.add(matchedPattern);
             }
           }
 
@@ -87,7 +104,7 @@ const FoxCabaretEvents = {
             venue: { name: 'Fox Cabaret', address: '2321 Main Street, Vancouver, BC V5T 3C9', city: 'Vancouver' },
             city: 'Vancouver',
             source: 'Fox Cabaret',
-            category: 'Concert'
+            category: 'Nightlife'
           });
           
           console.log(`✓ ${eventTitle} | ${eventDate || 'NO DATE'}`);
@@ -104,4 +121,4 @@ const FoxCabaretEvents = {
   }
 };
 
-module.exports = FoxCabaretEvents;
+module.exports = FoxCabaretEvents.scrape;

@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Hot Docs Cinema events...');
   const scraper = createUniversalScraper(
     'Hot Docs Cinema',
-    'https://www.blogto.com/events/',
+    'https://hotdocscinema.ca/whats-on',
     '506 Bloor St W, Toronto, ON M5S 1Y3'
   );
   return await scraper(city);

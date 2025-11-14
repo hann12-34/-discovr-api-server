@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Supermarket events...');
   const scraper = createUniversalScraper(
     'Supermarket',
-    'https://www.timeout.com/toronto/things-to-do',
+    'https://supermarkettoronto.com',
     '268 Augusta Ave, Toronto, ON M5T 2L9'
   );
   return await scraper(city);

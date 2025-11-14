@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Trinity College events...');
   const scraper = createUniversalScraper(
     'Trinity College',
-    'https://www.blogto.com/arts/',
+    'https://www.trinity.utoronto.ca/discover/events',
     '6 Hoskin Ave, Toronto, ON M5S 1H8'
   );
   return await scraper(city);

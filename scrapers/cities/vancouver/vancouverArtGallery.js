@@ -8,6 +8,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { filterGenericPrograms } = require('../../utils/genericProgramFilter');
 
 const VancouverArtGalleryEvents = {
   async scrape(city) {
@@ -178,7 +179,10 @@ const VancouverArtGalleryEvents = {
         }
       }
       
-      return filterEvents(events);
+      // Filter out generic recurring programs like "The Making Place", "Free First Friday"
+      const withoutGenericPrograms = filterGenericPrograms(events);
+      
+      return filterEvents(withoutGenericPrograms);
 
     } catch (error) {
       console.error('Error scraping Vancouver Art Gallery events:', error.message);

@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Tranzac Club events...');
   const scraper = createUniversalScraper(
     'Tranzac Club',
-    'https://www.blogto.com/events/',
+    'https://www.tranzac.org/events',
     '292 Brunswick Ave, Toronto, ON M5S 2M7'
   );
   return await scraper(city);

@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping The Happening events...');
   const scraper = createUniversalScraper(
     'The Happening',
-    'https://nowtoronto.com/movies',
+    'https://www.thehappeningtoronto.com',
     '3 Brock Ave, Toronto, ON M6K 2K8'
   );
   return await scraper(city);

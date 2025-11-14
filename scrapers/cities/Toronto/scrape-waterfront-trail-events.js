@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Waterfront Trail events...');
   const scraper = createUniversalScraper(
     'Waterfront Trail',
-    'https://www.blogto.com/events/',
+    'https://waterfronttrail.org/explore-the-trail',
     'Queens Quay, Toronto, ON M5J 2L3'
   );
   return await scraper(city);

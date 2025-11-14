@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Soulpepper events...');
   const scraper = createUniversalScraper(
     'Soulpepper',
-    'https://www.blogto.com/events/',
+    'https://www.soulpepper.ca/performances',
     '50 Tank House Ln, Toronto, ON M5A 3C4'
   );
   return await scraper(city);

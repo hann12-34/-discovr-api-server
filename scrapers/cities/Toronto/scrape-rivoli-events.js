@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Rivoli events...');
   const scraper = createUniversalScraper(
     'Rivoli',
-    'https://www.blogto.com/events/',
+    'https://www.rivoli.ca/events',
     '334 Queen St W, Toronto, ON M5V 2A2'
   );
   return await scraper(city);

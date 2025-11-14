@@ -7,7 +7,6 @@
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
-const { getVenueDefaultImage } = require('./venue-default-images');
 
 const TheRoxyEvents = {
   async scrape(city) {
@@ -113,15 +112,13 @@ const TheRoxyEvents = {
       
       await browser.close();
       
-      // Format events - use default venue image if no event-specific image
-      const defaultImage = getVenueDefaultImage('The Roxy');
-      
+      // Format events - NO FALLBACKS, only real poster images
       const formattedEvents = events.map(event => ({
         id: uuidv4(),
         title: event.title,
         date: event.date,
         url: event.url,
-        imageUrl: event.imageUrl || defaultImage,
+        imageUrl: event.imageUrl || null,
         venue: { name: 'The Roxy', address: 'Vancouver', city: 'Vancouver' },
         city: 'Vancouver',
         source: 'The Roxy'

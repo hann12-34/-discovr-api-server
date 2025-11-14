@@ -1,0 +1,129 @@
+/**
+ * BlogTO Events Scraper
+ * Toronto's most popular local news/events site
+ * SAFE & LEGAL: Local media/news outlet (not competitor)
+ * Covers concerts, festivals, nightlife, food events
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+
+async function scrape() {
+  console.log('📰 Scraping BlogTO events...');
+  
+  try {
+    // Scrape events and music sections (nightlife URL returns 404)
+    const urls = [
+      'https://www.blogto.com/events/',
+      'https://www.blogto.com/music/'
+    ];
+    
+    const events = [];
+    const seen = new Set(); // CRITICAL: Prevent duplicates
+    
+    for (const url of urls) {
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+          },
+          timeout: 15000
+        });
+        
+        const $ = cheerio.load(response.data);
+        
+        $('article, .event, .post, [class*="listing"]').each((i, el) => {
+          const $el = $(el);
+          
+          // Extract title
+          const title = $el.find('h1, h2, h3, h4, .title, .headline, [class*="title"]').first().text().trim();
+          
+          // Extract venue
+          let venue = $el.find('.venue, .location, [class*="venue"]').first().text().trim();
+          
+          // Extract date - be very careful here
+          const dateEl = $el.find('time, .date, [datetime], [class*="date"]').first();
+          let dateText = dateEl.attr('datetime') || dateEl.text().trim();
+          
+          // Extract URL
+          const linkEl = $el.find('a').first();
+          const eventUrl = linkEl.attr('href');
+          
+          // CRITICAL: Parse date carefully
+          let eventDate = null;
+          if (dateText) {
+            try {
+              // Try datetime attribute first
+              const parsed = new Date(dateText);
+              if (!isNaN(parsed.getTime())) {
+                eventDate = parsed.toISOString().split('T')[0]; // YYYY-MM-DD format
+              }
+            } catch (e) {
+              // Try pattern matching as fallback
+              const match = dateText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+(\\d{1,2}),?\\s+(\\d{4})/i);
+              if (match) {
+                try {
+                  const testParsed = new Date(dateText);
+                  if (!isNaN(testParsed.getTime())) {
+                    eventDate = testParsed.toISOString().split('T')[0];
+                  }
+                } catch (e2) {}
+              }
+            }
+          }
+          
+          // CRITICAL: Only add if we have valid data
+          if (title && title.length > 3 && eventDate) {
+            // CRITICAL: Check for duplicates using title+date
+            const dedupeKey = `${title.toLowerCase().trim()}|${eventDate}`;
+            
+            if (!seen.has(dedupeKey)) {
+              seen.add(dedupeKey);
+              
+              // Determine category
+              let category = 'Events';
+              const titleLower = title.toLowerCase();
+              const venueLower = (venue || '').toLowerCase();
+              
+              if (titleLower.includes('night') || titleLower.includes('club') || 
+                  titleLower.includes('dj') || titleLower.includes('dance') ||
+                  venueLower.includes('club') || venueLower.includes('lounge')) {
+                category = 'Nightlife';
+              } else if (titleLower.includes('concert') || titleLower.includes('live music')) {
+                category = 'Concert';
+              }
+              
+              events.push({
+                id: uuidv4(),
+                title: title,
+                date: eventDate, // ISO format: YYYY-MM-DD
+                url: eventUrl && eventUrl.startsWith('http') ? eventUrl : (eventUrl ? 'https://www.blogto.com' + eventUrl : 'https://www.blogto.com'),
+                venue: {
+                  name: venue || 'TBA',
+                  city: 'Toronto'
+                },
+                location: 'Toronto, ON',
+                city: 'Toronto',
+                description: `${title} - Toronto event`,
+                category: category,
+                source: 'BlogTO'
+              });
+            }
+          }
+        });
+      } catch (e) {
+        console.error(`Error scraping ${url}:`, e.message);
+      }
+    }
+    
+    console.log(`✅ BlogTO: ${events.length} events (${events.filter(e => e.category === 'Nightlife').length} nightlife)`);
+    return events;
+    
+  } catch (error) {
+    console.error('Error scraping BlogTO:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrape;

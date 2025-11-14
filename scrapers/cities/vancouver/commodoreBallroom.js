@@ -8,7 +8,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const DataQualityFilter = require('../../../enhanced-data-quality-filter');
-const { getVenueDefaultImage } = require('./venue-default-images');
 
 const CommodoreBallroomEvents = {
   async scrape(city) {
@@ -226,8 +225,8 @@ const CommodoreBallroomEvents = {
             }
           }
 
-          // Use default venue image if no event-specific image found
-          const finalImageUrl = imageUrl || getVenueDefaultImage('Commodore Ballroom');
+          // NO FALLBACKS - only use real event poster images
+          // If no image found, set to null
           
           events.push({
               id: uuidv4(),
@@ -235,7 +234,7 @@ const CommodoreBallroomEvents = {
               date: eventDate,
               time: null,
               url: eventUrl,
-              imageUrl: finalImageUrl,
+              imageUrl: imageUrl || null,
               venue: { name: 'Commodore Ballroom', address: '868 Granville Street, Vancouver, BC V6Z 1K3', city: 'Vancouver' },
               location: 'Vancouver, BC',
               description: `${cleanTitle} live at Commodore Ballroom, Vancouver's iconic music venue.`,
@@ -344,11 +343,21 @@ const CommodoreBallroomEvents = {
                       }
                     }
 
+                    // Try to extract image from the event element
+                    let imageUrl = null;
+                    const img = $element.closest('.show-listing, .event-item, .show-item, .card, article').find('img').first();
+                    if (img.length > 0) {
+                      const src = img.attr('src') || img.attr('data-src');
+                      if (src && !src.includes('logo')) {
+                        imageUrl = src.startsWith('http') ? src : `https://www.commodoreballroom.com${src}`;
+                      }
+                    }
+                    
                     const event = {
                       id: uuidv4(),
                       title: title,
                       url: eventUrl,
-                      imageUrl: getVenueDefaultImage('Commodore Ballroom'),
+                      imageUrl: imageUrl, // Real poster image or null
                       venue: { name: 'The Commodore Ballroom', address: '868 Granville Street, Vancouver, BC V6Z 1K3', city: 'Vancouver' },
                       location: 'Vancouver, BC',
                       city: 'Vancouver',

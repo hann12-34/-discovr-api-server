@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Neighbourhood Unscripted events...');
   const scraper = createUniversalScraper(
     'Neighbourhood Unscripted',
-    'https://www.blogto.com/arts/',
+    'https://neighbourhoodunscripted.com/events',
     '934 College St, Toronto, ON M6H 1A5'
   );
   return await scraper(city);

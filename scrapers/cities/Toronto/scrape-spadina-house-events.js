@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Spadina House events...');
   const scraper = createUniversalScraper(
     'Spadina House',
-    'https://www.blogto.com/events/',
+    'https://www.heritagetrust.on.ca/en/properties/spadina-museum',
     '285 Spadina Rd, Toronto, ON M5R 2V5'
   );
   return await scraper(city);

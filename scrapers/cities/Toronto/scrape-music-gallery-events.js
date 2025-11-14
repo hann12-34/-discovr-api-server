@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Music Gallery events...');
   const scraper = createUniversalScraper(
     'Music Gallery',
-    'https://www.blogto.com/events/',
+    'https://musicgallery.org/events',
     '918 Bathurst St, Toronto, ON M5R 3G5'
   );
   return await scraper(city);

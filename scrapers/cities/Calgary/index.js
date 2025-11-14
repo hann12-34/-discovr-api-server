@@ -3,12 +3,13 @@
  * Manages all working Calgary venue scrapers
  */
 
+const { toISODate } = require('../../utils/dateNormalizer');
+
 // All working Calgary scrapers (13 total)
 const scrapeJubileeAuditorium = require('./scrape-jubilee-auditorium');
 const scrapeCalgaryZoo = require('./scrape-calgary-zoo');
 const scrapeHeritagePark = require('./scrape-heritage-park');
 const scrapePalaceTheatreEvents = require('./scrape-the-palace-theatre-events');
-const scrapePalaceTheatreNightlife = require('./scrape-the-palace-theatre-nightlife');
 const scrapeSpruceMeadows = require('./scrape-spruce-meadows-events');
 const scrapeGreyEagle = require('./scrape-grey-eagle-resort-events');
 const scrapeCommonwealthNightlife = require('./scrape-commonwealth-bar-stage-nightlife');
@@ -22,8 +23,7 @@ const scrapers = [
     { name: 'Jubilee Auditorium', scraper: scrapeJubileeAuditorium },
     { name: 'Calgary Zoo', scraper: scrapeCalgaryZoo },
     { name: 'Heritage Park', scraper: scrapeHeritagePark },
-    { name: 'Palace Theatre Events', scraper: scrapePalaceTheatreEvents },
-    { name: 'Palace Theatre Nightlife', scraper: scrapePalaceTheatreNightlife },
+    { name: 'Palace Theatre', scraper: scrapePalaceTheatreEvents },
     { name: 'Spruce Meadows', scraper: scrapeSpruceMeadows },
     { name: 'Grey Eagle Resort', scraper: scrapeGreyEagle },
     { name: 'Commonwealth Bar & Stage Nightlife', scraper: scrapeCommonwealthNightlife },
@@ -60,7 +60,51 @@ async function scrapeCalgaryCityEvents() {
     console.log(`Working scrapers: ${successfulScrapers}/${scrapers.length}`);
     console.log(`Total events: ${allEvents.length}`);
     
-    return allEvents;
+    // DEDUPLICATION: Remove duplicate events (by title + date)
+    const seenEvents = new Set();
+    const dedupedEvents = [];
+    let duplicateCount = 0;
+    
+    for (const event of allEvents) {
+        const key = `${event.title?.toLowerCase()?.trim()}|${event.date?.toLowerCase()?.trim()}`;
+        if (!seenEvents.has(key)) {
+            seenEvents.add(key);
+            dedupedEvents.push(event);
+        } else {
+            duplicateCount++;
+        }
+    }
+    
+    if (duplicateCount > 0) {
+        console.log(`🧹 Removed ${duplicateCount} duplicate events`);
+    }
+    
+    // DATE VALIDATION: Filter out events with unparseable dates ONLY
+    // Keep ALL events with valid dates (past, present, future) - many are ongoing exhibitions/shows
+    const validEvents = [];
+    let skippedCount = 0;
+    
+    for (const event of dedupedEvents) {
+        const dateStr = event.date || event.startDate;
+        if (!dateStr) {
+            skippedCount++;
+            continue;
+        }
+        
+        const normalizedDate = toISODate(dateStr);
+        if (normalizedDate && normalizedDate !== '1970-01-01') {
+            event.date = normalizedDate;
+            validEvents.push(event);
+        } else {
+            skippedCount++;
+        }
+    }
+    
+    if (skippedCount > 0) {
+        console.log(`✅ ${validEvents.length} valid events (skipped ${skippedCount} with bad dates)`);
+    }
+    
+    return validEvents;
 }
 
 module.exports = scrapeCalgaryCityEvents;

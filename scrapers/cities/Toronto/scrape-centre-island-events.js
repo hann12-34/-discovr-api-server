@@ -1,10 +1,10 @@
 const createUniversalScraper = require('./universal-scraper-template');
 
 async function scrapeEvents(city = 'Toronto') {
-  console.log('🎪 Scraping Centre Island events...');
+  console.log('🏝️ Scraping Centre Island events...');
   const scraper = createUniversalScraper(
     'Centre Island',
-    'https://www.utoronto.ca/events',
+    'https://www.toronto.ca/explore-enjoy/parks-gardens-beaches/toronto-island-park',
     'Toronto Islands, Toronto, ON'
   );
   return await scraper(city);

@@ -78,7 +78,10 @@ const VancouverFringeEvents = {
           const skipTitlePatterns = [
             /^(home|about|contact|search|login|more|info|read more|shows|events)$/i,
             /^(september|october|november|december|january|february|march|april|may|june|july|august)\s+\d{4}$/i,
-            /what's\s+on/i
+            /what's\s+on/i,
+            /^browse\s+shows?$/i,
+            /^view\s+all/i,
+            /^see\s+all/i
           ];
           
           if (title.length < 3 || skipTitlePatterns.some(pattern => pattern.test(title))) {

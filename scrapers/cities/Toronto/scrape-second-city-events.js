@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Second City events...');
   const scraper = createUniversalScraper(
     'Second City',
-    'https://www.blogto.com/arts/',
+    'https://www.secondcity.com/shows/toronto',
     '51 Mercer St, Toronto, ON M5V 1H2'
   );
   return await scraper(city);

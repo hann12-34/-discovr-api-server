@@ -1,0 +1,207 @@
+/**
+ * Toronto Quality Events Scraper
+ * High-quality nightlife, festivals, boat parties, rooftop events
+ * Sources: NOW Magazine (expanded), Lavelle, City Cruises, VELD
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+async function scrape(city = 'Toronto') {
+  console.log('🎉 Scraping Toronto quality events...');
+  
+  const events = [];
+  const seenUrls = new Set();
+  
+  try {
+    // 1. NOW Magazine - ALL events (not just nightlife)
+    try {
+      const nowResponse = await axios.get('https://nowtoronto.com/events', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        },
+        timeout: 15000
+      });
+      
+      const $ = cheerio.load(nowResponse.data);
+      
+      $('.event-item, .event, article[class*="event"]').each((i, el) => {
+        const $event = $(el);
+        
+        const title = $event.find('h1, h2, h3, h4, .title').first().text().trim();
+        let eventUrl = $event.find('a').first().attr('href');
+        
+        if (eventUrl && !eventUrl.startsWith('http')) {
+          eventUrl = 'https://nowtoronto.com' + eventUrl;
+        }
+        
+        if (!title || !eventUrl || seenUrls.has(eventUrl)) return;
+        seenUrls.add(eventUrl);
+        
+        const dateEl = $event.find('time, .date, [datetime]').first();
+        let dateText = dateEl.attr('datetime') || dateEl.text().trim();
+        
+        let eventDate = null;
+        if (dateText) {
+          try {
+            const parsed = new Date(dateText);
+            if (!isNaN(parsed.getTime()) && parsed.getFullYear() > 2020) {
+              eventDate = parsed.toISOString().split('T')[0];
+            }
+          } catch (e) {}
+        }
+        
+        // Categorize by title keywords
+        let category = 'Events';
+        const titleLower = title.toLowerCase();
+        if (titleLower.includes('festival') || titleLower.includes('fest')) {
+          category = 'Festival';
+        } else if (titleLower.includes('party') || titleLower.includes('dj') || 
+                   titleLower.includes('night') || titleLower.includes('club')) {
+          category = 'Nightlife';
+        } else if (titleLower.includes('concert') || titleLower.includes('live music')) {
+          category = 'Concert';
+        }
+        
+        if (title.length > 3) {
+          events.push({
+            id: uuidv4(),
+            title: title,
+            date: eventDate,
+            url: eventUrl,
+            venue: { name: 'Various Venues', city: 'Toronto' },
+            city: city,
+            category: category,
+            source: 'NOW Magazine'
+          });
+        }
+      });
+      
+      console.log(`  ✅ NOW Magazine: ${events.filter(e => e.source === 'NOW Magazine').length} events`);
+    } catch (err) {
+      console.log(`  ⚠️  NOW Magazine error: ${err.message}`);
+    }
+    
+    // 2. City Cruises (Boat Parties)
+    try {
+      const cruiseResponse = await axios.get('https://www.cityexperiences.com/toronto/city-cruises/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        },
+        timeout: 15000
+      });
+      
+      const $ = cheerio.load(cruiseResponse.data);
+      
+      // Look for special events, not regular cruises
+      $('a[href*="event"], a[href*="party"], .event-card, [class*="cruise"]').each((i, el) => {
+        const $el = $(el);
+        const title = $el.text().trim();
+        let eventUrl = $el.attr('href');
+        
+        if (eventUrl && !eventUrl.startsWith('http')) {
+          eventUrl = 'https://www.cityexperiences.com' + eventUrl;
+        }
+        
+        // Only special events, skip regular tours
+        if (title && eventUrl && !seenUrls.has(eventUrl) &&
+            (title.toLowerCase().includes('party') || 
+             title.toLowerCase().includes('event') ||
+             title.toLowerCase().includes('cruise') && title.length > 20)) {
+          
+          seenUrls.add(eventUrl);
+          
+          events.push({
+            id: uuidv4(),
+            title: title.substring(0, 100), // Limit length
+            date: null,
+            url: eventUrl,
+            venue: { 
+              name: 'City Cruises Toronto',
+              address: '207 Queens Quay W, Toronto',
+              city: 'Toronto'
+            },
+            city: city,
+            category: 'Boat Party',
+            source: 'City Cruises Toronto'
+          });
+        }
+      });
+      
+      console.log(`  ✅ City Cruises: ${events.filter(e => e.source === 'City Cruises Toronto').length} events`);
+    } catch (err) {
+      console.log(`  ⚠️  City Cruises error: ${err.message}`);
+    }
+    
+    // 3. Lavelle Rooftop (High-end rooftop lounge)
+    try {
+      const lavelleResponse = await axios.get('https://chezlavelle.com/events/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        },
+        timeout: 15000
+      });
+      
+      const $ = cheerio.load(lavelleResponse.data);
+      
+      $('.event, article, [class*="event"]').each((i, el) => {
+        const $event = $(el);
+        
+        const title = $event.find('h1, h2, h3, h4, .title').first().text().trim();
+        let eventUrl = $event.find('a').first().attr('href');
+        
+        if (eventUrl && !eventUrl.startsWith('http')) {
+          eventUrl = 'https://chezlavelle.com' + eventUrl;
+        }
+        
+        if (!title || !eventUrl || seenUrls.has(eventUrl)) return;
+        seenUrls.add(eventUrl);
+        
+        const dateEl = $event.find('time, .date, [datetime]').first();
+        let dateText = dateEl.attr('datetime') || dateEl.text().trim();
+        
+        let eventDate = null;
+        if (dateText) {
+          try {
+            const parsed = new Date(dateText);
+            if (!isNaN(parsed.getTime()) && parsed.getFullYear() > 2020) {
+              eventDate = parsed.toISOString().split('T')[0];
+            }
+          } catch (e) {}
+        }
+        
+        if (title.length > 3) {
+          events.push({
+            id: uuidv4(),
+            title: title,
+            date: eventDate,
+            url: eventUrl,
+            venue: {
+              name: 'Lavelle',
+              address: '16th floor, 627 King St W, Toronto',
+              city: 'Toronto'
+            },
+            city: city,
+            category: 'Rooftop Party',
+            source: 'Lavelle'
+          });
+        }
+      });
+      
+      console.log(`  ✅ Lavelle: ${events.filter(e => e.source === 'Lavelle').length} events`);
+    } catch (err) {
+      console.log(`  ⚠️  Lavelle error: ${err.message}`);
+    }
+    
+    console.log(`\n✅ Total quality events: ${events.length}`);
+    return filterEvents(events);
+    
+  } catch (error) {
+    console.error('Error scraping Toronto quality events:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrape;

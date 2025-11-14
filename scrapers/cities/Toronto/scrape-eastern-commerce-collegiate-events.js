@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Eastern Commerce Collegiate events...');
   const scraper = createUniversalScraper(
     'Eastern Commerce Collegiate',
-    'https://www.blogto.com/events/',
+    'https://www.tdsb.on.ca',
     '230 Oak Park Ave, East York, ON M4C 4N9'
   );
   return await scraper(city);

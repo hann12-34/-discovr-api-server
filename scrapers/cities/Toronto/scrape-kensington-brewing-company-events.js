@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Kensington Brewing Company events...');
   const scraper = createUniversalScraper(
     'Kensington Brewing Company',
-    'https://www.blogto.com/events/',
+    'https://kensingtonbrewingcompany.com/events',
     '299 Augusta Ave, Toronto, ON M5T 2M2'
   );
   return await scraper(city);

@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Koerner Hall events...');
   const scraper = createUniversalScraper(
     'Koerner Hall',
-    'https://www.blogto.com/events/',
+    'https://www.rcmusic.com/concerts',
     '273 Bloor St W, Toronto, ON M5S 1W2'
   );
   return await scraper(city);

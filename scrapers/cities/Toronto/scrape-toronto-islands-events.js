@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Toronto Islands events...');
   const scraper = createUniversalScraper(
     'Toronto Islands',
-    'https://www.blogto.com/events/',
+    'https://www.toronto.ca/explore-enjoy/parks-gardens-beaches/toronto-island-park',
     'Toronto Island Park, Toronto, ON M5J 2E4'
   );
   return await scraper(city);

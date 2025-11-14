@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping North York Central Library events...');
   const scraper = createUniversalScraper(
     'North York Central Library',
-    'https://nowtoronto.com/stage',
+    'https://www.torontopubliclibrary.ca/north-york-central-library',
     '5120 Yonge St, North York, ON M2N 5N9'
   );
   return await scraper(city);

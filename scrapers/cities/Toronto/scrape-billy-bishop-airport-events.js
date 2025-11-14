@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Billy Bishop Airport events...');
   const scraper = createUniversalScraper(
     'Billy Bishop Airport',
-    'https://www.blogto.com/events/',
+    'https://www.billybishopairport.com',
     '2 Eireann Quay, Toronto, ON M5V 1A1'
   );
   return await scraper(city);

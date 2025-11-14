@@ -93,7 +93,10 @@ const OrpheumTheatreEvents = {
           // Get URL from the Details link
           const linkEl = el.querySelector('a.featured__button--details');
           const url = linkEl ? linkEl.href : '';
-          
+        // Get image
+        const img = el.querySelector('img');
+        const imageUrl = img ? (img.src || img.getAttribute('data-src') || '') : '';
+
           if (!title || title.length < 3 || seen.has(url)) return;
           seen.add(url);
           

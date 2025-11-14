@@ -4,7 +4,7 @@ async function scrapeEvents(city = 'Toronto') {
   console.log('🎪 Scraping Fringe Festival events...');
   const scraper = createUniversalScraper(
     'Fringe Festival',
-    'https://nowtoronto.com/movies',
+    'https://fringetoronto.com/fringe-festival',
     '180 Shaw St, Toronto, ON M6J 2W5'
   );
   return await scraper(city);

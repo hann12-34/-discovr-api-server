@@ -6,7 +6,6 @@
 const fs = require('fs');
 const path = require('path');
 const { toISODate } = require('../../utils/dateNormalizer');
-const { getVenueDefaultImage } = require('./venue-default-images');
 
 async function scrapeTorontoCityEvents() {
     console.log('🍁 Starting Toronto scrapers...');
@@ -45,14 +44,12 @@ async function scrapeTorontoCityEvents() {
             
             if (Array.isArray(events) && events.length > 0) {
                 const processedEvents = events.map(event => {
-                    // Add default venue image if no imageUrl present
-                    const venueName = event.venue?.name || event.venue || source;
-                    const imageUrl = event.imageUrl || event.image || getVenueDefaultImage(venueName);
-                    
+                    // NO FALLBACKS - only use real poster images from scrapers
+                    // If scraper didn't find an image, leave it null
                     return {
                         ...event,
-                        imageUrl,
-                        image: imageUrl,
+                        imageUrl: event.imageUrl || event.image || null,
+                        image: event.imageUrl || event.image || null,
                         city: 'Toronto'
                     };
                 });

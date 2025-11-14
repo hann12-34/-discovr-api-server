@@ -1,0 +1,105 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+
+async function scrapeEvents(city = 'Toronto') {
+  console.log('🎭 Scraping Mirvish Theatres events...');
+  const events = [];
+  const seenTitles = new Set();
+
+  try {
+    // Scrape main Mirvish page to get all shows
+    const response = await axios.get('https://www.mirvish.com/', {
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+      timeout: 10000
+    });
+
+    const $ = cheerio.load(response.data);
+    
+    // Find all show links and extract dates
+    $('a[href*="/shows/"]').each((i, elem) => {
+      try {
+        const $link = $(elem);
+        let title = $link.text().trim();
+        
+        if (!title || title.length < 3 || title.length > 150) return;
+        
+        // Clean title
+        title = title.split(/\n/)[0].trim();
+        
+        // Skip junk
+        const junkPatterns = [
+          /^(View|Show|Event|More|See All|Filter|Sort|Menu|Buy)/i,
+          /^(Today|Tomorrow|This Week|Box Office)/i,
+          /^The (theatre|box office)/i,
+          /^(Learn More|Read More|Get Tickets)/i
+        ];
+        
+        if (junkPatterns.some(p => p.test(title))) return;
+        
+        // Avoid duplicates
+        const titleKey = title.toLowerCase().trim();
+        if (seenTitles.has(titleKey)) return;
+        seenTitles.add(titleKey);
+        
+        // Get URL
+        let url = $link.attr('href');
+        if (url && !url.startsWith('http')) {
+          url = 'https://www.mirvish.com' + url;
+        }
+        
+        // Extract date from surrounding context (look for date info near the link)
+        let dateText = null;
+        const $parent = $link.closest('.show-card, .event-card, .show-item, article, .card');
+        
+        if ($parent.length) {
+          // Try to find date text
+          const dateSelectors = ['.date', '.dates', '.show-dates', 'time', '[datetime]', '.when', '.showtime'];
+          for (const sel of dateSelectors) {
+            const $dateEl = $parent.find(sel).first();
+            if ($dateEl.length) {
+              dateText = $dateEl.text().trim();
+              break;
+            }
+          }
+          
+          // If no date found, look in parent text
+          if (!dateText) {
+            const parentText = $parent.text();
+            const dateMatch = parentText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}[,-]?\s*\d{4}/i);
+            if (dateMatch) {
+              dateText = dateMatch[0];
+            }
+          }
+        }
+        
+        // If still no date, skip this event (can't show without a date)
+        if (!dateText || dateText.length < 5) return;
+        
+        // Default venue
+        const venueName = 'Mirvish Theatres';
+        const address = '244 Victoria St, Toronto, ON M5B 1V8';
+        
+        events.push({
+          id: uuidv4(),
+          title: title,
+          date: dateText,
+          venue: { name: venueName, address: address, city: city },
+          url: url,
+          source: 'Mirvish',
+          categories: ['Theatre', 'Musical']
+        });
+      } catch (err) {
+        // Skip
+      }
+    });
+
+  } catch (error) {
+    console.error('Error scraping Mirvish:', error.message);
+  }
+
+  console.log(`✅ Mirvish Theatres: ${events.length} events`);
+  return events;
+}
+
+module.exports = scrapeEvents;
