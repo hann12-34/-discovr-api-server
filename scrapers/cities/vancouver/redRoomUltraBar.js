@@ -4,140 +4,178 @@
  * Vancouver nightclub and live music venue
  */
 
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
 const RedRoomUltraBarEvents = {
   async scrape(city) {
-    console.log('🔍 Scraping events from Red Room Ultra Bar (Vancouver)...');
+    console.log('🔴 Scraping events from Red Room Ultra Bar (Vancouver)...');
 
+    let browser;
     try {
-      const response = await axios.get('https://www.redroomvancouver.com/events/', {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.5',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'DNT': '1',
-          'Connection': 'keep-alive',
-        },
+      browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+
+      const page = await browser.newPage();
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+
+      console.log('  📡 Loading Red Room events page...');
+      await page.goto('https://www.redroomvancouver.com/events/', {
+        waitUntil: 'networkidle2',
         timeout: 30000
       });
 
-      const $ = cheerio.load(response.data);
+      // Wait for events to load
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
       const events = [];
-      const seenUrls = new Set();
 
-      // Multiple selectors for different event layouts
-      const eventSelectors = [
-        '.event-item',
-        '.event-card',
-        '.show-item',
-        'article.event',
-        'article.show',
-        '.upcoming-event',
-        '.card',
-        'a[href*="/event"]',
-        'a[href*="/events/"]',
-        'a[href*="/show"]',
-        '.post',
-        '.listing',
-        '.event',
-        '.show'
-      ];
+      // Extract events from page
+      const pageEvents = await page.evaluate(() => {
+        const results = [];
+        const seenUrls = new Set();
 
-      for (const selector of eventSelectors) {
-        const eventElements = $(selector);
-        if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} events with selector: ${selector}`);
+        // Try multiple selectors
+        const selectors = [
+          '.event-item',
+          '.event-card',
+          '.show-item',
+          'article.event',
+          'article.show',
+          '.upcoming-event',
+          '.card',
+          'a[href*="/event"]',
+          'a[href*="/events/"]',
+          '.post',
+          '.event',
+          '.show'
+        ];
 
-          eventElements.each((i, element) => {
-            const $event = $(element);
-            
-            // Extract event title
-            let title = $event.find('h1, h2, h3, h4, h5, .title, .event-title, .show-title, .card-title, .post-title').first().text().trim() ||
-                       $event.find('a').first().text().trim() ||
-                       $event.text().trim().split('\n')[0];
-
-            let url = $event.find('a').first().attr('href') || $event.attr('href') || '';
-            if (url && !url.startsWith('http')) {
-              url = 'https://www.redroomvancouver.com' + url;
+        for (const selector of selectors) {
+          const elements = document.querySelectorAll(selector);
+          
+          elements.forEach(el => {
+            // Extract title
+            let title = '';
+            const titleEl = el.querySelector('h1, h2, h3, h4, h5, .title, .event-title, .show-title');
+            if (titleEl) {
+              title = titleEl.textContent.trim();
+            } else {
+              const link = el.querySelector('a');
+              title = link ? link.textContent.trim() : el.textContent.trim().split('\n')[0];
             }
 
-            // Skip if no meaningful title or already seen
-            if (!title || title.length < 3 || seenUrls.has(url)) {
-              return;
+            // Extract URL
+            const linkEl = el.querySelector('a') || (el.tagName === 'A' ? el : null);
+            let url = linkEl ? linkEl.href : '';
+
+            // Extract IMAGE (REAL POSTER)
+            let imageUrl = null;
+            const img = el.querySelector('img:not([src*="logo"]):not([src*="icon"])');
+            if (img) {
+              imageUrl = img.src || img.getAttribute('data-src') || img.getAttribute('data-lazy-src');
             }
 
-            // Filter out navigation and non-event links
-            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter', 'read more', 'view all', 'tickets', 'buy', 'table', 'bottle', 'vip'];
-            if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
-              return;
+            // Extract date - comprehensive search
+            let date = null;
+            
+            // Try datetime attribute
+            const datetimeEl = el.querySelector('[datetime], time[datetime]');
+            if (datetimeEl) {
+              date = datetimeEl.getAttribute('datetime');
             }
-
-            seenUrls.add(url);
-
             
-            // SUPER COMPREHENSIVE date extraction
-            let eventDate = null;
-            
-            // Strategy 1: datetime attributes
-            const datetimeAttr = $event.find('[datetime]').first().attr('datetime');
-            if (datetimeAttr) eventDate = datetimeAttr;
-            
-            // Strategy 2: extensive selectors
-            if (!eventDate) {
-              const selectors = ['.date', '.event-date', '.show-date', 'time', '[class*="date"]', 
-                               '[data-date]', '.datetime', '.when', '[itemprop="startDate"]',
-                               '.performance-date', '[data-start-date]'];
-              for (const sel of selectors) {
-                const text = $event.find(sel).first().text().trim();
-                if (text && text.length >= 5 && text.length <= 100) {
-                  eventDate = text;
-                  break;
+            // Try date selectors
+            if (!date) {
+              const dateSelectors = [
+                '.date', '.event-date', '.show-date', 'time', 
+                '[class*="date"]', '[data-date]', '.datetime', 
+                '.when', '[itemprop="startDate"]', '.day',
+                '.event-time', '.schedule'
+              ];
+              for (const sel of dateSelectors) {
+                const dateEl = el.querySelector(sel);
+                if (dateEl) {
+                  date = dateEl.textContent.trim();
+                  if (date && date.length >= 5 && date.length <= 100) break;
+                  date = null;
                 }
               }
             }
             
-            // Strategy 3: URL pattern
-            if (!eventDate && url) {
-              const urlMatch = url.match(/\/(\d{4})-(\d{2})-(\d{2})|\/(\d{4})\/(\d{2})\/(\d{2})/);
-              if (urlMatch) {
-                eventDate = urlMatch[1] ? `${urlMatch[1]}-${urlMatch[2]}-${urlMatch[3]}` : `${urlMatch[4]}-${urlMatch[5]}-${urlMatch[6]}`;
+            // Try text pattern in element and parent
+            if (!date) {
+              const text = el.textContent + ' ' + (el.parentElement ? el.parentElement.textContent : '');
+              const patterns = [
+                /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,?\s*\d{4})?/i,
+                /\d{1,2}\/\d{1,2}\/\d{2,4}/,
+                /(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i
+              ];
+              for (const pattern of patterns) {
+                const match = text.match(pattern);
+                if (match) {
+                  date = match[0];
+                  break;
+                }
               }
             }
-            
-            // Strategy 4: text pattern
-            if (!eventDate) {
-              const text = $event.text() + ' ' + $event.parent().text();
-              const dateMatch = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{4})?/i);
-              if (dateMatch) eventDate = dateMatch[0];
-            }
 
-            // Only log valid events (junk will be filtered out)
+            // Filter out junk
+            if (!title || title.length < 3) return;
+            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'read more', 'view all'];
+            if (skipTerms.some(term => title.toLowerCase().includes(term))) return;
 
-            events.push({
-              id: uuidv4(),
-              title: title,
-              date: eventDate,
-              time: null,
-              url: url,
-              venue: { name: 'Red Room Ultra Bar', address: '398 Richards Street, Vancouver, BC V6B 3A7', city: 'Vancouver' },
-              location: 'Vancouver, BC',
-              description: null,
-              image: null
+            // Avoid duplicates
+            const key = url || title;
+            if (seenUrls.has(key)) return;
+            seenUrls.add(key);
+
+            results.push({
+              title,
+              url,
+              imageUrl,
+              date
             });
           });
-        }
-      }
 
-      console.log(`Found ${events.length} total events from Red Room Ultra Bar`);
-      return filterEvents(events);
+          if (results.length > 0) break; // Found events, no need to try more selectors
+        }
+
+        return results;
+      });
+
+      await browser.close();
+
+      console.log(`  ✅ Found ${pageEvents.length} events from Red Room Ultra Bar`);
+
+      // Format events
+      const formattedEvents = pageEvents.map(event => ({
+        id: uuidv4(),
+        title: event.title,
+        date: event.date,
+        time: null,
+        url: event.url || 'https://www.redroomvancouver.com/events/',
+        imageUrl: event.imageUrl || null, // REAL POSTER IMAGE or null
+        venue: { 
+          name: 'Red Room Ultra Bar', 
+          address: '398 Richards Street, Vancouver, BC V6B 3A7', 
+          city: 'Vancouver' 
+        },
+        location: 'Vancouver, BC',
+        city: 'Vancouver',
+        category: 'Nightlife',
+        description: null
+      }));
+
+      console.log(`  🎉 Returning ${formattedEvents.length} Red Room events`);
+      return filterEvents(formattedEvents);
 
     } catch (error) {
-      console.error('Error scraping Red Room Ultra Bar events:', error.message);
+      if (browser) await browser.close();
+      console.error('  ⚠️  Red Room Ultra Bar error:', error.message);
       return [];
     }
   }
