@@ -8,6 +8,7 @@ const EventSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: Date,
   image: String,
+  imageUrl: String, // Event poster/image URL
   venue: {
     name: { type: String, required: true },
     address: String,

@@ -7,6 +7,7 @@
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { getVenueDefaultImage } = require('./venue-default-images');
 
 const TheRoxyEvents = {
   async scrape(city) {
@@ -34,6 +35,20 @@ const TheRoxyEvents = {
         const results = [];
         const seen = new Set();
         const bodyText = document.body.innerText;
+        
+        // Try to find event images
+        const eventImages = {};
+        document.querySelectorAll('img').forEach(img => {
+          const src = img.src || img.getAttribute('data-src');
+          if (src && !src.includes('logo') && !src.includes('icon')) {
+            // Associate image with nearby text
+            const parent = img.closest('[class*="event"], article, .card') || img.parentElement;
+            if (parent) {
+              const text = parent.textContent.trim();
+              eventImages[text.substring(0, 50)] = src;
+            }
+          }
+        });
         
         // Parse events from text format like:
         // WEDNESDAY OCTOBER 1ST
@@ -73,10 +88,20 @@ const TheRoxyEvents = {
                 const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
                 const uniqueUrl = `https://www.roxyvan.com/events/${eventDate}/${slug}`;
                 
+                // Try to find associated image
+                let imageUrl = null;
+                for (const [key, img] of Object.entries(eventImages)) {
+                  if (key.includes(title.substring(0, 20))) {
+                    imageUrl = img;
+                    break;
+                  }
+                }
+                
                 results.push({
                   title: title,
                   date: eventDate,
-                  url: uniqueUrl
+                  url: uniqueUrl,
+                  imageUrl: imageUrl
                 });
               }
             }
@@ -88,12 +113,15 @@ const TheRoxyEvents = {
       
       await browser.close();
       
-      // Format events
+      // Format events - use default venue image if no event-specific image
+      const defaultImage = getVenueDefaultImage('The Roxy');
+      
       const formattedEvents = events.map(event => ({
         id: uuidv4(),
         title: event.title,
         date: event.date,
         url: event.url,
+        imageUrl: event.imageUrl || defaultImage,
         venue: { name: 'The Roxy', address: 'Vancouver', city: 'Vancouver' },
         city: 'Vancouver',
         source: 'The Roxy'
