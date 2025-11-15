@@ -256,14 +256,14 @@ router.get('/', async (req, res) => {
     // Apply pagination to validated results
     const events = validEvents.slice(skip, skip + parseInt(limit));
     
-    // Return with pagination metadata
+    // Return with pagination metadata - use validEvents.length for accurate count after filtering
     res.json({
       events,
       pagination: {
-        total: totalEvents,
+        total: validEvents.length, // Use filtered count, not pre-filter count
         page: parseInt(page),
         limit: parseInt(limit),
-        pages: Math.ceil(totalEvents / parseInt(limit))
+        pages: Math.ceil(validEvents.length / parseInt(limit))
       }
     });
   } catch (err) {
