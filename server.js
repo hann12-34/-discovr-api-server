@@ -333,6 +333,14 @@ app.use('/api/direct', directDbRouter); // Direct database access - bypasses all
 app.use('/api/fresh', freshEventsRouter); // BRAND NEW PATH - cannot be cached
 app.use('/api/diagnostic', diagnosticRouter); // Shows exactly what database Render is using
 
+// DEBUG route - test if file is readable
+app.get('/test-file', (req, res) => {
+  const filePath = path.join(__dirname, 'public', 'featured-events-admin.html');
+  console.log('🔍 Test route - file path:', filePath);
+  console.log('🔍 File exists:', fs.existsSync(filePath));
+  res.sendFile(filePath);
+});
+
 // Admin - ONLY the city-based featured events manager (handle both /admin and /admin/)
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'featured-events-admin.html'));
