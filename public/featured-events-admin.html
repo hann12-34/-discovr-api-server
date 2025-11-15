@@ -342,7 +342,7 @@
                 const response = await fetch('/api/v1/events?limit=5000');
                 const data = await response.json();
                 
-                if (data.events) {
+                if (data.events && data.events.length > 0) {
                     // Filter events by city (case-insensitive)
                     const cityLower = city.toLowerCase();
                     allEvents = data.events.filter(event => {
@@ -351,31 +351,61 @@
                         return eventCity === cityLower || venueCity === cityLower;
                     });
                     
-                    // Load featured events for this city
-                    await loadFeaturedForCity(city);
-                    
-                    // Update stats
-                    updateStats();
-                    
-                    // Render events
-                    renderEvents();
-                    
-                    // Update preview
-                    updatePreview();
+                    if (allEvents.length > 0) {
+                        // Load featured events for this city
+                        await loadFeaturedForCity(city);
+                        
+                        // Update stats
+                        updateStats();
+                        
+                        // Render events
+                        renderEvents();
+                        
+                        // Update preview
+                        updatePreview();
+                    } else {
+                        // No events for this city
+                        document.getElementById('eventsList').innerHTML = `
+                            <div class="col-12 text-center py-5">
+                                <div class="alert alert-info">
+                                    <h5>📭 No events found for ${city}</h5>
+                                    <p>This city doesn't have any events in the database yet.</p>
+                                    <p>Events need to be scraped first.</p>
+                                </div>
+                            </div>
+                        `;
+                        // Show empty stats
+                        document.getElementById('totalEventsCount').textContent = '0';
+                        document.getElementById('featuredEventsCount').textContent = '0';
+                        document.getElementById('withImagesCount').textContent = '0';
+                        document.getElementById('upcomingCount').textContent = '0';
+                    }
                 } else {
                     document.getElementById('eventsList').innerHTML = `
                         <div class="col-12 text-center py-5">
-                            <p>No events found for ${city}</p>
+                            <div class="alert alert-warning">
+                                <h5>⚠️ No events in database</h5>
+                                <p>The database is empty or the API is not responding.</p>
+                            </div>
                         </div>
                     `;
                 }
             } catch (error) {
                 console.error('Error loading events:', error);
                 document.getElementById('eventsList').innerHTML = `
-                    <div class="col-12 text-center py-5 text-danger">
-                        <p>Error loading events. Please try again.</p>
+                    <div class="col-12 text-center py-5">
+                        <div class="alert alert-warning">
+                            <h5>⚠️ Could not load events for ${city}</h5>
+                            <p>This city may not have events in the database yet.</p>
+                            <p class="small">Error: ${error.message}</p>
+                        </div>
                     </div>
                 `;
+                // Show empty stats
+                document.getElementById('totalEventsCount').textContent = '0';
+                document.getElementById('featuredEventsCount').textContent = '0';
+                document.getElementById('withImagesCount').textContent = '0';
+                document.getElementById('upcomingCount').textContent = '0';
             }
         }
 
