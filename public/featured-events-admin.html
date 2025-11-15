@@ -3,836 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discovr Featured Events Admin</title>
+    <title>Featured Events - By City</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 20px;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        .container {
-            max-width: 1200px;
+        .city-selector {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .card {
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .city-btn {
+            padding: 20px 40px;
+            margin: 10px;
+            border-radius: 25px;
+            border: 3px solid #667eea;
+            background: white;
+            color: #667eea;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        .card-header {
-            background-color: #6f42c1;
+        .city-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .city-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            font-weight: bold;
+            border-color: transparent;
         }
-        .btn-primary {
-            background-color: #6f42c1;
-            border-color: #6f42c1;
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
         }
-        .btn-primary:hover {
-            background-color: #5a32a3;
-            border-color: #5a32a3;
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .event-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .event-card .card-body {
+            padding: 20px;
         }
         .featured-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #ffc107;
-            color: #212529;
+            top: 15px;
+            right: 15px;
+            background: #ffc107;
+            color: #000;
+            padding: 8px 15px;
+            border-radius: 20px;
             font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 10px;
+            z-index: 10;
         }
-        .event-card {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        .event-card:hover {
-            transform: translateY(-5px) rotateY(5deg);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-        
-        /* 3D Carousel Styles */
-        .carousel-3d-container {
-            perspective: 1000px;
-            position: relative;
-            margin: 40px auto;
-            height: 400px;
-            overflow: hidden;
-            background: linear-gradient(145deg, #2c3338, #343a40);
-            border-radius: 15px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
-        }
-        .carousel-3d {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 1s;
-        }
-        .carousel-3d-item {
-            position: absolute;
-            width: 300px;
-            height: 380px;
-            left: 50%;
-            top: 10px;
-            transform-style: preserve-3d;
-            transition: all 0.5s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            background: white;
-            margin-left: -150px; /* Center horizontally */
-            backface-visibility: hidden;
-            border: 4px solid white;
-        }
-        .carousel-3d-item img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .carousel-3d-item .content {
-            padding: 15px;
-        }
-        .carousel-controls {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .preview-section {
-            background-color: #343a40;
+        .btn-feature {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
         }
-        .preview-event {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 10px;
-            color: #212529;
+        .btn-unfeature {
+            background: #dc3545;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
         }
-        #searchInput {
-            margin-bottom: 20px;
+        .save-btn {
+            background: #28a745;
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.4);
+        }
+        .save-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        .no-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mb-4">Discovr Featured Events Admin</h1>
+        <h1 class="text-center text-white mb-4">⭐ Featured Events Manager</h1>
         
-        <!-- Preview Section -->
-        <div class="card mb-4">
-            <div class="card-header">
-                Featured Events Preview (How it will appear in the app)
-            </div>
-            <div class="card-body preview-section">
-                <h3>Real Events from MongoDB</h3>
-                
-                <!-- 3D Carousel Container -->
-                <div class="carousel-3d-container">
-                    <div class="carousel-3d" id="carousel3d">
-                        <!-- 3D carousel items will be added here -->
-                        <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
-                            <div class="text-center p-5">
-                                <div class="spinner-border text-light" role="status"></div>
-                                <p class="mt-2">Loading featured events...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Carousel Controls -->
-                <div class="carousel-controls">
-                    <button class="btn btn-light" id="prevBtn"><i class="bi bi-chevron-left"></i> Previous</button>
-                    <button class="btn btn-light" id="nextBtn">Next <i class="bi bi-chevron-right"></i></button>
-                </div>
-                
-                <!-- Legacy container for compatibility -->
-                <div class="d-none" id="previewFeaturedEvents"></div>
+        <!-- City Selector -->
+        <div class="city-selector">
+            <h3 class="text-center mb-4">Select City</h3>
+            <div class="text-center">
+                <button class="city-btn" onclick="selectCity('Vancouver', this)">🏔️ Vancouver</button>
+                <button class="city-btn" onclick="selectCity('Toronto', this)">🏙️ Toronto</button>
+                <button class="city-btn" onclick="selectCity('Calgary', this)">🎿 Calgary</button>
+                <button class="city-btn" onclick="selectCity('Montreal', this)">🎭 Montreal</button>
             </div>
         </div>
 
-        <!-- Featured Events Management -->
-        <div class="card mb-4">
-            <div class="card-header">
-                Manage Featured Events
-            </div>
-            <div class="card-body">
-                <p>Select up to 5 events to feature at the top of the app. These events will appear in the "Real Events from MongoDB" section.</p>
-                
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <button id="saveFeaturedBtn" class="btn btn-primary">Save Featured Events</button>
-                        <button id="clearFeaturedBtn" class="btn btn-danger ms-2">Clear All Featured</button>
-                    </div>
+        <!-- Search and Filter -->
+        <div class="city-selector" id="controlsSection" style="display: none;">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="searchInput" placeholder="🔍 Search events..." oninput="renderEvents()">
                 </div>
-                
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="featuredEventsList" class="row">
-                            <!-- Current featured events will be displayed here -->
-                            <div class="col-12">
-                                <p>Loading current featured events...</p>
-                            </div>
-                        </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="imageFilter" onchange="renderEvents()">
+                        <option value="">All Events</option>
+                        <option value="with-image" selected>With Images Only</option>
+                        <option value="no-image">No Images</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-end">
+                        <strong>Featured: <span id="featuredCount">0</span>/10</strong>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- All Events -->
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <span>All Events</span>
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#eventEditModal" onclick="createNewEvent()">
-                    <i class="bi bi-plus-circle"></i> Create New Event
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search events...">
-                    </div>
-                    <div class="col-md-3">
-                        <select id="categoryFilter" class="form-select">
-                            <option value="">All Categories</option>
-                            <option value="music">Music</option>
-                            <option value="arts">Arts</option>
-                            <option value="food">Food</option>
-                            <option value="sports">Sports</option>
-                            <option value="community">Community</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button id="refreshEventsBtn" class="btn btn-secondary w-100">Refresh Events</button>
-                    </div>
-                </div>
-                
-                <div id="allEventsList" class="row">
-                    <!-- All events will be displayed here -->
-                    <div class="col-12">
-                        <p>Loading events...</p>
-                    </div>
-                </div>
+
+        <!-- Events Grid -->
+        <div id="eventsGrid" class="row">
+            <div class="col-12 text-center text-white">
+                <h4>Select a city to manage featured events</h4>
             </div>
         </div>
     </div>
 
-    <!-- Event Edit Modal -->
-    <div class="modal fade" id="eventEditModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalLabel">Edit Event</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="eventEditForm">
-                        <input type="hidden" id="eventId">
-                        
-                        <div class="mb-3">
-                            <label for="eventTitle" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="eventTitle" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="eventDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eventVenueName" class="form-label">Venue Name</label>
-                                <input type="text" class="form-control" id="eventVenueName">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="eventLocation" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="eventLocation" placeholder="Vancouver, BC">
-                            </div>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eventStartDate" class="form-label">Start Date</label>
-                                <input type="datetime-local" class="form-control" id="eventStartDate">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="eventEndDate" class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" id="eventEndDate">
-                            </div>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eventCategory" class="form-label">Category</label>
-                                <select class="form-select" id="eventCategory">
-                                    <option value="music">Music</option>
-                                    <option value="arts">Arts</option>
-                                    <option value="food">Food</option>
-                                    <option value="sports">Sports</option>
-                                    <option value="community">Community</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="eventImage" class="form-label">Image URL</label>
-                                <input type="url" class="form-control" id="eventImage">
-                            </div>
-                        </div>
-                        
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="eventFeatured">
-                            <label class="form-check-label" for="eventFeatured">
-                                Feature this event
-                            </label>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveEventBtn">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Save Button -->
+    <button class="save-btn" id="saveBtn" onclick="saveFeatures()" style="display: none;">
+        💾 Save Featured
+    </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Global variables
         let allEvents = [];
-        let featuredEvents = [];
-        const MAX_FEATURED_EVENTS = 10;
-        
-        // DOM Elements
-        const allEventsList = document.getElementById('allEventsList');
-        const featuredEventsList = document.getElementById('featuredEventsList');
-        const previewFeaturedEvents = document.getElementById('previewFeaturedEvents');
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const refreshEventsBtn = document.getElementById('refreshEventsBtn');
-        const saveFeaturedBtn = document.getElementById('saveFeaturedBtn');
-        const clearFeaturedBtn = document.getElementById('clearFeaturedBtn');
-        
-        // Modal elements
-        const eventEditModal = new bootstrap.Modal(document.getElementById('eventEditModal'));
-        const eventEditForm = document.getElementById('eventEditForm');
-        const eventId = document.getElementById('eventId');
-        const eventTitle = document.getElementById('eventTitle');
-        const eventDescription = document.getElementById('eventDescription');
-        const eventVenueName = document.getElementById('eventVenueName');
-        const eventLocation = document.getElementById('eventLocation');
-        const eventStartDate = document.getElementById('eventStartDate');
-        const eventEndDate = document.getElementById('eventEndDate');
-        const eventCategory = document.getElementById('eventCategory');
-        const eventImage = document.getElementById('eventImage');
-        const eventFeatured = document.getElementById('eventFeatured');
-        const saveEventBtn = document.getElementById('saveEventBtn');
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadAllEvents();
-            loadFeaturedEvents();
+        let currentCity = null;
+        let featuredIds = new Set();
+        const MAX_FEATURED = 10;
+
+        async function selectCity(city, btn) {
+            currentCity = city;
             
-            // Event listeners
-            searchInput.addEventListener('input', filterEvents);
-            categoryFilter.addEventListener('change', filterEvents);
-            refreshEventsBtn.addEventListener('click', loadAllEvents);
-            saveFeaturedBtn.addEventListener('click', saveFeaturedEvents);
-            clearFeaturedBtn.addEventListener('click', clearFeaturedEvents);
-            saveEventBtn.addEventListener('click', saveEventChanges);
-        });
-        
-        // Load all events from the API
-        async function loadAllEvents() {
+            // Update button states
+            document.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Show controls
+            document.getElementById('controlsSection').style.display = 'block';
+            document.getElementById('saveBtn').style.display = 'block';
+            
+            // Load events
+            await loadEvents(city);
+        }
+
+        async function loadEvents(city) {
             try {
+                document.getElementById('eventsGrid').innerHTML = '<div class="col-12 text-center text-white"><h4>Loading...</h4></div>';
+                
                 const response = await fetch('/api/v1/events');
                 const data = await response.json();
                 
                 if (data.events) {
-                    allEvents = data.events;
-                    renderAllEvents();
+                    // Filter by city
+                    allEvents = data.events.filter(e => 
+                        e.city === city || (e.venue && e.venue.city === city)
+                    );
+                    
+                    // Load featured for this city
+                    await loadFeatured(city);
+                    
+                    renderEvents();
                 } else {
-                    allEventsList.innerHTML = '<div class="col-12"><p>No events found.</p></div>';
+                    document.getElementById('eventsGrid').innerHTML = `<div class="col-12 text-center text-white"><h4>No events found</h4></div>`;
                 }
             } catch (error) {
-                console.error('Error loading events:', error);
-                allEventsList.innerHTML = '<div class="col-12"><p class="text-danger">Error loading events. Please try again.</p></div>';
+                console.error('Error:', error);
+                document.getElementById('eventsGrid').innerHTML = `<div class="col-12 text-center text-white"><h4>Error loading events</h4></div>`;
             }
         }
-        
-        // Load featured events
-        async function loadFeaturedEvents() {
+
+        async function loadFeatured(city) {
             try {
-                const response = await fetch('/api/v1/featured-events');
+                const response = await fetch(`/api/v1/featured-events?city=${city}`);
                 const data = await response.json();
                 
+                featuredIds.clear();
                 if (data.events) {
-                    featuredEvents = data.events;
-                    renderFeaturedEvents();
-                    renderPreviewEvents();
-                } else {
-                    featuredEventsList.innerHTML = '<div class="col-12"><p>No featured events set.</p></div>';
-                    previewFeaturedEvents.innerHTML = '<div class="col-12"><p>No featured events to display.</p></div>';
+                    data.events.forEach(e => featuredIds.add(e._id || e.id));
                 }
             } catch (error) {
-                console.error('Error loading featured events:', error);
-                featuredEventsList.innerHTML = '<div class="col-12"><p class="text-danger">Error loading featured events. Please try again.</p></div>';
+                console.error('Error loading featured:', error);
             }
         }
-        
-        // Render all events
-        function renderAllEvents() {
-            if (allEvents.length === 0) {
-                allEventsList.innerHTML = '<div class="col-12"><p>No events found.</p></div>';
-                return;
-            }
+
+        function renderEvents() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const imageFilter = document.getElementById('imageFilter').value;
             
-            let html = '';
-            
-            allEvents.forEach(event => {
-                const isFeatured = featuredEvents.some(fe => fe._id === event._id || fe.id === event.id);
+            let filtered = allEvents.filter(e => {
+                const matchesSearch = !search || 
+                    (e.title || e.name || '').toLowerCase().includes(search) ||
+                    ((e.venue && e.venue.name) || '').toLowerCase().includes(search);
                 
-                html += `
-                <div class="col-md-4 mb-3">
-                    <div class="card event-card" data-id="${event._id || event.id}">
-                        ${isFeatured ? '<span class="featured-badge">Featured</span>' : ''}
-                        <img src="${event.image || 'https://via.placeholder.com/300x150?text=No+Image'}" class="card-img-top" alt="${event.title || 'Event'}" style="height: 150px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">${event.title || 'Untitled Event'}</h5>
-                            <p class="card-text">${formatVenue(event)}</p>
-                            <p class="card-text"><small class="text-muted">${formatDate(event.startDate)}</small></p>
-                            <div class="d-flex justify-content-between mt-3">
-                                <button class="btn btn-primary" onclick="openEventModal(this.closest('.card'))">
-                                    <i class="bi bi-pencil-square"></i> Edit
+                const hasImage = e.imageUrl || e.image;
+                const matchesImage = !imageFilter ||
+                    (imageFilter === 'with-image' && hasImage) ||
+                    (imageFilter === 'no-image' && !hasImage);
+                
+                return matchesSearch && matchesImage;
+            });
+            
+            // Sort: featured first
+            filtered.sort((a, b) => {
+                const aFeatured = featuredIds.has(a._id || a.id);
+                const bFeatured = featuredIds.has(b._id || b.id);
+                if (aFeatured && !bFeatured) return -1;
+                if (!aFeatured && bFeatured) return 1;
+                return new Date(a.date || a.startDate) - new Date(b.date || b.startDate);
+            });
+            
+            const html = filtered.map(e => {
+                const id = e._id || e.id;
+                const isFeatured = featuredIds.has(id);
+                const image = e.imageUrl || e.image;
+                const title = e.title || e.name || 'Untitled';
+                const venue = (e.venue && e.venue.name) || e.source || '';
+                const date = formatDate(e.date || e.startDate);
+                
+                return `
+                    <div class="col-md-4">
+                        <div class="event-card">
+                            ${isFeatured ? '<span class="featured-badge">⭐ FEATURED</span>' : ''}
+                            ${image ? 
+                                `<img src="${image}" alt="${title}">` :
+                                '<div class="no-image">🎭</div>'
+                            }
+                            <div class="card-body">
+                                <h5>${title.substring(0, 50)}</h5>
+                                <p class="text-muted mb-2">${venue}</p>
+                                <p class="text-muted small">${date}</p>
+                                <button class="btn ${isFeatured ? 'btn-unfeature' : 'btn-feature'} w-100" 
+                                        onclick="toggleFeatured('${id}')">
+                                    ${isFeatured ? '✖ Unfeature' : '⭐ Feature'}
                                 </button>
-                                ${!isFeatured ? 
-                                    `<button class="btn btn-success" onclick="addToFeatured('${event._id || event.id}')">
-                                        <i class="bi bi-star-fill"></i> Feature
-                                    </button>` : 
-                                    `<button class="btn btn-warning" onclick="removeFeaturedEvent('${event._id || event.id}', event)">
-                                        <i class="bi bi-star"></i> Unfeature
-                                    </button>`
-                                }
                             </div>
                         </div>
                     </div>
-                </div>
                 `;
-            });
+            }).join('');
             
-            allEventsList.innerHTML = html;
+            document.getElementById('eventsGrid').innerHTML = html || '<div class="col-12 text-center text-white"><h4>No events match filters</h4></div>';
+            document.getElementById('featuredCount').textContent = featuredIds.size;
         }
-        
-        // Render featured events
-        function renderFeaturedEvents() {
-            if (featuredEvents.length === 0) {
-                featuredEventsList.innerHTML = '<div class="col-12"><p>No featured events set.</p></div>';
-                return;
+
+        function toggleFeatured(id) {
+            if (featuredIds.has(id)) {
+                featuredIds.delete(id);
+            } else {
+                if (featuredIds.size >= MAX_FEATURED) {
+                    alert(`Maximum ${MAX_FEATURED} featured events per city`);
+                    return;
+                }
+                featuredIds.add(id);
             }
-            
-            let html = '';
-            
-            featuredEvents.forEach(event => {
-                html += `
-                <div class="col-md-4 mb-3">
-                    <div class="card event-card" data-id="${event._id || event.id}" onclick="openEventModal(this)">
-                        <span class="featured-badge">Featured</span>
-                        <img src="${event.image || 'https://via.placeholder.com/300x150?text=No+Image'}" class="card-img-top" alt="${event.title || 'Event'}" style="height: 150px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">${event.title || 'Untitled Event'}</h5>
-                            <p class="card-text">${formatVenue(event)}</p>
-                            <p class="card-text"><small class="text-muted">${formatDate(event.startDate)}</small></p>
-                            <button class="btn btn-sm btn-danger" onclick="removeFeaturedEvent('${event._id || event.id}', event)">Remove from Featured</button>
-                        </div>
-                    </div>
-                </div>
-                `;
-            });
-            
-            featuredEventsList.innerHTML = html;
+            renderEvents();
         }
-        
-        // Render preview events (how they will appear in the app)
-        function renderPreviewEvents() {
-            const carousel = document.getElementById('carousel3d');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            if (featuredEvents.length === 0) {
-                carousel.innerHTML = `
-                    <div class="carousel-3d-item" style="transform: rotateY(0deg) translateZ(0px)">
-                        <div class="text-center p-5">
-                            <p>No featured events to display.</p>
-                            <p>Add up to 10 events to see them here.</p>
-                        </div>
-                    </div>
-                `;
-                prevBtn.disabled = true;
-                nextBtn.disabled = true;
-                return;
-            }
-            
-            // Clear previous items
-            carousel.innerHTML = '';
-            
-            // Current rotation angle
-            let currentAngle = 0;
-            let currentIndex = 0;
-            
-            // Calculate angle between items and radius
-            const angleStep = 360 / featuredEvents.length;
-            const radius = 300; // Distance from center
-            
-            // Create carousel items
-            featuredEvents.forEach((event, index) => {
-                const angle = index * angleStep;
-                const item = document.createElement('div');
-                item.className = 'carousel-3d-item';
-                item.dataset.index = index;
-                
-                // Position in 3D space
-                item.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
-                
-                // Add content
-                item.innerHTML = `
-                    <img src="${event.image || 'https://via.placeholder.com/300x180?text=No+Image'}" alt="${event.title || 'Event'}">
-                    <div class="content">
-                        <h4>${event.title || 'Untitled Event'}</h4>
-                        <p>${formatVenue(event)}</p>
-                        <p><small>${formatDate(event.startDate)}</small></p>
-                        <p class="category badge bg-secondary">${event.category || 'Uncategorized'}</p>
-                    </div>
-                `;
-                
-                carousel.appendChild(item);
-            });
-            
-            // Enable buttons
-            prevBtn.disabled = false;
-            nextBtn.disabled = false;
-            
-            // Add event listeners for rotation
-            prevBtn.onclick = () => {
-                currentIndex = (currentIndex - 1 + featuredEvents.length) % featuredEvents.length;
-                currentAngle += angleStep;
-                carousel.style.transform = `rotateY(${currentAngle}deg)`;
-            };
-            
-            nextBtn.onclick = () => {
-                currentIndex = (currentIndex + 1) % featuredEvents.length;
-                currentAngle -= angleStep;
-                carousel.style.transform = `rotateY(${currentAngle}deg)`;
-            };
-            
-            // Auto-rotate every 3 seconds
-            if (window.carouselInterval) {
-                clearInterval(window.carouselInterval);
-            }
-            
-            window.carouselInterval = setInterval(() => {
-                nextBtn.click();
-            }, 3000);
-        }
-        
-        // Filter events based on search and category
-        function filterEvents() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const categoryValue = categoryFilter.value.toLowerCase();
-            
-            const filteredEvents = allEvents.filter(event => {
-                const matchesSearch = 
-                    (event.title && event.title.toLowerCase().includes(searchTerm)) ||
-                    (event.description && event.description.toLowerCase().includes(searchTerm)) ||
-                    (event.venue && event.venue.name && event.venue.name.toLowerCase().includes(searchTerm));
-                
-                const matchesCategory = 
-                    !categoryValue || 
-                    (event.category && event.category.toLowerCase() === categoryValue);
-                
-                return matchesSearch && matchesCategory;
-            });
-            
-            // Update allEvents with filtered events temporarily for rendering
-            const tempEvents = allEvents;
-            allEvents = filteredEvents;
-            renderAllEvents();
-            allEvents = tempEvents; // Restore original events
-        }
-        
-        // Create new event function
-        function createNewEvent() {
-            // Set modal title
-            document.getElementById('eventModalLabel').textContent = 'Create New Event';
-            
-            // Clear form values
-            document.getElementById('eventId').value = '';
-            document.getElementById('eventTitle').value = '';
-            document.getElementById('eventDescription').value = '';
-            document.getElementById('eventVenueName').value = '';
-            document.getElementById('eventLocation').value = '';
-            document.getElementById('eventStartDate').value = '';
-            document.getElementById('eventEndDate').value = '';
-            document.getElementById('eventCategory').value = '';
-            document.getElementById('eventImage').value = '';
-            document.getElementById('eventFeatured').checked = false;
-            
-            // Show modal
-            const eventEditModal = new bootstrap.Modal(document.getElementById('eventEditModal'));
-            eventEditModal.show();
-        }
-        
-        // Open event edit modal
-        function openEventModal(card) {
-            const id = card.dataset.id;
-            const event = allEvents.find(e => e._id === id || e.id === id);
-            
-            if (!event) {
-                alert('Event not found!');
-                return;
-            }
-            
-            // Set modal title
-            document.getElementById('eventModalLabel').textContent = 'Edit Event';
-            
-            // Set form values
-            document.getElementById('eventId').value = id;
-            document.getElementById('eventTitle').value = event.title || '';
-            document.getElementById('eventDescription').value = event.description || '';
-            document.getElementById('eventVenueName').value = event.venue?.name || '';
-            document.getElementById('eventLocation').value = event.location || '';
-            document.getElementById('eventStartDate').value = event.startDate ? formatDateForInput(event.startDate) : '';
-            document.getElementById('eventEndDate').value = event.endDate ? formatDateForInput(event.endDate) : '';
-            document.getElementById('eventCategory').value = event.category || '';
-            document.getElementById('eventImage').value = event.image || '';
-            document.getElementById('eventFeatured').checked = featuredEvents.some(fe => fe._id === id || fe.id === id);
-            
-            // Show modal
-            const eventEditModal = new bootstrap.Modal(document.getElementById('eventEditModal'));
-            eventEditModal.show();
-        }
-        
-        // Save event changes
-        async function saveEventChanges() {
-            const id = document.getElementById('eventId').value;
-            
-            // Get event data from form
-            const eventData = {
-                title: document.getElementById('eventTitle').value,
-                description: document.getElementById('eventDescription').value,
-                venue: {
-                    name: document.getElementById('eventVenueName').value,
-                    city: 'Vancouver',
-                    state: 'BC',
-                    country: 'Canada'
-                },
-                location: document.getElementById('eventLocation').value,
-                startDate: document.getElementById('eventStartDate').value ? new Date(document.getElementById('eventStartDate').value).toISOString() : null,
-                endDate: document.getElementById('eventEndDate').value ? new Date(document.getElementById('eventEndDate').value).toISOString() : null,
-                category: document.getElementById('eventCategory').value,
-                image: document.getElementById('eventImage').value
-            };
+
+        async function saveFeatures() {
+            const btn = document.getElementById('saveBtn');
+            btn.disabled = true;
+            btn.textContent = '💾 Saving...';
             
             try {
-                let response;
+                const featured = allEvents.filter(e => featuredIds.has(e._id || e.id));
                 
-                if (id) {
-                    // Update existing event
-                    response = await fetch(`/api/v1/events/${id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(eventData)
-                    });
-                } else {
-                    // Create new event
-                    response = await fetch('/api/v1/events', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(eventData)
-                    });
-                }
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    const eventId = id || (data.event ? data.event._id || data.event.id : null);
-                    
-                    if (eventId) {
-                        // Handle featured status
-                        const featured = document.getElementById('eventFeatured').checked;
-                        
-                        if (featured) {
-                            // Add to featured if not already featured
-                            if (!featuredEvents.some(fe => fe._id === eventId || fe.id === eventId)) {
-                                await addToFeatured(eventId);
-                            }
-                        } else {
-                            // Remove from featured if currently featured
-                            if (featuredEvents.some(fe => fe._id === eventId || fe.id === eventId)) {
-                                await removeFeaturedEvent(eventId);
-                            }
-                        }
-                    }
-                    
-                    // Reload events
-                    loadAllEvents();
-                    loadFeaturedEvents();
-                    
-                    // Close modal
-                    const eventEditModal = bootstrap.Modal.getInstance(document.getElementById('eventEditModal'));
-                    eventEditModal.hide();
-                    
-                    alert(id ? 'Event updated successfully!' : 'Event created successfully!');
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to update event');
-                }
-            } catch (error) {
-                console.error('Error updating event:', error);
-                alert(`Error updating event: ${error.message}`);
-            }
-        }
-        
-        // Add event to featured
-        async function addToFeatured(id) {
-            if (featuredEvents.length >= MAX_FEATURED_EVENTS) {
-                alert(`You can only feature up to ${MAX_FEATURED_EVENTS} events. Please remove some first.`);
-                return;
-            }
-            
-            const event = allEvents.find(e => (e._id === id || e.id === id));
-            
-            if (!event) return;
-            
-            try {
                 const response = await fetch('/api/v1/featured-events', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ eventId: id })
-                });
-                
-                if (response.ok) {
-                    loadFeaturedEvents();
-                    renderAllEvents(); // Re-render to show featured badges
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to add event to featured');
-                }
-            } catch (error) {
-                console.error('Error adding to featured:', error);
-                alert(`Error adding to featured: ${error.message}`);
-            }
-        }
-        
-        // Remove event from featured
-        window.removeFeaturedEvent = async function(id, e) {
-            if (e) {
-                e.stopPropagation(); // Prevent opening the modal
-            }
-            
-            try {
-                const response = await fetch(`/api/v1/featured-events/${id}`, {
-                    method: 'DELETE'
-                });
-                
-                if (response.ok) {
-                    loadFeaturedEvents();
-                    renderAllEvents(); // Re-render to remove featured badges
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to remove event from featured');
-                }
-            } catch (error) {
-                console.error('Error removing from featured:', error);
-                alert(`Error removing from featured: ${error.message}`);
-            }
-        };
-        
-        // Save featured events order
-        async function saveFeaturedEvents() {
-            try {
-                const response = await fetch('/api/v1/featured-events/order', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        eventIds: featuredEvents.map(event => event._id || event.id) 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        city: currentCity,
+                        events: featured
                     })
                 });
                 
                 if (response.ok) {
-                    alert('Featured events order saved successfully!');
+                    btn.textContent = '✅ Saved!';
+                    btn.style.background = '#28a745';
+                    setTimeout(() => {
+                        btn.textContent = '💾 Save Featured';
+                        btn.disabled = false;
+                    }, 2000);
                 } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to save featured events order');
+                    const error = await response.json();
+                    throw new Error(error.message || 'Save failed');
                 }
             } catch (error) {
-                console.error('Error saving featured events order:', error);
-                alert(`Error saving featured events order: ${error.message}`);
+                alert('Error saving: ' + error.message);
+                btn.textContent = '💾 Save Featured';
+                btn.disabled = false;
             }
         }
-        
-        // Clear all featured events
-        async function clearFeaturedEvents() {
-            if (!confirm('Are you sure you want to clear all featured events?')) {
-                return;
-            }
-            
-            try {
-                const response = await fetch('/api/v1/featured-events', {
-                    method: 'DELETE'
-                });
-                
-                if (response.ok) {
-                    featuredEvents = [];
-                    renderFeaturedEvents();
-                    renderPreviewEvents();
-                    renderAllEvents(); // Re-render to remove featured badges
-                    alert('All featured events cleared successfully!');
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to clear featured events');
-                }
-            } catch (error) {
-                console.error('Error clearing featured events:', error);
-                alert(`Error clearing featured events: ${error.message}`);
-            }
-        }
-        
-        // Helper function to format venue
-        function formatVenue(event) {
-            if (event.venue && event.venue.name) {
-                return event.venue.name;
-            } else if (event.location) {
-                return event.location;
-            }
-            return 'Vancouver, BC';
-        }
-        
-        // Helper function to format date
-        function formatDate(dateString) {
-            if (!dateString) return 'Date TBD';
-            
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', { 
-                weekday: 'short',
-                month: 'short', 
-                day: 'numeric',
-                year: 'numeric'
-            });
-        }
-        
-        // Helper function to format date for datetime-local input
-        function formatDateForInput(dateString) {
-            if (!dateString) return '';
-            
-            const date = new Date(dateString);
-            return date.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:MM
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'TBD';
+            const d = new Date(dateStr);
+            if (isNaN(d)) return dateStr;
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         }
     </script>
 </body>
