@@ -3,8 +3,8 @@
   "version": "1.0.1",
   "main": "server.js",
   "scripts": {
-    "start": "node unified-proxy-server.js",
-    "start:original": "node server.js",
+    "start": "node server.js",
+    "start:old-proxy": "node unified-proxy-server.js",
     "start:cloud": "node cloud-api-server.js",
     "dev": "nodemon unified-proxy-server.js",
     "dev:original": "nodemon server.js",
