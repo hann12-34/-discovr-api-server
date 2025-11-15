@@ -52,6 +52,16 @@ const RickshawTheatreEvents = {
             date = dateEl.textContent.trim();
           }
 
+          // Get REAL POSTER IMAGE
+          let imageUrl = null;
+          const img = container.querySelector('img:not([src*="logo"]):not([alt*="logo"])');
+          if (img) {
+            const src = img.src || img.getAttribute('data-src') || img.getAttribute('data-lazy-src');
+            if (src && !src.includes('logo') && !src.includes('icon')) {
+              imageUrl = src;
+            }
+          }
+
           if (title && title.length > 3 && !title.toLowerCase().includes('get tickets')) {
             
           // COMPREHENSIVE DATE EXTRACTION - Works with most event websites
@@ -159,7 +169,8 @@ const RickshawTheatreEvents = {
           events.push({
               title,
               date,
-              url: link.href
+              url: link.href,
+              imageUrl: imageUrl  // Real poster image or null
             });
           }
         });
@@ -172,7 +183,7 @@ const RickshawTheatreEvents = {
       const events = [];
       const seen = new Set();
 
-      eventData.forEach(({ title, date, url }) => {
+      eventData.forEach(({ title, date, url, imageUrl }) => {
         if (seen.has(url)) return;
         seen.add(url);
 
@@ -189,7 +200,7 @@ const RickshawTheatreEvents = {
           description: `${title} at Rickshaw Theatre.`,
           category: 'Concert',
           city: 'Vancouver',
-          image: null,
+          imageUrl: imageUrl || null,  // Real poster image or null
           source: 'Rickshaw Theatre'
         });
       });

@@ -1,159 +1,147 @@
 /**
  * Vogue Theatre Events Scraper
- * Scrapes upcoming events from Vogue Theatre
+ * Scrapes upcoming events from Vogue Theatre via AdmitOne
  * Vancouver's historic theatre and live music venue
  */
 
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
 const VogueTheatreEvents = {
   async scrape(city) {
-    console.log('🔍 Scraping events from Vogue Theatre...');
+    console.log('🎭 Scraping events from Vogue Theatre (via AdmitOne)...');
 
+    let browser;
     try {
-      // Vogue Theatre uses external ticketing (AdmitOne) and doesn't list events directly on their site
-      // Return empty array as they redirect to external ticket platforms
-      console.log('Vogue Theatre uses external ticketing platform - no events available for scraping');
-      return [];
-      
-      const response = await axios.get('https://admitone.com/search?venue=vogue-theatre', {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.5',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'DNT': '1',
-          'Connection': 'keep-alive',
-        },
+      browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+
+      const page = await browser.newPage();
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+
+      console.log('  📡 Loading Vogue Theatre events...');
+      await page.goto('https://admitone.com/search?venue=vogue-theatre', {
+        waitUntil: 'networkidle2',
         timeout: 30000
       });
 
-      const $ = cheerio.load(response.data);
-      const events = [];
-      const seenUrls = new Set();
+      // Wait for events to load
+      await new Promise(resolve => setTimeout(resolve, 3000));
 
-      // Multiple selectors for different event layouts
-      const eventSelectors = [
-        '.event-item',
-        '.show-listing',
-        '.event-card', 
-        'article.event',
-        '.upcoming-event',
-        '.concert-listing',
-        '.theatre-event',
-        'a[href*="/event/"]',
-        'a[href*="/show/"]',
-        'a[href*="/concert/"]',
-        'a[href*="ticketmaster"]',
-        'a[href*="eventbrite"]',
-        '.event',
-        '.show'
-      ];
+      // Extract events with REAL POSTER IMAGES
+      const events = await page.evaluate(() => {
+        const results = [];
+        const seenUrls = new Set();
 
-      for (const selector of eventSelectors) {
-        const eventElements = $(selector);
-        if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} events with selector: ${selector}`);
+        // Try multiple selectors for AdmitOne layout
+        const selectors = [
+          '[data-testid="event-card"]',
+          '.event-card',
+          '.event-item',
+          'article',
+          '[class*="Event"]',
+          'a[href*="/events/"]'
+        ];
 
-          eventElements.each((i, element) => {
-            const $event = $(element);
-            
-            // Extract event details
-            let title = $event.find('h1, h2, h3, .title, .event-title, .show-title, .artist-name').first().text().trim() ||
-                       $event.find('a').first().text().trim() ||
-                       $event.text().trim().split('\n')[0];
-
-            let url = $event.find('a').first().attr('href') || '';
-            if (url && !url.startsWith('http')) {
-              url = 'https://voguetheatre.com' + url;
+        for (const selector of selectors) {
+          const elements = document.querySelectorAll(selector);
+          
+          elements.forEach(el => {
+            // Extract title
+            let title = '';
+            const titleEl = el.querySelector('h1, h2, h3, h4, [class*="title"], [class*="Title"], [class*="name"]');
+            if (titleEl) {
+              title = titleEl.textContent.trim();
+            } else {
+              const link = el.querySelector('a');
+              if (link) title = link.textContent.trim();
             }
 
-            // Skip if no meaningful title or already seen
-            if (!title || title.length < 3 || seenUrls.has(url)) {
-              return;
-            }
+            // Extract URL
+            const linkEl = el.querySelector('a') || (el.tagName === 'A' ? el : null);
+            let url = linkEl ? linkEl.href : '';
 
-            // Filter out navigation and non-event links
-            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter'];
-            if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
-              return;
-            }
-
-            seenUrls.add(url);
-
-            
-            // SUPER COMPREHENSIVE date extraction
-            let eventDate = null;
-            
-            // Strategy 1: datetime attributes
-            const datetimeAttr = $event.find('[datetime]').first().attr('datetime');
-            if (datetimeAttr) eventDate = datetimeAttr;
-            
-            // Strategy 2: extensive selectors
-            if (!eventDate) {
-              const selectors = ['.date', '.event-date', '.show-date', 'time', '[class*="date"]', 
-                               '[data-date]', '.datetime', '.when', '[itemprop="startDate"]',
-                               '.performance-date', '[data-start-date]'];
-              for (const sel of selectors) {
-                const text = $event.find(sel).first().text().trim();
-                if (text && text.length >= 5 && text.length <= 100) {
-                  eventDate = text;
-                  break;
-                }
+            // Extract REAL POSTER IMAGE
+            let imageUrl = null;
+            const img = el.querySelector('img:not([alt*="logo"]):not([src*="logo"])');
+            if (img) {
+              const src = img.src || img.getAttribute('data-src') || img.getAttribute('srcset')?.split(' ')[0];
+              if (src && !src.includes('logo') && !src.includes('icon')) {
+                imageUrl = src;
               }
             }
-            
-            // Strategy 3: URL pattern
-            if (!eventDate && url) {
-              const urlMatch = url.match(/\/(\d{4})-(\d{2})-(\d{2})|\/(\d{4})\/(\d{2})\/(\d{2})/);
-              if (urlMatch) {
-                eventDate = urlMatch[1] ? `${urlMatch[1]}-${urlMatch[2]}-${urlMatch[3]}` : `${urlMatch[4]}-${urlMatch[5]}-${urlMatch[6]}`;
-              }
-            }
-            
-            // Strategy 4: text pattern
-            if (!eventDate) {
-              const text = $event.text() + ' ' + $event.parent().text();
+
+            // Extract date
+            let date = null;
+            const dateEl = el.querySelector('[datetime], time, [class*="date"], [class*="Date"]');
+            if (dateEl) {
+              date = dateEl.getAttribute('datetime') || dateEl.textContent.trim();
+            } else {
+              // Try text pattern
+              const text = el.textContent;
               const dateMatch = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{4})?/i);
-              if (dateMatch) eventDate = dateMatch[0];
+              if (dateMatch) date = dateMatch[0];
             }
 
-            // Extract time information
-            let eventTime = null;
-            const timeText = $event.find('.time, .show-time, .door-time').first().text().trim();
-            if (timeText) {
-              eventTime = timeText;
-            }
+            // Filter junk
+            if (!title || title.length < 3) return;
+            const skipTerms = ['search', 'filter', 'sort', 'menu', 'contact', 'about'];
+            if (skipTerms.some(term => title.toLowerCase().includes(term))) return;
 
-            // Only log valid events (junk will be filtered out)
+            // Avoid duplicates
+            const key = url || title;
+            if (seenUrls.has(key)) return;
+            seenUrls.add(key);
 
-            events.push({
-              id: uuidv4(),
-              title: title,
-              date: eventDate,
-              time: eventTime,
-              url: url,
-              venue: { name: 'Vogue Theatre', address: '918 Granville Street, Vancouver, BC V6Z 1L2', city: 'Vancouver' },
-              location: 'Vancouver, BC',
-              description: null,
-              image: null
+            results.push({
+              title,
+              url,
+              imageUrl, // Real poster image or null
+              date
             });
           });
-        }
-      }
 
-      console.log(`Found ${events.length} total events from Vogue Theatre`);
-      return filterEvents(events);
+          if (results.length > 0) break; // Found events
+        }
+
+        return results;
+      });
+
+      await browser.close();
+
+      console.log(`  ✅ Found ${events.length} Vogue Theatre events`);
+
+      // Format events
+      const formattedEvents = events.map(event => ({
+        id: uuidv4(),
+        title: event.title,
+        date: event.date,
+        time: null,
+        url: event.url || 'https://admitone.com/search?venue=vogue-theatre',
+        imageUrl: event.imageUrl || null, // REAL POSTER IMAGE or null
+        venue: {
+          name: 'Vogue Theatre',
+          address: '918 Granville St, Vancouver, BC V6Z 1L2',
+          city: 'Vancouver'
+        },
+        location: 'Vancouver, BC',
+        city: 'Vancouver',
+        category: 'Concert',
+        description: `${event.title} at the historic Vogue Theatre`
+      }));
+
+      console.log(`  🎉 Returning ${formattedEvents.length} Vogue Theatre events`);
+      return filterEvents(formattedEvents);
 
     } catch (error) {
-      console.error('Error scraping Vogue Theatre events:', error.message);
+      if (browser) await browser.close();
+      console.error('  ⚠️  Vogue Theatre error:', error.message);
       return [];
     }
   }
 };
-
 
 module.exports = VogueTheatreEvents.scrape;

@@ -93,9 +93,16 @@ const OrpheumTheatreEvents = {
           // Get URL from the Details link
           const linkEl = el.querySelector('a.featured__button--details');
           const url = linkEl ? linkEl.href : '';
-        // Get image
-        const img = el.querySelector('img');
-        const imageUrl = img ? (img.src || img.getAttribute('data-src') || '') : '';
+          
+          // Get REAL POSTER IMAGE
+          const img = el.querySelector('img:not([src*="logo"]):not([alt*="logo"])');
+          let imageUrl = null;
+          if (img) {
+            const src = img.src || img.getAttribute('data-src') || img.getAttribute('data-lazy-src');
+            if (src && !src.includes('logo') && !src.includes('icon')) {
+              imageUrl = src;
+            }
+          }
 
           if (!title || title.length < 3 || seen.has(url)) return;
           seen.add(url);
@@ -123,7 +130,8 @@ const OrpheumTheatreEvents = {
           results.push({
             title: title,
             date: eventDate,
-            url: url
+            url: url,
+            imageUrl: imageUrl  // Include real poster image!
           });
         });
         
@@ -138,8 +146,10 @@ const OrpheumTheatreEvents = {
         title: event.title,
         date: event.date,
         url: event.url || 'https://vancouvercivictheatres.com/events/',
+        imageUrl: event.imageUrl || null,  // Real poster image or null
         venue: { name: 'Orpheum Theatre', address: '601 Smithe Street, Vancouver, BC V6B 5G1', city: 'Vancouver' },
         city: 'Vancouver',
+        category: 'Theatre',
         source: 'Orpheum Theatre'
       }));
       

@@ -36,6 +36,16 @@ const FoxCabaretEvents = {
         const linkEl = $el.find('a').first();
         const url = linkEl.attr('href');
         
+        // Get REAL POSTER IMAGE
+        const img = $el.find('img:not([src*="logo"]):not([alt*="logo"])').first();
+        let imageUrl = null;
+        if (img.length > 0) {
+          const src = img.attr('src') || img.attr('data-src') || img.attr('data-lazy-src');
+          if (src && !src.includes('logo') && !src.includes('icon')) {
+            imageUrl = src.startsWith('http') ? src : `https://www.foxcabaret.com${src}`;
+          }
+        }
+        
         // Parse date from text like "Oct 2" or "Oct\n2"
         const fullText = $el.text();
         const dateMatch = fullText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{1,2})/i);
@@ -101,6 +111,7 @@ const FoxCabaretEvents = {
             description: eventTitle + ' at Fox Cabaret Vancouver.',
             date: eventDate,
             url: url && url.startsWith('http') ? url : (url ? 'https://www.foxcabaret.com' + url : 'https://www.foxcabaret.com'),
+            imageUrl: imageUrl || null,  // Real poster image or null
             venue: { name: 'Fox Cabaret', address: '2321 Main Street, Vancouver, BC V5T 3C9', city: 'Vancouver' },
             city: 'Vancouver',
             source: 'Fox Cabaret',
