@@ -178,19 +178,11 @@
         <!-- City Selector -->
         <div class="city-selector">
             <h3 class="text-center mb-4">Select City to Manage</h3>
-            <div class="text-center" id="cityButtons">
-                <button class="city-btn" data-city="Vancouver">
-                    🏔️ Vancouver
-                </button>
-                <button class="city-btn" data-city="Toronto">
-                    🏙️ Toronto
-                </button>
-                <button class="city-btn" data-city="Calgary">
-                    🎿 Calgary
-                </button>
-                <button class="city-btn" data-city="Montreal">
-                    🎭 Montreal
-                </button>
+            <div class="text-center">
+                <button class="city-btn" onclick="selectCity('Montreal', this)">🎭 Montreal</button>
+                <button class="city-btn" onclick="selectCity('New York', this)">🗽 New York</button>
+                <button class="city-btn" onclick="selectCity('Calgary', this)">🎿 Calgary</button>
+                <button class="city-btn" onclick="selectCity('Brooklyn', this)">🌉 Brooklyn</button>
             </div>
         </div>
 
@@ -351,11 +343,13 @@
                 const data = await response.json();
                 
                 if (data.events) {
-                    // Filter events by city
-                    allEvents = data.events.filter(event => 
-                        event.city === city || 
-                        (event.venue && event.venue.city === city)
-                    );
+                    // Filter events by city (case-insensitive)
+                    const cityLower = city.toLowerCase();
+                    allEvents = data.events.filter(event => {
+                        const eventCity = (event.city || '').toLowerCase();
+                        const venueCity = (event.venue && event.venue.city || '').toLowerCase();
+                        return eventCity === cityLower || venueCity === cityLower;
+                    });
                     
                     // Load featured events for this city
                     await loadFeaturedForCity(city);
