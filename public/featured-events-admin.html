@@ -347,7 +347,7 @@
                     </div>
                 `;
 
-                const response = await fetch('/api/v1/events');
+                const response = await fetch('/api/v1/events?limit=5000');
                 const data = await response.json();
                 
                 if (data.events) {
