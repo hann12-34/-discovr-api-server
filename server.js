@@ -113,7 +113,8 @@ const connectWithRetry = (retryCount = 0, maxRetries = MAX_MONGO_RETRIES) => {
   // FORCE database name to 'discovr' - remove any existing DB name and add discovr
   // This ensures we always use the correct database regardless of the URI format
   mongoUri = mongoUri.replace(/\.net\/[^?]*/, '.net/discovr'); // Replace .net/ or .net/anything with .net/discovr
-  console.log('📊 Forced database name to "discovr"');
+  console.log('📊 FORCED database name to "discovr"');
+  console.log('📊 Modified URI:', mongoUri.replace(/:([^:@]+)@/, ':***@'));
   
   // Connection options based on successful test configuration
   const connectionOptions = {
@@ -154,7 +155,11 @@ const connectWithRetry = (retryCount = 0, maxRetries = MAX_MONGO_RETRIES) => {
     })();
     
     if (mongoose.connection.db) {
-      console.log('Database name:', mongoose.connection.db.databaseName || 'unknown');
+      const dbName = mongoose.connection.db.databaseName || 'unknown';
+      console.log('🗄️  ACTUAL DATABASE CONNECTED:', dbName);
+      if (dbName !== 'discovr') {
+        console.error('❌❌❌ ERROR: Connected to WRONG database:', dbName, '(expected: discovr)');
+      }
       
       // Safely log server version if available
       try {
