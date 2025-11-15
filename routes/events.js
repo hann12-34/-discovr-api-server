@@ -88,7 +88,7 @@ router.get('/', async (req, res) => {
       venue,
       city,
       accessibility,
-      limit = 500, // Increased to 500 to ensure all cities are represented
+      limit = 10000, // NO EFFECTIVE LIMIT - return ALL events
       page = 1,
       sort = 'city', // Sort by city first to distribute events evenly across cities
       order = 'asc'
