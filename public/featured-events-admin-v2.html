@@ -583,6 +583,12 @@
                     featuredEventIds.has(e._id || e.id)
                 );
 
+                console.log('Saving featured events:', {
+                    city: currentCity,
+                    eventCount: featuredEvents.length,
+                    eventIds: featuredEvents.map(e => e._id || e.id)
+                });
+
                 const response = await fetch(`/api/v1/featured-events`, {
                     method: 'POST',
                     headers: {
@@ -595,6 +601,8 @@
                 });
 
                 if (response.ok) {
+                    const data = await response.json();
+                    console.log('Success:', data);
                     button.innerHTML = '<i class="bi bi-check-circle"></i> Saved!';
                     button.classList.add('btn-success');
                     button.classList.remove('btn-primary');
@@ -606,11 +614,14 @@
                         button.disabled = false;
                     }, 2000);
                 } else {
-                    throw new Error('Failed to save');
+                    const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+                    console.error('Server error:', response.status, errorData);
+                    throw new Error(errorData.message || `Server error: ${response.status}`);
                 }
             } catch (error) {
                 console.error('Error saving featured events:', error);
-                alert('Error saving featured events. Please try again.');
+                const errorMsg = error.message || 'Unknown error occurred';
+                alert(`Error saving featured events: ${errorMsg}\n\nCheck console for details.`);
                 button.innerHTML = originalText;
                 button.disabled = false;
             }
