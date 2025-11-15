@@ -26,6 +26,8 @@ const EventSchema = new mongoose.Schema({
   sourceURL: String,
   ticketURL: String,
   location: String, // Legacy field for compatibility
+  featured: { type: Boolean, default: false }, // Featured event flag
+  featuredOrder: { type: Number }, // Order in featured list per city
   lastUpdated: { type: Date, default: Date.now }
 });
 
@@ -38,6 +40,9 @@ EventSchema.index({ endDate: 1 });
 
 // Create index on venue.name for venue filtering
 EventSchema.index({ 'venue.name': 1 });
+
+// Create index on city and featured for featured events queries
+EventSchema.index({ city: 1, featured: 1, featuredOrder: 1 });
 
 // Export model
 const Event = mongoose.model('Event', EventSchema);

@@ -857,4 +857,141 @@ router.get('/admin/cleanup-missing-ids', async (req, res) => {
   }
 });
 
+/**
+ * @route   GET /api/v1/featured-events
+ * @desc    Get featured events (optionally filtered by city)
+ * @access  Public
+ */
+router.get('/featured-events', async (req, res) => {
+  try {
+    const { city } = req.query;
+    
+    const query = { featured: true };
+    if (city) {
+      query.city = city;
+    }
+    
+    const events = await Event.find(query)
+      .sort({ featuredOrder: 1, startDate: 1 })
+      .limit(10);
+    
+    res.json({
+      success: true,
+      count: events.length,
+      events: events
+    });
+  } catch (error) {
+    console.error('Error getting featured events:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
+ * @route   POST /api/v1/featured-events
+ * @desc    Set featured events for a city
+ * @access  Public (should add auth in production)
+ */
+router.post('/featured-events', async (req, res) => {
+  try {
+    const { city, events } = req.body;
+    
+    if (!city || !Array.isArray(events)) {
+      return res.status(400).json({
+        success: false,
+        message: 'City and events array are required'
+      });
+    }
+    
+    // First, unfeatured all events for this city
+    await Event.updateMany(
+      { city: city, featured: true },
+      { $set: { featured: false, featuredOrder: null } }
+    );
+    
+    // Then, feature the selected events with order
+    const eventIds = events.map(e => e._id || e.id).filter(Boolean);
+    
+    for (let i = 0; i < eventIds.length; i++) {
+      await Event.updateOne(
+        { _id: eventIds[i] },
+        { $set: { featured: true, featuredOrder: i + 1 } }
+      );
+    }
+    
+    res.json({
+      success: true,
+      message: `Featured ${eventIds.length} events for ${city}`,
+      count: eventIds.length
+    });
+  } catch (error) {
+    console.error('Error setting featured events:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
+ * @route   POST /api/v1/events/:id/feature
+ * @desc    Mark an event as featured
+ * @access  Public (should add auth in production)
+ */
+router.post('/events/:id/feature', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { order } = req.body;
+    
+    const event = await Event.findByIdAndUpdate(
+      id,
+      { $set: { featured: true, featuredOrder: order || 999 } },
+      { new: true }
+    );
+    
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+    
+    res.json({
+      success: true,
+      event: event
+    });
+  } catch (error) {
+    console.error('Error featuring event:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
+ * @route   DELETE /api/v1/events/:id/feature
+ * @desc    Remove featured status from an event
+ * @access  Public (should add auth in production)
+ */
+router.delete('/events/:id/feature', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const event = await Event.findByIdAndUpdate(
+      id,
+      { $set: { featured: false, featuredOrder: null } },
+      { new: true }
+    );
+    
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+    
+    res.json({
+      success: true,
+      event: event
+    });
+  } catch (error) {
+    console.error('Error unfeaturing event:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = router;

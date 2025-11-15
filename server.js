@@ -338,6 +338,10 @@ app.get('/admin/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'unified-admin.html'));
 });
 
+app.get('/admin/featured', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'featured-events-admin-v2.html'));
+});
+
 // Import and initialize the scraper manager
 const scraperManager = require('./scrapers/scraperManager');
 
