@@ -18,7 +18,7 @@ router.post('/rescrape-city/:city', async (req, res) => {
     console.log(`✅ Deleted ${deleteResult.deletedCount} old ${city} events`);
     
     // Step 2: Load and run the city scraper
-    const cityPath = city.replace(/\s+/g, ' '); // "New York" stays as is
+    const cityPath = city.toLowerCase().replace(/\s+/g, '-'); // "New York" -> "new-york", "Vancouver" -> "vancouver"
     let scrapeFunction;
     
     try {
