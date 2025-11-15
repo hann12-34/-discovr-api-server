@@ -108,7 +108,14 @@ const connectWithRetry = (retryCount = 0, maxRetries = MAX_MONGO_RETRIES) => {
     process.env.MONGODB_URI.replace(/:([^:@]+)@/, ':***@')); // Hide password in logs
   
   // Use the MongoDB URI from environment variable
-  const mongoUri = process.env.MONGODB_URI;
+  let mongoUri = process.env.MONGODB_URI;
+  
+  // Ensure database name is specified (default to 'discovr' if not present)
+  if (!mongoUri.match(/mongodb.*\.net\/[^?]+/)) {
+    // No database specified, add '/discovr' before query params
+    mongoUri = mongoUri.replace(/(\/)?\?/, '/discovr?');
+    console.log('📊 Added database name "discovr" to MongoDB URI');
+  }
   
   // Connection options based on successful test configuration
   const connectionOptions = {
