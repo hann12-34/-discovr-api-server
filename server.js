@@ -110,12 +110,10 @@ const connectWithRetry = (retryCount = 0, maxRetries = MAX_MONGO_RETRIES) => {
   // Use the MongoDB URI from environment variable
   let mongoUri = process.env.MONGODB_URI;
   
-  // Ensure database name is specified (default to 'discovr' if not present)
-  if (!mongoUri.match(/mongodb.*\.net\/[^?]+/)) {
-    // No database specified, add '/discovr' before query params
-    mongoUri = mongoUri.replace(/(\/)?\?/, '/discovr?');
-    console.log('📊 Added database name "discovr" to MongoDB URI');
-  }
+  // FORCE database name to 'discovr' - remove any existing DB name and add discovr
+  // This ensures we always use the correct database regardless of the URI format
+  mongoUri = mongoUri.replace(/\.net\/[^?]*/, '.net/discovr'); // Replace .net/ or .net/anything with .net/discovr
+  console.log('📊 Forced database name to "discovr"');
   
   // Connection options based on successful test configuration
   const connectionOptions = {
