@@ -88,9 +88,9 @@ router.get('/', async (req, res) => {
       venue,
       city,
       accessibility,
-      limit = 200, // Increased from 20 to ensure mobile app gets events from all cities
+      limit = 500, // Increased to 500 to ensure all cities are represented
       page = 1,
-      sort = 'startDate',
+      sort = 'city', // Sort by city first to distribute events evenly across cities
       order = 'asc'
     } = req.query;
     
