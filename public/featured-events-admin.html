@@ -178,11 +178,10 @@
         <!-- City Selector -->
         <div class="city-selector">
             <h3 class="text-center mb-4">Select City to Manage</h3>
-            <div class="text-center">
-                <button class="city-btn" data-city="Vancouver">🏔️ Vancouver</button>
-                <button class="city-btn" data-city="Toronto">🏙️ Toronto</button>
-                <button class="city-btn" data-city="Calgary">🎿 Calgary</button>
-                <button class="city-btn" data-city="Montreal">🎭 Montreal</button>
+            <div class="text-center" id="cityButtonsContainer">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading cities...</span>
+                </div>
             </div>
         </div>
 
@@ -244,6 +243,30 @@
                 </button>
             </div>
             <div class="card-body">
+                <!-- Toolbar -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <button class="btn btn-success me-2" id="addEventBtn">
+                            <i class="bi bi-plus-circle"></i> Add Event
+                        </button>
+                        <button class="btn btn-danger me-2" id="bulkDeleteBtn" style="display: none;">
+                            <i class="bi bi-trash"></i> Delete Selected (<span id="selectedCount">0</span>)
+                        </button>
+                        <button class="btn btn-outline-secondary" id="selectAllBtn">
+                            <i class="bi bi-check-all"></i> Select All
+                        </button>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="hidePastEvents" checked>
+                            <label class="form-check-label" for="hidePastEvents">
+                                🗓️ Hide Past Events
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filters -->
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <input type="text" class="form-control search-box" id="searchInput" placeholder="🔍 Search events by name, venue...">
@@ -281,23 +304,175 @@
         </div>
     </div>
 
+    <!-- Add/Edit Event Modal -->
+    <div class="modal fade" id="eventModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalTitle">Add Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="eventForm">
+                        <input type="hidden" id="eventId">
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label">Event Title *</label>
+                                <input type="text" class="form-control" id="eventTitle" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">City *</label>
+                                <input type="text" class="form-control" id="eventCity" required readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Start Date *</label>
+                                <input type="datetime-local" class="form-control" id="eventStartDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">End Date</label>
+                                <input type="datetime-local" class="form-control" id="eventEndDate">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Venue Name *</label>
+                                <input type="text" class="form-control" id="eventVenueName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Venue Address</label>
+                                <input type="text" class="form-control" id="eventVenueAddress">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" id="eventCategory">
+                                    <option value="music">Music</option>
+                                    <option value="nightlife">Nightlife</option>
+                                    <option value="concert">Concert</option>
+                                    <option value="festival">Festival</option>
+                                    <option value="theater">Theater</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="outdoor">Outdoor</option>
+                                    <option value="museum">Museum</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Image URL</label>
+                                <input type="url" class="form-control" id="eventImageUrl" placeholder="https://...">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Event URL</label>
+                                <input type="url" class="form-control" id="eventSourceUrl" placeholder="https://...">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Ticket URL</label>
+                                <input type="url" class="form-control" id="eventTicketUrl" placeholder="https://...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveEventBtn">Save Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Global state
         let allEvents = [];
         let featuredEventIds = new Set();
+        let selectedEventIds = new Set();
         let currentCity = null;
         const MAX_FEATURED = 10;
+        let eventModal;
+
+        // City emoji mapping
+        const cityEmojis = {
+            'Vancouver': '🏔️',
+            'Toronto': '🏙️',
+            'Calgary': '🎿',
+            'Montreal': '🎭',
+            'New York': '🗽',
+            'Brooklyn': '🌉'
+        };
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            setupCityButtons();
+        document.addEventListener('DOMContentLoaded', async () => {
+            eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
+            await loadAvailableCities();
             setupFilters();
+            setupAdminHandlers();
             document.getElementById('saveFeaturedBtn').addEventListener('click', saveFeaturedEvents);
             document.getElementById('refreshBtn').addEventListener('click', () => {
                 if (currentCity) loadEvents(currentCity);
             });
         });
+
+        // Setup admin button handlers
+        function setupAdminHandlers() {
+            document.getElementById('addEventBtn').addEventListener('click', () => openAddEventModal());
+            document.getElementById('saveEventBtn').addEventListener('click', saveEvent);
+            document.getElementById('selectAllBtn').addEventListener('click', toggleSelectAll);
+            document.getElementById('bulkDeleteBtn').addEventListener('click', bulkDeleteEvents);
+            document.getElementById('hidePastEvents').addEventListener('change', renderEvents);
+        }
+
+        // Load cities dynamically from API
+        async function loadAvailableCities() {
+            try {
+                const response = await fetch('/api/v1/events?limit=5000');
+                const data = await response.json();
+                
+                // Get unique cities with event counts
+                const cityCount = {};
+                data.events.forEach(event => {
+                    const city = event.city || event.venue?.city;
+                    if (city) {
+                        cityCount[city] = (cityCount[city] || 0) + 1;
+                    }
+                });
+                
+                // Sort by count descending
+                const sortedCities = Object.entries(cityCount)
+                    .sort((a, b) => b[1] - a[1]);
+                
+                // Render city buttons
+                const container = document.getElementById('cityButtonsContainer');
+                container.innerHTML = sortedCities.map(([city, count]) => `
+                    <button class="city-btn" data-city="${city}">
+                        ${cityEmojis[city] || '🌆'} ${city}
+                        <small class="d-block" style="font-size: 0.8em; opacity: 0.8;">${count} events</small>
+                    </button>
+                `).join('');
+                
+                setupCityButtons();
+            } catch (error) {
+                console.error('Error loading cities:', error);
+                // Fallback to hardcoded cities
+                const container = document.getElementById('cityButtonsContainer');
+                container.innerHTML = `
+                    <button class="city-btn" data-city="Vancouver">🏔️ Vancouver</button>
+                    <button class="city-btn" data-city="Toronto">🏙️ Toronto</button>
+                    <button class="city-btn" data-city="Calgary">🎿 Calgary</button>
+                    <button class="city-btn" data-city="Montreal">🎭 Montreal</button>
+                    <button class="city-btn" data-city="New York">🗽 New York</button>
+                    <button class="city-btn" data-city="Brooklyn">🌉 Brooklyn</button>
+                `;
+                setupCityButtons();
+            }
+        }
 
         // Setup city button listeners
         function setupCityButtons() {
@@ -452,6 +627,8 @@
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const categoryFilter = document.getElementById('categoryFilter').value;
             const imageFilter = document.getElementById('imageFilter').value;
+            const hidePast = document.getElementById('hidePastEvents').checked;
+            const now = new Date();
 
             let filteredEvents = allEvents.filter(event => {
                 const matchesSearch = !searchTerm || 
@@ -467,7 +644,11 @@
                     (imageFilter === 'with-image' && hasImage) ||
                     (imageFilter === 'no-image' && !hasImage);
 
-                return matchesSearch && matchesCategory && matchesImage;
+                // Filter past events if checkbox is checked
+                const eventDate = new Date(event.date || event.startDate);
+                const matchesDate = !hidePast || eventDate >= now;
+
+                return matchesSearch && matchesCategory && matchesImage && matchesDate;
             });
 
             // Sort: featured first, then by date
@@ -496,15 +677,25 @@
             const html = filteredEvents.map(event => {
                 const eventId = event._id || event.id;
                 const isFeatured = featuredEventIds.has(eventId);
+                const isSelected = selectedEventIds.has(eventId);
                 const imageUrl = event.imageUrl || event.image;
                 const title = event.title || event.name || 'Untitled Event';
                 const venueName = event.venue?.name || event.source || '';
                 const date = formatDate(event.date || event.startDate);
+                const eventJson = JSON.stringify(event).replace(/"/g, '&quot;');
 
                 return `
                     <div class="col-md-4 col-lg-3 mb-4">
                         <div class="card event-card">
                             ${isFeatured ? '<span class="featured-badge">⭐ Featured</span>' : ''}
+                            <!-- Checkbox for bulk selection -->
+                            <div class="position-absolute" style="top: 10px; left: 10px; z-index: 11;">
+                                <input type="checkbox" class="form-check-input event-checkbox" 
+                                       data-event-id="${eventId}" 
+                                       ${isSelected ? 'checked' : ''}
+                                       onchange="handleCheckboxChange('${eventId}', this.checked)"
+                                       style="width: 20px; height: 20px; cursor: pointer;">
+                            </div>
                             ${imageUrl ? 
                                 `<img src="${imageUrl}" alt="${title}" onerror="this.parentElement.querySelector('.no-image-placeholder').style.display='flex'; this.style.display='none';">` :
                                 ''
@@ -518,11 +709,24 @@
                                     <i class="bi bi-geo-alt"></i> ${venueName}<br>
                                     <i class="bi bi-calendar"></i> ${date}
                                 </p>
-                                <button class="btn ${isFeatured ? 'btn-unfeature' : 'btn-feature'} w-100" 
-                                        onclick="toggleFeatured('${eventId}')">
-                                    <i class="bi bi-star${isFeatured ? '-fill' : ''}"></i> 
-                                    ${isFeatured ? 'Unfeature' : 'Feature'}
-                                </button>
+                                <!-- Action buttons -->
+                                <div class="d-grid gap-2 mb-2">
+                                    <button class="btn ${isFeatured ? 'btn-unfeature' : 'btn-feature'} btn-sm" 
+                                            onclick="toggleFeatured('${eventId}')">
+                                        <i class="bi bi-star${isFeatured ? '-fill' : ''}"></i> 
+                                        ${isFeatured ? 'Unfeature' : 'Feature'}
+                                    </button>
+                                </div>
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-outline-primary btn-sm" 
+                                            onclick='openEditEventModal(${eventJson})'>
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" 
+                                            onclick="deleteEvent('${eventId}', '${title.replace(/'/g, "\\'")}')">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -676,6 +880,164 @@
         function truncate(str, length) {
             if (!str) return '';
             return str.length > length ? str.substring(0, length) + '...' : str;
+        }
+
+        // === ADMIN FEATURES ===
+        
+        // Handle individual checkbox change
+        function handleCheckboxChange(eventId, checked) {
+            if (checked) {
+                selectedEventIds.add(eventId);
+            } else {
+                selectedEventIds.delete(eventId);
+            }
+            updateBulkDeleteButton();
+        }
+        
+        // Toggle select all events
+        function toggleSelectAll() {
+            const allCheckboxes = document.querySelectorAll('.event-checkbox');
+            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+            
+            allCheckboxes.forEach(checkbox => {
+                checkbox.checked = !allChecked;
+                const eventId = checkbox.dataset.eventId;
+                if (checkbox.checked) {
+                    selectedEventIds.add(eventId);
+                } else {
+                    selectedEventIds.delete(eventId);
+                }
+            });
+            
+            updateBulkDeleteButton();
+        }
+
+        // Update bulk delete button visibility and count
+        function updateBulkDeleteButton() {
+            const bulkBtn = document.getElementById('bulkDeleteBtn');
+            const count = selectedEventIds.size;
+            document.getElementById('selectedCount').textContent = count;
+            bulkBtn.style.display = count > 0 ? 'inline-block' : 'none';
+        }
+
+        // Bulk delete selected events
+        async function bulkDeleteEvents() {
+            if (selectedEventIds.size === 0) return;
+            
+            if (!confirm(`Delete ${selectedEventIds.size} events? This cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                const promises = Array.from(selectedEventIds).map(id =>
+                    fetch(`/api/v1/events/${id}`, { method: 'DELETE' })
+                );
+                
+                await Promise.all(promises);
+                alert(`Deleted ${selectedEventIds.size} events successfully!`);
+                selectedEventIds.clear();
+                updateBulkDeleteButton();
+                loadEvents(currentCity);
+            } catch (error) {
+                alert('Error deleting events: ' + error.message);
+            }
+        }
+
+        // Open add event modal
+        function openAddEventModal() {
+            document.getElementById('eventModalTitle').textContent = 'Add Event';
+            document.getElementById('eventForm').reset();
+            document.getElementById('eventId').value = '';
+            document.getElementById('eventCity').value = currentCity;
+            eventModal.show();
+        }
+
+        // Open edit event modal
+        function openEditEventModal(event) {
+            document.getElementById('eventModalTitle').textContent = 'Edit Event';
+            document.getElementById('eventId').value = event._id || event.id;
+            document.getElementById('eventTitle').value = event.title || '';
+            document.getElementById('eventCity').value = event.city || '';
+            
+            // Handle dates
+            if (event.startDate) {
+                const startDate = new Date(event.startDate);
+                document.getElementById('eventStartDate').value = startDate.toISOString().slice(0, 16);
+            }
+            if (event.endDate) {
+                const endDate = new Date(event.endDate);
+                document.getElementById('eventEndDate').value = endDate.toISOString().slice(0, 16);
+            }
+            
+            document.getElementById('eventDescription').value = event.description || '';
+            document.getElementById('eventVenueName').value = event.venue?.name || '';
+            document.getElementById('eventVenueAddress').value = event.venue?.address || '';
+            document.getElementById('eventCategory').value = event.category || 'music';
+            document.getElementById('eventImageUrl').value = event.imageUrl || event.image || '';
+            document.getElementById('eventSourceUrl').value = event.sourceURL || event.url || '';
+            document.getElementById('eventTicketUrl').value = event.ticketURL || '';
+            
+            eventModal.show();
+        }
+
+        // Save event (add or update)
+        async function saveEvent() {
+            const eventId = document.getElementById('eventId').value;
+            const isEdit = !!eventId;
+            
+            const eventData = {
+                title: document.getElementById('eventTitle').value,
+                city: document.getElementById('eventCity').value,
+                startDate: document.getElementById('eventStartDate').value,
+                endDate: document.getElementById('eventEndDate').value || undefined,
+                description: document.getElementById('eventDescription').value,
+                venue: {
+                    name: document.getElementById('eventVenueName').value,
+                    address: document.getElementById('eventVenueAddress').value,
+                    city: document.getElementById('eventCity').value
+                },
+                category: document.getElementById('eventCategory').value,
+                imageUrl: document.getElementById('eventImageUrl').value,
+                sourceURL: document.getElementById('eventSourceUrl').value,
+                ticketURL: document.getElementById('eventTicketUrl').value
+            };
+
+            try {
+                const url = isEdit ? `/api/v1/events/${eventId}` : '/api/v1/events';
+                const method = isEdit ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(eventData)
+                });
+
+                if (!response.ok) throw new Error('Failed to save event');
+                
+                alert(isEdit ? 'Event updated!' : 'Event added!');
+                eventModal.hide();
+                loadEvents(currentCity);
+            } catch (error) {
+                alert('Error saving event: ' + error.message);
+            }
+        }
+
+        // Delete single event
+        async function deleteEvent(eventId, eventTitle) {
+            if (!confirm(`Delete "${eventTitle}"? This cannot be undone.`)) return;
+
+            try {
+                const response = await fetch(`/api/v1/events/${eventId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) throw new Error('Failed to delete event');
+                
+                alert('Event deleted!');
+                loadEvents(currentCity);
+            } catch (error) {
+                alert('Error deleting event: ' + error.message);
+            }
         }
     </script>
 </body>
