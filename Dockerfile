@@ -25,5 +25,5 @@ COPY . .
 # Expose port 8080 for Cloud Run
 EXPOSE 8080
 
-# Run the unified proxy server for production
-CMD ["node", "unified-proxy-server.js"]
+# Run the main server (has all routes including /admin)
+CMD ["node", "server.js"]
