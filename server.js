@@ -325,9 +325,17 @@ app.use('/api/direct', directDbRouter); // Direct database access - bypasses all
 app.use('/api/fresh', freshEventsRouter); // BRAND NEW PATH - cannot be cached
 app.use('/api/diagnostic', diagnosticRouter); // Shows exactly what database Render is using
 
-// Basic root route
+// Admin dashboard routes
 app.get('/', (req, res) => {
-  res.send('Discovr Events API Server is running');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'unified-admin.html'));
+});
+
+app.get('/admin/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'unified-admin.html'));
 });
 
 // Import and initialize the scraper manager
