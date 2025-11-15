@@ -331,8 +331,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/admin', (req, res) => {
-  // Redirect to featured events admin
-  res.redirect('/featured-events-admin.html');
+  // Main admin - the city-based featured events manager
+  res.sendFile(path.join(__dirname, 'public', 'featured-events-admin-v2.html'));
 });
 
 // Import and initialize the scraper manager
