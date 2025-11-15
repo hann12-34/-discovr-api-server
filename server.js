@@ -337,12 +337,28 @@ app.use('/api/direct', directDbRouter); // Direct database access - bypasses all
 app.use('/api/fresh', freshEventsRouter); // BRAND NEW PATH - cannot be cached
 app.use('/api/diagnostic', diagnosticRouter); // Shows exactly what database Render is using
 
+// DIAGNOSTIC ENDPOINT - Shows connection info
+app.get('/api/debug/connection', (req, res) => {
+  const uri = process.env.MONGODB_URI || 'NOT SET';
+  const safeUri = uri.replace(/:([^:@]+)@/, ':***@');
+  
+  res.json({
+    mongodbUri: safeUri,
+    databaseName: mongoose.connection.db ? mongoose.connection.db.databaseName : 'NOT CONNECTED',
+    connectionState: mongoose.connection.readyState,
+    states: {
+      0: 'disconnected',
+      1: 'connected',
+      2: 'connecting',
+      3: 'disconnecting'
+    },
+    currentState: ['disconnected', 'connected', 'connecting', 'disconnecting'][mongoose.connection.readyState] || 'unknown'
+  });
+});
+
 // DEBUG route - test if file is readable
 app.get('/test-file', (req, res) => {
-  const filePath = path.join(__dirname, 'public', 'featured-events-admin.html');
-  console.log('🔍 Test route - file path:', filePath);
-  console.log('🔍 File exists:', fs.existsSync(filePath));
-  res.sendFile(filePath);
+  res.send('Static file serving is working!');
 });
 
 // Admin - ONLY the city-based featured events manager (handle both /admin and /admin/)
