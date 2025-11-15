@@ -44,7 +44,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+const publicPath = path.join(__dirname, 'public');
+const fs = require('fs');
+console.log('📁 Serving static files from:', publicPath);
+console.log('📁 Public folder exists:', fs.existsSync(publicPath));
+if (fs.existsSync(publicPath)) {
+  const files = fs.readdirSync(publicPath).filter(f => f.endsWith('.html'));
+  console.log('📄 HTML files in public:', files);
+}
+app.use(express.static(publicPath));
 
 // Import authentication middleware
 const { apiKeyAuth, anyAuth } = require('./middleware/auth');
