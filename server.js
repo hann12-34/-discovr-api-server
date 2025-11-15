@@ -325,8 +325,12 @@ app.use('/api/direct', directDbRouter); // Direct database access - bypasses all
 app.use('/api/fresh', freshEventsRouter); // BRAND NEW PATH - cannot be cached
 app.use('/api/diagnostic', diagnosticRouter); // Shows exactly what database Render is using
 
-// Admin - ONLY the city-based featured events manager
+// Admin - ONLY the city-based featured events manager (handle both /admin and /admin/)
 app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'featured-events-admin.html'));
+});
+
+app.get('/admin/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'featured-events-admin.html'));
 });
 
