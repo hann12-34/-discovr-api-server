@@ -42,14 +42,20 @@ router.post('/rescrape-city/:city', async (req, res) => {
     
     for (const event of events) {
       try {
-        // Ensure required fields are present
+        // Ensure required fields are present and map to schema
         const eventDoc = {
-          id: event.id || `${event.city}-${event.title}-${event.date}`.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase(),
+          id: event.id || `${event.city}-${event.title}-${event.date || event.startDate}`.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase(),
           title: event.title,
-          date: event.date,
+          startDate: event.startDate || event.date,
+          endDate: event.endDate,
+          description: event.description,
+          image: event.image || event.imageUrl,
+          imageUrl: event.imageUrl || event.image,
           city: event.city,
-          venue: event.venue,
-          url: event.url,
+          venue: event.venue || { name: event.venueName || 'TBD' },
+          sourceURL: event.url || event.sourceURL,
+          ticketURL: event.ticketURL,
+          category: event.category || 'music',
           categories: event.categories || []
         };
         
