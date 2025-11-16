@@ -197,6 +197,12 @@ function createUniversalScraper(venueName, url, address) {
         
         if (!dateText || dateText.length < 4) return;
         
+        // REJECT year-only dates (e.g. "2025", "2024") - these are not valid event dates
+        if (/^20\d{2}$/.test(dateText.trim())) {
+          console.log(`  ⚠️  Skipping "${title}" - year-only date: "${dateText}"`);
+          return;
+        }
+        
         // Reject if date appears to be page-wide "today" indicator
         // (Events should have specific dates, not just "Nov 4" everywhere)
         const today = new Date();
