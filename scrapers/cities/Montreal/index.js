@@ -31,6 +31,11 @@ class MontrealScrapers {
         const scrapeFoufounesElectriques = require('./scrape-foufounes-electriques');
         const scrapeCasaDelPopolo = require('./scrape-casa-del-popolo');
         const scrapeDatchaBar = require('./scrape-datcha-bar');
+        const scrapeClubUnity = require('./scrape-club-unity');
+        const scrapeTurboHauss = require('./scrape-turbo-hauss');
+        const scrapeBeachclub = require('./scrape-beachclub');
+        const scrapeComedyNest = require('./scrape-comedy-nest');
+        const scrapeLAstral = require('./scrape-l-astral');
         
         // Generator Scrapers (return 0 events currently)
         const scrapeMontrealBars = require('./scrape-montreal-bars-generator');
@@ -56,6 +61,11 @@ class MontrealScrapers {
             scrapeFoufounesElectriques,
             scrapeCasaDelPopolo,
             scrapeDatchaBar,
+            scrapeClubUnity,
+            scrapeTurboHauss,
+            scrapeBeachclub,
+            scrapeComedyNest,
+            scrapeLAstral,
             // Generator scrapers (low yield)
             scrapeMontrealBars,
             scrapeMontrealComprehensive,
