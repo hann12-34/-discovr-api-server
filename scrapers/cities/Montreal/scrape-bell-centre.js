@@ -1,29 +1,13 @@
-const { createUniversalScraper } = require('./universal-scraper-template');
+const createUniversalScraper = require('./universal-scraper-template');
 
-module.exports = createUniversalScraper({
-    name: 'Bell Centre',
-    url: 'https://www.centrebell.ca/en/calendar',
-    city: 'Montreal',
-    eventSelectors: [
-        '.event-card',
-        '.calendar-event',
-        'article.event',
-        '.event-item',
-        '[class*="event"]'
-    ],
-    titleSelectors: [
-        'h2',
-        'h3',
-        '.event-title',
-        '.event-name',
-        'a[href*="/event"]'
-    ],
-    dateSelectors: [
-        '.event-date',
-        '.date',
-        'time',
-        '.event-time',
-        '[class*="date"]'
-    ],
-    imagePriority: 'high'
-});
+async function scrapeEvents(city = 'Montreal') {
+  console.log('🏟️  Scraping Bell Centre events...');
+  const scraper = createUniversalScraper(
+    'Bell Centre',
+    'https://www.centrebell.ca/en/calendar',
+    'Montreal'
+  );
+  return await scraper(city);
+}
+
+module.exports = scrapeEvents;
