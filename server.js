@@ -356,6 +356,84 @@ app.get('/api/debug/connection', (req, res) => {
   });
 });
 
+// FEATURED EVENTS ENDPOINT - Mobile app compatibility (calls /api/v1/featured-events not /api/v1/events/featured-events)
+app.get('/api/v1/featured-events', async (req, res) => {
+  try {
+    const Event = require('./models/Event');
+    const { city } = req.query;
+    
+    const query = { featured: true };
+    if (city) {
+      query.city = city;
+    }
+    
+    const events = await Event.find(query)
+      .sort({ featuredOrder: 1, startDate: 1 })
+      .limit(10);
+    
+    res.json({
+      success: true,
+      count: events.length,
+      events: events
+    });
+  } catch (error) {
+    console.error('Error getting featured events:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// POST featured events - Mobile app compatibility
+app.post('/api/v1/featured-events', async (req, res) => {
+  try {
+    const Event = require('./models/Event');
+    const mongoose = require('mongoose');
+    const { city, events } = req.body;
+    
+    if (!city || !Array.isArray(events)) {
+      return res.status(400).json({
+        success: false,
+        message: 'City and events array are required'
+      });
+    }
+    
+    // First, unfeatured all events for this city
+    await Event.updateMany(
+      { city: city, featured: true },
+      { $set: { featured: false, featuredOrder: null } }
+    );
+    
+    // Then, feature the selected events with order
+    const eventIds = events.map(e => e._id || e.id).filter(Boolean);
+    
+    // Convert string IDs to MongoDB ObjectIds where needed
+    for (let i = 0; i < eventIds.length; i++) {
+      const eventId = eventIds[i];
+      let query;
+      
+      // Try to use as ObjectId first, fall back to string id field
+      if (mongoose.Types.ObjectId.isValid(eventId) && eventId.length === 24) {
+        query = { _id: new mongoose.Types.ObjectId(eventId) };
+      } else {
+        query = { id: eventId };
+      }
+      
+      await Event.updateOne(
+        query,
+        { $set: { featured: true, featuredOrder: i + 1 } }
+      );
+    }
+    
+    res.json({
+      success: true,
+      message: `Featured ${eventIds.length} events for ${city}`,
+      count: eventIds.length
+    });
+  } catch (error) {
+    console.error('Error setting featured events:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // DEBUG route - test if file is readable
 app.get('/test-file', (req, res) => {
   res.send('Static file serving is working!');
