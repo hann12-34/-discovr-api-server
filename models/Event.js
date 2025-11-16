@@ -23,6 +23,7 @@ const EventSchema = new mongoose.Schema({
   category: { type: String, default: 'music' },
   categories: [String],
   city: String, // City where the event takes place
+  source: String, // Event source: 'admin' for manually added, venue name for scraped
   sourceURL: String,
   ticketURL: String,
   location: String, // Legacy field for compatibility
