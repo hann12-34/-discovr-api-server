@@ -911,9 +911,20 @@ router.post('/featured-events', async (req, res) => {
     // Then, feature the selected events with order
     const eventIds = events.map(e => e._id || e.id).filter(Boolean);
     
+    // Convert string IDs to MongoDB ObjectIds where needed
     for (let i = 0; i < eventIds.length; i++) {
+      const eventId = eventIds[i];
+      let query;
+      
+      // Try to use as ObjectId first, fall back to string id field
+      if (mongoose.Types.ObjectId.isValid(eventId) && eventId.length === 24) {
+        query = { _id: new mongoose.Types.ObjectId(eventId) };
+      } else {
+        query = { id: eventId };
+      }
+      
       await Event.updateOne(
-        { _id: eventIds[i] },
+        query,
         { $set: { featured: true, featuredOrder: i + 1 } }
       );
     }
