@@ -29,6 +29,34 @@ function parseEventDate(dateString, customLogger = null, venue = 'Unknown Venue'
       return null;
     }
 
+    // Handle date ranges (e.g., "DEC 1 - 28", "Nov 15-20", "March 1 - April 5")
+    // Extract the start date from the range
+    const rangePatterns = [
+      // "DEC 1 - 28" or "Dec 1-28"
+      /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})\s*[-–—]\s*(\d{1,2})\b/i,
+      // "March 1 - April 5" (different months)
+      /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})\s*[-–—]\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})\b/i
+    ];
+
+    for (const pattern of rangePatterns) {
+      const match = pattern.exec(normalized);
+      if (match) {
+        // Use the start date from the range
+        const startMonth = match[1];
+        const startDay = match[2];
+        const currentYear = new Date().getFullYear();
+        const nextYear = currentYear + 1;
+        
+        // Determine year: if month has passed, use next year
+        const monthIndex = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(startMonth.toLowerCase().substring(0,3));
+        const currentMonth = new Date().getMonth();
+        const year = monthIndex < currentMonth ? nextYear : currentYear;
+        
+        logger.debug(`Parsed date range, using start date: ${startMonth} ${startDay}, ${year}`);
+        return new Date(year, monthIndex, parseInt(startDay));
+      }
+    }
+
     // Try various date formats
     const dateFormats = [
       // YYYY-MM-DD

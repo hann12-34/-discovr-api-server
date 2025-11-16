@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
+const { parseEventDate } = require('../utils/dateParsing');
 
 /**
  * @route   POST /api/admin/rescrape-city
@@ -42,12 +43,29 @@ router.post('/rescrape-city/:city', async (req, res) => {
     
     for (const event of events) {
       try {
+        // Parse dates properly using dateParsing utility
+        const rawDate = event.startDate || event.date;
+        const parsedStartDate = typeof rawDate === 'string' ? parseEventDate(rawDate, null, event.venue?.name || 'Unknown') : rawDate;
+        
+        // Skip events with invalid dates
+        if (!parsedStartDate || isNaN(parsedStartDate.getTime())) {
+          errors.push({
+            title: event.title,
+            error: `Invalid date: ${rawDate}`
+          });
+          continue;
+        }
+
+        const parsedEndDate = event.endDate ? 
+          (typeof event.endDate === 'string' ? parseEventDate(event.endDate, null, event.venue?.name || 'Unknown') : event.endDate) : 
+          null;
+        
         // Ensure required fields are present and map to schema
         const eventDoc = {
-          id: event.id || `${event.city}-${event.title}-${event.date || event.startDate}`.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase(),
+          id: event.id || `${event.city}-${event.title}-${rawDate}`.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase(),
           title: event.title,
-          startDate: event.startDate || event.date,
-          endDate: event.endDate,
+          startDate: parsedStartDate,
+          endDate: parsedEndDate,
           description: event.description,
           image: event.image || event.imageUrl,
           imageUrl: event.imageUrl || event.image,

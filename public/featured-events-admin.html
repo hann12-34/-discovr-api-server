@@ -366,6 +366,17 @@
                             <div class="col-md-6">
                                 <label class="form-label">Image URL</label>
                                 <input type="url" class="form-control" id="eventImageUrl" placeholder="https://...">
+                                <div class="mt-2">
+                                    <label class="form-label">Or Upload Image from Desktop</label>
+                                    <input type="file" class="form-control" id="eventImageFile" accept="image/*">
+                                    <small class="text-muted">Supported: JPG, PNG, GIF, WebP (Max 5MB)</small>
+                                    <div id="uploadProgress" class="mt-2" style="display: none;">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" id="uploadProgressBar"></div>
+                                        </div>
+                                        <small class="text-muted" id="uploadStatus">Uploading...</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -737,8 +748,13 @@
         }
 
         // Toggle featured status
-        function toggleFeatured(eventId) {
-            if (featuredEventIds.has(eventId)) {
+        async function toggleFeatured(eventId) {
+            const wasFeatured = featuredEventIds.has(eventId);
+            
+            if (wasFeatured) {
+                if (!confirm('Remove this event from featured list? This will save changes immediately.')) {
+                    return;
+                }
                 featuredEventIds.delete(eventId);
             } else {
                 if (featuredEventIds.size >= MAX_FEATURED) {
@@ -751,6 +767,11 @@
             updateStats();
             renderEvents();
             updatePreview();
+            
+            // Auto-save featured events when unfeaturing
+            if (wasFeatured) {
+                await saveFeaturedEvents();
+            }
         }
 
         // Update preview section
@@ -980,29 +1001,87 @@
             eventModal.show();
         }
 
+        // Upload image file to imgur (free image hosting)
+        async function uploadImageFile(file) {
+            const progressDiv = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('uploadProgressBar');
+            const statusText = document.getElementById('uploadStatus');
+            
+            progressDiv.style.display = 'block';
+            progressBar.style.width = '30%';
+            statusText.textContent = 'Uploading image...';
+            
+            try {
+                // Use imgur's free API (no auth needed for uploads)
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const response = await fetch('https://api.imgur.com/3/image', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Client-ID 546c25a59c58ad7' // Public anonymous imgur client ID
+                    },
+                    body: formData
+                });
+                
+                progressBar.style.width = '70%';
+                
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+                
+                const data = await response.json();
+                progressBar.style.width = '100%';
+                statusText.textContent = 'Upload complete!';
+                
+                setTimeout(() => {
+                    progressDiv.style.display = 'none';
+                    progressBar.style.width = '0%';
+                }, 1500);
+                
+                return data.data.link; // Return the imgur URL
+            } catch (error) {
+                progressDiv.style.display = 'none';
+                throw new Error('Image upload failed: ' + error.message);
+            }
+        }
+
         // Save event (add or update)
         async function saveEvent() {
             const eventId = document.getElementById('eventId').value;
             const isEdit = !!eventId;
             
-            const eventData = {
-                title: document.getElementById('eventTitle').value,
-                city: document.getElementById('eventCity').value,
-                startDate: document.getElementById('eventStartDate').value,
-                endDate: document.getElementById('eventEndDate').value || undefined,
-                description: document.getElementById('eventDescription').value,
-                venue: {
-                    name: document.getElementById('eventVenueName').value,
-                    address: document.getElementById('eventVenueAddress').value,
-                    city: document.getElementById('eventCity').value
-                },
-                category: document.getElementById('eventCategory').value,
-                imageUrl: document.getElementById('eventImageUrl').value,
-                sourceURL: document.getElementById('eventSourceUrl').value,
-                ticketURL: document.getElementById('eventTicketUrl').value
-            };
-
+            // Check if user uploaded an image file
+            const imageFile = document.getElementById('eventImageFile').files[0];
+            let imageUrl = document.getElementById('eventImageUrl').value;
+            
             try {
+                // Upload image if file was selected
+                if (imageFile) {
+                    if (imageFile.size > 5 * 1024 * 1024) {
+                        alert('Image file is too large. Maximum size is 5MB.');
+                        return;
+                    }
+                    imageUrl = await uploadImageFile(imageFile);
+                }
+                
+                const eventData = {
+                    title: document.getElementById('eventTitle').value,
+                    city: document.getElementById('eventCity').value,
+                    startDate: document.getElementById('eventStartDate').value,
+                    endDate: document.getElementById('eventEndDate').value || undefined,
+                    description: document.getElementById('eventDescription').value,
+                    venue: {
+                        name: document.getElementById('eventVenueName').value,
+                        address: document.getElementById('eventVenueAddress').value,
+                        city: document.getElementById('eventCity').value
+                    },
+                    category: document.getElementById('eventCategory').value,
+                    imageUrl: imageUrl,
+                    sourceURL: document.getElementById('eventSourceUrl').value,
+                    ticketURL: document.getElementById('eventTicketUrl').value
+                };
+
                 const url = isEdit ? `/api/v1/events/${eventId}` : '/api/v1/events';
                 const method = isEdit ? 'PUT' : 'POST';
                 
