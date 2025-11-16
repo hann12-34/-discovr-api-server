@@ -17,6 +17,10 @@ class MontrealScrapers {
         const scrapePlaceDesArts = require('./scrape-place-des-arts-real');
         const scrapeEspaceStDenis = require('./scrape-espace-st-denis');
         
+        // Major Arenas & Concert Venues
+        const scrapeBellCentre = require('./scrape-bell-centre');
+        const scrapeMetropolis = require('./scrape-metropolis');
+        
         // Concert Venues (evenko manages MTELUS, Corona, Olympia, La Tulipe)
         const scrapeEvenkoVenues = require('./scrape-evenko-venues');
         
@@ -38,11 +42,14 @@ class MontrealScrapers {
         const scrapeMontrealUniversal = require('./scrape-montreal-universal-generator');
         
         const allScrapers = [
-            // Active venue scrapers (priority)
+            // Major Arenas & Concert Venues (priority)
+            scrapeBellCentre,
+            scrapeMetropolis,
             scrapeTheatreStDenis,
             scrapePlaceDesArts,
             scrapeEspaceStDenis,
             scrapeEvenkoVenues,  // MTELUS, Corona, Olympia, La Tulipe, Beanfield
+            // Nightlife & Music Venues
             scrapeBarLeRitzPDB,
             scrapeStereoNightclub,
             scrapeNewCityGas,

@@ -18,14 +18,23 @@ const scrapeCowboysNightlife = require('./scrape-cowboys-music-festival-nightlif
 const scrapeDickensPubNightlife = require('./scrape-dickens-pub-nightlife');
 const scrapeNationalOn10thNightlife = require('./scrape-national-on-10th-nightlife');
 const scrapeHiFiClubNightlife = require('./scrape-the-hifi-club-nightlife');
+const scrapeSaddledome = require('./scrape-saddledome');
+const scrapeArtsCommons = require('./scrape-arts-commons');
+const scrapeNationalMusicCentre = require('./scrape-national-music-centre');
 
 const scrapers = [
+    // Major event venues
+    { name: 'Saddledome', scraper: scrapeSaddledome },
+    { name: 'Arts Commons', scraper: scrapeArtsCommons },
+    { name: 'National Music Centre', scraper: scrapeNationalMusicCentre },
     { name: 'Jubilee Auditorium', scraper: scrapeJubileeAuditorium },
+    { name: 'Palace Theatre', scraper: scrapePalaceTheatreEvents },
+    { name: 'Grey Eagle Resort', scraper: scrapeGreyEagle },
+    // Attractions
     { name: 'Calgary Zoo', scraper: scrapeCalgaryZoo },
     { name: 'Heritage Park', scraper: scrapeHeritagePark },
-    { name: 'Palace Theatre', scraper: scrapePalaceTheatreEvents },
     { name: 'Spruce Meadows', scraper: scrapeSpruceMeadows },
-    { name: 'Grey Eagle Resort', scraper: scrapeGreyEagle },
+    // Nightlife venues
     { name: 'Commonwealth Bar & Stage Nightlife', scraper: scrapeCommonwealthNightlife },
     { name: 'Broken City Nightlife', scraper: scrapeBrokenCityNightlife },
     { name: 'Cowboys Music Festival Nightlife', scraper: scrapeCowboysNightlife },
