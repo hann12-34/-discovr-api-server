@@ -1090,6 +1090,7 @@
                     id: uniqueId, // Add unique ID field to prevent filtering
                     title: eventTitle,
                     city: eventCity,
+                    source: 'admin', // Mark as manually added to bypass quality filter
                     startDate: document.getElementById('eventStartDate').value,
                     endDate: document.getElementById('eventEndDate').value || undefined,
                     description: document.getElementById('eventDescription').value,

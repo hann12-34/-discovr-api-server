@@ -183,6 +183,12 @@ router.get('/', async (req, res) => {
     
     // Filter for real events only with aggressive quality control
     const realEvents = allEvents.filter(event => {
+      // BYPASS FILTER: Allow all manually added events from admin panel
+      if (event.source === 'admin' || event.source === 'manual') {
+        console.log(`✅ Admin event bypassing filter: ${event.title}`);
+        return true;
+      }
+      
       const title = event.title ? event.title.trim() : '';
       const venue = event.venue || {};
       const venueName = typeof venue === 'object' ? venue.name : venue;
