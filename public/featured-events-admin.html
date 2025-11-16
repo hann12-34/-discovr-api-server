@@ -522,9 +522,10 @@
             await loadEvents(city);
         }
 
-        // Load events for a specific city
+        // Load events for specific city
         async function loadEvents(city) {
             try {
+                console.log(`📥 Loading events for city: ${city}`);
                 document.getElementById('eventsList').innerHTML = `
                     <div class="col-12 text-center py-5">
                         <div class="spinner-border text-primary" role="status"></div>
@@ -532,17 +533,27 @@
                     </div>
                 `;
 
-                const response = await fetch('/api/v1/events?limit=5000');
+                const response = await fetch('/api/v1/events?limit=5000&skipCount=true');
                 const data = await response.json();
+                console.log(`📊 API returned ${data.events?.length || 0} total events`);
                 
                 if (data.events && data.events.length > 0) {
+                    // Log admin events
+                    const adminEvents = data.events.filter(e => e.source === 'admin');
+                    console.log(`👤 Found ${adminEvents.length} admin events:`, adminEvents.map(e => ({title: e.title, city: e.city, id: e.id})));
+                    
                     // Filter events by city (case-insensitive)
                     const cityLower = city.toLowerCase();
                     allEvents = data.events.filter(event => {
                         const eventCity = (event.city || '').toLowerCase();
                         const venueCity = (event.venue && event.venue.city || '').toLowerCase();
-                        return eventCity === cityLower || venueCity === cityLower;
+                        const matches = eventCity === cityLower || venueCity === cityLower;
+                        if (event.source === 'admin') {
+                            console.log(`🔍 Admin event "${event.title}": city="${event.city}" matches ${city}? ${matches}`);
+                        }
+                        return matches;
                     });
+                    console.log(`✅ Filtered to ${allEvents.length} events for ${city}`);
                     
                     if (allEvents.length > 0) {
                         // Load featured events for this city
