@@ -223,7 +223,7 @@ router.get('/', async (req, res) => {
       const hasColon = title.includes(':');
       const hasTrademark = /™|®|©/.test(title);
       const isDescriptive = title.length >= 25 && !lowerTitle.includes('admin') && !lowerTitle.includes('leasing');
-      const isKnownVenue = /rogers arena|science world|aquarium|queen elizabeth|chan centre|orpheum/i.test(venueName || '');
+      const isKnownVenue = /rogers arena|science world|aquarium|queen elizabeth|chan centre|orpheum|grey eagle|palace theatre|spruce meadows|calgary zoo|heritage park/i.test(venueName || '');
       
       return hasEventKeywords || hasColon || hasTrademark || isDescriptive || isKnownVenue;
     });
