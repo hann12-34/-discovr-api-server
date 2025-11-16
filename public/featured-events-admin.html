@@ -1079,23 +1079,34 @@
                     imageUrl = await uploadImageFile(imageFile);
                 }
                 
+                const eventCity = document.getElementById('eventCity').value;
+                const eventTitle = document.getElementById('eventTitle').value;
+                const eventVenueName = document.getElementById('eventVenueName').value;
+                
+                // Generate unique ID for new events
+                const uniqueId = isEdit ? undefined : `${eventCity.toLowerCase().replace(/\s+/g, '-')}-${eventTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`;
+                
                 const eventData = {
-                    title: document.getElementById('eventTitle').value,
-                    city: document.getElementById('eventCity').value,
+                    id: uniqueId, // Add unique ID field to prevent filtering
+                    title: eventTitle,
+                    city: eventCity,
                     startDate: document.getElementById('eventStartDate').value,
                     endDate: document.getElementById('eventEndDate').value || undefined,
                     description: document.getElementById('eventDescription').value,
                     venue: {
-                        name: document.getElementById('eventVenueName').value,
+                        name: eventVenueName,
                         address: document.getElementById('eventVenueAddress').value,
-                        city: document.getElementById('eventCity').value
+                        city: eventCity
                     },
                     category: document.getElementById('eventCategory').value,
                     imageUrl: imageUrl,
+                    image: imageUrl, // Duplicate for compatibility
                     sourceURL: document.getElementById('eventSourceUrl').value,
                     ticketURL: document.getElementById('eventTicketUrl').value
                 };
 
+                console.log('Saving event:', eventData);
+                
                 const url = isEdit ? `/api/v1/events/${eventId}` : '/api/v1/events';
                 const method = isEdit ? 'PUT' : 'POST';
                 
@@ -1105,13 +1116,22 @@
                     body: JSON.stringify(eventData)
                 });
 
-                if (!response.ok) throw new Error('Failed to save event');
+                const responseData = await response.json();
+                console.log('Server response:', responseData);
+
+                if (!response.ok) {
+                    throw new Error(responseData.error || responseData.message || 'Failed to save event');
+                }
                 
-                alert(isEdit ? 'Event updated!' : 'Event added!');
+                alert(`✅ ${isEdit ? 'Event updated!' : 'Event added!'}\n\nEvent ID: ${responseData._id || responseData.id}\nTitle: ${eventData.title}\nCity: ${eventData.city}`);
                 eventModal.hide();
-                loadEvents(currentCity);
+                
+                console.log('Reloading events for city:', currentCity);
+                await loadEvents(currentCity);
+                console.log('Events reloaded successfully!');
             } catch (error) {
-                alert('Error saving event: ' + error.message);
+                console.error('Error saving event:', error);
+                alert(`❌ Error saving event:\n\n${error.message}\n\nCheck browser console for details (F12)`);
             }
         }
 
