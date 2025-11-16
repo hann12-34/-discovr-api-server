@@ -88,7 +88,7 @@ router.get('/', async (req, res) => {
       venue,
       city,
       accessibility,
-      limit = 10000, // NO EFFECTIVE LIMIT - return ALL events
+      limit, // NO DEFAULT - if not specified, fetch ALL events
       page = 1,
       sort = 'city', // Sort by city first to distribute events evenly across cities
       order = 'asc'
@@ -253,8 +253,9 @@ router.get('/', async (req, res) => {
     
     console.log(`✅ Validated events: ${validEvents.length} of ${realEvents.length} passed validation`);
     
-    // Apply pagination to validated results
-    const events = validEvents.slice(skip, skip + parseInt(limit));
+    // Apply pagination to validated results - if no limit, return ALL
+    const finalLimit = limit ? parseInt(limit) : validEvents.length;
+    const events = validEvents.slice(skip, skip + finalLimit);
     
     // Return with pagination metadata - use validEvents.length for accurate count after filtering
     res.json({
@@ -262,8 +263,8 @@ router.get('/', async (req, res) => {
       pagination: {
         total: validEvents.length, // Use filtered count, not pre-filter count
         page: parseInt(page),
-        limit: parseInt(limit),
-        pages: Math.ceil(validEvents.length / parseInt(limit))
+        limit: finalLimit,
+        pages: Math.ceil(validEvents.length / finalLimit)
       }
     });
   } catch (err) {
