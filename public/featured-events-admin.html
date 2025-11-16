@@ -750,17 +750,20 @@
         // Toggle featured status
         async function toggleFeatured(eventId) {
             const wasFeatured = featuredEventIds.has(eventId);
+            console.log('toggleFeatured called:', { eventId, wasFeatured, currentCity });
             
             if (wasFeatured) {
                 if (!confirm('Remove this event from featured list? This will save changes immediately.')) {
                     return;
                 }
+                console.log('Removing from featured:', eventId);
                 featuredEventIds.delete(eventId);
             } else {
                 if (featuredEventIds.size >= MAX_FEATURED) {
                     alert(`Maximum ${MAX_FEATURED} featured events allowed per city`);
                     return;
                 }
+                console.log('Adding to featured:', eventId);
                 featuredEventIds.add(eventId);
             }
             
@@ -770,7 +773,18 @@
             
             // Auto-save featured events when unfeaturing
             if (wasFeatured) {
-                await saveFeaturedEvents();
+                console.log('Auto-saving after unfeature...');
+                try {
+                    await saveFeaturedEvents();
+                    console.log('✅ Successfully unfeatured and saved!');
+                    // Show success feedback
+                    const event = allEvents.find(e => (e._id || e.id) === eventId);
+                    const eventName = event?.title || event?.name || 'Event';
+                    alert(`✅ "${eventName}" has been removed from featured events!`);
+                } catch (error) {
+                    console.error('❌ Error during auto-save:', error);
+                    alert('⚠️ Error removing featured event. Check console for details.');
+                }
             }
         }
 
