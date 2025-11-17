@@ -209,6 +209,17 @@ const JUNK_PATTERNS = [
   /Search\s+and\s+Views/i,
   /^Previous\s+month/i,
   /^Next\s+\d+\s+Days$/i,
+  
+  // Broadway/Generic sale announcements (not specific events)
+  /^On\s+Sale\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i,  // "On Sale Feb 09", "On Sale Dec 15"
+  /^Register\s+Now$/i,  // "Register Now"
+  /^About\s+the\s+show$/i,  // "About the show"
+  /^About\s+this\s+show$/i,
+  /^Sweet\s+Neens\s+K/i,  // Truncated/partial titles
+  /^Long-Running\s+C/i,
+  /^Start\s+the\s+Count/i,
+  /^Sophie\s+Carmen\./i,  // Incomplete names
+  /^4x4:\s+Four\s+Band/i,  // Generic promotional text
 ];
 
 /**
