@@ -27,8 +27,6 @@ const EventSchema = new mongoose.Schema({
   sourceURL: String,
   ticketURL: String,
   location: String, // Legacy field for compatibility
-  latitude: { type: Number, default: 0 }, // Geocoded latitude (0 if not available)
-  longitude: { type: Number, default: 0 }, // Geocoded longitude (0 if not available)
   featured: { type: Boolean, default: false }, // Featured event flag
   featuredOrder: { type: Number }, // Order in featured list per city
   lastUpdated: { type: Date, default: Date.now }
