@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
 const { parseEventDate } = require('../utils/dateParsing');
+const { geocodeAddress } = require('../utils/geocoding');
 
 /**
  * @route   POST /api/admin/rescrape-city
@@ -60,6 +61,20 @@ router.post('/rescrape-city/:city', async (req, res) => {
           (typeof event.endDate === 'string' ? parseEventDate(event.endDate, null, event.venue?.name || 'Unknown') : event.endDate) : 
           null;
         
+        // Geocode venue address to get coordinates (NO FALLBACKS)
+        let latitude = 0;
+        let longitude = 0;
+        
+        const venueAddress = event.venue?.address || event.venue?.name;
+        if (venueAddress) {
+          const coords = await geocodeAddress(venueAddress, event.city);
+          if (coords) {
+            latitude = coords.latitude;
+            longitude = coords.longitude;
+          }
+          // If geocoding fails, coordinates stay 0 (no fallback)
+        }
+        
         // Ensure required fields are present and map to schema
         const eventDoc = {
           id: event.id || `${event.city}-${event.title}-${rawDate}`.replace(/[^a-zA-Z0-9-]/g, '-').toLowerCase(),
@@ -74,7 +89,9 @@ router.post('/rescrape-city/:city', async (req, res) => {
           sourceURL: event.url || event.sourceURL,
           ticketURL: event.ticketURL,
           category: event.category || 'music',
-          categories: event.categories || []
+          categories: event.categories || [],
+          latitude: latitude,   // Real geocoded coordinates or 0
+          longitude: longitude  // NO fallbacks!
         };
         
         const newEvent = new Event(eventDoc);
