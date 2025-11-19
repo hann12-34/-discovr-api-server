@@ -1,8 +1,7 @@
 /**
- * CODA Toronto Scraper (Updated)
- * SAFE & LEGAL: Official venue website
- * Premier electronic music venue
- * URL: https://www.codatoronto.com/events
+ * Everleigh Toronto Scraper
+ * Upscale nightlife venue
+ * URL: https://theeverleigh.com
  */
 
 const axios = require('axios');
@@ -11,10 +10,10 @@ const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrape(city = 'Toronto') {
-  console.log('🎧 Scraping CODA Toronto events...');
+  console.log('💎 Scraping Everleigh nightclub events...');
   
   try {
-    const response = await axios.get('https://www.codatoronto.com/events', {
+    const response = await axios.get('https://theeverleigh.com/events', {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
         'Accept': 'text/html,application/xhtml+xml'
@@ -26,46 +25,49 @@ async function scrape(city = 'Toronto') {
     const events = [];
     const seenUrls = new Set();
     
-    // CODA uses: class="schedule-event w-dyn-item"
-    $('.schedule-event').each((i, el) => {
+    // Find event containers
+    $('.event, .show, article, [class*="event"], [class*="show"], .card').each((i, el) => {
       const $event = $(el);
       
-      // Extract date: class="event-date" 
+      // Extract title
+      let title = $event.find('h1, h2, h3, h4, .title, .event-title, .name, .artist').first().text().trim();
+      
+      // Extract date
       let eventDate = null;
-      const dateText = $event.find('.event-date').first().text().trim();
+      const $dateEl = $event.find('time, .date, [datetime], [class*="date"]').first();
+      let dateText = $dateEl.attr('datetime') || $dateEl.text().trim();
       
       if (dateText) {
-        // Parse "December 6, 2025" format
         try {
-          const parsed = new Date(dateText);
+          let testDate = dateText;
+          if (!testDate.match(/\d{4}/)) {
+            testDate += ' 2025';
+          }
+          const parsed = new Date(testDate);
           if (!isNaN(parsed.getTime()) && parsed.getFullYear() >= 2025) {
             eventDate = parsed.toISOString().split('T')[0];
           }
         } catch (e) {}
       }
       
-      // Extract title: class="event-name"
-      let title = $event.find('.event-name').first().text().trim();
-      
       // Extract URL
       let eventUrl = $event.find('a').first().attr('href');
       if (eventUrl && !eventUrl.startsWith('http')) {
         eventUrl = eventUrl.startsWith('/') 
-          ? 'https://www.codatoronto.com' + eventUrl
-          : 'https://www.codatoronto.com/' + eventUrl;
+          ? 'https://theeverleigh.com' + eventUrl
+          : 'https://theeverleigh.com/' + eventUrl;
       }
       if (!eventUrl) {
-        eventUrl = 'https://www.codatoronto.com/events';
+        eventUrl = 'https://theeverleigh.com/events';
       }
       
       // Skip invalid or duplicate
       if (!title || title.length < 3 || seenUrls.has(eventUrl + title)) return;
       
-      // Skip navigation junk
+      // Skip junk
       const titleLower = title.toLowerCase();
       if (titleLower === 'events' || titleLower === 'calendar' || 
-          titleLower === 'upcoming' || titleLower.includes('view all') ||
-          titleLower === 'upcoming events' || titleLower === 'more') {
+          titleLower === 'upcoming' || titleLower === 'more') {
         return;
       }
       
@@ -75,11 +77,11 @@ async function scrape(city = 'Toronto') {
       const img = $event.find('img').first();
       let imageUrl = null;
       if (img.length) {
-        imageUrl = img.attr('src') || img.attr('data-src') || img.attr('data-lazy-src') || null;
+        imageUrl = img.attr('src') || img.attr('data-src') || null;
         if (imageUrl && !imageUrl.startsWith('http')) {
           imageUrl = imageUrl.startsWith('/') 
-            ? 'https://www.codatoronto.com' + imageUrl
-            : 'https://www.codatoronto.com/' + imageUrl;
+            ? 'https://theeverleigh.com' + imageUrl
+            : 'https://theeverleigh.com/' + imageUrl;
         }
       }
       
@@ -90,21 +92,21 @@ async function scrape(city = 'Toronto') {
         url: eventUrl,
         imageUrl: imageUrl,
         venue: {
-          name: 'CODA',
-          address: '794 Bathurst St, Toronto, ON M5R 3G1',
+          name: 'Everleigh',
+          address: '580 King St W, Toronto, ON M5V 1M3',
           city: 'Toronto'
         },
         city: city,
         category: 'Nightlife',
-        source: 'CODA'
+        source: 'Everleigh'
       });
     });
     
-    console.log(`✅ CODA: ${events.length} events`);
+    console.log(`✅ Everleigh: ${events.length} events`);
     return filterEvents(events);
     
   } catch (error) {
-    console.error('  ⚠️  CODA error:', error.message);
+    console.error('  ⚠️  Everleigh error:', error.message);
     return [];
   }
 }
