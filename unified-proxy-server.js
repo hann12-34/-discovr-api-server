@@ -1076,39 +1076,67 @@ async function startServer() {
         console.log('GET /api/v1/featured-events - Getting featured events');
         
         try {
-            // Get featured event IDs
-            const featuredEventIds = await collections.featured.find({})
-                .sort({ order: 1 })
-                .toArray();
+            const { city, category } = req.query;
             
-            if (featuredEventIds.length === 0) {
-                return res.status(200).json({ events: [] });
-            }
+            // Check if featured_events collection has full event objects (not just references)
+            const sampleDoc = await collections.featured.findOne({});
+            const hasFullEvents = sampleDoc && sampleDoc.title; // Full event has 'title' field
             
-            // Get the actual events
-            const featuredEvents = [];
+            let featuredEvents = [];
             
-            for (const featuredEvent of featuredEventIds) {
-                try {
-                    // Try to find by ObjectId first
-                    let event = null;
+            if (hasFullEvents) {
+                // DIRECT MODE: featured_events contains full event objects
+                console.log('  Using direct mode - featured_events has full event objects');
+                
+                const query = {};
+                if (city) {
+                    query.city = new RegExp(city, 'i');
+                }
+                if (category) {
+                    query.category = new RegExp(category, 'i');
+                }
+                
+                featuredEvents = await collections.featured.find(query)
+                    .sort({ startDate: 1 })
+                    .toArray();
                     
+                console.log(`  Found ${featuredEvents.length} featured events for city=${city || 'all'}, category=${category || 'all'}`);
+            } else {
+                // REFERENCE MODE: featured_events contains references (eventId, order)
+                console.log('  Using reference mode - featured_events has event IDs');
+                
+                const featuredEventIds = await collections.featured.find({})
+                    .sort({ order: 1 })
+                    .toArray();
+                
+                if (featuredEventIds.length === 0) {
+                    return res.status(200).json({ events: [] });
+                }
+                
+                // Get the actual events
+                for (const featuredEvent of featuredEventIds) {
                     try {
-                        event = await collections.cloud.findOne({
-                            _id: new ObjectId(featuredEvent.eventId)
-                        });
+                        let event = null;
+                        
+                        try {
+                            event = await collections.cloud.findOne({
+                                _id: new ObjectId(featuredEvent.eventId)
+                            });
+                        } catch (err) {
+                            event = await collections.cloud.findOne({
+                                id: featuredEvent.eventId
+                            });
+                        }
+                        
+                        if (event) {
+                            // Apply filters
+                            if (city && !new RegExp(city, 'i').test(event.city)) continue;
+                            if (category && !new RegExp(category, 'i').test(event.category)) continue;
+                            featuredEvents.push(event);
+                        }
                     } catch (err) {
-                        // If not a valid ObjectId, try by string id
-                        event = await collections.cloud.findOne({
-                            id: featuredEvent.eventId
-                        });
+                        console.error(`Error finding featured event ${featuredEvent.eventId}:`, err);
                     }
-                    
-                    if (event) {
-                        featuredEvents.push(event);
-                    }
-                } catch (err) {
-                    console.error(`Error finding featured event ${featuredEvent.eventId}:`, err);
                 }
             }
             
