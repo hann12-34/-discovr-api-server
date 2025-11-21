@@ -1,4 +1,4 @@
-// Last updated: 2025-11-21T05:10:00.000Z - CRITICAL: Fixed timezone bug - 1047 events dates corrected
+// Last updated: 2025-11-21T05:25:00.000Z - DELETED old featuredEvents - now using featured_events
 /**
  * Unified Proxy Server for Discovr API
  * 
