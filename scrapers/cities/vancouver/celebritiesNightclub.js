@@ -66,10 +66,13 @@ const CelebritiesNightclubEvents = {
           venue: {
             name: 'Celebrities Nightclub',
             address: '1022 Davie Street, Vancouver, BC V6E 1M3',
-            city: 'Vancouver'
+            city: 'Vancouver',
+            lat: 49.2808,
+            lng: -123.1184
           },
           city: city,
           date: dateText,
+          startDate: new Date(dateText), // Add startDate for API sorting
           source: 'Celebrities Nightclub',
           category: 'Nightlife'
         });
