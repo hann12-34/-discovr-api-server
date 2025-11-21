@@ -1,4 +1,4 @@
-// Last updated: 2025-08-11T01:59:41.106Z - Force restart for database fix
+// Last updated: 2025-11-21T04:30:00.000Z - CRITICAL FIX: 32 Celebrities events with startDate
 /**
  * Unified Proxy Server for Discovr API
  * 
