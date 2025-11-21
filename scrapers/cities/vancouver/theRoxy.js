@@ -68,41 +68,56 @@ const TheRoxyEvents = {
             const day = dateMatch[3].padStart(2, '0');
             const eventDate = `${year}-${month}-${day}`;
             
-            // Next line should be the event title
-            if (i + 1 < lines.length) {
-              let title = lines[i + 1];
+            // Find the actual event title (skip generic headers)
+            let title = null;
+            for (let j = i + 1; j < Math.min(i + 4, lines.length); j++) {
+              const candidate = lines[j];
               
-              // Skip if it's a door/price line
-              if (title.includes('DOORS @') || title.includes('$') || title.includes('ADV') || title.includes('TICKETS')) {
+              // Skip generic headers
+              if (candidate.match(/THE ROXY (AND LIVE ACTS CANADA )?PRESENT(S)?/i)) {
                 continue;
               }
               
-              // Clean up title
-              title = title.replace(/\s*\/\s*VANCOUVER$/i, '').trim();
-              
-              if (title && title.length > 2 && !seen.has(title + eventDate)) {
-                seen.add(title + eventDate);
-                
-                // Create unique URL using date and slugified title
-                const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-                const uniqueUrl = `https://www.roxyvan.com/events/${eventDate}/${slug}`;
-                
-                // Try to find associated image
-                let imageUrl = null;
-                for (const [key, img] of Object.entries(eventImages)) {
-                  if (key.includes(title.substring(0, 20))) {
-                    imageUrl = img;
-                    break;
-                  }
-                }
-                
-                results.push({
-                  title: title,
-                  date: eventDate,
-                  url: uniqueUrl,
-                  imageUrl: imageUrl
-                });
+              // Skip door/price/ticket lines
+              if (candidate.includes('DOORS @') || 
+                  candidate.includes('ADV /') || 
+                  candidate.includes('@ DOOR') ||
+                  candidate.includes('ALL PROCEEDS') ||
+                  candidate.includes('ADMISSION IS') ||
+                  candidate.includes('+19 FOR') ||
+                  candidate.match(/TICKETS$/i)) {
+                continue;
               }
+              
+              // Found a real title!
+              title = candidate.replace(/\s*\/\s*VANCOUVER$/i, '').trim();
+              if (title && title.length > 2) {
+                break;
+              }
+            }
+            
+            if (title && !seen.has(title + eventDate)) {
+              seen.add(title + eventDate);
+              
+              // Create unique URL using date and slugified title
+              const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+              const uniqueUrl = `https://www.roxyvan.com/events/${eventDate}/${slug}`;
+              
+              // Try to find associated image
+              let imageUrl = null;
+              for (const [key, img] of Object.entries(eventImages)) {
+                if (key.includes(title.substring(0, 20))) {
+                  imageUrl = img;
+                  break;
+                }
+              }
+              
+              results.push({
+                title: title,
+                date: eventDate,
+                url: uniqueUrl,
+                imageUrl: imageUrl
+              });
             }
           }
         }
@@ -121,6 +136,7 @@ const TheRoxyEvents = {
         imageUrl: event.imageUrl || null,
         venue: { name: 'The Roxy', address: 'Vancouver', city: 'Vancouver' },
         city: 'Vancouver',
+        category: 'Nightlife',
         source: 'The Roxy'
       }));
       

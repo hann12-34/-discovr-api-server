@@ -46,7 +46,7 @@ const CelebritiesNightclubEvents = {
         
         const [, month, day, year, title] = match;
         const fullYear = `20${year}`; // 25 -> 2025
-        const dateText = `${month}/${day}/${fullYear}`;
+        const dateText = `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`; // ISO format YYYY-MM-DD
         
         if (!title || title.length < 2) return;
         if (seenTitles.has(title)) return;
