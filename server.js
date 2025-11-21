@@ -359,17 +359,29 @@ app.get('/api/debug/connection', (req, res) => {
 // FEATURED EVENTS ENDPOINT - Mobile app compatibility (calls /api/v1/featured-events not /api/v1/events/featured-events)
 app.get('/api/v1/featured-events', async (req, res) => {
   try {
-    const Event = require('./models/Event');
-    const { city } = req.query;
+    const { city, category } = req.query;
     
-    const query = { featured: true };
+    console.log(`GET /api/v1/featured-events - city=${city}, category=${category}`);
+    
+    // Connect directly to featured_events collection (not using Mongoose model)
+    const db = mongoose.connection.db;
+    const featuredCollection = db.collection('featured_events');
+    
+    // Build query
+    const query = {};
     if (city) {
-      query.city = city;
+      query.city = new RegExp(city, 'i');
+    }
+    if (category) {
+      query.category = new RegExp(category, 'i');
     }
     
-    const events = await Event.find(query)
-      .sort({ featuredOrder: 1, startDate: 1 })
-      .limit(10);
+    // Get events from featured_events collection
+    const events = await featuredCollection.find(query)
+      .sort({ startDate: 1 })
+      .toArray();
+    
+    console.log(`  → Found ${events.length} featured events`);
     
     res.json({
       success: true,
