@@ -99,9 +99,8 @@ const TheRoxyEvents = {
             if (title && !seen.has(title + eventDate)) {
               seen.add(title + eventDate);
               
-              // Create unique URL using date and slugified title
-              const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-              const uniqueUrl = `https://www.roxyvan.com/events/${eventDate}/${slug}`;
+              // Use the main events page URL since there are no individual event pages
+              const url = 'https://www.roxyvan.com/events';
               
               // Try to find associated image by matching event title with image context
               let imageUrl = null;
@@ -126,7 +125,7 @@ const TheRoxyEvents = {
               results.push({
                 title: title,
                 date: eventDate,
-                url: uniqueUrl,
+                url: url,
                 imageUrl: imageUrl
               });
             }
