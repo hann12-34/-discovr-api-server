@@ -142,15 +142,16 @@ const TheRoxyEvents = {
         id: uuidv4(),
         title: event.title,
         date: event.date,
+        startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
         url: event.url,
         imageUrl: event.imageUrl || null,
         venue: { 
           name: 'The Roxy', 
           address: '932 Granville Street, Vancouver, BC V6Z 1K3', 
-          city: 'Vancouver',
-          lat: 49.279091,
-          lng: -123.121086
+          city: 'Vancouver'
         },
+        latitude: 49.279091,
+        longitude: -123.121086,
         city: 'Vancouver',
         category: 'Nightlife',
         source: 'The Roxy'

@@ -105,14 +105,29 @@ const FoxCabaretEvents = {
             }
           }
 
+          // Convert date to ISO format for startDate
+          let isoDate = null;
+          if (eventDate) {
+            const parsed = new Date(eventDate);
+            if (!isNaN(parsed)) {
+              const y = parsed.getFullYear();
+              const m = String(parsed.getMonth() + 1).padStart(2, '0');
+              const d = String(parsed.getDate()).padStart(2, '0');
+              isoDate = `${y}-${m}-${d}`;
+            }
+          }
+
           events.push({
             id: uuidv4(),
             title: eventTitle,
             description: eventTitle + ' at Fox Cabaret Vancouver.',
-            date: eventDate,
+            date: isoDate || eventDate,
+            startDate: isoDate ? new Date(isoDate + 'T00:00:00') : null,
             url: url && url.startsWith('http') ? url : (url ? 'https://www.foxcabaret.com' + url : 'https://www.foxcabaret.com'),
             imageUrl: imageUrl || null,  // Real poster image or null
             venue: { name: 'Fox Cabaret', address: '2321 Main Street, Vancouver, BC V5T 3C9', city: 'Vancouver' },
+            latitude: 49.2667,
+            longitude: -123.1010,
             city: 'Vancouver',
             source: 'Fox Cabaret',
             category: 'Nightlife'

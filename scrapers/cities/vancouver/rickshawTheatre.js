@@ -86,13 +86,30 @@ const RickshawTheatreEvents = {
 
         console.log(`✓ ${title} | ${date || 'TBD'}`);
 
+        // Clean and convert date to ISO format
+        let isoDate = null;
+        if (date) {
+          // Clean the date string (remove tabs, newlines, ordinals)
+          const cleanDate = date.replace(/\s+/g, ' ').replace(/(\d+)(st|nd|rd|th)/gi, '$1').trim();
+          const parsed = new Date(cleanDate);
+          if (!isNaN(parsed)) {
+            const y = parsed.getFullYear();
+            const m = String(parsed.getMonth() + 1).padStart(2, '0');
+            const d = String(parsed.getDate()).padStart(2, '0');
+            isoDate = `${y}-${m}-${d}`;
+          }
+        }
+
         events.push({
           id: uuidv4(),
           title: title,
-          date: date || null,
+          date: isoDate || date,
+          startDate: isoDate ? new Date(isoDate + 'T00:00:00') : null,
           time: null,
           url: url,
           venue: { name: 'Rickshaw Theatre', address: '254 East Hastings Street, Vancouver, BC V6A 1P1', city: 'Vancouver' },
+          latitude: 49.2822,
+          longitude: -123.0962,
           location: 'Vancouver, BC',
           description: `${title} at Rickshaw Theatre.`,
           category: 'Concert',
