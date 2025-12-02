@@ -51,11 +51,16 @@ const RedRoomUltraBarEvents = {
           }
         });
         
-        // Get images
+        // Get images (skip logos, icons, SVGs, and tiny images)
         const images = [];
         document.querySelectorAll('img').forEach(img => {
           const src = img.src || img.getAttribute('data-src');
-          if (src && !src.includes('logo') && !src.includes('icon')) {
+          if (src && 
+              !src.includes('logo') && 
+              !src.includes('icon') && 
+              !src.includes('.svg') &&
+              !src.includes('powered-by') &&
+              img.width > 100) {
             images.push(src);
           }
         });
