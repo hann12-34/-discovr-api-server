@@ -8,11 +8,15 @@ const showbox = require('./showbox');
 const kremwerk = require('./kremwerk');
 const chopSuey = require('./chopSuey');
 const nectarLounge = require('./nectarLounge');
+const tractorTavern = require('./tractorTavern');
+const stgPresents = require('./stgPresents');
 
 module.exports = {
   neumos,
   showbox,
   kremwerk,
   chopSuey,
-  nectarLounge
+  nectarLounge,
+  tractorTavern,
+  stgPresents
 };
