@@ -1,8 +1,8 @@
 /**
- * Kremwerk Events Scraper (Seattle)
+ * Kremwerk Complex Events Scraper (Seattle)
  * Underground electronic music venue & queer nightclub
- * Includes: Kremwerk, Timbre Room, Cherry
- * URL: https://www.kremwerk.com/
+ * 3 Dancefloors: Kremwerk, Timbre Room, Cherry
+ * URL: https://www.kremwerk.com/events
  */
 
 const puppeteer = require('puppeteer');
@@ -10,7 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeKremwerk(city = 'Seattle') {
-  console.log('🎧 Scraping Kremwerk...');
+  console.log('🎧 Scraping Kremwerk Complex (Kremwerk/Timbre Room/Cherry)...');
 
   let browser;
   try {
@@ -22,65 +22,98 @@ async function scrapeKremwerk(city = 'Seattle') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.kremwerk.com/', {
+    // Use events page for more complete listing
+    await page.goto('https://www.kremwerk.com/events', {
       waitUntil: 'domcontentloaded',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const bodyText = document.body.innerText;
       const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
       
-      // Month mapping
       const months = {
         'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
         'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
       };
       
-      // Date pattern: "Dec 4, 2025" or "Dec 4, 2025 – Dec 5, 2025"
-      const datePattern = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2}),\s+(\d{4})/i;
-      
       const seen = new Set();
+      let currentYear = new Date().getFullYear();
+      let currentMonth = null;
+      
+      // Find year from calendar header (e.g., "DECEMBER 2025")
+      const yearMatch = bodyText.match(/(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s+(\d{4})/i);
+      if (yearMatch) {
+        currentYear = parseInt(yearMatch[2]);
+        const monthNames = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+        currentMonth = String(monthNames.indexOf(yearMatch[1].toUpperCase()) + 1).padStart(2, '0');
+      }
+      
+      // Pattern for event names in UPPERCASE
+      const eventPattern = /^[A-Z][A-Z0-9\s\-\:\'\&\/\!\@\#\$\%\^\*\(\)]+$/;
+      // Time pattern
+      const timePattern = /^\d{1,2}:\d{2}\s*(AM|PM)\s*[–\-]\s*\d{1,2}:\d{2}\s*(AM|PM)$/i;
+      // Venue names
+      const venueNames = ['Kremwerk', 'Timbre Room', 'Cherry'];
       
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        const dateMatch = line.match(datePattern);
         
-        if (dateMatch) {
-          const monthStr = dateMatch[1];
-          const day = dateMatch[2].padStart(2, '0');
-          const year = dateMatch[3];
-          const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1).toLowerCase()];
-          
-          if (!month) continue;
-          
-          const isoDate = `${year}-${month}-${day}`;
-          
-          // Title is the line BEFORE the date
-          let title = i > 0 ? lines[i - 1] : null;
-          
-          // Skip navigation/filler
-          if (title && (
-            title === 'UPCOMING EVENTS' ||
-            title === 'Get Tickets' ||
-            title === 'More Events!' ||
-            title.includes('KREMWERK') ||
-            title.includes('DANCEFLOORS') ||
-            title.includes('HOUSE') && title.includes('TECHNO') ||
-            title.length < 3
-          )) {
-            title = null;
+        // Check if this looks like an event title (UPPERCASE)
+        if (eventPattern.test(line) && line.length > 3 && line.length < 80) {
+          // Skip navigation items
+          if (['KREMWERK', 'UPCOMING EVENTS', 'INFO', 'LODGING', 'MERCH', 'DECEMBER', 'JANUARY', 'FEBRUARY',
+               'SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SEATTLE', 'UNITED STATES'].includes(line)) {
+            continue;
           }
           
-          if (title && title.length > 2 && !seen.has(title + isoDate)) {
-            seen.add(title + isoDate);
-            results.push({
-              title: title,
-              date: isoDate
-            });
+          // Look for time and venue after
+          let venue = 'Kremwerk';
+          let foundTime = false;
+          
+          for (let j = i + 1; j < Math.min(i + 8, lines.length); j++) {
+            const nextLine = lines[j];
+            
+            // Check for venue name
+            for (const v of venueNames) {
+              if (nextLine === v || nextLine.includes(v)) {
+                venue = v;
+              }
+            }
+            
+            // Check for time
+            if (timePattern.test(nextLine) || nextLine.match(/^\d{1,2}:\d{2}\s*(AM|PM)/i)) {
+              foundTime = true;
+            }
+          }
+          
+          // Only include if we found time indicator nearby
+          if (foundTime && currentMonth) {
+            // Look for day number nearby (before or after title)
+            let day = null;
+            for (let k = Math.max(0, i - 3); k < Math.min(i + 3, lines.length); k++) {
+              if (/^[1-9]$|^[12][0-9]$|^3[01]$/.test(lines[k])) {
+                day = lines[k].padStart(2, '0');
+                break;
+              }
+            }
+            
+            if (!day) continue;
+            
+            const isoDate = `${currentYear}-${currentMonth}-${day}`;
+            const key = line + isoDate;
+            
+            if (!seen.has(key)) {
+              seen.add(key);
+              results.push({
+                title: line,
+                date: isoDate,
+                venue: venue
+              });
+            }
           }
         }
       }
@@ -90,17 +123,17 @@ async function scrapeKremwerk(city = 'Seattle') {
 
     await browser.close();
 
-    console.log(`  ✅ Found ${events.length} Kremwerk events`);
+    console.log(`  ✅ Found ${events.length} Kremwerk Complex events`);
 
     const formattedEvents = events.map(event => ({
       id: uuidv4(),
       title: event.title,
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://www.kremwerk.com/',
+      url: 'https://www.kremwerk.com/events',
       imageUrl: null,
       venue: {
-        name: 'Kremwerk',
+        name: event.venue || 'Kremwerk',
         address: '1809 Minor Ave, Seattle, WA 98101',
         city: 'Seattle'
       },
@@ -111,7 +144,7 @@ async function scrapeKremwerk(city = 'Seattle') {
       source: 'Kremwerk'
     }));
 
-    formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
+    formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date} @ ${e.venue.name}`));
     
     return filterEvents(formattedEvents);
 
