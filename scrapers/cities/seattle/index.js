@@ -10,6 +10,7 @@ const chopSuey = require('./chopSuey');
 const nectarLounge = require('./nectarLounge');
 const tractorTavern = require('./tractorTavern');
 const stgPresents = require('./stgPresents');
+const conorByrnePub = require('./conorByrnePub');
 
 module.exports = {
   neumos,
@@ -18,5 +19,6 @@ module.exports = {
   chopSuey,
   nectarLounge,
   tractorTavern,
-  stgPresents
+  stgPresents,
+  conorByrnePub
 };
