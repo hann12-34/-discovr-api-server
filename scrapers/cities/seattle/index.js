@@ -11,6 +11,8 @@ const nectarLounge = require('./nectarLounge');
 const tractorTavern = require('./tractorTavern');
 const stgPresents = require('./stgPresents');
 const conorByrnePub = require('./conorByrnePub');
+const oraNightclub = require('./oraNightclub');
+const trinityNightclub = require('./trinityNightclub');
 
 module.exports = {
   neumos,
@@ -20,5 +22,7 @@ module.exports = {
   nectarLounge,
   tractorTavern,
   stgPresents,
-  conorByrnePub
+  conorByrnePub,
+  oraNightclub,
+  trinityNightclub
 };
