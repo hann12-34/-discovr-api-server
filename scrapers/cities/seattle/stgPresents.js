@@ -2,11 +2,75 @@
  * STG (Seattle Theatre Group) Events Scraper
  * Major Seattle theatres: Paramount, Moore, Neptune
  * URL: https://www.stgpresents.org/calendar
+ * 
+ * IMPORTANT: Detects venue from event title and assigns correct address/coordinates
+ * Filters out non-Seattle locations (Renton, Remlinger Farms, etc.)
  */
 
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+
+// STG venue locations in Seattle
+const STG_VENUES = {
+  'PARAMOUNT': {
+    name: 'The Paramount Theatre',
+    address: '911 Pine St, Seattle, WA 98101',
+    lat: 47.6134,
+    lng: -122.3328
+  },
+  'MOORE': {
+    name: 'The Moore Theatre',
+    address: '1932 2nd Ave, Seattle, WA 98101',
+    lat: 47.6118,
+    lng: -122.3413
+  },
+  'NEPTUNE': {
+    name: 'Neptune Theatre',
+    address: '1303 NE 45th St, Seattle, WA 98105',
+    lat: 47.6614,
+    lng: -122.3152
+  },
+  '5TH AVENUE': {
+    name: '5th Avenue Theatre',
+    address: '1308 5th Ave, Seattle, WA 98101',
+    lat: 47.6087,
+    lng: -122.3344
+  },
+  'KERRY HALL': {
+    name: 'Kerry Hall at Seattle Center',
+    address: '305 Harrison St, Seattle, WA 98109',
+    lat: 47.6221,
+    lng: -122.3517
+  }
+};
+
+// Locations outside Seattle to exclude
+const NON_SEATTLE_KEYWORDS = [
+  'RENTON', 'GENCARE', 'REMLINGER', 'CARNATION', 'BELLEVUE', 
+  'TACOMA', 'EVERETT', 'KIRKLAND', 'REDMOND', 'NORTHSHORE', 'GARFIELD'
+];
+
+function detectVenue(title) {
+  const upperTitle = title.toUpperCase();
+  
+  // Check for non-Seattle locations first
+  for (const keyword of NON_SEATTLE_KEYWORDS) {
+    if (upperTitle.includes(keyword)) {
+      return null; // Exclude this event
+    }
+  }
+  
+  // Try to detect specific venue from title
+  if (upperTitle.includes('NEPTUNE')) return STG_VENUES['NEPTUNE'];
+  if (upperTitle.includes('MOORE')) return STG_VENUES['MOORE'];
+  if (upperTitle.includes('5TH AVENUE') || upperTitle.includes('FIFTH AVENUE')) return STG_VENUES['5TH AVENUE'];
+  if (upperTitle.includes('KERRY HALL')) return STG_VENUES['KERRY HALL'];
+  if (upperTitle.includes('PARAMOUNT')) return STG_VENUES['PARAMOUNT'];
+  
+  // Default to Paramount for main shows (Lion King, Elf, etc.)
+  return STG_VENUES['PARAMOUNT'];
+}
 
 async function scrapeSTGPresents(city = 'Seattle') {
   console.log('🎭 Scraping STG Presents (Paramount/Moore/Neptune)...');
@@ -103,42 +167,58 @@ async function scrapeSTGPresents(city = 'Seattle') {
 
     console.log(`  ✅ Found ${events.length} STG events`);
 
-    // Filter to main music/performance events
+    // Filter to main music/performance events AND Seattle-only locations
     const filteredEvents = events.filter(e => {
       const title = e.title.toUpperCase();
+      
       // Skip class/workshop type events
       if (title.includes('DANCE CLASS') || 
           title.includes('YOGA') || 
           title.includes('CLINIC') ||
           title.includes('ARCHIVE') ||
-          title.includes('WORKSHOP')) {
+          title.includes('WORKSHOP') ||
+          title.includes('OFFICE HOURS') ||
+          title.includes('WELLNESS SERIES') ||
+          title.includes('CREATIVE MORNINGS')) {
         return false;
       }
+      
+      // Skip non-Seattle locations
+      const venue = detectVenue(e.title);
+      if (!venue) {
+        console.log(`  ❌ Excluded (non-Seattle): ${e.title.substring(0, 40)}`);
+        return false;
+      }
+      
       return true;
     });
 
-    console.log(`  ✅ Filtered to ${filteredEvents.length} performance events`);
+    console.log(`  ✅ Filtered to ${filteredEvents.length} Seattle performance events`);
 
-    const formattedEvents = filteredEvents.map(event => ({
-      id: uuidv4(),
-      title: event.title,
-      date: event.date,
-      startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://www.stgpresents.org/calendar',
-      imageUrl: null,
-      venue: {
-        name: 'STG Presents',
-        address: '911 Pine St, Seattle, WA 98101', // Paramount address
-        city: 'Seattle'
-      },
-      latitude: 47.6134,
-      longitude: -122.3328,
-      city: 'Seattle',
-      category: 'Nightlife',
-      source: 'STG Presents'
-    }));
+    const formattedEvents = filteredEvents.map(event => {
+      const venue = detectVenue(event.title);
+      
+      return {
+        id: uuidv4(),
+        title: event.title,
+        date: event.date,
+        startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
+        url: 'https://www.stgpresents.org/calendar',
+        imageUrl: null,
+        venue: {
+          name: venue.name,
+          address: venue.address,
+          city: 'Seattle'
+        },
+        latitude: venue.lat,
+        longitude: venue.lng,
+        city: 'Seattle',
+        category: 'Nightlife',
+        source: 'STG Presents'
+      };
+    });
 
-    formattedEvents.forEach(e => console.log(`  ✓ ${e.title.substring(0, 50)} | ${e.date}`));
+    formattedEvents.forEach(e => console.log(`  ✓ ${e.title.substring(0, 40)} | ${e.date} @ ${e.venue.name}`));
     
     return filterEvents(formattedEvents);
 
