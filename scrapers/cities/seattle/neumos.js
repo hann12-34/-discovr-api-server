@@ -33,6 +33,20 @@ async function scrapeNeumos(city = 'Seattle') {
       const bodyText = document.body.innerText;
       const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
       
+      // Build image map from page images
+      const imageMap = {};
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        if (img.alt && img.src && img.src.includes('axs.com')) {
+          // Extract artist name from alt text like "More Info for Xavier Omär"
+          const match = img.alt.match(/More Info for (.+)/i);
+          if (match) {
+            const artistKey = match[1].toLowerCase().trim();
+            imageMap[artistKey] = img.src;
+          }
+        }
+      });
+      
       // Month mapping
       const months = {
         'JAN': '01', 'FEB': '02', 'MAR': '03', 'APR': '04', 'MAY': '05', 'JUN': '06',
@@ -91,9 +105,21 @@ async function scrapeNeumos(city = 'Seattle') {
           
           if (title && title.length > 3 && !seen.has(title + isoDate)) {
             seen.add(title + isoDate);
+            
+            // Try to find matching image
+            const titleKey = title.toLowerCase().trim();
+            let imageUrl = null;
+            for (const [key, url] of Object.entries(imageMap)) {
+              if (titleKey.includes(key) || key.includes(titleKey.split(' ')[0])) {
+                imageUrl = url;
+                break;
+              }
+            }
+            
             results.push({
               title: title,
-              date: isoDate
+              date: isoDate,
+              imageUrl: imageUrl
             });
           }
         }
@@ -112,7 +138,7 @@ async function scrapeNeumos(city = 'Seattle') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://neumos.com/events/',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Neumos',
         address: '925 E Pike St, Seattle, WA 98122',
@@ -125,7 +151,9 @@ async function scrapeNeumos(city = 'Seattle') {
       source: 'Neumos'
     }));
 
-    formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
+    const withImages = formattedEvents.filter(e => e.imageUrl).length;
+    console.log(`  🖼️ ${withImages}/${formattedEvents.length} events have images`);
+    formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date} ${e.imageUrl ? '🖼️' : ''}`));
     
     return filterEvents(formattedEvents);
 
