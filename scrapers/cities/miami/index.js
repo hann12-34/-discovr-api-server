@@ -11,6 +11,9 @@ const fillmoreMiami = require('./fillmoreMiami');
 const kaseyaCenter = require('./kaseyaCenter');
 const vipNightlife = require('./vipNightlife');
 const miamiBoatParty = require('./miamiBoatParty');
+const wynwoodNightlife = require('./wynwoodNightlife');
+const palaceSouthBeach = require('./palaceSouthBeach');
+const clevelander = require('./clevelander');
 
 module.exports = {
   clubSpace,
@@ -20,5 +23,8 @@ module.exports = {
   fillmoreMiami,
   kaseyaCenter,
   vipNightlife,
-  miamiBoatParty
+  miamiBoatParty,
+  wynwoodNightlife,
+  palaceSouthBeach,
+  clevelander
 };
