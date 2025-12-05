@@ -11,7 +11,10 @@ class CityScraper {
       calgary: './Calgary',
       montreal: './Montreal',
       'new-york': './New York',
-      toronto: './Toronto'
+      toronto: './Toronto',
+      miami: './Miami',
+      'los-angeles': './Los Angeles',
+      seattle: './Seattle'
     };
   }
 
