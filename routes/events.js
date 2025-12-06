@@ -88,7 +88,7 @@ router.get('/', async (req, res) => {
       venue,
       city,
       accessibility,
-      limit = 1000, // Default 1000 events - enough for all cities
+      limit = 10000, // Default 10000 events - no practical limit
       page = 1,
       sort = 'city', // Sort by city first to distribute events evenly across cities
       order = 'asc'
@@ -229,7 +229,7 @@ router.get('/', async (req, res) => {
       const hasColon = title.includes(':');
       const hasTrademark = /™|®|©/.test(title);
       const isDescriptive = title.length >= 25 && !lowerTitle.includes('admin') && !lowerTitle.includes('leasing');
-      const isKnownVenue = /rogers arena|science world|aquarium|queen elizabeth|chan centre|orpheum|grey eagle|palace theatre|spruce meadows|calgary zoo|heritage park|place des arts|bell centre|theatre st-denis|maison symphonique|salle wilfrid-pelletier/i.test(venueName || '');
+      const isKnownVenue = /rogers arena|science world|aquarium|queen elizabeth|chan centre|orpheum|grey eagle|palace theatre|spruce meadows|calgary zoo|heritage park|place des arts|bell centre|theatre st-denis|maison symphonique|salle wilfrid-pelletier|hollywood bowl|crypto\.com arena|the novo|greek theatre|wiltern|el rey|troubadour|the roxy|the abbey|exchange la|avalon|sound nightclub|the fonda|teragram|1720|lodge room|moroccan lounge|catch one|zebulon|e11even|club space|liv miami|story miami|treehouse|basement miami|wharf miami|exchange miami|showbox|neumos|kremwerk|neptune|paramount|crocodile|foundation nightclub/i.test(venueName || '');
       
       return hasEventKeywords || hasColon || hasTrademark || isDescriptive || isKnownVenue;
     });
