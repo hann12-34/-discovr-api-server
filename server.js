@@ -394,11 +394,9 @@ app.get('/api/v1/featured-events', async (req, res) => {
   }
 });
 
-// POST featured events - Mobile app compatibility
+// POST featured events - Save to featured_events collection
 app.post('/api/v1/featured-events', async (req, res) => {
   try {
-    const Event = require('./models/Event');
-    const mongoose = require('mongoose');
     const { city, events } = req.body;
     
     console.log('📌 POST /api/v1/featured-events called');
@@ -412,45 +410,40 @@ app.post('/api/v1/featured-events', async (req, res) => {
       });
     }
     
-    // First, unfeatured all events for this city (case-insensitive)
-    const unfeaturedResult = await Event.updateMany(
-      { city: { $regex: new RegExp(`^${city}$`, 'i') }, featured: true },
-      { $set: { featured: false, featuredOrder: null } }
-    );
-    console.log('   Unfeatured events:', unfeaturedResult.modifiedCount);
+    // Use the featured_events collection directly
+    const db = mongoose.connection.db;
+    const featuredCollection = db.collection('featured_events');
     
-    // Then, feature the selected events with order
-    const eventIds = events.map(e => e._id || e.id).filter(Boolean);
-    console.log('   Event IDs to feature:', eventIds);
-    
-    let featuredCount = 0;
-    // Convert string IDs to MongoDB ObjectIds where needed
-    for (let i = 0; i < eventIds.length; i++) {
-      const eventId = eventIds[i];
-      let query;
-      
-      // Try to use as ObjectId first, fall back to string id field
-      if (mongoose.Types.ObjectId.isValid(eventId) && eventId.length === 24) {
-        query = { _id: new mongoose.Types.ObjectId(eventId) };
-      } else {
-        query = { id: eventId };
-      }
-      
-      const result = await Event.updateOne(
-        query,
-        { $set: { featured: true, featuredOrder: i + 1 } }
-      );
-      if (result.modifiedCount > 0) featuredCount++;
-      console.log(`   Updated event ${eventId}: modified=${result.modifiedCount}`);
-    }
-    
-    console.log(`✅ Featured ${featuredCount} events for ${city}`);
-    
-    res.json({
-      success: true,
-      message: `Featured ${featuredCount} events for ${city}`,
-      count: featuredCount
+    // First, delete all featured events for this city
+    const deleteResult = await featuredCollection.deleteMany({ 
+      city: { $regex: new RegExp(`^${city}$`, 'i') }
     });
+    console.log('   Deleted old featured:', deleteResult.deletedCount);
+    
+    // Insert the new featured events
+    if (events.length > 0) {
+      const featuredEvents = events.map((event, index) => ({
+        ...event,
+        city: city,
+        featuredOrder: index + 1,
+        featuredAt: new Date()
+      }));
+      
+      const insertResult = await featuredCollection.insertMany(featuredEvents);
+      console.log(`✅ Inserted ${insertResult.insertedCount} featured events for ${city}`);
+      
+      res.json({
+        success: true,
+        message: `Featured ${insertResult.insertedCount} events for ${city}`,
+        count: insertResult.insertedCount
+      });
+    } else {
+      res.json({
+        success: true,
+        message: `Cleared all featured events for ${city}`,
+        count: 0
+      });
+    }
   } catch (error) {
     console.error('❌ Error setting featured events:', error);
     res.status(500).json({ success: false, message: error.message });
