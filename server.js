@@ -401,6 +401,10 @@ app.post('/api/v1/featured-events', async (req, res) => {
     const mongoose = require('mongoose');
     const { city, events } = req.body;
     
+    console.log('📌 POST /api/v1/featured-events called');
+    console.log('   City:', city);
+    console.log('   Events count:', events?.length);
+    
     if (!city || !Array.isArray(events)) {
       return res.status(400).json({
         success: false,
@@ -408,15 +412,18 @@ app.post('/api/v1/featured-events', async (req, res) => {
       });
     }
     
-    // First, unfeatured all events for this city
-    await Event.updateMany(
-      { city: city, featured: true },
+    // First, unfeatured all events for this city (case-insensitive)
+    const unfeaturedResult = await Event.updateMany(
+      { city: { $regex: new RegExp(`^${city}$`, 'i') }, featured: true },
       { $set: { featured: false, featuredOrder: null } }
     );
+    console.log('   Unfeatured events:', unfeaturedResult.modifiedCount);
     
     // Then, feature the selected events with order
     const eventIds = events.map(e => e._id || e.id).filter(Boolean);
+    console.log('   Event IDs to feature:', eventIds);
     
+    let featuredCount = 0;
     // Convert string IDs to MongoDB ObjectIds where needed
     for (let i = 0; i < eventIds.length; i++) {
       const eventId = eventIds[i];
@@ -429,19 +436,23 @@ app.post('/api/v1/featured-events', async (req, res) => {
         query = { id: eventId };
       }
       
-      await Event.updateOne(
+      const result = await Event.updateOne(
         query,
         { $set: { featured: true, featuredOrder: i + 1 } }
       );
+      if (result.modifiedCount > 0) featuredCount++;
+      console.log(`   Updated event ${eventId}: modified=${result.modifiedCount}`);
     }
+    
+    console.log(`✅ Featured ${featuredCount} events for ${city}`);
     
     res.json({
       success: true,
-      message: `Featured ${eventIds.length} events for ${city}`,
-      count: eventIds.length
+      message: `Featured ${featuredCount} events for ${city}`,
+      count: featuredCount
     });
   } catch (error) {
-    console.error('Error setting featured events:', error);
+    console.error('❌ Error setting featured events:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
