@@ -420,14 +420,27 @@ app.post('/api/v1/featured-events', async (req, res) => {
     });
     console.log('   Deleted old featured:', deleteResult.deletedCount);
     
-    // Insert the new featured events
+    // Insert the new featured events with normalized field names
     if (events.length > 0) {
-      const featuredEvents = events.map((event, index) => ({
-        ...event,
-        city: city,
-        featuredOrder: index + 1,
-        featuredAt: new Date()
-      }));
+      const featuredEvents = events.map((event, index) => {
+        // Normalize field names for iOS compatibility
+        const normalized = {
+          ...event,
+          city: city,
+          featuredOrder: index + 1,
+          featuredAt: new Date(),
+          // Ensure image field is available as both imageUrl and image
+          imageURL: event.imageUrl || event.imageURL || event.image,
+          image: event.imageUrl || event.imageURL || event.image,
+          // Ensure streetAddress is set from venue.address if not present
+          streetAddress: event.streetAddress || event.venue?.address || '',
+          // Ensure name field exists (iOS uses 'name', admin might use 'title')
+          name: event.name || event.title,
+          title: event.title || event.name
+        };
+        console.log(`   Normalized event: ${normalized.name}, image: ${normalized.image ? 'YES' : 'NO'}, address: ${normalized.streetAddress || 'NONE'}`);
+        return normalized;
+      });
       
       const insertResult = await featuredCollection.insertMany(featuredEvents);
       console.log(`✅ Inserted ${insertResult.insertedCount} featured events for ${city}`);
