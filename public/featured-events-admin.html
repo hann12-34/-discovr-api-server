@@ -456,6 +456,11 @@
                     }
                 });
                 
+                // Always include Philadelphia even if no events yet
+                if (!cityCount['Philadelphia']) {
+                    cityCount['Philadelphia'] = 0;
+                }
+                
                 // Sort by count descending
                 const sortedCities = Object.entries(cityCount)
                     .sort((a, b) => b[1] - a[1]);
