@@ -415,6 +415,8 @@
             'Toronto': '🏙️',
             'Calgary': '🎿',
             'Montreal': '🎭',
+            'Ottawa': '🏛️',
+            'Edmonton': '🛢️',
             'New York': '🗽',
             'Brooklyn': '🌉',
             'Philadelphia': '🔔',
@@ -464,16 +466,21 @@
                     }
                 });
                 
-                // Always include new cities even if no events yet
-                const forcedCities = ['Philadelphia', 'Las Vegas', 'Chicago', 'San Francisco', 'Austin', 'Boston'];
-                forcedCities.forEach(city => {
-                    if (!cityCount[city]) {
+                // Always include ALL cities even if no events yet
+                const allCities = [
+                    'Seattle', 'Vancouver', 'Los Angeles', 'Toronto', 'Miami', 'New York', 'Calgary', 
+                    'Montreal', 'Ottawa', 'Edmonton',
+                    'Philadelphia', 'Las Vegas', 'Chicago', 'San Francisco', 'Austin', 'Boston'
+                ];
+                allCities.forEach(city => {
+                    if (cityCount[city] === undefined) {
                         cityCount[city] = 0;
                     }
                 });
                 
                 // Sort by count descending
                 const sortedCities = Object.entries(cityCount)
+                    .filter(([city]) => allCities.includes(city))  // Only show known cities
                     .sort((a, b) => b[1] - a[1]);
                 
                 // Render city buttons
@@ -495,9 +502,18 @@
                     <button class="city-btn" data-city="Toronto">🏙️ Toronto</button>
                     <button class="city-btn" data-city="Calgary">🎿 Calgary</button>
                     <button class="city-btn" data-city="Montreal">🎭 Montreal</button>
+                    <button class="city-btn" data-city="Ottawa">🏛️ Ottawa</button>
+                    <button class="city-btn" data-city="Edmonton">🛢️ Edmonton</button>
                     <button class="city-btn" data-city="New York">🗽 New York</button>
+                    <button class="city-btn" data-city="Los Angeles">🎬 Los Angeles</button>
+                    <button class="city-btn" data-city="Miami">🌴 Miami</button>
+                    <button class="city-btn" data-city="Seattle">☕ Seattle</button>
                     <button class="city-btn" data-city="Philadelphia">🔔 Philadelphia</button>
-                    <button class="city-btn" data-city="Brooklyn">🌉 Brooklyn</button>
+                    <button class="city-btn" data-city="Las Vegas">🎰 Las Vegas</button>
+                    <button class="city-btn" data-city="Chicago">🌬️ Chicago</button>
+                    <button class="city-btn" data-city="San Francisco">🌉 San Francisco</button>
+                    <button class="city-btn" data-city="Austin">🎸 Austin</button>
+                    <button class="city-btn" data-city="Boston">🦞 Boston</button>
                 `;
                 setupCityButtons();
             }
