@@ -464,10 +464,13 @@
                     }
                 });
                 
-                // Always include Philadelphia even if no events yet
-                if (!cityCount['Philadelphia']) {
-                    cityCount['Philadelphia'] = 0;
-                }
+                // Always include new cities even if no events yet
+                const forcedCities = ['Philadelphia', 'Las Vegas', 'Chicago', 'San Francisco', 'Austin', 'Boston'];
+                forcedCities.forEach(city => {
+                    if (!cityCount[city]) {
+                        cityCount[city] = 0;
+                    }
+                });
                 
                 // Sort by count descending
                 const sortedCities = Object.entries(cityCount)
