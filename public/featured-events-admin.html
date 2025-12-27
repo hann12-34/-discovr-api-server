@@ -411,12 +411,14 @@
 
         // City emoji mapping
         const cityEmojis = {
+            // Canada
             'Vancouver': '🏔️',
             'Toronto': '🏙️',
             'Calgary': '🎿',
             'Montreal': '🎭',
             'Ottawa': '🏛️',
             'Edmonton': '🛢️',
+            // USA
             'New York': '🗽',
             'Brooklyn': '🌉',
             'Philadelphia': '🔔',
@@ -427,7 +429,33 @@
             'Boston': '🦞',
             'Los Angeles': '🎬',
             'Miami': '🌴',
-            'Seattle': '☕'
+            'Seattle': '☕',
+            // UK
+            'London': '🎡',
+            'Manchester': '⚽',
+            'Birmingham': '🏭',
+            'Liverpool': '🎸',
+            'Edinburgh': '🏰',
+            'Glasgow': '🎵',
+            // Australia
+            'Sydney': '🌊',
+            'Melbourne': '☕',
+            'Brisbane': '🌞',
+            'Perth': '🦘',
+            'Adelaide': '🍷',
+            'Gold Coast': '🏖️',
+            // New Zealand
+            'Auckland': '⛵',
+            'Wellington': '🎬',
+            'Christchurch': '⛪',
+            'Queenstown': '🏔️',
+            // Ireland
+            'Dublin': '🍀',
+            'Cork': '🏰',
+            'Galway': '🎭',
+            'Belfast': '🚢',
+            // Iceland
+            'Reykjavik': '🌋'
         };
 
         // Initialize
@@ -468,9 +496,21 @@
                 
                 // Always include ALL cities even if no events yet
                 const allCities = [
-                    'Seattle', 'Vancouver', 'Los Angeles', 'Toronto', 'Miami', 'New York', 'Calgary', 
-                    'Montreal', 'Ottawa', 'Edmonton',
-                    'Philadelphia', 'Las Vegas', 'Chicago', 'San Francisco', 'Austin', 'Boston'
+                    // Canada
+                    'Vancouver', 'Toronto', 'Calgary', 'Montreal', 'Ottawa', 'Edmonton',
+                    // USA
+                    'Seattle', 'Los Angeles', 'Miami', 'New York', 'Philadelphia', 'Las Vegas', 
+                    'Chicago', 'San Francisco', 'Austin', 'Boston',
+                    // UK
+                    'London', 'Manchester', 'Birmingham', 'Liverpool', 'Edinburgh', 'Glasgow',
+                    // Australia
+                    'Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Gold Coast',
+                    // New Zealand
+                    'Auckland', 'Wellington', 'Christchurch', 'Queenstown',
+                    // Ireland
+                    'Dublin', 'Cork', 'Galway', 'Belfast',
+                    // Iceland
+                    'Reykjavik'
                 ];
                 allCities.forEach(city => {
                     if (cityCount[city] === undefined) {
@@ -508,12 +548,12 @@
                     <button class="city-btn" data-city="Los Angeles">🎬 Los Angeles</button>
                     <button class="city-btn" data-city="Miami">🌴 Miami</button>
                     <button class="city-btn" data-city="Seattle">☕ Seattle</button>
-                    <button class="city-btn" data-city="Philadelphia">🔔 Philadelphia</button>
-                    <button class="city-btn" data-city="Las Vegas">🎰 Las Vegas</button>
-                    <button class="city-btn" data-city="Chicago">🌬️ Chicago</button>
-                    <button class="city-btn" data-city="San Francisco">🌉 San Francisco</button>
-                    <button class="city-btn" data-city="Austin">🎸 Austin</button>
-                    <button class="city-btn" data-city="Boston">🦞 Boston</button>
+                    <button class="city-btn" data-city="London">🎡 London</button>
+                    <button class="city-btn" data-city="Sydney">� Sydney</button>
+                    <button class="city-btn" data-city="Melbourne">☕ Melbourne</button>
+                    <button class="city-btn" data-city="Auckland">⛵ Auckland</button>
+                    <button class="city-btn" data-city="Dublin">� Dublin</button>
+                    <button class="city-btn" data-city="Reykjavik">🌋 Reykjavik</button>
                 `;
                 setupCityButtons();
             }
