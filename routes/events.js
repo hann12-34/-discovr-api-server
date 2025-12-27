@@ -87,6 +87,7 @@ router.get('/', async (req, res) => {
       tags,
       venue,
       city,
+      cities,  // NEW: comma-separated list of cities for lazy loading
       accessibility,
       limit = 10000, // Default 10000 events - no practical limit
       page = 1,
@@ -107,8 +108,14 @@ router.get('/', async (req, res) => {
     // Venue filters
     if (venue) query['venue.name'] = { $regex: venue, $options: 'i' };
     
-    // Enhanced Vancouver city filtering
-    if (city) {
+    // Multi-city filtering (for lazy loading by country)
+    if (cities) {
+      const cityList = cities.split(',').map(c => c.trim());
+      console.log(`Multi-city filter requested: ${cityList.join(', ')}`);
+      query.city = { $in: cityList };
+    }
+    // Single city filtering
+    else if (city) {
       console.log(`City filter requested: ${city}`);
       if (city.toLowerCase().includes('vancouver')) {
         query.city = 'Vancouver';  // Direct match for now
