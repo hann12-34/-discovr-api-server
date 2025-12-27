@@ -84,12 +84,39 @@ async function scrapeTorontoCityEvents() {
         console.log(`🧹 Removed ${duplicateCount} duplicate events`);
     }
     
-    // DATE VALIDATION: Filter out events with unparseable dates ONLY
-    // Keep ALL events with valid dates (past, present, future) - many are ongoing exhibitions/shows
+    // Bad venue/title patterns to filter out
+    const badVenuePatterns = [/^TBA$/i, /^various/i, /^unknown/i];
+    const badTitlePatterns = [
+        /^funded by/i, /^government of/i, /^sponsored by/i,
+        /^advertisement/i, /^subscribe/i, /^newsletter/i
+    ];
+    const badAddressPatterns = [/^TBA$/i, /^various/i, /^toronto,?\s*on$/i];
+    
+    // DATE VALIDATION + VENUE/ADDRESS VALIDATION
     const filteredEvents = [];
     let skippedCount = 0;
     
     for (const event of dedupedEvents) {
+        // Skip bad titles
+        if (badTitlePatterns.some(p => p.test(event.title || ''))) {
+            skippedCount++;
+            continue;
+        }
+        
+        // Skip bad venue names
+        const venueName = event.venue?.name || '';
+        if (badVenuePatterns.some(p => p.test(venueName))) {
+            skippedCount++;
+            continue;
+        }
+        
+        // Skip bad addresses
+        const venueAddress = event.venue?.address || '';
+        if (badAddressPatterns.some(p => p.test(venueAddress))) {
+            skippedCount++;
+            continue;
+        }
+        
         if (event.date) {
             const isoDate = toISODate(event.date);
             if (isoDate) {
@@ -97,16 +124,13 @@ async function scrapeTorontoCityEvents() {
                 filteredEvents.push(event);
             } else {
                 skippedCount++;
-                if (process.env.NODE_ENV !== 'production') {
-                    console.log(`  ❌ Skipped bad date: "${event.date}" - ${event.title}`);
-                }
             }
         } else {
             skippedCount++; // Skip events with no date
         }
     }
     
-    console.log(`✅ ${filteredEvents.length} valid events (skipped ${skippedCount} with bad dates)`);
+    console.log(`✅ ${filteredEvents.length} valid events (skipped ${skippedCount} bad events)`);
     return filteredEvents;
 }
 

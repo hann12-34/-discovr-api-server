@@ -30,81 +30,96 @@ async function scrapeShowbox(city = 'Seattle') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
-      // Month mapping
       const months = {
         'JAN': '01', 'FEB': '02', 'MAR': '03', 'APR': '04', 'MAY': '05', 'JUN': '06',
         'JUL': '07', 'AUG': '08', 'SEP': '09', 'OCT': '10', 'NOV': '11', 'DEC': '12'
       };
-      
-      // Date pattern: "TUE, DEC 2, 2025"
-      const datePattern = /^(MON|TUE|WED|THU|FRI|SAT|SUN),\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{1,2}),\s+(\d{4})$/i;
-      
       const seen = new Set();
       
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const dateMatch = line.match(datePattern);
-        
-        if (dateMatch) {
-          const monthStr = dateMatch[2].toUpperCase();
-          const day = dateMatch[3].padStart(2, '0');
-          const year = dateMatch[4];
-          const month = months[monthStr];
+      // Try to get events from actual DOM elements with images
+      const eventCards = document.querySelectorAll('.event-card, .event, [class*="event"], article, .show-card');
+      
+      eventCards.forEach(card => {
+        try {
+          // Get image
+          const img = card.querySelector('img:not([src*="logo"]):not([alt*="logo"])');
+          const imageUrl = img ? (img.src || img.getAttribute('data-src')) : null;
           
-          const isoDate = `${year}-${month}-${day}`;
+          // Get link
+          const link = card.querySelector('a[href*="event"], a[href*="show"]');
+          const eventUrl = link ? link.href : null;
           
-          // Look backwards for the title
-          let title = null;
-          let venue = 'The Showbox';
+          // Get title
+          const titleEl = card.querySelector('h1, h2, h3, h4, .title, .event-title, .headliner');
+          const title = titleEl ? titleEl.textContent.trim() : null;
           
-          for (let j = i - 1; j >= Math.max(0, i - 8); j--) {
-            const candidate = lines[j];
-            
-            // Check for venue
-            if (candidate.includes('SHOWBOX SODO')) {
-              venue = 'Showbox SoDo';
-              continue;
-            }
-            if (candidate.includes('CRYSTAL BALLROOM')) {
-              venue = 'Crystal Ballroom';
-              continue;
-            }
-            if (candidate.includes('THE SHOWBOX')) {
-              venue = 'The Showbox';
-              continue;
-            }
-            
-            // Skip presenter/tour/support lines
-            if (candidate.match(/Presents$/i) ||
-                candidate.match(/^with\s/i) ||
-                candidate.match(/TOUR\s*\d{4}$/i) ||
-                candidate === 'CANCELLED' ||
-                candidate === 'BUY TICKETS' ||
-                candidate.match(/SHOW\s+\d+:\d+/i) ||
-                candidate.length < 3) {
-              continue;
-            }
-            
-            // Found potential title - should be in CAPS or proper case
-            if (candidate.length > 3) {
-              title = candidate;
-              break;
+          // Get date
+          const dateEl = card.querySelector('.date, time, [class*="date"]');
+          let dateStr = dateEl ? dateEl.textContent.trim() : null;
+          
+          // Parse date
+          let isoDate = null;
+          if (dateStr) {
+            const dateMatch = dateStr.match(/(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{1,2}),?\s*(\d{4})?/i);
+            if (dateMatch) {
+              const month = months[dateMatch[1].toUpperCase()];
+              const day = dateMatch[2].padStart(2, '0');
+              if (!dateMatch[3]) return; // Skip if no year
+              const year = dateMatch[3];
+              isoDate = `${year}-${month}-${day}`;
             }
           }
           
-          // Skip cancelled events
-          const isCancelled = lines.slice(Math.max(0, i-3), i).some(l => l === 'CANCELLED');
+          // Get venue from card
+          let venue = 'The Showbox';
+          const cardText = card.textContent.toLowerCase();
+          if (cardText.includes('sodo')) venue = 'Showbox SoDo';
           
-          if (title && title.length > 3 && !seen.has(title + isoDate) && !isCancelled) {
-            seen.add(title + isoDate);
+          if (title && title.length > 3 && !seen.has(title)) {
+            seen.add(title);
             results.push({
               title: title,
               date: isoDate,
-              venue: venue
+              venue: venue,
+              imageUrl: imageUrl,
+              eventUrl: eventUrl
             });
+          }
+        } catch (e) {}
+      });
+      
+      // Fallback: parse text if no cards found
+      if (results.length === 0) {
+        const bodyText = document.body.innerText;
+        const lines = bodyText.split('\\n').map(l => l.trim()).filter(l => l);
+        const datePattern = /^(MON|TUE|WED|THU|FRI|SAT|SUN),\\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\\s+(\\d{1,2}),\\s+(\\d{4})$/i;
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const dateMatch = line.match(datePattern);
+          
+          if (dateMatch) {
+            const month = months[dateMatch[2].toUpperCase()];
+            const day = dateMatch[3].padStart(2, '0');
+            const year = dateMatch[4];
+            const isoDate = `${year}-${month}-${day}`;
+            
+            let title = null;
+            let venue = 'The Showbox';
+            
+            for (let j = i - 1; j >= Math.max(0, i - 8); j--) {
+              const candidate = lines[j];
+              if (candidate.includes('SHOWBOX SODO')) { venue = 'Showbox SoDo'; continue; }
+              if (candidate.includes('THE SHOWBOX')) { venue = 'The Showbox'; continue; }
+              if (candidate.match(/Presents$/i) || candidate.match(/^with\\s/i) || 
+                  candidate === 'CANCELLED' || candidate === 'BUY TICKETS' || candidate.length < 3) continue;
+              if (candidate.length > 3) { title = candidate; break; }
+            }
+            
+            if (title && !seen.has(title + isoDate)) {
+              seen.add(title + isoDate);
+              results.push({ title, date: isoDate, venue, imageUrl: null, eventUrl: null });
+            }
           }
         }
       }
@@ -131,8 +146,8 @@ async function scrapeShowbox(city = 'Seattle') {
         title: event.title,
         date: event.date,
         startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-        url: 'https://www.showboxpresents.com/events',
-        imageUrl: null,
+        url: event.eventUrl || 'https://www.showboxpresents.com/events',
+        imageUrl: event.imageUrl || null,
         venue: {
           name: event.venue,
           address: address,

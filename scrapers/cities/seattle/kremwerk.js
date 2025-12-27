@@ -41,16 +41,13 @@ async function scrapeKremwerk(city = 'Seattle') {
       };
       
       const seen = new Set();
-      let currentYear = new Date().getFullYear();
-      let currentMonth = null;
       
-      // Find year from calendar header (e.g., "DECEMBER 2025")
+      // Find year from calendar header (e.g., "DECEMBER 2025") - NO FALLBACK
       const yearMatch = bodyText.match(/(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s+(\d{4})/i);
-      if (yearMatch) {
-        currentYear = parseInt(yearMatch[2]);
-        const monthNames = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
-        currentMonth = String(monthNames.indexOf(yearMatch[1].toUpperCase()) + 1).padStart(2, '0');
-      }
+      if (!yearMatch) return []; // Must have real date from page
+      const currentYear = parseInt(yearMatch[2]);
+      const monthNames = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+      const currentMonth = String(monthNames.indexOf(yearMatch[1].toUpperCase()) + 1).padStart(2, '0');
       
       // Pattern for event names in UPPERCASE
       const eventPattern = /^[A-Z][A-Z0-9\s\-\:\'\&\/\!\@\#\$\%\^\*\(\)]+$/;
@@ -131,7 +128,7 @@ async function scrapeKremwerk(city = 'Seattle') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://www.kremwerk.com/events',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,
       venue: {
         name: event.venue || 'Kremwerk',
         address: '1809 Minor Ave, Seattle, WA 98101',

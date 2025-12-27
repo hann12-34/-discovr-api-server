@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeEvents(city = 'Montreal') {
@@ -85,6 +87,7 @@ async function scrapeEvents(city = 'Montreal') {
       title: e.title,
       date: e.date,
       url: e.url || 'https://www.foufounes.qc.ca/calendrier/',
+      image: null,
       venue: {
         name: 'Foufounes Électriques',
         address: '87 Rue Sainte-Catherine Est, Montreal, QC H2X 1K5',
@@ -95,9 +98,23 @@ async function scrapeEvents(city = 'Montreal') {
       source: 'Foufounes Électriques'
     }));
     
-    formattedEvents.forEach(e => {
-      console.log(`  ✓ ${e.title} | ${e.date}`);
-    });
+    // Fetch og:image from each event URL
+    for (const event of formattedEvents) {
+      if (event.url && event.url.startsWith('http')) {
+        try {
+          const resp = await axios.get(event.url, {
+            timeout: 8000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' }
+          });
+          const $ = cheerio.load(resp.data);
+          const ogImage = $('meta[property="og:image"]').attr('content');
+          if (ogImage) {
+            event.image = ogImage;
+          }
+        } catch (e) {}
+      }
+      console.log(`  ✓ ${event.title} | ${event.date} ${event.image ? '📷' : ''}`);
+    }
     
     console.log(`\n✅ Found ${formattedEvents.length} Foufounes Électriques events`);
     return formattedEvents;

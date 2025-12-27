@@ -43,6 +43,9 @@ const RogersArenaEvents = {
                 
                 console.log(`✓ ${title} | ${gameDate}`);
                 
+                // Get team logo from NHL API
+                const teamLogo = game.homeTeam?.logo || 'https://assets.nhle.com/logos/nhl/svg/VAN_light.svg';
+                
                 
           // COMPREHENSIVE DATE EXTRACTION - Works with most event websites
           let dateText = null;
@@ -156,7 +159,7 @@ const RogersArenaEvents = {
                   location: 'Vancouver, BC',
                   description: `${title} at Rogers Arena, home of the Vancouver Canucks.`,
                   category: 'Sports',
-                  image: null,
+                  image: teamLogo,
                   source: 'Rogers Arena',
                   city: 'Vancouver'
                 });
@@ -211,7 +214,8 @@ const RogersArenaEvents = {
         
         console.log(`Found ${eventData.length} events from Rogers Arena website`);
         
-        eventData.forEach(event => {
+        // Process events and fetch missing images
+        for (const event of eventData) {
           if (event.name) {
             const title = event.name
               .replace(/&#8211;/g, '–')
@@ -221,7 +225,7 @@ const RogersArenaEvents = {
             
             // Skip Canucks games (already got from NHL API)
             if (title.toLowerCase().includes('canucks')) {
-              return;
+              continue;
             }
             
             let eventDate = null;
@@ -242,7 +246,20 @@ const RogersArenaEvents = {
                 category = 'Sports';
               }
               
-              console.log(`✓ ${title} | ${eventDate}`);
+              // Get image from JSON-LD or fetch from event page
+              let eventImage = event.image || null;
+              if (!eventImage && event.url) {
+                try {
+                  await page.goto(event.url, { waitUntil: 'domcontentloaded', timeout: 10000 });
+                  await new Promise(r => setTimeout(r, 1500));
+                  eventImage = await page.evaluate(() => {
+                    const og = document.querySelector('meta[property="og:image"]');
+                    return og?.content || null;
+                  });
+                } catch (e) {}
+              }
+              
+              console.log(`✓ ${title} | ${eventDate} | ${eventImage ? 'IMG' : 'no img'}`);
               
               events.push({
                 id: uuidv4(),
@@ -254,13 +271,13 @@ const RogersArenaEvents = {
                 location: 'Vancouver, BC',
                 description: `${title} at Rogers Arena.`,
                 category: category,
-                image: event.image || null,
+                image: eventImage,
                 source: 'Rogers Arena',
                 city: 'Vancouver'
               });
             }
           }
-        });
+        }
         
       } catch (raError) {
         console.log('Rogers Arena browser error:', raError.message);

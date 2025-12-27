@@ -1,0 +1,169 @@
+/**
+ * Do604 Events Scraper
+ * Scrapes events from Vancouver's major event aggregator Do604
+ */
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+const { filterGenericPrograms } = require('../../utils/genericProgramFilter');
+
+const Do604Events = {
+  async scrape(city) {
+    console.log('🔍 Scraping events from Do604...');
+
+    try {
+      // Scrape multiple pages for more events
+      const urls = [
+        'https://do604.com/',
+        'https://do604.com/events',
+        'https://do604.com/events?page=2',
+        'https://do604.com/events?page=3'
+      ];
+      
+      const allLinks = new Set();
+      
+      for (const pageUrl of urls) {
+        try {
+          const pageResponse = await axios.get(pageUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+              'Accept': 'text/html',
+            },
+            timeout: 15000
+          });
+          const $page = cheerio.load(pageResponse.data);
+          $page('a[href*="/events/"]').each((i, el) => {
+            const href = $page(el).attr('href');
+            if (href && href.match(/\/events\/\d{4}\/\d{1,2}\/\d{1,2}\//)) {
+              allLinks.add(href);
+            }
+          });
+        } catch (e) {
+          // Continue with other pages
+        }
+      }
+      
+      const response = await axios.get('https://do604.com/', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'DNT': '1',
+          'Connection': 'keep-alive',
+        },
+        timeout: 30000
+      });
+
+      const $ = cheerio.load(response.data);
+      const events = [];
+      const seenUrls = new Set();
+
+      // Also add links from homepage
+      $('a[href*="/events/"]').each((i, el) => {
+        const href = $(el).attr('href');
+        if (href && href.match(/\/events\/\d{4}\/\d{1,2}\/\d{1,2}\//)) {
+          allLinks.add(href);
+        }
+      });
+
+      console.log(`Found ${allLinks.size} unique event URLs from Do604`);
+
+      allLinks.forEach(href => {
+        let url = href;
+        
+        // Convert relative URLs to absolute FIRST
+        if (url.startsWith('/')) {
+          url = 'https://do604.com' + url;
+        }
+
+        // Skip if already seen
+        if (seenUrls.has(url)) return;
+        
+        const $element = $(`a[href="${href}"]`).first();
+        let title = $element.text().trim();
+        
+        if (!title || !url) return;
+
+          // Filter out navigation, social media, and promotional links
+          const skipPatterns = [
+            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
+            /\/about/i, /\/contact/i, /\/home/i, /\/search/i,
+            /\/login/i, /\/register/i, /\/account/i, /\/cart/i,
+            /mailto:/i, /tel:/i, /javascript:/i, /#/,
+            /\/privacy/i, /\/terms/i, /\/policy/i, /\/subscribe/i,
+            /\/newsletter/i, /\/advertise/i
+          ];
+
+          if (skipPatterns.some(pattern => pattern.test(url))) {
+            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
+            return;
+          }
+
+          // Clean up title
+          title = title.replace(/\s+/g, ' ').trim();
+          
+          // Skip very short or generic titles
+          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?)$/i.test(title)) {
+            console.log(`✗ Filtered out generic title: "${title}"`);
+            return;
+          }
+
+          seenUrls.add(url);
+
+          // Only log valid events (junk will be filtered out)
+          // Extract date from URL - Do604 URLs contain dates like /events/2025/12/25/event-name
+          let dateText = null;
+          const urlDateMatch = url.match(/\/events\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
+          if (urlDateMatch) {
+            const year = urlDateMatch[1];
+            const month = urlDateMatch[2].padStart(2, '0');
+            const day = urlDateMatch[3].padStart(2, '0');
+            dateText = `${year}-${month}-${day}`;
+          }
+          
+          // Also try to extract venue name from the event page if possible
+          let venueName = null;
+          const venueEl = $element.closest('[class*="event"]').find('[class*="venue"], .location, .place').first();
+          if (venueEl.length > 0) {
+            venueName = venueEl.text().trim();
+          }
+
+
+          
+
+
+          // Skip if no date could be extracted
+          if (!dateText) {
+            return;
+          }
+          
+          events.push({
+            id: uuidv4(),
+            title: title,
+            url: url,
+            venue: { name: venueName || 'Vancouver Event', address: 'Vancouver, BC', city: 'Vancouver' },
+            city: city,
+            date: dateText,
+            source: 'Do604'
+          });
+        });
+
+      console.log(`Found ${events.length} total events from Do604`);
+      
+      // Filter out generic programs like "Weekly Events"
+      const withoutGenericPrograms = filterGenericPrograms(events);
+      
+      return filterEvents(withoutGenericPrograms);
+
+    } catch (error) {
+      console.error('Error scraping Do604 events:', error.message);
+      return [];
+    }
+  }
+};
+
+module.exports = Do604Events.scrape;
+

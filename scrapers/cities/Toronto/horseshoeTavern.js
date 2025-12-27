@@ -1,84 +1,110 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeEvents(city = 'Toronto') {
   console.log('🐴 Scraping Horseshoe Tavern events...');
-  const events = [];
-  const seenUrls = new Set();
+  let browser;
 
   try {
-    const response = await axios.get('https://www.horseshoetavern.com/events', {
-      headers: { 'User-Agent': 'Mozilla/5.0' },
-      timeout: 15000
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
-    const $ = cheerio.load(response.data);
-    
-    $('.event-item, .show, [class*="event"]').each((i, elem) => {
-      try {
-        const $event = $(elem);
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+
+    await page.goto('https://www.horseshoetavern.com/events', {
+      waitUntil: 'networkidle2',
+      timeout: 30000
+    });
+
+    await new Promise(r => setTimeout(r, 3000));
+
+    const rawEvents = await page.evaluate(() => {
+      const results = [];
+      const seen = new Set();
+      
+      // Find all links on the page
+      document.querySelectorAll('a').forEach(a => {
+        const href = a.href;
+        if (!href || !href.includes('horseshoe') || !href.includes('event')) return;
+        if (href === 'https://www.horseshoetavern.com/events' || href === 'https://www.horseshoetavern.com/events/') return;
+        if (seen.has(href)) return;
         
-        let title = $event.find('.event-title, .headliners, h2, h3').first().text().trim();
-        let url = $event.find('a').first().attr('href');
-        let dateText = $event.find('.date, time, [class*="date"]').first().text().trim();
+        // Get title from link text
+        let title = a.textContent?.trim();
+        if (!title || title.length < 5 || title === 'Events' || title === 'List View' || title === 'Tickets') return;
         
-        if (!title || !url || title.length < 3) return;
+        seen.add(href);
         
-        if (url && !url.startsWith('http')) {
-          url = 'https://www.horseshoetavern.com' + url;
+        // Find image - check parent and grandparent elements
+        const parent = a.parentElement;
+        const grandparent = parent?.parentElement;
+        let imgSrc = null;
+        const img = grandparent?.querySelector('img') || parent?.querySelector('img');
+        if (img) {
+          imgSrc = img.src || img.getAttribute('data-src');
         }
         
-        if (seenUrls.has(url)) return;
-        seenUrls.add(url);
-        
-        // Clean and add year to date
-        if (dateText) {
-          dateText = dateText
-            .replace(/\n/g, ' ')
-            .replace(/\s+/g, ' ')
-            .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-            .trim();
+        // Extract date from title text (format: "TitleSat, Dec 28" or "TitleSaturday, Dec 28")
+        let dateStr = null;
+        const dateMatch = title.match(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{1,2})/i);
+        if (dateMatch) {
+          const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+          const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+          const day = dateMatch[3].padStart(2, '0');
+          const now = new Date();
+          const currentMonth = now.getMonth() + 1;
+          const eventMonth = parseInt(month);
+          const year = eventMonth < currentMonth ? now.getFullYear() + 1 : now.getFullYear();
+          dateStr = `${year}-${month}-${day}`;
           
-          if (!/\d{4}/.test(dateText)) {
-            const currentYear = new Date().getFullYear();
-            const currentMonth = new Date().getMonth();
-            const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-            const dateLower = dateText.toLowerCase();
-            const monthIndex = months.findIndex(m => dateLower.includes(m));
-            if (monthIndex !== -1) {
-              const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-              dateText = `${dateText}, ${year}`;
-            } else {
-              dateText = `${dateText}, ${currentYear}`;
-            }
-          }
+          // Clean title - remove date part
+          title = title.replace(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*\d{1,2}/i, '').trim();
         }
-
-        events.push({
-          id: uuidv4(),
-          title: title,
-          url: url,
-          date: dateText || 'TBA',
-          venue: {
-            name: 'Horseshoe Tavern',
-            address: '370 Queen St W, Toronto, ON M5V 2A2',
-            city: 'Toronto'
-          },
-          city: city,
-          source: 'Horseshoe Tavern',
-          categories: ['Concert', 'Music', 'Nightlife']
-        });
-      } catch (err) {
-        // Skip
-      }
+        
+        // Clean title - remove trailing pipe
+        title = title?.replace(/\s*\|\s*$/, '').trim();
+        
+        if (title && title.length > 3 && dateStr) {
+          results.push({
+            title: title.substring(0, 100),
+            url: href,
+            date: dateStr,
+            imageUrl: imgSrc && !imgSrc.includes('logo') ? imgSrc : null
+          });
+        }
+      });
+      
+      return results;
     });
 
-    console.log(`✅ Horseshoe Tavern: ${events.length} events`);
+    await browser.close();
+
+    const events = rawEvents.map(event => ({
+      id: uuidv4(),
+      title: event.title,
+      url: event.url,
+      date: event.date,
+      startDate: new Date(event.date + 'T20:00:00'),
+      imageUrl: event.imageUrl,
+      venue: {
+        name: 'Horseshoe Tavern',
+        address: '370 Queen St W, Toronto, ON M5V 2A2',
+        city: 'Toronto'
+      },
+      city: city,
+      category: 'Nightlife',
+      source: 'Horseshoe Tavern'
+    }));
+
+    console.log(`✅ Horseshoe Tavern: ${events.length} events, ${events.filter(e => e.imageUrl).length} with images`);
     return filterEvents(events);
 
   } catch (error) {
+    if (browser) await browser.close();
     console.error('Error scraping Horseshoe Tavern:', error.message);
     return [];
   }

@@ -67,12 +67,10 @@ async function scrapeNeumos(city = 'Seattle') {
           const day = dateMatch[2].padStart(2, '0');
           const month = months[monthStr];
           
-          // Determine year
-          const now = new Date();
-          const currentMonth = now.getMonth() + 1;
-          const currentYear = now.getFullYear();
-          const eventMonth = parseInt(month);
-          const year = eventMonth < currentMonth ? currentYear + 1 : currentYear;
+          // Look for year on page, otherwise skip
+          const yearMatch = bodyText.match(/\b(202[4-9])\b/);
+          if (!yearMatch) continue; // Skip if no year found
+          const year = yearMatch[1];
           
           const isoDate = `${year}-${month}-${day}`;
           

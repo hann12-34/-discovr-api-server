@@ -92,7 +92,7 @@ async function scrapeOraNightclub(city = 'Seattle') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://tickets.oraseattle.com',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Ora Nightclub',
         address: '616 1st Ave N, Seattle, WA 98109',

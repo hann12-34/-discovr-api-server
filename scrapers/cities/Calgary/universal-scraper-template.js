@@ -2,6 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { sanitizeDescription } = require('../../utils/sanitizeDescription');
 
 /**
  * Universal scraper template that works for many venue websites
@@ -18,6 +19,14 @@ function createUniversalScraper(venueName, url, address) {
       'eventbrite.com', 'ticketmaster.com', 'ticketweb.com',
       'instagram.com', 'facebook.com', 'twitter.com', 'tiktok.com',
       'songkick.com', 'bandsintown.com', 'ra.co', 'dice.fm'
+    ];
+    
+    // BLACKLIST: Generic logos/placeholders that are NOT event-specific images
+    const genericImagePatterns = [
+      /logo/i, /placeholder/i, /default/i, /favicon/i, /icon/i,
+      /RN_LOGO/i, /HIT_LOGO/i, /WR_LOGO/i, /FL_LOGO/i,
+      /roughneck/i, /doughneck/i, /saddledome/i,
+      /scotiabanksaddledome\.com/i, /share.*image/i, /og-image/i
     ];
     
     if (blacklist.some(domain => url.includes(domain))) {
@@ -129,6 +138,8 @@ function createUniversalScraper(venueName, url, address) {
           /^Events at Our/i,  // Generic venue listings
           /^Latest Past Events/i,  // Navigation links
           /^(Past|Upcoming|All) Events$/i,  // Navigation links
+          /^(Upcoming|Indoor|Outdoor) Tournaments$/i,  // Generic tournament categories
+          /^(Featured|Special|Current) Events$/i,  // Generic event categories
           
           // DATE-ONLY TITLES (not real event names)
           /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{4}/i,  // "Nov 11, 2025..." or malformed dates
@@ -215,6 +226,11 @@ function createUniversalScraper(venueName, url, address) {
           return;
         }
         
+        // Reject invalid date patterns (not real dates)
+        if (/Market Hours|Hours:|Open:|Closed|Daily:|Weekly/i.test(dateText)) {
+          return; // Not a real event date
+        }
+        
         // Normalize and clean date
         dateText = String(dateText)
           .split(/\n/)[0]  // Take only first line
@@ -249,6 +265,45 @@ function createUniversalScraper(venueName, url, address) {
         const fullUrl = eventUrl.startsWith('http') ? eventUrl : 
                        eventUrl.startsWith('/') ? new URL(url).origin + eventUrl : url;
         
+        // Extract description
+        let description = '';
+        const descSelectors = [
+          '[class*="description"]', '[class*="desc"]', '[class*="summary"]',
+          '[class*="content"] p', '[class*="details"] p', 'p.description',
+          '.event-description', '.show-description', '.event-content'
+        ];
+        
+        for (const sel of descSelectors) {
+          const text = $e.find(sel).first().text().trim();
+          if (text && text.length >= 30 && text.length <= 500) {
+            description = text;
+            break;
+          }
+        }
+        
+        // Sanitize the description (removes junk, generates fallback if needed)
+        description = sanitizeDescription(description, title, venueName, city);
+        
+        // Extract image from event card on listing page (real event images)
+        let imageUrl = null;
+        const imgSelectors = [
+          'img[src*="event"]', 'img[src*="show"]', 'img[src*="artist"]',
+          'img[src*="poster"]', 'img[src*="banner"]', 'img[src*="photo"]',
+          '.event-image img', '.show-image img', '.poster img',
+          '[class*="image"] img', '[class*="thumb"] img', '[class*="photo"] img',
+          'img:not([src*="logo"]):not([src*="icon"]):not([src*="avatar"])'
+        ];
+        
+        for (const sel of imgSelectors) {
+          const img = $e.find(sel).first();
+          const src = img.attr('src') || img.attr('data-src') || img.attr('data-lazy-src');
+          if (src && src.startsWith('http') && !genericImagePatterns.some(p => p.test(src))) {
+            // Valid image found - not a logo/placeholder
+            imageUrl = src;
+            break;
+          }
+        }
+        
         // QUALITY CHECK: Event must have meaningful content
         // Reject if title is just 1-2 words without context (likely junk)
         const wordCount = title.split(/\s+/).length;
@@ -272,8 +327,10 @@ function createUniversalScraper(venueName, url, address) {
           id: uuidv4(),
           title,
           date: dateText,
+          description: description,
           venue: { name: venueName, address: address, city: city },
           url: fullUrl,
+          imageUrl: imageUrl,
           source: venueName,
           category: 'Events'
         });
@@ -301,12 +358,38 @@ function createUniversalScraper(venueName, url, address) {
       
       event.title = cleanTitle;
       
-      // Create unique key
-      const key = `${cleanTitle.toLowerCase()}|${event.date}|${event.venue.name}`;
+      // Create unique key - use title + venue only (ignore date variations for same event)
+      const key = `${cleanTitle.toLowerCase()}|${event.venue.name}`;
       
       if (!seen.has(key)) {
         seen.add(key);
         uniqueEvents.push(event);
+      }
+    }
+    
+    // FETCH og:image from each event URL ONLY if no image from listing page
+    for (const event of uniqueEvents) {
+      // Skip if already has image from listing page
+      if (event.imageUrl || event.image) continue;
+      
+      if (event.url && event.url.startsWith('http')) {
+        try {
+          const eventPage = await axios.get(event.url, {
+            timeout: 8000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' }
+          });
+          const $evt = cheerio.load(eventPage.data);
+          const ogImage = $evt('meta[property="og:image"]').attr('content');
+          
+          // Only use image if it's NOT a generic logo/placeholder
+          if (ogImage && !genericImagePatterns.some(pattern => pattern.test(ogImage))) {
+            event.imageUrl = ogImage;
+            event.image = ogImage;
+          }
+          // If og:image is generic, leave image as null (NO FALLBACK)
+        } catch (e) {
+          // Skip if can't fetch - NO FALLBACK
+        }
       }
     }
     

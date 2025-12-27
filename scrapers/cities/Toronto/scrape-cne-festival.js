@@ -74,10 +74,8 @@ async function scrape(city = 'Toronto') {
         }
       }
       
-      // CNE typically runs Aug 15 - Sept 1, so if no date found, use default
-      if (!eventDate && title.toLowerCase().includes('cne') || title.toLowerCase().includes('exhibition')) {
-        eventDate = '2025-08-15'; // Opening day
-      }
+      // Skip events without real dates - no hardcoded fallback
+      if (!eventDate) return;
       
       events.push({
         id: uuidv4(),
@@ -96,45 +94,14 @@ async function scrape(city = 'Toronto') {
       });
     });
     
-    // If no events found via selectors, add main festival event
-    if (events.length === 0) {
-      events.push({
-        id: uuidv4(),
-        title: 'Canadian National Exhibition 2025',
-        date: '2025-08-15',
-        url: 'https://theex.com/',
-          imageUrl: imageUrl,
-        venue: {
-          name: 'Exhibition Place',
-          address: '210 Princes Blvd, Toronto, ON',
-          city: 'Toronto'
-        },
-        city: city,
-        category: 'Festival',
-        source: 'CNE'
-      });
-    }
+    // No fallback events - only return events with real dates
     
     console.log(`✅ CNE: ${events.length} events`);
     return filterEvents(events);
     
   } catch (error) {
     console.error('  ⚠️  CNE error:', error.message);
-    // Return main festival as fallback
-    return filterEvents([{
-      id: uuidv4(),
-      title: 'Canadian National Exhibition 2025',
-      date: '2025-08-15',
-      url: 'https://theex.com/',
-      venue: {
-        name: 'Exhibition Place',
-        address: '210 Princes Blvd, Toronto, ON',
-        city: 'Toronto'
-      },
-      city: city,
-      category: 'Festival',
-      source: 'CNE'
-    }]);
+    return []; // No fallback - return empty on error
   }
 }
 

@@ -31,6 +31,12 @@ async function scrapeNectarLounge(city = 'Seattle') {
 
     const events = await page.evaluate(() => {
       const results = [];
+      const allImages = [];
+      document.querySelectorAll('img').forEach(img => {
+        const src = img.src || img.getAttribute('data-src');
+        if (src && src.includes('http') && !src.includes('logo') && !src.includes('icon')) allImages.push(src);
+      });
+      let imgIdx = 0;
       const bodyText = document.body.innerText;
       const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
       
@@ -87,10 +93,12 @@ async function scrapeNectarLounge(city = 'Seattle') {
                 }
               }
               
+              const imageUrl = allImages.length > 0 ? allImages[imgIdx++ % allImages.length] : null;
               results.push({
                 title: candidate,
                 date: isoDate,
-                venue: venue
+                venue: venue,
+                imageUrl: imageUrl
               });
               break;
             }
@@ -111,7 +119,7 @@ async function scrapeNectarLounge(city = 'Seattle') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://nectarlounge.com/',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,
       venue: {
         name: event.venue,
         address: '412 N 36th St, Seattle, WA 98103',

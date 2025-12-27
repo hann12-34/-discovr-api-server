@@ -42,8 +42,10 @@ async function scrapeChopSuey(city = 'Seattle') {
         'SEPTEMBER': '09', 'OCTOBER': '10', 'NOVEMBER': '11', 'DECEMBER': '12'
       };
       
-      let currentMonth = monthYearMatch ? months[monthYearMatch[1].toUpperCase()] : '12';
-      let currentYear = monthYearMatch ? monthYearMatch[2] : '2025';
+      // No fallback - must have real month/year from page
+      if (!monthYearMatch) return [];
+      let currentMonth = months[monthYearMatch[1].toUpperCase()];
+      let currentYear = monthYearMatch[2];
       
       const seen = new Set();
       
@@ -95,7 +97,7 @@ async function scrapeChopSuey(city = 'Seattle') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://chopsuey.com/calendar',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Chop Suey',
         address: '1325 E Madison St, Seattle, WA 98122',

@@ -27,82 +27,78 @@ async function scrapeClubSpace(city = 'Miami') {
       timeout: 90000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    // Scroll to load all events
+    for (let i = 0; i < 5; i++) {
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
-      const months = {
-        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
-        'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
-      };
-      
-      // Pattern: "Wed 3 Dec" or "Thu 4 Dec"
-      const datePattern = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i;
-      
+      const months = { 'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12' };
       const seen = new Set();
       const currentYear = new Date().getFullYear();
       const currentMonth = new Date().getMonth() + 1;
+
+      // Find all event containers - they contain both title and image
+      // Club Space uses a specific structure - find containers with both img and date text
+      const allContainers = document.querySelectorAll('div, article, section');
       
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const dateMatch = line.match(datePattern);
+      allContainers.forEach(container => {
+        const text = container.innerText || '';
+        const datePattern = /(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i;
+        const dateMatch = text.match(datePattern);
         
-        if (dateMatch) {
-          const day = dateMatch[2].padStart(2, '0');
-          const monthStr = dateMatch[3];
-          const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1).toLowerCase()];
-          
-          // Determine year
-          const eventMonth = parseInt(month);
-          const year = eventMonth < currentMonth ? currentYear + 1 : currentYear;
-          
-          const isoDate = `${year}-${month}-${day}`;
-          
-          // Look for title after the date (skip time info)
-          let title = null;
-          let venue = 'Club Space Miami';
-          
-          for (let j = i + 1; j < Math.min(i + 5, lines.length); j++) {
-            const nextLine = lines[j];
-            
-            // Skip time patterns
-            if (nextLine.match(/^\d{1,2}:\d{2}(am|pm)/i) || 
-                nextLine.match(/^(From)?\$[\d.]+/)) {
-              continue;
-            }
-            
-            // Detect venue
-            if (nextLine.includes('Floyd')) {
-              venue = 'Floyd Miami';
-            } else if (nextLine.includes('Ground')) {
-              venue = 'The Ground Miami';
-            }
-            
-            // Skip navigation
-            if (nextLine === 'BUY NOW' || 
-                nextLine === 'JOIN THE WAITING LIST' ||
-                nextLine === 'Miami' ||
-                nextLine.length < 5) {
-              continue;
-            }
-            
-            title = nextLine;
+        if (!dateMatch) return;
+        
+        // Check if this container has an image from dice-media (actual event images)
+        const img = container.querySelector('img[src*="dice-media"]');
+        if (!img) return;
+        
+        const imageUrl = img.src;
+        
+        // Get title - usually the first substantial text line after filtering
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+        let title = null;
+        for (const line of lines) {
+          if (line.length > 5 && line.length < 100 &&
+              !line.match(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+\d/i) &&
+              !line.match(/^\d{1,2}:\d{2}(am|pm)/i) &&
+              !line.match(/^(From)?\s*\$[\d.]+/i) &&
+              !line.match(/^From\$\d/i) &&
+              !line.match(/^(BUY NOW|JOIN|WAITING|SOLD OUT|EVENTS|CHECK OUT|PHOTOS|RESIDENTS|ABOUT|CONTACT|FAQ)/i) &&
+              !line.match(/^(Club Space|Floyd|Ground|THE GROUND|HILLS)/i)) {
+            title = line;
             break;
           }
-          
-          if (title && title.length > 3 && !seen.has(title + isoDate)) {
-            seen.add(title + isoDate);
-            results.push({
-              title: title,
-              date: isoDate,
-              venue: venue
-            });
-          }
         }
-      }
+        
+        if (!title || title.length < 4) return;
+        
+        // Parse date
+        const day = dateMatch[2].padStart(2, '0');
+        const monthStr = dateMatch[3];
+        const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1).toLowerCase()];
+        if (!month) return;
+        
+        const eventMonth = parseInt(month);
+        const year = eventMonth < currentMonth ? currentYear + 1 : currentYear;
+        const isoDate = `${year}-${month}-${day}`;
+        
+        // Determine venue
+        let venue = 'Club Space Miami';
+        const textLower = text.toLowerCase();
+        if (textLower.includes('floyd')) venue = 'Floyd Miami';
+        else if (textLower.includes('ground')) venue = 'The Ground Miami';
+        
+        const key = title + isoDate;
+        if (!seen.has(key)) {
+          seen.add(key);
+          results.push({ title, date: isoDate, venue, imageUrl });
+        }
+      });
       
       return results;
     });
@@ -125,8 +121,8 @@ async function scrapeClubSpace(city = 'Miami') {
         title: event.title,
         date: event.date,
         startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-        url: 'https://clubspace.com/events/',
-        imageUrl: null,
+        url: event.eventUrl || 'https://clubspace.com/events/',
+        imageUrl: event.imageUrl || null,
         venue: {
           name: event.venue,
           address: info.address,

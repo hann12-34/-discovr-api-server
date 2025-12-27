@@ -7,6 +7,7 @@
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { sanitizeDescription } = require('../../utils/sanitizeDescription');
 
 async function scrapeCodaNightclub(city = 'Toronto') {
   console.log('🎧 Scraping CODA Nightclub...');
@@ -30,8 +31,7 @@ async function scrapeCodaNightclub(city = 'Toronto') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
+      const seen = new Set();
       
       // Month mapping
       const months = {
@@ -40,42 +40,99 @@ async function scrapeCodaNightclub(city = 'Toronto') {
         'September': '09', 'October': '10', 'November': '11', 'December': '12'
       };
       
-      // Date pattern: "December 5, 2025"
-      const datePattern = /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s+(\d{4})$/;
-      
-      const seen = new Set();
-      
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const dateMatch = line.match(datePattern);
+      // Find event cards with images
+      document.querySelectorAll('a[href*="ra.co"], a[href*="ticket"], div[class*="event"]').forEach(el => {
+        const container = el.closest('div') || el.parentElement?.parentElement;
+        if (!container) return;
         
-        if (dateMatch) {
-          const monthStr = dateMatch[1];
-          const day = dateMatch[2].padStart(2, '0');
-          const year = dateMatch[3];
-          const month = months[monthStr];
-          
-          const isoDate = `${year}-${month}-${day}`;
-          
-          // Title is the NEXT line after the date
-          let title = i + 1 < lines.length ? lines[i + 1] : null;
-          
-          // Skip if title looks like navigation or another date
-          if (title && (
-            title.match(datePattern) ||
-            title === 'UPCOMING EVENTS' ||
-            title.includes('Sign up') ||
-            title.length < 3
-          )) {
-            title = null;
+        const img = container.querySelector('img');
+        const imgSrc = img?.src || img?.getAttribute('data-src');
+        
+        // Get text content
+        const text = container.textContent?.trim();
+        if (!text) return;
+        
+        // Extract date (format: "December 26, 2025")
+        const dateMatch = text.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s+(\d{4})/);
+        if (!dateMatch) return;
+        
+        const month = months[dateMatch[1]];
+        const day = dateMatch[2].padStart(2, '0');
+        const year = dateMatch[3];
+        const isoDate = `${year}-${month}-${day}`;
+        
+        // Extract title - usually in uppercase after the date
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l && l.length > 2);
+        let title = null;
+        for (const line of lines) {
+          if (line.match(/^[A-Z][A-Z\s\-&\.]+$/) && line.length > 3 && line !== 'UPCOMING EVENTS') {
+            title = line;
+            break;
           }
+        }
+        
+        if (!title) {
+          // Try to find title after date
+          const dateIdx = text.indexOf(dateMatch[0]);
+          if (dateIdx > -1) {
+            const afterDate = text.substring(dateIdx + dateMatch[0].length).trim();
+            const firstLine = afterDate.split('\n')[0]?.trim();
+            if (firstLine && firstLine.length > 3) {
+              title = firstLine;
+            }
+          }
+        }
+        
+        if (title && !seen.has(title + isoDate)) {
+          seen.add(title + isoDate);
+          results.push({
+            title: title,
+            date: isoDate,
+            imageUrl: imgSrc && !imgSrc.includes('logo') ? imgSrc : null
+          });
+        }
+      });
+      
+      // Fallback: parse text for events without finding cards
+      if (results.length === 0) {
+        const bodyText = document.body.innerText;
+        const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
+        const datePattern = /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s+(\d{4})$/;
+        
+        // Collect all images
+        const images = [];
+        document.querySelectorAll('img').forEach(img => {
+          const src = img.src || img.getAttribute('data-src');
+          if (src && !src.includes('logo') && img.width > 100) {
+            images.push(src);
+          }
+        });
+        
+        let imgIdx = 0;
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const dateMatch = line.match(datePattern);
           
-          if (title && title.length > 2 && !seen.has(title + isoDate)) {
-            seen.add(title + isoDate);
-            results.push({
-              title: title,
-              date: isoDate
-            });
+          if (dateMatch) {
+            const month = months[dateMatch[1]];
+            const day = dateMatch[2].padStart(2, '0');
+            const year = dateMatch[3];
+            const isoDate = `${year}-${month}-${day}`;
+            
+            let title = i + 1 < lines.length ? lines[i + 1] : null;
+            if (title && (title.match(datePattern) || title === 'UPCOMING EVENTS' || title.length < 3)) {
+              title = null;
+            }
+            
+            if (title && !seen.has(title + isoDate)) {
+              seen.add(title + isoDate);
+              results.push({
+                title: title,
+                date: isoDate,
+                imageUrl: images[imgIdx] || null
+              });
+              imgIdx++;
+            }
           }
         }
       }
@@ -87,24 +144,26 @@ async function scrapeCodaNightclub(city = 'Toronto') {
 
     console.log(`  ✅ Found ${events.length} CODA events`);
 
-    const formattedEvents = events.map(event => ({
-      id: uuidv4(),
-      title: event.title,
-      date: event.date,
-      startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://codatoronto.com/events/',
-      imageUrl: null,
-      venue: {
-        name: 'CODA',
-        address: '794 Bathurst St, Toronto, ON M5R 3G1',
-        city: 'Toronto'
-      },
-      latitude: 43.6651,
-      longitude: -79.4114,
-      city: 'Toronto',
-      category: 'Nightlife',
-      source: 'CODA'
-    }));
+    const formattedEvents = events.map(event => {
+      return {
+        id: uuidv4(),
+        title: event.title,
+        date: event.date,
+        startDate: event.date ? new Date(event.date + 'T22:00:00') : null,
+        url: 'https://codatoronto.com/events/',
+        imageUrl: event.imageUrl,
+        venue: {
+          name: 'CODA',
+          address: '794 Bathurst St, Toronto, ON M5R 3G1',
+          city: 'Toronto'
+        },
+        latitude: 43.6651,
+        longitude: -79.4114,
+        city: 'Toronto',
+        category: 'Nightlife',
+        source: 'CODA'
+      };
+    });
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
     

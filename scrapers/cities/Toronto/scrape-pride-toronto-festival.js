@@ -77,10 +77,8 @@ async function scrape(city = 'Toronto') {
         }
       }
       
-      // Pride typically happens in June
-      if (!eventDate) {
-        eventDate = '2025-06-01'; // Beginning of Pride Month
-      }
+      // Skip events without real dates - no hardcoded fallback
+      if (!eventDate) return;
       
       events.push({
         id: uuidv4(),
@@ -98,73 +96,14 @@ async function scrape(city = 'Toronto') {
       });
     });
     
-    // Add main Pride events if no specific events found
-    if (events.length === 0) {
-      events.push(
-        {
-          id: uuidv4(),
-          title: 'Pride Toronto Month 2025',
-          date: '2025-06-01',
-          url: 'https://www.pridetoronto.com/',
-          imageUrl: imageUrl,
-          venue: {
-            name: 'Various Venues',
-            city: 'Toronto'
-          },
-          city: city,
-          category: 'Festival',
-          source: 'Pride Toronto'
-        },
-        {
-          id: uuidv4(),
-          title: 'Pride Toronto Parade 2025',
-          date: '2025-06-22', // Typically last Sunday in June
-          url: 'https://www.pridetoronto.com/',
-          venue: {
-            name: 'Yonge Street',
-            city: 'Toronto'
-          },
-          city: city,
-          category: 'Festival',
-          source: 'Pride Toronto'
-        }
-      );
-    }
+    // No fallback events - only return events with real dates
     
     console.log(`✅ Pride Toronto: ${events.length} events`);
     return filterEvents(events);
     
   } catch (error) {
     console.error('  ⚠️  Pride Toronto error:', error.message);
-    // Return main festival events as fallback
-    return filterEvents([
-      {
-        id: uuidv4(),
-        title: 'Pride Toronto Month 2025',
-        date: '2025-06-01',
-        url: 'https://www.pridetoronto.com/',
-        venue: {
-          name: 'Various Venues',
-          city: 'Toronto'
-        },
-        city: city,
-        category: 'Festival',
-        source: 'Pride Toronto'
-      },
-      {
-        id: uuidv4(),
-        title: 'Pride Toronto Parade 2025',
-        date: '2025-06-22',
-        url: 'https://www.pridetoronto.com/',
-        venue: {
-          name: 'Yonge Street',
-          city: 'Toronto'
-        },
-        city: city,
-        category: 'Festival',
-        source: 'Pride Toronto'
-      }
-    ]);
+    return []; // No fallback - return empty on error
   }
 }
 

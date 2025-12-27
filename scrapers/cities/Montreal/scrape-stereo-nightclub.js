@@ -80,7 +80,7 @@ async function scrapeEvents(city = 'Montreal') {
           title: title,
           date: dateText,
           url: url || 'https://stereo.tickit.ca/',
-          imageUrl: imageUrl,
+          imageUrl: null,
           venue: {
             name: 'Stereo Nightclub',
             address: '858 Rue Sainte-Catherine Est, Montreal, QC H2L 2E3',
@@ -94,6 +94,24 @@ async function scrapeEvents(city = 'Montreal') {
         console.log(`  ✓ ${title} | ${dateText}`);
       }
     });
+    
+    // Fetch og:image from each event URL
+    for (const event of events) {
+      if (event.url && event.url.startsWith('http')) {
+        try {
+          const resp = await axios.get(event.url, {
+            timeout: 8000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' }
+          });
+          const $evt = cheerio.load(resp.data);
+          const ogImage = $evt('meta[property="og:image"]').attr('content');
+          if (ogImage) {
+            event.imageUrl = ogImage;
+            event.image = ogImage;
+          }
+        } catch (e) {}
+      }
+    }
     
     console.log(`\n✅ Found ${events.length} Stereo events`);
     return events;

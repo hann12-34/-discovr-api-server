@@ -43,24 +43,27 @@ async function scrape(city = 'Toronto') {
       } catch (e) {}
     }
     
-    // Add main festival event
-    events.push({
-      id: uuidv4(),
-      title: festivalTitle,
-      date: eventDate || '2025-08-01', // Default to typical dates
-      url: festivalUrl,
-          imageUrl: imageUrl,
-      venue: {
-        name: 'Downsview Park',
-        address: 'Downsview Park, Toronto',
-        city: 'Toronto'
-      },
-      city: city,
-      category: 'Festival',
-      source: 'VELD Music Festival'
-    });
-    
-    console.log(`  ✅ VELD: 1 festival event`);
+    // Only add if we have a real date - no hardcoded fallback
+    if (eventDate) {
+      events.push({
+        id: uuidv4(),
+        title: festivalTitle,
+        date: eventDate,
+        url: festivalUrl,
+        imageUrl: null,
+        venue: {
+          name: 'Downsview Park',
+          address: 'Downsview Park, Toronto',
+          city: 'Toronto'
+        },
+        city: city,
+        category: 'Festival',
+        source: 'VELD Music Festival'
+      });
+      console.log(`  ✅ VELD: 1 festival event`);
+    } else {
+      console.log(`  ⚠️  VELD: skipped - no real date found`);
+    }
   } catch (err) {
     console.log(`  ⚠️  VELD error: ${err.message}`);
   }

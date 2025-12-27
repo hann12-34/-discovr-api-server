@@ -43,9 +43,11 @@ async function scrapeTrinityNightclub(city = 'Seattle') {
       const datePattern = /(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s+(\d{1,2})(?:ST|ND|RD|TH)?/i;
       
       const seen = new Set();
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const currentMonth = now.getMonth() + 1;
+      
+      // Look for year on page - NO FALLBACK
+      const yearMatch = bodyText.match(/\b(202[4-9])\b/);
+      if (!yearMatch) return [];
+      const year = yearMatch[1];
       
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -57,10 +59,6 @@ async function scrapeTrinityNightclub(city = 'Seattle') {
           const monthStr = dateMatch[1].toUpperCase();
           const day = dateMatch[2].padStart(2, '0');
           const month = months[monthStr];
-          
-          // Determine year
-          const eventMonth = parseInt(month);
-          const year = eventMonth < currentMonth ? currentYear + 1 : currentYear;
           
           const isoDate = `${year}-${month}-${day}`;
           

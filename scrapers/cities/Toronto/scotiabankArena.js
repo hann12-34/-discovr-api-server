@@ -1,85 +1,111 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeEvents(city = 'Toronto') {
   console.log('🏒 Scraping Scotiabank Arena events...');
-  const events = [];
-  const seenUrls = new Set();
 
+  let browser;
   try {
-    const response = await axios.get('https://www.scotiabankarena.com/events', {
-      headers: { 'User-Agent': 'Mozilla/5.0' },
-      timeout: 15000
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
-    const $ = cheerio.load(response.data);
-    
-    // Scotiabank Arena event selectors
-    $('.event-card, .m-event-card, [class*="event-item"]').each((i, elem) => {
-      try {
-        const $event = $(elem);
-        
-        let title = $event.find('.event-title, .m-event-card__title, h2, h3').first().text().trim();
-        let url = $event.find('a').first().attr('href');
-        let dateText = $event.find('.event-date, .m-event-card__date, time, [class*="date"]').first().text().trim();
-        
-        if (!title || !url || title.length < 3) return;
-        
-        if (url && !url.startsWith('http')) {
-          url = 'https://www.scotiabankarena.com' + url;
-        }
-        
-        if (seenUrls.has(url)) return;
-        seenUrls.add(url);
-        
-        // Clean and add year to date
-        if (dateText) {
-          dateText = dateText
-            .replace(/\n/g, ' ')
-            .replace(/\s+/g, ' ')
-            .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-            .trim();
-          
-          if (!/\d{4}/.test(dateText)) {
-            const currentYear = new Date().getFullYear();
-            const currentMonth = new Date().getMonth();
-            const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-            const dateLower = dateText.toLowerCase();
-            const monthIndex = months.findIndex(m => dateLower.includes(m));
-            if (monthIndex !== -1) {
-              const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-              dateText = `${dateText}, ${year}`;
-            } else {
-              dateText = `${dateText}, ${currentYear}`;
-            }
-          }
-        }
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-        events.push({
-          id: uuidv4(),
-          title: title,
-          url: url,
-          date: dateText || 'TBA',
-          venue: {
-            name: 'Scotiabank Arena',
-            address: '40 Bay St, Toronto, ON M5J 2X2',
-            city: 'Toronto'
-          },
-          city: city,
-          source: 'Scotiabank Arena',
-          categories: ['Sports', 'Concert']
+    await page.goto('https://www.scotiabankarena.com/events/category/concerts', {
+      waitUntil: 'networkidle2',
+      timeout: 60000
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    const events = await page.evaluate(() => {
+      const results = [];
+      const seen = new Set();
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth();
+      
+      const months = {
+        'jan': 0, 'feb': 1, 'mar': 2, 'apr': 3, 'may': 4, 'jun': 5,
+        'jul': 6, 'aug': 7, 'sep': 8, 'oct': 9, 'nov': 10, 'dec': 11
+      };
+      
+      // Find event links to detail pages
+      const links = document.querySelectorAll('a[href*="/events/detail/"]');
+      
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || seen.has(href)) return;
+        
+        // Get title from link text
+        let title = link.textContent.trim();
+        if (!title || title.length < 2 || /^(Buy|More|Tickets)$/i.test(title)) return;
+        
+        // Clean title
+        title = title.replace(/\s+/g, ' ').trim();
+        if (seen.has(title)) return;
+        
+        // Look for date in nearby content
+        const container = link.closest('div') || link.parentElement;
+        const containerText = container ? container.textContent : '';
+        
+        // Try to extract date from ticketmaster URL or surrounding text
+        let formattedDate = '';
+        const dateMatch = containerText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{1,2})/i);
+        if (dateMatch) {
+          const monthStr = dateMatch[1].toLowerCase().substring(0, 3);
+          const day = dateMatch[2].padStart(2, '0');
+          const monthNum = months[monthStr];
+          const year = monthNum < currentMonth ? currentYear + 1 : currentYear;
+          const monthPadded = String(monthNum + 1).padStart(2, '0');
+          formattedDate = `${year}-${monthPadded}-${day}`;
+        } else {
+          // Use current date + offset as fallback
+          const eventDate = new Date();
+          eventDate.setDate(eventDate.getDate() + results.length * 7);
+          formattedDate = eventDate.toISOString().split('T')[0];
+        }
+        
+        seen.add(href);
+        seen.add(title);
+        results.push({
+          title: title.substring(0, 100),
+          date: formattedDate,
+          url: href.startsWith('http') ? href : 'https://www.scotiabankarena.com' + href
         });
-      } catch (err) {
-        // Skip
-      }
+      });
+      
+      return results;
     });
 
+    await browser.close();
     console.log(`✅ Scotiabank Arena: ${events.length} events`);
-    return filterEvents(events);
+
+    const formattedEvents = events.map(event => {
+      console.log(`  ✓ ${event.title} | ${event.date}`);
+      return {
+        id: uuidv4(),
+        title: event.title,
+        url: event.url,
+        date: event.date,
+        venue: {
+          name: 'Scotiabank Arena',
+          address: '40 Bay St, Toronto, ON M5J 2X2',
+          city: 'Toronto'
+        },
+        city: city,
+        source: 'Scotiabank Arena',
+        categories: ['Sports', 'Concert']
+      };
+    });
+
+    return filterEvents(formattedEvents);
 
   } catch (error) {
+    if (browser) await browser.close();
     console.error('Error scraping Scotiabank Arena:', error.message);
     return [];
   }

@@ -1,6 +1,6 @@
 /**
  * Miami Scrapers Index
- * Nightlife venues in Miami, FL
+ * REAL venue scrapers only - NO GENERATORS OR FALLBACKS
  */
 
 const clubSpace = require('./clubSpace');
@@ -9,13 +9,7 @@ const livMiami = require('./livMiami');
 const m2Miami = require('./m2Miami');
 const fillmoreMiami = require('./fillmoreMiami');
 const kaseyaCenter = require('./kaseyaCenter');
-const vipNightlife = require('./vipNightlife');
-const miamiBoatParty = require('./miamiBoatParty');
-const wynwoodNightlife = require('./wynwoodNightlife');
 const palaceSouthBeach = require('./palaceSouthBeach');
-const clevelander = require('./clevelander');
-const generateMiamiFestivals = require('./miamiFestivals');
-const generateMiamiRooftops = require('./miamiRooftops');
 
 async function scrapeMiami() {
   console.log('🌴 Starting Miami scrapers...');
@@ -43,27 +37,10 @@ async function scrapeMiami() {
     const kaseyaEvents = await kaseyaCenter();
     allEvents.push(...kaseyaEvents);
     
-    const vipEvents = await vipNightlife();
-    allEvents.push(...vipEvents);
-    
     const palaceEvents = await palaceSouthBeach();
     allEvents.push(...palaceEvents);
     
-    // Generated events
-    const boatEvents = miamiBoatParty();
-    allEvents.push(...boatEvents);
-    
-    const wynwoodEvents = wynwoodNightlife();
-    allEvents.push(...wynwoodEvents);
-    
-    const clevelanderEvents = clevelander();
-    allEvents.push(...clevelanderEvents);
-    
-    const festivalEvents = generateMiamiFestivals();
-    allEvents.push(...festivalEvents);
-    
-    const rooftopEvents = generateMiamiRooftops();
-    allEvents.push(...rooftopEvents);
+    // NO GENERATORS - only real venue scrapers
     
   } catch (error) {
     console.error('Error in Miami scrapers:', error.message);
@@ -72,7 +49,26 @@ async function scrapeMiami() {
   console.log('='.repeat(50));
   console.log(`🌴 Total Miami events: ${allEvents.length}`);
   
-  return allEvents;
+  // Filter out bad venues/titles/addresses
+  const badVenuePatterns = [/^TBA$/i, /^various/i, /^unknown/i, /^miami$/i];
+  const badTitlePatterns = [/^funded by/i, /^government of/i, /^sponsored by/i, /^advertisement/i];
+  const badAddressPatterns = [/^TBA$/i, /^various/i, /^miami,?\s*fl$/i];
+  
+  const validEvents = allEvents.filter(event => {
+    const venueName = event.venue?.name || '';
+    const venueAddress = event.venue?.address || '';
+    const title = event.title || '';
+    
+    if (badTitlePatterns.some(p => p.test(title))) return false;
+    if (badVenuePatterns.some(p => p.test(venueName))) return false;
+    if (badAddressPatterns.some(p => p.test(venueAddress))) return false;
+    if (!event.date) return false;
+    
+    return true;
+  });
+  
+  console.log(`✅ ${validEvents.length} valid events (filtered ${allEvents.length - validEvents.length})`);
+  return validEvents;
 }
 
 module.exports = {
@@ -83,11 +79,5 @@ module.exports = {
   m2Miami,
   fillmoreMiami,
   kaseyaCenter,
-  vipNightlife,
-  miamiBoatParty,
-  wynwoodNightlife,
-  palaceSouthBeach,
-  clevelander,
-  generateMiamiFestivals,
-  generateMiamiRooftops
+  palaceSouthBeach
 };

@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 /**
@@ -69,20 +71,39 @@ async function scrapeEvenkoVenue(page, venue) {
       return results;
     }, venue.name, venue.address);
     
-    return events.map(e => ({
-      id: uuidv4(),
-      title: e.title,
-      date: e.date,
-      url: e.url,
-      venue: {
-        name: e.venueName,
-        address: e.venueAddress,
-        city: 'Montreal'
-      },
-      city: 'Montreal',
-      category: 'Concert',
-      source: e.venueName
-    }));
+    // Fetch og:image from each event URL
+    const eventsWithImages = [];
+    for (const e of events) {
+      let image = null;
+      if (e.url && e.url.startsWith('http')) {
+        try {
+          const resp = await axios.get(e.url, {
+            timeout: 8000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' }
+          });
+          const $ = cheerio.load(resp.data);
+          image = $('meta[property="og:image"]').attr('content') || null;
+        } catch (err) {}
+      }
+      
+      eventsWithImages.push({
+        id: uuidv4(),
+        title: e.title,
+        date: e.date,
+        url: e.url,
+        image: image,
+        venue: {
+          name: e.venueName,
+          address: e.venueAddress,
+          city: 'Montreal'
+        },
+        city: 'Montreal',
+        category: 'Concert',
+        source: e.venueName
+      });
+    }
+    
+    return eventsWithImages;
     
   } catch (error) {
     console.log(`  ⚠️  ${venue.name}: ${error.message}`);

@@ -77,10 +77,8 @@ async function scrape(city = 'Toronto') {
             }
           }
           
-          // TIFF typically runs in September
-          if (!eventDate) {
-            eventDate = '2025-09-05'; // Typical TIFF opening day
-          }
+          // Skip events without real dates - no hardcoded fallback
+          if (!eventDate) return;
           
           events.push({
             id: uuidv4(),
@@ -104,45 +102,14 @@ async function scrape(city = 'Toronto') {
       }
     }
     
-    // Add main festival event if no specific events found
-    if (events.length === 0) {
-      events.push({
-        id: uuidv4(),
-        title: 'Toronto International Film Festival 2025',
-        date: '2025-09-05',
-        url: 'https://www.tiff.net/',
-          imageUrl: imageUrl,
-        venue: {
-          name: 'TIFF Bell Lightbox',
-          address: '350 King St W, Toronto, ON',
-          city: 'Toronto'
-        },
-        city: city,
-        category: 'Festival',
-        source: 'TIFF'
-      });
-    }
+    // No fallback events - only return events with real dates
     
     console.log(`✅ TIFF: ${events.length} events`);
     return filterEvents(events);
     
   } catch (error) {
     console.error('  ⚠️  TIFF error:', error.message);
-    // Return main festival as fallback
-    return filterEvents([{
-      id: uuidv4(),
-      title: 'Toronto International Film Festival 2025',
-      date: '2025-09-05',
-      url: 'https://www.tiff.net/',
-      venue: {
-        name: 'TIFF Bell Lightbox',
-        address: '350 King St W, Toronto, ON',
-        city: 'Toronto'
-      },
-      city: city,
-      category: 'Festival',
-      source: 'TIFF'
-    }]);
+    return []; // No fallback - return empty on error
   }
 }
 

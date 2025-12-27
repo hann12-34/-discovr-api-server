@@ -1,6 +1,6 @@
 /**
  * Seattle Scrapers Index
- * Exports all Seattle venue scrapers
+ * REAL venue scrapers only - NO GENERATORS OR FALLBACKS
  */
 
 const neumos = require('./neumos');
@@ -13,8 +13,12 @@ const stgPresents = require('./stgPresents');
 const conorByrnePub = require('./conorByrnePub');
 const oraNightclub = require('./oraNightclub');
 const trinityNightclub = require('./trinityNightclub');
-const generateSeattleFestivals = require('./seattleFestivals');
-const generateSeattleNightlife = require('./seattleNightlife');
+const elCorazon = require('./elCorazon');
+const massiveClub = require('./massiveClub');
+const sunsetTavern = require('./sunsetTavern');
+const skylarkCafe = require('./skylarkCafe');
+const fremontAbbey = require('./fremontAbbey');
+const substation = require('./substation');
 
 async function scrapeSeattle() {
   console.log('☕ Starting Seattle scrapers...');
@@ -54,12 +58,25 @@ async function scrapeSeattle() {
     const trinityEvents = await trinityNightclub();
     allEvents.push(...trinityEvents);
     
-    // Generated events
-    const festivalEvents = generateSeattleFestivals();
-    allEvents.push(...festivalEvents);
+    const elCorazonEvents = await elCorazon();
+    allEvents.push(...elCorazonEvents);
     
-    const nightlifeEvents = generateSeattleNightlife();
-    allEvents.push(...nightlifeEvents);
+    const massiveEvents = await massiveClub();
+    allEvents.push(...massiveEvents);
+    
+    const sunsetEvents = await sunsetTavern();
+    allEvents.push(...sunsetEvents);
+    
+    const skylarkEvents = await skylarkCafe();
+    allEvents.push(...skylarkEvents);
+    
+    const fremontEvents = await fremontAbbey();
+    allEvents.push(...fremontEvents);
+    
+    const substationEvents = await substation();
+    allEvents.push(...substationEvents);
+    
+    // NO GENERATORS - only real venue scrapers
     
   } catch (error) {
     console.error('Error in Seattle scrapers:', error.message);
@@ -68,7 +85,26 @@ async function scrapeSeattle() {
   console.log('='.repeat(50));
   console.log(`☕ Total Seattle events: ${allEvents.length}`);
   
-  return allEvents;
+  // Filter out bad venues/titles/addresses
+  const badVenuePatterns = [/^TBA$/i, /^various/i, /^unknown/i, /^seattle$/i];
+  const badTitlePatterns = [/^funded by/i, /^government of/i, /^sponsored by/i, /^advertisement/i];
+  const badAddressPatterns = [/^TBA$/i, /^various/i, /^seattle,?\s*wa$/i];
+  
+  const validEvents = allEvents.filter(event => {
+    const venueName = event.venue?.name || '';
+    const venueAddress = event.venue?.address || '';
+    const title = event.title || '';
+    
+    if (badTitlePatterns.some(p => p.test(title))) return false;
+    if (badVenuePatterns.some(p => p.test(venueName))) return false;
+    if (badAddressPatterns.some(p => p.test(venueAddress))) return false;
+    if (!event.date) return false;
+    
+    return true;
+  });
+  
+  console.log(`✅ ${validEvents.length} valid events (filtered ${allEvents.length - validEvents.length})`);
+  return validEvents;
 }
 
 module.exports = {
@@ -83,6 +119,10 @@ module.exports = {
   conorByrnePub,
   oraNightclub,
   trinityNightclub,
-  generateSeattleFestivals,
-  generateSeattleNightlife
+  elCorazon,
+  massiveClub,
+  sunsetTavern,
+  skylarkCafe,
+  fremontAbbey,
+  substation
 };

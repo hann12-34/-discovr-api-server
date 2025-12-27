@@ -44,6 +44,24 @@ async function scrapeE11even(city = 'Miami') {
       
       const seen = new Set();
       
+      // Get all event cards/blocks with images
+      const eventBlocks = document.querySelectorAll('.event, .event-card, article, [class*="event"]');
+      const imageMap = {};
+      
+      eventBlocks.forEach(block => {
+        const img = block.querySelector('img:not([src*="logo"]):not([alt*="logo"])');
+        const titleEl = block.querySelector('h1, h2, h3, .title, .event-title');
+        if (img && titleEl) {
+          const src = img.src || img.getAttribute('data-src') || '';
+          if (src && !src.includes('logo') && !src.includes('icon')) {
+            imageMap[titleEl.textContent.trim()] = src;
+          }
+        }
+      });
+      
+      // Try Open Graph image as fallback
+      const ogImage = document.querySelector('meta[property="og:image"]')?.content || '';
+      
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         const dateMatch = line.match(datePattern);
@@ -82,9 +100,14 @@ async function scrapeE11even(city = 'Miami') {
           
           if (title && title.length > 3 && !seen.has(title + isoDate)) {
             seen.add(title + isoDate);
+            
+            // Try to find image for this event
+            const eventImage = imageMap[title] || ogImage || '';
+            
             results.push({
               title: title,
-              date: isoDate
+              date: isoDate,
+              imageUrl: eventImage
             });
           }
         }
@@ -103,7 +126,7 @@ async function scrapeE11even(city = 'Miami') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://11miami.com/events/',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,  // Use scraped image
       venue: {
         name: 'E11EVEN Miami',
         address: '29 NE 11th St, Miami, FL 33132',

@@ -35,68 +35,77 @@ async function scrapeKaseyaCenter(city = 'Miami') {
       await new Promise(resolve => setTimeout(resolve, 1500));
     }
 
+    // Get all event links and images from the page
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
+      const seen = new Set();
       const months = {
         'JAN': '01', 'FEB': '02', 'MAR': '03', 'APR': '04', 'MAY': '05', 'JUN': '06',
         'JUL': '07', 'AUG': '08', 'SEP': '09', 'OCT': '10', 'NOV': '11', 'DEC': '12'
       };
       
-      const seen = new Set();
-      const currentYear = new Date().getFullYear();
-      const currentMonth = new Date().getMonth() + 1;
+      // Find event cards/containers
+      const containers = document.querySelectorAll('a[href*="/event/"], .event-card, [class*="event"]');
       
-      // Pattern: "FRI. DEC 5, 2025" or "DEC 3 - 5, 2025"
-      const datePattern = /^(?:MON|TUE|WED|THU|FRI|SAT|SUN)\.\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{1,2}),\s+(\d{4})$/i;
-      const rangePattern = /^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{1,2})\s*-\s*\d{1,2},\s+(\d{4})$/i;
-      
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        let dateMatch = line.match(datePattern);
-        let rangeMatch = line.match(rangePattern);
+      containers.forEach(container => {
+        const text = container.innerText || '';
         
-        if (dateMatch || rangeMatch) {
-          const match = dateMatch || rangeMatch;
-          const monthStr = match[1].toUpperCase();
-          const day = match[2].padStart(2, '0');
-          const year = match[3];
-          const month = months[monthStr];
-          
-          const isoDate = `${year}-${month}-${day}`;
-          
-          // Title is the line AFTER the date
-          let title = lines[i + 1];
-          
-          // Skip navigation items
-          if (title && (
-            title === 'BUY TICKETS' ||
-            title === 'MORE INFO' ||
-            title === 'Kaseya Center/Miami HEAT' ||
-            title.length < 3
-          )) {
-            title = null;
-          }
-          
-          // Skip tours of the arena
-          if (title && title.includes('ALL-ACCESS TOUR')) {
-            continue;
-          }
-          
-          if (title && title.length > 3 && !seen.has(title + isoDate)) {
-            seen.add(title + isoDate);
-            results.push({
-              title: title,
-              date: isoDate
-            });
+        // Get image
+        const img = container.querySelector('img');
+        let imageUrl = img?.src || null;
+        if (imageUrl && (imageUrl.includes('logo') || imageUrl.includes('icon'))) imageUrl = null;
+        
+        // Get event URL
+        const link = container.tagName === 'A' ? container.href : container.querySelector('a')?.href;
+        
+        // Parse date
+        const datePattern = /(?:MON|TUE|WED|THU|FRI|SAT|SUN)\.\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{1,2}),\s+(\d{4})/i;
+        const dateMatch = text.match(datePattern);
+        
+        if (!dateMatch) return;
+        
+        const monthStr = dateMatch[1].toUpperCase();
+        const day = dateMatch[2].padStart(2, '0');
+        const year = dateMatch[3];
+        const month = months[monthStr];
+        const isoDate = `${year}-${month}-${day}`;
+        
+        // Get title - find substantial text
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+        let title = null;
+        for (const line of lines) {
+          if (line.length > 5 && line.length < 100 &&
+              !line.match(/^(MON|TUE|WED|THU|FRI|SAT|SUN)\./i) &&
+              !line.match(/^(BUY TICKETS|MORE INFO|ALL-ACCESS)/i) &&
+              !line.includes('Kaseya Center')) {
+            title = line;
+            break;
           }
         }
-      }
+        
+        if (title && !seen.has(title + isoDate)) {
+          seen.add(title + isoDate);
+          results.push({ title, date: isoDate, imageUrl, eventUrl: link });
+        }
+      });
       
       return results;
     });
+
+    // Fetch images from event pages if missing
+    for (const event of events) {
+      if (!event.imageUrl && event.eventUrl) {
+        try {
+          await page.goto(event.eventUrl, { waitUntil: 'domcontentloaded', timeout: 10000 });
+          await new Promise(r => setTimeout(r, 1500));
+          const img = await page.evaluate(() => {
+            const og = document.querySelector('meta[property="og:image"]');
+            return og?.content || null;
+          });
+          if (img) event.imageUrl = img;
+        } catch (e) {}
+      }
+    }
 
     await browser.close();
 
@@ -107,8 +116,8 @@ async function scrapeKaseyaCenter(city = 'Miami') {
       title: event.title,
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://www.kaseyacenter.com/events',
-      imageUrl: null,
+      url: event.eventUrl || 'https://www.kaseyacenter.com/events',
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Kaseya Center',
         address: '601 Biscayne Blvd, Miami, FL 33132',

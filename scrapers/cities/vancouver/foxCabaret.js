@@ -2,6 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { sanitizeDescription } = require('../../utils/sanitizeDescription');
 
 const FoxCabaretEvents = {
   async scrape(city) {
@@ -117,12 +118,20 @@ const FoxCabaretEvents = {
             }
           }
 
+          // Generate clean description
+          const description = sanitizeDescription(
+            null,
+            eventTitle,
+            'Fox Cabaret',
+            'Vancouver'
+          );
+
           events.push({
             id: uuidv4(),
             title: eventTitle,
-            description: eventTitle + ' at Fox Cabaret Vancouver.',
+            description: description,
             date: isoDate || eventDate,
-            startDate: isoDate ? new Date(isoDate + 'T00:00:00') : null,
+            startDate: isoDate ? new Date(isoDate + 'T12:00:00') : null,
             url: url && url.startsWith('http') ? url : (url ? 'https://www.foxcabaret.com' + url : 'https://www.foxcabaret.com'),
             imageUrl: imageUrl || null,  // Real poster image or null
             venue: { name: 'Fox Cabaret', address: '2321 Main Street, Vancouver, BC V5T 3C9', city: 'Vancouver' },

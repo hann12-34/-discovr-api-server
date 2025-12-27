@@ -5,6 +5,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
@@ -15,87 +17,105 @@ async function scrapeAvalonHollywood(city = 'Los Angeles') {
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      protocolTimeout: 120000
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
     await page.goto('https://avalonhollywood.com/events/', {
-      waitUntil: 'networkidle0',
+      waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
-      const months = {
-        'January': '01', 'February': '02', 'March': '03', 'April': '04', 
-        'May': '05', 'June': '06', 'July': '07', 'August': '08',
-        'September': '09', 'October': '10', 'November': '11', 'December': '12'
-      };
-      
-      const datePattern = /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s*(\d{4})?/i;
-      
       const seen = new Set();
-      const currentYear = new Date().getFullYear();
       
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const dateMatch = line.match(datePattern);
+      // Find all event links with dates in format MM.DD.YY
+      const links = document.querySelectorAll('a[href*="/event/"]');
+      
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        const title = link.textContent.trim().replace(/\s+/g, ' ');
         
-        if (dateMatch) {
-          const monthStr = dateMatch[1];
-          const day = dateMatch[2].padStart(2, '0');
-          const year = dateMatch[3] || currentYear;
-          const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1).toLowerCase()];
-          const isoDate = `${year}-${month}-${day}`;
-          
-          let title = i > 0 ? lines[i - 1] : null;
-          
-          if (title && (title.length < 3 || title.includes('Tickets') || title.includes('RSVP'))) {
-            title = i > 1 ? lines[i - 2] : null;
+        if (!title || title.length < 3 || /tickets|tables/i.test(title)) return;
+        
+        // Look for date in parent container
+        let parent = link.parentElement;
+        let dateText = '';
+        for (let i = 0; i < 5 && parent; i++) {
+          const text = parent.textContent || '';
+          const dateMatch = text.match(/(\d{1,2})\.(\d{1,2})\.(\d{2})/);
+          if (dateMatch) {
+            dateText = dateMatch[0];
+            break;
           }
+          parent = parent.parentElement;
+        }
+        
+        if (dateText && title.length > 2) {
+          const parts = dateText.split('.');
+          const month = parts[0].padStart(2, '0');
+          const day = parts[1].padStart(2, '0');
+          const year = '20' + parts[2];
+          const date = `${year}-${month}-${day}`;
           
-          if (title && title.length > 3 && !seen.has(title + isoDate)) {
-            seen.add(title + isoDate);
-            results.push({ title, date: isoDate });
+          const key = title.substring(0, 50) + date;
+          if (!seen.has(key)) {
+            seen.add(key);
+            results.push({
+              title: title.substring(0, 100),
+              date,
+              url: href.startsWith('http') ? href : 'https://avalonhollywood.com' + href
+            });
           }
         }
-      }
+      });
       
       return results;
     });
 
     await browser.close();
-
     console.log(`  ✅ Found ${events.length} Avalon Hollywood events`);
 
-    const formattedEvents = events.map(event => ({
-      id: uuidv4(),
-      title: event.title,
-      date: event.date,
-      startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://avalonhollywood.com/events/',
-      imageUrl: null,
-      venue: {
-        name: 'Avalon Hollywood',
-        address: '1735 Vine St, Los Angeles, CA 90028',
-        city: 'Los Angeles'
-      },
-      latitude: 34.1028,
-      longitude: -118.3267,
-      city: 'Los Angeles',
-      category: 'Nightlife',
-      source: 'AvalonHollywood'
-    }));
-
-    formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
+    // Fetch images from event pages
+    const formattedEvents = [];
+    for (const event of events) {
+      let imageUrl = null;
+      
+      try {
+        const res = await axios.get(event.url, {
+          headers: { 'User-Agent': 'Mozilla/5.0' },
+          timeout: 10000
+        });
+        const $ = cheerio.load(res.data);
+        imageUrl = $('meta[property="og:image"]').attr('content');
+      } catch (e) {}
+      
+      formattedEvents.push({
+        id: uuidv4(),
+        title: event.title,
+        date: event.date,
+        startDate: event.date ? new Date(event.date + 'T22:00:00') : null,
+        url: event.url,
+        imageUrl,
+        venue: {
+          name: 'Avalon Hollywood',
+          address: '1735 Vine St, Los Angeles, CA 90028',
+          city: 'Los Angeles'
+        },
+        latitude: 34.1028,
+        longitude: -118.3267,
+        city: 'Los Angeles',
+        category: 'Nightlife',
+        source: 'AvalonHollywood'
+      });
+      
+      console.log(`  ✓ ${event.title} | ${event.date}`);
+    }
     
     return filterEvents(formattedEvents);
 

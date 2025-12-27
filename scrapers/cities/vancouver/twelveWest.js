@@ -1,226 +1,98 @@
 /**
  * Twelve West Events Scraper
- * Scrapes events from Twelve West nightclub
+ * NO FALLBACKS - real data only
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
 
 const TwelveWestEvents = {
   async scrape(city) {
-    console.log('🔍 Scraping events from Twelve West...');
+    console.log('�� Scraping events from Twelve West...');
+    const events = [];
+    const seenTitles = new Set();
 
     try {
       const response = await axios.get('https://twelvewest.ca/collections/upcoming-events', {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.5',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'DNT': '1',
-          'Connection': 'keep-alive',
-        },
+        headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
         timeout: 30000
       });
 
       const $ = cheerio.load(response.data);
-      const events = [];
-      const seenUrls = new Set();
 
-      const eventSelectors = [
-        'a[href*="/event/"]',
-        'a[href*="/events/"]',
-        'a[href*="/products/"]',
-        'a[href*="/collections/"]',
-        '.event-item a',
-        '.product-item a',
-        '.collection-item a',
-        '.listing a',
-        '.event-listing a',
-        '.product-listing a',
-        '.event-card a',
-        '.product-card a',
-        'h3 a',
-        'h2 a',
-        'h1 a',
-        '.event-title a',
-        '.product-title a',
-        'article a',
-        '.event a',
-        '.product a',
-        'a[title]',
-        '[data-testid*="event"] a',
-        '[data-testid*="product"] a',
-        'a:contains("Event")',
-        'a:contains("Party")',
-        'a:contains("Night")',
-        'a:contains("DJ")',
-        'a:contains("Show")',
-        'a:contains("Club")',
-        'a:contains("Dance")'
-      ];
-
-      let foundCount = 0;
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
-          foundCount += links.length;
+      // Find product URLs (Shopify store)
+      const productUrls = new Set();
+      $('a[href*="/products/"]').each((i, el) => {
+        const href = $(el).attr('href');
+        if (href && !href.includes('#')) {
+          productUrls.add(href.startsWith('http') ? href : 'https://twelvewest.ca' + href);
         }
+      });
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
+      console.log(`  Found ${productUrls.size} product URLs`);
 
-          if (!title || !url) return;
-          if (seenUrls.has(url)) return;
+      for (const url of Array.from(productUrls)) {
+        try {
+          await new Promise(r => setTimeout(r, 300));
+          const page = await axios.get(url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 15000
+          });
 
-          if (url.startsWith('/')) {
-            url = 'https://twelvewest.ca' + url;
-          }
+          const $p = cheerio.load(page.data);
 
-          const skipPatterns = [
-            /facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /youtube\.com/i,
-            /\/about/i, /\/contact/i, /\/home/i, /\/search/i,
-            /\/login/i, /\/register/i, /\/account/i, /\/cart/i,
-            /mailto:/i, /tel:/i, /javascript:/i, /#/,
-            /\/privacy/i, /\/terms/i, /\/policy/i
+          let title = $p('meta[property="og:title"]').attr('content') || $p('h1').first().text().trim();
+          if (!title || title.length < 3 || seenTitles.has(title)) continue;
+          // Skip generic weekly events
+          if (title.includes('Famous Friday') || title.includes('Saturday')) continue;
+          seenTitles.add(title);
+
+          const image = $p('meta[property="og:image"]').attr('content') || null;
+
+          // Extract date from title or page
+          let dateText = null;
+          const pageText = $p('body').text();
+          
+          const datePatterns = [
+            /(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{4}/gi,
+            /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{4}/gi
           ];
 
-          if (skipPatterns.some(pattern => pattern.test(url))) {
-            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
-            return;
-          }
-
-          title = title.replace(/\s+/g, ' ').trim();
-          
-          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?)$/i.test(title)) {
-            console.log(`✗ Filtered out generic title: "${title}"`);
-            return;
-          }
-
-          seenUrls.add(url);
-
-          // Only log valid events (junk will be filtered out)
-          // Extract date from event element
-
-
-          let dateText = null;
-
-
-          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
-
-
-          for (const selector of dateSelectors) {
-
-
-            const dateEl = $element.find(selector).first();
-
-
-            if (dateEl.length > 0) {
-
-
-              dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-              if (dateText && dateText.length > 0) break;
-
-
-            }
-
-
-          }
-
-
-          if (!dateText) {
-
-
-            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
-
-
-            if ($parent.length > 0) {
-
-
-              for (const selector of dateSelectors) {
-
-
-                const dateEl = $parent.find(selector).first();
-
-
-                if (dateEl.length > 0) {
-
-
-                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-                  if (dateText && dateText.length > 0) break;
-
-
-                }
-
-
-              }
-
-
-            }
-
-
-          }
-
-
-          if (dateText) {
-            dateText = dateText
-              .replace(/\n/g, ' ')
-              .replace(/\s+/g, ' ')
-              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
-              .trim();
-            
-            if (!/\d{4}/.test(dateText)) {
-              const currentYear = new Date().getFullYear();
-              const currentMonth = new Date().getMonth();
-              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-              const dateLower = dateText.toLowerCase();
-              const monthIndex = months.findIndex(m => dateLower.includes(m));
-              if (monthIndex !== -1) {
-                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                dateText = `${dateText}, ${year}`;
-              } else {
-                dateText = `${dateText}, ${currentYear}`;
-              }
+          for (const pattern of datePatterns) {
+            const match = pageText.match(pattern);
+            if (match && match[0]) {
+              dateText = match[0].trim();
+              break;
             }
           }
 
-
-          
-
+          if (!dateText) continue;
 
           events.push({
             id: uuidv4(),
             title: title,
+            date: dateText,
             url: url,
             venue: { name: 'Twelve West', address: '1184 Denman Street, Vancouver, BC V6G 2M9', city: 'Vancouver' },
-            city: city,
-            date: dateText || null,
+            city: 'Vancouver',
+            image: image,
             source: 'Twelve West'
           });
-        });
+
+          console.log(`  ✓ ${title} - ${dateText} ${image ? '📷' : ''}`);
+
+        } catch (err) {}
       }
 
-      console.log(`Found ${events.length} total events from Twelve West`);
-      const filtered = filterEvents(events);
-      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
-      return filtered;
+      console.log(`✅ Returning ${events.length} events from Twelve West`);
+      return events;
 
     } catch (error) {
-      console.error('Error scraping Twelve West events:', error.message);
+      console.error('Error scraping Twelve West:', error.message);
       return [];
     }
   }
 };
-
 
 module.exports = TwelveWestEvents.scrape;

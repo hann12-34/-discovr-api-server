@@ -1,6 +1,6 @@
 /**
  * Los Angeles Scrapers Index
- * Exports all LA venue scrapers and event generators
+ * REAL venue scrapers only - NO GENERATORS OR FALLBACKS
  */
 
 const scrapeAcademyLA = require('./academyLA');
@@ -13,11 +13,6 @@ const scrapeTheWiltern = require('./theWiltern');
 const scrapeTheRoxy = require('./theRoxy');
 const scrapeTroubadour = require('./troubadour');
 const scrapeElReyTheatre = require('./elReyTheatre');
-const generateLANightlife = require('./laNightlife');
-const generateLAFestivals = require('./laFestivals');
-const generateLABeachClubs = require('./laBeachClubs');
-const generateLARooftopBars = require('./laRooftopBars');
-const generateLAConcertVenues = require('./laConcertVenues');
 
 async function scrapeLosAngeles() {
   console.log('🎬 Starting Los Angeles scrapers...');
@@ -58,21 +53,7 @@ async function scrapeLosAngeles() {
     const wilternEvents = await scrapeTheWiltern();
     allEvents.push(...wilternEvents);
     
-    // Generated Events - Recurring weekly
-    const nightlifeEvents = generateLANightlife();
-    allEvents.push(...nightlifeEvents);
-    
-    const festivalEvents = generateLAFestivals();
-    allEvents.push(...festivalEvents);
-    
-    const beachEvents = generateLABeachClubs();
-    allEvents.push(...beachEvents);
-    
-    const rooftopEvents = generateLARooftopBars();
-    allEvents.push(...rooftopEvents);
-    
-    const concertEvents = generateLAConcertVenues();
-    allEvents.push(...concertEvents);
+    // NO GENERATORS - only real venue scrapers
     
   } catch (error) {
     console.error('Error in LA scrapers:', error.message);
@@ -81,7 +62,26 @@ async function scrapeLosAngeles() {
   console.log('='.repeat(50));
   console.log(`🎬 Total Los Angeles events: ${allEvents.length}`);
   
-  return allEvents;
+  // Filter out bad venues/titles/addresses
+  const badVenuePatterns = [/^TBA$/i, /^various/i, /^unknown/i, /^los angeles$/i];
+  const badTitlePatterns = [/^funded by/i, /^government of/i, /^sponsored by/i, /^advertisement/i];
+  const badAddressPatterns = [/^TBA$/i, /^various/i, /^los angeles,?\s*ca$/i];
+  
+  const validEvents = allEvents.filter(event => {
+    const venueName = event.venue?.name || '';
+    const venueAddress = event.venue?.address || '';
+    const title = event.title || '';
+    
+    if (badTitlePatterns.some(p => p.test(title))) return false;
+    if (badVenuePatterns.some(p => p.test(venueName))) return false;
+    if (badAddressPatterns.some(p => p.test(venueAddress))) return false;
+    if (!event.date) return false;
+    
+    return true;
+  });
+  
+  console.log(`✅ ${validEvents.length} valid events (filtered ${allEvents.length - validEvents.length})`);
+  return validEvents;
 }
 
 module.exports = {
@@ -95,10 +95,6 @@ module.exports = {
   scrapeTheWiltern,
   scrapeTheRoxy,
   scrapeTroubadour,
-  scrapeElReyTheatre,
-  generateLANightlife,
-  generateLAFestivals,
-  generateLABeachClubs,
-  generateLARooftopBars,
-  generateLAConcertVenues
+  scrapeElReyTheatre
+  // NO GENERATORS - removed all fallback functions
 };

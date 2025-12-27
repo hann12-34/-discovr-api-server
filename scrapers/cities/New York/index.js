@@ -6,6 +6,65 @@
 const fs = require('fs');
 const path = require('path');
 const { toISODate } = require('../../utils/dateNormalizer');
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+// Blacklist of generic venue logos and placeholder images - DO NOT USE THESE
+// NOTE: Do NOT blacklist full domains - only specific logo patterns
+const IMAGE_BLACKLIST = [
+    'sob-logo', 'sobs-logo', 'cropped-sobs', 'legendary-sobs', 'venue-logo', 'default', 'placeholder',
+    'logo.png', 'logo.jpg', 'logo.gif', 'site-logo', 'header-logo', 'brand', 'favicon',
+    'apollo-logo', 'apollo_logo', 'brooklynbowl-logo', 'bowery-logo',
+    'terminal5', 'irving-plaza', 'gramercy', 'webster-hall', 'beacon',
+    'radio-city', 'msg-logo', 'madison-square', 'barclays', 'forest-hills',
+    'summerstage', 'central-park', 'prospect-park', 'nycgo', 'nyc-logo',
+    'default-event', 'no-image', 'coming-soon', 'tbd', 'generic',
+    'facebook.com/tr', 'pixel', 'tracking', 'analytics', '1x1', 'spacer',
+    'share-image', 'og-default', 'social-share', 'twitter-card',
+    'bam_logo', 'bam-logo', '/logo/', '_logo', '-logo',
+    'javits-logo', 'javits_logo', 'cityfieldlogo', 'msglogo',
+    '/img/logo', '/images/logo', '/assets/logo', 'Static/img/logo',
+    'logo-open-graph', 'open-graph', 'cisco.com', 'nacacnet.org',
+    'mcny.edu', 'cdn.asp.events', 'evbuc.com/images', 'eventbrite',
+    'social', 'share', 'og-image', 'facebook', 'twitter-card',
+    'icon', 'venue_', 'static_social', 'site-share', 'media-poster',
+    'social-og', 'qtxasset.com', 'travmedia.com', 'oracle.com/a/evt',
+    'nxedge.io', 'brooklynbowl.com/assets/img/static'
+];
+
+// Check if image URL is a generic logo or placeholder
+function isGenericImage(imageUrl) {
+    if (!imageUrl) return true;
+    const lowerUrl = imageUrl.toLowerCase();
+    return IMAGE_BLACKLIST.some(pattern => lowerUrl.includes(pattern));
+}
+
+// Helper function to fetch image from event URL (og:image only)
+// CRITICAL: Filter out generic venue logos
+async function fetchEventImage(url) {
+    if (!url || !url.startsWith('http')) return null;
+    // Skip listing pages - they return venue images, not event images
+    const listingPatterns = [/\/events\/?$/i, /\/calendar\/?$/i, /\/shows\/?$/i, /\/whats-on\/?$/i, /\/schedule\/?$/i];
+    if (listingPatterns.some(p => p.test(url))) return null;
+    try {
+        const response = await axios.get(url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+        });
+        const $ = cheerio.load(response.data);
+        const ogImage = $('meta[property="og:image"]').attr('content') || null;
+        
+        // CRITICAL: Reject generic venue logos and placeholders
+        if (ogImage && isGenericImage(ogImage)) {
+            console.log(`   ⚠️ Rejected generic logo: ${ogImage.substring(0, 50)}...`);
+            return null;
+        }
+        
+        return ogImage;
+    } catch (e) {
+        return null;
+    }
+}
 
 class NewYorkScrapers {
     constructor(scrapersToRun) {
@@ -55,6 +114,13 @@ class NewYorkScrapers {
                 const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper('New York'));
 
                 if (Array.isArray(events) && events.length > 0) {
+                    // Fetch images for all events missing them
+                    for (const event of events) {
+                        if (!event.image && !event.imageUrl && event.url) {
+                            event.image = await fetchEventImage(event.url);
+                        }
+                    }
+                    
                     const processedEvents = events.map(event => ({
                         ...event,
                         city: 'New York',
@@ -125,6 +191,24 @@ class NewYorkScrapers {
             
             const key = `${normalizedTitle}|${normalizedDate}|${venueName}`;
             
+            // Skip bad venue names
+            const badVenuePatterns = [/^TBA$/i, /^various/i, /^unknown/i, /^new york$/i];
+            if (badVenuePatterns.some(p => p.test(event.venue?.name || ''))) {
+                continue;
+            }
+            
+            // Skip bad titles
+            const badTitlePatterns = [/^funded by/i, /^government of/i, /^sponsored by/i, /^advertisement/i];
+            if (badTitlePatterns.some(p => p.test(event.title || ''))) {
+                continue;
+            }
+            
+            // Skip bad addresses
+            const badAddressPatterns = [/^TBA$/i, /^various/i, /^new york,?\s*ny$/i];
+            if (badAddressPatterns.some(p => p.test(event.venue?.address || ''))) {
+                continue;
+            }
+            
             if (!seen.has(key)) {
                 seen.add(key);
                 uniqueEvents.push(event);
@@ -141,7 +225,10 @@ class NewYorkScrapers {
     }
 }
 
-module.exports = async function scrapeNewYorkCityEvents() {
-    const scraper = new NewYorkScrapers();
-    return await scraper.scrape();
+// Export as object with scrape method for compatibility with cities/index.js
+module.exports = {
+    scrape: async function scrapeNewYorkCityEvents() {
+        const scraper = new NewYorkScrapers();
+        return await scraper.scrape();
+    }
 };

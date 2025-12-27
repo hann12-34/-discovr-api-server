@@ -22,8 +22,8 @@ async function scrapeGreekTheatre(city = 'Los Angeles') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.lagreektheatre.com/events', {
-      waitUntil: 'networkidle0',
+    await page.goto('https://www.lagreektheatre.com/events-tickets/', {
+      waitUntil: 'networkidle2',
       timeout: 60000
     });
 

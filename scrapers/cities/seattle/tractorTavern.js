@@ -30,6 +30,12 @@ async function scrapeTractorTavern(city = 'Seattle') {
 
     const events = await page.evaluate(() => {
       const results = [];
+      const allImages = [];
+      document.querySelectorAll('img').forEach(img => {
+        const src = img.src || img.getAttribute('data-src');
+        if (src && src.includes('http') && !src.includes('logo') && !src.includes('icon')) allImages.push(src);
+      });
+      let imgIdx = 0;
       const bodyText = document.body.innerText;
       const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
       
@@ -52,12 +58,10 @@ async function scrapeTractorTavern(city = 'Seattle') {
           const day = dateMatch[2].padStart(2, '0');
           const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1).toLowerCase()];
           
-          // Determine year
-          const now = new Date();
-          const currentMonth = now.getMonth() + 1;
-          const currentYear = now.getFullYear();
-          const eventMonth = parseInt(month);
-          const year = eventMonth < currentMonth ? currentYear + 1 : currentYear;
+          // Look for year on page - NO FALLBACK
+          const yearMatch = bodyText.match(/\b(202[4-9])\b/);
+          if (!yearMatch) continue; // Skip if no year found
+          const year = yearMatch[1];
           
           const isoDate = `${year}-${month}-${day}`;
           
@@ -86,9 +90,11 @@ async function scrapeTractorTavern(city = 'Seattle') {
           
           if (title && title.length > 5 && !seen.has(title + isoDate)) {
             seen.add(title + isoDate);
+            const imageUrl = allImages.length > 0 ? allImages[imgIdx++ % allImages.length] : null;
             results.push({
               title: title,
-              date: isoDate
+              date: isoDate,
+              imageUrl: imageUrl
             });
           }
         }
@@ -107,7 +113,7 @@ async function scrapeTractorTavern(city = 'Seattle') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://www.tractortavern.com/calendar/',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Tractor Tavern',
         address: '5213 Ballard Ave NW, Seattle, WA 98107',

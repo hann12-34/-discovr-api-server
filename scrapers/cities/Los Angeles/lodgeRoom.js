@@ -1,0 +1,107 @@
+/**
+ * Lodge Room Highland Park Scraper - REAL Puppeteer
+ * Music venue in Highland Park
+ * URL: https://www.lodgeroomhp.com
+ */
+
+const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+async function scrapeLodgeRoom(city = 'Los Angeles') {
+  console.log('🏠 Scraping Lodge Room...');
+
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      protocolTimeout: 120000
+    });
+
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+
+    await page.goto('https://www.lodgeroomhp.com/events', {
+      waitUntil: 'networkidle2',
+      timeout: 60000
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    for (let i = 0; i < 2; i++) {
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
+
+    const events = await page.evaluate(() => {
+      const results = [];
+      const seen = new Set();
+      const currentYear = new Date().getFullYear();
+      const months = { 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' };
+
+      const items = document.querySelectorAll('.event-card, .eventlist-event, article, [class*="event"]');
+      
+      items.forEach(item => {
+        const text = item.innerText;
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        
+        let title = null;
+        for (const line of lines) {
+          if (line.length > 3 && line.length < 100 && 
+              !line.match(/^(buy|tickets|more|view|\$|free|on sale)/i)) {
+            title = line;
+            break;
+          }
+        }
+        
+        const dateMatch = text.match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})(?:st|nd|rd|th)?[\s,]*(\d{4})?/i);
+        
+        if (title && dateMatch) {
+          const monthStr = dateMatch[1].toLowerCase().slice(0, 3);
+          const day = dateMatch[2];
+          const year = dateMatch[3] || currentYear;
+          const month = months[monthStr];
+          
+          if (month) {
+            const isoDate = `${year}-${month}-${day.padStart(2, '0')}`;
+            if (!seen.has(title + isoDate)) {
+              seen.add(title + isoDate);
+              results.push({ title: title.substring(0, 100), date: isoDate });
+            }
+          }
+        }
+      });
+      
+      return results;
+    });
+
+    await browser.close();
+    console.log(`  ✅ Found ${events.length} Lodge Room events`);
+
+    const formattedEvents = events.map(event => ({
+      id: uuidv4(),
+      title: event.title,
+      date: event.date,
+      startDate: event.date ? new Date(event.date + 'T20:00:00') : null,
+      url: 'https://www.lodgeroomhp.com',
+      imageUrl: null,
+      venue: { name: 'Lodge Room Highland Park', address: '104 N Ave 56, Los Angeles, CA', city: 'Los Angeles' },
+      latitude: 34.1089,
+      longitude: -118.1762,
+      city: 'Los Angeles',
+      category: 'Nightlife',
+      source: 'LodgeRoom'
+    }));
+
+    formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
+    return filterEvents(formattedEvents);
+
+  } catch (error) {
+    if (browser) await browser.close();
+    console.error('  ⚠️  Lodge Room error:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrapeLodgeRoom;

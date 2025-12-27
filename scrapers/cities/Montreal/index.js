@@ -4,6 +4,26 @@
  */
 
 const { toISODate } = require('../../utils/dateNormalizer');
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+// Helper function to fetch image from event URL (og:image only)
+async function fetchEventImage(url) {
+    if (!url || !url.startsWith('http')) return null;
+    // Skip listing pages - they return venue images, not event images
+    const listingPatterns = [/\/events\/?$/i, /\/calendar\/?$/i, /\/shows\/?$/i, /\/whats-on\/?$/i, /\/schedule\/?$/i];
+    if (listingPatterns.some(p => p.test(url))) return null;
+    try {
+        const response = await axios.get(url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+        });
+        const $ = cheerio.load(response.data);
+        return $('meta[property="og:image"]').attr('content') || null;
+    } catch (e) {
+        return null;
+    }
+}
 
 class MontrealScrapers {
     constructor(scrapersToRun) {
@@ -15,7 +35,7 @@ class MontrealScrapers {
         // Cultural Venues
         const scrapeTheatreStDenis = require('./scrape-theatre-st-denis-real');
         const scrapePlaceDesArts = require('./scrape-place-des-arts-real');
-        const scrapeEspaceStDenis = require('./scrape-espace-st-denis');
+        const scrapeEspaceStDenis = require('./scrape-espace-st-denis-full');
         
         // Major Arenas & Concert Venues
         const scrapeBellCentre = require('./scrape-bell-centre');
@@ -36,15 +56,10 @@ class MontrealScrapers {
         const scrapeBeachclub = require('./scrape-beachclub');
         const scrapeComedyNest = require('./scrape-comedy-nest');
         const scrapeLAstral = require('./scrape-l-astral');
+        const scrapeQuartierSpectacles = require('./scrape-quartier-spectacles');
+        const scrapeOSM = require('./scrape-osm-concerts');
         
-        // Generator Scrapers (return 0 events currently)
-        const scrapeMontrealBars = require('./scrape-montreal-bars-generator');
-        const scrapeMontrealComprehensive = require('./scrape-montreal-comprehensive');
-        const scrapeMontrealFallback = require('./scrape-montreal-fallback-generator');
-        const scrapeMontrealGuaranteed = require('./scrape-montreal-guaranteed-events');
-        const scrapeMontrealNightlife = require('./scrape-montreal-nightlife-generator');
-        const scrapeMontrealTheater = require('./scrape-montreal-theater-generator');
-        const scrapeMontrealUniversal = require('./scrape-montreal-universal-generator');
+        // NO GENERATORS OR FALLBACKS - only real venue scrapers
         
         const allScrapers = [
             // Major Arenas & Concert Venues (priority)
@@ -66,14 +81,8 @@ class MontrealScrapers {
             scrapeBeachclub,
             scrapeComedyNest,
             scrapeLAstral,
-            // Generator scrapers (low yield)
-            scrapeMontrealBars,
-            scrapeMontrealComprehensive,
-            scrapeMontrealFallback,
-            scrapeMontrealGuaranteed,
-            scrapeMontrealNightlife,
-            scrapeMontrealTheater,
-            scrapeMontrealUniversal
+            scrapeQuartierSpectacles,
+            scrapeOSM
         ];
 
         this.scrapers = scrapersToRun || allScrapers;
@@ -98,7 +107,15 @@ class MontrealScrapers {
                 const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper());
 
                 if (Array.isArray(events) && events.length > 0) {
-                    const processedEvents = events.map(event => {
+                    // Process events and fetch images for those missing them
+                    const processedEvents = [];
+                    for (const event of events) {
+                        // Fetch image if missing
+                        let image = event.image || event.imageUrl || event.imageURL;
+                        if (!image && event.url) {
+                            image = await fetchEventImage(event.url);
+                        }
+                        
                         // Normalize date to ISO format (YYYY-MM-DD)
                         let normalizedDate = event.date;
                         if (event.date && !event.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
@@ -164,14 +181,31 @@ class MontrealScrapers {
                             normalizedDate = toISODate(dateToNormalize);
                         }
                         
-                        return {
+                        // Skip events with invalid dates
+                        if (!normalizedDate) continue;
+                        
+                        // Skip bad venue names
+                        const badVenuePatterns = [/^TBA$/i, /^various/i, /^unknown/i, /^montreal$/i];
+                        const venueName = event.venue?.name || source || '';
+                        if (badVenuePatterns.some(p => p.test(venueName))) continue;
+                        
+                        // Skip bad titles
+                        const badTitlePatterns = [/^funded by/i, /^government of/i, /^sponsored by/i, /^advertisement/i, /^par le/i, /^le gouvernement/i];
+                        if (badTitlePatterns.some(p => p.test(event.title || ''))) continue;
+                        
+                        // Skip bad addresses
+                        const badAddressPatterns = [/^TBA$/i, /^various/i, /^montreal,?\s*qc$/i];
+                        if (badAddressPatterns.some(p => p.test(event.venue?.address || ''))) continue;
+                        
+                        processedEvents.push({
                             ...event,
                             date: normalizedDate,
                             city: 'Montreal',
+                            image: image,
                             venue: event.venue || { name: source },
                             categories: [...(event.categories || []), 'city'].filter((v, i, a) => a.indexOf(v) === i)
-                        };
-                    }).filter(event => event.date); // Filter out events with invalid dates
+                        });
+                    }
 
                     allEvents.push(...processedEvents);
                     console.log(`✅ Found ${events.length} events from ${source}, ${processedEvents.length} with valid dates`);
@@ -189,7 +223,10 @@ class MontrealScrapers {
     }
 }
 
-module.exports = async function scrapeMontrealCityEvents() {
-    const scraper = new MontrealScrapers();
-    return await scraper.scrape();
+// Export as object with scrape method for compatibility with cities/index.js
+module.exports = {
+    scrape: async function scrapeMontrealCityEvents() {
+        const scraper = new MontrealScrapers();
+        return await scraper.scrape();
+    }
 };

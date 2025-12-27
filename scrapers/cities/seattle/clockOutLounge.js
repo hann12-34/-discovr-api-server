@@ -30,6 +30,12 @@ async function scrapeClockOutLounge(city = 'Seattle') {
 
     const events = await page.evaluate(() => {
       const results = [];
+      const allImages = [];
+      document.querySelectorAll("img").forEach(img => {
+        const src = img.src || img.getAttribute("data-src");
+        if (src && src.includes("http") && !src.includes("logo") && !src.includes("icon")) allImages.push(src);
+      });
+      let imgIdx = 0;
       const bodyText = document.body.innerText;
       const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
       
@@ -63,22 +69,25 @@ async function scrapeClockOutLounge(city = 'Seattle') {
             title = title.replace(/^CLOCK-OUT LOUNGE PRESENTS:\s*/i, '').trim();
           }
           
-          // Skip navigation
+          // Skip navigation and closure notices
           if (title && (
             title === 'BUY TICKETS' ||
             title === 'FREE' ||
             title.match(/^\$[\d.]+$/) ||
             title.includes('Doors:') ||
-            title.length < 5
+            title.length < 5 ||
+            title.match(/closed|we are closed|we will be closed/i)
           )) {
             title = null;
           }
           
           if (title && title.length > 5 && !seen.has(title + isoDate)) {
             seen.add(title + isoDate);
+            const imageUrl = allImages.length > 0 ? allImages[imgIdx++ % allImages.length] : null;
             results.push({
               title: title,
-              date: isoDate
+              date: isoDate,
+              imageUrl: imageUrl
             });
           }
         }
@@ -97,7 +106,7 @@ async function scrapeClockOutLounge(city = 'Seattle') {
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
       url: 'https://clockoutlounge.com/events/',
-      imageUrl: null,
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Clock-Out Lounge',
         address: '4864 Beacon Ave S, Seattle, WA 98108',

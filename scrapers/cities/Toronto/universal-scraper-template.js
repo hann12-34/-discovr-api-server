@@ -335,6 +335,31 @@ function createUniversalScraper(venueName, url, address) {
           if (imageUrl && (imageUrl.includes('1x1') || imageUrl.includes('placeholder') || imageUrl.includes('spinner'))) {
             imageUrl = null;
           }
+          // Remove resize parameters that make images tiny/blurry
+          if (imageUrl) {
+            try {
+              const imgUrl = new URL(imageUrl);
+              // Remove common resize parameters
+              imgUrl.searchParams.delete('resize');
+              imgUrl.searchParams.delete('w');
+              imgUrl.searchParams.delete('h');
+              imgUrl.searchParams.delete('width');
+              imgUrl.searchParams.delete('height');
+              imgUrl.searchParams.delete('size');
+              imgUrl.searchParams.delete('gravity');
+              imageUrl = imgUrl.toString();
+              // Clean up empty query string
+              if (imageUrl.endsWith('?')) {
+                imageUrl = imageUrl.slice(0, -1);
+              }
+            } catch (e) {
+              // If URL parsing fails, try simple string replacement
+              imageUrl = imageUrl.replace(/[?&]resize=[^&]+/g, '');
+              imageUrl = imageUrl.replace(/[?&]w=\d+/g, '');
+              imageUrl = imageUrl.replace(/[?&]h=\d+/g, '');
+              imageUrl = imageUrl.replace(/\?$/g, '');
+            }
+          }
         }
         
         // QUALITY CHECK: Event must have meaningful content

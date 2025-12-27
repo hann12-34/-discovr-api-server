@@ -1,132 +1,123 @@
 /**
- * Academy LA Nightclub Scraper
- * Premier EDM venue in Hollywood
- * URL: https://academyla.com/events/
+ * Academy LA Scraper
+ * Popular electronic music venue in Hollywood
+ * URL: https://academy.la/events/
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeAcademyLA(city = 'Los Angeles') {
-  console.log('🎧 Scraping Academy LA...');
+  console.log('🎭 Scraping Academy LA...');
 
   let browser;
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      protocolTimeout: 120000
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-
-    await page.goto('https://academyla.com/events/', {
-      waitUntil: 'networkidle0',
+    
+    await page.goto('https://academy.la/events/', {
+      waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    // Wait for content
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
-      const months = {
-        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 
-        'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
-        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12',
-        'January': '01', 'February': '02', 'March': '03', 'April': '04',
-        'June': '06', 'July': '07', 'August': '08', 'September': '09',
-        'October': '10', 'November': '11', 'December': '12'
-      };
-      
-      // Various date patterns
-      const datePatterns = [
-        /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2}),?\s*(\d{4})?/i,
-        /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s*(\d{4})?/i,
-        /(\d{1,2})\/(\d{1,2})\/(\d{2,4})/
-      ];
-      
       const seen = new Set();
-      const currentYear = new Date().getFullYear();
       
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+      // Find all event links with dates
+      const links = document.querySelectorAll('a[href*="/event/"]');
+      
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        const title = link.textContent.trim().replace(/\s+/g, ' ');
         
-        for (const pattern of datePatterns) {
-          const dateMatch = line.match(pattern);
+        // Skip navigation/ticket links
+        if (!title || title.length < 3 || /tickets|tables/i.test(title)) return;
+        
+        // Look for date in parent container
+        let parent = link.parentElement;
+        let dateText = '';
+        for (let i = 0; i < 5 && parent; i++) {
+          const text = parent.textContent || '';
+          const dateMatch = text.match(/(\d{1,2})\.(\d{1,2})\.(\d{2})/);
           if (dateMatch) {
-            let isoDate;
-            
-            if (pattern.source.includes('Jan|Feb')) {
-              const monthStr = dateMatch[1];
-              const day = dateMatch[2].padStart(2, '0');
-              const year = dateMatch[3] || currentYear;
-              const monthKey = Object.keys(months).find(k => monthStr.toLowerCase().startsWith(k.toLowerCase()));
-              const month = months[monthKey] || '01';
-              isoDate = `${year}-${month}-${day}`;
-            } else if (pattern.source.includes('/')) {
-              const month = dateMatch[1].padStart(2, '0');
-              const day = dateMatch[2].padStart(2, '0');
-              let year = dateMatch[3];
-              if (year.length === 2) year = '20' + year;
-              isoDate = `${year}-${month}-${day}`;
-            }
-            
-            // Look for title nearby
-            let title = null;
-            for (let j = i - 1; j >= Math.max(0, i - 3); j--) {
-              const potentialTitle = lines[j];
-              if (potentialTitle && 
-                  potentialTitle.length > 3 && 
-                  potentialTitle.length < 100 &&
-                  !potentialTitle.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i) &&
-                  !potentialTitle.includes('Buy Tickets') &&
-                  !potentialTitle.includes('RSVP')) {
-                title = potentialTitle;
-                break;
-              }
-            }
-            
-            if (title && isoDate && !seen.has(title + isoDate)) {
-              seen.add(title + isoDate);
-              results.push({ title, date: isoDate });
-            }
+            dateText = dateMatch[0];
             break;
           }
+          parent = parent.parentElement;
         }
-      }
+        
+        if (dateText && title.length > 2) {
+          const parts = dateText.split('.');
+          const month = parts[0].padStart(2, '0');
+          const day = parts[1].padStart(2, '0');
+          const year = '20' + parts[2];
+          const date = `${year}-${month}-${day}`;
+          
+          const key = title.substring(0, 50) + date;
+          if (!seen.has(key)) {
+            seen.add(key);
+            results.push({
+              title: title.substring(0, 100),
+              date,
+              url: href.startsWith('http') ? href : 'https://academy.la' + href
+            });
+          }
+        }
+      });
       
       return results;
     });
 
     await browser.close();
-
     console.log(`  ✅ Found ${events.length} Academy LA events`);
 
-    const formattedEvents = events.map(event => ({
-      id: uuidv4(),
-      title: event.title,
-      date: event.date,
-      startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://academyla.com/events/',
-      imageUrl: null,
-      venue: {
-        name: 'Academy LA',
-        address: '6021 Hollywood Blvd, Los Angeles, CA 90028',
-        city: 'Los Angeles'
-      },
-      latitude: 34.1017,
-      longitude: -118.3194,
-      city: 'Los Angeles',
-      category: 'Nightlife',
-      source: 'AcademyLA'
-    }));
-
-    formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
+    // Fetch images from event pages
+    const formattedEvents = [];
+    for (const event of events) {
+      let imageUrl = null;
+      
+      try {
+        const res = await axios.get(event.url, {
+          headers: { 'User-Agent': 'Mozilla/5.0' },
+          timeout: 10000
+        });
+        const $ = cheerio.load(res.data);
+        imageUrl = $('meta[property="og:image"]').attr('content');
+      } catch (e) {}
+      
+      formattedEvents.push({
+        id: uuidv4(),
+        title: event.title,
+        date: event.date,
+        startDate: event.date ? new Date(event.date + 'T22:00:00') : null,
+        url: event.url,
+        imageUrl,
+        venue: {
+          name: 'Academy LA',
+          address: '6021 Hollywood Blvd, Los Angeles, CA 90028',
+          city: 'Los Angeles'
+        },
+        latitude: 34.1018,
+        longitude: -118.3196,
+        city: 'Los Angeles',
+        category: 'Nightlife',
+        source: 'AcademyLA'
+      });
+      
+      console.log(`  ✓ ${event.title} | ${event.date}`);
+    }
     
     return filterEvents(formattedEvents);
 

@@ -7,6 +7,7 @@
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const { sanitizeDescription } = require('../../utils/sanitizeDescription');
 
 const TheRoxyEvents = {
   async scrape(city) {
@@ -35,17 +36,12 @@ const TheRoxyEvents = {
         const seen = new Set();
         const bodyText = document.body.innerText;
         
-        // Try to find event images - collect all images with their context
+        // Collect all event poster images in order (Squarespace gallery images)
         const eventImages = [];
-        document.querySelectorAll('img').forEach(img => {
-          const src = img.src || img.getAttribute('data-src') || img.getAttribute('data-lazy-src');
-          if (src && !src.includes('logo') && !src.includes('icon') && !src.includes('background')) {
-            // Get nearby text to match with events later
-            const parent = img.closest('[class*="event"], article, .card, section, div') || img.parentElement;
-            if (parent) {
-              const text = parent.textContent.trim().toUpperCase();
-              eventImages.push({ src, text });
-            }
+        document.querySelectorAll('img[data-src], img[srcset], .sqs-image img, .gallery-block img').forEach(img => {
+          const src = img.src || img.getAttribute('data-src');
+          if (src && src.includes('squarespace-cdn') && !src.includes('logo')) {
+            eventImages.push(src);
           }
         });
         
@@ -102,25 +98,9 @@ const TheRoxyEvents = {
               // Use the main events page URL since there are no individual event pages
               const url = 'https://www.roxyvan.com/events';
               
-              // Try to find associated image by matching event title with image context
-              let imageUrl = null;
-              const titleUpper = title.toUpperCase();
-              const titleWords = titleUpper.split(/[\s\/]+/).filter(w => w.length > 3);
-              
-              for (const imgData of eventImages) {
-                // Check if image context contains significant words from title
-                let matches = 0;
-                for (const word of titleWords) {
-                  if (imgData.text.includes(word)) {
-                    matches++;
-                  }
-                }
-                // If most words match, use this image
-                if (matches >= Math.min(2, titleWords.length)) {
-                  imageUrl = imgData.src;
-                  break;
-                }
-              }
+              // Match image by position - events and images are in the same order
+              const eventIndex = results.length;
+              const imageUrl = eventImages[eventIndex] || null;
               
               results.push({
                 title: title,
@@ -138,24 +118,35 @@ const TheRoxyEvents = {
       await browser.close();
       
       // Format events - NO FALLBACKS, only real poster images
-      const formattedEvents = events.map(event => ({
-        id: uuidv4(),
-        title: event.title,
-        date: event.date,
-        startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-        url: event.url,
-        imageUrl: event.imageUrl || null,
-        venue: { 
-          name: 'The Roxy', 
-          address: '932 Granville Street, Vancouver, BC V6Z 1K3', 
-          city: 'Vancouver'
-        },
-        latitude: 49.279091,
-        longitude: -123.121086,
-        city: 'Vancouver',
-        category: 'Nightlife',
-        source: 'The Roxy'
-      }));
+      const formattedEvents = events.map(event => {
+        // Generate clean description using sanitizer
+        const description = sanitizeDescription(
+          null, // No scraped description available
+          event.title,
+          'The Roxy',
+          'Vancouver'
+        );
+        
+        return {
+          id: uuidv4(),
+          title: event.title,
+          date: event.date,
+          startDate: event.date ? new Date(event.date + 'T12:00:00') : null,
+          description: description,
+          url: event.url,
+          imageUrl: event.imageUrl || null,
+          venue: { 
+            name: 'The Roxy', 
+            address: '932 Granville Street, Vancouver, BC V6Z 1K3', 
+            city: 'Vancouver'
+          },
+          latitude: 49.279091,
+          longitude: -123.121086,
+          city: 'Vancouver',
+          category: 'Nightlife',
+          source: 'The Roxy'
+        };
+      });
       
       formattedEvents.forEach(e => {
         console.log(`✓ ${e.title} | ${e.date || 'NO DATE'}`);

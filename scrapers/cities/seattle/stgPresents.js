@@ -94,6 +94,12 @@ async function scrapeSTGPresents(city = 'Seattle') {
 
     const events = await page.evaluate(() => {
       const results = [];
+      const allImages = [];
+      document.querySelectorAll('img').forEach(img => {
+        const src = img.src || img.getAttribute('data-src');
+        if (src && src.includes('http') && !src.includes('logo') && !src.includes('icon')) allImages.push(src);
+      });
+      let imgIdx = 0;
       const bodyText = document.body.innerText;
       const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
       
@@ -102,15 +108,11 @@ async function scrapeSTGPresents(city = 'Seattle') {
         'JULY': 6, 'AUGUST': 7, 'SEPTEMBER': 8, 'OCTOBER': 9, 'NOVEMBER': 10, 'DECEMBER': 11
       };
       
-      // Find current month/year from calendar header
-      let currentMonth = new Date().getMonth();
-      let currentYear = new Date().getFullYear();
-      
+      // Find current month/year from calendar header - NO FALLBACK
       const monthYearMatch = bodyText.match(/(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s+(\d{4})/);
-      if (monthYearMatch) {
-        currentMonth = months[monthYearMatch[1]];
-        currentYear = parseInt(monthYearMatch[2]);
-      }
+      if (!monthYearMatch) return []; // Must have real date from page
+      let currentMonth = months[monthYearMatch[1]];
+      let currentYear = parseInt(monthYearMatch[2]);
       
       // Find day numbers with events
       const seen = new Set();
@@ -150,9 +152,11 @@ async function scrapeSTGPresents(city = 'Seattle') {
             
             if (!seen.has(title + isoDate)) {
               seen.add(title + isoDate);
+              const imageUrl = allImages.length > 0 ? allImages[imgIdx++ % allImages.length] : null;
               results.push({
                 title: title,
-                date: isoDate
+                date: isoDate,
+                imageUrl: imageUrl
               });
             }
             break;
@@ -204,7 +208,7 @@ async function scrapeSTGPresents(city = 'Seattle') {
         date: event.date,
         startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
         url: 'https://www.stgpresents.org/calendar',
-        imageUrl: null,
+        imageUrl: event.imageUrl || null,
         venue: {
           name: venue.name,
           address: venue.address,
