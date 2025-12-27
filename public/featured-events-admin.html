@@ -416,7 +416,8 @@
             'Calgary': '🎿',
             'Montreal': '🎭',
             'New York': '🗽',
-            'Brooklyn': '🌉'
+            'Brooklyn': '🌉',
+            'Philadelphia': '🔔'
         };
 
         // Initialize
@@ -479,6 +480,7 @@
                     <button class="city-btn" data-city="Calgary">🎿 Calgary</button>
                     <button class="city-btn" data-city="Montreal">🎭 Montreal</button>
                     <button class="city-btn" data-city="New York">🗽 New York</button>
+                    <button class="city-btn" data-city="Philadelphia">🔔 Philadelphia</button>
                     <button class="city-btn" data-city="Brooklyn">🌉 Brooklyn</button>
                 `;
                 setupCityButtons();
@@ -704,11 +706,12 @@
                 const title = event.title || event.name || 'Untitled Event';
                 const venueName = event.venue?.name || event.source || '';
                 const date = formatDate(event.date || event.startDate);
-                const eventJson = JSON.stringify(event).replace(/"/g, '&quot;');
+                // Store event data safely using base64 encoding
+                const eventBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(event))));
 
                 return `
                     <div class="col-md-4 col-lg-3 mb-4">
-                        <div class="card event-card">
+                        <div class="card event-card" data-event="${eventBase64}">
                             ${isFeatured ? '<span class="featured-badge">⭐ Featured</span>' : ''}
                             <!-- Checkbox for bulk selection -->
                             <div class="position-absolute" style="top: 10px; left: 10px; z-index: 11;">
@@ -741,7 +744,7 @@
                                 </div>
                                 <div class="btn-group w-100" role="group">
                                     <button class="btn btn-outline-primary btn-sm" 
-                                            onclick='openEditEventModal(${eventJson})'>
+                                            onclick="editEventFromCard(this)">
                                         <i class="bi bi-pencil"></i> Edit
                                     </button>
                                     <button class="btn btn-outline-danger btn-sm" 
@@ -996,6 +999,20 @@
             document.getElementById('eventId').value = '';
             document.getElementById('eventCity').value = currentCity;
             eventModal.show();
+        }
+
+        // Edit event from card button click - decode base64 data
+        function editEventFromCard(button) {
+            try {
+                const card = button.closest('.event-card');
+                const eventBase64 = card.getAttribute('data-event');
+                const eventJson = decodeURIComponent(escape(atob(eventBase64)));
+                const event = JSON.parse(eventJson);
+                openEditEventModal(event);
+            } catch (error) {
+                console.error('Error opening edit modal:', error);
+                alert('Error loading event data. Please refresh and try again.');
+            }
         }
 
         // Open edit event modal
