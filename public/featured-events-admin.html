@@ -608,7 +608,8 @@
                     </div>
                 `;
 
-                const response = await fetch('/api/v1/events?limit=5000&skipCount=true');
+                // Use higher limit and cache-bust parameter to ensure fresh data
+                const response = await fetch(`/api/v1/events?limit=50000&_t=${Date.now()}`);
                 const data = await response.json();
                 console.log(`📊 API returned ${data.events?.length || 0} total events`);
                 
@@ -617,15 +618,24 @@
                     const adminEvents = data.events.filter(e => e.source === 'admin');
                     console.log(`👤 Found ${adminEvents.length} admin events:`, adminEvents.map(e => ({title: e.title, city: e.city, id: e.id})));
                     
-                    // Filter events by city (case-insensitive)
+                    // Filter events by city (case-insensitive) - also check location field
                     const cityLower = city.toLowerCase();
+                    console.log(`🔍 Filtering for city: "${city}" (lowercase: "${cityLower}")`);
+                    
+                    // Debug: Show unique city values in the dataset
+                    const uniqueCities = [...new Set(data.events.map(e => e.city).filter(Boolean))];
+                    console.log(`📊 Unique cities in dataset (${uniqueCities.length}):`, uniqueCities.slice(0, 30));
+                    
                     allEvents = data.events.filter(event => {
                         const eventCity = (event.city || '').toLowerCase();
                         const venueCity = (event.venue && event.venue.city || '').toLowerCase();
-                        const matches = eventCity === cityLower || venueCity === cityLower;
-                        if (event.source === 'admin') {
-                            console.log(`🔍 Admin event "${event.title}": city="${event.city}" matches ${city}? ${matches}`);
-                        }
+                        const locationCity = (event.location || '').toLowerCase();
+                        
+                        // Match city field, venue.city, or location containing city name
+                        const matches = eventCity === cityLower || 
+                                       venueCity === cityLower ||
+                                       eventCity.includes(cityLower) ||
+                                       locationCity.includes(cityLower);
                         return matches;
                     });
                     console.log(`✅ Filtered to ${allEvents.length} events for ${city}`);
