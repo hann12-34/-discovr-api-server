@@ -1,124 +1,106 @@
 /**
  * Bongo Club Edinburgh Events Scraper
  * Arts and club venue
- * URL: https://www.thebongoclub.co.uk/
+ * URL: https://www.thebongoclub.co.uk/events-main/
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeBongoClub(city = 'Edinburgh') {
   console.log('🎧 Scraping Bongo Club Edinburgh...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    const response = await axios.get('https://www.thebongoclub.co.uk/events-main/', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+      },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
 
-    console.log('  📡 Loading Bongo Club events...');
-    await page.goto('https://www.thebongoclub.co.uk/whats-on/', {
-      waitUntil: 'domcontentloaded',
-      timeout: 60000
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seenTitles = new Set();
-
-      const selectors = ['.event', '.event-card', 'article', '[class*="event"]', '.show', '.listing'];
-
-      for (const selector of selectors) {
-        document.querySelectorAll(selector).forEach(el => {
-          try {
-            const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-            let title = titleEl ? titleEl.textContent.trim() : '';
-            
-            if (!title || title.length < 3 || seenTitles.has(title)) return;
-            seenTitles.add(title);
-
-            const link = el.querySelector('a[href]') || (el.tagName === 'A' ? el : null);
-            let url = link ? link.href : '';
-
-            const img = el.querySelector('img:not([src*="logo"])');
-            let imageUrl = img ? (img.src || img.dataset.src) : null;
-
-            let dateStr = null;
-            const timeEl = el.querySelector('time[datetime], [datetime]');
-            if (timeEl) dateStr = timeEl.getAttribute('datetime');
-            
-            if (!dateStr) {
-              const dateEl = el.querySelector('.date, [class*="date"], time');
-              if (dateEl) dateStr = dateEl.textContent.trim();
-            }
-
-            results.push({ title, url: url, imageUrl, dateStr });
-          } catch (e) {}
-        });
-        if (results.length > 0) break;
-      }
-
-      return results;
-    });
-
-    await browser.close();
-    console.log(`  ✅ Found ${events.length} Bongo Club events`);
-
-    const formattedEvents = [];
-    const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const monthMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i);
-          const dayMatch = event.dateStr.match(/\b(\d{1,2})\b/);
-          
-          if (monthMatch && dayMatch) {
-            const month = (monthNames.indexOf(monthMatch[1].toLowerCase()) + 1).toString().padStart(2, '0');
-            const day = dayMatch[1].padStart(2, '0');
-            const now = new Date();
-            let year = now.getFullYear();
-            if (parseInt(month) < now.getMonth() + 1) year++;
-            isoDate = `${year}-${month}-${day}`;
-          }
+    // Find all event links - URLs contain dates like /event/name-2026-01-02/
+    $('a[href*="/event/"]').each((i, el) => {
+      try {
+        const href = $(el).attr('href');
+        if (!href || seen.has(href)) return;
+        
+        // Extract title from link text or nearby h2
+        let title = $(el).text().trim();
+        if (!title || title.length < 3 || title === 'Read more') {
+          const h2 = $(el).closest('div').find('h2').first().text().trim();
+          if (h2) title = h2;
         }
+        
+        if (!title || title.length < 3) return;
+        
+        // Extract date from URL - format: 2026-01-02
+        const dateMatches = href.match(/(\d{4}-\d{2}-\d{2})/g);
+        if (!dateMatches || dateMatches.length === 0) return;
+        
+        // Use the last date in URL (most specific/upcoming)
+        const isoDate = dateMatches[dateMatches.length - 1];
+        
+        // Skip past events
+        if (new Date(isoDate) < new Date()) return;
+        
+        seen.add(href);
+        const url = href.startsWith('http') ? href : `https://www.thebongoclub.co.uk${href}`;
+        
+        events.push({
+          id: uuidv4(),
+          title: title.replace(/\[.*?\]/g, '').trim(),
+          date: isoDate,
+          url: url,
+          venue: {
+            name: 'Bongo Club',
+            address: '66 Cowgate, Edinburgh EH1 1JX',
+            city: 'Edinburgh'
+          },
+          latitude: 55.9488,
+          longitude: -3.1885,
+          city: 'Edinburgh',
+          category: 'Nightlife',
+          source: 'Bongo Club'
+        });
+      } catch (e) {}
+    });
+
+    // Deduplicate by title + date
+    const uniqueEvents = [];
+    const titleDateSet = new Set();
+    for (const event of events) {
+      const key = `${event.title}|${event.date}`;
+      if (!titleDateSet.has(key)) {
+        titleDateSet.add(key);
+        uniqueEvents.push(event);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T22:00:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: { name: 'Bongo Club', address: '66 Cowgate, Edinburgh EH1 1JX', city: 'Edinburgh' },
-        latitude: 55.9488,
-        longitude: -3.1885,
-        city: 'Edinburgh',
-        category: 'Nightlife',
-        source: 'Bongo Club'
-      });
     }
 
-    return filterEvents(formattedEvents);
+    // Fetch og:image for each event (limit to first 20 to avoid timeout)
+    for (const event of uniqueEvents.slice(0, 20)) {
+      try {
+        const eventPage = await axios.get(event.url, {
+          headers: { 'User-Agent': 'Mozilla/5.0' },
+          timeout: 8000
+        });
+        const $event = cheerio.load(eventPage.data);
+        const ogImage = $event('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http') && !ogImage.includes('placeholder')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${uniqueEvents.length} Bongo Club events`);
+    return uniqueEvents;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Bongo Club error:', error.message);
+    console.error('  ⚠️ Bongo Club error:', error.message);
     return [];
   }
 }

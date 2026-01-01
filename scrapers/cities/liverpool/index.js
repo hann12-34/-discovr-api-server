@@ -44,6 +44,8 @@ const scrapeLevelLiverpool = require('./level_liverpool');
 const scrapeCargoLiverpool = require('./cargo_liverpool');
 const scrapeHeebieJeebies = require('./heebie_jeebies');
 const scrape54Liverpool = require('./54_liverpool');
+const scrapeInvisibleWindFactory = require('./invisible_wind_factory');
+const scrapeMansionLiverpool = require('./mansion_liverpool');
 
 module.exports = {
   scrape24kitchen,
@@ -87,5 +89,7 @@ module.exports = {
   scrapeLevelLiverpool,
   scrapeCargoLiverpool,
   scrapeHeebieJeebies,
-  scrape54Liverpool
+  scrape54Liverpool,
+  scrapeInvisibleWindFactory,
+  scrapeMansionLiverpool
 };

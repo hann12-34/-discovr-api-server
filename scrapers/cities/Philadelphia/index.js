@@ -41,6 +41,8 @@ const scrapeWellsFargo = require('./wells_fargo');
 const scrapeWorldCafeLive = require('./world_cafe_live');
 const scrapeXfinityLive = require('./xfinity_live');
 const scrapeNotoPhiladelphia = require('./noto_philadelphia');
+const scrapeUndergroundArts = require('./underground_arts');
+const scrapeFillmorePhillyV2 = require('./fillmore_philly_v2');
 
 module.exports = {
   scrapeArdmore,
@@ -81,5 +83,7 @@ module.exports = {
   scrapeWellsFargo,
   scrapeWorldCafeLive,
   scrapeXfinityLive,
-  scrapeNotoPhiladelphia
+  scrapeNotoPhiladelphia,
+  scrapeUndergroundArts,
+  scrapeFillmorePhillyV2
 };
