@@ -28,20 +28,29 @@ async function scrapeParadiseRockClub(city = 'Boston') {
     
     const eventData = await page.evaluate(() => {
       const items = [];
-      const eventLinks = document.querySelectorAll('a[href*="ticketmaster.com/event"]');
       
-      eventLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        const container = link.closest('div, li, article');
-        const titleEl = container?.querySelector('h3, h4, .title, [class*="title"]');
-        const imgEl = container?.querySelector('img');
+      // Try multiple selectors for events
+      const containers = document.querySelectorAll('.image-blocks__item, [class*="event"], article, .card');
+      
+      containers.forEach(container => {
+        const link = container.querySelector('a[href*="ticketmaster"], a[href*="MORE INFO"]');
+        const titleEl = container.querySelector('h3, h4, .title, [class*="title"], strong');
+        const imgEl = container.querySelector('img');
         
-        const title = titleEl?.textContent?.trim() || link.textContent?.trim();
+        let title = titleEl?.textContent?.trim();
+        if (!title) {
+          const allText = container.textContent?.trim();
+          if (allText && allText.length > 3 && allText.length < 100) {
+            title = allText.split('\n')[0].trim();
+          }
+        }
         
-        if (title && title.length > 3 && !items.find(e => e.url === href)) {
+        const href = link?.getAttribute('href') || '';
+        
+        if (title && title.length > 3 && !title.includes('MORE INFO') && !items.find(e => e.title === title)) {
           items.push({
             title,
-            url: href,
+            url: href.startsWith('http') ? href : 'https://crossroadspresents.com/pages/paradise-rock-club',
             image: imgEl?.src || null
           });
         }

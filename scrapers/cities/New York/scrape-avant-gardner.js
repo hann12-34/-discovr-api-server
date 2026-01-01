@@ -109,6 +109,13 @@ async function scrapeAvantGardner(city = 'New York') {
     
     for (const event of events) {
       if (!event.dateStr) continue;
+      
+      // Validate date - month should be 01-12, day should be 01-31
+      const dateParts = event.dateStr.split('-');
+      if (dateParts.length !== 3) continue;
+      const [year, month, day] = dateParts.map(Number);
+      if (month < 1 || month > 12 || day < 1 || day > 31) continue;
+      
       if (new Date(event.dateStr) < now) continue;
       
       const key = event.title + event.dateStr;
