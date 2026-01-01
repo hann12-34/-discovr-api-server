@@ -53,6 +53,8 @@ const scrapeIconBoston = require('./icon_boston');
 const scrapeMiddleEastSonia = require('./middle_east_sonia');
 const scrapeParadiseRockClub = require('./paradise_rock_club');
 const scrapeBrightonMusicHall = require('./brighton_music_hall');
+const scrapeRoyaleBostonV2 = require('./royale_boston_v2');
+const scrapeIconNightclub = require('./icon_nightclub');
 
 module.exports = {
   scrapeARTHarvard,
@@ -105,5 +107,7 @@ module.exports = {
   scrapeIconBoston,
   scrapeMiddleEastSonia,
   scrapeParadiseRockClub,
-  scrapeBrightonMusicHall
+  scrapeBrightonMusicHall,
+  scrapeRoyaleBostonV2,
+  scrapeIconNightclub
 };

@@ -46,6 +46,7 @@ const scrapeHeebieJeebies = require('./heebie_jeebies');
 const scrape54Liverpool = require('./54_liverpool');
 const scrapeInvisibleWindFactory = require('./invisible_wind_factory');
 const scrapeMansionLiverpool = require('./mansion_liverpool');
+const scrapeHangar34V2 = require('./hangar34_v2');
 
 module.exports = {
   scrape24kitchen,
@@ -91,5 +92,6 @@ module.exports = {
   scrapeHeebieJeebies,
   scrape54Liverpool,
   scrapeInvisibleWindFactory,
-  scrapeMansionLiverpool
+  scrapeMansionLiverpool,
+  scrapeHangar34V2
 };

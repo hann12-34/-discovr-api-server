@@ -43,6 +43,7 @@ const scrapeXfinityLive = require('./xfinity_live');
 const scrapeNotoPhiladelphia = require('./noto_philadelphia');
 const scrapeUndergroundArts = require('./underground_arts');
 const scrapeFillmorePhillyV2 = require('./fillmore_philly_v2');
+const scrapeKungFuNecktieV2 = require('./kung_fu_necktie_v2');
 
 module.exports = {
   scrapeArdmore,
@@ -85,5 +86,6 @@ module.exports = {
   scrapeXfinityLive,
   scrapeNotoPhiladelphia,
   scrapeUndergroundArts,
-  scrapeFillmorePhillyV2
+  scrapeFillmorePhillyV2,
+  scrapeKungFuNecktieV2
 };

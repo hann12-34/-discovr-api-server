@@ -1,12 +1,11 @@
 /**
  * Liquid Room Edinburgh Events Scraper
  * Live music venue
- * URL: https://www.liquidroom.com/
+ * URL: https://www.liquidroom.com/gigs
  */
 
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeLiquidRoom(city = 'Edinburgh') {
   console.log('🎸 Scraping Liquid Room Edinburgh...');
@@ -21,89 +20,94 @@ async function scrapeLiquidRoom(city = 'Edinburgh') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.liquidroom.com/', {
-      waitUntil: 'domcontentloaded',
-      timeout: 60000
-    });
+    // Try gigs page first, then clubs page
+    const urls = ['https://www.liquidroom.com/gigs', 'https://www.liquidroom.com/clubs'];
+    const allEvents = [];
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    for (const url of urls) {
+      try {
+        await page.goto(url, { waitUntil: 'networkidle0', timeout: 45000 });
+        await new Promise(resolve => setTimeout(resolve, 3000));
 
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seenTitles = new Set();
+        const events = await page.evaluate(() => {
+          const results = [];
+          const seen = new Set();
+          const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
 
-      const selectors = ['.event', '.event-card', 'article', '[class*="event"]', '.show'];
+          // Find all event containers
+          document.querySelectorAll('a[href*="/gigs/"], a[href*="/clubs/"], [class*="event"], article').forEach(el => {
+            try {
+              const link = el.tagName === 'A' ? el : el.querySelector('a');
+              const url = link?.href;
+              if (!url || seen.has(url)) return;
 
-      for (const selector of selectors) {
-        document.querySelectorAll(selector).forEach(el => {
-          try {
-            const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-            let title = titleEl ? titleEl.textContent.trim() : '';
-            
-            if (!title || title.length < 3 || seenTitles.has(title)) return;
-            seenTitles.add(title);
+              // Get title
+              let title = el.querySelector('h1, h2, h3, h4, .title')?.textContent?.trim();
+              if (!title) title = link?.textContent?.trim();
+              if (!title || title.length < 3 || title.length > 150) return;
 
-            const link = el.querySelector('a[href]') || (el.tagName === 'A' ? el : null);
-            let url = link ? link.href : '';
+              // Get date text
+              const dateEl = el.querySelector('time, .date, [class*="date"]');
+              let dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
+              
+              // Also check for date in element text
+              if (!dateStr) {
+                const text = el.textContent || '';
+                const dateMatch = text.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*(?:\s+(\d{4}))?/i);
+                if (dateMatch) dateStr = dateMatch[0];
+              }
 
-            const img = el.querySelector('img:not([src*="logo"])');
-            let imageUrl = img ? (img.src || img.dataset.src) : null;
+              // Get image
+              const img = el.querySelector('img');
+              const imageUrl = img?.src || img?.getAttribute('data-src');
 
-            let dateStr = null;
-            const timeEl = el.querySelector('time[datetime], [datetime]');
-            if (timeEl) dateStr = timeEl.getAttribute('datetime');
-            
-            if (!dateStr) {
-              const dateEl = el.querySelector('.date, [class*="date"], time');
-              if (dateEl) dateStr = dateEl.textContent.trim();
-            }
+              seen.add(url);
+              results.push({ title, dateStr, url, imageUrl });
+            } catch (e) {}
+          });
 
-            results.push({ title, url: url, imageUrl, dateStr });
-          } catch (e) {}
+          return results;
         });
-        if (results.length > 0) break;
-      }
 
-      return results;
-    });
+        allEvents.push(...events);
+      } catch (e) {}
+    }
 
     await browser.close();
-    console.log(`  ✅ Found ${events.length} Liquid Room events`);
 
     const formattedEvents = [];
-    const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+    const now = new Date();
 
-    for (const event of events) {
+    for (const event of allEvents) {
       let isoDate = null;
-      
+
       if (event.dateStr) {
         if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
           isoDate = event.dateStr.substring(0, 10);
         } else {
-          const monthMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i);
-          const dayMatch = event.dateStr.match(/\b(\d{1,2})\b/);
-          
-          if (monthMatch && dayMatch) {
-            const month = (monthNames.indexOf(monthMatch[1].toLowerCase()) + 1).toString().padStart(2, '0');
-            const day = dayMatch[1].padStart(2, '0');
-            const now = new Date();
-            let year = now.getFullYear();
-            if (parseInt(month) < now.getMonth() + 1) year++;
+          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
+          if (dateMatch) {
+            const day = dateMatch[1].padStart(2, '0');
+            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+            let year = dateMatch[3] || now.getFullYear().toString();
+            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
+              year = (now.getFullYear() + 1).toString();
+            }
             isoDate = `${year}-${month}-${day}`;
           }
         }
       }
-      
+
       if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
+      if (new Date(isoDate) < now) continue;
+
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
         date: isoDate,
-        startDate: new Date(isoDate + 'T20:00:00'),
         url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: { name: 'Liquid Room', address: '9c Victoria Street, Edinburgh EH1 2HE', city: 'Edinburgh' },
         latitude: 55.9487,
         longitude: -3.1914,
@@ -113,11 +117,21 @@ async function scrapeLiquidRoom(city = 'Edinburgh') {
       });
     }
 
-    return filterEvents(formattedEvents);
+    // Dedupe
+    const seen = new Set();
+    const unique = formattedEvents.filter(e => {
+      const key = `${e.title}|${e.date}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    console.log(`  ✅ Found ${unique.length} Liquid Room events`);
+    return unique;
 
   } catch (error) {
     if (browser) await browser.close();
-    console.error('  ⚠️  Liquid Room error:', error.message);
+    console.error('  ⚠️ Liquid Room error:', error.message);
     return [];
   }
 }
