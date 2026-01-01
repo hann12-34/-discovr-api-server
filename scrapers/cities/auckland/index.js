@@ -34,6 +34,12 @@ const scrapeFamilyTime = require('./family_time_auckland');
 const scrapeBasementTheatre = require('./basement_theatre_akl');
 const scrapeLulaInn = require('./the_lula_inn');
 const scrapeSweatShopBrew = require('./sweat_shop_brew');
+const scrapeImpalaNightclub = require('./impala_nightclub');
+const scrape1885Britomart = require('./1885_britomart');
+const scrapeSparkArenaNew = require('./spark_arena');
+const scrapeWhammyBar = require('./whammy_bar');
+const scrapeGalatosVenue = require('./galatos_venue');
+const scrapeTuningFork = require('./tuning_fork');
 
 module.exports = {
   scrapeAucklandArtsFest,
@@ -67,5 +73,11 @@ module.exports = {
   scrapeFamilyTime,
   scrapeBasementTheatre,
   scrapeLulaInn,
-  scrapeSweatShopBrew
+  scrapeSweatShopBrew,
+  scrapeImpalaNightclub,
+  scrape1885Britomart,
+  scrapeSparkArenaNew,
+  scrapeWhammyBar,
+  scrapeGalatosVenue,
+  scrapeTuningFork
 };

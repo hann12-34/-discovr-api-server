@@ -20,9 +20,9 @@ async function scrapeTivoli(city = 'Brisbane') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.thetivoli.com.au/events', {
-      waitUntil: 'domcontentloaded',
-      timeout: 30000
+    await page.goto('https://thetivoli.com.au/events', {
+      waitUntil: 'networkidle2',
+      timeout: 60000
     });
 
     await new Promise(resolve => setTimeout(resolve, 3000));

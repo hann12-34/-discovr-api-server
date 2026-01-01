@@ -19,7 +19,7 @@ async function scrapeBrudenellSocial(city = 'Leeds') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.brudenellsocialclub.co.uk/events', {
+    await page.goto('https://www.brudenellsocialclub.co.uk/whats-on', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
@@ -30,33 +30,43 @@ async function scrapeBrudenellSocial(city = 'Leeds') {
       const results = [];
       const seen = new Set();
       
-      const eventSelectors = ['.event-listing', '.event', 'article', '[class*="event"]', 'a[href*="/event/"]'];
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
-        try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url)) return;
-          seen.add(url);
+      // Find all event links on /whats-on/ pages
+      document.querySelectorAll('a[href*="/whats-on/"]').forEach(link => {
+        const url = link.href;
+        if (!url || seen.has(url) || url === 'https://www.brudenellsocialclub.co.uk/whats-on/' || url.endsWith('/whats-on/') || url.endsWith('/whats-on')) return;
+        seen.add(url);
+        
+        // Go up DOM tree to find event container with title and date
+        let container = link.parentElement;
+        for (let i = 0; i < 8 && container; i++) {
+          const textContent = container.textContent || '';
           
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="name"]') || linkEl;
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          if (!title || title.length < 3 || title.length > 150) return;
+          // Look for date pattern like "Saturday 3rd January 2026"
+          const dateMatch = textContent.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})/i);
           
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          
-          const imgEl = container.querySelector('img');
-          const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
-          
-          results.push({ title, dateStr, url, imageUrl });
-        } catch (e) {}
+          if (dateMatch && textContent.length > 20 && textContent.length < 500) {
+            // Extract title - first significant line of text
+            const lines = textContent.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+            let title = lines[0] || '';
+            
+            // Clean up title
+            title = title.replace(/\s+/g, ' ').trim();
+            
+            if (title && title.length > 3 && title.length < 100) {
+              const imgEl = container.querySelector('img');
+              const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
+              
+              results.push({
+                title,
+                dateStr: `${dateMatch[1]} ${dateMatch[2]} ${dateMatch[3]}`,
+                url,
+                imageUrl
+              });
+              break;
+            }
+          }
+          container = container.parentElement;
+        }
       });
       
       return results;

@@ -32,6 +32,14 @@ const scrapeJackRabbitSlims = require('./jack_rabbit_slims');
 const scrapeAirNightclub = require('./air_nightclub_perth');
 const scrapeLibraryNightclub = require('./library_nightclub_perth');
 const scrapeBadlandsBar = require('./badlands_bar_perth');
+const scrapeGeishaBar = require('./geisha_bar');
+const scrapeMetroCity = require('./metro_city');
+const scrapeAirClub = require('./air_club');
+const scrapeConnectionsNightclub = require('./connections_nightclub');
+const scrapeVillaNightclub = require('./villa_nightclub');
+const scrapeAmplifierBar = require('./amplifier_bar');
+const scrapeRosemountHotel = require('./rosemount_hotel');
+const scrapeMojosBar = require('./mojos_bar');
 
 module.exports = {
   scrapeAmplifier,
@@ -63,5 +71,13 @@ module.exports = {
   scrapeJackRabbitSlims,
   scrapeAirNightclub,
   scrapeLibraryNightclub,
-  scrapeBadlandsBar
+  scrapeBadlandsBar,
+  scrapeGeishaBar,
+  scrapeMetroCity,
+  scrapeAirClub,
+  scrapeConnectionsNightclub,
+  scrapeVillaNightclub,
+  scrapeAmplifierBar,
+  scrapeRosemountHotel,
+  scrapeMojosBar
 };

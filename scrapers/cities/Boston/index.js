@@ -24,7 +24,7 @@ const scrapeTheGrand = require('./TheGrand');
 const scrapeAgganisArena = require('./agganis_arena');
 const scrapeAtwoodTavern = require('./atwood_tavern');
 const scrapeBeehive = require('./beehive');
-const scrapeBigNightBoston = require('./big_night_boston');
+const scrapeHavanaClub = require('./havana_club');
 const scrapeMiddlesexLoungeBoston = require('./middlesex_lounge_boston');
 const scrapeBowery = require('./bowery');
 const scrapeBrighton = require('./brighton');
@@ -74,7 +74,7 @@ module.exports = {
   scrapeAgganisArena,
   scrapeAtwoodTavern,
   scrapeBeehive,
-  scrapeBigNightBoston,
+  scrapeHavanaClub,
   scrapeMiddlesexLoungeBoston,
   scrapeBowery,
   scrapeBrighton,

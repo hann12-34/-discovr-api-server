@@ -19,35 +19,46 @@ async function scrapeTheLowry(city = 'Manchester') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://thelowry.com/events', {
+    await page.goto('https://thelowry.com/whats-on', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
       
-      document.querySelectorAll('.event, article, [class*="event"], .show, .listing').forEach(el => {
-        try {
-          const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3 || seen.has(title)) return;
-          seen.add(title);
+      // Find event links on whats-on page
+      document.querySelectorAll('a[href]').forEach(link => {
+        const url = link.href;
+        // Skip non-event links
+        if (!url || seen.has(url) || url.includes('?') || url.includes('#') || 
+            url === 'https://thelowry.com/whats-on' || url.endsWith('/whats-on') ||
+            url.includes('conferences') || url.includes('login') || url.includes('basket')) return;
+        
+        // Only process links that look like event pages
+        if (!url.match(/thelowry\.com\/[a-z0-9-]+-[a-z0-9]+$/i)) return;
+        seen.add(url);
+        
+        let container = link.closest('div, article, li') || link.parentElement;
+        for (let i = 0; i < 5 && container; i++) {
+          const titleEl = container.querySelector('h2, h3, h4, [class*="title"]');
+          const title = titleEl?.textContent?.trim();
           
-          const link = el.querySelector('a');
-          const url = link ? link.href : '';
-          
-          const img = el.querySelector('img:not([src*="logo"])');
-          const imageUrl = img ? (img.src || img.dataset.src) : null;
-          
-          const dateEl = el.querySelector('time, .date, [class*="date"]');
-          const dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
-          
-          results.push({ title, url, imageUrl, dateStr });
-        } catch (e) {}
+          if (title && title.length > 3 && title.length < 150) {
+            const dateEl = container.querySelector('time, [class*="date"]');
+            const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim() || '';
+            
+            const img = container.querySelector('img');
+            const imageUrl = img?.src || img?.getAttribute('data-src');
+            
+            results.push({ title, url, imageUrl, dateStr });
+            break;
+          }
+          container = container.parentElement;
+        }
       });
       
       return results;

@@ -86,7 +86,7 @@ async function scrapeO2Islington(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:30:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: { name: 'O2 Academy Islington', address: 'N1 Centre, 16 Parkfield St, London N1 0PS', city: 'London' },
         latitude: 51.5387,
         longitude: -0.1060,

@@ -1,13 +1,13 @@
 /**
  * The Triffid Brisbane Events Scraper
  * Live music venue in Newstead
- * URL: https://www.thetriffid.com.au/
+ * URL: https://thetriffid.com.au/upcoming-gigs/
  */
 
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 
-async function scrapeTheTrffid(city = 'Brisbane') {
+async function scrapeTheTriffid(city = 'Brisbane') {
   console.log('🎸 Scraping The Triffid Brisbane...');
 
   let browser;
@@ -20,7 +20,7 @@ async function scrapeTheTrffid(city = 'Brisbane') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.thetriffid.com.au/', {
+    await page.goto('https://thetriffid.com.au/upcoming-gigs/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
@@ -29,30 +29,44 @@ async function scrapeTheTrffid(city = 'Brisbane') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const eventItems = document.querySelectorAll('.event-card, .event, [class*="event"], article, .show, .gig');
+      const seen = new Set();
       
-      eventItems.forEach(item => {
-        try {
-          const titleEl = item.querySelector('h2, h3, h4, .title, .event-title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
-          
-          const dateEl = item.querySelector('time, .date, [class*="date"]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
-          
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
-          
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          const descEl = item.querySelector('.description, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
+      document.querySelectorAll('a[href*="/event/"]').forEach(link => {
+        if (seen.has(link.href)) return;
+        seen.add(link.href);
+        
+        let container = link.closest('article, .event, div') || link.parentElement;
+        for (let i = 0; i < 5 && container; i++) {
+          const text = container.textContent || '';
+          if (text.length > 30 && text.length < 500) break;
+          container = container.parentElement;
+        }
+        
+        if (!container) return;
+        
+        const img = container.querySelector('img');
+        const titleEl = container.querySelector('h2, h3, h4, .title');
+        let title = titleEl?.textContent?.trim();
+        
+        if (!title) {
+          const pathParts = link.href.split('/event/')[1]?.split('/')[0];
+          if (pathParts) {
+            title = pathParts.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
           }
-        } catch (e) {}
+        }
+        
+        const text = container.textContent || '';
+        const dateMatches = text.match(/(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/gi);
+        const dateStr = dateMatches ? dateMatches[0] : null;
+        
+        if (title && title.length > 2) {
+          results.push({
+            title: title.substring(0, 100),
+            dateStr: dateStr,
+            url: link.href,
+            imageUrl: img?.src
+          });
+        }
       });
       
       return results;
@@ -62,30 +76,32 @@ async function scrapeTheTrffid(city = 'Brisbane') {
 
     const formattedEvents = [];
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+    const now = new Date();
+    const currentYear = now.getFullYear();
     
     for (const event of events) {
       let isoDate = null;
+      
       if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})[\/\.\s]*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\/\.\s]*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            const year = dateMatch[3] || new Date().getFullYear().toString();
-            isoDate = `${year}-${month}-${day}`;
+        const dateMatch = event.dateStr.match(/(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+        if (dateMatch) {
+          const day = dateMatch[1].padStart(2, '0');
+          const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+          let year = currentYear;
+          const eventDate = new Date(`${year}-${month}-${day}`);
+          if (eventDate < now) {
+            year = currentYear + 1;
           }
+          isoDate = `${year}-${month}-${day}`;
         }
       }
       
       if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
+      if (new Date(isoDate) < now) continue;
       
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
-        description: event.description || `Live at The Triffid Brisbane`,
         date: isoDate,
         startDate: new Date(isoDate + 'T19:30:00'),
         url: event.url,
@@ -103,7 +119,7 @@ async function scrapeTheTrffid(city = 'Brisbane') {
       });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} valid Triffid events`);
+    console.log(`  ✅ Found ${formattedEvents.length} Triffid events`);
     return formattedEvents;
 
   } catch (error) {
@@ -113,4 +129,4 @@ async function scrapeTheTrffid(city = 'Brisbane') {
   }
 }
 
-module.exports = scrapeTheTrffid;
+module.exports = scrapeTheTriffid;

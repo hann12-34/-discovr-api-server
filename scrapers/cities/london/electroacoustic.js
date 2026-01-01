@@ -88,7 +88,7 @@ async function scrapeEartH(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:30:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'EartH',
           address: '11-17 Stoke Newington Rd, London N16 8BH',

@@ -86,7 +86,7 @@ async function scrapeTottenham(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T20:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'KFRG London',
           address: 'Tottenham Court Rd, London',

@@ -33,6 +33,11 @@ const scrapeMiniGolfBar = require('./mini_golf_qtown');
 const scrapeWorldBar = require('./world_bar_qtown');
 const scrapeDebajo = require('./debajo_qtown');
 const scrapeSearLeLane = require('./searle_lane_qtown');
+const scrapeQueenstownEvents = require('./queenstown_events');
+const scrapeUnderTheRadarQtown = require('./undertheradar_qtown');
+const scrape1876Bar = require('./1876_bar');
+const scrapeWorldBarEvents = require('./world_bar_events');
+const scrapeRhinosEvents = require('./rhinos_events');
 
 module.exports = {
   scrapeArrowtownAutumnFest,
@@ -65,5 +70,10 @@ module.exports = {
   scrapeMiniGolfBar,
   scrapeWorldBar,
   scrapeDebajo,
-  scrapeSearLeLane
+  scrapeSearLeLane,
+  scrapeQueenstownEvents,
+  scrapeUnderTheRadarQtown,
+  scrape1876Bar,
+  scrapeWorldBarEvents,
+  scrapeRhinosEvents
 };

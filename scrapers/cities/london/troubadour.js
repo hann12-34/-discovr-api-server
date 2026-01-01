@@ -86,7 +86,7 @@ async function scrapeTroubadour(city = 'london') {
         date: isoDate,
         startDate: new Date(isoDate + 'T20:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Troubadour London',
           address: '263-267 Old Brompton Road, London SW5 9JA',

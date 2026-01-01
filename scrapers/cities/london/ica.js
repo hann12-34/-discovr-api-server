@@ -89,7 +89,7 @@ async function scrapeICA(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'ICA',
           address: 'The Mall, London SW1Y 5AH',

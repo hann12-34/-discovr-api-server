@@ -86,7 +86,7 @@ async function scrapeSOAS(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'SOAS University of London',
           address: 'Thornhaugh St, London WC1H 0XG',

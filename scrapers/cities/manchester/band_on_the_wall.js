@@ -1,6 +1,7 @@
 /**
  * Band on the Wall Manchester Events Scraper
- * URL: https://bandonthewall.org/events
+ * Uses Vue.js app - needs longer wait for JS rendering
+ * URL: https://bandonthewall.org/whats-on/
  */
 
 const puppeteer = require('puppeteer');
@@ -12,62 +13,71 @@ async function scrapeBandOnTheWall(city = 'Manchester') {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled']
     });
 
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+    await page.setExtraHTTPHeaders({ 'Accept-Language': 'en-GB,en;q=0.9' });
 
-    await page.goto('https://bandonthewall.org/events', {
-      waitUntil: 'networkidle2',
+    await page.goto('https://bandonthewall.org/whats-on/', {
+      waitUntil: 'networkidle0',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    // Wait longer for Vue.js app to fully render
+    await new Promise(resolve => setTimeout(resolve, 8000));
+
+    // Scroll to trigger lazy loading
+    await page.evaluate(() => window.scrollBy(0, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
       
-      // Try multiple selector patterns for Band on the Wall
-      const eventSelectors = [
-        '.event-item',
-        '.event',
-        'article',
-        '[class*="event"]',
-        '.listing-item',
-        '.show',
-        'a[href*="/event/"]',
-        'a[href*="/whats-on/"]'
-      ];
-      
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
-        try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url) || url.endsWith('/events/') || url === 'https://bandonthewall.org/events') return;
-          seen.add(url);
+      // Find all links to /events/ pages
+      document.querySelectorAll('a[href*="/events/"]').forEach(link => {
+        const url = link.href;
+        if (!url || seen.has(url) || url === 'https://bandonthewall.org/events/' || url.includes('seetickets')) return;
+        seen.add(url);
+        
+        // Find parent container
+        let container = link.closest('div, article') || link.parentElement;
+        for (let i = 0; i < 5 && container; i++) {
+          // Look for date info
+          const textContent = container.textContent || '';
+          const dateMatch = textContent.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
           
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="name"]') || linkEl;
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          if (!title || title.length < 3 || title.length > 150) return;
+          // Get title from URL slug or heading
+          let title = '';
+          const headingEl = container.querySelector('h2, h3, h4, [class*="title"], [class*="heading"]');
+          if (headingEl) {
+            title = headingEl.textContent.trim();
+          } else {
+            // Extract from URL
+            const urlParts = url.split('/events/')[1];
+            if (urlParts) {
+              title = urlParts.replace(/\/$/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
+          }
           
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          
-          const imgEl = container.querySelector('img');
-          const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
-          
-          results.push({ title, dateStr, url, imageUrl });
-        } catch (e) {}
+          if (title && title.length > 3 && title.length < 150) {
+            // Get image
+            const imgEl = container.querySelector('img');
+            const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
+            
+            results.push({
+              title,
+              dateStr: dateMatch ? `${dateMatch[1]} ${dateMatch[2]} ${dateMatch[3] || ''}`.trim() : '',
+              url,
+              imageUrl
+            });
+            break;
+          }
+          container = container.parentElement;
+        }
       });
       
       return results;

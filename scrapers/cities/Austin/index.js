@@ -1,5 +1,5 @@
 /**
- * Austin Scrapers - Cleaned (1 per venue)
+ * Austin Scrapers - Fixed index with correct file references
  */
 
 const scrapeAcl = require('./acl');
@@ -33,32 +33,32 @@ const scrapeFlamingoCantina = require('./flamingo_cantina');
 const scrapeGeraldines = require('./geraldines');
 const scrapeHighland = require('./highland');
 const scrapeHotelVegas = require('./hotel_vegas');
-const scrapeLongcenteratx = require('./longcenteratx');
+const scrapeLongCenterAustin = require('./long_center_austin');
 const scrapeLustre = require('./lustre');
 const scrapeMohawk = require('./mohawk');
 const scrapeMoodyAmphitheater = require('./moody_amphitheater');
 const scrapeOldSettlersFest = require('./old_settlers_fest');
 const scrapeOne2one = require('./one2one');
 const scrapeParamountTheatreAustin = require('./paramount_theatre_austin');
-const scrapeParishAustin = require('./parish_austin');
+const scrapeParish = require('./parish');
 const scrapeRaineyStreet = require('./rainey_street');
-const scrapeScootInn = require('./scoot_inn');
-const scrapeSixthStreetLive = require('./sixth_street_live');
-const scrapeSouthbySwFest = require('./southby_sw_fest');
-const scrapeSpiderHouse = require('./spider_house');
-const scrapeStubbs = require('./stubbs');
+const scrapeScootInnAustin = require('./scoot_inn_austin');
+const scrapeSpiderhouse = require('./spiderhouse');
+const scrapeStubbs = require('./stubbsbbq');
 const scrapeSxsw = require('./sxsw');
-const scrapeTexasRodeo = require('./texas_rodeo');
-const scrapeUtPac = require('./ut_pac');
+const scrapeTexasRelays = require('./texas_relays');
 const scrapeWhiteHorseAustin = require('./white_horse_austin');
 const scrapeZachTheatre = require('./zach_theatre');
 const scrapeSummitAustin = require('./summit_austin');
 const scrapeKingdomAustin = require('./kingdom_austin');
 const scrapeConcourseProject = require('./concourse_project');
 const scrapeRoseroomAustin = require('./roseroom_austin');
-const scrapeTipsyAlchemistAustin = require('./tipsy_alchemist_austin');
+const scrapeTipsyAlchemist = require('./tipsy_alchemist');
 const scrapeCedarStreetAustin = require('./cedar_street_austin');
 const scrapeBarbarellaAustin = require('./barbarella_austin');
+const scrapeSaxon = require('./saxon');
+const scrapeVulcan = require('./vulcan');
+const scrapeSkylark = require('./skylark');
 
 module.exports = {
   scrapeAcl,
@@ -92,30 +92,30 @@ module.exports = {
   scrapeGeraldines,
   scrapeHighland,
   scrapeHotelVegas,
-  scrapeLongcenteratx,
+  scrapeLongCenterAustin,
   scrapeLustre,
   scrapeMohawk,
   scrapeMoodyAmphitheater,
   scrapeOldSettlersFest,
   scrapeOne2one,
   scrapeParamountTheatreAustin,
-  scrapeParishAustin,
+  scrapeParish,
   scrapeRaineyStreet,
-  scrapeScootInn,
-  scrapeSixthStreetLive,
-  scrapeSouthbySwFest,
-  scrapeSpiderHouse,
+  scrapeScootInnAustin,
+  scrapeSpiderhouse,
   scrapeStubbs,
   scrapeSxsw,
-  scrapeTexasRodeo,
-  scrapeUtPac,
+  scrapeTexasRelays,
   scrapeWhiteHorseAustin,
   scrapeZachTheatre,
   scrapeSummitAustin,
   scrapeKingdomAustin,
   scrapeConcourseProject,
   scrapeRoseroomAustin,
-  scrapeTipsyAlchemistAustin,
+  scrapeTipsyAlchemist,
   scrapeCedarStreetAustin,
-  scrapeBarbarellaAustin
+  scrapeBarbarellaAustin,
+  scrapeSaxon,
+  scrapeVulcan,
+  scrapeSkylark
 };

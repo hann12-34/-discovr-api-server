@@ -35,6 +35,13 @@ const scrapeRockpool = require('./rockpool_chch');
 const scrapeGrumpyMole = require('./grumpy_mole');
 const scrapeBogIrishBar = require('./the_bog_irish_bar');
 const scrapeTequilaMockingbird = require('./tequila_mockingbird');
+const scrapeUnderTheRadarChch = require('./undertheradar_chch');
+const scrapeBlueSmokeChch = require('./bluesmoke');
+const scrapeChristchurchNZ = require('./christchurchnz');
+const scrapeVenuesOtautahi = require('./venues_otautahi');
+const scrapeHideClubGigs = require('./hide_club_gigs');
+const scrapeFatEddiesEvents = require('./fat_eddies_events');
+const scrapeBoosBarEvents = require('./boos_bar_events');
 
 module.exports = {
   scrapeBlueSmokeBar,
@@ -69,5 +76,12 @@ module.exports = {
   scrapeRockpool,
   scrapeGrumpyMole,
   scrapeBogIrishBar,
-  scrapeTequilaMockingbird
+  scrapeTequilaMockingbird,
+  scrapeUnderTheRadarChch,
+  scrapeBlueSmokeChch,
+  scrapeChristchurchNZ,
+  scrapeVenuesOtautahi,
+  scrapeHideClubGigs,
+  scrapeFatEddiesEvents,
+  scrapeBoosBarEvents
 };

@@ -20,36 +20,36 @@ async function scrapeWireLeeds(city = 'Leeds') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.wireclub.co.uk/', {
+    await page.goto('https://www.wireclub.co.uk/upcoming-events/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
 
-      document.querySelectorAll('.event-item, .event-card, article, [class*="event"], a[href*="event"]').forEach(el => {
+      // Find event links on the upcoming events page
+      document.querySelectorAll('a[href*="/event/"], [class*="event"], .events-grid__card').forEach(el => {
         try {
-          const link = el.tagName === 'A' ? el : el.querySelector('a[href]');
+          const link = el.tagName === 'A' ? el : el.querySelector('a[href*="/event/"]');
           const url = link?.href;
-          if (!url) return;
+          if (!url || seen.has(url) || !url.includes('/event/')) return;
+          seen.add(url);
 
-          const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-          const title = titleEl?.textContent?.trim() || link?.textContent?.trim()?.substring(0, 100);
+          // Find container with event info
+          const container = el.closest('[class*="event"], article, .card') || el;
+          
+          const titleEl = container.querySelector('h2, h3, h4, [class*="title"], [class*="heading"]');
+          const title = titleEl?.textContent?.trim();
           if (!title || title.length < 3 || title.length > 150) return;
-          if (/^(View|More|Read|Click|Book|Buy)/i.test(title)) return;
 
-          const key = title.toLowerCase();
-          if (seen.has(key)) return;
-          seen.add(key);
+          const dateEl = container.querySelector('time, [class*="date"]');
+          const dateText = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim() || container.textContent || '';
 
-          const dateEl = el.querySelector('time, [class*="date"]');
-          const dateText = dateEl?.getAttribute('datetime') || dateEl?.textContent || el.textContent || '';
-
-          const img = el.querySelector('img');
+          const img = container.querySelector('img');
           const imageUrl = img?.src || img?.getAttribute('data-src');
 
           results.push({ title, url, dateText, imageUrl });

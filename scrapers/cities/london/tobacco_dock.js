@@ -92,7 +92,7 @@ async function scrapeTobaccoDock(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T20:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Tobacco Dock',
           address: 'Tobacco Quay, Wapping Ln, London E1W 2SF',

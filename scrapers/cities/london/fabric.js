@@ -86,7 +86,7 @@ async function scrapeFabric(city = 'london') {
         date: isoDate,
         startDate: new Date(isoDate + 'T20:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Fabric London',
           address: '77A Charterhouse Street, London EC1M 6HJ',

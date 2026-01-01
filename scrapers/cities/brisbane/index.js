@@ -14,6 +14,10 @@ const scrapeEkkaFestival = require('./ekka_festival');
 const scrapeFelons = require('./felons');
 const scrapeFortitude = require('./fortitude');
 const scrapeFoundry = require('./foundry');
+const scrapeTheTriffid = require('./thetriffid');
+const scrapeMoshtix = require('./moshtix');
+const scrapeSuncorpStadium = require('./suncorp_stadium');
+const scrapeGabbaStadium = require('./gabba_stadium');
 const scrapeGabba = require('./gabba');
 const scrapeJunk = require('./junk');
 const scrapeNewFarmParkConcerts = require('./new_farm_park_concerts');
@@ -64,7 +68,10 @@ module.exports = {
   scrapeStoryBridgeHotel,
   scrapeSuncorp,
   scrapeSunsuperRiverfire,
-  scrapeThetriffid,
+  scrapeTheTriffid,
+  scrapeMoshtix,
+  scrapeSuncorpStadium,
+  scrapeGabbaStadium,
   scrapeThevalley,
   scrapeTivoli,
   scrapeValleyFiesta,

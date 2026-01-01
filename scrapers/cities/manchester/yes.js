@@ -1,7 +1,7 @@
 /**
  * YES Manchester Events Scraper
- * Multi-room venue with club nights and live music
- * URL: https://yes-manchester.com/
+ * Multi-floor venue: Basement, Pink Room, Main Space
+ * URL: https://www.yes-manchester.com/whats-on
  */
 
 const puppeteer = require('puppeteer');
@@ -20,40 +20,54 @@ async function scrapeYES(city = 'Manchester') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://yes-manchester.com/', {
+    await page.goto('https://www.yes-manchester.com/whats-on', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const events = await page.evaluate(() => {
       const results = [];
+      const seen = new Set();
       
-      // YES Manchester website structure
-      const eventItems = document.querySelectorAll('.event, .event-item, [class*="event"], article, .listing-item');
+      // Get current year from page header
+      const headerText = document.querySelector('.rotated_right h2, .section_header_h2')?.textContent || '';
+      const yearMatch = headerText.match(/(\d{4})/);
+      const pageYear = yearMatch ? parseInt(yearMatch[1]) : new Date().getFullYear();
       
-      eventItems.forEach(item => {
+      // Find all event listings
+      document.querySelectorAll('.grid_item.listing').forEach(item => {
         try {
-          const titleEl = item.querySelector('h2, h3, h4, .event-title, .title, .name');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
+          const dateEl = item.querySelector('.pink');
+          const dateStr = dateEl?.textContent?.trim();
+          if (!dateStr) return;
           
-          const dateEl = item.querySelector('time, .date, .event-date, [datetime]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
+          const detailsEl = item.querySelector('.month_text_small');
+          const detailsText = detailsEl?.textContent?.trim() || '';
           
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
+          const titleLink = item.querySelector('a[href*="seetickets"], a[href*="ticket"]');
+          const ticketUrl = titleLink?.href;
           
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
+          const venueMatch = detailsText.match(/(Basement|Pink Room|Main Space|Big Top)/i);
+          const subVenue = venueMatch ? venueMatch[1] : 'YES';
           
-          const descEl = item.querySelector('.description, .summary, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
+          const allText = item.textContent.replace(/\s+/g, ' ').trim();
+          const titleMatch = allText.match(/\d+\s*\w+\s+(.+?)(?:Basement|Pink Room|Main Space|BUY|–|$)/i);
+          let title = titleMatch ? titleMatch[1].trim() : '';
           
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
-          }
+          title = title.replace(/BUY TICKETS?/gi, '').replace(/\s+/g, ' ').trim();
+          
+          if (!title || title.length < 3 || seen.has(title + dateStr)) return;
+          seen.add(title + dateStr);
+          
+          results.push({
+            title: title,
+            dateStr: dateStr,
+            url: ticketUrl || 'https://www.yes-manchester.com/whats-on',
+            subVenue: subVenue,
+            year: pageYear
+          });
         } catch (e) {}
       });
       
@@ -64,41 +78,42 @@ async function scrapeYES(city = 'Manchester') {
 
     const formattedEvents = [];
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+    const now = new Date();
     
     for (const event of events) {
       let isoDate = null;
+      
       if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})[\/\.\s]*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\/\.\s]*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            const year = dateMatch[3] || new Date().getFullYear().toString();
-            isoDate = `${year}-${month}-${day}`;
+        const dateMatch = event.dateStr.match(/(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+        if (dateMatch) {
+          const day = dateMatch[1].padStart(2, '0');
+          const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+          let year = event.year || now.getFullYear();
+          if (parseInt(month) < now.getMonth() + 1 && year === now.getFullYear()) {
+            year = now.getFullYear() + 1;
           }
+          isoDate = `${year}-${month}-${day}`;
         }
       }
       
       if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
+      if (new Date(isoDate) < now) continue;
       
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
-        description: event.description || `Event at YES Manchester`,
+        description: null,
         date: isoDate,
-        startDate: new Date(isoDate + 'T20:00:00'),
+        startDate: new Date(isoDate + 'T19:00:00'),
         url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
-          name: 'YES',
-          address: '38 Charles Street, Manchester M1 7DB',
+          name: `YES - ${event.subVenue}`,
+          address: '38 Charles St, Manchester M1 7DB',
           city: 'Manchester'
         },
-        latitude: 53.4745,
-        longitude: -2.2361,
+        latitude: 53.4770,
+        longitude: -2.2380,
         city: 'Manchester',
         category: 'Nightlife',
         source: 'YES Manchester'

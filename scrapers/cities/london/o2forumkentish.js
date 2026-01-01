@@ -86,7 +86,7 @@ async function scrapeO2ForumKentish(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:30:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: { name: 'O2 Forum Kentish Town', address: '9-17 Highgate Road, London NW5 1JY', city: 'London' },
         latitude: 51.5508,
         longitude: -0.1426,

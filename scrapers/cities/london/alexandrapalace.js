@@ -97,7 +97,7 @@ async function scrapeAlexandraPalace(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Alexandra Palace',
           address: 'Alexandra Palace Way, London N22 7AY',

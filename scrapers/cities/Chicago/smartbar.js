@@ -20,39 +20,36 @@ async function scrapeSmartBar(city = 'Chicago') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://smartbarchicago.com/', {
+    await page.goto('https://smartbarchicago.com/events/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const events = await page.evaluate(() => {
       const results = [];
-      const eventItems = document.querySelectorAll('.event-card, .event, [class*="event"], article');
+      const seen = new Set();
       
-      eventItems.forEach(item => {
-        try {
-          const titleEl = item.querySelector('h2, h3, h4, .title, .event-title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
-          
-          const dateEl = item.querySelector('time, .date, [class*="date"]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
-          
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
-          
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          const descEl = item.querySelector('.description, .lineup, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
-          }
-        } catch (e) {}
+      document.querySelectorAll('a[href*="/event/"]').forEach(a => {
+        const url = a.href;
+        if (seen.has(url)) return;
+        seen.add(url);
+        
+        const container = a.closest('article, .tribe-events-calendar-list__event, div') || a.parentElement?.parentElement?.parentElement;
+        if (!container) return;
+        
+        const titleEl = container.querySelector('h2, h3, h4, .tribe-events-calendar-list__event-title, [class*="title"]');
+        const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
+        if (!title || title.length < 3 || title.length > 150) return;
+        
+        const timeEl = container.querySelector('time, .tribe-event-date-start, [class*="date"]');
+        const dateStr = timeEl?.getAttribute('datetime') || timeEl?.textContent?.trim();
+        
+        const imgEl = container.querySelector('img');
+        const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
+        
+        results.push({ title, dateStr, url, imageUrl });
       });
       
       return results;

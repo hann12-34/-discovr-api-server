@@ -114,7 +114,7 @@ async function scrapePhonox3(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T22:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Phonox',
           address: '418 Brixton Rd, London SW9 7AY',

@@ -92,7 +92,7 @@ async function scrapeForum(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'The Forum',
           address: '9-17 Highgate Rd, London NW5 1JY',

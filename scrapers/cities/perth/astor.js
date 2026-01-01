@@ -1,7 +1,7 @@
 /**
  * Astor Theatre Perth Events Scraper
  * Historic theatre venue
- * URL: https://www.astortheatreperth.com/
+ * URL: https://astortheatreperth.com/event/events-by-month/
  */
 
 const puppeteer = require('puppeteer');
@@ -14,44 +14,61 @@ async function scrapeAstorTheatre(city = 'Perth') {
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
 
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
-    await page.goto('https://www.astortheatreperth.com/', {
+    await page.goto('https://astortheatreperth.com/event/events-by-month/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
     await new Promise(resolve => setTimeout(resolve, 4000));
 
+    // Scroll to load more events
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     const events = await page.evaluate(() => {
       const results = [];
-      const eventItems = document.querySelectorAll('.event-card, .event, [class*="event"], article, .show');
+      const seen = new Set();
       
-      eventItems.forEach(item => {
+      // Look for event links with dates
+      document.querySelectorAll('a[href*="/events/"]').forEach(el => {
         try {
-          const titleEl = item.querySelector('h2, h3, h4, .title, .event-title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
+          const url = el.href;
+          if (!url || seen.has(url)) return;
           
-          const dateEl = item.querySelector('time, .date, [class*="date"]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
+          const title = el.textContent?.trim()?.replace(/\s+/g, ' ');
+          if (!title || title.length < 3 || title.length > 150) return;
+          if (title === 'More info...' || title === 'Buy Tickets') return;
           
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
+          seen.add(url);
           
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          const descEl = item.querySelector('.description, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
+          // Find parent container with date
+          let container = el.closest('div, li, article');
+          for (let i = 0; i < 5 && container; i++) {
+            if (container.textContent?.match(/\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i)) {
+              break;
+            }
+            container = container.parentElement;
           }
+          
+          // Extract date
+          let dateStr = null;
+          const text = container?.textContent || '';
+          const dateMatch = text.match(/(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{4})/i);
+          if (dateMatch) {
+            dateStr = dateMatch[0];
+          }
+          
+          // Get image
+          const img = container?.querySelector('img');
+          const imageUrl = img?.src;
+          
+          results.push({ title, dateStr, url, imageUrl });
         } catch (e) {}
       });
       

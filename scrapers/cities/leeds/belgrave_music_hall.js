@@ -19,39 +19,37 @@ async function scrapeBelgrave(city = 'Leeds') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.belgravemusichall.com/whats-on', {
+    await page.goto('https://www.belgravemusichall.com/events/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
       
-      const eventSelectors = ['.gig-item', '.event', 'article', '[class*="event"]', '[class*="gig"]', 'a[href*="/whats-on/"]'];
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
+      // Belgrave uses WordPress with event posts
+      document.querySelectorAll('article, .event, [class*="event"], a[href*="/events/"]').forEach(item => {
         try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url) || url.endsWith('/whats-on/') || url.endsWith('/whats-on')) return;
+          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href*="/events/"]');
+          const url = linkEl?.href;
+          if (!url || seen.has(url) || url === 'https://www.belgravemusichall.com/events/' || url.endsWith('/events/')) return;
           seen.add(url);
           
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], .band') || linkEl;
+          const container = item.closest('article, div') || item;
+          
+          // Get title
+          const titleEl = container.querySelector('h2, h3, h4, .title, [class*="title"], .entry-title');
           const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
           if (!title || title.length < 3 || title.length > 150) return;
           
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
+          // Get date - look in various places
+          const dateEl = container.querySelector('time, .date, [class*="date"], .meta');
+          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim() || '';
           
+          // Get image
           const imgEl = container.querySelector('img');
           const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
           

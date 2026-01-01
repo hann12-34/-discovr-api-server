@@ -120,7 +120,7 @@ async function scrapeCorsicaStudios3(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T22:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Corsica Studios',
           address: '5 Elephant Rd, London SE17 1LB',

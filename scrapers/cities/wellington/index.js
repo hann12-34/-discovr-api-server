@@ -15,6 +15,9 @@ const scrapeMeow = require('./meow');
 const scrapeMoon = require('./moon');
 const scrapeNzFestival = require('./nz_festival');
 const scrapeSanFran = require('./sanFran');
+const scrapeUnderTheRadar = require('./undertheradar');
+const scrapeTicketFairy = require('./ticketfairy');
+const scrapeRogueAndVagabond = require('./rogueandvagabond');
 const scrapeTheRogue = require('./the_rogue');
 const scrapeTstOperaHouse = require('./tst_opera_house');
 const scrapeValhalla = require('./valhalla');
@@ -47,6 +50,9 @@ module.exports = {
   scrapeMoon,
   scrapeNzFestival,
   scrapeSanFran,
+  scrapeUnderTheRadar,
+  scrapeTicketFairy,
+  scrapeRogueAndVagabond,
   scrapeTheRogue,
   scrapeTstOperaHouse,
   scrapeValhalla,

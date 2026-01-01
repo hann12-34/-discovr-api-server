@@ -20,39 +20,55 @@ async function scrapeCampAndFurnace(city = 'Liverpool') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.campandfurnace.com/whats-on/', {
+    await page.goto('https://campandfurnace.com/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     const events = await page.evaluate(() => {
       const results = [];
-      const eventItems = document.querySelectorAll('.event, .event-item, article, [class*="event"], .show');
+      const seen = new Set();
       
-      eventItems.forEach(item => {
-        try {
-          const titleEl = item.querySelector('h2, h3, h4, .event-title, .title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
+      // Find all event links
+      document.querySelectorAll('a[href*="/events/"]').forEach(link => {
+        const url = link.href;
+        if (!url || seen.has(url) || url.includes('event-space-hire') || url === 'https://campandfurnace.com/events/') return;
+        seen.add(url);
+        
+        // Find parent container
+        let container = link.closest('div, article') || link.parentElement;
+        for (let i = 0; i < 5 && container; i++) {
+          const textContent = container.textContent || '';
+          const dateMatch = textContent.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
           
-          const dateEl = item.querySelector('time, .date, .event-date, [datetime]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
-          
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
-          
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          const descEl = item.querySelector('.description, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
+          // Get title from heading or URL
+          let title = '';
+          const headingEl = container.querySelector('h2, h3, h4, [class*="title"]');
+          if (headingEl) {
+            title = headingEl.textContent.trim();
+          } else {
+            const urlParts = url.split('/events/')[1];
+            if (urlParts) {
+              title = urlParts.replace(/\/$/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
           }
-        } catch (e) {}
+          
+          if (title && title.length > 3 && title.length < 150 && !title.includes('Buy Tickets') && !title.includes('Venue Hire')) {
+            const imgEl = container.querySelector('img');
+            const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
+            
+            results.push({
+              title,
+              dateStr: dateMatch ? `${dateMatch[1]} ${dateMatch[2]} ${dateMatch[3] || ''}`.trim() : '',
+              url,
+              imageUrl
+            });
+            break;
+          }
+          container = container.parentElement;
+        }
       });
       
       return results;

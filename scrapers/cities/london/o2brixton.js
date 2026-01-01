@@ -86,7 +86,7 @@ async function scrapeO2Brixton(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:30:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: { name: 'O2 Academy Brixton', address: '211 Stockwell Rd, London SW9 9SL', city: 'London' },
         latitude: 51.4652,
         longitude: -0.1149,

@@ -88,7 +88,7 @@ async function scrapeStudioSpaces(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T21:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Studio Spaces',
           address: 'Wapping Ln, London E1W 2RL',

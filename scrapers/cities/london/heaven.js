@@ -89,7 +89,7 @@ async function scrapeHeaven(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T22:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Heaven',
           address: 'Under The Arches, Villiers Street, London WC2N 6NG',

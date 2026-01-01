@@ -92,7 +92,7 @@ async function scrapeGeorgeTavern(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T19:30:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'The George Tavern',
           address: '373 Commercial Rd, London E1 0LA',

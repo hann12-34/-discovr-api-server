@@ -27,7 +27,7 @@ const scrapeGraceEmily = require('./grace_emily');
 const scrapeHerMajesty = require('./her_majesty');
 const scrapeHindleyStreet = require('./hindley_street');
 const scrapeIlluminateAdelaide = require('./illuminate_adelaide');
-const scrapeZhivagoAdelaide = require('./zhivago_adelaide');
+const scrapeJiveAdelaide = require('./jive_adelaide');
 const scrapeHqComplexAdelaide = require('./hq_complex_adelaide');
 const scrapeLanewayFestival = require('./laneway_festival');
 const scrapeLionArts = require('./lion_arts');
@@ -51,6 +51,12 @@ const scrapeShotgunwillies = require('./shotgunwillies');
 const scrapeElectrahouse = require('./electrahouse');
 const scrapeCherrynightclub = require('./cherrynightclub');
 const scrapeZhivago = require('./zhivago');
+const scrapeLionArtsFactory = require('./lion_arts_factory');
+const scrapeDistrictNightclub = require('./district_nightclub');
+const scrapeWoolshedHindley = require('./woolshed_hindley');
+const scrapeHQComplex = require('./hq_complex');
+const scrapeElectricCircus = require('./electric_circus');
+const scrapeTheGovMoshtix = require('./the_gov_moshtix');
 
 module.exports = {
   scrapeAdelaide500,
@@ -78,7 +84,7 @@ module.exports = {
   scrapeHerMajesty,
   scrapeHindleyStreet,
   scrapeIlluminateAdelaide,
-  scrapeZhivagoAdelaide,
+  scrapeJiveAdelaide,
   scrapeHqComplexAdelaide,
   scrapeLanewayFestival,
   scrapeLionArts,
@@ -101,5 +107,11 @@ module.exports = {
   scrapeShotgunwillies,
   scrapeElectrahouse,
   scrapeCherrynightclub,
-  scrapeZhivago
+  scrapeZhivago,
+  scrapeLionArtsFactory,
+  scrapeDistrictNightclub,
+  scrapeWoolshedHindley,
+  scrapeHQComplex,
+  scrapeElectricCircus,
+  scrapeTheGovMoshtix
 };

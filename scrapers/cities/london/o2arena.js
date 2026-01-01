@@ -86,7 +86,7 @@ async function scrapeO2arena(city = 'london') {
         date: isoDate,
         startDate: new Date(isoDate + 'T20:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'The O2 Arena',
           address: 'Peninsula Square, London SE10 0DX',

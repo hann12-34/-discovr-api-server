@@ -1,25 +1,26 @@
 /**
- * Powerstation auckland Events Scraper
- * URL: https://www.thepowerstation.net.nz
+ * Powerstation Auckland Events Scraper
+ * Iconic live music venue in Auckland
+ * URL: https://www.powerstation.net.nz/
  */
 
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
 
-async function scrapePowerstation(city = 'auckland') {
-  console.log('🎵 Scraping Powerstation...');
+async function scrapePowerstation(city = 'Auckland') {
+  console.log('🎵 Scraping Powerstation Auckland...');
 
   let browser;
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
 
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
-    await page.goto('https://www.thepowerstation.net.nz/events/', {
+    await page.goto('https://www.powerstation.net.nz/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
@@ -90,11 +91,11 @@ async function scrapePowerstation(city = 'auckland') {
         venue: {
           name: 'Powerstation',
           address: '33 Mount Eden Road, Auckland 1024',
-          city: 'auckland'
+          city: 'Auckland'
         },
         latitude: -36.8625,
         longitude: 174.7623,
-        city: 'auckland',
+        city: 'Auckland',
         category: 'Nightlife',
         source: 'Powerstation'
       });

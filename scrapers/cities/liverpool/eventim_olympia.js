@@ -19,7 +19,7 @@ async function scrapeEventimOlympia(city = 'Liverpool') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://olympialiverpool.com/whats-on', {
+    await page.goto('https://www.liverpoololympia.com/whats-on/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });

@@ -1,5 +1,5 @@
 /**
- * Edmonton Scrapers - 48 scrapers (focused on working venues)
+ * Edmonton Scrapers - 50 scrapers (focused on nightlife + working venues)
  */
 
 const scrapeRogersplace = require('./rogersplace');
@@ -34,7 +34,6 @@ const scrapeShawConference = require('./shawConference');
 const scrapeAlbertaBallet = require('./albertaBallet');
 const scrapeEdmontonSymphony = require('./edmontonSymphony');
 const scrapeEdmontonOpera = require('./edmontonOpera');
-const scrapeFestivalPlace = require('./festivalplace');
 const scrapeRanchRoadhouse = require('./ranchroadhouse');
 const scrapeRecRoom = require('./recroomedm');
 const scrapeKingswayMall = require('./kingswaymall');
@@ -62,6 +61,9 @@ const scrapeEdmNewCity = require('./edmnewcity');
 const scrapeEdmPride = require('./edmpride');
 const scrapeEdmSherwood = require('./edmsherwood');
 const scrapeEdmConcertHall = require('./edmconcerthall');
+const scrape99ten = require('./ninetynineten');
+const scrapeMidwayMusicHall = require('./midwaymusichall');
+const scrapeTheCommon = require('./thecommon');
 
 module.exports = {
   scrapeRogersplace,
@@ -96,7 +98,6 @@ module.exports = {
   scrapeAlbertaBallet,
   scrapeEdmontonSymphony,
   scrapeEdmontonOpera,
-  scrapeFestivalPlace,
   scrapeRanchRoadhouse,
   scrapeRecRoom,
   scrapeKingswayMall,
@@ -123,5 +124,8 @@ module.exports = {
   scrapeEdmNewCity,
   scrapeEdmPride,
   scrapeEdmSherwood,
-  scrapeEdmConcertHall
+  scrapeEdmConcertHall,
+  scrape99ten,
+  scrapeMidwayMusicHall,
+  scrapeTheCommon
 };

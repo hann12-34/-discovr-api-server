@@ -40,7 +40,10 @@ async function scrapeBrooklynBowl(city = 'Las Vegas') {
             const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
             let title = titleEl ? titleEl.textContent.trim() : '';
             
+            // Filter out generic labels that aren't actual event titles
+            const junkTitles = ['just announced', 'on sale', 'sold out', 'buy tickets', 'more info', 'view all', 'upcoming', 'events', 'shows'];
             if (!title || title.length < 3 || seenTitles.has(title)) return;
+            if (junkTitles.some(junk => title.toLowerCase() === junk || title.toLowerCase().startsWith(junk + ' '))) return;
             seenTitles.add(title);
 
             const link = el.querySelector('a[href]') || (el.tagName === 'A' ? el : null);

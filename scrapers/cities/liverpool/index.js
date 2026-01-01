@@ -35,7 +35,6 @@ const scrapeLiverpoolSoundCity = require('./liverpool_sound_city');
 const scrapeMAndSBankArena = require('./m_and_s_bank_arena');
 const scrapeMathewStreetFest = require('./mathew_street_fest');
 const scrapeO2academy = require('./o2academy');
-const scrapeO2academyliverpool = require('./o2academyliverpool');
 const scrapePhase = require('./phase');
 const scrapePhilharmonicHall = require('./philharmonic_hall');
 const scrapeRoyalCourt = require('./royal_court');
@@ -80,8 +79,7 @@ module.exports = {
   scrapeMAndSBankArena,
   scrapeMathewStreetFest,
   scrapeO2academy,
-  scrapeO2academyliverpool,
-  scrapePhase,
+    scrapePhase,
   scrapePhilharmonicHall,
   scrapeRoyalCourt,
   scrapeSeelStreet,

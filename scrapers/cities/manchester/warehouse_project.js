@@ -1,6 +1,7 @@
 /**
  * Warehouse Project Manchester Events Scraper
- * URL: https://www.thewarehouseproject.com/events
+ * Major electronic music venue in Manchester
+ * URL: https://thewarehouseproject.com/
  */
 
 const puppeteer = require('puppeteer');
@@ -19,7 +20,7 @@ async function scrapeWarehouseProject(city = 'Manchester') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.thewarehouseproject.com/events', {
+    await page.goto('https://thewarehouseproject.com/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
@@ -30,29 +31,32 @@ async function scrapeWarehouseProject(city = 'Manchester') {
       const results = [];
       const seen = new Set();
       
-      const eventSelectors = ['.event-item', '.event', 'article', '[class*="event"]', '.listing-item', '.show', 'a[href*="/event/"]'];
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
+      // Find all event grid items
+      document.querySelectorAll('.eventsLayout__gridEvent, a[href*="/event/"]').forEach(item => {
         try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url) || url.endsWith('/events/')) return;
+          // Get event link
+          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href*="/event/"]');
+          const url = linkEl?.href;
+          if (!url || seen.has(url) || !url.includes('/event/')) return;
           seen.add(url);
           
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="name"]') || linkEl;
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          if (!title || title.length < 3 || title.length > 150) return;
+          // Get title from aria-label or link text
+          const ariaLabel = linkEl?.getAttribute('aria-label') || '';
+          let title = ariaLabel.replace(/^View event page for\s*/i, '').trim();
           
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
+          if (!title) {
+            const titleEl = item.querySelector('h2, h3, h4, .h3, [class*="title"]');
+            title = titleEl?.textContent?.trim();
+          }
           
-          const imgEl = container.querySelector('img');
+          if (!title || title.length < 2) return;
+          
+          // Get date from eventDate class
+          const dateEl = item.querySelector('.eventDate, .h3.eventDate, [class*="date"]');
+          const dateStr = dateEl?.textContent?.trim() || '';
+          
+          // Get image
+          const imgEl = item.querySelector('img');
           const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
           
           results.push({ title, dateStr, url, imageUrl });
@@ -72,19 +76,16 @@ async function scrapeWarehouseProject(city = 'Manchester') {
       let isoDate = null;
       
       if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            let year = dateMatch[3] || now.getFullYear().toString();
-            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
-              year = (now.getFullYear() + 1).toString();
-            }
-            isoDate = `${year}-${month}-${day}`;
+        // Parse dates like "SAT 04 JAN" or "04 Jan 2026"
+        const dateMatch = event.dateStr.match(/(\d{1,2})[\s\.]*(?:st|nd|rd|th)?[\s\.]*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s\.]*(\d{4})?/i);
+        if (dateMatch) {
+          const day = dateMatch[1].padStart(2, '0');
+          const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+          let year = dateMatch[3] || now.getFullYear().toString();
+          if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
+            year = (now.getFullYear() + 1).toString();
           }
+          isoDate = `${year}-${month}-${day}`;
         }
       }
       
@@ -101,11 +102,11 @@ async function scrapeWarehouseProject(city = 'Manchester') {
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: {
           name: 'Warehouse Project',
-          address: 'Store St, Manchester M1 2WA',
+          address: 'Depot Mayfield, Baring Street, Manchester M1 2PY',
           city: 'Manchester'
         },
-        latitude: 53.4850,
-        longitude: -2.2360,
+        latitude: 53.4773,
+        longitude: -2.2253,
         city: 'Manchester',
         category: 'Nightlife',
         source: 'Warehouse Project'

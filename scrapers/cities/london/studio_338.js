@@ -92,7 +92,7 @@ async function scrapeStudio338(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T22:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'Studio 338',
           address: 'Boord St, London SE10 0PF',

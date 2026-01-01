@@ -1,6 +1,6 @@
 /**
  * Night and Day Cafe Manchester Events Scraper
- * URL: https://nightnday.org/events
+ * URL: https://nightnday.org/listings/
  */
 
 const puppeteer = require('puppeteer');
@@ -12,46 +12,45 @@ async function scrapeNightAndDay(city = 'Manchester') {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled']
     });
 
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+    await page.setExtraHTTPHeaders({ 'Accept-Language': 'en-GB,en;q=0.9' });
 
-    await page.goto('https://nightnday.org/events', {
+    await page.goto('https://nightnday.org/listings/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
       
-      const eventSelectors = ['.event-item', '.event', 'article', '[class*="event"]', '.listing-item', '.show', 'a[href*="/event/"]'];
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
+      // Night and Day uses WordPress with listing posts
+      document.querySelectorAll('article, .listing, .post, [class*="listing"], a[href*="/listings/"]').forEach(item => {
         try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url) || url.endsWith('/events/')) return;
+          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href*="/listings/"]');
+          const url = linkEl?.href;
+          if (!url || seen.has(url) || url === 'https://nightnday.org/listings/' || url.endsWith('/listings/')) return;
           seen.add(url);
           
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="name"]') || linkEl;
+          const container = item.closest('article') || item;
+          
+          // Get title
+          const titleEl = container.querySelector('h2, h3, h4, .entry-title, .title, [class*="title"]');
           const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
           if (!title || title.length < 3 || title.length > 150) return;
           
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
+          // Get date from various possible locations
+          const dateEl = container.querySelector('time, .date, [class*="date"], .meta');
+          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim() || '';
           
+          // Get image
           const imgEl = container.querySelector('img');
           const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
           

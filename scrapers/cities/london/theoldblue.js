@@ -88,7 +88,7 @@ async function scrapeOldBlueLast(city = 'London') {
         date: isoDate,
         startDate: new Date(isoDate + 'T20:00:00'),
         url: event.url,
-        imageUrl: null,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('placeholder') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('logo')) ? event.imageUrl : null,
         venue: {
           name: 'The Old Blue Last',
           address: '38 Great Eastern St, London EC2A 3ES',

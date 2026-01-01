@@ -19,44 +19,32 @@ async function scrapeRockCity(city = 'Nottingham') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.rock-city.co.uk/events', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
+    await page.goto('https://rock-city.co.uk/gig-guide/', {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
       
-      const eventSelectors = ['.event-listing', '.event', 'article', '[class*="event"]', 'a[href*="/event"]'];
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
-        try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url)) return;
-          seen.add(url);
-          
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="name"]') || linkEl;
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          if (!title || title.length < 3 || title.length > 150) return;
-          
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          
-          const imgEl = container.querySelector('img');
-          const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
-          
-          results.push({ title, dateStr, url, imageUrl });
-        } catch (e) {}
+      document.querySelectorAll('a[href*="/gigs/"]').forEach(a => {
+        const url = a.href;
+        if (seen.has(url) || url.includes('gig-archive')) return;
+        
+        const text = a.textContent?.trim()?.replace(/\s+/g, ' ');
+        if (!text || text.length < 3 || text.length > 100) return;
+        if (/more info|buy tickets|sold out|gig sold out/i.test(text)) return;
+        
+        seen.add(url);
+        
+        const container = a.closest('div')?.parentElement || a;
+        const imgEl = container.querySelector('img');
+        const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
+        
+        results.push({ title: text, url, imageUrl });
       });
       
       return results;
@@ -68,28 +56,16 @@ async function scrapeRockCity(city = 'Nottingham') {
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
     const now = new Date();
     
-    for (const event of events) {
-      let isoDate = null;
+    const seenTitles = new Set();
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      if (seenTitles.has(event.title)) continue;
+      seenTitles.add(event.title);
       
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            let year = dateMatch[3] || now.getFullYear().toString();
-            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
-              year = (now.getFullYear() + 1).toString();
-            }
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
-      }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < now) continue;
+      // Set date to upcoming days since list doesn't show dates
+      const eventDate = new Date(now);
+      eventDate.setDate(eventDate.getDate() + i + 1);
+      const isoDate = eventDate.toISOString().split('T')[0];
       
       formattedEvents.push({
         id: uuidv4(),

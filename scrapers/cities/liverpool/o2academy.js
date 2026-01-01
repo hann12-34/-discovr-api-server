@@ -29,32 +29,36 @@ async function scrapeO2AcademyLiverpool(city = 'Liverpool') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const eventItems = document.querySelectorAll('.event-listing, .event-item, article[class*="event"], .event');
+      const processed = new Set();
       
-      eventItems.forEach(item => {
-        try {
-          const titleEl = item.querySelector('h2, h3, .event-title, .title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
+      // Academy Music Group uses Next.js - find event links
+      document.querySelectorAll('a[href*="/events/"]').forEach(link => {
+        const href = link.href;
+        if (!href.includes('/events/') || href.endsWith('/events/') || href.endsWith('/events') || processed.has(href)) return;
+        processed.add(href);
+        
+        let parent = link.parentElement;
+        for (let i = 0; i < 6 && parent; i++) {
+          const imgs = parent.querySelectorAll('img');
+          const fullText = parent.textContent;
+          const dateMatch = fullText.match(/(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
           
-          const dateEl = item.querySelector('time, .date, .event-date');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
+          // Extract title from URL slug
+          const urlParts = href.split('/');
+          const slug = urlParts[urlParts.length - 1].replace(/-tickets.*/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
           
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
+          let imgSrc = null;
+          imgs.forEach(img => {
+            if (img.src && !img.src.includes('logo') && !img.src.includes('icon') && img.src.startsWith('http') && img.width > 50) imgSrc = img.src;
+          });
           
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          const descEl = item.querySelector('.description, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title && url) {
-            results.push({ title, dateStr, url, imageUrl, description });
+          if (dateMatch && slug.length > 3) {
+            results.push({ title: slug, day: dateMatch[1], month: dateMatch[2], year: dateMatch[3] || null, url: href, imageUrl: imgSrc });
+            break;
           }
-        } catch (e) {}
+          parent = parent.parentElement;
+        }
       });
-      
       return results;
     });
 
@@ -63,24 +67,19 @@ async function scrapeO2AcademyLiverpool(city = 'Liverpool') {
     const formattedEvents = [];
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
     
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
     for (const event of events) {
-      let isoDate = null;
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})[\/\.\s]*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\/\.\s]*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            const year = dateMatch[3] || new Date().getFullYear().toString();
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
-      }
+      const day = event.day.padStart(2, '0');
+      const month = months[event.month.toLowerCase().substring(0, 3)];
+      let year = event.year || currentYear.toString();
+      if (!event.year && parseInt(month) < currentMonth) year = (currentYear + 1).toString();
       
-      if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
+      const isoDate = `${year}-${month}-${day}`;
+      if (new Date(isoDate) < today) continue;
       
       formattedEvents.push({
         id: uuidv4(),

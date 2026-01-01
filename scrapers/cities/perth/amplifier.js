@@ -1,6 +1,6 @@
 /**
- * Amplifier Perth Events Scraper
- * URL: https://www.amplifiercapitol.com.au/whats-on
+ * Amplifier Bar Perth Events Scraper
+ * URL: https://www.amplifierbar.com/events
  */
 
 const puppeteer = require('puppeteer');
@@ -19,7 +19,7 @@ async function scrapeAmplifier(city = 'Perth') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.amplifiercapitol.com.au/whats-on', {
+    await page.goto('https://www.amplifierbar.com/events', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });

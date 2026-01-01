@@ -1,12 +1,11 @@
 /**
  * Fortitude Music Hall Brisbane Events Scraper
- * Major live music venue
- * URL: https://www.thefortitude.com.au/
+ * Major live music venue in Fortitude Valley
+ * URL: https://www.fortitudemusichall.com.au/whats-on
  */
 
 const puppeteer = require('puppeteer');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeFortitude(city = 'Brisbane') {
   console.log('🎸 Scraping Fortitude Music Hall Brisbane...');
@@ -15,87 +14,99 @@ async function scrapeFortitude(city = 'Brisbane') {
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.thefortitude.com.au/', {
-      waitUntil: 'domcontentloaded',
+    await page.goto('https://www.fortitudemusichall.com.au/whats-on', {
+      waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 4000));
 
     const events = await page.evaluate(() => {
       const results = [];
-      const seenTitles = new Set();
-
-      const selectors = ['.event', '.event-card', 'article', '[class*="event"]', '.show'];
-
-      for (const selector of selectors) {
-        document.querySelectorAll(selector).forEach(el => {
-          try {
-            const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-            let title = titleEl ? titleEl.textContent.trim() : '';
-            
-            if (!title || title.length < 3 || seenTitles.has(title)) return;
-            seenTitles.add(title);
-
-            const link = el.querySelector('a[href]') || (el.tagName === 'A' ? el : null);
-            let url = link ? link.href : '';
-
-            const img = el.querySelector('img:not([src*="logo"])');
-            let imageUrl = img ? (img.src || img.dataset.src) : null;
-
-            let dateStr = null;
-            const timeEl = el.querySelector('time[datetime], [datetime]');
-            if (timeEl) dateStr = timeEl.getAttribute('datetime');
-            
-            if (!dateStr) {
-              const dateEl = el.querySelector('.date, [class*="date"], time');
-              if (dateEl) dateStr = dateEl.textContent.trim();
+      const seen = new Set();
+      
+      const links = document.querySelectorAll('a[href*="-tickets-ae"]');
+      
+      links.forEach(link => {
+        if (seen.has(link.href)) return;
+        seen.add(link.href);
+        
+        let container = link;
+        for (let i = 0; i < 10; i++) {
+          container = container.parentElement;
+          if (!container) break;
+          const text = container.textContent || '';
+          if (text.length > 50 && text.length < 500) break;
+        }
+        
+        if (!container) return;
+        
+        const text = container.textContent.replace(/\s+/g, ' ').trim();
+        const img = container.querySelector('img');
+        
+        const dateMatch = text.match(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(\d{1,2})(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+        
+        let title = null;
+        const titleMatch = text.match(/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(?:\d{1,2}:\d{2}\s*[ap]m)?(.+?)(?:Find Tickets|18\+|R18|ALL AGES|GENERAL|VENUE|$)/i);
+        if (titleMatch) {
+          title = titleMatch[1].trim();
+          if (title.length > 10) {
+            const halfLen = Math.floor(title.length / 2);
+            const firstHalf = title.substring(0, halfLen);
+            const secondHalf = title.substring(halfLen);
+            if (firstHalf === secondHalf || title.indexOf(firstHalf, 1) === halfLen) {
+              title = firstHalf.trim();
             }
-
-            results.push({ title, url: url, imageUrl, dateStr });
-          } catch (e) {}
+          }
+          title = title.replace(/^\d{1,2}:\d{2}\s*[ap]m\s*/i, '').trim();
+        }
+        
+        if (!title || title.length < 3) return;
+        if (/^(Find|View|More|Book|Buy|Get)/i.test(title)) return;
+        
+        results.push({
+          title: title,
+          dateText: dateMatch ? `${dateMatch[2]} ${dateMatch[3]}` : null,
+          url: link.href,
+          imageUrl: img?.src
         });
-        if (results.length > 0) break;
-      }
-
+      });
+      
       return results;
     });
 
     await browser.close();
-    console.log(`  ✅ Found ${events.length} Fortitude events`);
 
     const formattedEvents = [];
-    const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+    const now = new Date();
+    const currentYear = now.getFullYear();
 
     for (const event of events) {
       let isoDate = null;
       
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const monthMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i);
-          const dayMatch = event.dateStr.match(/\b(\d{1,2})\b/);
-          
-          if (monthMatch && dayMatch) {
-            const month = (monthNames.indexOf(monthMatch[1].toLowerCase()) + 1).toString().padStart(2, '0');
-            const day = dayMatch[1].padStart(2, '0');
-            const now = new Date();
-            let year = now.getFullYear();
-            if (parseInt(month) < now.getMonth() + 1) year++;
-            isoDate = `${year}-${month}-${day}`;
+      if (event.dateText) {
+        const dateMatch = event.dateText.match(/(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+        if (dateMatch) {
+          const day = dateMatch[1].padStart(2, '0');
+          const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+          let year = currentYear;
+          const eventDate = new Date(`${year}-${month}-${day}`);
+          if (eventDate < now) {
+            year = currentYear + 1;
           }
+          isoDate = `${year}-${month}-${day}`;
         }
       }
       
       if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
+      if (new Date(isoDate) < now) continue;
       
       formattedEvents.push({
         id: uuidv4(),
@@ -104,7 +115,11 @@ async function scrapeFortitude(city = 'Brisbane') {
         startDate: new Date(isoDate + 'T19:00:00'),
         url: event.url,
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: { name: 'Fortitude Music Hall', address: '312 Brunswick Street, Fortitude Valley QLD 4006', city: 'Brisbane' },
+        venue: {
+          name: 'Fortitude Music Hall',
+          address: '312 Brunswick Street, Fortitude Valley QLD 4006',
+          city: 'Brisbane'
+        },
         latitude: -27.4570,
         longitude: 153.0350,
         city: 'Brisbane',
@@ -113,7 +128,8 @@ async function scrapeFortitude(city = 'Brisbane') {
       });
     }
 
-    return filterEvents(formattedEvents);
+    console.log(`  ✅ Found ${formattedEvents.length} Fortitude events`);
+    return formattedEvents;
 
   } catch (error) {
     if (browser) await browser.close();

@@ -31,6 +31,14 @@ const scrapeShootersGC = require('./shooters_gc');
 const scrapeVanityGC = require('./vanity_gc');
 const scrapeRetrosGC = require('./retros_gc');
 const scrapePartyBoatGC = require('./party_boat_gc');
+const scrapeTempoNightclub = require('./tempo_nightclub');
+const scrapeWhatsOnGoldCoast = require('./whatsongoldcoast');
+const scrapeMiamiMarkettaEvents = require('./miami_marketta_events');
+const scrapeExperienceGC = require('./experience_gc');
+const scrapeDraculasGC = require('./draculas');
+const scrapeHavanaRnB = require('./havana_rnb');
+const scrapeBedroomEvents = require('./bedroom_nightclub_events');
+const scrapeAsylumEvents = require('./asylum_nightclub_events');
 
 module.exports = {
   scrapeAustraliaDayGc,
@@ -61,5 +69,13 @@ module.exports = {
   scrapeShootersGC,
   scrapeVanityGC,
   scrapeRetrosGC,
-  scrapePartyBoatGC
+  scrapePartyBoatGC,
+  scrapeTempoNightclub,
+  scrapeWhatsOnGoldCoast,
+  scrapeMiamiMarkettaEvents,
+  scrapeExperienceGC,
+  scrapeDraculasGC,
+  scrapeHavanaRnB,
+  scrapeBedroomEvents,
+  scrapeAsylumEvents
 };

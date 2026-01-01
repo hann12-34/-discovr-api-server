@@ -1,7 +1,7 @@
 /**
  * Gorilla Manchester Events Scraper
- * Live music venue and bar
- * URL: https://thisisgorilla.com/events/
+ * Live music venue and bar - Uses Fatso.ma platform
+ * URL: https://www.thisisgorilla.com/
  */
 
 const puppeteer = require('puppeteer');
@@ -13,47 +13,50 @@ async function scrapeGorilla(city = 'Manchester') {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled']
     });
 
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+    await page.setExtraHTTPHeaders({ 'Accept-Language': 'en-GB,en;q=0.9' });
 
-    await page.goto('https://thisisgorilla.com/events/', {
+    // Gorilla homepage has events displayed
+    await page.goto('https://www.thisisgorilla.com/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
 
     const events = await page.evaluate(() => {
       const results = [];
+      const seen = new Set();
       
-      // Gorilla uses a grid layout for events
-      const eventItems = document.querySelectorAll('.event-item, .events-grid__item, [class*="event"], article, .show');
-      
-      eventItems.forEach(item => {
+      // Fatso.ma platform uses various event grid classes
+      document.querySelectorAll('[class*="event"], .event-card, article, a[href*="/event/"]').forEach(item => {
         try {
-          const titleEl = item.querySelector('h2, h3, h4, .event-title, .title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
+          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href*="/event/"]');
+          const url = linkEl?.href;
+          if (!url || seen.has(url) || !url.includes('/event/')) return;
+          seen.add(url);
+          
+          const container = item.closest('[class*="event"]') || item;
+          
+          // Get title
+          const titleEl = container.querySelector('h2, h3, h4, [class*="title"], [class*="name"], .heading');
+          let title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
           if (!title || title.length < 3) return;
           
-          const dateEl = item.querySelector('time, .date, .event-date, [class*="date"]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
+          // Get date
+          const dateEl = container.querySelector('time, [class*="date"], [datetime]');
+          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim() || '';
           
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
+          // Get image
+          const imgEl = container.querySelector('img');
+          const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
           
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src') || imgEl.getAttribute('data-lazy-src')) : null;
-          
-          const descEl = item.querySelector('.description, .excerpt, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title && url) {
-            results.push({ title, dateStr, url, imageUrl, description });
-          }
+          results.push({ title, dateStr, url, imageUrl });
         } catch (e) {}
       });
       
