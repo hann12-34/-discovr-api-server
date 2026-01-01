@@ -392,6 +392,8 @@ app.post('/api/v1/featured-events/initialize', async (req, res) => {
 });
 
 // Get all featured events
+// NOTE: Featured events are stored as FULL COPIES in featured_events collection (not just references)
+// This allows them to survive when main events collection is cleared by scrapers
 app.get('/api/v1/featured-events', async (req, res) => {
   console.log('GET /api/v1/featured-events - Getting featured events');
   
@@ -401,7 +403,9 @@ app.get('/api/v1/featured-events', async (req, res) => {
       await connectToMongoDB();
     }
     
+    const { city } = req.query;
     console.log('Collections available:', Object.keys(collections));
+    console.log('City filter:', city || 'none');
     
     // Check if featured collection exists
     if (!collections.featured) {
@@ -411,61 +415,31 @@ app.get('/api/v1/featured-events', async (req, res) => {
     
     console.log('Attempting to query featured_events collection...');
     
-    // Get featured event IDs
-    const featuredEventIds = await collections.featured.find({}).sort({ order: 1 }).toArray();
-    console.log(`Found ${featuredEventIds.length} featured event IDs:`, featuredEventIds);
+    // Build query - filter by city if provided
+    const query = {};
+    if (city) {
+      query.city = new RegExp(city, 'i');
+    }
     
-    if (featuredEventIds.length === 0) {
+    // Featured events are stored as FULL COPIES - return them directly
+    // No need to look up in events collection (which may have been cleared by scraper)
+    const featuredEvents = await collections.featured.find(query)
+      .sort({ featuredOrder: 1, startDate: 1 })
+      .toArray();
+    
+    console.log(`Found ${featuredEvents.length} featured events directly from featured_events collection`);
+    
+    if (featuredEvents.length === 0) {
       console.log('No featured events found, returning empty array');
-      return res.status(200).json({ events: [] });
-    }
-    
-    // Check if cloud collection exists
-    if (!collections.cloud) {
-      console.error('Cloud collection is not initialized!');
-      return res.status(500).json({ error: 'Cloud collection not initialized', events: [] });
-    }
-    
-    // Get the actual events
-    const featuredEvents = [];
-    console.log('Fetching individual featured events...');
-    
-    for (const featuredEvent of featuredEventIds) {
-      try {
-        console.log(`Looking up event with ID: ${featuredEvent.eventId}`);
-        // Try to find by ObjectId first
-        let event = null;
-        
-        try {
-          event = await collections.cloud.findOne({
-            _id: new ObjectId(featuredEvent.eventId)
-          });
-          if (event) {
-            console.log(`Found event by ObjectId: ${event.title || 'Untitled'}`);
-          }
-        } catch (err) {
-          console.log(`Not a valid ObjectId or other error: ${err.message}, trying string ID lookup`);
-          // If not a valid ObjectId, try by string id
-          event = await collections.cloud.findOne({
-            id: featuredEvent.eventId
-          });
-          if (event) {
-            console.log(`Found event by string id: ${event.title || 'Untitled'}`);
-          }
-        }
-        
-        if (event) {
-          featuredEvents.push(event);
-        } else {
-          console.log(`No event found with ID: ${featuredEvent.eventId}`);
-        }
-      } catch (err) {
-        console.error(`Error finding featured event ${featuredEvent.eventId}:`, err);
-      }
+      return res.status(200).json({ events: [], count: 0, success: true });
     }
     
     console.log(`Returning ${featuredEvents.length} featured events`);
-    res.status(200).json({ events: featuredEvents });
+    res.status(200).json({ 
+      success: true,
+      count: featuredEvents.length,
+      events: featuredEvents 
+    });
   } catch (error) {
     console.error('Error getting featured events:', error);
     res.status(500).json({ error: 'Failed to get featured events' });

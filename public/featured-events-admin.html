@@ -715,6 +715,9 @@
             }
         }
 
+        // Store full featured events (not just IDs) so they survive when main events are cleared
+        let featuredEventsData = [];
+        
         // Load featured events for specific city
         async function loadFeaturedForCity(city) {
             try {
@@ -723,12 +726,15 @@
                 
                 if (data.events) {
                     featuredEventIds.clear();
+                    featuredEventsData = data.events; // Store full event data
                     data.events.forEach(event => {
                         featuredEventIds.add(event._id || event.id);
                     });
+                    console.log(`Loaded ${data.events.length} featured events for ${city}`);
                 }
             } catch (error) {
                 console.error('Error loading featured events:', error);
+                featuredEventsData = [];
             }
         }
 
@@ -908,9 +914,17 @@
             const previewCarousel = document.getElementById('previewCarousel');
             const saveFeaturedBtn = document.getElementById('saveFeaturedBtn');
             
-            const featuredEvents = allEvents.filter(e => 
+            // First try to get featured events from allEvents (for newly selected events)
+            // Then fall back to featuredEventsData (for events that survive scraper clears)
+            let featuredEvents = allEvents.filter(e => 
                 featuredEventIds.has(e._id || e.id)
             );
+            
+            // If no matches in allEvents but we have stored featured data, use that
+            if (featuredEvents.length === 0 && featuredEventsData.length > 0) {
+                console.log('Using stored featured events data (main events may have been cleared)');
+                featuredEvents = featuredEventsData;
+            }
 
             if (featuredEvents.length === 0) {
                 previewCarousel.innerHTML = `
