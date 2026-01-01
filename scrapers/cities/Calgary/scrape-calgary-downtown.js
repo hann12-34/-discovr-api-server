@@ -69,7 +69,7 @@ async function scrape(city = 'Calgary') {
           id: uuidv4(),
           title: title.substring(0, 100),
           date: eventDate,
-          url: url || 'https://www.calgarydowntown.com/events',
+          url: url,
           image: image,
           imageUrl: image,
           venue: {

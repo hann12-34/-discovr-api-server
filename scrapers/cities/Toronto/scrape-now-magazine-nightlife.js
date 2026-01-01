@@ -86,7 +86,7 @@ async function scrape() {
           },
           location: 'Toronto, ON',
           city: 'Toronto',
-          description: `${title} - Toronto event`,
+          description: null,
           category: category,
           source: 'NOW Magazine'
         });

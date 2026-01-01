@@ -61,7 +61,7 @@ async function scrape() {
             },
             location: 'Vancouver, BC',
             city: 'Vancouver',
-            description: `${title} at ${venue}`,
+            description: null,
             category: 'Nightlife',
             source: 'Blueprint Events'
           });

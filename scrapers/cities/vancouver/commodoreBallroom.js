@@ -237,7 +237,7 @@ const CommodoreBallroomEvents = {
               imageUrl: imageUrl || null,
               venue: { name: 'Commodore Ballroom', address: '868 Granville Street, Vancouver, BC V6Z 1K3', city: 'Vancouver' },
               location: 'Vancouver, BC',
-              description: `${cleanTitle} live at Commodore Ballroom, Vancouver's iconic music venue.`,
+              description: null,
               category: 'Concert',
               city: 'Vancouver',
               image: null

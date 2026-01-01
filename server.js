@@ -356,6 +356,64 @@ app.get('/api/debug/connection', (req, res) => {
   });
 });
 
+// CLICK COUNTER ENDPOINT - Simple privacy-safe click tracking (no user data stored)
+// POST /api/v1/events/:id/click - Increments clickCount by 1
+app.post('/api/v1/events/:id/click', async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    
+    const Event = require('./models/Event');
+    
+    // Find and increment clickCount atomically - stores ONLY the number, no user info
+    const updatedEvent = await Event.findOneAndUpdate(
+      { id: eventId },
+      { $inc: { clickCount: 1 } },
+      { new: true }
+    );
+    
+    if (!updatedEvent) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+    
+    // Return only the updated count - no user tracking data
+    res.json({
+      success: true,
+      clickCount: updatedEvent.clickCount
+    });
+  } catch (error) {
+    console.error('Error recording click:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// GET /api/v1/events/:id/clicks - Get current click count
+app.get('/api/v1/events/:id/clicks', async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    
+    const Event = require('./models/Event');
+    const event = await Event.findOne({ id: eventId });
+    
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+    
+    res.json({
+      success: true,
+      clickCount: event.clickCount || 0
+    });
+  } catch (error) {
+    console.error('Error getting clicks:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // FEATURED EVENTS ENDPOINT - Mobile app compatibility (calls /api/v1/featured-events not /api/v1/events/featured-events)
 app.get('/api/v1/featured-events', async (req, res) => {
   try {

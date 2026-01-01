@@ -113,7 +113,7 @@ const FortuneSoundClubEvents = {
         id: uuidv4(),
         title: event.title,
         date: event.date,
-        url: event.url || 'https://www.fortunesoundclub.com/events',
+        url: event.url,
         venue: { name: 'Fortune Sound Club', address: '147 East Pender Street, Vancouver, BC V6A 1T6', city: 'Vancouver' },
         city: 'Vancouver',
         category: 'Nightlife',

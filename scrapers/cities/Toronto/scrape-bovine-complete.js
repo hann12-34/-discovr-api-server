@@ -160,7 +160,7 @@ async function scrape(city = 'Toronto') {
         id: uuidv4(),
         title: event.title,
         date: eventDate,
-        url: event.url || 'https://www.bovinesexclub.com',
+        url: event.url,
         imageUrl: event.imageUrl || null,
         venue: {
           name: 'Bovine Sex Club',

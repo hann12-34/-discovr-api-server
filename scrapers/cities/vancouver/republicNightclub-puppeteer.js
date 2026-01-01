@@ -74,7 +74,7 @@ async function scrape() {
           id: uuidv4(),
           title: event.title,
           date: eventDate,
-          url: event.url || 'https://www.republicvancouver.com',
+          url: event.url,
           venue: {
             name: 'Republic Nightclub',
             address: '958 Granville St, Vancouver, BC V6Z 1L2',
@@ -82,7 +82,7 @@ async function scrape() {
           },
           location: 'Vancouver, BC',
           city: 'Vancouver',
-          description: `${event.title} at Republic Nightclub Vancouver`,
+          description: null,
           category: 'Nightlife',
           source: 'Republic Nightclub'
         });

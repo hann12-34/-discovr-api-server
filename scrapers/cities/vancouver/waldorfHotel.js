@@ -56,7 +56,7 @@ async function scrape() {
             },
             location: 'Vancouver, BC',
             city: 'Vancouver',
-            description: `${title} at The Waldorf Hotel`,
+            description: null,
             category: 'Nightlife',
             source: 'The Waldorf Hotel'
           });

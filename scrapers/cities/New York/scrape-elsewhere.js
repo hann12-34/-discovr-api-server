@@ -58,7 +58,7 @@ async function scrape() {
           },
           location: 'Brooklyn, NY',
           city: 'New York',
-          description: `${title} at Elsewhere, Brooklyn's premier multi-room nightclub`,
+          description: null,
           category: 'Nightlife',
           source: 'Elsewhere'
         });

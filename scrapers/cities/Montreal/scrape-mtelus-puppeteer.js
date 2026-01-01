@@ -88,7 +88,7 @@ async function scrape(city = 'Montreal') {
             }
           }
 
-          results.push({ title, url: url || 'https://mtelus.com/en/events', imageUrl, date });
+          results.push({ title, url: url, imageUrl, date });
         });
         if (results.length > 0) break;
       }

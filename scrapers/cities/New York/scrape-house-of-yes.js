@@ -58,7 +58,7 @@ async function scrape() {
           },
           location: 'Brooklyn, NY',
           city: 'New York',
-          description: `${title} at House of Yes, Brooklyn's most creative nightlife venue`,
+          description: null,
           category: 'Nightlife',
           source: 'House of Yes'
         });

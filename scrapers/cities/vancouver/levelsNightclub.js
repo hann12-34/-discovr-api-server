@@ -57,7 +57,7 @@ async function scrape() {
           },
           location: 'Vancouver, BC',
           city: 'Vancouver',
-          description: `${title} at Levels Nightclub Vancouver`,
+          description: null,
           category: 'Nightlife',
           source: 'Levels Nightclub'
         });

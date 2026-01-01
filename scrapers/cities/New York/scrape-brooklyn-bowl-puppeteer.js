@@ -126,7 +126,7 @@ async function scrape(city = 'New York') {
 
           results.push({
             title,
-            url: url || 'https://www.brooklynbowl.com',
+            url: url,
             imageUrl,
             date
           });

@@ -90,7 +90,7 @@ async function scrapeEvents(city = 'Montreal') {
           id: uuidv4(),
           title: title,
           date: dateText,
-          url: url || 'https://newcitygas.com/evenements/',
+          url: url,
           imageUrl: imageUrl,
           venue: {
             name: 'New City Gas',

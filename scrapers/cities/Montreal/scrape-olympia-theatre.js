@@ -85,7 +85,7 @@ async function scrapeEvents(city = 'Montreal') {
           id: uuidv4(),
           title: title,
           date: dateText,
-          url: url || 'https://www.olympiamontreal.com/evenements/',
+          url: url,
           imageUrl: imageUrl,
           venue: {
             name: 'Olympia Theatre',

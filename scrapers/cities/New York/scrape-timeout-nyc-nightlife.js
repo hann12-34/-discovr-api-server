@@ -76,7 +76,7 @@ async function scrape() {
               },
               location: 'New York, NY',
               city: 'New York',
-              description: `${title} - NYC nightlife event`,
+              description: null,
               category: 'Nightlife',
               source: 'Time Out NYC'
             });

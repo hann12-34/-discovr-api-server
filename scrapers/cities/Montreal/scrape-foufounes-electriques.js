@@ -86,7 +86,7 @@ async function scrapeEvents(city = 'Montreal') {
       id: uuidv4(),
       title: e.title,
       date: e.date,
-      url: e.url || 'https://www.foufounes.qc.ca/calendrier/',
+      url: e.url,
       image: null,
       venue: {
         name: 'Foufounes Électriques',

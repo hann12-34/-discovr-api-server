@@ -111,7 +111,7 @@ const RickshawTheatreEvents = {
           latitude: 49.2822,
           longitude: -123.0962,
           location: 'Vancouver, BC',
-          description: `${title} at Rickshaw Theatre.`,
+          description: null,
           category: 'Concert',
           city: 'Vancouver',
           imageUrl: imageUrl || null,  // Real poster image or null

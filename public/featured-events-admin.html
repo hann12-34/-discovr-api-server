@@ -167,6 +167,23 @@
             color: white;
             font-size: 3rem;
         }
+        .click-badge {
+            position: absolute;
+            top: 15px;
+            left: 50px;
+            background: rgba(0,0,0,0.7);
+            color: #ffc107;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            z-index: 10;
+        }
+        .click-count-info {
+            color: #ffc107;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 <body>
@@ -796,6 +813,7 @@
                     <div class="col-md-4 col-lg-3 mb-4">
                         <div class="card event-card" data-event="${eventBase64}">
                             ${isFeatured ? '<span class="featured-badge">⭐ Featured</span>' : ''}
+                            <span class="click-badge">👆 ${event.clickCount || 0}</span>
                             <!-- Checkbox for bulk selection -->
                             <div class="position-absolute" style="top: 10px; left: 10px; z-index: 11;">
                                 <input type="checkbox" class="form-check-input event-checkbox" 

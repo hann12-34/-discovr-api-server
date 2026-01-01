@@ -29,7 +29,8 @@ const EventSchema = new mongoose.Schema({
   location: String, // Legacy field for compatibility
   featured: { type: Boolean, default: false }, // Featured event flag
   featuredOrder: { type: Number }, // Order in featured list per city
-  lastUpdated: { type: Date, default: Date.now }
+  lastUpdated: { type: Date, default: Date.now },
+  clickCount: { type: Number, default: 0 } // Simple click counter (no user tracking, privacy-safe)
 });
 
 // Create compound index on title and venue.name for faster lookups

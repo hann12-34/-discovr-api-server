@@ -67,7 +67,7 @@ async function scrape() {
           },
           location: 'Vancouver, BC',
           city: 'Vancouver',
-          description: `${title} at Republic Nightclub, Vancouver's largest nightclub`,
+          description: null,
           category: 'Nightlife',
           source: 'Republic Nightclub'
         });

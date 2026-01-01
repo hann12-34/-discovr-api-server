@@ -141,7 +141,7 @@ async function scrape(city = 'Toronto') {
         id: uuidv4(),
         title: event.title,
         date: eventDate,
-        url: event.url || 'https://www.lost577.com/events',
+        url: event.url,
         imageUrl: event.imageUrl || null,
         venue: {
           name: 'Lost & Found',

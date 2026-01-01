@@ -66,7 +66,7 @@ async function scrape() {
             },
             location: 'Vancouver, BC',
             city: 'Vancouver',
-            description: `${title} at The American`,
+            description: null,
             category: 'Nightlife',
             source: 'The American'
           });

@@ -58,7 +58,7 @@ async function scrape(city = 'Calgary') {
             if (dateEl) date = dateEl.textContent.trim();
           }
 
-          results.push({ title, url: url || 'https://www.thecommonwealth.ca/events', imageUrl, date });
+          results.push({ title, url: url, imageUrl, date });
         });
         if (results.length > 0) break;
       }

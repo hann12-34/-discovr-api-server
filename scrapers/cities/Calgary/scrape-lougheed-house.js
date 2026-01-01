@@ -88,7 +88,7 @@ async function scrape(city = 'Calgary') {
           id: uuidv4(),
           title: title,
           date: eventDate,
-          url: eventUrl || 'https://www.lougheedhouse.com/events',
+          url: eventUrl,
           image: imageUrl,
           imageUrl: imageUrl,
           venue: {

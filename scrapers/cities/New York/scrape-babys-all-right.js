@@ -84,7 +84,7 @@ async function scrape() {
             },
             location: 'Brooklyn, NY',
             city: 'New York',
-            description: `${title} at Baby's All Right`,
+            description: null,
             category: category,
             source: 'Baby\'s All Right'
           });

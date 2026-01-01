@@ -109,7 +109,7 @@ async function scrapeHardRockLive(city = 'Miami') {
       title: event.title,
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T20:00:00') : null,
-      url: event.eventUrl || 'https://www.seminolehardrockhollywood.com/entertainment',
+      url: event.eventUrl,
       imageUrl: event.imageUrl || null,
       venue: { name: 'Hard Rock Live', address: '1 Seminole Way, Hollywood, FL', city: 'Miami' },
       latitude: 26.0510,

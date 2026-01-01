@@ -116,7 +116,7 @@ async function scrapeKaseyaCenter(city = 'Miami') {
       title: event.title,
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: event.eventUrl || 'https://www.kaseyacenter.com/events',
+      url: event.eventUrl,
       imageUrl: event.imageUrl || null,
       venue: {
         name: 'Kaseya Center',

@@ -58,7 +58,7 @@ async function scrape(city = 'Montreal') {
             if (dateEl) date = dateEl.textContent.trim();
           }
 
-          results.push({ title, url: url || 'https://www.stereobar.com/events', imageUrl, date });
+          results.push({ title, url: url, imageUrl, date });
         });
         if (results.length > 0) break;
       }

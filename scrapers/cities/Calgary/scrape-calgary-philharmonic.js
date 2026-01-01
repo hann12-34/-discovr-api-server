@@ -54,7 +54,7 @@ async function scrape(city = 'Calgary') {
         events.push({
           id: uuidv4(),
           title: title.substring(0, 100),
-          url: url || 'https://calgaryphil.com/concerts',
+          url: url,
           image: image,
           imageUrl: image,
           venue: {

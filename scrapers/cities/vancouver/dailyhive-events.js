@@ -94,7 +94,7 @@ async function scrape() {
                 },
                 location: 'Vancouver, BC',
                 city: 'Vancouver',
-                description: `${title} - Vancouver event`,
+                description: null,
                 category: category,
                 source: 'Daily Hive'
               });

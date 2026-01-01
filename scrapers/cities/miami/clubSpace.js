@@ -121,7 +121,7 @@ async function scrapeClubSpace(city = 'Miami') {
         title: event.title,
         date: event.date,
         startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-        url: event.eventUrl || 'https://clubspace.com/events/',
+        url: event.eventUrl,
         imageUrl: event.imageUrl || null,
         venue: {
           name: event.venue,

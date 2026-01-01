@@ -64,7 +64,7 @@ async function scrape() {
           },
           location: 'Vancouver, BC',
           city: 'Vancouver',
-          description: `${title} - Vancouver nightlife event`,
+          description: null,
           category: 'Nightlife',
           source: 'Georgia Straight'
         });

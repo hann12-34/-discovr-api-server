@@ -77,7 +77,7 @@ async function scrape() {
             },
             location: 'Toronto, ON',
             city: 'Toronto',
-            description: `${title} at The Drake Hotel`,
+            description: null,
             category: category,
             source: 'The Drake Hotel'
           });

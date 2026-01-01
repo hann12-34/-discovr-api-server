@@ -85,7 +85,7 @@ async function scrapeEvents(city = 'Montreal') {
           id: uuidv4(),
           title: title,
           date: dateText,
-          url: url || 'https://www.coronatheatre.ca/en/events/',
+          url: url,
           imageUrl: imageUrl,
           venue: {
             name: 'Corona Theatre',

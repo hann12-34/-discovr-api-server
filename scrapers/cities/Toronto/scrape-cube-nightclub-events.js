@@ -58,7 +58,7 @@ async function scrape() {
           },
           location: 'Toronto, ON',
           city: 'Toronto',
-          description: `${title} at CUBE Nightclub, Toronto's underground techno venue`,
+          description: null,
           category: 'Nightlife',
           source: 'CUBE Nightclub'
         });

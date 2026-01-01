@@ -73,7 +73,7 @@ async function scrape() {
           },
           location: 'Brooklyn, NY',
           city: 'New York',
-          description: `${title} at ${venueName}, Brooklyn's premier nightlife destination`,
+          description: null,
           category: 'Nightlife',
           source: 'Avant Gardner'
         });

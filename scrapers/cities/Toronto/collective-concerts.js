@@ -68,7 +68,7 @@ async function scrape() {
             },
             location: 'Toronto, ON',
             city: 'Toronto',
-            description: `${title} - Collective Concerts show`,
+            description: null,
             category: category,
             source: 'Collective Concerts'
           });

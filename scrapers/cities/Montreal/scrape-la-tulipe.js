@@ -80,7 +80,7 @@ async function scrapeEvents(city = 'Montreal') {
           id: uuidv4(),
           title: title,
           date: dateText,
-          url: url || 'https://www.latulipe.ca/programmation/',
+          url: url,
           imageUrl: imageUrl,
           venue: {
             name: 'La Tulipe',

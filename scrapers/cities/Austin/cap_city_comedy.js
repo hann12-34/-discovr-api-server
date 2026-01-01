@@ -1,0 +1,116 @@
+/**
+ * Cap City Comedy Club Austin Events Scraper
+ * URL: https://capcitycomedy.com/austin
+ */
+
+const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
+
+async function scrapeCapCityComedy(city = 'Austin') {
+  console.log('😂 Scraping Cap City Comedy...');
+
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+
+    await page.goto('https://capcitycomedy.com/austin', {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    const events = await page.evaluate(() => {
+      const results = [];
+      const seen = new Set();
+      
+      document.querySelectorAll('a[href], div').forEach(el => {
+        const text = el.textContent.trim();
+        
+        if (text.length > 5 && text.length < 150 && !seen.has(text)) {
+          const link = el.closest('a') || el.querySelector('a');
+          const href = link ? link.href : 'https://capcitycomedy.com/austin';
+          
+          let container = el.parentElement;
+          const img = container?.querySelector('img');
+          const allText = el.textContent || text;
+          const dateMatch = allText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{1,2})/i);
+          
+          if (dateMatch) {
+            seen.add(text);
+            results.push({
+              title: text.replace(/\s+/g, ' '),
+              url: href,
+              imageUrl: img?.src || null,
+              dateStr: dateMatch[0]
+            });
+          }
+        }
+      });
+      
+      return results;
+    });
+
+    await browser.close();
+
+    const formattedEvents = [];
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    const now = new Date();
+    
+    for (const event of events) {
+      let isoDate = null;
+      
+      if (event.dateStr) {
+        const monthMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+        const dayMatch = event.dateStr.match(/(\d{1,2})/);
+        
+        if (monthMatch && dayMatch) {
+          const month = (months.indexOf(monthMatch[1].toLowerCase()) + 1).toString().padStart(2, '0');
+          const day = dayMatch[1].padStart(2, '0');
+          let year = now.getFullYear();
+          if (parseInt(month) < now.getMonth() + 1) year++;
+          isoDate = `${year}-${month}-${day}`;
+        }
+      }
+      
+      if (!isoDate) continue;
+      if (new Date(isoDate) < new Date()) continue;
+      
+      formattedEvents.push({
+        id: uuidv4(),
+        title: event.title,
+        description: null,
+        date: isoDate,
+        startDate: new Date(isoDate + 'T20:00:00'),
+        url: event.url,
+        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
+        venue: {
+          name: 'Cap City Comedy Club',
+          address: '8120 Research Boulevard, Austin TX 78758',
+          city: 'Austin'
+        },
+        latitude: 30.3570,
+        longitude: -97.7253,
+        city: 'Austin',
+        category: 'Nightlife',
+        source: 'Cap City Comedy'
+      });
+    }
+
+    console.log(`  ✅ Found ${formattedEvents.length} Cap City Comedy events`);
+    return formattedEvents;
+
+  } catch (error) {
+    if (browser) await browser.close();
+    console.error('  ⚠️  Cap City Comedy error:', error.message);
+    return [];
+  }
+}
+
+module.exports = scrapeCapCityComedy;

@@ -84,7 +84,7 @@ async function scrape() {
             },
             location: 'Manhattan, NY',
             city: 'New York',
-            description: `${title} at Bowery Ballroom`,
+            description: null,
             category: category,
             source: 'Bowery Ballroom'
           });

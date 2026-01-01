@@ -69,7 +69,7 @@ async function scrape() {
             },
             location: 'New York, NY',
             city: 'New York',
-            description: `${title} - Bowery Presents show`,
+            description: null,
             category: category,
             source: 'Bowery Presents'
           });

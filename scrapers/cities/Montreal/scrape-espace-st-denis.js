@@ -125,7 +125,7 @@ async function scrapeEvents(city = 'Montreal') {
           id: uuidv4(),
           title: event.title,
           date: eventDate,
-          url: event.url || 'https://espacestdenis.com/programmation/',
+          url: event.url,
           venue: { 
             name: venueName,
             address: '1594 St Denis St, Montreal, QC H2X 3K2', 

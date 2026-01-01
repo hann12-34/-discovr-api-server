@@ -120,7 +120,7 @@ const VogueTheatreEvents = {
         title: event.title,
         date: event.date,
         time: null,
-        url: event.url || 'https://admitone.com/search?venue=vogue-theatre',
+        url: event.url,
         imageUrl: event.imageUrl || null, // REAL POSTER IMAGE or null
         venue: {
           name: 'Vogue Theatre',
@@ -130,7 +130,7 @@ const VogueTheatreEvents = {
         location: 'Vancouver, BC',
         city: 'Vancouver',
         category: 'Concert',
-        description: `${event.title} at the historic Vogue Theatre`
+        description: null
       }));
 
       console.log(`  🎉 Returning ${formattedEvents.length} Vogue Theatre events`);

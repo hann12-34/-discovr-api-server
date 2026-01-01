@@ -84,7 +84,7 @@ async function scrape() {
             },
             location: 'Brooklyn, NY',
             city: 'New York',
-            description: `${title} at Music Hall of Williamsburg`,
+            description: null,
             category: category,
             source: 'Music Hall of Williamsburg'
           });

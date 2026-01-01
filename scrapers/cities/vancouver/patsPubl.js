@@ -66,7 +66,7 @@ async function scrape() {
             },
             location: 'Vancouver, BC',
             city: 'Vancouver',
-            description: `${title} at Pat's Pub`,
+            description: null,
             category: 'Nightlife',
             source: 'Pat\'s Pub'
           });

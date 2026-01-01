@@ -101,7 +101,7 @@ async function scrape() {
             },
             location: location,
             city: 'New York',
-            description: `${title} - NYC music event`,
+            description: null,
             category: category,
             source: 'Brooklyn Vegan'
           });

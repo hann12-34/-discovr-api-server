@@ -120,7 +120,7 @@ async function scrape(city = 'New York') {
 
           results.push({
             title,
-            url: url || 'https://www.websterhall.com/events',
+            url: url,
             imageUrl,
             date
           });

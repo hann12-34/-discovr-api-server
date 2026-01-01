@@ -66,7 +66,7 @@ async function scrape() {
             },
             location: 'Toronto, ON',
             city: 'Toronto',
-            description: `${title} at The Garrison`,
+            description: null,
             category: 'Nightlife',
             source: 'The Garrison'
           });

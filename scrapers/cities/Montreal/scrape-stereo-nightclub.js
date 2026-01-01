@@ -79,7 +79,7 @@ async function scrapeEvents(city = 'Montreal') {
           id: uuidv4(),
           title: title,
           date: dateText,
-          url: url || 'https://stereo.tickit.ca/',
+          url: url,
           imageUrl: null,
           venue: {
             name: 'Stereo Nightclub',

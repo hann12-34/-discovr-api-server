@@ -67,7 +67,7 @@ async function scrape() {
           },
           location: 'Toronto, ON',
           city: 'Toronto',
-          description: `${title} at CODA, Toronto's premier techno and electronic music venue`,
+          description: null,
           category: 'Nightlife',
           source: 'CODA'
         });

@@ -145,7 +145,7 @@ const OrpheumTheatreEvents = {
         id: uuidv4(),
         title: event.title,
         date: event.date,
-        url: event.url || 'https://vancouvercivictheatres.com/events/',
+        url: event.url,
         imageUrl: event.imageUrl || null,  // Real poster image or null
         venue: { name: 'Orpheum Theatre', address: '601 Smithe Street, Vancouver, BC V6B 5G1', city: 'Vancouver' },
         city: 'Vancouver',

@@ -80,7 +80,7 @@ async function scrape() {
           id: uuidv4(),
           title: event.title,
           date: eventDate,
-          url: event.url || 'https://www.avantgardner.com',
+          url: event.url,
           venue: {
             name: event.venueName,
             address: '140 Stewart Ave, Brooklyn, NY 11237',
@@ -88,7 +88,7 @@ async function scrape() {
           },
           location: 'Brooklyn, NY',
           city: 'New York',
-          description: `${event.title} at ${event.venueName}`,
+          description: null,
           category: 'Nightlife',
           source: 'Avant Gardner'
         });

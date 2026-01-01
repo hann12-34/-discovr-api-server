@@ -121,7 +121,7 @@ const VancouverConventionCentreEvents = {
               id: uuidv4(),
               title: title,
               date: eventDate,
-              url: url || 'https://www.vancouverconventioncentre.com/attend-event',
+              url: url,
               venue: { name: 'Vancouver Convention Centre', address: '1055 Canada Place, Vancouver, BC V6C 0C3', city: 'Vancouver' },
               city: 'Vancouver',
               source: 'Vancouver Convention Centre'

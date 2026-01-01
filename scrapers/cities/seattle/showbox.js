@@ -146,7 +146,7 @@ async function scrapeShowbox(city = 'Seattle') {
         title: event.title,
         date: event.date,
         startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-        url: event.eventUrl || 'https://www.showboxpresents.com/events',
+        url: event.eventUrl,
         imageUrl: event.imageUrl || null,
         venue: {
           name: event.venue,

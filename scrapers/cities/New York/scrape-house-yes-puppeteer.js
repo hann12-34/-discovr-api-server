@@ -123,7 +123,7 @@ async function scrape(city = 'New York') {
 
           results.push({
             title,
-            url: url || 'https://www.houseofyes.org/events',
+            url: url,
             imageUrl,
             date
           });

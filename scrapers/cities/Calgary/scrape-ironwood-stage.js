@@ -63,7 +63,7 @@ async function scrape(city = 'Calgary') {
           id: uuidv4(),
           title: title.substring(0, 100),
           date: eventDate,
-          url: url || 'https://www.ironwoodstage.ca/calendar/',
+          url: url,
           image: image,
           imageUrl: image,
           venue: {
