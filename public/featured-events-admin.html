@@ -812,6 +812,14 @@
                 const title = event.title || event.name || 'Untitled Event';
                 const venueName = event.venue?.name || event.source || '';
                 const date = formatDate(event.date || event.startDate);
+                // For featured events, get click count from featured_events collection
+                let clickCount = event.clickCount || 0;
+                if (isFeatured) {
+                    const featuredEvent = featuredEventsData.find(fe => (fe._id || fe.id) === eventId);
+                    if (featuredEvent) {
+                        clickCount = featuredEvent.clickCount || 0;
+                    }
+                }
                 // Store event data safely using base64 encoding
                 const eventBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(event))));
 
@@ -819,7 +827,7 @@
                     <div class="col-md-4 col-lg-3 mb-4">
                         <div class="card event-card" data-event="${eventBase64}">
                             ${isFeatured ? '<span class="featured-badge">⭐ Featured</span>' : ''}
-                            <span class="click-badge">👆 ${event.clickCount || 0}</span>
+                            <span class="click-badge">👆 ${clickCount}</span>
                             <!-- Checkbox for bulk selection -->
                             <div class="position-absolute" style="top: 10px; left: 10px; z-index: 11;">
                                 <input type="checkbox" class="form-check-input event-checkbox" 
