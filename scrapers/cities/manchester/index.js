@@ -64,6 +64,7 @@ const scrapeWarehouseProject = require('./warehouse_project');
 const scrapeWhiteHotel = require('./white_hotel');
 const scrapeWhitworth = require('./whitworth');
 const scrapeYes = require('./yes');
+const scrapeYesManchesterNew = require('./yes_manchester_new');
 
 module.exports = {
   scrapeAcademy1,
@@ -128,4 +129,5 @@ module.exports = {
   scrapeWhiteHotel,
   scrapeWhitworth,
   scrapeYes,
+  scrapeYesManchesterNew,
 };

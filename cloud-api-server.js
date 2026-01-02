@@ -544,6 +544,111 @@ app.delete('/api/v1/featured-events', async (req, res) => {
   }
 });
 
+// CLICK COUNTER ENDPOINT - Simple privacy-safe click tracking (no user data stored)
+// POST /api/v1/events/:id/click - Increments clickCount by 1
+app.post('/api/v1/events/:id/click', async (req, res) => {
+  console.log('POST /api/v1/events/:id/click - Recording click');
+  
+  try {
+    if (!dbConnected) {
+      await connectToMongoDB();
+    }
+    
+    const eventId = req.params.id;
+    console.log('Event ID for click:', eventId);
+    
+    // Try to find event by various ID formats
+    let result = null;
+    
+    // First try by ObjectId
+    try {
+      result = await collections.cloud.findOneAndUpdate(
+        { _id: new ObjectId(eventId) },
+        { $inc: { clickCount: 1 } },
+        { returnDocument: 'after' }
+      );
+    } catch (err) {
+      // Not a valid ObjectId, continue
+    }
+    
+    // If not found, try by string id field
+    if (!result || !result.value) {
+      result = await collections.cloud.findOneAndUpdate(
+        { id: eventId },
+        { $inc: { clickCount: 1 } },
+        { returnDocument: 'after' }
+      );
+    }
+    
+    // If still not found, try by title (fallback)
+    if (!result || !result.value) {
+      result = await collections.cloud.findOneAndUpdate(
+        { title: eventId },
+        { $inc: { clickCount: 1 } },
+        { returnDocument: 'after' }
+      );
+    }
+    
+    if (!result || !result.value) {
+      console.log('Event not found for click tracking:', eventId);
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+    
+    console.log('Click recorded. New count:', result.value.clickCount);
+    
+    // Return only the updated count - no user tracking data
+    res.json({
+      success: true,
+      clickCount: result.value.clickCount
+    });
+  } catch (error) {
+    console.error('Error recording click:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// GET /api/v1/events/:id/clicks - Get current click count
+app.get('/api/v1/events/:id/clicks', async (req, res) => {
+  try {
+    if (!dbConnected) {
+      await connectToMongoDB();
+    }
+    
+    const eventId = req.params.id;
+    
+    // Try to find event by various ID formats
+    let event = null;
+    
+    try {
+      event = await collections.cloud.findOne({ _id: new ObjectId(eventId) });
+    } catch (err) {
+      // Not a valid ObjectId
+    }
+    
+    if (!event) {
+      event = await collections.cloud.findOne({ id: eventId });
+    }
+    
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+    
+    res.json({
+      success: true,
+      clickCount: event.clickCount || 0
+    });
+  } catch (error) {
+    console.error('Error getting clicks:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n✅ Server listening on port ${PORT}`);

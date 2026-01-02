@@ -55,6 +55,8 @@ const scrapeSeventhStreetEntry = require('./seventh_street_entry');
 const scrapeTurfclub = require('./turfclub');
 const scrapeUndergroundMusic = require('./underground_music');
 const scrapeExchangeMinneapolis = require('./exchange_minneapolis');
+const scrapeFillmoreMinneapolis = require('./fillmore_minneapolis');
+const scrapeUptownTheater = require('./uptown_theater');
 
 module.exports = {
   scrape331Club,
@@ -109,5 +111,7 @@ module.exports = {
   scrapeSeventhStreetEntry,
   scrapeTurfclub,
   scrapeUndergroundMusic,
-  scrapeExchangeMinneapolis
+  scrapeExchangeMinneapolis,
+  scrapeFillmoreMinneapolis,
+  scrapeUptownTheater
 };
