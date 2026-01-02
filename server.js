@@ -404,6 +404,21 @@ app.post('/api/v1/events/:id/click', async (req, res) => {
       }
     }
     
+    // Also check featured_events collection
+    if (!updatedEvent) {
+      const mongoose = require('mongoose');
+      const db = mongoose.connection.db;
+      const featuredResult = await db.collection('featured_events').findOneAndUpdate(
+        { id: eventId.toLowerCase() },
+        { $inc: { clickCount: 1 } },
+        { returnDocument: 'after' }
+      );
+      if (featuredResult) {
+        updatedEvent = featuredResult;
+        console.log('Click recorded in featured_events, new count:', updatedEvent.clickCount);
+      }
+    }
+    
     if (!updatedEvent) {
       console.log('Event not found for click:', eventId);
       return res.status(404).json({
