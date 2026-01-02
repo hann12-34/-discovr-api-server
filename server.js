@@ -361,22 +361,58 @@ app.get('/api/debug/connection', (req, res) => {
 app.post('/api/v1/events/:id/click', async (req, res) => {
   try {
     const eventId = req.params.id;
+    console.log('Click tracking for event ID:', eventId);
     
     const Event = require('./models/Event');
     
-    // Find and increment clickCount atomically - stores ONLY the number, no user info
-    const updatedEvent = await Event.findOneAndUpdate(
-      { id: eventId },
+    // Try case-insensitive match for UUID (iOS sends lowercase, DB might have different case)
+    let updatedEvent = await Event.findOneAndUpdate(
+      { id: eventId.toLowerCase() },
       { $inc: { clickCount: 1 } },
       { new: true }
     );
     
+    // If not found, try uppercase
     if (!updatedEvent) {
+      updatedEvent = await Event.findOneAndUpdate(
+        { id: eventId.toUpperCase() },
+        { $inc: { clickCount: 1 } },
+        { new: true }
+      );
+    }
+    
+    // If still not found, try regex case-insensitive match
+    if (!updatedEvent) {
+      updatedEvent = await Event.findOneAndUpdate(
+        { id: new RegExp(`^${eventId}$`, 'i') },
+        { $inc: { clickCount: 1 } },
+        { new: true }
+      );
+    }
+    
+    // Try by MongoDB _id
+    if (!updatedEvent) {
+      try {
+        const mongoose = require('mongoose');
+        updatedEvent = await Event.findByIdAndUpdate(
+          new mongoose.Types.ObjectId(eventId),
+          { $inc: { clickCount: 1 } },
+          { new: true }
+        );
+      } catch (e) {
+        // Not a valid ObjectId, continue
+      }
+    }
+    
+    if (!updatedEvent) {
+      console.log('Event not found for click:', eventId);
       return res.status(404).json({
         success: false,
         message: 'Event not found'
       });
     }
+    
+    console.log('Click recorded, new count:', updatedEvent.clickCount);
     
     // Return only the updated count - no user tracking data
     res.json({
