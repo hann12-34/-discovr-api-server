@@ -571,10 +571,29 @@ app.post('/api/v1/events/:id/click', async (req, res) => {
       // Not a valid ObjectId, continue
     }
     
-    // If not found, try by string id field
+    // If not found, try by string id field (case-insensitive for UUIDs)
+    if (!result || !result.value) {
+      // Try lowercase first
+      result = await collections.cloud.findOneAndUpdate(
+        { id: eventId.toLowerCase() },
+        { $inc: { clickCount: 1 } },
+        { returnDocument: 'after' }
+      );
+    }
+    
+    // Try uppercase if lowercase didn't work
     if (!result || !result.value) {
       result = await collections.cloud.findOneAndUpdate(
-        { id: eventId },
+        { id: eventId.toUpperCase() },
+        { $inc: { clickCount: 1 } },
+        { returnDocument: 'after' }
+      );
+    }
+    
+    // Try case-insensitive regex match
+    if (!result || !result.value) {
+      result = await collections.cloud.findOneAndUpdate(
+        { id: new RegExp(`^${eventId}$`, 'i') },
         { $inc: { clickCount: 1 } },
         { returnDocument: 'after' }
       );
