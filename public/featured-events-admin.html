@@ -479,6 +479,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
             await loadAvailableCities();
+            await loadAllFeaturedEvents(); // Load ALL featured events for click count display
             setupFilters();
             setupAdminHandlers();
             document.getElementById('saveFeaturedBtn').addEventListener('click', saveFeaturedEvents);
@@ -718,6 +719,21 @@
         // Store full featured events (not just IDs) so they survive when main events are cleared
         let featuredEventsData = [];
         
+        // Load ALL featured events (for click count display across all cities)
+        async function loadAllFeaturedEvents() {
+            try {
+                const response = await fetch(`/api/v1/featured-events`);
+                const data = await response.json();
+                
+                if (data.events) {
+                    featuredEventsData = data.events; // Store ALL featured event data
+                    console.log(`Loaded ${data.events.length} total featured events for click counts`);
+                }
+            } catch (error) {
+                console.error('Error loading all featured events:', error);
+            }
+        }
+        
         // Load featured events for specific city
         async function loadFeaturedForCity(city) {
             try {
@@ -726,15 +742,23 @@
                 
                 if (data.events) {
                     featuredEventIds.clear();
-                    featuredEventsData = data.events; // Store full event data
+                    // Merge with existing featuredEventsData instead of replacing
                     data.events.forEach(event => {
                         featuredEventIds.add(event._id || event.id);
+                        // Update or add to featuredEventsData
+                        const existingIndex = featuredEventsData.findIndex(fe => 
+                            (fe.title || fe.name || '').toLowerCase().trim() === (event.title || event.name || '').toLowerCase().trim()
+                        );
+                        if (existingIndex >= 0) {
+                            featuredEventsData[existingIndex] = event;
+                        } else {
+                            featuredEventsData.push(event);
+                        }
                     });
                     console.log(`Loaded ${data.events.length} featured events for ${city}`);
                 }
             } catch (error) {
                 console.error('Error loading featured events:', error);
-                featuredEventsData = [];
             }
         }
 
