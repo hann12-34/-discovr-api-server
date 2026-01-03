@@ -20,17 +20,21 @@ async function scrapeSugarClub(city = 'Dublin') {
     const events = [];
     const seen = new Set();
 
-    $('a[href*="/event/"]').each((i, el) => {
+    // Find h3 titles with nearby event links
+    $('h3').each((i, el) => {
       try {
-        const $el = $(el);
-        const href = $el.attr('href');
+        const $h3 = $(el);
+        const title = $h3.text().trim();
+        if (!title || title.length < 3 || title === 'Buy Tickets') return;
+
+        // Find nearby Buy Tickets link
+        const $parent = $h3.parent();
+        const $link = $parent.find('a[href*="/event/"]').first();
+        if (!$link.length) return;
+
+        const href = $link.attr('href');
         if (!href || seen.has(href)) return;
         seen.add(href);
-
-        // Get title from parent or sibling h3
-        let title = $el.closest('div').find('h3').first().text().trim();
-        if (!title) title = $el.text().trim();
-        if (!title || title === 'Buy Tickets' || title.length < 3) return;
 
         const url = href.startsWith('http') ? href : `https://thesugarclub.com${href}`;
 

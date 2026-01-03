@@ -52,6 +52,7 @@ const scrapeRainbowVenues = require('./rainbow_venues');
 const scrapeMamaRouxs = require('./mama_rouxs');
 const scrapeLab11V2 = require('./lab11_v2');
 const scrapeHareHoundsV2 = require('./hare_hounds_v2');
+const scrapeNightingaleV2 = require('./nightingale_v2');
 
 module.exports = {
   scrapeAsylum,
@@ -103,5 +104,6 @@ module.exports = {
   scrapeRainbowVenues,
   scrapeMamaRouxs,
   scrapeLab11V2,
-  scrapeHareHoundsV2
+  scrapeHareHoundsV2,
+  scrapeNightingaleV2
 };

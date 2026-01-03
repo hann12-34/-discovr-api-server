@@ -1,124 +1,102 @@
 /**
  * Opium Dublin Events Scraper
- * Nightclub in Dublin
- * URL: https://opium.ie/
+ * URL: https://opium.ie/events/
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeOpium(city = 'Dublin') {
   console.log('🎧 Scraping Opium Dublin...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    const response = await axios.get('https://opium.ie/events/', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
+    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
 
-    await page.goto('https://opium.ie/', {
-      waitUntil: 'domcontentloaded',
-      timeout: 60000
-    });
+    // Find h3 event titles
+    $('h3').each((i, el) => {
+      try {
+        const $h3 = $(el);
+        let title = $h3.text().trim();
+        if (!title || title.length < 3 || title === 'CANCELLED' || title === 'Follow Us') return;
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seenTitles = new Set();
-
-      const selectors = ['.event', '.event-card', 'article', '[class*="event"]', '.show'];
-
-      for (const selector of selectors) {
-        document.querySelectorAll(selector).forEach(el => {
-          try {
-            const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-            let title = titleEl ? titleEl.textContent.trim() : '';
-            
-            if (!title || title.length < 3 || seenTitles.has(title)) return;
-            seenTitles.add(title);
-
-            const link = el.querySelector('a[href]') || (el.tagName === 'A' ? el : null);
-            let url = link ? link.href : '';
-
-            const img = el.querySelector('img:not([src*="logo"])');
-            let imageUrl = img ? (img.src || img.dataset.src) : null;
-
-            let dateStr = null;
-            const timeEl = el.querySelector('time[datetime], [datetime]');
-            if (timeEl) dateStr = timeEl.getAttribute('datetime');
-            
-            if (!dateStr) {
-              const dateEl = el.querySelector('.date, [class*="date"], time');
-              if (dateEl) dateStr = dateEl.textContent.trim();
-            }
-
-            if (!url) return;
-            results.push({ title, url, imageUrl, dateStr });
-          } catch (e) {}
-        });
-        if (results.length > 0) break;
-      }
-
-      return results;
-    });
-
-    await browser.close();
-    console.log(`  ✅ Found ${events.length} Opium events`);
-
-    const formattedEvents = [];
-    const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const monthMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i);
-          const dayMatch = event.dateStr.match(/\b(\d{1,2})\b/);
-          
-          if (monthMatch && dayMatch) {
-            const month = (monthNames.indexOf(monthMatch[1].toLowerCase()) + 1).toString().padStart(2, '0');
-            const day = dayMatch[1].padStart(2, '0');
-            const now = new Date();
-            let year = now.getFullYear();
-            if (parseInt(month) < now.getMonth() + 1) year++;
-            isoDate = `${year}-${month}-${day}`;
-          }
+        // Find nearby event link by traversing up
+        let $parent = $h3.parent();
+        let href = null;
+        for (let j = 0; j < 5; j++) {
+          const $link = $parent.find('a[href*="/events/"]').first();
+          href = $link.attr('href');
+          if (href && href !== '/events/' && href !== 'https://opium.ie/events/') break;
+          $parent = $parent.parent();
         }
+        if (!href || seen.has(href)) return;
+        seen.add(href);
+
+        // Extract date from surrounding text
+        const parentText = $parent.text();
+        const dateMatch = parentText.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
+        if (!dateMatch) return;
+
+        const day = dateMatch[1].padStart(2, '0');
+        const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+        const year = dateMatch[3] || new Date().getFullYear().toString();
+        const isoDate = `${year}-${month}-${day}`;
+
+        if (new Date(isoDate) < new Date()) return;
+
+        const url = href.startsWith('http') ? href : `https://opium.ie${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title: title.replace(/\s+/g, ' ').trim(),
+          date: isoDate,
+          url,
+          venue: { name: 'Opium Live', address: '26 Wexford Street, Dublin D02 R276', city: 'Dublin' },
+          latitude: 53.3389,
+          longitude: -6.2656,
+          city: 'Dublin',
+          category: 'Nightlife',
+          source: 'Opium'
+        });
+      } catch (e) {}
+    });
+
+    // Dedupe by title+date
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}|${e.date}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T23:00:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: { name: 'Opium', address: '26 Wexford Street, Dublin D02 R276', city: 'Dublin' },
-        latitude: 53.3389,
-        longitude: -6.2656,
-        city: 'Dublin',
-        category: 'Nightlife',
-        source: 'Opium'
-      });
     }
 
-    return filterEvents(formattedEvents);
+    // Fetch images
+    for (const event of unique.slice(0, 25)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Opium events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Opium error:', error.message);
+    console.error('  ⚠️ Opium error:', error.message);
     return [];
   }
 }

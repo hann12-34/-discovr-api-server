@@ -50,6 +50,7 @@ const scrapeLakotaV2 = require('./lakota_v2');
 const scrapeTheklaV2 = require('./thekla_v2');
 const scrapeSWXV2 = require('./swx_v2');
 const scrapeCroftersRightsV2 = require('./crofters_rights_v2');
+const scrapeO2AcademyBristolV2 = require('./o2_academy_bristol_v2');
 
 module.exports = {
   scrapeAfricaOyeBristol,
@@ -99,5 +100,6 @@ module.exports = {
   scrapeLakotaV2,
   scrapeTheklaV2,
   scrapeSWXV2,
-  scrapeCroftersRightsV2
+  scrapeCroftersRightsV2,
+  scrapeO2AcademyBristolV2
 };
