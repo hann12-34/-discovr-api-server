@@ -46,6 +46,7 @@ const scrapeTobaccoFactory = require('./tobacco_factory');
 const scrapeTrinityCentre = require('./trinity_centre');
 const scrapeUpfestBristol = require('./upfest_bristol');
 const scrapeBasement45Bristol = require('./basement_45_bristol');
+const scrapeLakotaV2 = require('./lakota_v2');
 
 module.exports = {
   scrapeAfricaOyeBristol,
@@ -92,4 +93,5 @@ module.exports = {
   scrapeTrinityCentre,
   scrapeUpfestBristol,
   scrapeBasement45Bristol,
+  scrapeLakotaV2
 };

@@ -42,6 +42,7 @@ const scrapeTheWarren = require('./the_warren');
 const scrapeTheatreroyal = require('./theatreroyal');
 const scrapeVolksTavern = require('./volks_tavern');
 const scrapePryzmBrighton = require('./pryzm_brighton');
+const scrapeChalkV2 = require('./chalk_v2');
 
 module.exports = {
   scrapeAmexStadium,
@@ -84,4 +85,5 @@ module.exports = {
   scrapeTheatreroyal,
   scrapeVolksTavern,
   scrapePryzmBrighton,
+  scrapeChalkV2
 };

@@ -50,6 +50,7 @@ const scrapeUsherHall = require('./usherHall');
 const scrapeVoodoo = require('./voodoo');
 const scrapeWhistle = require('./whistle');
 const scrapeWhyNotEdinburgh = require('./why_not_edinburgh');
+const scrapeCabaretVoltaireV2 = require('./cabaret_voltaire_v2');
 
 module.exports = {
   scrapeAssemblyRooms,
@@ -100,4 +101,5 @@ module.exports = {
   scrapeVoodoo,
   scrapeWhistle,
   scrapeWhyNotEdinburgh,
+  scrapeCabaretVoltaireV2
 };
