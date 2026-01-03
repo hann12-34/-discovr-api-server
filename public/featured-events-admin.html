@@ -836,16 +836,8 @@
                 const title = event.title || event.name || 'Untitled Event';
                 const venueName = event.venue?.name || event.source || '';
                 const date = formatDate(event.date || event.startDate);
-                // For featured events, get click count from featured_events collection
-                // Match by title since IDs are different between collections
+                // Use click count directly from events collection (most up-to-date)
                 let clickCount = event.clickCount || 0;
-                const eventTitle = (event.title || event.name || '').toLowerCase().trim();
-                const featuredEvent = featuredEventsData.find(fe => 
-                    (fe.title || fe.name || '').toLowerCase().trim() === eventTitle
-                );
-                if (featuredEvent && featuredEvent.clickCount !== undefined) {
-                    clickCount = featuredEvent.clickCount;
-                }
                 // Store event data safely using base64 encoding
                 const eventBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(event))));
 
