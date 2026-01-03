@@ -21,25 +21,25 @@ async function scrapeTheStand(city = 'Edinburgh') {
     const seen = new Set();
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
 
-    $('a[href*="/show/"]').each((i, el) => {
+    $('a[href*="/performance/"]').each((i, el) => {
       try {
         const $el = $(el);
         const href = $el.attr('href');
         if (!href || seen.has(href)) return;
         seen.add(href);
 
-        const title = $el.text().trim().replace(/\s+/g, ' ');
-        if (!title || title.length < 3 || title.length > 150) return;
+        // Extract title from URL like /performance/19513/the-early-saturday-show/2026...
+        const urlMatch = href.match(/\/performance\/\d+\/([^\/]+)\//);
+        if (!urlMatch) return;
+        const title = urlMatch[1].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        if (!title || title.length < 3) return;
 
-        // Find date in surrounding text
-        const parentText = $el.parent().text() + ' ' + $el.closest('div').text();
-        const dateMatch = parentText.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-        if (!dateMatch) return;
-
-        const day = dateMatch[1].padStart(2, '0');
-        const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-        const year = dateMatch[3] || '2026';
-        const isoDate = `${year}-${month}-${day}`;
+        // Extract date from URL (YYYYMMDD format at end)
+        const dateMatch = href.match(/(\d{4})(\d{2})(\d{2})/);
+        let isoDate = '2026-02-01';
+        if (dateMatch) {
+          isoDate = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}`;
+        }
 
         const url = href.startsWith('http') ? href : `https://www.thestand.co.uk${href}`;
 
