@@ -1,0 +1,257 @@
+/**
+ * New York Master Import - Uses City Coordinator for Date Normalization
+ */
+
+const { MongoClient } = require('mongodb');
+const { saveClickCounts, getPreservedClickCount } = require('./utils/preserveClickCounts');
+const { v4: uuidv4 } = require('uuid');
+const { geocodeWithCache } = require('../utils/geocode-util');
+const { getVenueAddress } = require('../scrapers/utils/venueAddresses');
+// CRITICAL: Blacklist of generic venue logos - DO NOT USE THESE AS EVENT IMAGES
+// NOTE: Do NOT blacklist full domains like sobs.com - only specific logo patterns
+const IMAGE_BLACKLIST = [
+  'sob-logo', 'sobs-logo', 'cropped-sobs', 'legendary-sobs', 'venue-logo', 'default', 'placeholder',
+  'logo.png', 'logo.jpg', 'logo.gif', 'site-logo', 'header-logo', 'brand', 'favicon',
+  'apollo-logo', 'apollo_logo', 'brooklynbowl-logo', 'bowery-logo',
+  'terminal5', 'irving-plaza', 'gramercy', 'webster-hall', 'beacon',
+  'radio-city', 'msg-logo', 'madison-square', 'barclays', 'forest-hills',
+  'summerstage', 'central-park', 'prospect-park', 'nycgo', 'nyc-logo',
+  'default-event', 'no-image', 'coming-soon', 'tbd', 'generic',
+  'facebook.com/tr', 'pixel', 'tracking', 'analytics', '1x1', 'spacer',
+  'share-image', 'og-default', 'social-share', 'twitter-card',
+  'venue-default', 'event-placeholder', 'no-photo', 'missing-image',
+  'bam_logo', 'bam-logo', '/logo/', '_logo', '-logo',
+  'javits-logo', 'javits_logo', 'cityfieldlogo', 'msglogo',
+  '/img/logo', '/images/logo', '/assets/logo', 'Static/img/logo',
+  'logo-open-graph', 'open-graph', 'cisco.com', 'nacacnet.org',
+  'mcny.edu', 'cdn.asp.events', 'evbuc.com/images', 'eventbrite',
+  'social', 'share', 'og-image', 'facebook', 'twitter-card',
+  'icon', 'venue_', 'static_social', 'site-share', 'media-poster',
+  'social-og', 'qtxasset.com', 'travmedia.com', 'oracle.com/a/evt',
+  'nxedge.io', 'brooklynbowl.com/assets/img/static'
+];
+function isGenericImage(imageUrl) {
+  if (!imageUrl) return true;
+  const lowerUrl = imageUrl.toLowerCase();
+  return IMAGE_BLACKLIST.some(pattern => lowerUrl.includes(pattern));
+}
+const MONGODB_URI = 'mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr';
+async function importAllNewYorkEvents() {
+  const cityName = 'New York';
+  const provinceCode = 'NY';
+  console.log('🚀 Starting New York import via City Coordinator (with ISO date normalization)...');
+  
+  const client = new MongoClient(MONGODB_URI);
+  try {
+    await client.connect();
+    console.log('✅ Connected to MongoDB');
+    
+    const db = client.db('discovr');
+    const collection = db.collection('events');
+    // Clear existing New York events
+    // PRESERVE CLICK COUNTS before deleting
+    const clickCountMap = await saveClickCounts(collection, cityName);
+    console.log('🧹 Clearing existing New York events...');
+    const deleteResult = await collection.deleteMany({ city: cityName, source: { $ne: 'admin' } });
+    console.log(`🗑️ Removed ${deleteResult.deletedCount} existing events`);
+    // Use the New York coordinator which handles date normalization
+    console.log('📍 Loading New York scrapers via index.js (with date normalization)...');
+    const newYorkCoordinator = require('../scrapers/cities/New York/index.js');
+    // Run all New York scrapers through the coordinator (dates already normalized to ISO)
+    const events = await newYorkCoordinator.scrape();
+    let allEvents = [];
+    if (events && events.length > 0) {
+      const processedEvents = events.map(event => {
+        // Date is already normalized to ISO format by index.js
+        let dateRange = null;
+        
+        if (event.date) {
+          try {
+            // CRITICAL FIX: Parse ISO date in NEW YORK timezone (America/New_York)
+            // Store as ISO string with timezone to ensure correct display
+            let parsedDate;
+            const isoMatch = event.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (isoMatch) {
+              const year = parseInt(isoMatch[1]);
+              const month = parseInt(isoMatch[2]) - 1;
+              const day = parseInt(isoMatch[3]);
+              // Create date string in NY timezone (noon to avoid DST issues)
+              const dateStr = `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}T12:00:00`;
+              parsedDate = new Date(dateStr + '-05:00'); // EST offset (use -04:00 for EDT)
+              // For more accuracy, use the actual date to determine DST
+              const tempDate = new Date(year, month, day, 12, 0, 0);
+              const isDST = tempDate.getTimezoneOffset() < new Date(year, 0, 1).getTimezoneOffset();
+              parsedDate = new Date(dateStr + (isDST ? '-04:00' : '-05:00'));
+            } else {
+              parsedDate = new Date(event.date);
+            }
+            
+            // Check if date is valid
+            if (isNaN(parsedDate.getTime())) {
+              console.log(`   ⚠️ Skipping event with invalid date: "${event.date}" - ${event.title}`);
+              return null;
+            dateRange = {
+              start: parsedDate,
+              end: parsedDate
+            };
+          } catch (err) {
+            console.log(`   ⚠️ Skipping event with bad date: "${event.date}" - ${event.title}`);
+            return null;
+          }
+        } else {
+          // Skip events with no date
+          console.log(`   ⚠️ Skipping event with no date: ${event.title}`);
+          return null;
+        }
+        // Normalize venue to object format required by Event model
+        // CRITICAL FIX: Use venue address from scraper first, then fallback to lookup
+        let venueName = 'Unknown Venue';
+        let venueAddress = '';
+        if (event.venue) {
+          if (typeof event.venue === 'string') {
+            venueName = event.venue;
+          } else {
+            venueName = event.venue.name || 'Unknown Venue';
+            venueAddress = event.venue.address || ''; // Use address from scraper!
+        // Only use lookup if scraper didn't provide address
+        if (!venueAddress || venueAddress === cityName) {
+          venueAddress = getVenueAddress(venueName, cityName);
+        const venueObj = { 
+          name: venueName, 
+          address: venueAddress, 
+          city: cityName 
+        };
+        // Extract description from event or generate a basic one
+        let description = event.description || '';
+        if (!description && venueName && venueName !== 'Unknown Venue') {
+          description = `Event at ${venueName}`;
+          if (venueAddress && venueAddress !== cityName) {
+            description += ` - ${venueAddress}`;
+        // CRITICAL: Filter out generic venue logos - set to null if blacklisted
+        let eventImage = event.image || event.imageUrl || null;
+        if (eventImage && isGenericImage(eventImage)) {
+          console.log(`   🚫 Rejected generic image for "${event.title?.substring(0, 30)}": ${eventImage.substring(0, 50)}...`);
+          eventImage = null;
+        // RESTORE CLICK COUNT if this event existed before
+        const preservedClickCount = getPreservedClickCount(clickCountMap, event.title, venueObj?.name || event.venue?.name);
+        return {
+          ...event,
+          id: event.id || uuidv4(),
+          title: event.title,  // CRITICAL: server.js requires title field
+          description: description,  // Add description field
+          image: eventImage,  // CRITICAL: Only use non-generic images
+          imageUrl: eventImage,
+          startDate: dateRange.start,  // CRITICAL: server.js requires startDate field
+          endDate: dateRange.end,      // Also add endDate for compatibility
+          dateRange,
+          venue: venueObj,
+          streetAddress: venueAddress,  // Add streetAddress for iOS app
+          url: event.url,  // Include URL for website link
+          sourceURL: event.url,  // Also set sourceURL for compatibility
+          city: cityName,
+          province: provinceCode,
+          country: 'USA',
+          clickCount: preservedClickCount  // PRESERVE CLICK COUNT
+      }).filter(e => e !== null);  // Remove null events
+      
+      allEvents = processedEvents;
+      console.log(`   ✅ ${processedEvents.length} valid events (skipped ${events.length - processedEvents.length} with bad/missing dates)`);
+    } else {
+      console.log(`   ⚠️ 0 events from all scrapers`);
+    }
+    if (allEvents.length > 0) {
+      console.log(`📊 Collected ${allEvents.length} total events from all scrapers`);
+      console.log(`🔄 Deduplicating events...`);
+      const uniqueEvents = new Map();
+      let duplicateCount = 0;
+      for (const event of allEvents) {
+        // AGGRESSIVE title normalization (match scraper logic)
+        let titleNorm = (event.title || '').toLowerCase().trim();
+        titleNorm = titleNorm
+          .replace(/\s+/g, ' ')
+          .replace(/\s*[-–—:]\s*/g, ' ')
+          .replace(/\b(performance of|presents?|featuring)\b/gi, '')
+          .trim();
+        let dateStr = '';
+        try {
+          if (event.dateRange?.start) {
+            const dateObj = new Date(event.dateRange.start);
+            if (!isNaN(dateObj.getTime())) {
+              dateStr = dateObj.toISOString().split('T')[0];
+        } catch (e) {
+          // Skip invalid dates
+        // Extract show ID from URL (for Bowery Presents venues that cross-post)
+        let showId = '';
+        if (event.url) {
+          const showIdMatch = event.url.match(/\/shows\/detail\/(\d+)-/);
+          if (showIdMatch) {
+            showId = showIdMatch[1];
+        // Normalize URL for deduplication (same URL = same event regardless of venue)
+        const urlNorm = event.url ? event.url.toLowerCase().trim().split('?')[0] : '';
+        // AGGRESSIVE venue normalization (match scraper logic)
+        let locationNorm = (event.location || event.venue?.name || '').toLowerCase().trim();
+        // Normalize common venue name variations
+        if (locationNorm.includes('brooklyn academy') || locationNorm === 'bam') {
+          locationNorm = 'brooklyn academy music';
+        locationNorm = locationNorm
+          .replace(/\btheatre\b/g, 'theater')
+          .replace(/\bcentre\b/g, 'center')
+          .replace(/\bmusic hall\b/g, '')
+          .replace(/\bhall\b/g, '')
+          .replace(/[^\w\s]/g, '')
+        // Priority order for deduplication:
+        // 1. If Bowery Presents show ID = same event across their venues (HIGHEST PRIORITY)
+        // 2. If same URL (exact match) = definitely same event
+        // 3. Otherwise = title + date + venue
+        let uniqueKey;
+        if (showId) {
+          // Bowery Presents venues share show IDs - dedupe by ID
+          uniqueKey = `showId:${showId}`;
+        } else if (urlNorm && urlNorm.length > 20) {
+          // Other events - dedupe by full URL
+          uniqueKey = `url:${urlNorm}`;
+          // No URL - dedupe by title + date + venue
+          uniqueKey = `${titleNorm}|${dateStr}|${locationNorm}`;
+        if (!uniqueEvents.has(uniqueKey)) {
+          uniqueEvents.set(uniqueKey, event);
+          duplicateCount++;
+      }
+      const deduplicatedEvents = Array.from(uniqueEvents.values());
+      console.log(`✨ Removed ${duplicateCount} duplicates`);
+      // Add coordinates to events
+      console.log(`🌍 Adding coordinates to ${deduplicatedEvents.length} events...`);
+      let coordsAdded = 0;
+      let coordsFailed = 0;
+      for (const event of deduplicatedEvents) {
+        if (!event.venue?.coordinates && event.venue?.address) {
+          const coords = await geocodeWithCache(event.venue.address, cityName, 'USA');
+          if (coords) {
+            event.venue.coordinates = coords;
+            coordsAdded++;
+            coordsFailed++;
+      console.log(`   ✅ Added coordinates to ${coordsAdded} events`);
+      if (coordsFailed > 0) {
+        console.log(`   ⚠️  Failed to geocode ${coordsFailed} events (will skip these)`);
+      // Only insert events with coordinates
+      const eventsWithCoords = deduplicatedEvents.filter(e => e.venue?.coordinates);
+      console.log(`💾 Upserting ${eventsWithCoords.length} events with coordinates...`);
+      let inserted = 0, updated = 0;
+      for (const event of eventsWithCoords) {
+        const result = await collection.updateOne(
+          { title: event.title, 'venue.name': event.venue?.name },
+          { $set: event },
+          { upsert: true }
+        );
+        if (result.upsertedCount > 0) inserted++;
+        else if (result.modifiedCount > 0) updated++;
+      console.log('\n📊 NEW YORK COMPLETE IMPORT SUMMARY:');
+      console.log(`🎉 Inserted ${inserted} new, updated ${updated} existing`);
+      console.log(`✅ All events have normalized ISO dates (YYYY-MM-DD)`);
+      console.log('⚠️ No events found across all scrapers');
+  } catch (error) {
+    console.error('❌ Import error:', error.message);
+  } finally {
+    await client.close();
+    console.log('🔌 Database connection closed');
+  }
+importAllNewYorkEvents().catch(console.error);

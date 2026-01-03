@@ -1,0 +1,199 @@
+/**
+ * Toronto Master Import - Uses City Coordinator for Date Normalization
+ */
+
+const { MongoClient } = require('mongodb');
+const { saveClickCounts, getPreservedClickCount } = require('./utils/preserveClickCounts');
+const { v4: uuidv4 } = require('uuid');
+const { geocodeWithCache } = require('../utils/geocode-util');
+const { getVenueAddress } = require('../scrapers/utils/venueAddresses');
+// Image blacklist - filter out generic venue logos and placeholders
+const IMAGE_BLACKLIST = [
+  'logo', 'default', 'placeholder', 'brand', 'favicon', 'icon',
+  'social', 'share', 'og-image', 'twitter', 'facebook',
+  '1x1', 'spacer', 'pixel', 'tracking', 'blank',
+  'venue-logo', 'venue_logo', 'venue-default',
+  'generic', 'template', 'sample', 'test', 'missing'
+];
+function isGenericImage(imageUrl) {
+  if (!imageUrl) return true;
+  const lower = imageUrl.toLowerCase();
+  return IMAGE_BLACKLIST.some(p => lower.includes(p));
+}
+const MONGODB_URI = 'mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr';
+async function importAllTorontoEvents() {
+  const cityName = 'Toronto';
+  const provinceCode = 'ON';
+  console.log('🚀 Starting Toronto import via City Coordinator (with ISO date normalization)...');
+  
+  const client = new MongoClient(MONGODB_URI);
+  try {
+    await client.connect();
+    console.log('✅ Connected to MongoDB');
+    
+    const db = client.db('discovr');
+    const collection = db.collection('events');
+    // Clear existing Toronto events
+    // PRESERVE CLICK COUNTS before deleting
+    const clickCountMap = await saveClickCounts(collection, cityName);
+    console.log('🧹 Clearing existing Toronto events...');
+    const deleteResult = await collection.deleteMany({ city: cityName, source: { $ne: 'admin' } });
+    console.log(`🗑️ Removed ${deleteResult.deletedCount} existing events`);
+    // Use the Toronto coordinator which handles date normalization
+    console.log('📍 Loading Toronto scrapers via index.js (with date normalization)...');
+    const torontoCoordinator = require('../scrapers/cities/Toronto/index.js');
+    // Run all Toronto scrapers through the coordinator (dates already normalized to ISO)
+    const events = await torontoCoordinator();
+    let allEvents = [];
+    if (events && events.length > 0) {
+      const processedEvents = events.map(event => {
+        // Date is already normalized to ISO format by index.js
+        let dateRange = null;
+        
+        if (event.date) {
+          try {
+            // CRITICAL FIX: Parse ISO date in TORONTO timezone (America/Toronto - EST/EDT)
+            let parsedDate;
+            const isoMatch = event.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (isoMatch) {
+              const year = parseInt(isoMatch[1]);
+              const month = parseInt(isoMatch[2]) - 1;
+              const day = parseInt(isoMatch[3]);
+              const dateStr = `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}T12:00:00`;
+              // Toronto: EST = -05:00, EDT = -04:00
+              const tempDate = new Date(year, month, day, 12, 0, 0);
+              const isDST = tempDate.getTimezoneOffset() < new Date(year, 0, 1).getTimezoneOffset();
+              parsedDate = new Date(dateStr + (isDST ? '-04:00' : '-05:00'));
+            } else {
+              parsedDate = new Date(event.date);
+            }
+            
+            // Check if date is valid
+            if (isNaN(parsedDate.getTime())) {
+              console.log(`   ⚠️ Skipping event with invalid date: "${event.date}" - ${event.title}`);
+              return null;
+            dateRange = {
+              start: parsedDate,
+              end: parsedDate
+            };
+          } catch (err) {
+            console.log(`   ⚠️ Skipping event with bad date: "${event.date}" - ${event.title}`);
+            return null;
+          }
+        } else {
+          // Skip events with no date
+          console.log(`   ⚠️ Skipping event with no date: ${event.title}`);
+          return null;
+        }
+        // Normalize venue to object format required by Event model
+        // CRITICAL FIX: Use venue address from scraper first
+        let venueName = 'Unknown Venue';
+        let venueAddress = '';
+        if (event.venue) {
+          if (typeof event.venue === 'string') {
+            venueName = event.venue;
+          } else {
+            venueName = event.venue.name || 'Unknown Venue';
+            venueAddress = event.venue.address || '';
+        if (!venueAddress || venueAddress === cityName) {
+          venueAddress = getVenueAddress(venueName, cityName);
+        const venueObj = { 
+          name: venueName, 
+          address: venueAddress, 
+          city: cityName 
+        };
+        // Filter out generic images
+        let eventImage = event.image || event.imageUrl || null;
+        if (eventImage && isGenericImage(eventImage)) {
+          eventImage = null;
+        // RESTORE CLICK COUNT if this event existed before
+        const preservedClickCount = getPreservedClickCount(clickCountMap, event.title, venueObj.name);
+        return {
+          ...event,
+          id: event.id || uuidv4(),
+          title: event.title,  // CRITICAL: server.js requires title field
+          image: eventImage,
+          imageUrl: eventImage,
+          dateRange,
+          startDate: dateRange.start,  // CRITICAL: server.js requires startDate field
+          endDate: dateRange.end,      // Also add endDate for compatibility
+          venue: venueObj,
+          url: event.url,  // Include URL for website link
+          sourceURL: event.url,  // Also set sourceURL for compatibility
+          city: cityName,
+          province: provinceCode,
+          country: 'Canada',
+          clickCount: preservedClickCount  // PRESERVE CLICK COUNT
+      }).filter(e => e !== null);  // Remove null events
+      
+      allEvents = processedEvents;
+      console.log(`   ✅ ${processedEvents.length} valid events (skipped ${events.length - processedEvents.length} with bad/missing dates)`);
+    } else {
+      console.log(`   ⚠️ 0 events from all scrapers`);
+    }
+    if (allEvents.length > 0) {
+      console.log(`📊 Collected ${allEvents.length} total events from all scrapers`);
+      console.log(`🔄 Deduplicating events...`);
+      const uniqueEvents = new Map();
+      let duplicateCount = 0;
+      for (const event of allEvents) {
+        // Create unique key: normalize title + date
+        const titleNorm = (event.title || '').toLowerCase().trim().replace(/\s+/g, ' ');
+        const dateStr = event.dateRange?.start ? new Date(event.dateRange.start).toISOString().split('T')[0] : '';
+        // For school/institutional events (same event at multiple locations), dedupe by title + date only
+        // For venue-specific events, include venue in key
+        const venueName = (event.location || event.venue?.name || '').toLowerCase().trim();
+        const isSchoolEvent = venueName.includes('school') || 
+                             venueName.includes('collegiate') || 
+                             venueName.includes('tdsb') ||
+                             titleNorm.includes('piac') ||
+                             titleNorm.includes('indigenous education month');
+        let uniqueKey;
+        if (isSchoolEvent) {
+          // School events: dedupe across all schools (same event at multiple locations)
+          uniqueKey = `${titleNorm}|${dateStr}`;
+          // Regular events: must be same title + date + venue to be duplicate
+          uniqueKey = `${titleNorm}|${dateStr}|${venueName}`;
+        if (!uniqueEvents.has(uniqueKey)) {
+          uniqueEvents.set(uniqueKey, event);
+          duplicateCount++;
+      }
+      const deduplicatedEvents = Array.from(uniqueEvents.values());
+      console.log(`✨ Removed ${duplicateCount} duplicates`);
+      // Add coordinates to events
+      console.log(`🌍 Adding coordinates to ${deduplicatedEvents.length} events...`);
+      let coordsAdded = 0;
+      let coordsFailed = 0;
+      for (const event of deduplicatedEvents) {
+        if (!event.venue?.coordinates && event.venue?.address) {
+          const coords = await geocodeWithCache(event.venue.address, cityName, 'Canada');
+          if (coords) {
+            event.venue.coordinates = coords;
+            coordsAdded++;
+            coordsFailed++;
+      console.log(`   ✅ Added coordinates to ${coordsAdded} events`);
+      if (coordsFailed > 0) {
+        console.log(`   ⚠️  Failed to geocode ${coordsFailed} events (will be filtered out)`);
+      // Only insert events with coordinates
+      const eventsWithCoords = deduplicatedEvents.filter(e => e.venue?.coordinates);
+      console.log(`💾 Upserting ${eventsWithCoords.length} events with coordinates...`);
+      let inserted = 0, updated = 0;
+      for (const event of eventsWithCoords) {
+        const result = await collection.updateOne(
+          { title: event.title, 'venue.name': event.venue?.name },
+          { $set: event },
+          { upsert: true }
+        );
+        if (result.upsertedCount > 0) inserted++;
+        else if (result.modifiedCount > 0) updated++;
+      console.log('\n📊 TORONTO COMPLETE IMPORT SUMMARY:');
+      console.log(`🎉 Inserted ${inserted} new, updated ${updated} existing`);
+      console.log(`✅ All events have normalized ISO dates (YYYY-MM-DD)`);
+      console.log('⚠️ No events found across all scrapers');
+  } catch (error) {
+    console.error('❌ Import error:', error.message);
+  } finally {
+    await client.close();
+    console.log('🔌 Database connection closed');
+  }
+importAllTorontoEvents().catch(console.error);

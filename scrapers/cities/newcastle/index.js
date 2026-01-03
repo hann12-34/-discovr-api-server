@@ -40,6 +40,7 @@ const scrapeUtilitaArena = require('./utilita_arena');
 const scrapeWorldHq = require('./world_hq');
 const scrapePowerhouseNewcastle = require('./powerhouse_newcastle');
 const scrapeBasementNewcastle = require('./basement_newcastle');
+const scrapeBoilerShopV2 = require('./boiler_shop_v2');
 
 module.exports = {
   scrapeBoilerShop,
@@ -80,4 +81,5 @@ module.exports = {
   scrapeWorldHq,
   scrapePowerhouseNewcastle,
   scrapeBasementNewcastle,
+  scrapeBoilerShopV2
 };

@@ -1,0 +1,228 @@
+/**
+ * Montreal Master Import - ALL 85 SCRAPERS
+ */
+
+const { MongoClient } = require('mongodb');
+const { saveClickCounts, getPreservedClickCount } = require('./utils/preserveClickCounts');
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const path = require('path');
+const { geocodeWithCache } = require('../utils/geocode-util');
+const { getVenueAddress } = require('../scrapers/utils/venueAddresses');
+// Image blacklist - filter out generic venue logos and placeholders
+const IMAGE_BLACKLIST = [
+  'logo', 'default', 'placeholder', 'brand', 'favicon', 'icon',
+  'social', 'share', 'og-image', 'twitter', 'facebook',
+  '1x1', 'spacer', 'pixel', 'tracking', 'blank',
+  'venue-logo', 'venue_logo', 'venue-default',
+  'generic', 'template', 'sample', 'test', 'missing'
+];
+function isGenericImage(imageUrl) {
+  if (!imageUrl) return true;
+  const lower = imageUrl.toLowerCase();
+  return IMAGE_BLACKLIST.some(p => lower.includes(p));
+}
+const MONGODB_URI = 'mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr';
+async function importAllMontrealEvents() {
+  const cityName = 'Montreal';
+  const provinceCode = 'QC';
+  console.log('🚀 Starting Montreal COMPLETE import (ALL scrapers)...');
+  
+  const client = new MongoClient(MONGODB_URI);
+  try {
+    await client.connect();
+    console.log('✅ Connected to MongoDB');
+    
+    const db = client.db('discovr');
+    const collection = db.collection('events');
+    // Clear existing Montreal events
+    // PRESERVE CLICK COUNTS before deleting
+    const clickCountMap = await saveClickCounts(collection, cityName);
+    console.log('🧹 Clearing existing Montreal events...');
+    const deleteResult = await collection.deleteMany({ city: cityName, source: { $ne: 'admin' } });
+    console.log(`🗑️ Removed ${deleteResult.deletedCount} existing events`);
+    // Use Montreal index.js which handles og:image fetching for all scrapers
+    console.log('📍 Loading Montreal scrapers via index.js (with og:image fetching)...');
+    const montrealScraper = require('../scrapers/cities/Montreal/index.js');
+    // Run all Montreal scrapers through the coordinator (images already fetched)
+    const events = await montrealScraper.scrape();
+    let allEvents = [];
+    if (events && events.length > 0) {
+      const processedEvents = events.map(event => {
+        // Transform date field to dateRange structure with validation
+        let dateRange = event.dateRange;
+        
+        if (!dateRange && event.date) {
+          try {
+            // CRITICAL FIX: Parse ISO date in MONTREAL timezone (America/Montreal - EST/EDT)
+            let startDate;
+            const isoMatch = event.date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (isoMatch) {
+              const year = parseInt(isoMatch[1]);
+              const month = parseInt(isoMatch[2]) - 1;
+              const day = parseInt(isoMatch[3]);
+              const dateStr = `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}T12:00:00`;
+              // Montreal: EST = -05:00, EDT = -04:00
+              const tempDate = new Date(year, month, day, 12, 0, 0);
+              const isDST = tempDate.getTimezoneOffset() < new Date(year, 0, 1).getTimezoneOffset();
+              startDate = new Date(dateStr + (isDST ? '-04:00' : '-05:00'));
+            } else {
+              startDate = new Date(event.date);
+            }
+            
+            let endDate = startDate;
+            if (event.endDate) {
+              const endMatch = event.endDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+              if (endMatch) {
+                endDate = new Date(parseInt(endMatch[1]), parseInt(endMatch[2]) - 1, parseInt(endMatch[3]), 12, 0, 0);
+              } else {
+                endDate = new Date(event.endDate);
+              }
+            // Validate dates are valid
+            if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+              dateRange = { start: startDate, end: endDate };
+              return null;  // Invalid date - skip
+          } catch (err) {
+            return null;  // Date parsing failed - skip
+          }
+        }
+        if (!dateRange) return null;  // No valid date
+        // Normalize venue to object format required by Event model
+        // CRITICAL FIX: Use venue address from scraper first
+        let venueName = 'Unknown Venue';
+        let venueAddress = '';
+        if (event.venue) {
+          if (typeof event.venue === 'string') {
+            venueName = event.venue;
+          } else {
+            venueName = event.venue.name || 'Unknown Venue';
+            venueAddress = event.venue.address || '';
+        if (!venueAddress || venueAddress === cityName) {
+          venueAddress = getVenueAddress(venueName, cityName);
+        const venueObj = { 
+          name: venueName, 
+          address: venueAddress, 
+          city: cityName 
+        };
+        // Filter out generic images
+        let eventImage = event.image || event.imageUrl || null;
+        if (eventImage && isGenericImage(eventImage)) {
+          eventImage = null;
+        // RESTORE CLICK COUNT if this event existed before
+        const preservedClickCount = getPreservedClickCount(clickCountMap, event.title, venueObj.name);
+        return {
+          ...event,
+          id: event.id || uuidv4(),
+          title: event.title,
+          startDate: dateRange.start,
+          endDate: dateRange.end,
+          image: eventImage,
+          imageUrl: eventImage,
+          venue: venueObj,
+          url: event.url,
+          sourceURL: event.url,
+          city: cityName,
+          province: provinceCode,
+          country: 'Canada',
+          clickCount: preservedClickCount,  // PRESERVE CLICK COUNT
+          dateRange: {
+            start: dateRange.start,
+            end: dateRange.end
+      }).filter(e => e !== null);
+      
+      allEvents = processedEvents;
+      console.log(`   ✅ ${processedEvents.length} valid events (from ${events.length} total)`);
+    } else {
+      console.log(`   ⚠️ 0 events from Montreal scrapers`);
+    }
+    if (allEvents.length > 0) {
+      console.log(`📊 Collected ${allEvents.length} total events from all scrapers`);
+      // Filter out bad titles BEFORE deduplication
+      console.log(`🔍 Filtering out bad titles...`);
+      const badTitlePatterns = [
+        /^\(map\)$/i,
+        /^map$/i,
+        /^google calendar$/i,
+        /^calendar$/i,
+        /^(Menu|Nav|Skip|Login|Subscribe|Search|Home|View All|Load More|Filter|Sort)/i,
+        /^\s*$/,
+        /^(Facebook|Instagram|Twitter|Google)/i
+      ];
+      const filteredEvents = allEvents.filter(event => {
+        const title = event.title || '';
+        // Check if title matches any bad pattern
+        for (const pattern of badTitlePatterns) {
+          if (pattern.test(title)) {
+            return false;
+        // Also filter out Google Maps and Calendar URLs
+        if (event.url && (event.url.includes('maps.google.com') || event.url.includes('calendar/event'))) {
+          return false;
+        return title.length >= 5 && title.length <= 250;
+      });
+      const filteredCount = allEvents.length - filteredEvents.length;
+      console.log(`❌ Filtered out ${filteredCount} bad titles`);
+      allEvents = filteredEvents;
+      console.log(`🔄 Deduplicating events...`);
+      const uniqueEvents = new Map();
+      let duplicateCount = 0;
+      for (const event of allEvents) {
+        const titleNorm = (event.title || '').toLowerCase().trim().replace(/\s+/g, ' ');
+        let dateStr = '';
+        try {
+          if (event.dateRange?.start) {
+            const dateObj = new Date(event.dateRange.start);
+            if (!isNaN(dateObj.getTime())) {
+              dateStr = dateObj.toISOString().split('T')[0];
+        } catch (e) {
+          // Skip invalid dates
+        const locationNorm = (event.location || event.venue?.name || '').toLowerCase().trim();
+        const uniqueKey = `${titleNorm}|${dateStr}|${locationNorm}`;
+        if (!uniqueEvents.has(uniqueKey)) {
+          uniqueEvents.set(uniqueKey, event);
+        } else {
+          duplicateCount++;
+      }
+      const deduplicatedEvents = Array.from(uniqueEvents.values());
+      console.log(`✨ Removed ${duplicateCount} duplicates`);
+      // Add coordinates to events
+      console.log(`🌍 Adding coordinates to ${deduplicatedEvents.length} events...`);
+      let coordsAdded = 0;
+      let coordsFailed = 0;
+      for (const event of deduplicatedEvents) {
+        if (!event.venue?.coordinates && event.venue?.address) {
+          const coords = await geocodeWithCache(event.venue.address, cityName, 'Canada');
+          if (coords) {
+            event.venue.coordinates = coords;
+            coordsAdded++;
+            coordsFailed++;
+      console.log(`   ✅ Added coordinates to ${coordsAdded} events`);
+      if (coordsFailed > 0) {
+        console.log(`   ⚠️  Failed to geocode ${coordsFailed} events (will import anyway)`);
+      // Insert ALL events (with or without coordinates)
+      console.log(`💾 Inserting ${deduplicatedEvents.length} events...`);
+      const eventsWithCoords = deduplicatedEvents.filter(e => e.venue?.coordinates);
+      console.log(`   📍 ${eventsWithCoords.length} have coordinates, ${coordsFailed} don't`);
+      let inserted = 0, updated = 0;
+      if (deduplicatedEvents.length > 0) {
+        for (const event of deduplicatedEvents) {
+          const result = await collection.updateOne(
+            { title: event.title, 'venue.name': event.venue?.name },
+            { $set: event },
+            { upsert: true }
+          );
+          if (result.upsertedCount > 0) inserted++;
+          else if (result.modifiedCount > 0) updated++;
+      } else {
+        console.log('⚠️  No events to insert');
+      console.log('\n📊 MONTREAL COMPLETE IMPORT SUMMARY:');
+      console.log(`🎉 Inserted ${inserted} new, updated ${updated} existing`);
+      const withImages = deduplicatedEvents.filter(e => e.image).length;
+      console.log(`📷 Events with images: ${withImages}/${inserted} (${inserted > 0 ? Math.round(withImages/inserted*100) : 0}%)`);
+      console.log('⚠️ No events found across all scrapers');
+  } catch (error) {
+    console.error('❌ Import error:', error.message);
+  } finally {
+    await client.close();
+    console.log('🔌 Database connection closed');
+  }
+importAllMontrealEvents().catch(console.error);

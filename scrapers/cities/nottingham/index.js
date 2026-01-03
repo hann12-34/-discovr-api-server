@@ -40,6 +40,8 @@ const scrapeTheTapAndTumbler = require('./the_tap_and_tumbler');
 const scrapeTheatreRoyal = require('./theatre_royal');
 const scrapeTrentBridge = require('./trent_bridge');
 const scrapePryzmNottingham = require('./pryzm_nottingham');
+const scrapeRockCityV2 = require('./rock_city_v2');
+const scrapeRescueRoomsV2 = require('./rescue_rooms_v2');
 
 module.exports = {
   scrapeBodega,
@@ -80,4 +82,6 @@ module.exports = {
   scrapeTheatreRoyal,
   scrapeTrentBridge,
   scrapePryzmNottingham,
+  scrapeRockCityV2,
+  scrapeRescueRoomsV2
 };

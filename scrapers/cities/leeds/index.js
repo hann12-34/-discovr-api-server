@@ -44,6 +44,7 @@ const scrapeWestIndianCentre = require('./west_indian_centre');
 const scrapeWireLeeds = require('./wire_leeds');
 const scrapeTheWarehouseLeeds = require('./the_warehouse_leeds');
 const scrapePryzmLeeds = require('./pryzm_leeds');
+const scrapeBrudenellV2 = require('./brudenell_v2');
 
 module.exports = {
   scrapeBelgraveMusicHall,
@@ -87,5 +88,6 @@ module.exports = {
   scrapeWestIndianCentre,
   scrapeWireLeeds,
   scrapeTheWarehouseLeeds,
-  scrapePryzmLeeds
+  scrapePryzmLeeds,
+  scrapeBrudenellV2
 };

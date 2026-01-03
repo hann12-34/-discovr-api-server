@@ -12,9 +12,9 @@
 async function saveClickCounts(collection, cityName) {
   console.log('📊 Saving click counts before clearing events...');
   
+  // Find ALL events with click counts > 0 (don't filter by source)
   const existingEvents = await collection.find({ 
     city: cityName, 
-    source: { $ne: 'admin' },
     clickCount: { $gt: 0 }
   }).toArray();
   
@@ -22,6 +22,10 @@ async function saveClickCounts(collection, cityName) {
   for (const event of existingEvents) {
     const key = `${(event.title || '').toLowerCase().trim()}|${(event.venue?.name || '').toLowerCase().trim()}`;
     clickCountMap.set(key, event.clickCount);
+    // Debug: show what we're saving
+    if (event.clickCount > 0) {
+      console.log(`   💾 Saving: "${event.title}" @ ${event.venue?.name} = ${event.clickCount} clicks`);
+    }
   }
   
   console.log(`💾 Saved ${clickCountMap.size} click counts to preserve`);
@@ -37,7 +41,11 @@ async function saveClickCounts(collection, cityName) {
  */
 function getPreservedClickCount(clickCountMap, title, venueName) {
   const key = `${(title || '').toLowerCase().trim()}|${(venueName || '').toLowerCase().trim()}`;
-  return clickCountMap.get(key) || 0;
+  const preserved = clickCountMap.get(key) || 0;
+  if (preserved > 0) {
+    console.log(`   ✅ Restored: "${title}" = ${preserved} clicks`);
+  }
+  return preserved;
 }
 
 module.exports = {

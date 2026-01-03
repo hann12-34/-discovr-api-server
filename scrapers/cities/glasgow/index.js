@@ -38,6 +38,7 @@ const scrapeTrnsmtFestival = require('./trnsmt_festival');
 const scrapeWestEndFestival = require('./west_end_festival');
 const scrapeWorldPipeBandChamps = require('./world_pipe_band_champs');
 const scrapeBambooGlasgow = require('./bamboo_glasgow');
+const scrapeSWG3V2 = require('./swg3_v2');
 
 module.exports = {
   scrapeAbc,
@@ -76,4 +77,5 @@ module.exports = {
   scrapeWestEndFestival,
   scrapeWorldPipeBandChamps,
   scrapeBambooGlasgow,
+  scrapeSWG3V2
 };

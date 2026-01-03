@@ -47,6 +47,7 @@ const scrapeUtilitaarena = require('./utilitaarena');
 const scrapeXoyoBirmingham = require('./xoyo_birmingham');
 const scrapeSnobsBirmingham = require('./snobs_birmingham');
 const scrapePryzmBirmingham = require('./pryzm_birmingham');
+const scrapeO2InstituteV2 = require('./o2_institute_v2');
 
 module.exports = {
   scrapeAsylum,
@@ -94,4 +95,5 @@ module.exports = {
   scrapeXoyoBirmingham,
   scrapeSnobsBirmingham,
   scrapePryzmBirmingham,
+  scrapeO2InstituteV2
 };
