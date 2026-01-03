@@ -56,6 +56,7 @@ const scrapeNightingaleV2 = require('./nightingale_v2');
 const scrapeAsylumV2 = require('./asylum_v2');
 const scrapeO2AcademyBirminghamV2 = require('./o2_academy_birmingham_v2');
 const scrapeFlapperV2 = require('./flapper_v2');
+const scrapeGleeClubV2 = require('./glee_club_v2');
 
 module.exports = {
   scrapeAsylum,
@@ -111,5 +112,6 @@ module.exports = {
   scrapeNightingaleV2,
   scrapeAsylumV2,
   scrapeO2AcademyBirminghamV2,
-  scrapeFlapperV2
+  scrapeFlapperV2,
+  scrapeGleeClubV2
 };
