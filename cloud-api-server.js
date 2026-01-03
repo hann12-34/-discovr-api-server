@@ -622,11 +622,13 @@ app.post('/api/v1/events/:id/click', async (req, res) => {
     try {
       const eventTitle = result.value.title;
       const eventCity = result.value.city;
-      if (eventTitle && eventCity) {
-        await db.collection('featured_events').updateOne(
+      if (eventTitle && eventCity && client) {
+        const featuredDb = client.db('discovr');
+        await featuredDb.collection('featured_events').updateOne(
           { title: eventTitle, city: eventCity },
           { $set: { clickCount: result.value.clickCount } }
         );
+        console.log('Synced click count to featured_events');
       }
     } catch (syncErr) {
       console.log('Could not sync featured_events click count:', syncErr.message);
