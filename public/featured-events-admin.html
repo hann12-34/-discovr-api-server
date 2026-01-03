@@ -973,13 +973,19 @@
             }
 
             const html = featuredEvents.map(event => {
+                const eventId = event._id || event.id;
                 const imageUrl = event.imageUrl || event.image;
                 const title = event.title || event.name || 'Untitled Event';
                 const venueName = event.venue?.name || event.source || '';
                 const date = formatDate(event.date || event.startDate);
 
                 return `
-                    <div class="preview-event-card">
+                    <div class="preview-event-card" style="position: relative;">
+                        <button class="btn btn-danger btn-sm" 
+                                style="position: absolute; top: 10px; right: 10px; z-index: 10; border-radius: 50%; width: 32px; height: 32px; padding: 0;"
+                                onclick="deleteEvent('${eventId}', '${title.replace(/'/g, "\\'")}')">
+                            <i class="bi bi-trash"></i>
+                        </button>
                         ${imageUrl ? 
                             `<img src="${imageUrl}" alt="${title}">` :
                             `<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 180px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
