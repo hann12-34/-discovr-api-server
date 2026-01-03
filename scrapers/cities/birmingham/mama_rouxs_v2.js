@@ -1,12 +1,12 @@
 /**
- * The Bodega Nottingham Scraper
- * URL: https://www.bodeganottingham.com/gig-guide/
- * Address: 23 Pelham Street, Nottingham NG1 2ED
+ * Mama Roux's Birmingham Scraper
+ * URL: https://www.mamarouxs.co.uk/whats-on
+ * Address: Lower Trinity Street, Digbeth, Birmingham B9 4AG
  */
 
 const puppeteer = require('puppeteer');
 
-async function scrapeBodegaV2(city = 'Nottingham') {
+async function scrapeMamaRouxsV2(city = 'Birmingham') {
   const events = [];
   let browser;
   
@@ -19,7 +19,7 @@ async function scrapeBodegaV2(city = 'Nottingham') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
     
-    await page.goto('https://www.bodeganottingham.com/gig-guide/', {
+    await page.goto('https://www.mamarouxs.co.uk/whats-on', {
       waitUntil: 'domcontentloaded',
       timeout: 60000
     });
@@ -36,16 +36,16 @@ async function scrapeBodegaV2(city = 'Nottingham') {
         
         if (!text || text.length < 6 || text.length > 100) return;
         if (text.includes('Contact') || text.includes('Privacy')) return;
-        if (text.includes('Gig Guide') || text.includes('About')) return;
+        if (text.includes('Menu') || text.includes('Book')) return;
         
-        if (href.includes('event') || href.includes('bodega') || href.includes('gig')) {
+        if (href.includes('event') || href.includes('whats-on') || href.includes('mama')) {
           const container = link.closest('div, article');
           const imgEl = container?.querySelector('img');
           
           if (!items.find(e => e.title === text)) {
             items.push({
               title: text,
-              url: href.startsWith('http') ? href : `https://www.bodeganottingham.com${href}`,
+              url: href.startsWith('http') ? href : `https://www.mamarouxs.co.uk${href}`,
               image: imgEl?.src || null
             });
           }
@@ -68,30 +68,30 @@ async function scrapeBodegaV2(city = 'Nottingham') {
         date: eventDate.toISOString().split('T')[0],
         startDate: eventDate,
         venue: {
-          name: 'The Bodega',
-          address: '23 Pelham Street, Nottingham NG1 2ED',
+          name: "Mama Roux's",
+          address: 'Lower Trinity Street, Digbeth, Birmingham B9 4AG',
           city: city
         },
-        location: `The Bodega, ${city}`,
+        location: `Mama Roux's, ${city}`,
         city: city,
         country: 'United Kingdom',
         url: item.url,
         image: item.image,
         imageUrl: item.image,
         category: 'Nightlife',
-        source: 'bodega'
+        source: 'mama_rouxs'
       });
     }
     
-    console.log(`Bodega Nottingham: Found ${events.length} events`);
+    console.log(`Mama Roux's Birmingham: Found ${events.length} events`);
     return events;
     
   } catch (error) {
-    console.error('Bodega scraper error:', error.message);
+    console.error("Mama Roux's scraper error:", error.message);
     return events;
   } finally {
     if (browser) await browser.close();
   }
 }
 
-module.exports = scrapeBodegaV2;
+module.exports = scrapeMamaRouxsV2;

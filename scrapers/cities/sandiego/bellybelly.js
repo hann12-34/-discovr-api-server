@@ -29,8 +29,29 @@ async function scrapeBellyUp(city = 'San Diego') {
 
     const events = await page.evaluate(() => {
       const results = [];
+      const imageMap = {};
       
-      // Belly Up uses EventData JavaScript object
+      // First, try to get images from DOM elements
+      document.querySelectorAll('.event-item, .event, article, [class*="event"], a[href*="/event/"]').forEach(el => {
+        const linkEl = el.tagName === 'A' ? el : el.querySelector('a[href*="/event/"]');
+        const url = linkEl?.href;
+        if (!url) return;
+        
+        const imgEl = el.querySelector('img');
+        let img = imgEl?.src || imgEl?.getAttribute('data-src') || imgEl?.getAttribute('data-lazy-src');
+        
+        if (!img) {
+          const bgEl = el.querySelector('[style*="background"]') || el;
+          const bgMatch = bgEl?.style?.backgroundImage?.match(/url\(['"]?([^'"]+)['"]?\)/);
+          if (bgMatch) img = bgMatch[1];
+        }
+        
+        if (img && img.startsWith('http')) {
+          imageMap[url] = img;
+        }
+      });
+      
+      // Then use EventData JavaScript object for event info
       if (typeof EventData !== 'undefined' && EventData.events) {
         EventData.events.forEach(e => {
           const title = e.value || e.display;
@@ -38,11 +59,12 @@ async function scrapeBellyUp(city = 'San Diego') {
           if (title && url) {
             const dateMatch = title.match(/(\d{1,2})\/(\d{1,2})$/);
             let dateStr = dateMatch ? dateMatch[0] : '';
+            const imageUrl = e.data?.image || imageMap[url] || null;
             results.push({ 
               title: title.replace(/\s*\d{1,2}\/\d{1,2}$/, '').trim(), 
               dateStr, 
               url, 
-              imageUrl: e.data?.image || null 
+              imageUrl
             });
           }
         });

@@ -20,8 +20,8 @@ async function scrapeRescueRoomsV2(city = 'Nottingham') {
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
     
     await page.goto('https://www.rescuerooms.com/', {
-      waitUntil: 'networkidle2',
-      timeout: 30000
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
     });
     
     await new Promise(resolve => setTimeout(resolve, 3000));
