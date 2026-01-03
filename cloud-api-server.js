@@ -618,6 +618,20 @@ app.post('/api/v1/events/:id/click', async (req, res) => {
     
     console.log('Click recorded. New count:', result.value.clickCount);
     
+    // Also update featured_events collection if this event is featured
+    try {
+      const eventTitle = result.value.title;
+      const eventCity = result.value.city;
+      if (eventTitle && eventCity) {
+        await db.collection('featured_events').updateOne(
+          { title: eventTitle, city: eventCity },
+          { $set: { clickCount: result.value.clickCount } }
+        );
+      }
+    } catch (syncErr) {
+      console.log('Could not sync featured_events click count:', syncErr.message);
+    }
+    
     // Return only the updated count - no user tracking data
     res.json({
       success: true,
