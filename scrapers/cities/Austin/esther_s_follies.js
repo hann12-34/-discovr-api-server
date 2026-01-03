@@ -30,33 +30,35 @@ async function scrapeEsthersFollies(city = 'Austin') {
       const results = [];
       const seen = new Set();
       
-      // Esther's Follies has weekly shows, so generate recurring events
-      const now = new Date();
-      const daysOfWeek = ['Thursday', 'Friday', 'Saturday'];
-      
-      for (let week = 0; week < 12; week++) {
-        daysOfWeek.forEach(day => {
-          const eventDate = new Date(now);
-          eventDate.setDate(now.getDate() + (week * 7));
+      // Scrape actual events from the page - no generation allowed
+      document.querySelectorAll('a[href*="ticket"], a[href*="event"], .event, article, [class*="show"]').forEach(el => {
+        try {
+          const linkEl = el.tagName === 'A' ? el : el.querySelector('a');
+          const url = linkEl?.href;
+          if (!url || seen.has(url)) return;
+          seen.add(url);
           
-          // Find next occurrence of the day
-          while (eventDate.toLocaleDateString('en-US', {weekday: 'long'}) !== day) {
-            eventDate.setDate(eventDate.getDate() + 1);
-          }
+          const titleEl = el.querySelector('h2, h3, h4, .title') || el;
+          const title = titleEl?.textContent?.trim();
+          if (!title || title.length < 3 || title.length > 150) return;
           
-          if (eventDate > now) {
-            const month = eventDate.toLocaleDateString('en-US', {month: 'short'});
-            const dayNum = eventDate.getDate();
-            
+          const dateEl = el.querySelector('time, .date, [class*="date"]');
+          const dateText = dateEl?.textContent || el.textContent || '';
+          const dateMatch = dateText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{1,2})/i);
+          
+          const imgEl = el.querySelector('img');
+          let imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
+          
+          if (url.startsWith('http')) {
             results.push({
-              title: `Esther's Follies Comedy Show`,
-              url: 'https://esthersfollies.com',
-              imageUrl: null,
-              dateStr: `${month} ${dayNum}`
+              title,
+              url,
+              imageUrl,
+              dateStr: dateMatch ? dateMatch[0] : null
             });
           }
-        });
-      }
+        } catch (e) {}
+      });
       
       return results;
     });

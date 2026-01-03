@@ -1,123 +1,98 @@
 /**
  * Voodoo Rooms Edinburgh Events Scraper
- * Live music and events venue
- * URL: https://www.thevoodoorooms.com/
+ * URL: https://www.thevoodoorooms.com/events
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeVoodooRooms(city = 'Edinburgh') {
   console.log('🎸 Scraping Voodoo Rooms Edinburgh...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    const response = await axios.get('https://www.thevoodoorooms.com/events', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
 
-    await page.goto('https://www.thevoodoorooms.com/', {
-      waitUntil: 'domcontentloaded',
-      timeout: 60000
-    });
+    // URLs have dates like /events/event-name-DD-MM-YYYY
+    $('a[href*="/events/"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href) || href === '/events/' || href === 'https://www.thevoodoorooms.com/events') return;
+        seen.add(href);
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
+        // Extract date from URL like -04-07-2026
+        const dateMatch = href.match(/(\d{2})-(\d{2})-(\d{4})$/);
+        if (!dateMatch) return;
 
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seenTitles = new Set();
+        const day = dateMatch[1];
+        const month = dateMatch[2];
+        const year = dateMatch[3];
+        const isoDate = `${year}-${month}-${day}`;
 
-      const selectors = ['.event', '.event-card', 'article', '[class*="event"]', '.show'];
-
-      for (const selector of selectors) {
-        document.querySelectorAll(selector).forEach(el => {
-          try {
-            const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-            let title = titleEl ? titleEl.textContent.trim() : '';
-            
-            if (!title || title.length < 3 || seenTitles.has(title)) return;
-            seenTitles.add(title);
-
-            const link = el.querySelector('a[href]') || (el.tagName === 'A' ? el : null);
-            let url = link ? link.href : '';
-
-            const img = el.querySelector('img:not([src*="logo"])');
-            let imageUrl = img ? (img.src || img.dataset.src) : null;
-
-            let dateStr = null;
-            const timeEl = el.querySelector('time[datetime], [datetime]');
-            if (timeEl) dateStr = timeEl.getAttribute('datetime');
-            
-            if (!dateStr) {
-              const dateEl = el.querySelector('.date, [class*="date"], time');
-              if (dateEl) dateStr = dateEl.textContent.trim();
-            }
-
-            results.push({ title, url: url, imageUrl, dateStr });
-          } catch (e) {}
-        });
-        if (results.length > 0) break;
-      }
-
-      return results;
-    });
-
-    await browser.close();
-    console.log(`  ✅ Found ${events.length} Voodoo Rooms events`);
-
-    const formattedEvents = [];
-    const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const monthMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i);
-          const dayMatch = event.dateStr.match(/\b(\d{1,2})\b/);
-          
-          if (monthMatch && dayMatch) {
-            const month = (monthNames.indexOf(monthMatch[1].toLowerCase()) + 1).toString().padStart(2, '0');
-            const day = dayMatch[1].padStart(2, '0');
-            const now = new Date();
-            let year = now.getFullYear();
-            if (parseInt(month) < now.getMonth() + 1) year++;
-            isoDate = `${year}-${month}-${day}`;
-          }
+        // Extract title from URL or link text
+        let title = $el.text().trim().replace(/\s+/g, ' ');
+        if (!title || title.length < 3) {
+          // Try to extract from URL
+          const urlParts = href.split('/');
+          const lastPart = urlParts[urlParts.length - 1];
+          title = lastPart.replace(/-\d{2}-\d{2}-\d{4}$/, '').replace(/-/g, ' ').trim();
         }
+        if (!title || title.length < 3 || title.length > 150) return;
+        if (title === "WHAT'S ON" || title === "What's On") return;
+
+        const url = href.startsWith('http') ? href : `https://www.thevoodoorooms.com${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title: title.charAt(0).toUpperCase() + title.slice(1),
+          date: isoDate,
+          url,
+          venue: { name: 'Voodoo Rooms', address: '19a West Register Street, Edinburgh EH2 2AA', city: 'Edinburgh' },
+          latitude: 55.9534,
+          longitude: -3.1908,
+          city: 'Edinburgh',
+          category: 'Nightlife',
+          source: 'Voodoo Rooms'
+        });
+      } catch (e) {}
+    });
+
+    // Dedupe
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}|${e.date}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T19:30:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: { name: 'Voodoo Rooms', address: '19a West Register Street, Edinburgh EH2 2AA', city: 'Edinburgh' },
-        latitude: 55.9534,
-        longitude: -3.1908,
-        city: 'Edinburgh',
-        category: 'Nightlife',
-        source: 'Voodoo Rooms'
-      });
     }
 
-    return filterEvents(formattedEvents);
+    // Fetch images
+    for (const event of unique.slice(0, 10)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Voodoo Rooms events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Voodoo Rooms error:', error.message);
+    console.error('  ⚠️ Voodoo Rooms error:', error.message);
     return [];
   }
 }

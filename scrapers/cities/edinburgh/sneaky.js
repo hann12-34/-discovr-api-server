@@ -1,114 +1,97 @@
 /**
  * Sneaky Pete's Edinburgh Events Scraper
- * Underground club venue
  * URL: https://sneakypetes.co.uk/
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeSneakyPetes(city = 'Edinburgh') {
   console.log('🎧 Scraping Sneaky Pete\'s Edinburgh...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const response = await axios.get('https://sneakypetes.co.uk/', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
 
-    await page.goto('https://sneakypetes.co.uk/', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
+    // URLs have dates like /2026/01/09/event-name
+    $('a[href*="/202"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href)) return;
+        
+        // Extract date from URL like /2026/01/09/
+        const dateMatch = href.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//);
+        if (!dateMatch) return;
+        
+        const isoDate = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}`;
+        // Only filter out dates before 2025
+        if (parseInt(dateMatch[1]) < 2025) return;
+        
+        seen.add(href);
+
+        let title = $el.text().trim();
+        if (!title || title.length < 3) return;
+        // Clean up title - remove "for fans of..." part for cleaner titles
+        title = title.split('for fans of')[0].trim();
+        if (title.length > 100) title = title.substring(0, 100);
+
+        const url = href.startsWith('http') ? href : `https://sneakypetes.co.uk${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title: title.replace(/\s+/g, ' ').trim(),
+          date: isoDate,
+          url,
+          venue: {
+            name: "Sneaky Pete's",
+            address: '73 Cowgate, Edinburgh EH1 1JW',
+            city: 'Edinburgh'
+          },
+          latitude: 55.9488,
+          longitude: -3.1883,
+          city: 'Edinburgh',
+          category: 'Nightlife',
+          source: "Sneaky Pete's"
+        });
+      } catch (e) {}
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const eventItems = document.querySelectorAll('.event, .event-item, article, [class*="event"], .show');
-      
-      eventItems.forEach(item => {
-        try {
-          const titleEl = item.querySelector('h2, h3, h4, .event-title, .title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
-          
-          const dateEl = item.querySelector('time, .date, .event-date, [datetime]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
-          
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
-          
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          const descEl = item.querySelector('.description, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
-          }
-        } catch (e) {}
-      });
-      
-      return results;
-    });
-
-    await browser.close();
-
-    const formattedEvents = [];
-    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    
-    for (const event of events) {
-      let isoDate = null;
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})[\/\.\s]*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\/\.\s]*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            const year = dateMatch[3] || new Date().getFullYear().toString();
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
+    // Dedupe by title+date
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}|${e.date}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        description: event.description || null,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T22:00:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: {
-          name: "Sneaky Pete's",
-          address: '73 Cowgate, Edinburgh EH1 1JW',
-          city: 'Edinburgh'
-        },
-        latitude: 55.9488,
-        longitude: -3.1883,
-        city: 'Edinburgh',
-        category: 'Nightlife',
-        source: "Sneaky Pete's"
-      });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} valid Sneaky Pete's events`);
-    return formattedEvents;
+    // Fetch images
+    for (const event of unique.slice(0, 30)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Sneaky Pete's events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Sneaky Pete\'s error:', error.message);
+    console.error('  ⚠️ Sneaky Pete\'s error:', error.message);
     return [];
   }
 }

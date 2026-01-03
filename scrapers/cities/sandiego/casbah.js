@@ -31,24 +31,40 @@ async function scrapeCasbah(city = 'San Diego') {
       const results = [];
       const seen = new Set();
       
-      document.querySelectorAll('.seetickets-list-event, [class*="event"]').forEach(el => {
-        const dateEl = el.querySelector('.dates, .event-date, time');
-        const dateStr = dateEl?.textContent?.trim();
-        
-        const linkEl = el.querySelector('a[href*="/event/"]');
-        const url = linkEl?.href;
-        
-        const titleEl = el.querySelector('h2, h3, .event-title, a[href*="/event/"]');
-        let title = titleEl?.textContent?.trim();
-        if (title?.match(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)/)) title = null;
-        
-        const imgEl = el.querySelector('img');
-        const img = imgEl?.src;
-        
-        if (title && title.length > 3 && url && !seen.has(url)) {
-          seen.add(url);
-          results.push({ title: title.substring(0, 80), dateStr, url, imageUrl: img });
-        }
+      document.querySelectorAll('.seetickets-list-event, [class*="event"], article, .event-item').forEach(el => {
+        try {
+          const dateEl = el.querySelector('.dates, .event-date, time, [class*="date"]');
+          const dateStr = dateEl?.textContent?.trim();
+          
+          const linkEl = el.querySelector('a[href*="/event/"]');
+          const url = linkEl?.href;
+          
+          const titleEl = el.querySelector('h2, h3, .event-title, .seetickets-list-event-title, a[href*="/event/"]');
+          let title = titleEl?.textContent?.trim();
+          if (title?.match(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)/)) title = null;
+          
+          // Try multiple image sources
+          const imgEl = el.querySelector('img');
+          let imageUrl = imgEl?.src || imgEl?.getAttribute('data-src') || imgEl?.getAttribute('data-lazy-src');
+          
+          // Check for background image
+          if (!imageUrl) {
+            const bgEl = el.querySelector('[style*="background"]') || el;
+            const bgMatch = bgEl?.style?.backgroundImage?.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (bgMatch) imageUrl = bgMatch[1];
+          }
+          
+          // Check picture/source elements
+          if (!imageUrl) {
+            const sourceEl = el.querySelector('picture source, source[srcset]');
+            if (sourceEl) imageUrl = sourceEl.srcset?.split(',')[0]?.split(' ')[0];
+          }
+          
+          if (title && title.length > 3 && url && !seen.has(url)) {
+            seen.add(url);
+            results.push({ title: title.substring(0, 80), dateStr, url, imageUrl });
+          }
+        } catch (e) {}
       });
       
       return results;

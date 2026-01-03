@@ -1,123 +1,94 @@
 /**
  * Summerhall Edinburgh Events Scraper
- * Arts venue and former veterinary school
- * URL: https://www.summerhall.co.uk/
+ * URL: https://www.summerhallarts.co.uk/whats-on/
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
 
 async function scrapeSummerhall(city = 'Edinburgh') {
   console.log('🎭 Scraping Summerhall Edinburgh...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    const response = await axios.get('https://www.summerhallarts.co.uk/whats-on/', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
 
-    await page.goto('https://www.summerhall.co.uk/whats-on/', {
-      waitUntil: 'domcontentloaded',
-      timeout: 60000
-    });
+    $('a[href*="/event/"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href)) return;
+        seen.add(href);
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
+        const title = $el.text().trim().replace(/\s+/g, ' ');
+        if (!title || title.length < 3 || title.length > 150) return;
 
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seenTitles = new Set();
-
-      const selectors = ['.event', '.event-card', 'article', '[class*="event"]', '.show'];
-
-      for (const selector of selectors) {
-        document.querySelectorAll(selector).forEach(el => {
-          try {
-            const titleEl = el.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-            let title = titleEl ? titleEl.textContent.trim() : '';
-            
-            if (!title || title.length < 3 || seenTitles.has(title)) return;
-            seenTitles.add(title);
-
-            const link = el.querySelector('a[href]') || (el.tagName === 'A' ? el : null);
-            let url = link ? link.href : '';
-
-            const img = el.querySelector('img:not([src*="logo"])');
-            let imageUrl = img ? (img.src || img.dataset.src) : null;
-
-            let dateStr = null;
-            const timeEl = el.querySelector('time[datetime], [datetime]');
-            if (timeEl) dateStr = timeEl.getAttribute('datetime');
-            
-            if (!dateStr) {
-              const dateEl = el.querySelector('.date, [class*="date"], time');
-              if (dateEl) dateStr = dateEl.textContent.trim();
-            }
-
-            results.push({ title, url: url, imageUrl, dateStr });
-          } catch (e) {}
-        });
-        if (results.length > 0) break;
-      }
-
-      return results;
-    });
-
-    await browser.close();
-    console.log(`  ✅ Found ${events.length} Summerhall events`);
-
-    const formattedEvents = [];
-    const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
+        // Extract date from URL like /event/name/2026-01-09/
+        const dateMatch = href.match(/\/(\d{4}-\d{2}-\d{2})\/?$/);
+        let isoDate = null;
+        if (dateMatch) {
+          isoDate = dateMatch[1];
         } else {
-          const monthMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i);
-          const dayMatch = event.dateStr.match(/\b(\d{1,2})\b/);
-          
-          if (monthMatch && dayMatch) {
-            const month = (monthNames.indexOf(monthMatch[1].toLowerCase()) + 1).toString().padStart(2, '0');
-            const day = dayMatch[1].padStart(2, '0');
-            const now = new Date();
-            let year = now.getFullYear();
-            if (parseInt(month) < now.getMonth() + 1) year++;
-            isoDate = `${year}-${month}-${day}`;
+          // Try to find date in URL path
+          const altMatch = href.match(/\/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+          if (altMatch) {
+            isoDate = `${altMatch[1]}-${altMatch[2]}-${altMatch[3]}`;
           }
         }
+        if (!isoDate) return;
+
+        const url = href.startsWith('http') ? href : `https://www.summerhallarts.co.uk${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title,
+          date: isoDate,
+          url,
+          venue: { name: 'Summerhall', address: '1 Summerhall, Edinburgh EH9 1PL', city: 'Edinburgh' },
+          latitude: 55.9397,
+          longitude: -3.1822,
+          city: 'Edinburgh',
+          category: 'Arts',
+          source: 'Summerhall'
+        });
+      } catch (e) {}
+    });
+
+    // Dedupe
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}|${e.date}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T19:30:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: { name: 'Summerhall', address: '1 Summerhall, Edinburgh EH9 1PL', city: 'Edinburgh' },
-        latitude: 55.9397,
-        longitude: -3.1822,
-        city: 'Edinburgh',
-        category: 'Nightlife',
-        source: 'Summerhall'
-      });
     }
 
-    return filterEvents(formattedEvents);
+    // Fetch images
+    for (const event of unique.slice(0, 15)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Summerhall events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Summerhall error:', error.message);
+    console.error('  ⚠️ Summerhall error:', error.message);
     return [];
   }
 }

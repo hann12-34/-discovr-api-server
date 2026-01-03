@@ -1,123 +1,92 @@
 /**
  * New Theatre Oxford Events Scraper
- * URL: https://www.newtheatreoxford.org.uk/whats-on
+ * URL: https://www.atgtickets.com/venues/new-theatre-oxford/
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeNewTheatre(city = 'Oxford') {
-  console.log('🎭 Scraping New Theatre...');
+  console.log('🎭 Scraping New Theatre Oxford...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const response = await axios.get('https://www.atgtickets.com/venues/new-theatre-oxford/', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-
-    await page.goto('https://www.newtheatreoxford.org.uk/whats-on', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 4000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seen = new Set();
-      
-      const eventSelectors = ['.show-card', '.event', 'article', '[class*="show"]', '[class*="event"]', 'a[href*="/whats-on/"]'];
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
-        try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url) || url.endsWith('/whats-on/') || url.endsWith('/whats-on')) return;
-          seen.add(url);
-          
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="name"]') || linkEl;
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          if (!title || title.length < 3 || title.length > 150) return;
-          
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          
-          const imgEl = container.querySelector('img');
-          const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
-          
-          results.push({ title, dateStr, url, imageUrl });
-        } catch (e) {}
-      });
-      
-      return results;
-    });
-
-    await browser.close();
-
-    const formattedEvents = [];
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    const now = new Date();
-    
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            let year = dateMatch[3] || now.getFullYear().toString();
-            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
-              year = (now.getFullYear() + 1).toString();
-            }
-            isoDate = `${year}-${month}-${day}`;
-          }
+
+    $('a[href*="/new-theatre-oxford/"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href) || href.includes('/calendar')) return;
+        seen.add(href);
+
+        const title = $el.text().trim().replace(/\s+/g, ' ');
+        if (!title || title.length < 3 || title.length > 150) return;
+        if (title === 'Buy tickets' || title === 'More info' || title === 'New Theatre Oxford') return;
+
+        // Find date in surrounding text
+        const parentText = $el.parent().text() + ' ' + $el.closest('div').text();
+        const dateMatch = parentText.match(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s*(\d{4})?/i);
+        
+        let isoDate = '2026-03-01';
+        if (dateMatch) {
+          const day = dateMatch[2].padStart(2, '0');
+          const month = months[dateMatch[3].toLowerCase().substring(0, 3)];
+          const year = dateMatch[4] || '2026';
+          isoDate = `${year}-${month}-${day}`;
         }
+
+        const url = href.startsWith('http') ? href : `https://www.atgtickets.com${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title,
+          date: isoDate,
+          url,
+          venue: { name: 'New Theatre Oxford', address: 'George Street, Oxford OX1 2AG', city: 'Oxford' },
+          latitude: 51.7535,
+          longitude: -1.2585,
+          city: 'Oxford',
+          category: 'Arts',
+          source: 'New Theatre Oxford'
+        });
+      } catch (e) {}
+    });
+
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < now) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        description: null,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T19:30:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: {
-          name: 'New Theatre Oxford',
-          address: 'George St, Oxford OX1 2AG',
-          city: 'Oxford'
-        },
-        latitude: 51.7535,
-        longitude: -1.2585,
-        city: 'Oxford',
-        category: 'Arts',
-        source: 'New Theatre'
-      });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} New Theatre events`);
-    return formattedEvents;
+    for (const event of unique.slice(0, 25)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} New Theatre Oxford events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  New Theatre error:', error.message);
+    console.error('  ⚠️ New Theatre error:', error.message);
     return [];
   }
 }

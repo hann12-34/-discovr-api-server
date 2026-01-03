@@ -1,117 +1,91 @@
 /**
  * La Belle Angele Edinburgh Events Scraper
- * URL: https://www.labelle.net/events
+ * URL: https://la-belleangele.com/
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeLaBelleAngele(city = 'Edinburgh') {
   console.log('🎭 Scraping La Belle Angele...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const response = await axios.get('https://la-belleangele.com/', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-
-    await page.goto('https://www.labelle.net/events', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 4000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seen = new Set();
-      
-      document.querySelectorAll('a[href*="/events/"]').forEach(el => {
-        const href = el.href;
-        if (seen.has(href) || href.endsWith('/events/')) return;
-        seen.add(href);
-        
-        let container = el;
-        for (let i = 0; i < 8; i++) {
-          container = container.parentElement;
-          if (!container) break;
-          
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          
-          const dateEl = container.querySelector('time, .date, [class*="date"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          const img = container.querySelector('img')?.src;
-          
-          if (title && title.length > 3 && title.length < 150) {
-            results.push({ title, dateStr, url: href, imageUrl: img });
-            break;
-          }
-        }
-      });
-      return results;
-    });
-
-    await browser.close();
-
-    const formattedEvents = [];
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    const now = new Date();
-    
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            let year = dateMatch[3] || now.getFullYear().toString();
-            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
-              year = (now.getFullYear() + 1).toString();
-            }
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
+
+    $('a[href*="la-belleangele.com/event"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href)) return;
+        seen.add(href);
+
+        const title = $el.text().trim().replace(/\s+/g, ' ');
+        if (!title || title.length < 3 || title.length > 150) return;
+
+        // Find date in parent text
+        const parentText = $el.parent().text() + ' ' + $el.closest('div').text();
+        const dateMatch = parentText.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
+        if (!dateMatch) return;
+
+        const day = dateMatch[1].padStart(2, '0');
+        const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+        const year = dateMatch[3] || '2026';
+        const isoDate = `${year}-${month}-${day}`;
+
+        const url = href.startsWith('http') ? href : `https://la-belleangele.com${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title,
+          date: isoDate,
+          url,
+          venue: { name: 'La Belle Angele', address: '11 Hasties Close, Edinburgh EH1 1HJ', city: 'Edinburgh' },
+          latitude: 55.9500,
+          longitude: -3.1820,
+          city: 'Edinburgh',
+          category: 'Nightlife',
+          source: 'La Belle Angele'
+        });
+      } catch (e) {}
+    });
+
+    // Dedupe
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}|${e.date}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < now) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        description: null,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T20:00:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: {
-          name: 'La Belle Angele',
-          address: '11 Hasties Cl, Edinburgh EH8 8DL',
-          city: 'Edinburgh'
-        },
-        latitude: 55.9500,
-        longitude: -3.1820,
-        city: 'Edinburgh',
-        category: 'Nightlife',
-        source: 'La Belle Angele'
-      });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} La Belle Angele events`);
-    return formattedEvents;
+    // Fetch images
+    for (const event of unique.slice(0, 20)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} La Belle Angele events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  La Belle Angele error:', error.message);
+    console.error('  ⚠️ La Belle Angele error:', error.message);
     return [];
   }
 }

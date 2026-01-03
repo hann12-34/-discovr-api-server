@@ -45,7 +45,10 @@ async function scrapeAcl(city = 'Austin') {
         const imgEl = el.querySelector('img');
         const imageUrl = imgEl?.src;
         
-        results.push({ title, dateStr: dateText, url, imageUrl });
+        // Only add if we have a URL (rule #2)
+        if (url && url.startsWith('http')) {
+          results.push({ title, dateStr: dateText, url, imageUrl });
+        }
       });
       
       return results;

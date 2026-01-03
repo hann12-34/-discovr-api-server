@@ -30,23 +30,19 @@ async function scrapeBellyUp(city = 'San Diego') {
     const events = await page.evaluate(() => {
       const results = [];
       
-      // Belly Up stores events in EventData JavaScript object
+      // Belly Up uses EventData JavaScript object
       if (typeof EventData !== 'undefined' && EventData.events) {
         EventData.events.forEach(e => {
           const title = e.value || e.display;
           const url = e.data?.url;
           if (title && url) {
-            // Extract date from title (e.g., "Artist Name 12/28")
             const dateMatch = title.match(/(\d{1,2})\/(\d{1,2})$/);
-            let dateStr = '';
-            if (dateMatch) {
-              dateStr = dateMatch[0];
-            }
+            let dateStr = dateMatch ? dateMatch[0] : '';
             results.push({ 
               title: title.replace(/\s*\d{1,2}\/\d{1,2}$/, '').trim(), 
               dateStr, 
               url, 
-              imageUrl: null 
+              imageUrl: e.data?.image || null 
             });
           }
         });

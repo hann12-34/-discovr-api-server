@@ -30,25 +30,43 @@ async function scrapeLongCenter(city = 'Austin') {
       const results = [];
       const seen = new Set();
       
-      document.querySelectorAll('a[href]').forEach(link => {
-        const href = link.href;
-        const text = link.textContent.trim();
-        
-        if (text.length > 3 && text.length < 150 && !seen.has(text)) {
-          seen.add(text);
+      document.querySelectorAll('.event-item, .event-card, article, [class*="event"], a[href*="/event"]').forEach(el => {
+        try {
+          const linkEl = el.tagName === 'A' ? el : el.querySelector('a');
+          const href = linkEl?.href;
+          if (!href || seen.has(href)) return;
+          seen.add(href);
           
-          let container = link.parentElement?.parentElement;
-          const img = container?.querySelector('img');
-          const allText = container?.textContent || text;
+          const titleEl = el.querySelector('h2, h3, h4, .title, .event-title');
+          const text = titleEl?.textContent?.trim() || linkEl?.textContent?.trim();
+          if (!text || text.length < 3 || text.length > 150) return;
+          
+          // Try multiple image sources
+          let container = el;
+          for (let i = 0; i < 3 && container; i++) container = container.parentElement;
+          
+          const imgEl = el.querySelector('img') || container?.querySelector('img');
+          let imageUrl = imgEl?.src || imgEl?.getAttribute('data-src') || imgEl?.getAttribute('data-lazy-src');
+          
+          // Check background image
+          if (!imageUrl) {
+            const bgEl = el.querySelector('[style*="background"]');
+            const bgMatch = bgEl?.style?.backgroundImage?.match(/url\(['"]?([^'"]+)['"]?\)/);
+            if (bgMatch) imageUrl = bgMatch[1];
+          }
+          
+          const allText = container?.textContent || el.textContent || text;
           const dateMatch = allText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{1,2})/i);
           
-          results.push({
-            title: text.replace(/\s+/g, ' '),
-            url: href,
-            imageUrl: img?.src || null,
-            dateStr: dateMatch ? dateMatch[0] : null
-          });
-        }
+          if (href.startsWith('http')) {
+            results.push({
+              title: text.replace(/\s+/g, ' '),
+              url: href,
+              imageUrl: imageUrl,
+              dateStr: dateMatch ? dateMatch[0] : null
+            });
+          }
+        } catch (e) {}
       });
       
       return results;
