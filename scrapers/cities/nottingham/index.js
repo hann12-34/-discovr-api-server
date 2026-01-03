@@ -42,6 +42,7 @@ const scrapeTrentBridge = require('./trent_bridge');
 const scrapePryzmNottingham = require('./pryzm_nottingham');
 const scrapeRockCityV2 = require('./rock_city_v2');
 const scrapeRescueRoomsV2 = require('./rescue_rooms_v2');
+const scrapeStealthV2 = require('./stealth_v2');
 
 module.exports = {
   scrapeBodega,
@@ -83,5 +84,6 @@ module.exports = {
   scrapeTrentBridge,
   scrapePryzmNottingham,
   scrapeRockCityV2,
-  scrapeRescueRoomsV2
+  scrapeRescueRoomsV2,
+  scrapeStealthV2
 };
