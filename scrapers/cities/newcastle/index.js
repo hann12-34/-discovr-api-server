@@ -42,6 +42,7 @@ const scrapePowerhouseNewcastle = require('./powerhouse_newcastle');
 const scrapeBasementNewcastle = require('./basement_newcastle');
 const scrapeBoilerShopV2 = require('./boiler_shop_v2');
 const scrapeNXNewcastle = require('./nx_newcastle');
+const scrapeO2AcademyNewcastleV2 = require('./o2_academy_v2');
 
 module.exports = {
   scrapeBoilerShop,
@@ -83,5 +84,6 @@ module.exports = {
   scrapePowerhouseNewcastle,
   scrapeBasementNewcastle,
   scrapeBoilerShopV2,
-  scrapeNXNewcastle
+  scrapeNXNewcastle,
+  scrapeO2AcademyNewcastleV2
 };

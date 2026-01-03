@@ -50,6 +50,7 @@ const scrapePryzmBirmingham = require('./pryzm_birmingham');
 const scrapeO2InstituteV2 = require('./o2_institute_v2');
 const scrapeRainbowVenues = require('./rainbow_venues');
 const scrapeMamaRouxs = require('./mama_rouxs');
+const scrapeLab11V2 = require('./lab11_v2');
 
 module.exports = {
   scrapeAsylum,
@@ -99,5 +100,6 @@ module.exports = {
   scrapePryzmBirmingham,
   scrapeO2InstituteV2,
   scrapeRainbowVenues,
-  scrapeMamaRouxs
+  scrapeMamaRouxs,
+  scrapeLab11V2
 };
