@@ -31,6 +31,7 @@ const scrapeDQ = require('./dq_sheffield');
 const scrapeRevolution = require('./revolution_sheffield');
 const scrapeBarOne = require('./bar_one_sheffield');
 const scrapeLeadmillV2 = require('./leadmill_v2');
+const scrapeCorporationV2 = require('./corporation_v2');
 
 module.exports = {
   scrapeCodeNightclub,
@@ -61,5 +62,6 @@ module.exports = {
   scrapeDQ,
   scrapeRevolution,
   scrapeBarOne,
-  scrapeLeadmillV2
+  scrapeLeadmillV2,
+  scrapeCorporationV2
 };

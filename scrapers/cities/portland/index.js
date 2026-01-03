@@ -42,6 +42,13 @@ const scrapeValentines = require('./valentines');
 const scrapeWhiteEagle = require('./white_eagle');
 const scrapeWonderBallroom = require('./wonder_ballroom');
 const scrape45EastPortland = require('./45east_portland');
+const scrapePortland5Centers = require('./portland5_centers');
+const scrapeWonderBallroomNew = require('./wonder_ballroom_new');
+const scrapeRevolutionHallNew = require('./revolution_hall_new');
+const scrapeRoselandNew = require('./roseland_new');
+const scrapeHawthorneNew = require('./hawthorne_new');
+const scrapeDougFirNew = require('./doug_fir_new');
+const scrapeMississippiNew = require('./mississippi_new');
 
 module.exports = {
   scrapeAladdinTheater,
@@ -84,4 +91,11 @@ module.exports = {
   scrapeWhiteEagle,
   scrapeWonderBallroom,
   scrape45EastPortland,
+  scrapePortland5Centers,
+  scrapeWonderBallroomNew,
+  scrapeRevolutionHallNew,
+  scrapeRoselandNew,
+  scrapeHawthorneNew,
+  scrapeDougFirNew,
+  scrapeMississippiNew,
 };

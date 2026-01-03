@@ -40,6 +40,7 @@ const scrapeSparkArenaNew = require('./spark_arena');
 const scrapeWhammyBar = require('./whammy_bar');
 const scrapeGalatosVenue = require('./galatos_venue');
 const scrapeTuningFork = require('./tuning_fork');
+const scrapeEventfindaAuckland = require('./eventfinda_auckland');
 
 module.exports = {
   scrapeAucklandArtsFest,
@@ -79,5 +80,6 @@ module.exports = {
   scrapeSparkArenaNew,
   scrapeWhammyBar,
   scrapeGalatosVenue,
-  scrapeTuningFork
+  scrapeTuningFork,
+  scrapeEventfindaAuckland
 };
