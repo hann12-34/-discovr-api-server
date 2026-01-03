@@ -35,6 +35,13 @@ async function scrapeCabaretVoltaireV2(city = 'Edinburgh') {
         const text = link.textContent?.trim();
         
         if (!text || text.length < 3 || text.length > 100) return;
+        if (text.includes('cookie') || text.includes('Cookie') || text.includes('Manage')) return;
+        if (text.includes('policy') || text.includes('Policy') || text.includes('consent')) return;
+        if (text.includes('Contact') || text.includes('About') || text.includes('Home')) return;
+        if (text.includes('View') || text.includes('preferences') || text.includes('Accept')) return;
+        if (text.includes('Privacy') || text.includes('Terms') || text.includes('Legal')) return;
+        if (text === 'Events' || text === 'Menu' || text === 'Book') return;
+        if (text.length < 5) return;
         
         if (href.includes('event') || href.includes('ticket') || href.includes('cabaret')) {
           const container = link.closest('div, article');

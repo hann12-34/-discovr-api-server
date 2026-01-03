@@ -37,7 +37,9 @@ async function scrapeLeadmillV2(city = 'Sheffield') {
         const imgEl = container?.querySelector('img');
         const dateEl = container?.querySelector('[class*="date"], time, .event-date');
         
-        if (title && title.length > 2 && href && !items.find(e => e.url === href)) {
+        if (title && title.length > 5 && href && !items.find(e => e.url === href)) {
+          // Skip junk
+          if (title === 'Jan' || title === 'Feb' || title === 'Mar' || title === 'Tickets') return;
           items.push({
             title,
             url: href.startsWith('http') ? href : `https://leadmill.co.uk${href}`,

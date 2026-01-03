@@ -94,6 +94,9 @@ const scrapeWestgateResort = require('./westgate_resort');
 const scrapeWetRepublic = require('./wet_republic');
 const scrapeXsNightclub = require('./xs_nightclub');
 const scrapeZapposTheater = require('./zappos_theater');
+const scrapeTmobileArena = require('./tmobile_arena');
+const scrapeSphere = require('./sphere');
+const scrapeCaesarsColosseum = require('./caesars_colosseum');
 
 module.exports = {
   scrapeAllegiantStadium,
@@ -188,4 +191,7 @@ module.exports = {
   scrapeWetRepublic,
   scrapeXsNightclub,
   scrapeZapposTheater,
+  scrapeTmobileArena,
+  scrapeSphere,
+  scrapeCaesarsColosseum,
 };

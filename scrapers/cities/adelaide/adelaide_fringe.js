@@ -1,123 +1,100 @@
 /**
  * Adelaide Fringe Festival Events Scraper
- * URL: https://www.adelaidefringe.com.au/whats-on
+ * URL: https://adelaidefringe.com.au/fringetix
+ * Biggest arts festival in Australia - Feb-Mar
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeAdelaideFringe(city = 'Adelaide') {
   console.log('🎪 Scraping Adelaide Fringe...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const response = await axios.get('https://adelaidefringe.com.au/fringetix', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-
-    await page.goto('https://www.adelaidefringe.com.au/whats-on', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 4000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seen = new Set();
-      
-      const eventSelectors = ['.event-item', '.event', 'article', '[class*="event"]', '.listing-item', '.show', 'a[href*="/whats-on/"]'];
-      let eventElements = [];
-      for (const selector of eventSelectors) {
-        eventElements = document.querySelectorAll(selector);
-        if (eventElements.length > 0) break;
-      }
-      
-      eventElements.forEach(item => {
-        try {
-          const linkEl = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = linkEl?.href || item.querySelector('a')?.href;
-          if (!url || seen.has(url) || url.endsWith('/whats-on/') || url.endsWith('/whats-on')) return;
-          seen.add(url);
-          
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"], [class*="name"]') || linkEl;
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          if (!title || title.length < 3 || title.length > 150) return;
-          
-          const dateEl = container.querySelector('time, .date, [class*="date"], [class*="time"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          
-          const imgEl = container.querySelector('img');
-          const imageUrl = imgEl?.src || imgEl?.getAttribute('data-src');
-          
-          results.push({ title, dateStr, url, imageUrl });
-        } catch (e) {}
-      });
-      
-      return results;
-    });
-
-    await browser.close();
-
-    const formattedEvents = [];
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    const now = new Date();
-    
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            let year = dateMatch[3] || now.getFullYear().toString();
-            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
-              year = (now.getFullYear() + 1).toString();
-            }
-            isoDate = `${year}-${month}-${day}`;
-          }
+    const currentYear = new Date().getFullYear();
+
+    $('a[href*="/fringetix/"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href) || href === '/fringetix' || href.includes('shortlist')) return;
+        seen.add(href);
+
+        const text = $el.text().trim();
+        
+        // Extract date like "25 Feb - 28 Feb" or "12 Mar"
+        const dateMatch = text.match(/(\d{1,2})\s+(Feb|Mar|Jan|Apr)/i);
+        if (!dateMatch) return;
+
+        const day = dateMatch[1].padStart(2, '0');
+        const month = months[dateMatch[2].toLowerCase()];
+        const year = currentYear; // Adelaide Fringe is Feb-Mar 2026
+        const isoDate = `${year}-${month}-${day}`;
+
+        if (new Date(isoDate) < new Date()) return;
+
+        // Extract title from h3 or text
+        let title = $el.find('h3').first().text().trim();
+        if (!title) {
+          const lines = text.split('\n').filter(l => l.trim().length > 3);
+          title = lines.find(l => !l.match(/^\d/) && !l.includes('Feb') && !l.includes('Mar') && !l.includes('pm') && !l.includes('am') && l.length > 3 && l.length < 100);
         }
+        if (!title || title.length < 3 || title.length > 150) return;
+
+        const url = href.startsWith('http') ? href : `https://adelaidefringe.com.au${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title: title.replace(/\s+/g, ' ').trim(),
+          date: isoDate,
+          url,
+          venue: { name: 'Adelaide Fringe Venues', address: 'Various Venues, Adelaide SA', city: 'Adelaide' },
+          latitude: -34.9285,
+          longitude: 138.6007,
+          city: 'Adelaide',
+          category: 'Festival',
+          source: 'Adelaide Fringe'
+        });
+      } catch (e) {}
+    });
+
+    // Dedupe by title
+    const unique = [];
+    const titleSet = new Set();
+    for (const e of events) {
+      if (!titleSet.has(e.title)) {
+        titleSet.add(e.title);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < now) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        description: null,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T18:00:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: {
-          name: 'Adelaide Fringe',
-          address: 'Various Venues, Adelaide SA 5000',
-          city: 'Adelaide'
-        },
-        latitude: -34.9285,
-        longitude: 138.6007,
-        city: 'Adelaide',
-        category: 'Festival',
-        source: 'Adelaide Fringe'
-      });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} Adelaide Fringe events`);
-    return formattedEvents;
+    // Fetch images for top events
+    for (const event of unique.slice(0, 50)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Adelaide Fringe events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Adelaide Fringe error:', error.message);
+    console.error('  ⚠️ Adelaide Fringe error:', error.message);
     return [];
   }
 }

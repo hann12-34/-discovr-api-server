@@ -20,8 +20,8 @@ async function scrapeChalkV2(city = 'Brighton') {
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
     
     await page.goto('https://chalkvenue.com/', {
-      waitUntil: 'networkidle2',
-      timeout: 30000
+      waitUntil: 'domcontentloaded',
+      timeout: 45000
     });
     
     await new Promise(resolve => setTimeout(resolve, 3000));
@@ -34,7 +34,9 @@ async function scrapeChalkV2(city = 'Brighton') {
         const href = link.getAttribute('href') || '';
         const text = link.textContent?.trim();
         
-        if (!text || text.length < 3 || text.length > 100) return;
+        if (!text || text.length < 6 || text.length > 100) return;
+        if (text === 'Chalk' || text === 'Events' || text === 'Tickets') return;
+        if (text === 'Live Listings' || text === 'What\'s On' || text === 'Gig Guide') return;
         
         if (href.includes('event') || href.includes('ticket') || href.includes('chalk')) {
           const container = link.closest('div, article');

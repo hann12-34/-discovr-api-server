@@ -20,8 +20,8 @@ async function scrapeBrudenellV2(city = 'Leeds') {
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
     
     await page.goto('https://www.brudenellsocialclub.co.uk/whats-on', {
-      waitUntil: 'networkidle2',
-      timeout: 30000
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
     });
     
     await new Promise(resolve => setTimeout(resolve, 3000));
@@ -39,6 +39,12 @@ async function scrapeBrudenellV2(city = 'Leeds') {
         if (!text || text.length < 3 || text.length > 100) return;
         if (text.includes('Subscribe') || text.includes('News') || text.includes('Spotify')) return;
         if (text.includes('Be Kind') || text.includes('Find us') || text.includes('e-mail')) return;
+        if (text.includes('Shop') || text.includes('Merch') || text.includes('Cart')) return;
+        if (text.includes('Contact') || text.includes('About') || text.includes('Home')) return;
+        if (text === 'List' || text === 'Grid' || text === 'Events') return;
+        if (text === 'Posters' || text === 'Gallery' || text === 'Photos') return;
+        if (text === 'Calendar' || text === 'Archive' || text === 'Past Gigs') return;
+        if (text.length < 6) return;
         
         // Look for event-like content
         if (href.includes('gig') || href.includes('event') || href.includes('brudenell')) {

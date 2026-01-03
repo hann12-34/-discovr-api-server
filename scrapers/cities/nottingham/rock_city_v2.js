@@ -37,8 +37,10 @@ async function scrapeRockCityV2(city = 'Nottingham') {
         const container = link.closest('div, article');
         const imgEl = container?.querySelector('img');
         
-        if (text && text.length > 2 && text.length < 80) {
+        if (text && text.length > 5 && text.length < 80) {
           if (!text.includes('VOTE') && !text.includes('MAILING') && !text.includes('PRE-SALE')) {
+            if (text === 'GIG GUIDE' || text === 'CLUB NIGHTS' || text === 'Gigs') return;
+            if (text === 'CLUB GUIDE' || text === 'Club Nights') return;
             if (!items.find(e => e.title === text)) {
               items.push({
                 title: text,

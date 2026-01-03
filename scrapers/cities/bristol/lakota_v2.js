@@ -20,8 +20,8 @@ async function scrapeLakotaV2(city = 'Bristol') {
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
     
     await page.goto('https://lakota.co.uk/events/', {
-      waitUntil: 'networkidle2',
-      timeout: 30000
+      waitUntil: 'domcontentloaded',
+      timeout: 45000
     });
     
     await new Promise(resolve => setTimeout(resolve, 3000));
@@ -34,8 +34,9 @@ async function scrapeLakotaV2(city = 'Bristol') {
         const href = link.getAttribute('href') || '';
         const text = link.textContent?.trim();
         
-        if (!text || text.length < 3 || text.length > 100) return;
+        if (!text || text.length < 6 || text.length > 100) return;
         if (text.includes('PRIVACY') || text.includes('STAY LOCKED') || text.includes('UNDER 25')) return;
+        if (text === 'Events' || text === 'Listings' || text === 'ALL EVENTS') return;
         
         if (href.includes('event') || href.includes('lakota')) {
           const container = link.closest('div, article');
