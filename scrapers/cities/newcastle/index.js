@@ -46,6 +46,7 @@ const scrapeO2AcademyNewcastleV2 = require('./o2_academy_v2');
 const scrapeRiversideV2 = require('./riverside_v2');
 const scrapeThinkTankV2 = require('./think_tank_v2');
 const scrapeClunyV2 = require('./cluny_v2');
+const scrapeUtilitaArenaV2 = require('./utilita_arena_v2');
 
 module.exports = {
   scrapeBoilerShop,
@@ -91,5 +92,6 @@ module.exports = {
   scrapeO2AcademyNewcastleV2,
   scrapeRiversideV2,
   scrapeThinkTankV2,
-  scrapeClunyV2
+  scrapeClunyV2,
+  scrapeUtilitaArenaV2
 };

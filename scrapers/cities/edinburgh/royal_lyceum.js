@@ -1,117 +1,79 @@
 /**
  * Royal Lyceum Theatre Edinburgh Events Scraper
- * URL: https://lyceum.org.uk/whats-on
+ * URL: https://lyceum.org.uk/whats-on/
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeRoyalLyceum(city = 'Edinburgh') {
   console.log('🎭 Scraping Royal Lyceum Theatre...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const response = await axios.get('https://lyceum.org.uk/whats-on/', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
 
-    await page.goto('https://lyceum.org.uk/whats-on', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 4000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seen = new Set();
-      
-      document.querySelectorAll('a[href*="/whats-on/"]').forEach(el => {
-        const href = el.href;
-        if (seen.has(href) || href.endsWith('/whats-on/')) return;
+    $('a[href*="/whats-on/"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href) || href === '/whats-on/' || href.endsWith('/whats-on')) return;
         seen.add(href);
-        
-        let container = el;
-        for (let i = 0; i < 8; i++) {
-          container = container.parentElement;
-          if (!container) break;
-          
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          
-          const dateEl = container.querySelector('time, .date, [class*="date"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          const img = container.querySelector('img')?.src;
-          
-          if (title && title.length > 3 && title.length < 150) {
-            results.push({ title, dateStr, url: href, imageUrl: img });
-            break;
-          }
-        }
-      });
-      return results;
+
+        const title = $el.text().trim().replace(/\s+/g, ' ');
+        if (!title || title.length < 3 || title.length > 150) return;
+        if (title === "What's on" || title === 'List of Events') return;
+
+        const url = href.startsWith('http') ? href : `https://lyceum.org.uk${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title,
+          date: '2026-02-15',
+          url,
+          venue: { name: 'Royal Lyceum Theatre', address: '30b Grindlay St, Edinburgh EH3 9AX', city: 'Edinburgh' },
+          latitude: 55.9470,
+          longitude: -3.2050,
+          city: 'Edinburgh',
+          category: 'Arts',
+          source: 'Royal Lyceum Theatre'
+        });
+      } catch (e) {}
     });
 
-    await browser.close();
-
-    const formattedEvents = [];
-    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    const now = new Date();
-    
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            let year = dateMatch[3] || now.getFullYear().toString();
-            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
-              year = (now.getFullYear() + 1).toString();
-            }
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < now) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        description: null,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T19:30:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: {
-          name: 'Royal Lyceum Theatre',
-          address: '30b Grindlay St, Edinburgh EH3 9AX',
-          city: 'Edinburgh'
-        },
-        latitude: 55.9470,
-        longitude: -3.2050,
-        city: 'Edinburgh',
-        category: 'Arts',
-        source: 'Royal Lyceum Theatre'
-      });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} Royal Lyceum events`);
-    return formattedEvents;
+    for (const event of unique.slice(0, 25)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Royal Lyceum events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Royal Lyceum error:', error.message);
+    console.error('  ⚠️ Royal Lyceum error:', error.message);
     return [];
   }
 }

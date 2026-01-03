@@ -11,7 +11,7 @@ async function scrapeUsherHall(city = 'Edinburgh') {
   console.log('🏛️ Scraping Usher Hall Edinburgh...');
 
   try {
-    const response = await axios.get('https://cultureedinburgh.com/our-venues/usher-hall', {
+    const response = await axios.get('https://www.usherhall.co.uk/whats-on', {
       headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
       timeout: 30000
     });
@@ -21,7 +21,7 @@ async function scrapeUsherHall(city = 'Edinburgh') {
     const seen = new Set();
     const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
 
-    $('a[href*="/whats-on/"]').each((i, el) => {
+    $('a[href*="/events/"]').each((i, el) => {
       try {
         const $el = $(el);
         const href = $el.attr('href');
@@ -44,7 +44,7 @@ async function scrapeUsherHall(city = 'Edinburgh') {
           isoDate = `${year}-${month}-${day}`;
         }
 
-        const url = href.startsWith('http') ? href : `https://cultureedinburgh.com${href}`;
+        const url = href.startsWith('http') ? href : `https://www.usherhall.co.uk${href}`;
 
         events.push({
           id: uuidv4(),

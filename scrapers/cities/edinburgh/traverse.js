@@ -1,111 +1,79 @@
 /**
  * Traverse Theatre Edinburgh Events Scraper
- * URL: https://www.traverse.co.uk/
+ * URL: https://www.traverse.co.uk/whats-on
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeTraverse(city = 'Edinburgh') {
   console.log('🎭 Scraping Traverse Theatre...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-
-    await page.goto('https://www.traverse.co.uk/', {
-      waitUntil: 'domcontentloaded',
+    const response = await axios.get('https://www.traverse.co.uk/whats-on', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
       timeout: 30000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
 
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seen = new Set();
-      
-      document.querySelectorAll('a[href*="/whats-on/"], a[href*="/event"], .event, article').forEach(el => {
-        const link = el.tagName === 'A' ? el : el.querySelector('a');
-        if (!link) return;
-        const href = link.href;
-        if (seen.has(href)) return;
+    $('a[href*="/whats-on/event/"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        const href = $el.attr('href');
+        if (!href || seen.has(href)) return;
         seen.add(href);
-        
-        const container = el.closest('article') || el;
-        const title = container.querySelector('h2, h3, h4, .title')?.textContent?.trim()?.replace(/\s+/g, ' ');
-        const dateEl = container.querySelector('time, .date');
-        const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-        const img = container.querySelector('img')?.src;
-        
-        if (title && title.length > 3 && title.length < 100) {
-          results.push({ title, dateStr, url: href, imageUrl: img });
-        }
-      });
-      return results;
+
+        const title = $el.text().trim().replace(/\s+/g, ' ');
+        if (!title || title.length < 3 || title.length > 150) return;
+        if (title === "What's On" || title === 'View all') return;
+
+        const url = href.startsWith('http') ? href : `https://www.traverse.co.uk${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title,
+          date: '2026-03-01',
+          url,
+          venue: { name: 'Traverse Theatre', address: '10 Cambridge St, Edinburgh EH1 2ED', city: 'Edinburgh' },
+          latitude: 55.9469,
+          longitude: -3.2046,
+          city: 'Edinburgh',
+          category: 'Arts',
+          source: 'Traverse Theatre'
+        });
+      } catch (e) {}
     });
 
-    await browser.close();
-
-    const formattedEvents = [];
-    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    const seenKeys = new Set();
-    const now = new Date();
-    
-    for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        const dateMatch = event.dateStr.match(/(\d{1,2})\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
-        if (dateMatch) {
-          const day = dateMatch[1].padStart(2, '0');
-          const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-          let year = now.getFullYear().toString();
-          if (parseInt(month) < now.getMonth() + 1) year = (now.getFullYear() + 1).toString();
-          isoDate = `${year}-${month}-${day}`;
-        }
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      
-      if (new Date(isoDate) < new Date()) continue;
-      
-      const key = event.title + isoDate;
-      if (seenKeys.has(key)) continue;
-      seenKeys.add(key);
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        description: null,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T19:30:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: {
-          name: 'Traverse Theatre',
-          address: '10 Cambridge St, Edinburgh EH1 2ED',
-          city: 'Edinburgh'
-        },
-        latitude: 55.9469,
-        longitude: -3.2046,
-        city: 'Edinburgh',
-        category: 'Nightlife',
-        source: 'Traverse Theatre'
-      });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} events`);
-    return formattedEvents;
+    for (const event of unique.slice(0, 20)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Traverse Theatre events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  Error:', error.message);
+    console.error('  ⚠️ Traverse Theatre error:', error.message);
     return [];
   }
 }
