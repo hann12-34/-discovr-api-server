@@ -51,6 +51,8 @@ const scrapeVoodoo = require('./voodoo');
 const scrapeWhistle = require('./whistle');
 const scrapeWhyNotEdinburgh = require('./why_not_edinburgh');
 const scrapeCabaretVoltaireV2 = require('./cabaret_voltaire_v2');
+const scrapeBongoClubV2 = require('./bongo_club_v2');
+const scrapeSneakyPetesV2 = require('./sneaky_petes_v2');
 
 module.exports = {
   scrapeAssemblyRooms,
@@ -101,5 +103,7 @@ module.exports = {
   scrapeVoodoo,
   scrapeWhistle,
   scrapeWhyNotEdinburgh,
-  scrapeCabaretVoltaireV2
+  scrapeCabaretVoltaireV2,
+  scrapeBongoClubV2,
+  scrapeSneakyPetesV2
 };
