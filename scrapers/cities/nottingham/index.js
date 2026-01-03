@@ -45,6 +45,7 @@ const scrapeRescueRoomsV2 = require('./rescue_rooms_v2');
 const scrapeStealthV2 = require('./stealth_v2');
 const scrapeBodegaV2 = require('./bodega_v2');
 const scrapeMotorpointV2 = require('./motorpoint_v2');
+const scrapeRoughTradeV2 = require('./rough_trade_v2');
 
 module.exports = {
   scrapeBodega,
@@ -89,5 +90,6 @@ module.exports = {
   scrapeRescueRoomsV2,
   scrapeStealthV2,
   scrapeBodegaV2,
-  scrapeMotorpointV2
+  scrapeMotorpointV2,
+  scrapeRoughTradeV2
 };
