@@ -758,13 +758,28 @@ router.get('/search', async (req, res) => {
 router.delete('/:eventId', async (req, res) => {
   try {
     const eventId = req.params.eventId;
+    let event = null;
 
-    // Validate if eventId is a valid MongoDB ObjectId
-    if (!mongoose.Types.ObjectId.isValid(eventId)) {
-      return res.status(400).json({ success: false, message: 'Invalid event ID format' });
+    // First try MongoDB ObjectId
+    if (mongoose.Types.ObjectId.isValid(eventId)) {
+      event = await Event.findByIdAndDelete(eventId);
     }
-
-    const event = await Event.findByIdAndDelete(eventId);
+    
+    // If not found, try by custom id field
+    if (!event) {
+      event = await Event.findOneAndDelete({ id: eventId });
+    }
+    
+    // Also try deleting from featured_events collection
+    try {
+      const FeaturedEvent = mongoose.model('FeaturedEvent');
+      if (mongoose.Types.ObjectId.isValid(eventId)) {
+        await FeaturedEvent.findByIdAndDelete(eventId);
+      }
+      await FeaturedEvent.findOneAndDelete({ id: eventId });
+    } catch (e) {
+      // FeaturedEvent model may not exist, ignore
+    }
 
     if (!event) {
       return res.status(404).json({ success: false, message: 'Event not found' });
