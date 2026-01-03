@@ -935,6 +935,35 @@
             }
         }
 
+        // Remove event from featured (used by preview delete button)
+        async function removeFromFeatured(eventId, title) {
+            if (!confirm(`Remove "${title}" from featured events?`)) {
+                return;
+            }
+            
+            // Remove from local set
+            featuredEventIds.delete(eventId);
+            
+            // Also remove from featuredEventsData
+            const idx = featuredEventsData.findIndex(e => (e._id || e.id) === eventId);
+            if (idx >= 0) {
+                featuredEventsData.splice(idx, 1);
+            }
+            
+            // Update UI immediately
+            updatePreview();
+            renderEvents();
+            
+            // Save to server
+            try {
+                await saveFeaturedEvents();
+                console.log('✅ Removed from featured:', title);
+            } catch (error) {
+                console.error('Error removing from featured:', error);
+                alert('Error saving. Please try again.');
+            }
+        }
+
         // Update preview section
         function updatePreview() {
             const previewCarousel = document.getElementById('previewCarousel');
@@ -978,8 +1007,8 @@
                     <div class="preview-event-card" style="position: relative;">
                         <button class="btn btn-danger btn-sm" 
                                 style="position: absolute; top: 10px; right: 10px; z-index: 10; border-radius: 50%; width: 32px; height: 32px; padding: 0;"
-                                onclick="deleteEvent('${eventId}', '${title.replace(/'/g, "\\'")}')">
-                            <i class="bi bi-trash"></i>
+                                onclick="removeFromFeatured('${eventId}', '${title.replace(/'/g, "\\'")}')">
+                            <i class="bi bi-x-lg"></i>
                         </button>
                         ${imageUrl ? 
                             `<img src="${imageUrl}" alt="${title}">` :
