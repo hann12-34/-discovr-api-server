@@ -955,9 +955,12 @@
             );
             
             // If no matches in allEvents but we have stored featured data, use that
-            if (featuredEvents.length === 0 && featuredEventsData.length > 0) {
-                console.log('Using stored featured events data (main events may have been cleared)');
-                featuredEvents = featuredEventsData;
+            // IMPORTANT: Filter by currentCity to only show events for the selected city
+            if (featuredEvents.length === 0 && featuredEventsData.length > 0 && currentCity) {
+                console.log('Using stored featured events data for ' + currentCity);
+                featuredEvents = featuredEventsData.filter(e => 
+                    (e.city || '').toLowerCase() === currentCity.toLowerCase()
+                );
             }
 
             if (featuredEvents.length === 0) {
