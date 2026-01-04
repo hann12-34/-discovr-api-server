@@ -4,6 +4,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeWhistleV2(city = 'Edinburgh') {

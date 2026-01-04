@@ -5,6 +5,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
 
 async function scrapeSWG3V2(city = 'Glasgow') {
   const events = [];
@@ -63,6 +64,7 @@ async function scrapeSWG3V2(city = 'Glasgow') {
       dayOffset += Math.floor(Math.random() * 4) + 2;
       
       events.push({
+        id: crypto.randomUUID(),
         title: item.title,
         date: eventDate.toISOString().split('T')[0],
         startDate: eventDate,

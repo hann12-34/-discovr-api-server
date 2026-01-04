@@ -5,6 +5,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
 
 async function scrapeChalkV2(city = 'Brighton') {
   const events = [];
@@ -81,6 +82,7 @@ async function scrapeChalkV2(city = 'Brighton') {
       dayOffset += Math.floor(Math.random() * 4) + 2;
       
       events.push({
+        id: crypto.randomUUID(),
         title: item.title,
         date: eventDate.toISOString().split('T')[0],
         startDate: eventDate,

@@ -1,111 +1,95 @@
 /**
- * Harpa Concert Hall reykjavik Events Scraper
- * URL: https://en.harpa.is
+ * Harpa Concert Hall Reykjavik Events Scraper
+ * URL: https://www.harpa.is/en
  */
 
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
-async function scrapeHarpa(city = 'reykjavik') {
+async function scrapeHarpa(city = 'Reykjavik') {
   console.log('🎵 Scraping Harpa Concert Hall...');
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const response = await axios.get('https://www.harpa.is/en/whats-on', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 30000
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seen = new Set();
+    const months = { january: '01', february: '02', march: '03', april: '04', may: '05', june: '06', july: '07', august: '08', september: '09', october: '10', november: '11', december: '12' };
 
-    await page.goto('https://en.harpa.is/events/', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
+    $('a[href*="/en/events/"]').each((i, el) => {
+      try {
+        const $el = $(el);
+        let href = $el.attr('href');
+        if (!href || seen.has(href)) return;
+        
+        // Skip malformed URLs
+        if (href.includes('/is/events/https')) return;
+        seen.add(href);
+
+        const text = $el.text().trim();
+        
+        // Extract title and date from link text like "Sunday Classics: Songs of Soaring Birds11th January 2026, 16:00"
+        const dateMatch = text.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/i);
+        if (!dateMatch) return;
+
+        const title = text.replace(/\d{1,2}(?:st|nd|rd|th)?\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}.*$/i, '').trim();
+        if (!title || title.length < 3) return;
+
+        const day = dateMatch[1].padStart(2, '0');
+        const month = months[dateMatch[2].toLowerCase()];
+        const year = dateMatch[3];
+        const isoDate = `${year}-${month}-${day}`;
+
+        const url = href.startsWith('http') ? href : `https://www.harpa.is${href}`;
+
+        events.push({
+          id: uuidv4(),
+          title,
+          date: isoDate,
+          url,
+          venue: { name: 'Harpa Concert Hall', address: 'Austurbakki 2, 101 Reykjavík', city: 'Reykjavik' },
+          latitude: 64.1503,
+          longitude: -21.9326,
+          city: 'Reykjavik',
+          category: 'Music',
+          source: 'Harpa Concert Hall'
+        });
+      } catch (e) {}
     });
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
-    const events = await page.evaluate(() => {
-      const results = [];
-      const seen = new Set();
-      
-      document.querySelectorAll('.event, article, [class*="event"], .show, a[href*="/event"]').forEach(item => {
-        try {
-          const el = item.tagName === 'A' ? item : item.querySelector('a[href]');
-          const url = el ? el.href : item.querySelector('a')?.href;
-          if (!url || seen.has(url)) return;
-          seen.add(url);
-          
-          const container = item.closest('div, article, li') || item;
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
-          
-          const dateEl = container.querySelector('time, .date, [class*="date"]');
-          const dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
-          
-          const imgEl = container.querySelector('img');
-          const imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          results.push({ title, dateStr, url, imageUrl });
-        } catch (e) {}
-      });
-      
-      return results;
-    });
-
-    await browser.close();
-
-    const formattedEvents = [];
-    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    
-    for (const event of events) {
-      let isoDate = null;
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*(\d{1,2}),?\s*(\d{4})/i);
-          if (dateMatch) {
-            const month = months[dateMatch[1].toLowerCase().substring(0, 3)];
-            const day = dateMatch[2].padStart(2, '0');
-            const year = dateMatch[3];
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
+    // Dedupe by title+date
+    const unique = [];
+    const keySet = new Set();
+    for (const e of events) {
+      const key = `${e.title}|${e.date}`;
+      if (!keySet.has(key)) {
+        keySet.add(key);
+        unique.push(e);
       }
-      
-      if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
-      formattedEvents.push({
-        id: uuidv4(),
-        title: event.title,
-        description: null,
-        date: isoDate,
-        startDate: new Date(isoDate + 'T20:00:00'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
-        venue: {
-          name: 'Harpa Concert Hall',
-          address: 'Austurbakki 2, 101 Reykjavík',
-          city: 'reykjavik'
-        },
-        latitude: 64.1503,
-        longitude: -21.9326,
-        city: 'reykjavik',
-        category: 'Nightlife',
-        source: 'Harpa Concert Hall'
-      });
     }
 
-    console.log(`  ✅ Found ${formattedEvents.length} Harpa Concert Hall events`);
-    return formattedEvents;
+    // Fetch images from event pages
+    for (const event of unique.slice(0, 30)) {
+      try {
+        const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
+        const $p = cheerio.load(page.data);
+        const ogImage = $p('meta[property="og:image"]').attr('content');
+        if (ogImage && ogImage.startsWith('http')) {
+          event.imageUrl = ogImage;
+        }
+      } catch (e) {}
+    }
+
+    console.log(`  ✅ Found ${unique.length} Harpa Concert Hall events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error(`  ⚠️  Harpa Concert Hall error: ${error.message}`);
+    console.error(`  ⚠️ Harpa Concert Hall error: ${error.message}`);
     return [];
   }
 }

@@ -5,6 +5,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
 
 async function scrapeHangar34(city = 'Liverpool') {
   const events = [];
@@ -72,6 +73,7 @@ async function scrapeHangar34(city = 'Liverpool') {
       }
       
       events.push({
+        id: crypto.randomUUID(),
         title: item.title,
         date: eventDate.toISOString().split('T')[0],
         startDate: eventDate,

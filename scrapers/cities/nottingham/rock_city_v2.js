@@ -5,6 +5,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 
 async function scrapeRockCityV2(city = 'Nottingham') {
   const events = [];
@@ -66,6 +68,7 @@ async function scrapeRockCityV2(city = 'Nottingham') {
       dayOffset += Math.floor(Math.random() * 5) + 3;
       
       events.push({
+        id: uuidv4(),
         title: item.title,
         date: eventDate.toISOString().split('T')[0],
         startDate: eventDate,
