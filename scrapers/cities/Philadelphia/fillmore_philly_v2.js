@@ -5,6 +5,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
 
 async function scrapeFillmorePhilly(city = 'Philadelphia') {
   const events = [];
@@ -71,6 +72,7 @@ async function scrapeFillmorePhilly(city = 'Philadelphia') {
       }
       
       events.push({
+        id: uuidv4(),
         title: item.title,
         date: eventDate.toISOString().split('T')[0],
         startDate: eventDate,

@@ -5,6 +5,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 
 async function scrapeHockeySocialV2(city = 'Birmingham') {
@@ -65,6 +66,7 @@ async function scrapeHockeySocialV2(city = 'Birmingham') {
       dayOffset += Math.floor(Math.random() * 3) + 1;
       
       events.push({
+        id: uuidv4(),
         id: crypto.randomUUID(),
         title: item.title,
         date: eventDate.toISOString().split('T')[0],

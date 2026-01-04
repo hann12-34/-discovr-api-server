@@ -5,6 +5,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 
 async function scrapeHangar34(city = 'Liverpool') {
@@ -73,6 +74,7 @@ async function scrapeHangar34(city = 'Liverpool') {
       }
       
       events.push({
+        id: uuidv4(),
         id: crypto.randomUUID(),
         title: item.title,
         date: eventDate.toISOString().split('T')[0],
