@@ -11,3 +11,11 @@ services:
       - key: MONGODB_URI
         sync: false
     autoDeploy: true
+
+  - type: worker
+    name: discovr-scheduler
+    runtime: node
+    plan: free
+    buildCommand: npm install && npx playwright install chromium --with-deps
+    startCommand: node scheduler.js
+    autoDeploy: true
