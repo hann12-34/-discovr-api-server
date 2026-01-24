@@ -317,6 +317,73 @@ app.get('/api/v1/venues/events/all', async (req, res) => {
   }
 });
 
+// Get events with optional city filter - OPTIMIZED for per-city loading
+app.get('/api/v1/events', async (req, res) => {
+  const { city, category, limit } = req.query;
+  console.log(`📥 GET /api/v1/events - city: ${city || 'ALL'}, category: ${category || 'ALL'}, limit: ${limit || 'none'}`);
+  
+  try {
+    if (!dbConnected || !eventsCollection) {
+      await connectToMongoDB();
+    }
+    
+    // Build query filter
+    const query = {};
+    
+    if (city && city !== 'All') {
+      // Support comma-separated cities
+      const cities = city.split(',').map(c => c.trim());
+      if (cities.length === 1) {
+        query.city = { $regex: new RegExp(`^${cities[0]}$`, 'i') };
+      } else {
+        query.city = { $in: cities.map(c => new RegExp(`^${c}$`, 'i')) };
+      }
+    }
+    
+    if (category && category !== 'All') {
+      query.category = { $regex: new RegExp(category, 'i') };
+    }
+    
+    // Fetch from database with optional limit
+    let cursor = eventsCollection.find(query);
+    if (limit && !isNaN(parseInt(limit))) {
+      cursor = cursor.limit(parseInt(limit));
+    }
+    
+    const events = await cursor.toArray();
+    
+    // Format events
+    const formattedEvents = events.map(event => {
+      if (!event.id && event._id) {
+        event.id = event._id.toString();
+      }
+      
+      if (typeof event.venue === 'string') {
+        const venueName = event.venue;
+        event.venue = {
+          name: venueName,
+          id: venueName.toLowerCase().replace(/[^a-z0-9]/gi, '-'),
+          location: event.location || { address: event.city || 'Unknown' }
+        };
+      } else if (!event.venue) {
+        event.venue = {
+          name: 'Unknown Venue',
+          id: 'unknown-venue',
+          location: event.location || { address: event.city || 'Unknown' }
+        };
+      }
+      
+      return event;
+    });
+    
+    console.log(`📤 Returning ${formattedEvents.length} events for city: ${city || 'ALL'}`);
+    res.status(200).json({ events: formattedEvents, count: formattedEvents.length });
+  } catch (error) {
+    console.error('❌ Error fetching events:', error.message);
+    res.status(500).json({ error: 'Failed to fetch events' });
+  }
+});
+
 // Basic root route
 app.get('/', (req, res) => {
   res.send('Discovr API Server is running');
