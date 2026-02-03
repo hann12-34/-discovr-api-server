@@ -39,7 +39,7 @@ const scrapeMohawk = require('./mohawk');
 const scrapeMoodyAmphitheater = require('./moody_amphitheater');
 const scrapeOldSettlersFest = require('./old_settlers_fest');
 const scrapeOne2one = require('./one2one');
-const scrapeParamountTheatreAustin = require('./paramount_theatre_austin');
+// const scrapeParamountTheatreAustin = require('./paramount_theatre_austin'); // DISABLED - scrapes nav links not real events
 const scrapeParish = require('./parish');
 const scrapeRaineyStreet = require('./rainey_street');
 const scrapeScootInnAustin = require('./scoot_inn_austin');
@@ -98,7 +98,7 @@ module.exports = {
   scrapeMoodyAmphitheater,
   scrapeOldSettlersFest,
   scrapeOne2one,
-  scrapeParamountTheatreAustin,
+  // scrapeParamountTheatreAustin, // DISABLED - scrapes nav links not real events
   scrapeParish,
   scrapeRaineyStreet,
   scrapeScootInnAustin,

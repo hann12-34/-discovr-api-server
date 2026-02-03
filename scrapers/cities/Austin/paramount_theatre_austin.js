@@ -32,7 +32,12 @@ async function scrapeParamountAustin(city = 'Austin') {
       
       document.querySelectorAll('a[href]').forEach(link => {
         const href = link.href;
-        const text = link.textContent.trim();
+        let text = link.textContent.trim();
+        
+        // Strip date prefix pattern like "2026thu05feb7:30 pm" from title
+        // Pattern: YEAR + dayOfWeek + DAY + month + TIME
+        const datePrefixPattern = /^\d{4}(mon|tue|wed|thu|fri|sat|sun)\d{1,2}(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\d{1,2}:\d{2}\s*(am|pm)?/i;
+        text = text.replace(datePrefixPattern, '').trim();
         
         if (text.length > 3 && text.length < 150 && !seen.has(text)) {
           seen.add(text);

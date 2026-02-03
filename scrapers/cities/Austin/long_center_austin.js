@@ -38,8 +38,13 @@ async function scrapeLongCenter(city = 'Austin') {
           seen.add(href);
           
           const titleEl = el.querySelector('h2, h3, h4, .title, .event-title');
-          const text = titleEl?.textContent?.trim() || linkEl?.textContent?.trim();
+          let text = titleEl?.textContent?.trim() || linkEl?.textContent?.trim();
           if (!text || text.length < 3 || text.length > 150) return;
+          
+          // Strip date prefix pattern like "2026thu05feb7:30 pm" from title
+          const datePrefixPattern = /^\d{4}(mon|tue|wed|thu|fri|sat|sun)\d{1,2}(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\d{1,2}:\d{2}\s*(am|pm)?/i;
+          text = text.replace(datePrefixPattern, '').trim();
+          if (!text || text.length < 3) return;
           
           // Try multiple image sources
           let container = el;

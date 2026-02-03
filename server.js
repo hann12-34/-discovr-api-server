@@ -614,6 +614,95 @@ if (isMongoConnected && (process.env.NODE_ENV === 'production' || process.env.EN
   }
 }
 
+// Initialize scheduled city scrapers (every 72 hours)
+if (process.env.ENABLE_SCHEDULED_SCRAPERS === 'true' || process.env.NODE_ENV === 'production') {
+  console.log('🗓️ Initializing scheduled city scrapers (every 72 hours)...');
+  
+  const { exec } = require('child_process');
+  const IMPORT_DIR = path.join(__dirname, 'ImportFiles');
+  const LAST_RUN_FILE = path.join(__dirname, 'last-run-times.json');
+  
+  // Load/save last run times
+  function loadLastRunTimes() {
+    try {
+      if (fs.existsSync(LAST_RUN_FILE)) {
+        return JSON.parse(fs.readFileSync(LAST_RUN_FILE, 'utf8'));
+      }
+    } catch (e) { console.error('Error loading last run times:', e.message); }
+    return {};
+  }
+  
+  function saveLastRunTimes(times) {
+    try { fs.writeFileSync(LAST_RUN_FILE, JSON.stringify(times, null, 2)); }
+    catch (e) { console.error('Error saving last run times:', e.message); }
+  }
+  
+  let lastRunTimes = loadLastRunTimes();
+  
+  // City configurations
+  const scheduledCities = [
+    { name: 'austin', file: 'import-all-austin-events.js', timezone: 'America/Chicago' },
+    { name: 'vancouver', file: 'import-all-vancouver-events.js', timezone: 'America/Vancouver' },
+    { name: 'toronto', file: 'import-all-toronto-events.js', timezone: 'America/Toronto' },
+    { name: 'newyork', file: 'import-all-new-york-events.js', timezone: 'America/New_York' },
+    { name: 'losangeles', file: 'import-all-losangeles-events.js', timezone: 'America/Los_Angeles' },
+    { name: 'chicago', file: 'import-all-chicago-events.js', timezone: 'America/Chicago' },
+    { name: 'miami', file: 'import-all-miami-events.js', timezone: 'America/New_York' },
+    { name: 'seattle', file: 'import-all-seattle-events.js', timezone: 'America/Los_Angeles' },
+    { name: 'sanfrancisco', file: 'import-all-sanfrancisco-events.js', timezone: 'America/Los_Angeles' },
+    { name: 'london', file: 'import-all-london-events.js', timezone: 'Europe/London' },
+    { name: 'sydney', file: 'import-all-sydney-events.js', timezone: 'Australia/Sydney' },
+    { name: 'melbourne', file: 'import-all-melbourne-events.js', timezone: 'Australia/Melbourne' },
+  ];
+  
+  function shouldRun(cityName) {
+    const lastRun = lastRunTimes[cityName];
+    if (!lastRun) return true;
+    const hoursSinceLastRun = (Date.now() - lastRun) / (1000 * 60 * 60);
+    return hoursSinceLastRun >= 72; // 3 days
+  }
+  
+  function runCityScraper(city) {
+    const filePath = path.join(IMPORT_DIR, city.file);
+    if (!fs.existsSync(filePath)) {
+      console.log(`⚠️ [${city.name}] Import file not found: ${city.file}`);
+      return;
+    }
+    console.log(`\n🕐 [${new Date().toISOString()}] Starting scheduled scrape: ${city.name.toUpperCase()}`);
+    exec(`node "${filePath}"`, { maxBuffer: 50 * 1024 * 1024, timeout: 600000 }, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`❌ [${city.name}] Scheduled scrape error:`, error.message);
+        return;
+      }
+      console.log(stdout);
+      console.log(`✅ [${city.name}] Scheduled scrape completed at ${new Date().toISOString()}`);
+      lastRunTimes[city.name] = Date.now();
+      saveLastRunTimes(lastRunTimes);
+    });
+  }
+  
+  // Schedule each city at 3 AM local time, staggered by 15 minutes
+  scheduledCities.forEach((city, index) => {
+    const minute = (index * 15) % 60;
+    const hour = 3 + Math.floor((index * 15) / 60);
+    const schedule = `${minute} ${hour} * * *`;
+    
+    cron.schedule(schedule, () => {
+      if (shouldRun(city.name)) {
+        runCityScraper(city);
+      } else {
+        console.log(`⏭️ [${city.name}] Skipping scheduled scrape - last run < 72 hours ago`);
+      }
+    }, { timezone: city.timezone });
+    
+    console.log(`  📅 ${city.name}: ${schedule} (${city.timezone})`);
+  });
+  
+  console.log(`✅ Scheduled ${scheduledCities.length} cities for automatic scraping every 72 hours`);
+} else {
+  console.log('Scheduled scrapers disabled. Set ENABLE_SCHEDULED_SCRAPERS=true to enable.');
+}
+
 // Initialize scheduled diagnostics if enabled
 if (config.diagnostics?.scheduledRuns || process.env.SCHEDULED_DIAGNOSTICS === 'true') {
   // Import the diagnostic job
