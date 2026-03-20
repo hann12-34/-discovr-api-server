@@ -11,7 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const NEW_YORK_SCRAPERS_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/New York';
+const NEW_YORK_SCRAPERS_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/New York';
 
 // City configuration per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
 const CITY_TAGGING_TEMPLATE = `

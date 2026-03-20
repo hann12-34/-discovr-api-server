@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Austin Scrapers - Fixed index with correct file references
  */
@@ -59,8 +61,11 @@ const scrapeBarbarellaAustin = require('./barbarella_austin');
 const scrapeSaxon = require('./saxon');
 const scrapeVulcan = require('./vulcan');
 const scrapeSkylark = require('./skylark');
+const scrapeAntonesNightclub = require('./scrape-antones-nightclub');
+const scrapeLongCenterAustinNew = require('./scrape-long-center-austin');
+const scrapeVisitAustinEvents = require('./scrape-visit-austin-events');
 
-module.exports = {
+const _rawExports = {
   scrapeAcl,
   scrapeAntones,
   scrapeAustinBeerWorks,
@@ -117,5 +122,15 @@ module.exports = {
   scrapeBarbarellaAustin,
   scrapeSaxon,
   scrapeVulcan,
-  scrapeSkylark
+  scrapeSkylark,
+  scrapeAntonesNightclub,
+  scrapeLongCenterAustinNew,
+  scrapeVisitAustinEvents,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

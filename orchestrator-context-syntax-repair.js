@@ -12,7 +12,7 @@ async function orchestratorContextSyntaxRepair() {
     console.log('🔧 ORCHESTRATOR-CONTEXT SYNTAX REPAIR\n');
     console.log('🎯 Fixing syntax errors that occur in orchestrator but not individual execution\n');
     
-    const torontoDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+    const torontoDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
     
     try {
         console.log('📁 Scanning Toronto scrapers directory...');

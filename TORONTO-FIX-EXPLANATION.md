@@ -23,7 +23,7 @@ I just NOW updated `ImportFiles/import-all-toronto-events.js` to include:
 ## 🚀 SOLUTION: Re-Run Toronto Import
 
 ```bash
-cd /Users/seongwoohan/Desktop/discovr-api-server
+cd /Users/seongwoo/Desktop/discovr-api-server
 
 # Run the UPDATED Toronto import (with geocoding)
 node ImportFiles/import-all-toronto-events.js

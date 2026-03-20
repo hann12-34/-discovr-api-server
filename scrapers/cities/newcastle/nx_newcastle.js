@@ -5,6 +5,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 async function scrapeNXNewcastle(city = 'Newcastle') {
   const events = [];
@@ -33,53 +35,62 @@ async function scrapeNXNewcastle(city = 'Newcastle') {
       
       await new Promise(resolve => setTimeout(resolve, 2000));
       
+      const junkPatterns = [
+        /terms\s*(and|&)\s*conditions/i, /privacy\s*policy/i, /refund.*policy/i,
+        /returns?\s*policy/i, /harassment\s*policy/i, /^live\s*events$/i
+      ];
+
       const pageEvents = await page.evaluate(() => {
         const items = [];
-        const allLinks = document.querySelectorAll('a');
+        const eventCards = document.querySelectorAll('.event, article, [class*="event"]');
         
-        allLinks.forEach(link => {
-          const href = link.getAttribute('href') || '';
-          const text = link.textContent?.trim();
+        eventCards.forEach(card => {
+          const linkEl = card.querySelector('a[href]');
+          const titleEl = card.querySelector('h2, h3, h4, .title') || linkEl;
+          const dateEl = card.querySelector('time, .date, [datetime], [class*="date"]');
+          const imgEl = card.querySelector('img');
           
-          if (!text || text.length < 6 || text.length > 100) return;
-          if (text.includes('Cookie') || text.includes('Privacy') || text.includes('Accept')) return;
-          if (text.includes('Home') || text.includes('Contact') || text.includes('Gallery')) return;
-          if (text.includes('FAQs') || text.includes('Tickets') || text === 'View Events') return;
+          const title = titleEl?.textContent?.trim();
+          const href = linkEl?.getAttribute('href') || '';
+          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim() || '';
           
-          if (href.includes('event') || href.includes('nxnewcastle')) {
-            const container = link.closest('div, article');
-            const imgEl = container?.querySelector('img');
-            
-            if (!items.find(e => e.title === text)) {
-              items.push({
-                title: text,
-                url: href.startsWith('http') ? href : `https://www.nxnewcastle.com${href}`,
-                image: imgEl?.src || null
-              });
-            }
+          if (!title || title.length < 6 || title.length > 100) return;
+          if (!items.find(e => e.title === title)) {
+            items.push({ title, url: href.startsWith('http') ? href : `https://www.nxnewcastle.com${href}`, image: imgEl?.src || null, dateStr });
           }
         });
-        
         return items;
       });
       
+      const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
       const now = new Date();
-      let dayOffset = events.length + 1;
       
       for (const item of pageEvents) {
-        const eventDate = new Date(now);
-        eventDate.setDate(eventDate.getDate() + dayOffset);
-        dayOffset += Math.floor(Math.random() * 4) + 2;
+        if (junkPatterns.some(p => p.test(item.title))) continue;
+        
+        let isoDate = null;
+        if (item.dateStr) {
+          if (item.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) isoDate = item.dateStr.substring(0, 10);
+          else {
+            const dateMatch = item.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
+            if (dateMatch) {
+              const day = dateMatch[1].padStart(2, '0');
+              const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
+              const year = dateMatch[3] || now.getFullYear().toString();
+              isoDate = `${year}-${month}-${day}`;
+            }
+          }
+        }
+        
+        if (!isoDate) continue;
+        if (new Date(isoDate) < now) continue;
         
         events.push({
           title: item.title,
-          date: eventDate.toISOString().split('T')[0],
-          startDate: eventDate,
-          venue: {
-            name: 'NX Newcastle',
-            address: 'City Road, Newcastle upon Tyne NE1 2AF',
-            city: city
-          },
+            description: '',
+          date: isoDate,
+          startDate: new Date(isoDate + 'T00:00:00.000Z'),
+          venue: { name: 'NX Newcastle', address: 'City Road, Newcastle upon Tyne NE1 2AF', city: city },
           location: `NX Newcastle, ${city}`,
           city: city,
           country: 'United Kingdom',
@@ -91,6 +102,34 @@ async function scrapeNXNewcastle(city = 'Newcastle') {
         });
       }
     }
+
+      // Fetch descriptions from event detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
     
     console.log(`NX Newcastle: Found ${events.length} events`);
     return events;

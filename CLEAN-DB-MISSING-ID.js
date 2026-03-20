@@ -8,7 +8,7 @@
 const mongoose = require('mongoose');
 
 // MongoDB connection string from environment or hardcoded
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://seongwoohan:rnsdn200509@cluster0.uuukc.mongodb.net/discovr-db?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://seongwoo:rnsdn200509@cluster0.uuukc.mongodb.net/discovr-db?retryWrites=true&w=majority';
 
 async function cleanDatabase() {
   console.log('🔍 CLEANING DATABASE - REMOVING EVENTS WITHOUT ID FIELD\n');

@@ -87,7 +87,7 @@ async function scrapeButtonFactory(city = 'Dublin') {
     }
 
     // Fetch og:image for each event (limit to avoid timeout)
-    for (const event of uniqueEvents.slice(0, 30)) {
+    for (const event of uniqueEvents) {
       try {
         const eventPage = await axios.get(event.url, {
           headers: { 'User-Agent': 'Mozilla/5.0' },

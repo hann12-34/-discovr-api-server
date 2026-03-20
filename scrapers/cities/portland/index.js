@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Portland Scrapers - Cleaned (1 per venue)
  */
@@ -49,8 +51,9 @@ const scrapeRoselandNew = require('./roseland_new');
 const scrapeHawthorneNew = require('./hawthorne_new');
 const scrapeDougFirNew = require('./doug_fir_new');
 const scrapeMississippiNew = require('./mississippi_new');
+const scrapeModaCenterPortland = require('./scrape-moda-center-portland');
 
-module.exports = {
+const _rawExports = {
   scrapeAladdinTheater,
   scrapeAnalogCafe,
   scrapeArleneSchnitzer,
@@ -98,4 +101,12 @@ module.exports = {
   scrapeHawthorneNew,
   scrapeDougFirNew,
   scrapeMississippiNew,
+  scrapeModaCenterPortland,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

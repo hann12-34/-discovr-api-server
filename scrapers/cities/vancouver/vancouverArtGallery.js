@@ -150,7 +150,7 @@ const VancouverArtGalleryEvents = {
               city: "Vancouver",
               source: "vancouver Art Gallery",
               location: 'Vancouver, BC',
-              description: null,
+              description: '',
               image: null,
               source: 'Vancouver Art Gallery',
               city: 'Vancouver'
@@ -169,14 +169,35 @@ const VancouverArtGalleryEvents = {
           try {
             if (!event.url || !event.url.startsWith('http')) continue;
             const eventPage = await axios.get(event.url, {headers: {'User-Agent': 'Mozilla/5.0'}, timeout: 10000});
-            const $ = cheerio.load(eventPage.data);
-            const dateText = $('.date, .event-date, time, [datetime]').first().text().trim();
+            const $d = cheerio.load(eventPage.data);
+            const dateText = $d('.date, .event-date, time, [datetime]').first().text().trim();
             if (dateText) {
               event.date = dateText;
               console.log(`✓ Found date for "${event.title}": ${dateText}`);
             }
           } catch (err) {}
         }
+      }
+
+      // Fetch descriptions from detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const detailPage = await axios.get(event.url, {headers: {'User-Agent': 'Mozilla/5.0'}, timeout: 10000});
+          const $d = cheerio.load(detailPage.data);
+          let desc = $d('meta[property="og:description"]').attr('content') || '';
+          if (!desc || desc.length < 20) {
+            for (const sel of ['.exhibition-description', '.event-description', '.entry-content p', '.field-body p', '.description', 'article p', '.content p', '.page-content p']) {
+              const t = $d(sel).first().text().trim();
+              if (t && t.length > 30) { desc = t; break; }
+            }
+          }
+          if (desc) {
+            desc = desc.replace(/\s+/g, ' ').trim();
+            if (desc.length > 500) desc = desc.substring(0, 500) + '...';
+            event.description = desc;
+          }
+        } catch (err) {}
       }
       
       // Filter out generic recurring programs like "The Making Place", "Free First Friday"

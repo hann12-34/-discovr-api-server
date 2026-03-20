@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * bristol Scrapers - 45 scrapers
  */
@@ -46,14 +48,10 @@ const scrapeTobaccoFactory = require('./tobacco_factory');
 const scrapeTrinityCentre = require('./trinity_centre');
 const scrapeUpfestBristol = require('./upfest_bristol');
 const scrapeBasement45Bristol = require('./basement_45_bristol');
-const scrapeLakotaV2 = require('./lakota_v2');
-const scrapeTheklaV2 = require('./thekla_v2');
-const scrapeSWXV2 = require('./swx_v2');
-const scrapeCroftersRightsV2 = require('./crofters_rights_v2');
-const scrapeO2AcademyBristolV2 = require('./o2_academy_bristol_v2');
-const scrapeStrangeBrewV2 = require('./strange_brew_v2');
+// Removed v2 scrapers with fake date generation (dayOffset + Math.random)
+const scrapeVisitBristolEvents = require('./visit_bristol_events');
 
-module.exports = {
+const _rawExports = {
   scrapeAfricaOyeBristol,
   scrapeBristolBalloonFiesta,
   scrapeBristolBeacon,
@@ -98,10 +96,12 @@ module.exports = {
   scrapeTrinityCentre,
   scrapeUpfestBristol,
   scrapeBasement45Bristol,
-  scrapeLakotaV2,
-  scrapeTheklaV2,
-  scrapeSWXV2,
-  scrapeCroftersRightsV2,
-  scrapeO2AcademyBristolV2,
-  scrapeStrangeBrewV2
+  scrapeVisitBristolEvents
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

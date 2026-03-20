@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
-const { sanitizeDescription } = require('../../utils/sanitizeDescription');
+
 
 /**
  * Universal scraper template that works for many venue websites
@@ -281,8 +281,11 @@ function createUniversalScraper(venueName, url, address) {
           }
         }
         
-        // Sanitize the description (removes junk, generates fallback if needed)
-        description = sanitizeDescription(description, title, venueName, city);
+        // Clean description
+        if (description) {
+          description = description.replace(/\s+/g, ' ').trim();
+          if (description.length > 500) description = description.substring(0, 500) + '...';
+        }
         
         // Extract image from event card on listing page (real event images)
         let imageUrl = null;
@@ -367,10 +370,11 @@ function createUniversalScraper(venueName, url, address) {
       }
     }
     
-    // FETCH og:image from each event URL ONLY if no image from listing page
+    // FETCH og:image and description from each event detail page
     for (const event of uniqueEvents) {
-      // Skip if already has image from listing page
-      if (event.imageUrl || event.image) continue;
+      const needsImage = !event.imageUrl && !event.image;
+      const needsDesc = !event.description;
+      if (!needsImage && !needsDesc) continue;
       
       if (event.url && event.url.startsWith('http')) {
         try {
@@ -379,14 +383,34 @@ function createUniversalScraper(venueName, url, address) {
             headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' }
           });
           const $evt = cheerio.load(eventPage.data);
-          const ogImage = $evt('meta[property="og:image"]').attr('content');
           
-          // Only use image if it's NOT a generic logo/placeholder
-          if (ogImage && !genericImagePatterns.some(pattern => pattern.test(ogImage))) {
-            event.imageUrl = ogImage;
-            event.image = ogImage;
+          // Fetch image
+          if (needsImage) {
+            const ogImage = $evt('meta[property="og:image"]').attr('content');
+            if (ogImage && !genericImagePatterns.some(pattern => pattern.test(ogImage))) {
+              event.imageUrl = ogImage;
+              event.image = ogImage;
+            }
           }
-          // If og:image is generic, leave image as null (NO FALLBACK)
+          
+          // Fetch description from detail page
+          if (needsDesc) {
+            let desc = $evt('meta[property="og:description"]').attr('content') || '';
+            if (!desc || desc.length < 20) {
+              desc = $evt('meta[name="description"]').attr('content') || '';
+            }
+            if (!desc || desc.length < 20) {
+              for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+                const _t = $evt(_s).first().text().trim();
+                if (_t && _t.length > 30) { desc = _t; break; }
+              }
+            }
+            if (desc) {
+              desc = desc.replace(/\s+/g, ' ').trim();
+              if (desc.length > 500) desc = desc.substring(0, 500) + '...';
+              event.description = desc;
+            }
+          }
         } catch (e) {
           // Skip if can't fetch - NO FALLBACK
         }

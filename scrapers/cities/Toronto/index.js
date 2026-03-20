@@ -5,7 +5,43 @@
 
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { toISODate } = require('../../utils/dateNormalizer');
+
+// Fetch image AND description from event detail page
+async function fetchEventDetails(url) {
+    const result = { image: null, description: null };
+    if (!url || !url.startsWith('http')) return result;
+    const listingPatterns = [/\/events\/?$/i, /\/calendar\/?$/i, /\/shows\/?$/i, /\/whats-on\/?$/i, /\/schedule\/?$/i];
+    if (listingPatterns.some(p => p.test(url))) return result;
+    try {
+        const response = await axios.get(url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+        });
+        const $ = cheerio.load(response.data);
+        const ogImage = $('meta[property="og:image"]').attr('content');
+        if (ogImage && !/logo|placeholder|default|favicon|icon/i.test(ogImage)) {
+            result.image = ogImage;
+        }
+        const ogDesc = $('meta[property="og:description"]').attr('content');
+        const metaDesc = $('meta[name="description"]').attr('content');
+        let desc = ogDesc || metaDesc || null;
+        if (!desc) {
+            for (const sel of ['.event-description', '.description', '.event-content', '.entry-content', 'article p', 'main p']) {
+                const text = $(sel).first().text().trim();
+                if (text && text.length > 30 && text.length < 2000) { desc = text; break; }
+            }
+        }
+        if (desc) {
+            desc = desc.replace(/\s+/g, ' ').trim();
+            if (desc.length > 1000) desc = desc.substring(0, 1000) + '...';
+            if (desc.length >= 20) result.description = desc;
+        }
+        return result;
+    } catch (e) { return result; }
+}
 
 async function scrapeTorontoCityEvents() {
     console.log('🍁 Starting Toronto scrapers...');
@@ -43,16 +79,26 @@ async function scrapeTorontoCityEvents() {
             const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper('Toronto'));
             
             if (Array.isArray(events) && events.length > 0) {
-                const processedEvents = events.map(event => {
-                    // NO FALLBACKS - only use real poster images from scrapers
-                    // If scraper didn't find an image, leave it null
-                    return {
+                const processedEvents = [];
+                for (const event of events) {
+                    let image = event.imageUrl || event.image || null;
+                    let description = event.description || null;
+                    
+                    // Fetch image and description from event detail page if missing
+                    if ((!image || !description) && event.url) {
+                        const details = await fetchEventDetails(event.url);
+                        if (!image && details.image) image = details.image;
+                        if (!description && details.description) description = details.description;
+                    }
+                    
+                    processedEvents.push({
                         ...event,
-                        imageUrl: event.imageUrl || event.image || null,
-                        image: event.imageUrl || event.image || null,
+                        description: description || '',
+                        imageUrl: image,
+                        image: image,
                         city: 'Toronto'
-                    };
-                });
+                    });
+                }
                 
                 allEvents.push(...processedEvents);
                 successCount++;

@@ -5,6 +5,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeXoyoBirmingham(city = 'Birmingham') {
@@ -71,24 +73,36 @@ async function scrapeXoyoBirmingham(city = 'Birmingham') {
         if (isoMatch) {
           isoDate = isoMatch[1];
         } else {
-          const match = event.dateText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i);
-          if (match) {
-            const month = months[match[1].toLowerCase().substring(0, 3)];
-            const day = match[2].padStart(2, '0');
-            const year = match[3] || now.getFullYear();
+          // UK-style: "06 Feb 2026" or "6th February 2026"
+          const ukMatch = event.dateText.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*(\d{4})?/i);
+          if (ukMatch) {
+            const day = ukMatch[1].padStart(2, '0');
+            const month = months[ukMatch[2].toLowerCase().substring(0, 3)];
+            let year = ukMatch[3];
+            if (!year) { year = (parseInt(month) < now.getMonth() + 1) ? String(now.getFullYear() + 1) : String(now.getFullYear()); }
             isoDate = `${year}-${month}-${day}`;
+          } else {
+            // US-style fallback: "Feb 6, 2026"
+            const usMatch = event.dateText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i);
+            if (usMatch) {
+              const month = months[usMatch[1].toLowerCase().substring(0, 3)];
+              const day = usMatch[2].padStart(2, '0');
+              let year = usMatch[3];
+              if (!year) { year = (parseInt(month) < now.getMonth() + 1) ? String(now.getFullYear() + 1) : String(now.getFullYear()); }
+              isoDate = `${year}-${month}-${day}`;
+            }
           }
         }
       }
 
       if (!isoDate) continue;
-      if (new Date(isoDate) < now) continue;
+      if (new Date(isoDate + 'T00:00:00.000Z') < now) continue;
 
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
         date: isoDate,
-        startDate: new Date(isoDate + 'T22:00:00'),
+        startDate: new Date(isoDate + 'T00:00:00.000Z'),
         url: event.url,
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: {
@@ -101,6 +115,34 @@ async function scrapeXoyoBirmingham(city = 'Birmingham') {
         source: 'XOYO Birmingham'
       });
     }
+
+      // Fetch descriptions from event detail pages
+      for (const event of formattedEvents) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
 
     console.log(`  ✅ Found ${formattedEvents.length} XOYO Birmingham events`);
     return formattedEvents;

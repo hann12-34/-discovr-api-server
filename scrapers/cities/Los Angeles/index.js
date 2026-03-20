@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Los Angeles Scrapers Index
  * REAL venue scrapers only - NO GENERATORS OR FALLBACKS
@@ -13,6 +15,9 @@ const scrapeTheWiltern = require('./theWiltern');
 const scrapeTheRoxy = require('./theRoxy');
 const scrapeTroubadour = require('./troubadour');
 const scrapeElReyTheatre = require('./elReyTheatre');
+const scrapeHammerMuseum = require('./scrape-hammer-museum');
+const scrapeKiaForum = require('./scrape-kia-forum');
+const scrapeSofiStadium = require('./scrape-sofi-stadium');
 
 async function scrapeLosAngeles() {
   console.log('🎬 Starting Los Angeles scrapers...');
@@ -84,7 +89,7 @@ async function scrapeLosAngeles() {
   return validEvents;
 }
 
-module.exports = {
+const _rawExports = {
   scrapeLosAngeles,
   scrapeAcademyLA,
   scrapeExchangeLA,
@@ -95,6 +100,15 @@ module.exports = {
   scrapeTheWiltern,
   scrapeTheRoxy,
   scrapeTroubadour,
-  scrapeElReyTheatre
-  // NO GENERATORS - removed all fallback functions
+  scrapeElReyTheatre,
+  scrapeHammerMuseum,
+  scrapeKiaForum,
+  scrapeSofiStadium,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

@@ -19,7 +19,7 @@ async function hyperPreciseFixMissingParenthesis() {
     console.log('🔧 Target: Exact pattern verified through deep manual analysis');
     console.log('📍 Location: Missing closing parenthesis in eventUrl/imageUrl logic\n');
     
-    const torontoDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+    const torontoDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
     
     try {
         console.log('📁 Scanning all Toronto scrapers for hyper-precise fix...');

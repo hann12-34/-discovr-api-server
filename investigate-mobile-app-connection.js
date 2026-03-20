@@ -73,9 +73,9 @@ async function investigateMobileAppConnection() {
     const path = require('path');
     
     const serverFiles = [
-        '/Users/seongwoohan/CascadeProjects/discovr-api-server/unified-proxy-server.js',
-        '/Users/seongwoohan/CascadeProjects/discovr-api-server/server.js',
-        '/Users/seongwoohan/CascadeProjects/discovr-api-server/.env'
+        '/Users/seongwoo/CascadeProjects/discovr-api-server/unified-proxy-server.js',
+        '/Users/seongwoo/CascadeProjects/discovr-api-server/server.js',
+        '/Users/seongwoo/CascadeProjects/discovr-api-server/.env'
     ];
     
     for (const filePath of serverFiles) {

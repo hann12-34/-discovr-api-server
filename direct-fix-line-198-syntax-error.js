@@ -14,7 +14,7 @@ async function directFixLine198SyntaxError() {
     console.log('🔧 Target: imageUrl field with missing closing parenthesis');
     console.log('📍 Location: Line 198 in multiple Toronto scrapers\n');
     
-    const torontoDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+    const torontoDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
     
     try {
         console.log('📁 Scanning all Toronto scrapers for line 198 syntax error...');

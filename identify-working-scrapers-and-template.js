@@ -11,7 +11,7 @@ const path = require('path');
 async function identifyWorkingScrapersAndTemplate() {
     console.log('🔍 IDENTIFYING WORKING SCRAPERS AND CREATING TEMPLATE\n');
     
-    const torontoDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+    const torontoDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
     
     try {
         console.log('📁 Scanning for orchestrator-compatible scrapers...');
@@ -89,7 +89,7 @@ async function identifyWorkingScrapersAndTemplate() {
             }
             
             // Save template content for reference
-            const templatePath = '/Users/seongwoohan/CascadeProjects/working-scraper-template.js';
+            const templatePath = '/Users/seongwoo/CascadeProjects/working-scraper-template.js';
             fs.writeFileSync(templatePath, templateContent, 'utf8');
             console.log(`\n💾 Template saved to: working-scraper-template.js`);
             

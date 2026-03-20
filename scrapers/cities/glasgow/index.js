@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Glasgow Scrapers - Cleaned (1 per venue)
  */
@@ -38,9 +40,12 @@ const scrapeTrnsmtFestival = require('./trnsmt_festival');
 const scrapeWestEndFestival = require('./west_end_festival');
 const scrapeWorldPipeBandChamps = require('./world_pipe_band_champs');
 const scrapeBambooGlasgow = require('./bamboo_glasgow');
-const scrapeSWG3V2 = require('./swg3_v2');
+// Removed swg3_v2 - duplicate of swg3, was generating fake dates
+const scrapeGlasgowLifeEvents = require('./glasgow_life_events');
+const scrapeKelvingroveArtGallery = require('./scrape-kelvingrove-art-gallery');
+const scrapeOvoHydroGlasgow = require('./scrape-ovo-hydro-glasgow');
 
-module.exports = {
+const _rawExports = {
   scrapeAbc,
   scrapeArtSchool,
   scrapeAyeWriteBookFest,
@@ -77,5 +82,14 @@ module.exports = {
   scrapeWestEndFestival,
   scrapeWorldPipeBandChamps,
   scrapeBambooGlasgow,
-  scrapeSWG3V2
+  scrapeGlasgowLifeEvents,
+  scrapeKelvingroveArtGallery,
+  scrapeOvoHydroGlasgow,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

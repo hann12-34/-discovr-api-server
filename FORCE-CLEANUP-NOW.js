@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const mongoose = require('mongoose');
 
-const MONGODB_URI = 'mongodb+srv://seongwoohan:rnsdn200509@cluster0.uuukc.mongodb.net/discovr-db?retryWrites=true&w=majority';
+const MONGODB_URI = 'mongodb+srv://seongwoo:rnsdn200509@cluster0.uuukc.mongodb.net/discovr-db?retryWrites=true&w=majority';
 
 (async () => {
   try {

@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const TORONTO_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
 
 // Correct venue URLs for Toronto scrapers
 const VENUE_URL_MAP = {

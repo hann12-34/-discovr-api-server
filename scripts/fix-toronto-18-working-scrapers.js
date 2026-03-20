@@ -10,7 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const TORONTO_SCRAPERS_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_SCRAPERS_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
 
 // The 18 confirmed working Toronto scrapers from previous validation
 const CONFIRMED_WORKING_SCRAPERS = [

@@ -16,13 +16,14 @@ const genericImagePatterns = [
     /scotiabanksaddledome\.com/i  // Block ALL images from saddledome - they're all team logos
 ];
 
-// Helper function to fetch image from event URL (og:image only, NO FALLBACKS)
-async function fetchEventImage(url) {
-    if (!url || !url.startsWith('http')) return null;
+// Helper function to fetch image AND description from event URL (NO FALLBACKS)
+async function fetchEventDetails(url) {
+    const result = { image: null, description: null };
+    if (!url || !url.startsWith('http')) return result;
     
-    // Skip generic listing pages - these return venue images, not event images
+    // Skip generic listing pages
     const listingPatterns = [/\/events\/?$/i, /\/calendar\/?$/i, /\/shows\/?$/i, /\/whats-on\/?$/i, /\/schedule\/?$/i];
-    if (listingPatterns.some(p => p.test(url))) return null;
+    if (listingPatterns.some(p => p.test(url))) return result;
     
     try {
         const response = await axios.get(url, {
@@ -30,16 +31,41 @@ async function fetchEventImage(url) {
             timeout: 8000
         });
         const $ = cheerio.load(response.data);
-        const ogImage = $('meta[property="og:image"]').attr('content');
         
-        // Check if image is a generic logo/placeholder - if so, return null (NO FALLBACK)
-        if (ogImage && genericImagePatterns.some(pattern => pattern.test(ogImage))) {
-            return null; // Block generic logos
+        // Extract og:image
+        const ogImage = $('meta[property="og:image"]').attr('content');
+        if (ogImage && !genericImagePatterns.some(pattern => pattern.test(ogImage))) {
+            result.image = ogImage;
         }
         
-        return ogImage || null;
+        // Extract description from meta tags
+        const ogDesc = $('meta[property="og:description"]').attr('content');
+        const metaDesc = $('meta[name="description"]').attr('content');
+        let desc = ogDesc || metaDesc || null;
+        
+        if (!desc) {
+            const contentSelectors = [
+                '.event-description', '.description', '.event-content',
+                '.entry-content', '.post-content', 'article p', 'main p'
+            ];
+            for (const sel of contentSelectors) {
+                const text = $(sel).first().text().trim();
+                if (text && text.length > 30 && text.length < 2000) {
+                    desc = text;
+                    break;
+                }
+            }
+        }
+        
+        if (desc) {
+            desc = desc.replace(/\s+/g, ' ').trim();
+            if (desc.length > 1000) desc = desc.substring(0, 1000) + '...';
+            if (desc.length >= 20) result.description = desc;
+        }
+        
+        return result;
     } catch (e) {
-        return null;
+        return result;
     }
 }
 
@@ -50,7 +76,7 @@ const scrapeHeritagePark = require('./scrape-heritage-park');
 const scrapePalaceTheatreEvents = require('./scrape-palace-theatre-nightlife');
 // const scrapeSpruceMeadows = require('./scrape-spruce-meadows-events'); // Removed by user
 const scrapeGreyEagle = require('./scrape-grey-eagle-resort-events');
-const scrapeCommonwealthNightlife = require('./scrape-commonwealth-puppeteer');
+const scrapeCommonwealthNightlife = require('./scrape-commonwealth-bar-stage-nightlife');
 const scrapeBrokenCityNightlife = require('./scrape-broken-city-nightlife');
 const scrapeCowboysNightlife = require('./scrape-cowboys-music-festival-nightlife');
 const scrapeDickensPubNightlife = require('./scrape-dickens-pub-nightlife');
@@ -71,6 +97,12 @@ const scrapeCalgaryFringe = require('./scrape-calgary-fringe');
 const scrapeYYCBeer = require('./scrape-yyc-beer');
 const scrapeTheatreJunction = require('./scrape-theatre-junction');
 const scrapeCalgaryLibrary = require('./scrape-calgary-library');
+const scrapeAlbertaBallet = require('./scrape-alberta-ballet');
+const scrapeFeverCalgary = require('./scrape-fever-calgary');
+const scrapeIronwoodStage = require('./scrape-ironwood-stage');
+const scrapeTelus = require('./scrape-telus-spark');
+const scrapeTheatreCalgary = require('./scrape-theatre-calgary');
+const scrapeQuickdraw = require('./scrape-quickdraw-animation');
 
 const scrapers = [
     // Major event venues
@@ -102,7 +134,14 @@ const scrapers = [
     { name: 'National on 10th Nightlife', scraper: scrapeNationalOn10thNightlife },
     { name: 'HiFi Club Nightlife', scraper: scrapeHiFiClubNightlife },
     { name: 'The Ship and Anchor Pub', scraper: scrapeShipAndAnchor },
-    { name: 'Last Best Brewing & Distilling', scraper: scrapeLastBestBrewing }
+    { name: 'Last Best Brewing & Distilling', scraper: scrapeLastBestBrewing },
+    // Additional venues
+    { name: 'Alberta Ballet', scraper: scrapeAlbertaBallet },
+    { name: 'Fever Calgary', scraper: scrapeFeverCalgary },
+    { name: 'Ironwood Stage', scraper: scrapeIronwoodStage },
+    { name: 'Telus Spark', scraper: scrapeTelus },
+    { name: 'Theatre Calgary', scraper: scrapeTheatreCalgary },
+    { name: 'Quickdraw Animation', scraper: scrapeQuickdraw }
 ];
 
 async function scrapeCalgaryCityEvents() {
@@ -116,11 +155,11 @@ async function scrapeCalgaryCityEvents() {
             const events = await scraper();
             
             if (Array.isArray(events) && events.length > 0) {
-                // Process images - fetch if missing, FILTER OUT generic logos
+                // Process images+descriptions - fetch if missing, FILTER OUT generic logos
                 for (const event of events) {
                     // If event already has image, check if it's a generic logo
                     if (event.image && genericImagePatterns.some(p => p.test(event.image))) {
-                        event.image = null; // Remove generic logo
+                        event.image = null;
                         event.imageUrl = null;
                     }
                     if (event.imageUrl && genericImagePatterns.some(p => p.test(event.imageUrl))) {
@@ -128,9 +167,13 @@ async function scrapeCalgaryCityEvents() {
                         event.imageUrl = null;
                     }
                     
-                    // Fetch og:image if missing (will also be filtered by blacklist)
-                    if (!event.image && !event.imageUrl && event.url) {
-                        event.image = await fetchEventImage(event.url);
+                    // Fetch image and description from event detail page if missing
+                    const needsImage = !event.image && !event.imageUrl;
+                    const needsDesc = !event.description;
+                    if ((needsImage || needsDesc) && event.url) {
+                        const details = await fetchEventDetails(event.url);
+                        if (needsImage && details.image) event.image = details.image;
+                        if (needsDesc && details.description) event.description = details.description;
                     }
                 }
                 allEvents.push(...events);

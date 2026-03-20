@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const TORONTO_SCRAPERS_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_SCRAPERS_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
 
 // City configuration per DISCOVR_SCRAPERS_CITY_FILTERING_GUIDE
 const CITY_TAGGING_TEMPLATE = `

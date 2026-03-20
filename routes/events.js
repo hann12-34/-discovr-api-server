@@ -266,17 +266,35 @@ router.get('/', async (req, res) => {
     
     console.log(`✅ Validated events: ${validEvents.length} of ${realEvents.length} passed validation`);
     
-    // Apply pagination to validated results
-    const events = validEvents.slice(skip, skip + parseInt(limit));
+    // Deduplicate by title + venue + date (same event from different scraper runs can have different IDs)
+    const seen = new Map();
+    const deduplicatedEvents = validEvents.filter(event => {
+      const title = (event.title || '').toLowerCase().trim();
+      const venueName = (event.venue && event.venue.name ? event.venue.name : '').toLowerCase().trim();
+      const dateKey = event.startDate ? new Date(event.startDate).toISOString().split('T')[0] : '';
+      const key = `${title}|${venueName}|${dateKey}`;
+      
+      if (seen.has(key)) return false;
+      seen.set(key, true);
+      return true;
+    });
+    
+    const dupeCount = validEvents.length - deduplicatedEvents.length;
+    if (dupeCount > 0) {
+      console.log(`🧹 Removed ${dupeCount} duplicate events`);
+    }
+    
+    // Apply pagination to deduplicated results
+    const events = deduplicatedEvents.slice(skip, skip + parseInt(limit));
     
     // Return with pagination metadata - use validEvents.length for accurate count after filtering
     res.json({
       events,
       pagination: {
-        total: validEvents.length, // Use filtered count, not pre-filter count
+        total: deduplicatedEvents.length, // Use deduplicated count for accurate pagination
         page: parseInt(page),
         limit: parseInt(limit),
-        pages: Math.ceil(validEvents.length / parseInt(limit))
+        pages: Math.ceil(deduplicatedEvents.length / parseInt(limit))
       }
     });
   } catch (err) {

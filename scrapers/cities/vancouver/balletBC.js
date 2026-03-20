@@ -100,32 +100,20 @@ const BalletBCEvents = {
             /\/privacy/i, /\/terms/i, /\/policy/i
           ];
 
-          if (skipPatterns.some(pattern => pattern.test(url))) {
-            console.log(`✗ Filtered out: "${title}" (URL: ${url})`);
-            return;
-          }
+          if (skipPatterns.some(pattern => pattern.test(url))) return;
 
           title = title.replace(/\s+/g, ' ').trim();
-          
-          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?)$/i.test(title)) {
-            console.log(`✗ Filtered out generic title: "${title}"`);
-            return;
-          }
+          if (title.length < 2 || /^(home|about|contact|search|login|more|info|buy|tickets?)$/i.test(title)) return;
 
           seenUrls.add(url);
 
-          // SUPER COMPREHENSIVE date extraction
           let dateText = null;
-          
-          // Strategy 1: Try datetime attributes
           const datetimeAttr = $element.find('[datetime]').first().attr('datetime');
           if (datetimeAttr) dateText = datetimeAttr;
           
-          // Strategy 2: Try extensive selectors
           if (!dateText) {
             const selectors = ['time[datetime]', '[datetime]', '.date', '.event-date', 'time', 
-                             '[class*="date"]', '[data-date]', '.datetime', '.when',
-                             '.performance-date', '.show-date', '[itemprop="startDate"]'];
+                             '[class*="date"]', '.performance-date', '[itemprop="startDate"]'];
             for (const sel of selectors) {
               const el = $element.find(sel).first();
               if (el.length > 0) {
@@ -135,12 +123,10 @@ const BalletBCEvents = {
             }
           }
           
-          // Strategy 3: Check parent elements
           if (!dateText) {
             const $parent = $element.closest('.event, .performance, article, [class*="event"]');
             if ($parent.length > 0) {
-              const selectors = ['[datetime]', '.date', 'time', '[class*="date"]'];
-              for (const sel of selectors) {
+              for (const sel of ['[datetime]', '.date', 'time', '[class*="date"]']) {
                 const el = $parent.find(sel).first();
                 if (el.length > 0) {
                   dateText = el.attr('datetime') || el.text().trim();
@@ -149,16 +135,7 @@ const BalletBCEvents = {
               }
             }
           }
-          
-          // Strategy 4: Extract from URL
-          if (!dateText && url) {
-            const urlMatch = url.match(/\/(\d{4})-(\d{2})-(\d{2})|\/(\d{4})\/(\d{2})\/(\d{2})/);
-            if (urlMatch) {
-              dateText = urlMatch[1] ? `${urlMatch[1]}-${urlMatch[2]}-${urlMatch[3]}` : `${urlMatch[4]}-${urlMatch[5]}-${urlMatch[6]}`;
-            }
-          }
-          
-          // Strategy 5: Text pattern matching
+
           if (!dateText) {
             const text = $element.text() + ' ' + $element.parent().text();
             const dateMatch = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{4})?/i);
@@ -166,51 +143,55 @@ const BalletBCEvents = {
           }
           
           if (dateText) {
-            dateText = dateText
-              .replace(/\n/g, ' ')
-              .replace(/\s+/g, ' ')
-              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
-              .trim();
-            
+            dateText = dateText.replace(/\n/g, ' ').replace(/\s+/g, ' ').replace(/(\d+)(st|nd|rd|th)/gi, '$1').trim();
             if (!/\d{4}/.test(dateText)) {
               const currentYear = new Date().getFullYear();
               const currentMonth = new Date().getMonth();
               const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-              const dateLower = dateText.toLowerCase();
-              const monthIndex = months.findIndex(m => dateLower.includes(m));
-              if (monthIndex !== -1) {
-                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                dateText = `${dateText}, ${year}`;
-              } else {
-                dateText = `${dateText}, ${currentYear}`;
-              }
+              const monthIndex = months.findIndex(m => dateText.toLowerCase().includes(m));
+              const year = (monthIndex !== -1 && monthIndex < currentMonth) ? currentYear + 1 : currentYear;
+              dateText = `${dateText}, ${year}`;
             }
           }
 
-
-          
-
-
-          // Only add events that have valid dates
           if (dateText) {
-            events.push({
-              id: uuidv4(),
-              title: title,
-              url: url,
-              venue: { name: 'Ballet BC', address: '677 Davie Street, Vancouver, BC V6B 2G6', city: 'Vancouver' },
-              city: city,
-              date: dateText,
-              source: 'Ballet BC'
-            });
+            events.push({ title, url, date: dateText });
           }
         });
       }
 
-      console.log(`Found ${events.length} total events from Ballet BC`);
-      
-      // Apply data quality filtering
-      const cleanedEvents = filter.filterEvents(events);
+      // Fetch descriptions from detail pages (async)
+      const fullEvents = [];
+      for (const ev of events) {
+        let description = '';
+        try {
+          const detailRes = await axios.get(ev.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const $d = cheerio.load(detailRes.data);
+          description = $d('.description').first().text().trim();
+          if (!description) description = $d('.entry-content').first().text().trim();
+          if (description) {
+            description = description.replace(/\s+/g, ' ').trim();
+            if (description.length > 500) description = description.substring(0, 500) + '...';
+          }
+        } catch (e) { /* skip */ }
+
+        fullEvents.push({
+          id: uuidv4(),
+          title: ev.title,
+          description: description || '',
+          url: ev.url,
+          venue: { name: 'Ballet BC', address: '677 Davie Street, Vancouver, BC V6B 2G6', city: 'Vancouver' },
+          city: city,
+          date: ev.date,
+          source: 'Ballet BC'
+        });
+      }
+
+      console.log(`Found ${fullEvents.length} total events from Ballet BC`);
+      const cleanedEvents = filter.filterEvents(fullEvents);
       return cleanedEvents;
 
     } catch (error) {

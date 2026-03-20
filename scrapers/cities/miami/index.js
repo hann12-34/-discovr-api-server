@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Miami Scrapers Index
  * REAL venue scrapers only - NO GENERATORS OR FALLBACKS
@@ -10,6 +12,8 @@ const m2Miami = require('./m2Miami');
 const fillmoreMiami = require('./fillmoreMiami');
 const kaseyaCenter = require('./kaseyaCenter');
 const palaceSouthBeach = require('./palaceSouthBeach');
+const scrapeMiamiAndBeachesEvents = require('./scrape-miami-and-beaches-events');
+const scrapeSpaceMiami = require('./scrape-space-miami');
 
 async function scrapeMiami() {
   console.log('🌴 Starting Miami scrapers...');
@@ -71,7 +75,7 @@ async function scrapeMiami() {
   return validEvents;
 }
 
-module.exports = {
+const _rawExports = {
   scrapeMiami,
   clubSpace,
   e11even,
@@ -79,5 +83,14 @@ module.exports = {
   m2Miami,
   fillmoreMiami,
   kaseyaCenter,
-  palaceSouthBeach
+  palaceSouthBeach,
+  scrapeMiamiAndBeachesEvents,
+  scrapeSpaceMiami,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

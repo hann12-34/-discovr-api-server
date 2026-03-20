@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * birmingham Scrapers - 45 scrapers
  */
@@ -47,18 +49,10 @@ const scrapeUtilitaarena = require('./utilitaarena');
 const scrapeXoyoBirmingham = require('./xoyo_birmingham');
 const scrapeSnobsBirmingham = require('./snobs_birmingham');
 const scrapePryzmBirmingham = require('./pryzm_birmingham');
-const scrapeO2InstituteV2 = require('./o2_institute_v2');
-const scrapeRainbowVenues = require('./rainbow_venues');
-const scrapeMamaRouxs = require('./mama_rouxs');
-const scrapeLab11V2 = require('./lab11_v2');
-const scrapeHareHoundsV2 = require('./hare_hounds_v2');
-const scrapeNightingaleV2 = require('./nightingale_v2');
-const scrapeAsylumV2 = require('./asylum_v2');
-const scrapeO2AcademyBirminghamV2 = require('./o2_academy_birmingham_v2');
-const scrapeFlapperV2 = require('./flapper_v2');
-const scrapeGleeClubV2 = require('./glee_club_v2');
+// Removed v2 scrapers AND mama_rouxs, rainbow_venues - all have fake date generation
+const scrapeVisitBirminghamEvents = require('./visit_birmingham_events');
 
-module.exports = {
+const _rawExports = {
   scrapeAsylum,
   scrapeBirminghamComedyFest,
   scrapeBirminghamCraftBeerFest,
@@ -104,14 +98,12 @@ module.exports = {
   scrapeXoyoBirmingham,
   scrapeSnobsBirmingham,
   scrapePryzmBirmingham,
-  scrapeO2InstituteV2,
-  scrapeRainbowVenues,
-  scrapeMamaRouxs,
-  scrapeLab11V2,
-  scrapeHareHoundsV2,
-  scrapeNightingaleV2,
-  scrapeAsylumV2,
-  scrapeO2AcademyBirminghamV2,
-  scrapeFlapperV2,
-  scrapeGleeClubV2
+  scrapeVisitBirminghamEvents
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

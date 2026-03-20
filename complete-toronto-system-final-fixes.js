@@ -31,7 +31,7 @@ async function completeTorontoSystemFinalFixes() {
         console.log('\n🔧 STEP 1: Test MOCA scraper with proper city parameter...');
         
         try {
-            const mocaPath = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-moca-events.js';
+            const mocaPath = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-moca-events.js';
             
             // Clear cache and load
             delete require.cache[require.resolve(mocaPath)];

@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Boston Scrapers - Cleaned (1 per venue)
  */
@@ -50,13 +52,13 @@ const scrapeTdgarden = require('./tdgarden');
 const scrapeTheBurren = require('./the_burren');
 const scrapeWilburTheatre = require('./wilbur_theatre');
 const scrapeIconBoston = require('./icon_boston');
-const scrapeMiddleEastSonia = require('./middle_east_sonia');
-const scrapeParadiseRockClub = require('./paradise_rock_club');
-const scrapeBrightonMusicHall = require('./brighton_music_hall');
-const scrapeRoyaleBostonV2 = require('./royale_boston_v2');
-const scrapeIconNightclub = require('./icon_nightclub');
+const scrapeBochCenterWangTheatre = require('./scrape-boch-center-wang-theatre');
+const scrapeBrightonMusicHall = require('./scrape-brighton-music-hall');
+const scrapeOrpheumTheatreBoston = require('./scrape-orpheum-theatre-boston');
+const scrapeRoyaleBoston = require('./scrape-royale-boston');
+// Removed scrapers with fake date generation: middle_east_sonia, paradise_rock_club, brighton_music_hall, royale_boston_v2, icon_nightclub
 
-module.exports = {
+const _rawExports = {
   scrapeARTHarvard,
   scrapeArtsEmerson,
   scrapeBerkleeBPC,
@@ -105,9 +107,15 @@ module.exports = {
   scrapeTheBurren,
   scrapeWilburTheatre,
   scrapeIconBoston,
-  scrapeMiddleEastSonia,
-  scrapeParadiseRockClub,
+  scrapeBochCenterWangTheatre,
   scrapeBrightonMusicHall,
-  scrapeRoyaleBostonV2,
-  scrapeIconNightclub
+  scrapeOrpheumTheatreBoston,
+  scrapeRoyaleBoston,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

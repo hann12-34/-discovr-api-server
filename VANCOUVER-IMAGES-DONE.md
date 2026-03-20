@@ -56,7 +56,7 @@ That's it! All Vancouver scrapers will automatically use the new images.
 ## 🚀 How to Test:
 
 ```bash
-cd /Users/seongwoohan/Desktop/discovr-api-server
+cd /Users/seongwoo/Desktop/discovr-api-server
 
 # Test Vancouver images
 node test-vancouver-images-fixed.js

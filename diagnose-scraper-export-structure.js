@@ -15,8 +15,8 @@ function diagnoseScraperExportStructure() {
     console.log('🔍 DIAGNOSING SCRAPER EXPORT STRUCTURE FAILURE\n');
     console.log('🚨 CRITICAL: ALL 158 Toronto scrapers fail to load\n');
     
-    const torontoDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
-    const orchestratorPath = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-all-toronto-clean.js';
+    const torontoDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+    const orchestratorPath = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-all-toronto-clean.js';
     
     console.log('🔍 STEP 1: Check what orchestrator expects...\n');
     

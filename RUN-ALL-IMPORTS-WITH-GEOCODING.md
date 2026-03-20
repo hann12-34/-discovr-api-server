@@ -20,7 +20,7 @@ The import scripts will:
 ### Run These Commands:
 
 ```bash
-cd /Users/seongwoohan/Desktop/discovr-api-server
+cd /Users/seongwoo/Desktop/discovr-api-server
 
 # Clear and import NYC with geocoding
 node ImportFiles/import-all-new-york-events.js

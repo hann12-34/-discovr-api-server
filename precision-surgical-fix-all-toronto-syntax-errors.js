@@ -14,7 +14,7 @@ async function precisionSurgicalFixAllTorontoSyntaxErrors() {
     console.log('🎯 Root cause: Malformed nested conditional logic missing closing parenthesis');
     console.log('💡 Target: Fix the exact "Unexpected token \':\'" error pattern\n');
     
-    const torontoDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+    const torontoDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
     
     try {
         console.log('📁 Scanning all Toronto scrapers for surgical repair...');

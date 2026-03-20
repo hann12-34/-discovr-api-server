@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Minneapolis Scrapers - Cleaned (1 per venue)
  */
@@ -57,8 +59,10 @@ const scrapeUndergroundMusic = require('./underground_music');
 const scrapeExchangeMinneapolis = require('./exchange_minneapolis');
 const scrapeFillmoreMinneapolis = require('./fillmore_minneapolis');
 const scrapeUptownTheater = require('./uptown_theater');
+const scrapeTargetCenterMinneapolis = require('./scrape-target-center-minneapolis');
+const scrapeWalkerArtCenter = require('./scrape-walker-art-center');
 
-module.exports = {
+const _rawExports = {
   scrape331Club,
   scrapeAcmeComedy,
   scrapeBauhauzMpls,
@@ -113,5 +117,14 @@ module.exports = {
   scrapeUndergroundMusic,
   scrapeExchangeMinneapolis,
   scrapeFillmoreMinneapolis,
-  scrapeUptownTheater
+  scrapeUptownTheater,
+  scrapeTargetCenterMinneapolis,
+  scrapeWalkerArtCenter,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

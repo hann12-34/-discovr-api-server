@@ -2,9 +2,13 @@
  * 99ten (9910) Edmonton Events Scraper
  * Nightclub & Event Venue on Whyte Ave
  * URL: https://www.99ten.ca/events
+ * 
+ * REBUILT: Fast single-page scrape, no individual page visits
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrape99ten(city = 'Edmonton') {
@@ -13,124 +17,124 @@ async function scrape99ten(city = 'Edmonton') {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      protocolTimeout: 30000
     });
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
     await page.goto('https://www.99ten.ca/events', {
-      waitUntil: 'networkidle2',
-      timeout: 60000
+      waitUntil: 'domcontentloaded',
+      timeout: 15000
     });
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // Extract event URLs from the events page
-    const eventUrls = await page.evaluate(() => {
-      const urls = new Set();
+    const events = await page.evaluate(() => {
+      const results = [];
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      
       document.querySelectorAll('a[href*="/events/"]').forEach(link => {
         const url = link.href;
-        // Filter for individual event pages (have date in URL like /2025/12/31/)
-        if (url && url.match(/\/events\/\d{4}\/\d{1,2}\/\d{1,2}\//)) {
-          urls.add(url);
-        }
-      });
-      return Array.from(urls);
-    });
-
-    console.log(`  📋 Found ${eventUrls.length} event URLs to process`);
-
-    const formattedEvents = [];
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    // Visit each event page to get details
-    for (const eventUrl of eventUrls) {
-      try {
-        // Extract date from URL pattern /events/YYYY/MM/DD/
-        const urlMatch = eventUrl.match(/\/events\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
-        if (!urlMatch) continue;
+        const urlMatch = url.match(/\/events\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
+        if (!urlMatch) return;
         
         const year = urlMatch[1];
         const month = urlMatch[2].padStart(2, '0');
         const day = urlMatch[3].padStart(2, '0');
         const isoDate = `${year}-${month}-${day}`;
         
-        // Skip past events
-        if (new Date(isoDate) < today) continue;
-
-        await page.goto(eventUrl, { waitUntil: 'networkidle2', timeout: 30000 });
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        const eventData = await page.evaluate(() => {
-          // Get title from h1 - may be in second h1 if first is empty
-          let title = null;
-          const h1s = document.querySelectorAll('h1');
-          for (const h1 of h1s) {
-            const text = h1.textContent.trim();
-            if (text && text.length > 2) {
-              title = text;
-              break;
-            }
-          }
-          
-          // Get image
-          let imageUrl = null;
-          const img = document.querySelector('.eventitem-image img, .event-image img, article img');
-          if (img && img.src && img.src.startsWith('http') && !img.src.includes('logo')) {
-            imageUrl = img.src;
-          }
-          
-          // Also try background image
-          if (!imageUrl) {
-            const bgEl = document.querySelector('[data-image], .event-featured-image');
-            if (bgEl) {
-              const bgStyle = bgEl.style.backgroundImage;
-              const bgMatch = bgStyle && bgStyle.match(/url\(['"]?(https?:\/\/[^'")\s]+)['"]?\)/);
-              if (bgMatch) imageUrl = bgMatch[1];
-            }
-          }
-          
-          return { title, imageUrl };
-        });
-
-        if (!eventData.title) continue;
-
-        formattedEvents.push({
-          id: uuidv4(),
-          title: eventData.title,
-          date: isoDate,
-          startDate: new Date(isoDate + 'T22:00:00'),
-          url: eventUrl,
-          imageUrl: (eventData.imageUrl && !eventData.imageUrl.includes('placeholder') && !eventData.imageUrl.includes('data:image')) ? eventData.imageUrl : null,
-          venue: {
-            name: '99ten',
-            address: '9910 82 Avenue NW, Edmonton, AB T6E 2A3',
-            city: 'Edmonton'
-          },
-          latitude: 53.5194,
-          longitude: -113.4987,
-          city: 'Edmonton',
-          category: 'Nightlife',
-          source: '99ten'
-        });
-
-      } catch (err) {
-        continue;
-      }
-    }
+        if (new Date(isoDate) < today) return;
+        
+        const container = link.closest('article, .eventlist-event, [class*="event"]') || link.parentElement;
+        if (!container) return;
+        
+        const titleEl = container.querySelector('h1, h2, h3, .eventlist-title');
+        const title = titleEl ? titleEl.textContent.trim() : null;
+        if (!title || title.length < 3) return;
+        
+        const imgEl = container.querySelector('img');
+        let imageUrl = null;
+        if (imgEl && imgEl.src && imgEl.src.startsWith('http') && !imgEl.src.includes('logo')) {
+          imageUrl = imgEl.src;
+        }
+        
+        results.push({ title, isoDate, url, imageUrl });
+      });
+      
+      return results;
+    });
 
     await browser.close();
 
-    console.log(`  ✅ Found ${formattedEvents.length} valid 99ten events`);
-    return formattedEvents;
+    const seen = new Set();
+    const unique = [];
+    
+    for (const e of events) {
+      const key = `${e.title}|${e.isoDate}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      
+      unique.push({
+        id: uuidv4(),
+        title: e.title,
+        date: e.isoDate,
+        startDate: new Date(e.isoDate + 'T00:00:00.000Z'),
+        url: e.url,
+        imageUrl: e.imageUrl || null,
+        venue: {
+          name: '99ten',
+          address: '9910 82 Avenue NW, Edmonton, AB T6E 2A3',
+          city: 'Edmonton'
+        },
+        latitude: 53.5194,
+        longitude: -113.4987,
+        city: 'Edmonton',
+        category: 'Nightlife',
+        source: '99ten'
+      });
+    }
+
+      // Fetch descriptions from event detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
+
+    console.log(`  ✅ Found ${unique.length} 99ten events`);
+    return unique;
 
   } catch (error) {
-    if (browser) await browser.close();
-    console.error('  ⚠️  99ten error:', error.message);
+    console.error('  ⚠️ 99ten error:', error.message);
+    try { if (browser) await browser.close(); } catch (e) {}
     return [];
+  } finally {
+    try { if (browser) await browser.close(); } catch (e) {}
   }
 }
 

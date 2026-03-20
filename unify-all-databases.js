@@ -123,7 +123,7 @@ NODE_ENV=production
 # Toronto events: ${finalToronto}
 `;
     
-    require('fs').writeFileSync('/Users/seongwoohan/Desktop/UNIFIED_DATABASE_CONFIG.env', envContent);
+    require('fs').writeFileSync('/Users/seongwoo/Desktop/UNIFIED_DATABASE_CONFIG.env', envContent);
     console.log(`\n📄 Unified config saved to Desktop: UNIFIED_DATABASE_CONFIG.env`);
     
     await mongoose.disconnect();

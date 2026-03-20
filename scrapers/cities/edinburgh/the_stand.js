@@ -36,17 +36,19 @@ async function scrapeTheStand(city = 'Edinburgh') {
 
         // Extract date from URL (YYYYMMDD format at end)
         const dateMatch = href.match(/(\d{4})(\d{2})(\d{2})/);
-        let isoDate = '2026-02-01';
+        let isoDate = null;
         if (dateMatch) {
           isoDate = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}`;
         }
 
         const url = href.startsWith('http') ? href : `https://www.thestand.co.uk${href}`;
 
+        if (!isoDate) return; // Skip events without dates
         events.push({
           id: uuidv4(),
           title,
           date: isoDate,
+          startDate: isoDate ? new Date(isoDate + 'T00:00:00.000Z') : null,
           url,
           venue: { name: 'The Stand Comedy Club', address: '5 York Place, Edinburgh EH1 3EB', city: 'Edinburgh' },
           latitude: 55.9560,
@@ -70,7 +72,7 @@ async function scrapeTheStand(city = 'Edinburgh') {
     }
 
     // Fetch images
-    for (const event of unique.slice(0, 15)) {
+    for (const event of unique) {
       try {
         const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
         const $p = cheerio.load(page.data);
@@ -80,6 +82,34 @@ async function scrapeTheStand(city = 'Edinburgh') {
         }
       } catch (e) {}
     }
+
+      // Fetch descriptions from event detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
 
     console.log(`  ✅ Found ${unique.length} The Stand events`);
     return unique;

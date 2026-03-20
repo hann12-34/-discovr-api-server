@@ -12,7 +12,7 @@ const fs = require('fs');
 // Set the MongoDB URI from the working configuration
 process.env.MONGODB_URI = 'mongodb+srv://discovr123:discovr1234@discovr.vzlnmqb.mongodb.net/?retryWrites=true&w=majority&appName=Discovr';
 
-const TORONTO_SCRAPERS_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_SCRAPERS_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
 
 // The 17 Toronto scrapers to test
 const SCRAPERS_TO_TEST = [

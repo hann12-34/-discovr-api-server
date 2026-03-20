@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Edinburgh Scrapers - Cleaned (1 per venue)
  */
@@ -50,12 +52,13 @@ const scrapeUsherHall = require('./usherHall');
 const scrapeVoodoo = require('./voodoo');
 const scrapeWhistle = require('./whistle');
 const scrapeWhyNotEdinburgh = require('./why_not_edinburgh');
-const scrapeCabaretVoltaireV2 = require('./cabaret_voltaire_v2');
-const scrapeBongoClubV2 = require('./bongo_club_v2');
-const scrapeSneakyPetesV2 = require('./sneaky_petes_v2');
-const scrapeLaBelleAngeleV2 = require('./la_belle_angele_v2');
+// Removed v2 scrapers - duplicates with fake date generation (dayOffset + Math.random)
+// cabaret_voltaire_v2, bongo_club_v2, sneaky_petes_v2, la_belle_angele_v2
+const scrapeEdinburghFestivalCity = require('./edinburgh_festival_city');
+const scrapeQueensHallEdinburgh = require('./scrape-queens-hall-edinburgh');
+const scrapeCapitalTheatresEdinburgh = require('./scrape-capital-theatres-edinburgh');
 
-module.exports = {
+const _rawExports = {
   scrapeAssemblyRooms,
   scrapeBannermans,
   scrapeBongo,
@@ -104,8 +107,14 @@ module.exports = {
   scrapeVoodoo,
   scrapeWhistle,
   scrapeWhyNotEdinburgh,
-  scrapeCabaretVoltaireV2,
-  scrapeBongoClubV2,
-  scrapeSneakyPetesV2,
-  scrapeLaBelleAngeleV2
+  scrapeEdinburghFestivalCity,
+  scrapeQueensHallEdinburgh,
+  scrapeCapitalTheatresEdinburgh,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

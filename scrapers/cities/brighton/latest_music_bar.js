@@ -96,7 +96,7 @@ async function scrapeLatestMusicBar(city = 'Brighton') {
         title: event.title,
         description: null,
         date: isoDate,
-        startDate: new Date(isoDate + 'T20:00:00'),
+        startDate: new Date(isoDate + 'T00:00:00.000Z'),
         url: event.url,
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: {

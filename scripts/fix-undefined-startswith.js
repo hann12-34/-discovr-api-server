@@ -30,7 +30,7 @@ const FAILING_SCRAPERS = [
     'scrape-royal-alexandra-theatre-events-clean.js'
 ];
 
-const TORONTO_SCRAPERS_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_SCRAPERS_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
 
 async function fixScraperStartsWith(scraperFilename) {
     console.log(`\n🔧 Fixing ${scraperFilename}...`);

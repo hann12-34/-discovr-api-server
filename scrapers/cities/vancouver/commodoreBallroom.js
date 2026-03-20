@@ -237,7 +237,7 @@ const CommodoreBallroomEvents = {
               imageUrl: imageUrl || null,
               venue: { name: 'Commodore Ballroom', address: '868 Granville Street, Vancouver, BC V6Z 1K3', city: 'Vancouver' },
               location: 'Vancouver, BC',
-              description: null,
+              description: '',
               category: 'Concert',
               city: 'Vancouver',
               image: null
@@ -415,13 +415,29 @@ const CommodoreBallroomEvents = {
                 timeout: 10000
               });
               
-              const $ = cheerio.load(eventPage.data);
-              const dateText = $('.date, .event-date, time, [datetime]').first().text().trim();
+              const $d = cheerio.load(eventPage.data);
+              const dateText = $d('.date, .event-date, time, [datetime]').first().text().trim();
               
               if (dateText) {
                 event.date = dateText;
                 event.dateText = dateText;
                 console.log(`✓ Found date for "${event.title}": ${dateText}`);
+              }
+              
+              // Also grab description while we're here
+              if (!event.description) {
+                let desc = $d('meta[property="og:description"]').attr('content') || '';
+                if (!desc || desc.length < 20) {
+                  for (const sel of ['.event-description', '.event-content', '.description', '.entry-content p', 'article p', '.content p']) {
+                    const t = $d(sel).first().text().trim();
+                    if (t && t.length > 30) { desc = t; break; }
+                  }
+                }
+                if (desc) {
+                  desc = desc.replace(/\s+/g, ' ').trim();
+                  if (desc.length > 500) desc = desc.substring(0, 500) + '...';
+                  event.description = desc;
+                }
               }
             }
           } catch (err) {

@@ -28,7 +28,7 @@ const BROKEN_SCRAPERS = [
     'scrape-royal-alexandra-theatre-events-clean.js'
 ];
 
-const TORONTO_SCRAPERS_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_SCRAPERS_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
 
 async function fixScraperSyntax(scraperFilename) {
     console.log(`\n🔧 Fixing syntax in ${scraperFilename}...`);

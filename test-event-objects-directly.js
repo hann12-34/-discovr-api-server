@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const TORONTO_DIR = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+const TORONTO_DIR = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
 
 async function testEventObjectsDirectly() {
   console.log('🔬 TESTING EVENT OBJECTS DIRECTLY (PRE-DATABASE)');

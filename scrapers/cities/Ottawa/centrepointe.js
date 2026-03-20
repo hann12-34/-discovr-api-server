@@ -4,6 +4,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeCentrepointe(city = 'Ottawa') {
@@ -82,23 +84,51 @@ async function scrapeCentrepointe(city = 'Ottawa') {
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
-        description: null,
+        description: '',
         date: isoDate,
-        startDate: new Date(isoDate + 'T20:00:00'),
+        startDate: new Date(isoDate + 'T00:00:00.000Z'),
         url: event.url,
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: {
           name: 'Centrepointe Theatre',
-          address: 'Ottawa, ON',
+          address: '101 Centrepointe Dr, Nepean, ON K2G 5K7',
           city: 'Ottawa'
         },
-        latitude: 45.4215,
-        longitude: -75.6972,
+        latitude: 45.3465,
+        longitude: -75.7615,
         city: 'Ottawa',
         category: 'Nightlife',
         source: 'Centrepointe Theatre'
       });
     }
+
+      // Fetch descriptions from event detail pages
+      for (const event of formattedEvents) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
 
     console.log(`  ✅ Found ${formattedEvents.length} Centrepointe Theatre events`);
     return formattedEvents;

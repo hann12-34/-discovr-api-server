@@ -84,20 +84,20 @@ Events are transformed to match this format:
 
 1. **Check Python Scraper Output**:
    ```
-   cd /Users/seongwoohan/CascadeProjects/Discovr-API/Scrapers/FortuneSound
+   cd /Users/seongwoo/CascadeProjects/Discovr-API/Scrapers/FortuneSound
    python3 fortune_scraper.py
    cat fortune_events.json  # Should contain event data in JSON format
    ```
 
 2. **Test the Bridge Integration**:
    ```
-   cd /Users/seongwoohan/CascadeProjects/Discovr-API
+   cd /Users/seongwoo/CascadeProjects/Discovr-API
    node test-fortune-bridge.js
    ```
 
 3. **Check MongoDB for Events**:
    ```
-   cd /Users/seongwoohan/CascadeProjects/Discovr-API
+   cd /Users/seongwoo/CascadeProjects/Discovr-API
    node test-mongodb-connection.js
    ```
 

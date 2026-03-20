@@ -402,7 +402,10 @@ const venueAddresses = {
   'Hidden Hall': '2222 2nd Ave, Seattle, WA 98121',
   'Cherry': '1525 11th Ave, Seattle, WA 98122',
   'Seattle Art Museum': '1300 1st Ave, Seattle, WA 98101',
-  'Timbre Room': '1809 Minor Ave, Seattle, WA 98101'
+  'Timbre Room': '1809 Minor Ave, Seattle, WA 98101',
+  'Massive': '1220 1st Ave S, Seattle, WA 98134',
+  'El Corazon': '109 Eastlake Ave E, Seattle, WA 98109',
+  'The Funhouse at El Corazon': '109 Eastlake Ave E, Seattle, WA 98109'
 };
 
 /**

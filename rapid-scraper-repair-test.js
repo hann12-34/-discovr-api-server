@@ -12,8 +12,8 @@ async function rapidScraperRepairTest() {
     console.log('Testing recently fixed scrapers and preparing next repairs...\n');
     
     const scrapersToTest = [
-        '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-gardiner-museum-events.js',
-        '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-ripleysaquarium-events.js'
+        '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-gardiner-museum-events.js',
+        '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto/scrape-ripleysaquarium-events.js'
     ];
     
     let workingCount = 5; // Start with the original 5

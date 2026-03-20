@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const MONGODB_URI = 'mongodb+srv://seongwoohan:Tpdhkstpdhk12!@cluster0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = 'mongodb+srv://seongwoo:Tpdhkstpdhk12!@cluster0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const DB_NAME = 'discovr';
 const COLLECTION_NAME = 'events';
 

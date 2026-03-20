@@ -1,9 +1,22 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
- * auckland Scrapers - 29 scrapers
+ * Auckland Scrapers - Working scrapers only
+ * Last updated: Jan 2026
+ * 
+ * REMOVED (dead domains - ERR_NAME_NOT_RESOLVED):
+ * - hollywood.js (hollywoodavondale.co.nz)
+ * - ponsonby.js (ponsonbysocialclub.co.nz)
+ * - whammy.js, whammy_bar.js (whammybar.co.nz)
+ * - impala_auckland.js, impala_nightclub.js (impala.co.nz)
+ * - roxy_auckland.js (theroxy.co.nz)
+ * - fever_auckland.js (fever.net.nz)
+ * - family_time_auckland.js (familytime.co.nz)
+ * - laneway_festival_akl.js (SSL error)
+ * - eventfinda_auckland.js (causes Node.js crash)
  */
 
 const scrapeAucklandArtsFest = require('./auckland_arts_fest');
-const scrapeAucklandCityLimits = require('./auckland_city_limits');
 const scrapeAucklandLanternFest = require('./auckland_lantern_fest');
 const scrapeAucklandPride = require('./auckland_pride');
 const scrapeAucklandlive = require('./aucklandlive');
@@ -11,40 +24,22 @@ const scrapeCassette = require('./cassette');
 const scrapeCivic = require('./civic');
 const scrapeDepot = require('./depot');
 const scrapeDiwaliAuckland = require('./diwali_auckland');
-const scrapeEden = require('./eden');
 const scrapeGalatos = require('./galatos');
-const scrapeHollywood = require('./hollywood');
 const scrapeKings = require('./kings');
-const scrapeLanewayFestivalAkl = require('./laneway_festival_akl');
 const scrapeMatarikiFestAkl = require('./matariki_fest_akl');
 const scrapeNeck = require('./neck');
-const scrapePasifikaFestival = require('./pasifika_festival');
-const scrapePonsonby = require('./ponsonby');
 const scrapePowerstation = require('./powerstation');
-const scrapeSparkArena = require('./sparkArena');
 const scrapeStudio = require('./studio');
-const scrapeTasteOfAuckland = require('./taste_of_auckland');
-const scrapeWhammy = require('./whammy');
-const scrapeWine = require('./wine');
 const scrapeCrownAuckland = require('./crown_auckland');
-const scrapeImpalaAuckland = require('./impala_auckland');
-const scrapeRoxyAuckland = require('./roxy_auckland');
-const scrapeFeverAuckland = require('./fever_auckland');
-const scrapeFamilyTime = require('./family_time_auckland');
 const scrapeBasementTheatre = require('./basement_theatre_akl');
-const scrapeLulaInn = require('./the_lula_inn');
-const scrapeSweatShopBrew = require('./sweat_shop_brew');
-const scrapeImpalaNightclub = require('./impala_nightclub');
 const scrape1885Britomart = require('./1885_britomart');
 const scrapeSparkArenaNew = require('./spark_arena');
-const scrapeWhammyBar = require('./whammy_bar');
 const scrapeGalatosVenue = require('./galatos_venue');
 const scrapeTuningFork = require('./tuning_fork');
-const scrapeEventfindaAuckland = require('./eventfinda_auckland');
+const scrapeRnzbAuckland = require('./scrape-rnzb-auckland');
 
-module.exports = {
+const _rawExports = {
   scrapeAucklandArtsFest,
-  scrapeAucklandCityLimits,
   scrapeAucklandLanternFest,
   scrapeAucklandPride,
   scrapeAucklandlive,
@@ -52,34 +47,24 @@ module.exports = {
   scrapeCivic,
   scrapeDepot,
   scrapeDiwaliAuckland,
-  scrapeEden,
   scrapeGalatos,
-  scrapeHollywood,
   scrapeKings,
-  scrapeLanewayFestivalAkl,
   scrapeMatarikiFestAkl,
   scrapeNeck,
-  scrapePasifikaFestival,
-  scrapePonsonby,
   scrapePowerstation,
-  scrapeSparkArena,
   scrapeStudio,
-  scrapeTasteOfAuckland,
-  scrapeWhammy,
-  scrapeWine,
   scrapeCrownAuckland,
-  scrapeImpalaAuckland,
-  scrapeRoxyAuckland,
-  scrapeFeverAuckland,
-  scrapeFamilyTime,
   scrapeBasementTheatre,
-  scrapeLulaInn,
-  scrapeSweatShopBrew,
-  scrapeImpalaNightclub,
   scrape1885Britomart,
   scrapeSparkArenaNew,
-  scrapeWhammyBar,
   scrapeGalatosVenue,
   scrapeTuningFork,
-  scrapeEventfindaAuckland
+  scrapeRnzbAuckland,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

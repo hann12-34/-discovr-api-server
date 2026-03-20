@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * nottingham Scrapers - 39 scrapers
  */
@@ -40,14 +42,10 @@ const scrapeTheTapAndTumbler = require('./the_tap_and_tumbler');
 const scrapeTheatreRoyal = require('./theatre_royal');
 const scrapeTrentBridge = require('./trent_bridge');
 const scrapePryzmNottingham = require('./pryzm_nottingham');
-const scrapeRockCityV2 = require('./rock_city_v2');
-const scrapeRescueRoomsV2 = require('./rescue_rooms_v2');
-const scrapeStealthV2 = require('./stealth_v2');
-const scrapeBodegaV2 = require('./bodega_v2');
-const scrapeMotorpointV2 = require('./motorpoint_v2');
-const scrapeRoughTradeV2 = require('./rough_trade_v2');
+// Removed v2 scrapers with fake date generation
+const scrapeVisitNottinghamshire = require('./visit_nottinghamshire');
 
-module.exports = {
+const _rawExports = {
   scrapeBodega,
   scrapeConfetti,
   scrapeGooseFair,
@@ -86,10 +84,12 @@ module.exports = {
   scrapeTheatreRoyal,
   scrapeTrentBridge,
   scrapePryzmNottingham,
-  scrapeRockCityV2,
-  scrapeRescueRoomsV2,
-  scrapeStealthV2,
-  scrapeBodegaV2,
-  scrapeMotorpointV2,
-  scrapeRoughTradeV2
+  scrapeVisitNottinghamshire
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

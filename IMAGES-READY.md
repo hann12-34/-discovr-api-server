@@ -15,7 +15,7 @@ Now **EVERY Vancouver event** automatically gets:
 
 ### **1. Import Vancouver Events:**
 ```bash
-cd /Users/seongwoohan/Desktop/discovr-api-server
+cd /Users/seongwoo/Desktop/discovr-api-server
 node ImportFiles/import-all-vancouver-events.js
 ```
 

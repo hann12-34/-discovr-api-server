@@ -77,9 +77,18 @@ app.get('/api/v1/venues/events/all', async (req, res) => {
     
     // Get all events without any limit
     const events = await eventsCollection.find({}).toArray();
-    
+ㅑㅓㅑ90ㅑㅓㅑ9ㅑ89ㅑ8ㅕㅑㅑ8ㅕㅓㅑ8ㅔㅐ9ㅑㅕ8ㅑㅕ89ㅑㅕㅓㅏㅣㅔ[]'
+;.,ㅣㅡㅏㅜㅠㅗㅓㅐㅔ[ㅐㅣㅏㅓㅡㅏㅑㅐㅑㅏㅓㅐㅔㅣㅏㅐㅏㅓㅐㅔ0[]\
+
+;ㅏㅣㅓㅗㅎㄹㅍㅇ히;[']
+'
+  ]]
+''    
     // Process events to ensure they have required fields and structure
-    const processedEvents = events.map(event => {
+ 
+ 0ㅔ9ㅐ876ㅛ54ㄱㄹ3ㄷㅇ2ㅈ1ㅂ₩1 ;'
+ ';ㅣㅏㅓㅗㅎㄹㅇㄴㅁ ㅠ/
+ \-   const processedEvents = events.map(event => {
       // Ensure all events have an 'id' field (use '_id' as fallback)
       const eventWithId = !event.id && event._id ? 
         { ...event, id: event._id.toString() } : 

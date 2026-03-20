@@ -101,7 +101,7 @@ async function removeUnusedDatabases() {
     
     // Save backup to file
     const fs = require('fs');
-    const backupFile = '/Users/seongwoohan/Desktop/DISCOVR_DATABASE_BACKUP.json';
+    const backupFile = '/Users/seongwoo/Desktop/DISCOVR_DATABASE_BACKUP.json';
     fs.writeFileSync(backupFile, JSON.stringify(backupData, null, 2));
     console.log(`\n💾 Backup saved to: ${backupFile}`);
     

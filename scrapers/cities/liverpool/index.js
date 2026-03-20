@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * liverpool Scrapers - 40 scrapers
  */
@@ -45,10 +47,10 @@ const scrapeCargoLiverpool = require('./cargo_liverpool');
 const scrapeHeebieJeebies = require('./heebie_jeebies');
 const scrape54Liverpool = require('./54_liverpool');
 const scrapeInvisibleWindFactory = require('./invisible_wind_factory');
-const scrapeMansionLiverpool = require('./mansion_liverpool');
-const scrapeHangar34V2 = require('./hangar34_v2');
+// Removed hangar34_v2, mansion_liverpool - fake date generation
+const scrapeVisitLiverpoolEvents = require('./visit_liverpool_events');
 
-module.exports = {
+const _rawExports = {
   scrape24kitchen,
   scrapeAnfieldStadium,
   scrapeArts,
@@ -92,6 +94,12 @@ module.exports = {
   scrapeHeebieJeebies,
   scrape54Liverpool,
   scrapeInvisibleWindFactory,
-  scrapeMansionLiverpool,
-  scrapeHangar34V2
+  scrapeVisitLiverpoolEvents
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

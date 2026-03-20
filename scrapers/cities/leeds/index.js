@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * leeds Scrapers - 41 scrapers
  */
@@ -9,13 +11,13 @@ const scrapeEllandRoad = require('./elland_road');
 const scrapeFirstDirectArena = require('./first_direct_arena');
 const scrapeHeadrowHouse = require('./headrow_house');
 const scrapeHydeParkBookClub = require('./hyde_park_book_club');
-const scrapeLeedsBeerWeek = require('./leeds_beer_week');
+// Removed: leeds_beer_week - ERR_CERT_COMMON_NAME_INVALID
 const scrapeLeedsChristmasLights = require('./leeds_christmas_lights');
 const scrapeLeedsCocktailWeek = require('./leeds_cocktail_week');
-const scrapeLeedsComedyFest = require('./leeds_comedy_fest');
+// Removed: leeds_comedy_fest - dead URL (ERR_NAME_NOT_RESOLVED)
 const scrapeLeedsDigitalFest = require('./leeds_digital_fest');
 const scrapeLeedsDiwali = require('./leeds_diwali');
-const scrapeLeedsDragonBoat = require('./leeds_dragon_boat');
+// Removed: leeds_dragon_boat - dead URL (ERR_NAME_NOT_RESOLVED)
 const scrapeLeedsFestival = require('./leeds_festival');
 const scrapeLeedsGrandTheatre = require('./leeds_grand_theatre');
 const scrapeLeedsIndieFoodFest = require('./leeds_indie_food_fest');
@@ -24,29 +26,30 @@ const scrapeLeedsJazzFest = require('./leeds_jazz_fest');
 const scrapeLeedsLightNight = require('./leeds_light_night');
 const scrapeLeedsNewYears = require('./leeds_new_years');
 const scrapeLeedsPlayhouse = require('./leeds_playhouse');
-const scrapeLeedsPrideFest = require('./leeds_pride_fest');
+// Removed: leeds_pride_fest - dead URL (ERR_NAME_NOT_RESOLVED)
 const scrapeLeedsVeganFest = require('./leeds_vegan_fest');
-const scrapeLeedsWestIndianCarnival = require('./leeds_west_indian_carnival');
+// Removed: leeds_west_indian_carnival - dead URL (ERR_NAME_NOT_RESOLVED)
 const scrapeMillenniumSquare = require('./millennium_square');
 const scrapeMillenniumSquareEvents = require('./millennium_square_events');
 const scrapeNationOfShopkeepers = require('./nation_of_shopkeepers');
 const scrapeO2academy = require('./o2academy');
 const scrapeRoundhayParkConcerts = require('./roundhay_park_concerts');
-const scrapeStylus = require('./stylus');
-const scrapeTempleNewsam = require('./temple_newsam');
+// Removed: stylus - dead URL (ERR_NAME_NOT_RESOLVED)
+// Removed: temple_newsam - dead URL (ERR_NAME_NOT_RESOLVED)
 const scrapeTheAdelphi = require('./the_adelphi');
 const scrapeTheFenton = require('./the_fenton');
 const scrapeTheHifiClub = require('./the_hifi_club');
-const scrapeTheLibrary = require('./the_library');
+// Removed: the_library - dead URL (ERR_NAME_NOT_RESOLVED)
 const scrapeThePackhorse = require('./the_packhorse');
-const scrapeTheWardrobe = require('./the_wardrobe');
-const scrapeWestIndianCentre = require('./west_indian_centre');
+// Removed: the_wardrobe - dead URL (ERR_NAME_NOT_RESOLVED)
+// Removed: west_indian_centre - dead URL (ERR_NAME_NOT_RESOLVED)
 const scrapeWireLeeds = require('./wire_leeds');
 const scrapeTheWarehouseLeeds = require('./the_warehouse_leeds');
 const scrapePryzmLeeds = require('./pryzm_leeds');
-const scrapeBrudenellV2 = require('./brudenell_v2');
+// Removed brudenell_v2 - fake date generation
+const scrapeLeedsListEvents = require('./leeds_list_events');
 
-module.exports = {
+const _rawExports = {
   scrapeBelgraveMusicHall,
   scrapeBrudenellSocial,
   scrapeCityVarieties,
@@ -54,13 +57,10 @@ module.exports = {
   scrapeFirstDirectArena,
   scrapeHeadrowHouse,
   scrapeHydeParkBookClub,
-  scrapeLeedsBeerWeek,
   scrapeLeedsChristmasLights,
   scrapeLeedsCocktailWeek,
-  scrapeLeedsComedyFest,
   scrapeLeedsDigitalFest,
   scrapeLeedsDiwali,
-  scrapeLeedsDragonBoat,
   scrapeLeedsFestival,
   scrapeLeedsGrandTheatre,
   scrapeLeedsIndieFoodFest,
@@ -69,25 +69,25 @@ module.exports = {
   scrapeLeedsLightNight,
   scrapeLeedsNewYears,
   scrapeLeedsPlayhouse,
-  scrapeLeedsPrideFest,
   scrapeLeedsVeganFest,
-  scrapeLeedsWestIndianCarnival,
   scrapeMillenniumSquare,
   scrapeMillenniumSquareEvents,
   scrapeNationOfShopkeepers,
   scrapeO2academy,
   scrapeRoundhayParkConcerts,
-  scrapeStylus,
-  scrapeTempleNewsam,
   scrapeTheAdelphi,
   scrapeTheFenton,
   scrapeTheHifiClub,
-  scrapeTheLibrary,
   scrapeThePackhorse,
-  scrapeTheWardrobe,
-  scrapeWestIndianCentre,
   scrapeWireLeeds,
   scrapeTheWarehouseLeeds,
   scrapePryzmLeeds,
-  scrapeBrudenellV2
+  scrapeLeedsListEvents
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

@@ -118,20 +118,12 @@ const FoxCabaretEvents = {
             }
           }
 
-          // Generate clean description
-          const description = sanitizeDescription(
-            null,
-            eventTitle,
-            'Fox Cabaret',
-            'Vancouver'
-          );
-
           events.push({
             id: uuidv4(),
             title: eventTitle,
-            description: description,
+            description: '',
             date: isoDate || eventDate,
-            startDate: isoDate ? new Date(isoDate + 'T12:00:00') : null,
+            startDate: isoDate ? new Date(isoDate + 'T00:00:00.000Z') : null,
             url: url && url.startsWith('http') ? url : (url ? 'https://www.foxcabaret.com' + url : 'https://www.foxcabaret.com'),
             imageUrl: imageUrl || null,  // Real poster image or null
             venue: { name: 'Fox Cabaret', address: '2321 Main Street, Vancouver, BC V5T 3C9', city: 'Vancouver' },
@@ -146,6 +138,30 @@ const FoxCabaretEvents = {
         }
       });
       
+      // Fetch descriptions from detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http') || event.url === 'https://www.foxcabaret.com') continue;
+        try {
+          const detailRes = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const $d = cheerio.load(detailRes.data);
+          let desc = $d('meta[property="og:description"]').attr('content') || '';
+          if (!desc || desc.length < 20) {
+            for (const sel of ['.eventitem-column-content p', '.sqs-block-content p', '.event-description', 'article p', '.entry-content p']) {
+              const t = $d(sel).first().text().trim();
+              if (t && t.length > 30) { desc = t; break; }
+            }
+          }
+          if (desc) {
+            desc = desc.replace(/\s+/g, ' ').trim();
+            if (desc.length > 500) desc = desc.substring(0, 500) + '...';
+            event.description = desc;
+          }
+        } catch (e) { /* skip */ }
+      }
+
       console.log(`\n✅ Found ${events.length} Fox Cabaret events`);
       return filterEvents(events);
       

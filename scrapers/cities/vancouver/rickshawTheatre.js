@@ -5,6 +5,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
@@ -30,27 +32,31 @@ const RickshawTheatreEvents = {
 
       await new Promise(resolve => setTimeout(resolve, 3000));
 
-      // Extract event data from the page
+      // Extract event data from the page - DO NOT USE EVENTBRITE URLs (competitor!)
       const eventData = await page.evaluate(() => {
         const events = [];
-        const links = document.querySelectorAll('a[href*="eventbrite"]');
+        const seen = new Set();
+        
+        // Find event containers - look for divs with dates and titles
+        const containers = document.querySelectorAll('article, .event, [class*="event"], .show, section');
 
-        links.forEach(link => {
-          const container = link.closest('div, article, section');
-          if (!container) return;
+        containers.forEach(container => {
+          const text = container.innerText || '';
+          
+          // Look for date patterns
+          const datePattern = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{4}/i;
+          const dateMatch = text.match(datePattern);
+          if (!dateMatch) return;
 
           let title = '';
           const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
           if (titleEl) {
             title = titleEl.textContent.trim();
           }
-
-          // Get date
-          let date = '';
-          const dateEl = container.querySelector('.date, time, [class*="date"]');
-          if (dateEl) {
-            date = dateEl.textContent.trim();
-          }
+          
+          if (!title || title.length < 4) return;
+          if (seen.has(title)) return;
+          seen.add(title);
 
           // Get REAL POSTER IMAGE
           let imageUrl = null;
@@ -62,12 +68,21 @@ const RickshawTheatreEvents = {
             }
           }
 
+          // Get description from event container
+          let description = '';
+          const descEl = container.querySelector('p, .description, .event-description, .event-content');
+          if (descEl) {
+            description = descEl.textContent.trim();
+            if (description.length > 500) description = description.substring(0, 500) + '...';
+          }
+
           if (title && title.length > 3 && !title.toLowerCase().includes('get tickets')) {
             events.push({
               title,
-              date,
-              url: link.href,
-              imageUrl: imageUrl
+              date: dateMatch[0],
+              url: 'https://www.rickshawtheatre.com/',
+              imageUrl: imageUrl,
+              description: description
             });
           }
         });
@@ -104,20 +119,48 @@ const RickshawTheatreEvents = {
           id: uuidv4(),
           title: title,
           date: isoDate || date,
-          startDate: isoDate ? new Date(isoDate + 'T00:00:00') : null,
+          startDate: isoDate ? new Date(isoDate + 'T00:00:00.000Z') : null,
           time: null,
           url: url,
           venue: { name: 'Rickshaw Theatre', address: '254 East Hastings Street, Vancouver, BC V6A 1P1', city: 'Vancouver' },
           latitude: 49.2822,
           longitude: -123.0962,
           location: 'Vancouver, BC',
-          description: null,
+          description: event.description || '',
           category: 'Concert',
           city: 'Vancouver',
           imageUrl: imageUrl || null,  // Real poster image or null
           source: 'Rickshaw Theatre'
         });
       });
+
+      // Fetch descriptions from event detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
 
       console.log(`\n✅ Found ${events.length} Rickshaw Theatre events`);
       return filterEvents(events);

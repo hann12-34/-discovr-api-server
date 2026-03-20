@@ -8,7 +8,7 @@ This guide addresses common issues that may occur with the Fortune Sound Club sc
 
 1. **Check Python Scraper Output**
    ```bash
-   cd /Users/seongwoohan/CascadeProjects/Discovr-API/Scrapers/FortuneSound
+   cd /Users/seongwoo/CascadeProjects/Discovr-API/Scrapers/FortuneSound
    python3 fortune_scraper.py
    ```
    
@@ -21,14 +21,14 @@ This guide addresses common issues that may occur with the Fortune Sound Club sc
 
 2. **Verify JSON Output Format**
    ```bash
-   cat /Users/seongwoohan/CascadeProjects/Discovr-API/Scrapers/FortuneSound/fortune_events.json
+   cat /Users/seongwoo/CascadeProjects/Discovr-API/Scrapers/FortuneSound/fortune_events.json
    ```
    
    The output should be a direct array of event objects, not wrapped in another object.
 
 3. **Test the Bridge Integration**
    ```bash
-   cd /Users/seongwoohan/CascadeProjects/Discovr-API
+   cd /Users/seongwoo/CascadeProjects/Discovr-API
    node test-fortune-bridge.js
    ```
    

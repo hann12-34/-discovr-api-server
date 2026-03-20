@@ -14,7 +14,22 @@ class CityScraper {
       toronto: './Toronto',
       miami: './Miami',
       'los-angeles': './Los Angeles',
-      seattle: './Seattle'
+      seattle: './Seattle',
+      philadelphia: './Philadelphia',
+      chicago: './Chicago',
+      denver: './Denver',
+      nashville: './Nashville',
+      'washington-dc': './Washington DC',
+      atlanta: './Atlanta',
+      phoenix: './Phoenix',
+      detroit: './Detroit',
+      'new-orleans': './New Orleans',
+      pittsburgh: './Pittsburgh',
+      raleigh: './Raleigh',
+      charleston: './Charleston',
+      'st-louis': './St Louis',
+      sacramento: './Sacramento',
+      madison: './Madison'
     };
   }
 

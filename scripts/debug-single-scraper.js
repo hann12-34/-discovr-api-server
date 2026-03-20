@@ -15,7 +15,7 @@ async function debugSingleScraper() {
     
     // Test one scraper with full error details
     const scraperFilename = 'scrape-ago-events-clean.js';
-    const scraperPath = path.join('/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto', scraperFilename);
+    const scraperPath = path.join('/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto', scraperFilename);
     
     console.log(`\n🧪 Testing: ${scraperFilename}`);
     console.log(`📁 Path: ${scraperPath}`);

@@ -188,7 +188,7 @@ const montrealVenues = [
 
 async function reconstructMontrealScrapers() {
     console.log('🚀 Starting Montreal nuclear reconstruction campaign...');
-    const targetDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Montreal';
+    const targetDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Montreal';
     let successCount = 0;
 
     for (const venue of montrealVenues) {

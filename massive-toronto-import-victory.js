@@ -54,7 +54,7 @@ async function massiveTorontoImportVictory() {
         console.log('=' * 70);
         
         const importProcess = spawn('node', ['Import files/import-all-toronto-events.js'], {
-            cwd: '/Users/seongwoohan/CascadeProjects/discovr-api-server',
+            cwd: '/Users/seongwoo/CascadeProjects/discovr-api-server',
             env: env,
             stdio: 'pipe'
         });

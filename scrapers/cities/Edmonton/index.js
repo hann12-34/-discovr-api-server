@@ -2,6 +2,7 @@
  * Edmonton Scrapers - 50 scrapers (focused on nightlife + working venues)
  */
 
+const scrapeWinspearCentreEdmonton = require('./scrape-winspear-centre-edmonton');
 const scrapeRogersplace = require('./rogersplace');
 const scrapeStarlite = require('./starlite');
 const scrapeExpoCentre = require('./expoCentre');
@@ -15,10 +16,10 @@ const scrapeTelfordHouse = require('./telfordhouse');
 const scrapeIceDistrict = require('./icedistrict');
 const scrapeCenturyCasino = require('./centurycasino');
 const scrapeWhyteAve = require('./whyteave');
-const scrapeWinspear = require('./winspear');
-const scrapeJubilee = require('./jubilee');
+// winspear v1 removed (winspear2 covers same venue)
+// jubilee v1 removed (jubilee2 covers same venue)
 const scrapeUnionhall = require('./unionhall');
-const scrapeCitadeltheatre = require('./citadeltheatre');
+// citadeltheatre v1 removed (citadel2 covers same venue)
 const scrapeYardbirdSuite = require('./yardbirdSuite');
 const scrapeBluesOnWhyte = require('./bluesOnWhyte');
 const scrapeNeedleVinyl = require('./needlevinyl');
@@ -50,22 +51,24 @@ const scrapeFortEdmonton = require('./fortedmonton');
 const scrapeTelus = require('./telaboreum');
 const scrapeEdmCityEvents = require('./edmcityevents');
 const scrapeEdmLibrary = require('./edmlibrary');
-const scrapeEdmMotoshow = require('./edmmotoshow');
+// Removed: edmmotoshow - timeout
 const scrapeOilKings = require('./edmoilkings');
-const scrapeEdmNightlife = require('./edmnightlife');
-const scrapeEdmSports = require('./edmsports');
+// Removed: edmnightlife - dead URL
+// Removed: edmsports - certificate error
 const scrapeEdmUnion = require('./edmunion');
 const scrapeEdmPools = require('./edmpools');
 const scrapeEdmArtsCouncil = require('./edmartscouncil');
-const scrapeEdmNewCity = require('./edmnewcity');
+// Removed: edmnewcity - dead URL
 const scrapeEdmPride = require('./edmpride');
 const scrapeEdmSherwood = require('./edmsherwood');
 const scrapeEdmConcertHall = require('./edmconcerthall');
-const scrape99ten = require('./ninetynineten');
+const scrape99ten = require('./ninetynineten'); // REBUILT - fast single-page scrape
 const scrapeMidwayMusicHall = require('./midwaymusichall');
 const scrapeTheCommon = require('./thecommon');
 
-module.exports = {
+const { enhanceEvents } = require('../../utils/fetchEventDetails');
+
+const _rawScrapers = {
   scrapeRogersplace,
   scrapeStarlite,
   scrapeExpoCentre,
@@ -79,10 +82,7 @@ module.exports = {
   scrapeIceDistrict,
   scrapeCenturyCasino,
   scrapeWhyteAve,
-  scrapeWinspear,
-  scrapeJubilee,
   scrapeUnionhall,
-  scrapeCitadeltheatre,
   scrapeYardbirdSuite,
   scrapeBluesOnWhyte,
   scrapeNeedleVinyl,
@@ -106,26 +106,31 @@ module.exports = {
   scrapeOilers,
   scrapeElks,
   scrapeWEM,
-  scrapeCitadel2,
-  scrapeWinspear2,
-  scrapeJubilee2,
+  scrapeCitadel2, // Citadel Theatre
+  scrapeWinspear2, // Winspear Centre
+  scrapeJubilee2, // Jubilee Auditorium
   scrapeEdmontonValleyZoo,
   scrapeFortEdmonton,
   scrapeTelus,
   scrapeEdmCityEvents,
   scrapeEdmLibrary,
-  scrapeEdmMotoshow,
   scrapeOilKings,
-  scrapeEdmNightlife,
-  scrapeEdmSports,
   scrapeEdmUnion,
   scrapeEdmPools,
   scrapeEdmArtsCouncil,
-  scrapeEdmNewCity,
   scrapeEdmPride,
   scrapeEdmSherwood,
   scrapeEdmConcertHall,
   scrape99ten,
   scrapeMidwayMusicHall,
-  scrapeTheCommon
+  scrapeTheCommon,
+  scrapeWinspearCentreEdmonton,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [key, fn] of Object.entries(_rawScrapers)) {
+  _wrapped[key] = async (...args) => enhanceEvents(await fn(...args));
+}
+
+module.exports = _wrapped;

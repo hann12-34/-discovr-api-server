@@ -3,6 +3,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeMardiGras(city = 'Sydney') {
@@ -44,8 +46,36 @@ async function scrapeMardiGras(city = 'Sydney') {
       const key = `${evt.title}-${isoDate}`;
       if (seenKeys.has(key)) continue;
       seenKeys.add(key);
-      results.push({ id: uuidv4(), title: evt.title, description: null, date: isoDate, startDate: new Date(isoDate + 'T19:00:00'), url: evt.url, imageUrl: evt.image && evt.image.startsWith('http') ? evt.image : null, venue: { name: 'Oxford Street', address: 'Oxford Street, Darlinghurst NSW 2010', city: 'Sydney' }, latitude: -33.8786, longitude: 151.2167, city: 'Sydney', category: 'Festival', source: 'Mardi Gras' });
+      results.push({ id: uuidv4(), title: evt.title, description: '', date: isoDate, startDate: new Date(isoDate + 'T00:00:00.000Z'), url: evt.url, imageUrl: evt.image && evt.image.startsWith('http') ? evt.image : null, venue: { name: 'Oxford Street', address: 'Oxford Street, Darlinghurst NSW 2010', city: 'Sydney' }, latitude: -33.8786, longitude: 151.2167, city: 'Sydney', category: 'Festival', source: 'Mardi Gras' });
     }
+
+      // Fetch descriptions from event detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
     console.log(`  ✅ Found ${results.length} Mardi Gras events`);
     return results;
   } catch (err) {

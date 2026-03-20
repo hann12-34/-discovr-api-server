@@ -1,9 +1,11 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Ottawa Scrapers - 115 scrapers
  */
 
 const scrape27ClubOttawa = require('./27_club_ottawa');
-const scrape27club = require('./27club');
+// const scrape27club = require('./27club'); // DISABLED - duplicate of 27_club_ottawa
 const scrapeAberdeen = require('./aberdeen');
 const scrapeAbsoluteComedy = require('./absolute-comedy');
 const scrapeAbsoluteComedyOttawa = require('./absolute_comedy_ottawa');
@@ -46,9 +48,9 @@ const scrapeGreatcanadiantheater = require('./greatcanadiantheater');
 const scrapeHeart = require('./heart');
 const scrapeHistoryMuseum = require('./history-museum');
 const scrapeHouseOfTarg = require('./house_of_targ');
-const scrapeHouseoftarg2 = require('./houseoftarg');
+// const scrapeHouseoftarg2 = require('./houseoftarg'); // DISABLED - duplicate of house_of_targ
 const scrapeIreneSPub = require('./irene_s_pub');
-const scrapeIrenes = require('./irenes');
+// const scrapeIrenes = require('./irenes'); // DISABLED - duplicate of irene_s_pub
 const scrapeJacquesCartier = require('./jacques_cartier');
 const scrapeKanataTheatre = require('./kanata-theatre');
 const scrapeKichesippi = require('./kichesippi');
@@ -61,7 +63,7 @@ const scrapeLiveOnLansdowne = require('./live_on_lansdowne');
 const scrapeMajorsHill = require('./majors_hill');
 const scrapeMavericks = require('./mavericks');
 const scrapeMercuryLoungeOttawa = require('./mercury_lounge_ottawa');
-const scrapeMercurylounge = require('./mercurylounge');
+// const scrapeMercurylounge = require('./mercurylounge'); // DISABLED - duplicate of mercury_lounge_ottawa
 const scrapeMeridianTheatres = require('./meridian-theatres');
 const scrapeMetropolit = require('./metropolit');
 const scrapeMillStreetPub = require('./mill-street-pub');
@@ -80,9 +82,9 @@ const scrapeOttawaSports = require('./ottawa-sports');
 const scrapeOttawa67s = require('./ottawa67s');
 const scrapeOttawa67sHockey = require('./ottawa_67s_hockey');
 const scrapeOttawaJazzFestival = require('./ottawa_jazz_festival');
-const scrapeOttawaSenatorsHockey = require('./ottawa_senators_hockey');
-const scrapeOttawabluesfest = require('./ottawabluesfest');
-const scrapeOttawajazzfest = require('./ottawajazzfest');
+// const scrapeOttawaSenatorsHockey = require('./ottawa_senators_hockey'); // DISABLED - duplicate of ottawa-senators
+// const scrapeOttawabluesfest = require('./ottawabluesfest'); // DISABLED - duplicate of bluesfest_music
+// const scrapeOttawajazzfest = require('./ottawajazzfest'); // DISABLED - duplicate of ottawa_jazz_festival
 const scrapePerfectBass = require('./perfect-bass');
 const scrapePlayFood = require('./play-food');
 const scrapePlosive = require('./plosive');
@@ -90,7 +92,7 @@ const scrapePressed = require('./pressed');
 const scrapeRainbowBistro = require('./rainbow_bistro');
 const scrapeRalesbar = require('./ralesbar');
 const scrapeRedblacks = require('./redblacks');
-const scrapeRedblacksFootball = require('./redblacks_football');
+// const scrapeRedblacksFootball = require('./redblacks_football'); // DISABLED - duplicate of redblacks
 const scrapeRideauCarleton = require('./rideau-carleton');
 const scrapeRitchieMarket = require('./ritchie_market');
 const scrapeRitual = require('./ritual');
@@ -117,10 +119,12 @@ const scrapeWhalesbone = require('./whalesbone');
 const scrapeWinterlude = require('./winterlude');
 const scrapeZaphods = require('./zaphods');
 const scrapeZaphodsBierock = require('./zaphods_bierock');
+const scrapeNacOttawaEvents = require('./scrape-nac-ottawa-events');
+const scrapeNacOttawaPptr = require('./scrape-nac-ottawa-pptr');
+const scrapeNationalArtsCentre = require('./scrape-national-arts-centre');
 
-module.exports = {
+const _rawExports = {
   scrape27ClubOttawa,
-  scrape27club,
   scrapeAberdeen,
   scrapeAbsoluteComedy,
   scrapeAbsoluteComedyOttawa,
@@ -163,9 +167,7 @@ module.exports = {
   scrapeHeart,
   scrapeHistoryMuseum,
   scrapeHouseOfTarg,
-  scrapeHouseoftarg2,
   scrapeIreneSPub,
-  scrapeIrenes,
   scrapeJacquesCartier,
   scrapeKanataTheatre,
   scrapeKichesippi,
@@ -178,7 +180,6 @@ module.exports = {
   scrapeMajorsHill,
   scrapeMavericks,
   scrapeMercuryLoungeOttawa,
-  scrapeMercurylounge,
   scrapeMeridianTheatres,
   scrapeMetropolit,
   scrapeMillStreetPub,
@@ -197,9 +198,6 @@ module.exports = {
   scrapeOttawa67s,
   scrapeOttawa67sHockey,
   scrapeOttawaJazzFestival,
-  scrapeOttawaSenatorsHockey,
-  scrapeOttawabluesfest,
-  scrapeOttawajazzfest,
   scrapePerfectBass,
   scrapePlayFood,
   scrapePlosive,
@@ -207,7 +205,6 @@ module.exports = {
   scrapeRainbowBistro,
   scrapeRalesbar,
   scrapeRedblacks,
-  scrapeRedblacksFootball,
   scrapeRideauCarleton,
   scrapeRitchieMarket,
   scrapeRitual,
@@ -234,4 +231,14 @@ module.exports = {
   scrapeWinterlude,
   scrapeZaphods,
   scrapeZaphodsBierock,
+  scrapeNacOttawaEvents,
+  scrapeNacOttawaPptr,
+  scrapeNationalArtsCentre,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

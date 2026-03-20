@@ -210,7 +210,7 @@ const newYorkVenues = [
 
 async function reconstructNewYorkScrapers() {
     console.log('🗽 Starting New York nuclear reconstruction campaign...');
-    const targetDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/New York';
+    const targetDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/New York';
     let successCount = 0;
 
     for (const venue of newYorkVenues) {

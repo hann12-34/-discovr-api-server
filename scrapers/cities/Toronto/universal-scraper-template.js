@@ -384,6 +384,7 @@ function createUniversalScraper(venueName, url, address) {
         events.push({
           id: uuidv4(),
           title,
+          description: '',
           date: dateText,
           venue: { name: venueName, address: address, city: city },
           url: fullUrl,
@@ -421,6 +422,50 @@ function createUniversalScraper(venueName, url, address) {
       if (!seen.has(key)) {
         seen.add(key);
         uniqueEvents.push(event);
+      }
+    }
+    
+    // FETCH og:image and description from each event detail page
+    for (const event of uniqueEvents) {
+      const needsImage = !event.imageUrl && !event.image;
+      const needsDesc = !event.description;
+      if (!needsImage && !needsDesc) continue;
+      
+      if (event.url && event.url.startsWith('http')) {
+        try {
+          const eventPage = await axios.get(event.url, {
+            timeout: 8000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' }
+          });
+          const $evt = cheerio.load(eventPage.data);
+          
+          if (needsImage) {
+            const ogImage = $evt('meta[property="og:image"]').attr('content');
+            if (ogImage && ogImage.startsWith('http')) {
+              event.imageUrl = ogImage;
+            }
+          }
+          
+          if (needsDesc) {
+            let desc = $evt('meta[property="og:description"]').attr('content') || '';
+            if (!desc || desc.length < 20) {
+              desc = $evt('meta[name="description"]').attr('content') || '';
+            }
+            if (!desc || desc.length < 20) {
+              for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+                const _t = $evt(_s).first().text().trim();
+                if (_t && _t.length > 30) { desc = _t; break; }
+              }
+            }
+            if (desc) {
+              desc = desc.replace(/\s+/g, ' ').trim();
+              if (desc.length > 500) desc = desc.substring(0, 500) + '...';
+              event.description = desc;
+            }
+          }
+        } catch (e) {
+          // Skip if can't fetch
+        }
       }
     }
     

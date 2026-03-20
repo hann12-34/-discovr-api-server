@@ -18,7 +18,7 @@ function forceRenderRestart() {
     console.log('🚨 Production server still returns 404 - need to restart!\n');
     
     // Method 1: Add a timestamp comment to force redeploy
-    const serverFile = '/Users/seongwoohan/CascadeProjects/discovr-api-server/unified-proxy-server.js';
+    const serverFile = '/Users/seongwoo/CascadeProjects/discovr-api-server/unified-proxy-server.js';
     
     if (fs.existsSync(serverFile)) {
         console.log('📝 STEP 1: Adding timestamp to trigger redeploy...\n');
@@ -40,7 +40,7 @@ function forceRenderRestart() {
         console.log('📝 This change will trigger Render to redeploy the server');
         
         // Also update package.json version to ensure rebuild
-        const packageFile = '/Users/seongwoohan/CascadeProjects/discovr-api-server/package.json';
+        const packageFile = '/Users/seongwoo/CascadeProjects/discovr-api-server/package.json';
         
         if (fs.existsSync(packageFile)) {
             console.log('\n📦 STEP 2: Updating package.json version...\n');
@@ -63,7 +63,7 @@ function forceRenderRestart() {
         console.log('\n🚀 STEP 3: Creating deployment commit...\n');
         console.log('Run these commands to trigger Render redeploy:');
         console.log('');
-        console.log('cd /Users/seongwoohan/CascadeProjects/discovr-api-server');
+        console.log('cd /Users/seongwoo/CascadeProjects/discovr-api-server');
         console.log('git add .');
         console.log('git commit -m "Force restart: Fix database connection to discovr"');
         console.log('git push');

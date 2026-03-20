@@ -459,7 +459,7 @@
       "valid": false,
       "hasInstance": false,
       "hasScrapeMethod": false,
-      "error": "Cannot find module './pembertomRecCentreEvents_clean'\nRequire stack:\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Vancouver/index.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Vancouver/validate_scrapers.js\n- /Users/seongwoohan/CascadeProjects/discovr-api-server/[eval]"
+      "error": "Cannot find module './pembertomRecCentreEvents_clean'\nRequire stack:\n- /Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Vancouver/index.js\n- /Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Vancouver/validate_scrapers.js\n- /Users/seongwoo/CascadeProjects/discovr-api-server/[eval]"
     },
     {
       "file": "irishHeather.js",

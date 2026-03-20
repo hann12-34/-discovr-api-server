@@ -7,22 +7,38 @@ const { toISODate } = require('../../utils/dateNormalizer');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-// Helper function to fetch image from event URL (og:image only)
-async function fetchEventImage(url) {
-    if (!url || !url.startsWith('http')) return null;
-    // Skip listing pages - they return venue images, not event images
+// Helper function to fetch image AND description from event URL
+async function fetchEventDetails(url) {
+    const result = { image: null, description: null };
+    if (!url || !url.startsWith('http')) return result;
     const listingPatterns = [/\/events\/?$/i, /\/calendar\/?$/i, /\/shows\/?$/i, /\/whats-on\/?$/i, /\/schedule\/?$/i];
-    if (listingPatterns.some(p => p.test(url))) return null;
+    if (listingPatterns.some(p => p.test(url))) return result;
     try {
         const response = await axios.get(url, {
             headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
             timeout: 8000
         });
         const $ = cheerio.load(response.data);
-        return $('meta[property="og:image"]').attr('content') || null;
-    } catch (e) {
-        return null;
-    }
+        const ogImage = $('meta[property="og:image"]').attr('content');
+        if (ogImage && !/logo|placeholder|default|favicon|icon/i.test(ogImage)) {
+            result.image = ogImage;
+        }
+        const ogDesc = $('meta[property="og:description"]').attr('content');
+        const metaDesc = $('meta[name="description"]').attr('content');
+        let desc = ogDesc || metaDesc || null;
+        if (!desc) {
+            for (const sel of ['.event-description', '.description', '.event-content', '.entry-content', 'article p', 'main p']) {
+                const text = $(sel).first().text().trim();
+                if (text && text.length > 30 && text.length < 2000) { desc = text; break; }
+            }
+        }
+        if (desc) {
+            desc = desc.replace(/\s+/g, ' ').trim();
+            if (desc.length > 1000) desc = desc.substring(0, 1000) + '...';
+            if (desc.length >= 20) result.description = desc;
+        }
+        return result;
+    } catch (e) { return result; }
 }
 
 class MontrealScrapers {
@@ -58,6 +74,14 @@ class MontrealScrapers {
         const scrapeLAstral = require('./scrape-l-astral');
         const scrapeQuartierSpectacles = require('./scrape-quartier-spectacles');
         const scrapeOSM = require('./scrape-osm-concerts');
+const scrapeCoronaTheatre = require('./scrape-corona-theatre');
+const scrapeEvenkoApi = require('./scrape-evenko-api');
+const scrapeLaTulipe = require('./scrape-la-tulipe');
+const scrapeMontrealComprehensive = require('./scrape-montreal-comprehensive');
+const scrapeMontrealGuaranteedEvents = require('./scrape-montreal-guaranteed-events');
+const scrapeMtelusPuppeteer = require('./scrape-mtelus-puppeteer');
+const scrapeMtelus = require('./scrape-mtelus');
+const scrapeOlympiaTheatre = require('./scrape-olympia-theatre');
         
         // NO GENERATORS OR FALLBACKS - only real venue scrapers
         
@@ -82,7 +106,15 @@ class MontrealScrapers {
             scrapeComedyNest,
             scrapeLAstral,
             scrapeQuartierSpectacles,
-            scrapeOSM
+            scrapeOSM,
+            scrapeCoronaTheatre,
+            scrapeEvenkoApi,
+            scrapeLaTulipe,
+            scrapeMontrealComprehensive,
+            scrapeMontrealGuaranteedEvents,
+            scrapeMtelusPuppeteer,
+            scrapeMtelus,
+            scrapeOlympiaTheatre,
         ];
 
         this.scrapers = scrapersToRun || allScrapers;
@@ -107,13 +139,17 @@ class MontrealScrapers {
                 const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper());
 
                 if (Array.isArray(events) && events.length > 0) {
-                    // Process events and fetch images for those missing them
+                    // Process events and fetch images+descriptions for those missing them
                     const processedEvents = [];
                     for (const event of events) {
-                        // Fetch image if missing
                         let image = event.image || event.imageUrl || event.imageURL;
-                        if (!image && event.url) {
-                            image = await fetchEventImage(event.url);
+                        let description = event.description || null;
+                        
+                        // Fetch image and description from event detail page if missing
+                        if ((!image || !description) && event.url) {
+                            const details = await fetchEventDetails(event.url);
+                            if (!image && details.image) image = details.image;
+                            if (!description && details.description) description = details.description;
                         }
                         
                         // Normalize date to ISO format (YYYY-MM-DD)
@@ -201,6 +237,7 @@ class MontrealScrapers {
                             ...event,
                             date: normalizedDate,
                             city: 'Montreal',
+                            description: description || '',
                             image: image,
                             venue: event.venue || { name: source },
                             categories: [...(event.categories || []), 'city'].filter((v, i, a) => a.indexOf(v) === i)

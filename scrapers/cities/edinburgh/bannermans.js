@@ -29,25 +29,30 @@ async function scrapeBannermans(city = 'Edinburgh') {
         seen.add(href);
 
         const title = $el.text().trim().replace(/\s+/g, ' ');
-        if (!title || title.length < 3 || title.length > 150) return;
+        if (!title || title.length < 4 || title.length > 150) return;
+        if (/^(tickets?|book|view|more|read|click|buy|home|menu|about|contact|gigstory|channel|subscribe|newsletter|facebook|twitter|instagram|share|search|login)$/i.test(title)) return;
+        if (/^(gigstory channel|buy tickets|book now|view all|read more|click here)$/i.test(title)) return;
 
         const parentText = $el.parent().text() + ' ' + $el.closest('div').text();
         const dateMatch = parentText.match(/(\d{1,2})(?:st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
         
-        let isoDate = '2026-02-01';
+        let isoDate = null;
         if (dateMatch) {
           const day = dateMatch[1].padStart(2, '0');
           const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-          const year = dateMatch[3] || '2026';
+          let year = dateMatch[3]; if (!year) { const _n = new Date(); year = (parseInt(month) < _n.getMonth() + 1) ? String(_n.getFullYear() + 1) : String(_n.getFullYear()); }
           isoDate = `${year}-${month}-${day}`;
         }
 
         const url = href.startsWith('http') ? href : `https://www.bannermanslive.co.uk${href}`;
 
+        if (!isoDate) return; // Skip events without dates
+
         events.push({
           id: uuidv4(),
           title,
           date: isoDate,
+          startDate: new Date(isoDate + 'T00:00:00.000Z'),
           url,
           venue: { name: 'Bannermans', address: '212 Cowgate, Edinburgh EH1 1NQ', city: 'Edinburgh' },
           latitude: 55.9485,
@@ -69,7 +74,7 @@ async function scrapeBannermans(city = 'Edinburgh') {
       }
     }
 
-    for (const event of unique.slice(0, 10)) {
+    for (const event of unique) {
       try {
         const page = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 });
         const $p = cheerio.load(page.data);
@@ -79,6 +84,34 @@ async function scrapeBannermans(city = 'Edinburgh') {
         }
       } catch (e) {}
     }
+
+      // Fetch descriptions from event detail pages
+      for (const event of events) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
 
     console.log(`  ✅ Found ${unique.length} Bannermans events`);
     return unique;

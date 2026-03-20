@@ -50,7 +50,7 @@ async function fixApiDatabaseConfig() {
     const path = require('path');
     
     // Check unified-proxy-server.js configuration
-    const serverFile = '/Users/seongwoohan/CascadeProjects/discovr-api-server/unified-proxy-server.js';
+    const serverFile = '/Users/seongwoo/CascadeProjects/discovr-api-server/unified-proxy-server.js';
     
     if (fs.existsSync(serverFile)) {
         console.log('📄 Found unified-proxy-server.js - checking database configuration...');
@@ -100,7 +100,7 @@ async function fixApiDatabaseConfig() {
     }
     
     // Check .env file
-    const envFile = '/Users/seongwoohan/CascadeProjects/discovr-api-server/.env';
+    const envFile = '/Users/seongwoo/CascadeProjects/discovr-api-server/.env';
     
     if (fs.existsSync(envFile)) {
         console.log('\n📄 Checking .env file...');

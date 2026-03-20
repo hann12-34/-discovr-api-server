@@ -5,6 +5,8 @@
  */
 
 const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
 async function scrapeSWG3(city = 'Glasgow') {
@@ -29,19 +31,31 @@ async function scrapeSWG3(city = 'Glasgow') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const eventItems = document.querySelectorAll('.event, .event-item, article, [class*="event"], .show');
+      const seenTitles = new Set();
+      
+      // Target specific event cards on SWG3 website
+      const eventItems = document.querySelectorAll('article, .event-card, .event-item');
       
       eventItems.forEach(item => {
         try {
           const titleEl = item.querySelector('h2, h3, h4, .event-title, .title');
           const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
+          if (!title || title.length < 3 || title.length > 150) return;
+          
+          // Skip navigation/junk titles
+          if (title.match(/subscribe|what's on|menu|contact|about|privacy|terms/i)) return;
+          
+          // Deduplication by title
+          const titleKey = title.toLowerCase();
+          if (seenTitles.has(titleKey)) return;
+          seenTitles.add(titleKey);
           
           const dateEl = item.querySelector('time, .date, .event-date, [datetime]');
           let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
           
-          const linkEl = item.querySelector('a[href]');
+          const linkEl = item.querySelector('a[href*="/events/"]');
           let url = linkEl ? linkEl.href : null;
+          if (!url) return; // Must have URL
           
           const imgEl = item.querySelector('img');
           let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
@@ -49,9 +63,7 @@ async function scrapeSWG3(city = 'Glasgow') {
           const descEl = item.querySelector('.description, p');
           const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
           
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
-          }
+          results.push({ title, dateStr, url, imageUrl, description });
         } catch (e) {}
       });
       
@@ -87,7 +99,7 @@ async function scrapeSWG3(city = 'Glasgow') {
         title: event.title,
         description: event.description || null,
         date: isoDate,
-        startDate: new Date(isoDate + 'T19:00:00'),
+        startDate: new Date(isoDate + 'T00:00:00.000Z'),
         url: event.url,
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: {
@@ -102,6 +114,34 @@ async function scrapeSWG3(city = 'Glasgow') {
         source: 'SWG3'
       });
     }
+
+      // Fetch descriptions from event detail pages
+      for (const event of formattedEvents) {
+        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+        try {
+          const _r = await axios.get(event.url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+            timeout: 8000
+          });
+          const _$ = cheerio.load(_r.data);
+          let _desc = _$('meta[property="og:description"]').attr('content') || '';
+          if (!_desc || _desc.length < 20) {
+            _desc = _$('meta[name="description"]').attr('content') || '';
+          }
+          if (!_desc || _desc.length < 20) {
+            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
+              const _t = _$(_s).first().text().trim();
+              if (_t && _t.length > 30) { _desc = _t; break; }
+            }
+          }
+          if (_desc) {
+            _desc = _desc.replace(/\s+/g, ' ').trim();
+            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+            event.description = _desc;
+          }
+        } catch (_e) { /* skip */ }
+      }
+
 
     console.log(`  ✅ Found ${formattedEvents.length} valid SWG3 events`);
     return formattedEvents;

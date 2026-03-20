@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * Sydney Scrapers - Cleaned (1 per venue)
  */
@@ -36,8 +38,13 @@ const scrapeWorldBarSydney = require('./world_bar_sydney');
 const scrapeClub77 = require('./club77');
 const scrapeTheImperial = require('./the_imperial');
 const scrapeUniversalSydney = require('./universal_sydney');
+const scrapeSydneyComEvents = require('./sydney_com_events');
+const scrapeArtGalleryNsw = require('./scrape-art-gallery-nsw');
+const scrapeCarriageworksSydney = require('./scrape-carriageworks-sydney');
+const scrapeIccSydneyEvents = require('./scrape-icc-sydney-events');
+const scrapeSydneyOperaHouseNew = require('./scrape-sydney-opera-house');
 
-module.exports = {
+const _rawExports = {
   scrapeBasement,
   scrapeBeach,
   scrapeBondiMarkets,
@@ -71,5 +78,17 @@ module.exports = {
   scrapeWorldBarSydney,
   scrapeClub77,
   scrapeTheImperial,
-  scrapeUniversalSydney
+  scrapeUniversalSydney,
+  scrapeSydneyComEvents,
+  scrapeArtGalleryNsw,
+  scrapeCarriageworksSydney,
+  scrapeIccSydneyEvents,
+  scrapeSydneyOperaHouseNew,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

@@ -12,7 +12,7 @@ async function emergencyFixArrowFunctions() {
     console.log('🚨 EMERGENCY FIX FOR ARROW FUNCTIONS\n');
     console.log('🔧 Restoring missing parentheses around arrow function parameters\n');
     
-    const torontoDir = '/Users/seongwoohan/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
+    const torontoDir = '/Users/seongwoo/CascadeProjects/discovr-api-server/scrapers/cities/Toronto';
     
     try {
         console.log('📁 Scanning Toronto scrapers directory...');

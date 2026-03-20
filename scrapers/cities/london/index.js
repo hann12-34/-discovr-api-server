@@ -1,3 +1,5 @@
+const { enhanceEvents } = require("../../utils/fetchEventDetails");
+
 /**
  * London Scrapers - Cleaned (1 per venue)
  */
@@ -78,8 +80,16 @@ const scrapeVillageUnderground4 = require('./village_underground4');
 const scrapeWembley2 = require('./wembley2');
 const scrapeWindmill = require('./windmill');
 const scrapeXoyo3 = require('./xoyo3');
+const scrapeBarbicanCentre = require('./scrape-barbican-centre');
+const scrapeNationalTheatreLondon = require('./scrape-national-theatre-london');
+const scrapeNaturalHistoryMuseumEvents = require('./scrape-natural-history-museum-events');
+const scrapeSadlersWells = require('./scrape-sadlers-wells');
+const scrapeSomersetHouse = require('./scrape-somerset-house');
+const scrapeSouthbankCentreEvents = require('./scrape-southbank-centre-events');
+const scrapeTateModernEvents = require('./scrape-tate-modern-events');
+const scrapeWigmoreHall = require('./scrape-wigmore-hall');
 
-module.exports = {
+const _rawExports = {
   scrape100club,
   scrapeCamdenAssembly,
   scrapeAlexandrapalace,
@@ -155,5 +165,20 @@ module.exports = {
   scrapeVillageUnderground4,
   scrapeWembley2,
   scrapeWindmill,
-  scrapeXoyo3
+  scrapeXoyo3,
+  scrapeBarbicanCentre,
+  scrapeNationalTheatreLondon,
+  scrapeNaturalHistoryMuseumEvents,
+  scrapeSadlersWells,
+  scrapeSomersetHouse,
+  scrapeSouthbankCentreEvents,
+  scrapeTateModernEvents,
+  scrapeWigmoreHall,
 };
+
+// Wrap each scraper to enhance events with image+description from detail pages
+const _wrapped = {};
+for (const [k, fn] of Object.entries(_rawExports)) {
+  _wrapped[k] = async (...a) => enhanceEvents(await fn(...a));
+}
+module.exports = _wrapped;

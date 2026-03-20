@@ -88,7 +88,7 @@ async function scrapeIndexChurch(city = 'Dublin') {
         id: uuidv4(),
         title: event.title,
         date: isoDate,
-        startDate: new Date(isoDate + 'T21:00:00'),
+        startDate: new Date(isoDate + 'T00:00:00.000Z'),
         url: event.url,
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: {

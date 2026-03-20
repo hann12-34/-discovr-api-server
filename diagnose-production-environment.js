@@ -63,7 +63,7 @@ async function diagnoseProductionEnvironment() {
     const fs = require('fs');
     
     // Check the actual server file for database configuration
-    const serverFile = '/Users/seongwoohan/CascadeProjects/discovr-api-server/unified-proxy-server.js';
+    const serverFile = '/Users/seongwoo/CascadeProjects/discovr-api-server/unified-proxy-server.js';
     
     if (fs.existsSync(serverFile)) {
         const content = fs.readFileSync(serverFile, 'utf8');
@@ -79,7 +79,7 @@ async function diagnoseProductionEnvironment() {
         console.log('   Collection: "events" (hardcoded)');
         
         // Check .env file
-        const envFile = '/Users/seongwoohan/CascadeProjects/discovr-api-server/.env';
+        const envFile = '/Users/seongwoo/CascadeProjects/discovr-api-server/.env';
         if (fs.existsSync(envFile)) {
             console.log('\n📄 LOCAL .ENV CONFIGURATION:');
             const envContent = fs.readFileSync(envFile, 'utf8');

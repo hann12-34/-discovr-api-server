@@ -9,10 +9,11 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { toISODate } = require('../../utils/dateNormalizer');
 
-// Helper function to fetch og:image from event URL
+// Helper function to fetch og:image AND description from event URL
 // ONLY for specific event pages, NOT listing pages
-async function fetchEventImage(url) {
-    if (!url || !url.startsWith('http')) return null;
+async function fetchEventDetails(url) {
+    const result = { image: null, description: null };
+    if (!url || !url.startsWith('http')) return result;
     
     // Skip generic listing pages - these return venue images, not event images
     const listingPatterns = [
@@ -24,7 +25,7 @@ async function fetchEventImage(url) {
         /\/upcoming\/?$/i
     ];
     if (listingPatterns.some(p => p.test(url))) {
-        return null; // Don't fetch from listing pages
+        return result;
     }
     
     try {
@@ -33,17 +34,54 @@ async function fetchEventImage(url) {
             timeout: 8000
         });
         const $ = cheerio.load(response.data);
-        const ogImage = $('meta[property="og:image"]').attr('content') || null;
         
-        // Skip generic venue/logo images
-        if (ogImage && (ogImage.includes('logo') || ogImage.includes('default') || ogImage.includes('placeholder'))) {
-            return null;
+        // Extract og:image
+        const ogImage = $('meta[property="og:image"]').attr('content') || null;
+        if (ogImage && !ogImage.includes('logo') && !ogImage.includes('default') && !ogImage.includes('placeholder')) {
+            result.image = ogImage;
         }
         
-        return ogImage;
+        // Extract description from meta tags
+        const ogDesc = $('meta[property="og:description"]').attr('content');
+        const metaDesc = $('meta[name="description"]').attr('content');
+        const twitterDesc = $('meta[name="twitter:description"]').attr('content');
+        let desc = ogDesc || metaDesc || twitterDesc || null;
+        
+        // If no meta description, try first meaningful paragraph on page
+        if (!desc) {
+            const contentSelectors = [
+                '.event-description', '.description', '.event-content',
+                '.entry-content', '.post-content', '.content',
+                'article p', '.event-details p', 'main p'
+            ];
+            for (const sel of contentSelectors) {
+                const text = $(sel).first().text().trim();
+                if (text && text.length > 30 && text.length < 2000) {
+                    desc = text;
+                    break;
+                }
+            }
+        }
+        
+        if (desc) {
+            // Clean up description
+            desc = desc.replace(/\s+/g, ' ').trim();
+            if (desc.length > 1000) desc = desc.substring(0, 1000) + '...';
+            if (desc.length >= 20) {
+                result.description = desc;
+            }
+        }
+        
+        return result;
     } catch (e) {
-        return null;
+        return result;
     }
+}
+
+// Legacy wrapper for backwards compatibility
+async function fetchEventImage(url) {
+    const details = await fetchEventDetails(url);
+    return details.image;
 }
 
 class VancouverScrapers {
@@ -94,18 +132,22 @@ class VancouverScrapers {
                 const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper('Vancouver'));
 
                 if (Array.isArray(events) && events.length > 0) {
-                    // Process events and fetch og:image for those missing images
+                    // Process events and fetch image+description for those missing them
                     const processedEvents = [];
                     for (const event of events) {
                         let image = event.image || event.imageUrl || null;
+                        let description = event.description || null;
                         
-                        // Fetch og:image if missing
-                        if (!image && event.url) {
-                            image = await fetchEventImage(event.url);
+                        // Fetch image and description from event detail page if missing
+                        if ((!image || !description) && event.url) {
+                            const details = await fetchEventDetails(event.url);
+                            if (!image && details.image) image = details.image;
+                            if (!description && details.description) description = details.description;
                         }
                         
                         processedEvents.push({
                             ...event,
+                            description: description || '',
                             imageUrl: image,
                             image: image,
                             city: 'Vancouver',

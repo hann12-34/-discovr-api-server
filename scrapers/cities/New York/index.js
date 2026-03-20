@@ -46,11 +46,17 @@ async function fetchEventImage(url) {
     // Skip listing pages - they return venue images, not event images
     const listingPatterns = [/\/events\/?$/i, /\/calendar\/?$/i, /\/shows\/?$/i, /\/whats-on\/?$/i, /\/schedule\/?$/i];
     if (listingPatterns.some(p => p.test(url))) return null;
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    
     try {
         const response = await axios.get(url, {
             headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
+            timeout: 6000,
+            signal: controller.signal
         });
+        clearTimeout(timeoutId);
         const $ = cheerio.load(response.data);
         const ogImage = $('meta[property="og:image"]').attr('content') || null;
         
@@ -62,8 +68,14 @@ async function fetchEventImage(url) {
         
         return ogImage;
     } catch (e) {
+        clearTimeout(timeoutId);
         return null;
     }
+}
+
+// Helper: delay between scrapers to let TCP connections drain
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 class NewYorkScrapers {
@@ -111,13 +123,59 @@ class NewYorkScrapers {
         for (const scraper of this.scrapers) {
             try {
                 const source = scraper.source || scraper.name || 'Unknown Scraper';
-                const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper('New York'));
+                
+                // Use AbortController so timeout actually cancels HTTP connections
+                // (prevents ERR_INTERNAL_ASSERTION from zombie TCP connections)
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 45000);
+                
+                let scraperPromise;
+                try {
+                    scraperPromise = typeof scraper.scrape === 'function' 
+                        ? scraper.scrape() 
+                        : scraper('New York');
+                } catch (syncErr) {
+                    clearTimeout(timeoutId);
+                    throw syncErr;
+                }
+                
+                const timeoutPromise = new Promise((_, reject) => {
+                    controller.signal.addEventListener('abort', () => 
+                        reject(new Error('Scraper timeout (45s)'))
+                    );
+                });
+                
+                const events = await Promise.race([scraperPromise, timeoutPromise]);
+                clearTimeout(timeoutId);
 
                 if (Array.isArray(events) && events.length > 0) {
-                    // Fetch images for all events missing them
+                    // Fetch images+descriptions for events missing them
                     for (const event of events) {
-                        if (!event.image && !event.imageUrl && event.url) {
-                            event.image = await fetchEventImage(event.url);
+                        const needsImage = !event.image && !event.imageUrl;
+                        const needsDesc = !event.description;
+                        if ((needsImage || needsDesc) && event.url) {
+                            try {
+                                if (needsImage) {
+                                    event.image = await fetchEventImage(event.url);
+                                }
+                                if (needsDesc) {
+                                    // Fetch description from meta tags
+                                    const response = await axios.get(event.url, {
+                                        headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+                                        timeout: 6000
+                                    }).catch(() => null);
+                                    if (response) {
+                                        const $ = cheerio.load(response.data);
+                                        const desc = $('meta[property="og:description"]').attr('content') ||
+                                                     $('meta[name="description"]').attr('content') || null;
+                                        if (desc && desc.length >= 20) {
+                                            event.description = desc.replace(/\s+/g, ' ').trim().substring(0, 1000);
+                                        }
+                                    }
+                                }
+                            } catch (e) {
+                                // Skip fetch errors silently
+                            }
                         }
                     }
                     
@@ -136,12 +194,13 @@ class NewYorkScrapers {
                 }
             } catch (error) {
                 failCount++;
-                // Only log errors in development, not production
-                if (process.env.NODE_ENV !== 'production') {
-                    const source = scraper.source || scraper.name || 'Unknown';
-                    console.error(`❌ ${source}: ${error.message.substring(0, 50)}`);
-                }
+                const source = scraper.source || scraper.name || 'Unknown';
+                console.error(`❌ ${source}: ${error.message.substring(0, 50)}`);
             }
+            
+            // Cooldown between scrapers — lets TCP connections drain
+            // Prevents ERR_INTERNAL_ASSERTION from connection pile-up
+            await delay(200);
         }
         
         // GLOBAL DEDUPLICATION: Remove duplicates across all scrapers
