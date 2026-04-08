@@ -13,6 +13,8 @@ scripts=(
     "ImportFiles/import-all-montreal-events.js"
     "ImportFiles/import-all-ottawa-events.js"
     "ImportFiles/import-all-edmonton-events.js"
+    "ImportFiles/import-all-saskatoon-events.js"
+    "ImportFiles/import-all-winnipeg-events.js"
 
     # === USA ===
     "ImportFiles/import-all-new-york-events.js"

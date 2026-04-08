@@ -1,6 +1,6 @@
 #!/bin/bash
-# Mountain & Central Time Zone - 10 cities
-# Calgary, Edmonton, Denver, Phoenix (MT) / Chicago, Austin, Minneapolis, Nashville, St Louis, Madison (CT)
+# Mountain & Central Time Zone - 12 cities
+# Calgary, Edmonton, Saskatoon, Denver, Phoenix (MT) / Winnipeg, Chicago, Austin, Minneapolis, Nashville, St Louis, Madison (CT)
 
 WORK_DIR="/Users/seongwoo/desktop/discovr-api-server"
 
@@ -8,6 +8,8 @@ scripts=(
     # Mountain Time
     "ImportFiles/import-all-calgary-events.js"
     "ImportFiles/import-all-edmonton-events.js"
+    "ImportFiles/import-all-saskatoon-events.js"
+    "ImportFiles/import-all-winnipeg-events.js"
     
     # Central Time
     "ImportFiles/import-all-chicago-events.js"

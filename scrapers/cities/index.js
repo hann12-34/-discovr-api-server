@@ -33,7 +33,9 @@ class CityScraper {
       'san-diego': './San Diego',
       asheville: './Asheville',
       portland: './Portland',
-      minneapolis: './Minneapolis'
+      minneapolis: './Minneapolis',
+      saskatoon: './Saskatoon',
+      winnipeg: './Winnipeg'
     };
   }
 
