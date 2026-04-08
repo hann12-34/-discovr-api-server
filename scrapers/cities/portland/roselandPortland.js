@@ -1,20 +1,20 @@
 /**
- * The Troubadour Los Angeles Events Scraper
- * URL: https://www.troubadour.com/calendar
- * Legendary West Hollywood venue since 1957
- * Uses SeeTickets widget with clean static HTML
+ * Roseland Theater Portland Events Scraper
+ * URL: https://www.roselandpdx.com/events
+ * Iconic concert venue in Portland, OR
+ * Uses RockHouse Events plugin with clean static HTML
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
-const TroubadourLAEvents = {
-  async scrape(city = 'Los Angeles') {
-    console.log('🎬 Scraping The Troubadour Los Angeles...');
+const RoselandPortlandEvents = {
+  async scrape(city = 'Portland') {
+    console.log('🌲 Scraping Roseland Theater Portland...');
 
     try {
-      const response = await axios.get('https://www.troubadour.com/calendar', {
+      const response = await axios.get('https://www.roselandpdx.com/events', {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
           'Accept': 'text/html,application/xhtml+xml'
@@ -37,18 +37,19 @@ const TroubadourLAEvents = {
       const currentYear = now.getFullYear();
       const currentMonth = now.getMonth() + 1;
 
-      $('.seetickets-list-event-container').each((i, el) => {
+      $('.eventWrapper').each((i, el) => {
         const container = $(el);
 
-        const titleLink = container.find('a[href*="wl.seetickets.us/event"]').filter((i, a) => { const t = $(a).text().trim(); return t.length > 1 && !t.startsWith('<') && t !== 'Tickets'; }).first();
-        const title = titleLink.text().trim();
+        let title = container.find('[class*="rhp-event__title"]').first().text().trim();
         if (!title || title.length < 2) return;
 
-        let url = titleLink.attr('href') || '';
+        let url = container.find('a.url').first().attr('href') || '';
         if (!url) return;
+        if (!url.startsWith('http')) url = 'https://roselandpdx.com' + url;
+        if (/eventbrite|songkick|allevents|facebook\.com\/events/i.test(url)) return;
 
-        const dateText = container.find('[class*="date"]').first().text().trim();
-        const dateMatch = dateText.match(/(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[\s,]+([A-Za-z]{3})\s+(\d{1,2})/i);
+        const dateText = container.find('.eventMonth').first().text().trim();
+        const dateMatch = dateText.match(/(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})/i);
         if (!dateMatch) return;
 
         const monthNum = months[dateMatch[1].toLowerCase()];
@@ -63,7 +64,7 @@ const TroubadourLAEvents = {
         if (seen.has(key)) return;
         seen.add(key);
 
-        const imgSrc = container.find('img[class*="seetickets"]').attr('src') || null;
+        const imgSrc = container.find('img.eventListImage').attr('src') || null;
 
         events.push({
           id: uuidv4(),
@@ -73,24 +74,24 @@ const TroubadourLAEvents = {
           imageUrl: imgSrc,
           description: '',
           venue: {
-            name: 'The Troubadour',
-            address: '9081 Santa Monica Blvd, West Hollywood, CA 90069',
-            city: 'Los Angeles'
+            name: 'Roseland Theater',
+            address: '8 NW 6th Ave, Portland, OR 97209',
+            city: 'Portland'
           },
-          city: 'Los Angeles',
+          city: 'Portland',
           category: 'Music',
-          source: 'The Troubadour LA'
+          source: 'Roseland Theater Portland'
         });
       });
 
-      console.log(`  ✅ Found ${events.length} Troubadour events`);
+      console.log(`  ✅ Found ${events.length} Roseland Portland events`);
       return events;
 
     } catch (error) {
-      console.error(`  ⚠️ Troubadour error: ${error.message}`);
+      console.error(`  ⚠️ Roseland Portland error: ${error.message}`);
       return [];
     }
   }
 };
 
-module.exports = TroubadourLAEvents.scrape;
+module.exports = RoselandPortlandEvents.scrape;

@@ -61,6 +61,7 @@ const scrapeFillmoreMinneapolis = require('./fillmore_minneapolis');
 const scrapeUptownTheater = require('./uptown_theater');
 const scrapeTargetCenterMinneapolis = require('./scrape-target-center-minneapolis');
 const scrapeWalkerArtCenter = require('./scrape-walker-art-center');
+const scrapeCaboozeMinneapolis = require('./caboozeMinneapolis');
 
 const _rawExports = {
   scrape331Club,
@@ -120,6 +121,7 @@ const _rawExports = {
   scrapeUptownTheater,
   scrapeTargetCenterMinneapolis,
   scrapeWalkerArtCenter,
+  scrapeCaboozeMinneapolis,
 };
 
 // Wrap each scraper to enhance events with image+description from detail pages

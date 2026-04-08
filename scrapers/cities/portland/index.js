@@ -18,7 +18,7 @@ const scrapeDantePdx = require('./dante_pdx');
 const scrapeDougFir = require('./doug_fir');
 const scrapeEdgefield = require('./edgefield');
 const scrapeHawthorneTheatre = require('./hawthorne_theatre');
-const scrapeHolocene = require('./holocene');
+const scrapeHolocene = require('./holocenePortland');
 const scrapeJackLondonRevue = require('./jack_london_revue');
 const scrapeKellerAuditorium = require('./keller_auditorium');
 const scrapeKellsIrish = require('./kells_irish');
@@ -34,6 +34,7 @@ const scrapePolarisHall = require('./polaris_hall');
 const scrapePortlandMercury = require('./portland_mercury');
 const scrapeRevolutionHall = require('./revolution_hall');
 const scrapeRoselandTheater = require('./roseland_theater');
+const scrapeRoselandPortland = require('./roselandPortland');
 const scrapeSomedayLounge = require('./someday_lounge');
 const scrapeStarTheater = require('./star_theater');
 const scrapeTheGoodfoot = require('./the_goodfoot');
@@ -84,6 +85,7 @@ const _rawExports = {
   scrapePortlandMercury,
   scrapeRevolutionHall,
   scrapeRoselandTheater,
+  scrapeRoselandPortland,
   scrapeSomedayLounge,
   scrapeStarTheater,
   scrapeTheGoodfoot,
