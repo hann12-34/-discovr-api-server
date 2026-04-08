@@ -1,6 +1,6 @@
 #!/bin/bash
-# Pacific Time Zone - 7 cities
-# Vancouver, LA, Seattle, San Francisco, Las Vegas, Portland, San Diego
+# Pacific Time Zone - 8 cities
+# Vancouver, LA, Seattle, San Francisco, Las Vegas, Portland, San Diego, Sacramento
 
 WORK_DIR="/Users/seongwoo/desktop/discovr-api-server"
 
@@ -12,6 +12,7 @@ scripts=(
     "ImportFiles/import-all-lasvegas-events.js"
     "ImportFiles/import-all-portland-events.js"
     "ImportFiles/import-all-sandiego-events.js"
+    "ImportFiles/import-all-sacramento-events.js"
 )
 
 for js_file in "${scripts[@]}"; do
