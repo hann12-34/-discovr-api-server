@@ -1,7 +1,7 @@
 const { enhanceEvents } = require("../../utils/fetchEventDetails");
 
 /**
- * San Francisco Scrapers - 10 scrapers
+ * San Francisco Scrapers - 13 scrapers
  */
 
 const scrape1015folsom = require('./1015folsom');
@@ -10,8 +10,11 @@ const scrapeBimbos = require('./bimbos');
 const scrapeDnaLounge = require('./dnaLounge');
 const scrapeFillmore = require('./fillmore');
 const scrapeGreat = require('./great');
-const scrapeIndependent = require('./independent');
-const scrapeSlims = require('./slims');
+const scrapeIndependent = require('./theIndependentSF');
+const scrapeSlims = require('./slimsSF');
+const scrapeCafeDuNord = require('./cafeDuNordSF');
+const scrapeGAMH = require('./greatAmericanMusicHallSF');
+const scrapeChapel = require('./theChapelSF');
 const scrapeCalAcademyOfSciences = require('./scrape-cal-academy-of-sciences');
 const scrapeNoisePopSf = require('./scrape-noise-pop-sf');
 
@@ -24,6 +27,9 @@ const _rawExports = {
   scrapeGreat,
   scrapeIndependent,
   scrapeSlims,
+  scrapeCafeDuNord,
+  scrapeGAMH,
+  scrapeChapel,
   scrapeCalAcademyOfSciences,
   scrapeNoisePopSf,
 };
