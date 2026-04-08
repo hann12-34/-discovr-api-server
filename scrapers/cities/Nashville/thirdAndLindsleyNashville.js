@@ -14,7 +14,7 @@ const ThirdAndLindsleyEvents = {
     console.log('🎶 Scraping 3rd and Lindsley Nashville...');
 
     try {
-      const response = await axios.get('https://www.3rdandlindsley.com/events', {
+      const response = await axios.get('https://www.3rdandlindsley.com/calendar', {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
           'Accept': 'text/html,application/xhtml+xml'
