@@ -1,21 +1,20 @@
 /**
- * The Orange Peel Asheville Events Scraper
- * URL: https://www.theorangepeel.net/calendar
- * Iconic live music venue in Asheville, NC
- * Rock, indie, electronic, jam bands
- * Uses RockHouse Events plugin with clean static HTML
+ * The Casbah San Diego Events Scraper
+ * URL: https://www.casbahmusic.com/calendar
+ * Iconic indie rock venue in San Diego
+ * Uses SeeTickets widget with clean static HTML
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
-const OrangePeelEvents = {
-  async scrape(city = 'Asheville') {
-    console.log('🎸 Scraping Orange Peel Asheville...');
+const CasbahSanDiegoEvents = {
+  async scrape(city = 'San Diego') {
+    console.log('🎸 Scraping Casbah San Diego...');
 
     try {
-      const response = await axios.get('https://www.theorangepeel.net/events', {
+      const response = await axios.get('https://www.casbahmusic.com/calendar', {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
           'Accept': 'text/html,application/xhtml+xml'
@@ -38,21 +37,18 @@ const OrangePeelEvents = {
       const currentYear = now.getFullYear();
       const currentMonth = now.getMonth() + 1;
 
-      $('.eventWrapper').each((i, el) => {
+      $('.seetickets-list-event-container').each((i, el) => {
         const container = $(el);
 
-        const titleEl = container.find('.rhp-event__title--list').first();
-        let title = titleEl.text().trim();
+        const titleLink = container.find('a[href*="wl.seetickets.us/event"]').filter((i, a) => $(a).text().trim().length > 1).first();
+        const title = titleLink.text().trim();
         if (!title || title.length < 2) return;
 
-        const urlEl = container.find('a.url[href*="/event/"]').first();
-        let url = urlEl.attr('href') || '';
+        let url = titleLink.attr('href') || '';
         if (!url) return;
-        if (!url.startsWith('http')) url = 'https://theorangepeel.net' + url;
-        if (/eventbrite|songkick|allevents|facebook\.com\/events/i.test(url)) return;
 
-        const dateText = container.find('.eventMonth').first().text().trim();
-        const dateMatch = dateText.match(/(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})/i);
+        const dateText = container.find('[class*="date"]').first().text().trim();
+        const dateMatch = dateText.match(/(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[\s,]+([A-Za-z]{3})\s+(\d{1,2})/i);
         if (!dateMatch) return;
 
         const monthNum = months[dateMatch[1].toLowerCase()];
@@ -67,7 +63,7 @@ const OrangePeelEvents = {
         if (seen.has(key)) return;
         seen.add(key);
 
-        const imgSrc = container.find('img.eventListImage').attr('src') || null;
+        const imgSrc = container.find('img[class*="seetickets"]').attr('src') || null;
 
         events.push({
           id: uuidv4(),
@@ -77,24 +73,24 @@ const OrangePeelEvents = {
           imageUrl: imgSrc,
           description: '',
           venue: {
-            name: 'The Orange Peel',
-            address: '101 Biltmore Ave, Asheville, NC 28801',
-            city: 'Asheville'
+            name: 'The Casbah',
+            address: '2501 Kettner Blvd, San Diego, CA 92101',
+            city: 'San Diego'
           },
-          city: 'Asheville',
+          city: 'San Diego',
           category: 'Music',
-          source: 'The Orange Peel'
+          source: 'Casbah San Diego'
         });
       });
 
-      console.log(`  ✅ Found ${events.length} Orange Peel events`);
+      console.log(`  ✅ Found ${events.length} Casbah events`);
       return events;
 
     } catch (error) {
-      console.error(`  ⚠️ Orange Peel error: ${error.message}`);
+      console.error(`  ⚠️ Casbah error: ${error.message}`);
       return [];
     }
   }
 };
 
-module.exports = OrangePeelEvents.scrape;
+module.exports = CasbahSanDiegoEvents.scrape;

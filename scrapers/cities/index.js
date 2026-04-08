@@ -29,7 +29,9 @@ class CityScraper {
       charleston: './Charleston',
       'st-louis': './St Louis',
       sacramento: './Sacramento',
-      madison: './Madison'
+      madison: './Madison',
+      'san-diego': './San Diego',
+      asheville: './Asheville'
     };
   }
 
