@@ -1,7 +1,7 @@
 #!/bin/bash
-# UK, Ireland & Iceland - 19 cities
+# UK, Ireland & Iceland - 20 cities
 # London, Manchester, Birmingham, Liverpool, Edinburgh, Glasgow, Belfast, Bristol,
-# Brighton, Bournemouth, Leeds, Nottingham, Oxford, Sheffield, Newcastle,
+# Brighton, Bournemouth, Leeds, Nottingham, Oxford, Sheffield, Newcastle, Leicester,
 # Dublin, Cork, Galway, Reykjavik
 
 WORK_DIR="/Users/seongwoo/desktop/discovr-api-server"
@@ -22,6 +22,7 @@ scripts=(
     "ImportFiles/import-all-oxford-events.js"
     "ImportFiles/import-all-sheffield-events.js"
     "ImportFiles/import-all-newcastle-events.js"
+    "ImportFiles/import-all-leicester-events.js"
     "ImportFiles/import-all-dublin-events.js"
     "ImportFiles/import-all-cork-events.js"
     "ImportFiles/import-all-galway-events.js"

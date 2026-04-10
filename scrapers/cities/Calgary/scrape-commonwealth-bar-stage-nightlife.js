@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Commonwealth Bar & Stage',
     'https://www.thecommonwealth.ca/events',
-    'Calgary'
+    '731 10 Ave SW, Calgary, AB T2R 0B3'
   );
   return await scraper(city);
 }

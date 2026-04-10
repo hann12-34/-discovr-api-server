@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Heritage Park',
     'https://heritagepark.ca/whats-on-now/',
-    'Calgary'
+    '1900 Heritage Dr SW, Calgary, AB T2V 2X3'
   );
   return await scraper(city);
 }

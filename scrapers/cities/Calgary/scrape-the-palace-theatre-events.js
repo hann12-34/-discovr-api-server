@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Palace Theatre',
     'https://thepalacetheatre.ca/events/',
-    'Calgary'
+    '219 8 Ave SW, Calgary, AB T2P 1B5'
   );
   return await scraper(city);
 }

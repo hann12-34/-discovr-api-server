@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'The Ship and Anchor Pub',
     'https://www.shipandanchor.com/events',
-    'Calgary'
+    '534 17 Ave SW, Calgary, AB T2S 0A9'
   );
   return await scraper(city);
 }

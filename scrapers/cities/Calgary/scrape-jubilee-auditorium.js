@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Jubilee Auditorium',
     'https://www.jubileeauditorium.com/calgary/whats-on',
-    'Calgary'
+    '1415 14 Ave NW, Calgary, AB T2N 1M4'
   );
   return await scraper(city);
 }

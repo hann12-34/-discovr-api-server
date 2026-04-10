@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Calgary Zoo',
     'https://www.calgaryzoo.com/events/',
-    'Calgary'
+    '210 St Georges Dr NE, Calgary, AB T2E 7V6'
   );
   return await scraper(city);
 }

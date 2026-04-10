@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Cowboys Music Festival',
     'https://www.cowboysnightclub.com/',
-    'Calgary'
+    '421 12 Ave SE, Calgary, AB T2G 1A5'
   );
   return await scraper(city);
 }

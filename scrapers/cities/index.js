@@ -35,7 +35,8 @@ class CityScraper {
       portland: './Portland',
       minneapolis: './Minneapolis',
       saskatoon: './Saskatoon',
-      winnipeg: './Winnipeg'
+      winnipeg: './Winnipeg',
+      leicester: './leicester'
     };
   }
 

@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Scotiabank Saddledome',
     'https://www.scotiabanksaddledome.com/events',
-    'Calgary'
+    '555 Saddledome Rise SE, Calgary, AB T2G 2W1'
   );
   return await scraper(city);
 }

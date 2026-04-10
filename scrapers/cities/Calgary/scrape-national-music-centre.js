@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'National Music Centre (Studio Bell)',
     'https://www.studiobell.ca/whats-on',
-    'Calgary'
+    '850 4 St SE, Calgary, AB T2G 1R1'
   );
   return await scraper(city);
 }

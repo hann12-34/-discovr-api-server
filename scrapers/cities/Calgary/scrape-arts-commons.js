@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Arts Commons',
     'https://www.artscommons.ca/whats-on',
-    'Calgary'
+    '205 8 Ave SE, Calgary, AB T2G 0K9'
   );
   return await scraper(city);
 }

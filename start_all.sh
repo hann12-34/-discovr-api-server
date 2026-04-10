@@ -60,6 +60,7 @@ scripts=(
     "ImportFiles/import-all-oxford-events.js"
     "ImportFiles/import-all-sheffield-events.js"
     "ImportFiles/import-all-newcastle-events.js"
+    "ImportFiles/import-all-leicester-events.js"
 
     # === AUSTRALIA ===
     "ImportFiles/import-all-sydney-events.js"

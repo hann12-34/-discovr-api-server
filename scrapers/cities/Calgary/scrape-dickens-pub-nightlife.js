@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Dickens Pub',
     'https://www.dickenspub.ca/events/',
-    'Calgary'
+    '1000 9 Ave SW, Calgary, AB T2P 3H8'
   );
   return await scraper(city);
 }

@@ -7,7 +7,7 @@ async function scrapeEvents(city = 'Calgary') {
   const scraper = createUniversalScraper(
     'Last Best Brewing & Distilling',
     'https://lastbestbrewing.com/events/',
-    'Calgary'
+    '607 11 Ave SW, Calgary, AB T2R 0E1'
   );
   return await scraper(city);
 }
