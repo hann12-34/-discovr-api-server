@@ -15,7 +15,6 @@ scripts=(
     "ImportFiles/import-all-philadelphia-events.js"
     "ImportFiles/import-all-washingtondc-events.js"
     "ImportFiles/import-all-atlanta-events.js"
-    "ImportFiles/import-all-detroit-events.js"
     "ImportFiles/import-all-neworleans-events.js"
     "ImportFiles/import-all-pittsburgh-events.js"
     "ImportFiles/import-all-raleigh-events.js"
