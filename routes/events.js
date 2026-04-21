@@ -132,14 +132,14 @@ router.get('/', async (req, res) => {
       console.log(`Multi-city filter requested: ${cityList.join(', ')}`);
       query.city = { $in: cityList };
     }
-    // Single city filtering
+    // Single city filtering — anchored regex for index efficiency
     else if (city) {
       console.log(`City filter requested: ${city}`);
+      const escapedCity = city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       if (city.toLowerCase().includes('vancouver')) {
-        query.city = 'Vancouver';  // Direct match for now
-        console.log('Applied Vancouver city filter:', query.city);
+        query.city = { $regex: '^(Vancouver|North Vancouver|West Vancouver|Burnaby|Richmond)$', $options: 'i' };
       } else {
-        query.city = { $regex: city, $options: 'i' };
+        query.city = { $regex: `^${escapedCity}$`, $options: 'i' };
       }
     }
     
@@ -167,11 +167,15 @@ router.get('/', async (req, res) => {
       ];
     }
     
-    // Date filtering
+    // Date filtering — default to 30 days ago when city is specified to prevent full-collection scans
     if (startDate || endDate) {
       query.startDate = {};
       if (startDate) query.startDate.$gte = new Date(startDate);
       if (endDate) query.startDate.$lte = new Date(endDate);
+    } else if (city || cities) {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      query.startDate = { $gte: thirtyDaysAgo };
     }
     
     // Calculate pagination
@@ -185,8 +189,8 @@ router.get('/', async (req, res) => {
     const options = { maxTimeMS: 15000 }; // 15 second timeout
     
 
-    // PERFORMANCE PATCH: Allow skipping expensive count operation
-    const { skipCount = 'false' } = req.query;
+    // Skip countDocuments by default — expensive full scan, not needed by iOS app
+    const { skipCount = 'true' } = req.query;
     
     // Get total count for pagination metadata with timeout (CONDITIONALLY)
     let totalEvents = null;
