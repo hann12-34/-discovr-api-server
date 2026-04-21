@@ -202,15 +202,14 @@ router.get('/events/all', async (req, res) => {
     // Build minimal query - NO FILTERING BY DEFAULT
     let query = {};
     
-    // Enhanced Vancouver city filtering (case insensitive)
+    // City filtering — check BOTH top-level city and venue.city fields
     if (city && city !== 'all') {
-      // Support multiple Vancouver city variants
       if (city.toLowerCase().includes('vancouver')) {
-        query['venue.city'] = { 
-          $regex: /^(Vancouver|Vancouver BC|North Vancouver|West Vancouver|Burnaby|Richmond)$/i 
-        };
+        const vcPattern = { $regex: '^(Vancouver|Vancouver BC|North Vancouver|West Vancouver|Burnaby|Richmond)', $options: 'i' };
+        query.$or = [{ city: vcPattern }, { 'venue.city': vcPattern }];
       } else {
-        query['venue.city'] = { $regex: city, $options: 'i' };
+        const cityPattern = { $regex: city, $options: 'i' };
+        query.$or = [{ city: cityPattern }, { 'venue.city': cityPattern }];
       }
     }
     
