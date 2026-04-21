@@ -182,9 +182,12 @@ router.get('/', async (req, res) => {
     console.log('MongoDB Query:', JSON.stringify(query, null, 2));
     
     // Get all events matching query first, then apply quality filtering
+    // Cap MongoDB fetch to prevent OOM: fetch at most limit*4 or 2000, whichever is smaller
+    const mongoFetchLimit = Math.min(parseInt(limit) * 4, 2000);
     const allEvents = await Event.find(query, null, options)
       .lean() // PATCH: Use lean() for 50-80% performance improvement
-      .sort(sortOptions);
+      .sort(sortOptions)
+      .limit(mongoFetchLimit);
       
     console.log(`Query returned ${allEvents.length} events`);
     
