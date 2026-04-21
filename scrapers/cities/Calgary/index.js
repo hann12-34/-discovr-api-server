@@ -99,10 +99,11 @@ const scrapeTheatreJunction = require('./scrape-theatre-junction');
 const scrapeCalgaryLibrary = require('./scrape-calgary-library');
 const scrapeAlbertaBallet = require('./scrape-alberta-ballet');
 const scrapeFeverCalgary = require('./scrape-fever-calgary');
-const scrapeIronwoodStage = require('./scrape-ironwood-stage');
-const scrapeTelus = require('./scrape-telus-spark');
+// scrape-ironwood-stage: 404 dead
+// scrape-telus-spark: ENOTFOUND dead domain
 const scrapeTheatreCalgary = require('./scrape-theatre-calgary');
 const scrapeQuickdraw = require('./scrape-quickdraw-animation');
+const scrapePalomino = require('./scrape-palomino');
 
 const scrapers = [
     // Major event venues
@@ -128,18 +129,19 @@ const scrapers = [
     // Spruce Meadows removed by user
     // Nightlife venues
     { name: 'Commonwealth Bar & Stage Nightlife', scraper: scrapeCommonwealthNightlife },
-    { name: 'Broken City Nightlife', scraper: scrapeBrokenCityNightlife },
-    { name: 'Cowboys Music Festival Nightlife', scraper: scrapeCowboysNightlife },
-    { name: 'Dickens Pub Nightlife', scraper: scrapeDickensPubNightlife },
-    { name: 'National on 10th Nightlife', scraper: scrapeNationalOn10thNightlife },
-    { name: 'HiFi Club Nightlife', scraper: scrapeHiFiClubNightlife },
-    { name: 'The Ship and Anchor Pub', scraper: scrapeShipAndAnchor },
-    { name: 'Last Best Brewing & Distilling', scraper: scrapeLastBestBrewing },
+    // Broken City: domain dead
+    // Cowboys: no events on site
+    // Dickens Pub: domain dead
+    // National on 10th: domain dead
+    // HiFi Club: domain dead
+    // Ship & Anchor: Cloudflare blocked
+    // Last Best Brewing: no tribe/SQ events found
+    { name: 'Palomino Smokehouse', scraper: scrapePalomino },
     // Additional venues
-    { name: 'Alberta Ballet', scraper: scrapeAlbertaBallet },
+    // Alberta Ballet: 404 - skip
     { name: 'Fever Calgary', scraper: scrapeFeverCalgary },
-    { name: 'Ironwood Stage', scraper: scrapeIronwoodStage },
-    { name: 'Telus Spark', scraper: scrapeTelus },
+    // Ironwood Stage: 404 dead domain - removed
+    // Telus Spark: ENOTFOUND dead domain - removed
     { name: 'Theatre Calgary', scraper: scrapeTheatreCalgary },
     { name: 'Quickdraw Animation', scraper: scrapeQuickdraw }
 ];

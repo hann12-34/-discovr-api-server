@@ -151,36 +151,6 @@ async function scrapeChooseChicagoEvents(city = 'Chicago') {
         } catch (e) {}
       });
     }
-
-    // Fetch descriptions from detail pages
-    for (const event of events) {
-      if (event.description || !event.url || !event.url.startsWith('http')) continue;
-      try {
-        const dr = await axios.get(event.url, {
-          headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-          timeout: 8000
-        });
-        const d$ = cheerio.load(dr.data);
-        let desc = d$('meta[property="og:description"]').attr('content') || '';
-        if (!desc || desc.length < 20) desc = d$('meta[name="description"]').attr('content') || '';
-        if (!desc || desc.length < 20) {
-          for (const s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p']) {
-            const t = d$(s).first().text().trim();
-            if (t && t.length > 30) { desc = t; break; }
-          }
-        }
-        if (desc) {
-          desc = desc.replace(/\s+/g, ' ').trim();
-          if (desc.length > 500) desc = desc.substring(0, 500) + '...';
-          event.description = desc;
-        }
-        if (!event.imageUrl) {
-          const ogi = d$('meta[property="og:image"]').attr('content');
-          if (ogi && ogi.startsWith('http') && !/logo|icon|placeholder/i.test(ogi)) event.imageUrl = ogi;
-        }
-      } catch (e) {}
-    }
-
     // Filter future events only (using local date string to avoid timezone issues)
     const now = new Date();
     const todayStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');

@@ -56,6 +56,7 @@ const scrapeBochCenterWangTheatre = require('./scrape-boch-center-wang-theatre')
 const scrapeBrightonMusicHall = require('./scrape-brighton-music-hall');
 const scrapeOrpheumTheatreBoston = require('./scrape-orpheum-theatre-boston');
 const scrapeRoyaleBoston = require('./scrape-royale-boston');
+const scrapeFifa2026 = require('./fifa2026');
 // Removed scrapers with fake date generation: middle_east_sonia, paradise_rock_club, brighton_music_hall, royale_boston_v2, icon_nightclub
 
 const _rawExports = {
@@ -111,6 +112,7 @@ const _rawExports = {
   scrapeBrightonMusicHall,
   scrapeOrpheumTheatreBoston,
   scrapeRoyaleBoston,
+  scrapeFifa2026,
 };
 
 // Wrap each scraper to enhance events with image+description from detail pages

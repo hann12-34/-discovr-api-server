@@ -179,27 +179,6 @@ const VancouverArtGalleryEvents = {
         }
       }
 
-      // Fetch descriptions from detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const detailPage = await axios.get(event.url, {headers: {'User-Agent': 'Mozilla/5.0'}, timeout: 10000});
-          const $d = cheerio.load(detailPage.data);
-          let desc = $d('meta[property="og:description"]').attr('content') || '';
-          if (!desc || desc.length < 20) {
-            for (const sel of ['.exhibition-description', '.event-description', '.entry-content p', '.field-body p', '.description', 'article p', '.content p', '.page-content p']) {
-              const t = $d(sel).first().text().trim();
-              if (t && t.length > 30) { desc = t; break; }
-            }
-          }
-          if (desc) {
-            desc = desc.replace(/\s+/g, ' ').trim();
-            if (desc.length > 500) desc = desc.substring(0, 500) + '...';
-            event.description = desc;
-          }
-        } catch (err) {}
-      }
-      
       // Filter out generic recurring programs like "The Making Place", "Free First Friday"
       const withoutGenericPrograms = filterGenericPrograms(events);
       

@@ -25,6 +25,7 @@ const scrapeClimatePledgeArena = require('./scrape-climate-pledge-arena');
 const scrapeMooreTheatreSeattle = require('./scrape-moore-theatre-seattle');
 const scrapeNeumosSeattle = require('./scrape-neumos-seattle');
 const scrapeTheStrangerSeattle = require('./scrape-the-stranger-seattle');
+const scrapeFifa2026 = require('./fifa2026');
 
 async function scrapeSeattle() {
   console.log('☕ Starting Seattle scrapers...');
@@ -82,6 +83,9 @@ async function scrapeSeattle() {
     const substationEvents = await substation();
     allEvents.push(...substationEvents);
     
+    const fifaEvents = await scrapeFifa2026('Seattle');
+    allEvents.push(...fifaEvents);
+
     // NO GENERATORS - only real venue scrapers
     
   } catch (error) {
@@ -135,6 +139,7 @@ const _rawExports = {
   scrapeMooreTheatreSeattle,
   scrapeNeumosSeattle,
   scrapeTheStrangerSeattle,
+  scrapeFifa2026,
 };
 
 // Wrap each scraper to enhance events with image+description from detail pages

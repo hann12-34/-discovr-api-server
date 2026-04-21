@@ -21,11 +21,18 @@ async function scrapeWinnipegCityEvents() {
 
   // Dedupe by title + date
   const seen = new Set();
-  const unique = allEvents.filter(e => {
+  const deduped = allEvents.filter(e => {
     const key = `${e.title}::${e.date}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
+  });
+
+  // Filter out past events
+  const today = new Date().toISOString().slice(0, 10);
+  const unique = deduped.filter(e => {
+    const dateStr = (e.date || '').slice(0, 10);
+    return dateStr >= today;
   });
 
   console.log(`Winnipeg total: ${unique.length} unique events`);

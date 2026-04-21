@@ -19,8 +19,10 @@ async function scrapeDetroitCityEvents() {
         if (seen.has(key)) return false;
         seen.add(key); return true;
     });
-    console.log(`✅ Detroit: ${deduped.length} events`);
-    return deduped;
+    const today = new Date().toISOString().slice(0, 10);
+    const unique = deduped.filter(e => (e.date || '').slice(0, 10) >= today);
+    console.log(`✅ Detroit: ${unique.length} events`);
+    return unique;
 }
 
 module.exports = scrapeDetroitCityEvents;

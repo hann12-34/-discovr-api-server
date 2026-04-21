@@ -28,165 +28,79 @@ const ArtsClubTheatreEvents = {
 
       const $ = cheerio.load(response.data);
       const events = [];
-      const seenUrls = new Set();
+      const seenSlugs = new Set();
 
-      // Multiple selectors for different event layouts
-      const eventSelectors = [
-        '.event-item',
-        '.event-card',
-        '.show-item',
-        'article.event',
-        'article.show',
-        '.upcoming-event',
-        '.production-item',
-        '.card',
-        'a[href*="/event"]',
-        'a[href*="/events/"]',
-        'a[href*="/show"]',
-        'a[href*="/production"]',
-        '.post',
-        '.listing',
-        '.event',
-        '.show'
-      ];
+      // Arts Club uses img[src*="/illustrations/"] with alt=SHOW TITLE
+      // Each illustration src: /shows/SEASON/img/illustrations/show-slug.ext
+      const showImgs = $('img[src*="/shows/"][src*="/illustrations/"][alt]');
+      const showData = [];
 
-      for (const selector of eventSelectors) {
-        const eventElements = $(selector);
-        if (eventElements.length > 0) {
-          console.log(`Found ${eventElements.length} events with selector: ${selector}`);
+      showImgs.each((i, el) => {
+        const alt = $(el).attr('alt') || '';
+        const src = $(el).attr('src') || '';
+        // Skip meta alt text (not a show title)
+        if (!alt || /^(NOW PLAYING|STARTS|COMING SOON|ON SALE)/i.test(alt)) return;
+        // Extract slug from src path
+        const srcMatch = src.match(/\/shows\/([\d-]+)\/img\/illustrations\/([^.]+)\./);
+        if (!srcMatch) return;
+        const season = srcMatch[1];
+        const slug = srcMatch[2];
+        if (seenSlugs.has(slug)) return;
+        seenSlugs.add(slug);
 
-          eventElements.each((i, element) => {
-            const $event = $(element);
-            
-            // Extract event title
-            let title = $event.find('h1, h2, h3, h4, h5, .title, .event-title, .show-title, .production-title, .card-title, .post-title').first().text().trim() ||
-                       $event.find('a').first().text().trim() ||
-                       $event.text().trim().split('\n')[0];
+        // Only current/near-future seasons (skip past seasons)
+        const currentYear = new Date().getFullYear();
+        const seasonStart = parseInt(season.split('-')[0]);
+        if (seasonStart < currentYear - 1) return;
 
-            let url = $event.find('a').first().attr('href') || $event.attr('href') || '';
-            if (url && !url.startsWith('http')) {
-              url = 'https://artsclub.com' + url;
-            }
+        const title = alt.split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ').trim();
+        const url = `https://artsclub.com/shows/${season}/${slug}`;
+        const imageUrl = `https://artsclub.com${src}`;
+        showData.push({ title, url, imageUrl });
+      });
 
-            // Skip if no meaningful title or already seen
-            if (!title || title.length < 3 || seenUrls.has(url)) {
-              return;
-            }
+      console.log(`  Found ${showData.length} shows from Arts Club Theatre listing`);
 
-            // Filter out navigation and non-event links
-            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter', 'read more', 'view all', 'tickets', 'buy', 'donate', 'support', 'rental', 'season', 'now playing', 'all shows', 'special performances', 'accessible performances', 'on tour', 'travel tours', 'more info', 'info', 'learn more'];
-            if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
-              return;
-            }
-
-            seenUrls.add(url);
-
-            
-            // SUPER COMPREHENSIVE date extraction
-            let eventDate = null;
-            
-            // Strategy 1: datetime attributes
-            const datetimeAttr = $event.find('[datetime]').first().attr('datetime');
-            if (datetimeAttr) eventDate = datetimeAttr;
-            
-            // Strategy 2: extensive selectors
-            if (!eventDate) {
-              const selectors = ['.date', '.event-date', '.show-date', 'time', '[class*="date"]', 
-                               '[data-date]', '.datetime', '.when', '[itemprop="startDate"]',
-                               '.performance-date', '[data-start-date]'];
-              for (const sel of selectors) {
-                const text = $event.find(sel).first().text().trim();
-                if (text && text.length >= 5 && text.length <= 100) {
-                  eventDate = text;
-                  break;
-                }
+      // Fetch each show page for date (in parallel batches of 4)
+      const BATCH = 4;
+      for (let i = 0; i < showData.length; i += BATCH) {
+        const batch = showData.slice(i, i + BATCH);
+        await Promise.all(batch.map(async (show) => {
+          try {
+            const pageRes = await axios.get(show.url, {
+              headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36' },
+              timeout: 10000
+            });
+            const $p = cheerio.load(pageRes.data);
+            // Date format: "September 17–October 18, 2026" in [class*="date"] element
+            const dateText = $p('[class*="date"]').first().text().trim() ||
+                             $p('.run-dates, .show-dates, .performance-dates').first().text().trim();
+            let date = null;
+            if (dateText) {
+              const dateMatch = dateText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}).*?(\d{4})/i);
+              if (dateMatch) {
+                const months = { january:'01', february:'02', march:'03', april:'04', may:'05', june:'06',
+                                july:'07', august:'08', september:'09', october:'10', november:'11', december:'12' };
+                const m = months[dateMatch[1].toLowerCase()];
+                const d = dateMatch[2].padStart(2, '0');
+                date = `${dateMatch[3]}-${m}-${d}`;
               }
             }
-            
-            // Strategy 3: URL pattern
-            if (!eventDate && url) {
-              const urlMatch = url.match(/\/(\d{4})-(\d{2})-(\d{2})|\/(\d{4})\/(\d{2})\/(\d{2})/);
-              if (urlMatch) {
-                eventDate = urlMatch[1] ? `${urlMatch[1]}-${urlMatch[2]}-${urlMatch[3]}` : `${urlMatch[4]}-${urlMatch[5]}-${urlMatch[6]}`;
-              }
-            }
-            
-            // Strategy 4: text pattern
-            if (!eventDate) {
-              const text = $event.text() + ' ' + $event.parent().text();
-              const dateMatch = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{4})?/i);
-              if (dateMatch) eventDate = dateMatch[0];
-            }
-
-            if (eventDate) {
-              eventDate = eventDate
-                .replace(/\n/g, ' ')
-                .replace(/\s+/g, ' ')
-                .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-                .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
-                .trim();
-              
-              if (!/\d{4}/.test(eventDate)) {
-                const currentYear = new Date().getFullYear();
-                const currentMonth = new Date().getMonth();
-                const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-                const dateLower = eventDate.toLowerCase();
-                const monthIndex = months.findIndex(m => dateLower.includes(m));
-                if (monthIndex !== -1) {
-                  const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                  eventDate = `${eventDate}, ${year}`;
-                } else {
-                  eventDate = `${eventDate}, ${currentYear}`;
-                }
-              }
-            }
-
-            // Only log valid events (junk will be filtered out)
-
+            if (!date) return;
             events.push({
               id: uuidv4(),
-              title: title,
-              date: eventDate,
-              time: null,
-              url: url,
+              title: show.title,
+              date,
+              url: show.url,
+              imageUrl: show.imageUrl,
               venue: { name: 'Arts Club Theatre', address: '1585 Johnston Street, Vancouver, BC V6H 3R9', city: 'Vancouver' },
-              city: "Vancouver",
-              source: "arts Club Theatre",
-              location: 'Vancouver, BC',
-              description: '',
-              image: null
+              city: 'Vancouver',
+              source: 'Arts Club Theatre',
+              description: ''
             });
-          });
-        }
+          } catch (_) { /* skip */ }
+        }));
       }
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
 
       console.log(`Found ${events.length} total events from Arts Club Theatre`);
       return filterEvents(events);

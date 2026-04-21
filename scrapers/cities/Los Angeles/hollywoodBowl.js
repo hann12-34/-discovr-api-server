@@ -33,75 +33,66 @@ async function scrapeHollywoodBowl(city = 'Los Angeles') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
-      const months = {
-        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 
-        'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
-        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
-      };
-      
-      // Pattern: "Sat, Dec 14" or "Dec 14, 2024"
-      const datePatterns = [
-        /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2}),?\s*(\d{4})?/i,
-        /(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})/i
-      ];
-      
       const seen = new Set();
-      const currentYear = new Date().getFullYear();
-      
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        
-        for (const pattern of datePatterns) {
-          const dateMatch = line.match(pattern);
-          if (dateMatch) {
-            let monthStr, day, year;
-            
-            if (pattern.source.includes('Mon|Tue')) {
-              monthStr = dateMatch[2];
-              day = dateMatch[3];
-              year = currentYear;
-            } else {
-              monthStr = dateMatch[1];
-              day = dateMatch[2];
-              year = dateMatch[3] || currentYear;
+      const BASE = 'https://www.hollywoodbowl.com';
+
+      const months = {
+        'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+        'may': '05', 'jun': '06', 'jul': '07', 'aug': '08',
+        'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'
+      };
+
+      function parseDate(text) {
+        const m = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{1,2}),?\s*(\d{4})/i);
+        if (!m) return null;
+        const mo = months[m[1].toLowerCase().slice(0, 3)];
+        if (!mo) return null;
+        const yr = m[3] || new Date().getFullYear();
+        return `${yr}-${mo}-${String(m[2]).padStart(2, '0')}`;
+      }
+
+      // Strategy 1: Find anchor links to individual event pages
+      document.querySelectorAll('a[href*="/events/performances/"]').forEach(a => {
+        const href = a.href;
+        if (!href || href.endsWith('/performances') || href.endsWith('/performances/')) return;
+        const container = a.closest('article, li, [class*="event"], [class*="card"], [class*="listing"], [class*="performance"]') || a.parentElement;
+        const titleEl = container ? (container.querySelector('h2,h3,h4,[class*="title"]') || a) : a;
+        const title = titleEl.textContent.trim();
+        if (!title || title.length < 3 || title.includes('Buy') || title.includes('Ticket')) return;
+        const dateEl = container ? container.querySelector('time,[class*="date"],[class*="Date"]') : null;
+        const dateText = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent) : '';
+        const date = parseDate(dateText) || parseDate(container ? container.textContent : '');
+        const imgEl = container ? container.querySelector('img[src]') : null;
+        const imgSrc = imgEl ? imgEl.src : '';
+        const key = title + (date || href);
+        if (!seen.has(key)) {
+          seen.add(key);
+          results.push({ title, date, url: href, imageUrl: imgSrc && !imgSrc.includes('logo') ? imgSrc : null });
+        }
+      });
+
+      // Strategy 2: Fallback - parse text if Strategy 1 finds nothing
+      if (results.length === 0) {
+        const lines = document.body.innerText.split('\n').map(l => l.trim()).filter(l => l);
+        const datePat = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{1,2}),?\s*(\d{4})/i;
+        const junk = /TOGGLE|MENU|SUBSCRIBE|EXCLUSIVE|CLICK|LOGIN|SIGN UP|NEWSLETTER|COOKIE|PRIVACY|Buy Tickets/i;
+        for (let i = 0; i < lines.length; i++) {
+          const d = parseDate(lines[i]);
+          if (!d) continue;
+          let title = null;
+          for (let j = i - 1; j >= Math.max(0, i - 4); j--) {
+            const pt = lines[j];
+            if (pt && pt.length > 5 && pt.length < 120 && !junk.test(pt) && !/^\d/.test(pt)) {
+              title = pt; break;
             }
-            
-            const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1, 3).toLowerCase()];
-            if (!month) continue;
-            
-            const isoDate = `${year}-${month}-${day.padStart(2, '0')}`;
-            
-            // Look for title in surrounding lines
-            let title = null;
-            const junkPatterns = ['TOGGLE', 'MENU', 'SUBSCRIBE', 'EXCLUSIVE', 'CLICK', 'LOGIN', 'SIGN UP', 'NEWSLETTER', 'COOKIE', 'PRIVACY'];
-            for (let j = i - 1; j >= Math.max(0, i - 4); j--) {
-              const potentialTitle = lines[j];
-              const upperTitle = potentialTitle?.toUpperCase() || '';
-              const isJunk = junkPatterns.some(p => upperTitle.includes(p));
-              if (potentialTitle && 
-                  potentialTitle.length > 5 && 
-                  potentialTitle.length < 120 &&
-                  !potentialTitle.match(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)/i) &&
-                  !potentialTitle.match(/^\d/) &&
-                  !potentialTitle.includes('Buy Tickets') &&
-                  !isJunk) {
-                title = potentialTitle;
-                break;
-              }
-            }
-            
-            if (title && !seen.has(title + isoDate)) {
-              seen.add(title + isoDate);
-              results.push({ title, date: isoDate });
-            }
-            break;
+          }
+          if (title && !seen.has(title + d)) {
+            seen.add(title + d);
+            results.push({ title, date: d, url: BASE + '/events/performances', imageUrl: null });
           }
         }
       }
-      
+
       return results;
     });
 
@@ -112,53 +103,40 @@ async function scrapeHollywoodBowl(city = 'Los Angeles') {
     const formattedEvents = events.map(event => ({
       id: uuidv4(),
       title: event.title,
-        description: '',
+      description: '',
       date: event.date,
-      startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://www.hollywoodbowl.com/events/performances',
-      imageUrl: null,
+      url: event.url || 'https://www.hollywoodbowl.com/events/performances',
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Hollywood Bowl',
         address: '2301 N Highland Ave, Los Angeles, CA 90068',
         city: 'Los Angeles'
       },
-      latitude: 34.1122,
-      longitude: -118.3391,
       city: 'Los Angeles',
-      category: 'Festival',
+      category: 'Concert',
       source: 'HollywoodBowl'
     }));
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
 
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+    // Fetch og:image for events that have event-specific URLs but no image yet
+    const needImg = formattedEvents.filter(e =>
+      !e.imageUrl && e.url && e.url !== 'https://www.hollywoodbowl.com/events/performances'
+    );
+    if (needImg.length > 0) {
+      await Promise.all(needImg.map(async (ev) => {
         try {
-          const _r = await axios.get(event.url, {
+          const r = await axios.get(ev.url, {
             headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
             timeout: 8000
           });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
+          const $p = cheerio.load(r.data);
+          const og = $p('meta[property="og:image"]').attr('content');
+          if (og && og.startsWith('http') && !/logo|placeholder|favicon/i.test(og)) ev.imageUrl = og;
+        } catch (e) { /* skip */ }
+      }));
+    }
 
-    
     return filterEvents(formattedEvents);
 
   } catch (error) {

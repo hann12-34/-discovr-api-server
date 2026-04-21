@@ -6,7 +6,7 @@
  * Uses TicketWeb plugin with clean static HTML
  */
 
-const axios = require('axios');
+const { spawnSync } = require('child_process');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 
@@ -22,15 +22,17 @@ const MajesticDetroitEvents = {
     console.log('🎸 Scraping Majestic Detroit...');
 
     try {
-      const response = await axios.get('https://www.majesticdetroit.com/calendar', {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-          'Accept': 'text/html,application/xhtml+xml'
-        },
-        timeout: 20000
-      });
+      const result = spawnSync('curl', ['-sL', '-m', '10',
+        '-H', 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        '-H', 'Accept: text/html,application/xhtml+xml',
+        'https://www.majesticdetroit.com/calendar'
+      ], { encoding: 'utf8', maxBuffer: 5 * 1024 * 1024 });
+      if (!result.stdout || result.stdout.length < 100) {
+        console.log('  ⚠️ Majestic Detroit: site unreachable');
+        return [];
+      }
 
-      const $ = cheerio.load(response.data);
+      const $ = cheerio.load(result.stdout);
       const events = [];
       const seen = new Set();
 

@@ -53,16 +53,13 @@ async function scrapeE11even(city = 'Miami') {
       eventBlocks.forEach(block => {
         const img = block.querySelector('img:not([src*="logo"]):not([alt*="logo"])');
         const titleEl = block.querySelector('h1, h2, h3, .title, .event-title');
-        if (img && titleEl) {
-          const src = img.src || img.getAttribute('data-src') || '';
-          if (src && !src.includes('logo') && !src.includes('icon')) {
-            imageMap[titleEl.textContent.trim()] = src;
-          }
+        const linkEl = block.querySelector('a[href]');
+        if (titleEl) {
+          const key = titleEl.textContent.trim();
+          const src = img ? (img.src || img.getAttribute('data-src') || '') : '';
+          if (key) imageMap[key] = { imageUrl: (src && !src.includes('logo') && !src.includes('icon')) ? src : null, url: linkEl ? linkEl.href : '' };
         }
       });
-      
-      // Try Open Graph image as fallback
-      const ogImage = document.querySelector('meta[property="og:image"]')?.content || '';
       
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -103,13 +100,12 @@ async function scrapeE11even(city = 'Miami') {
           if (title && title.length > 3 && !seen.has(title + isoDate)) {
             seen.add(title + isoDate);
             
-            // Try to find image for this event
-            const eventImage = imageMap[title] || ogImage || '';
-            
+            const eventData = imageMap[title] || {};
             results.push({
               title: title,
               date: isoDate,
-              imageUrl: eventImage
+              url: eventData.url || '',
+              imageUrl: eventData.imageUrl || null
             });
           }
         }
@@ -128,8 +124,8 @@ async function scrapeE11even(city = 'Miami') {
         description: '',
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://11miami.com/events/',
-      imageUrl: event.imageUrl || null,  // Use scraped image
+      url: event.url || 'https://11miami.com/events/',
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'E11EVEN Miami',
         address: '29 NE 11th St, Miami, FL 33132',
@@ -143,35 +139,6 @@ async function scrapeE11even(city = 'Miami') {
     }));
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
-
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
-    
     return filterEvents(formattedEvents);
 
   } catch (error) {

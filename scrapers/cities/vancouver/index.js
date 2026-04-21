@@ -9,11 +9,17 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { toISODate } = require('../../utils/dateNormalizer');
 
+// Known blockers (these sites block server-side requests)
+const BLOCKED_DOMAINS = ['ticketmaster.com', 'livenation.com', 'axs.com', 'seetickets.com', 'tixr.com'];
+
 // Helper function to fetch og:image AND description from event URL
 // ONLY for specific event pages, NOT listing pages
 async function fetchEventDetails(url) {
     const result = { image: null, description: null };
     if (!url || !url.startsWith('http')) return result;
+    
+    // Skip known blockers
+    if (BLOCKED_DOMAINS.some(d => url.includes(d))) return result;
     
     // Skip generic listing pages - these return venue images, not event images
     const listingPatterns = [
@@ -30,14 +36,28 @@ async function fetchEventDetails(url) {
     
     try {
         const response = await axios.get(url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Cache-Control': 'no-cache',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate'
+            },
+            timeout: 10000,
+            maxRedirects: 5
         });
         const $ = cheerio.load(response.data);
         
-        // Extract og:image
-        const ogImage = $('meta[property="og:image"]').attr('content') || null;
-        if (ogImage && !ogImage.includes('logo') && !ogImage.includes('default') && !ogImage.includes('placeholder')) {
+        // Extract image — try multiple meta tags
+        const ogImage = $('meta[property="og:image"]').attr('content')
+            || $('meta[property="og:image:secure_url"]').attr('content')
+            || $('meta[name="twitter:image"]').attr('content')
+            || $('meta[name="twitter:image:src"]').attr('content')
+            || null;
+        if (ogImage && ogImage.startsWith('http') &&
+            !ogImage.includes('logo') && !ogImage.includes('default') && !ogImage.includes('placeholder')) {
             result.image = ogImage;
         }
         
@@ -132,33 +152,38 @@ class VancouverScrapers {
                 const events = await (typeof scraper.scrape === 'function' ? scraper.scrape() : scraper('Vancouver'));
 
                 if (Array.isArray(events) && events.length > 0) {
-                    // Process events and fetch image+description for those missing them
-                    const processedEvents = [];
-                    for (const event of events) {
-                        let image = event.image || event.imageUrl || null;
-                        let description = event.description || null;
-                        
-                        // Fetch image and description from event detail page if missing
-                        if ((!image || !description) && event.url) {
-                            const details = await fetchEventDetails(event.url);
-                            if (!image && details.image) image = details.image;
-                            if (!description && details.description) description = details.description;
-                        }
-                        
-                        processedEvents.push({
-                            ...event,
-                            description: description || '',
-                            imageUrl: image,
-                            image: image,
-                            city: 'Vancouver',
-                            venue: event.venue || { name: source },
-                            categories: [...(event.categories || []), 'city'].filter((v, i, a) => a.indexOf(v) === i)
-                        });
+                    // Parallel batch fetch: images for events missing them (5 at a time)
+                    const BATCH_SIZE = 5;
+                    const processedEvents = new Array(events.length);
+                    
+                    for (let i = 0; i < events.length; i += BATCH_SIZE) {
+                        const batch = events.slice(i, i + BATCH_SIZE);
+                        await Promise.all(batch.map(async (event, batchIdx) => {
+                            let image = event.image || event.imageUrl || null;
+                            let description = event.description || null;
+                            
+                            if ((!image || !description) && event.url) {
+                                const details = await fetchEventDetails(event.url);
+                                if (!image && details.image) image = details.image;
+                                if (!description && details.description) description = details.description;
+                            }
+                            
+                            processedEvents[i + batchIdx] = {
+                                ...event,
+                                description: description || '',
+                                imageUrl: image,
+                                image: image,
+                                city: 'Vancouver',
+                                venue: event.venue || { name: source },
+                                categories: [...(event.categories || []), 'city'].filter((v, i, a) => a.indexOf(v) === i)
+                            };
+                        }));
                     }
 
-                    allEvents.push(...processedEvents);
+                    const validProcessed = processedEvents.filter(Boolean);
+                    allEvents.push(...validProcessed);
                     successCount++;
-                    const withImages = processedEvents.filter(e => e.image).length;
+                    const withImages = validProcessed.filter(e => e.image).length;
                     console.log(`✅ ${source}: ${events.length} events (${withImages} with images)`);
                 } else {
                     // Silently skip scrapers with 0 events
@@ -198,7 +223,14 @@ class VancouverScrapers {
             /^what's showing/i,
             /^all past events/i,
             /special event$/i,
-            /^\w+\s+\d{1,2}(st|nd|rd|th)?\s+(special event|theatre|multimedia)/i
+            /^\w+\s+\d{1,2}(st|nd|rd|th)?\s+(special event|theatre|multimedia)/i,
+            /^\*cancelled\*/i,
+            /^\[cancelled\]/i,
+            /^cancelled:/i,
+            /^cancelled\s+-/i,
+            /\bcancelled\b.*\bshow\b/i,
+            /^\*postponed\*/i,
+            /^\[postponed\]/i
         ];
         
         const seenTitles = new Set();

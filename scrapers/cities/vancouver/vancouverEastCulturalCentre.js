@@ -67,6 +67,12 @@ const VancouverEastCulturalCentreEvents = {
               url = 'https://thecultch.com' + url;
             }
 
+            // Extract image from event container
+            const $img = $event.find('img:not([src*="logo"]):not([src*="icon"]):not([src*="arrow"])').first();
+            let imageUrl = $img.attr('src') || $img.attr('data-src') || $img.attr('data-lazy-src') || null;
+            if (imageUrl && imageUrl.startsWith('/')) imageUrl = 'https://thecultch.com' + imageUrl;
+            if (imageUrl && !imageUrl.startsWith('http')) imageUrl = null;
+
             // Skip if no meaningful title or already seen
             if (!title || title.length < 3 || seenUrls.has(url)) {
               return;
@@ -125,6 +131,7 @@ const VancouverEastCulturalCentreEvents = {
               description: '',
               date: eventDate,
               url: url,
+              imageUrl: imageUrl,
               venue: { name: 'Vancouver East Cultural Centre', address: '1895 Venables Street, Vancouver, BC V5L 2H6', city: 'Vancouver' },
               city: 'Vancouver',
               source: 'Vancouver East Cultural Centre'
@@ -132,34 +139,6 @@ const VancouverEastCulturalCentreEvents = {
           });
         }
       }
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
 
       console.log(`Found ${events.length} total events from Vancouver East Cultural Centre`);
       return filterEvents(events);

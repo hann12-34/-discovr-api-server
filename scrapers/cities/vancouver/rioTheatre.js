@@ -18,10 +18,14 @@ async function fetchEventDetails(eventUrl) {
   try {
     const response = await axios.get(eventUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-        'Accept': 'text/html',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Cache-Control': 'no-cache'
       },
-      timeout: 15000
+      timeout: 12000,
+      maxRedirects: 5
     });
     
     const $ = cheerio.load(response.data);
@@ -92,6 +96,22 @@ const RioTheatreEvents = {
       const seenUrls = new Set();
       const eventUrls = [];
 
+      // Pre-scan listing page for images keyed by event URL
+      const imageByUrl = {};
+      $('a[href*="/event/"], a[href*="/movie/"]').each((i, el) => {
+        const href = $(el).attr('href');
+        if (!href) return;
+        const url = href.startsWith('http') ? href : 'https://riotheatre.ca' + href;
+        if (imageByUrl[url]) return;
+        const container = $(el).closest('article, li, .tribe-event, [class*="event"], div');
+        const img = container.find('img:not([src*="logo"]):not([src*="icon"])').first();
+        // Try all common lazy-loading attributes
+        const src = img.attr('data-src') || img.attr('data-lazy-src') || img.attr('data-original')
+          || img.attr('data-lazy') || img.attr('data-srcset')?.split(' ')[0]
+          || (img.attr('src')?.startsWith('http') ? img.attr('src') : null);
+        if (src && src.startsWith('http') && !/logo|icon|placeholder/i.test(src)) imageByUrl[url] = src;
+      });
+
       // Find all event links (both /event/ and /movie/)
       $('a[href*="/event/"], a[href*="/movie/"]').each((i, el) => {
         const href = $(el).attr('href');
@@ -113,62 +133,35 @@ const RioTheatreEvents = {
 
       console.log(`  Found ${eventUrls.length} event URLs from Rio Theatre`);
 
-      // Fetch details for each event
-      for (const eventUrl of eventUrls.slice(0, 50)) {
-        try {
-          const details = await fetchEventDetails(eventUrl);
-          
-          if (!details.dateText || !details.title) {
-            continue;
+      // Fetch details in parallel batches of 5 to avoid rate limiting
+      const BATCH_SIZE = 5;
+      const urlsToProcess = eventUrls.slice(0, 50);
+      for (let i = 0; i < urlsToProcess.length; i += BATCH_SIZE) {
+        const batch = urlsToProcess.slice(i, i + BATCH_SIZE);
+        const results = await Promise.all(batch.map(async (eventUrl) => {
+          try {
+            const details = await fetchEventDetails(eventUrl);
+            if (!details.dateText || !details.title) return null;
+            return {
+              id: uuidv4(),
+              title: details.title,
+              date: details.dateText,
+              url: eventUrl,
+              venue: VENUE,
+              city: 'Vancouver',
+              description: details.description || null,
+              imageUrl: details.image || imageByUrl[eventUrl] || null,
+              source: 'Rio Theatre'
+            };
+          } catch (err) {
+            return null;
           }
-          
-          events.push({
-            id: uuidv4(),
-            title: details.title,
-            date: details.dateText,
-            url: eventUrl,
-            venue: VENUE,
-            city: 'Vancouver',
-            description: details.description || null,
-            image: details.image || null,
-            source: 'Rio Theatre'
-          });
-          
-        } catch (err) {
-          // Continue with next event
-        }
+        }));
+        results.filter(Boolean).forEach(e => events.push(e));
       }
 
       console.log(`Found ${events.length} total events from Rio Theatre`);
       const filtered = filterEvents(events);
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
       console.log(`✅ Returning ${filtered.length} valid events after filtering`);
       return filtered;
 

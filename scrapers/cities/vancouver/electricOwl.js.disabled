@@ -1,20 +1,21 @@
 /**
- * The Venue Events Scraper (Vancouver)
- * Scrapes upcoming events from The Venue
- * Vancouver live music and event venue
+ * Electric Owl Events Scraper (Vancouver)
+ * Scrapes upcoming events from Electric Owl
+ * Vancouver live music venue and social club
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
+const https = require('https');
 
-const TheVenueEvents = {
+const ElectricOwlEvents = {
   async scrape(city) {
-    console.log('🔍 Scraping events from The Venue (Vancouver)...');
+    console.log('🔍 Scraping events from Electric Owl (Vancouver)...');
 
     try {
-      const response = await axios.get('https://www.venue.ca/events/', {
+      const response = await axios.get('https://electricowl.ca', {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -23,7 +24,8 @@ const TheVenueEvents = {
           'DNT': '1',
           'Connection': 'keep-alive',
         },
-        timeout: 30000
+        timeout: 30000,
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
       });
 
       const $ = cheerio.load(response.data);
@@ -63,7 +65,7 @@ const TheVenueEvents = {
 
             let url = $event.find('a').first().attr('href') || $event.attr('href') || '';
             if (url && !url.startsWith('http')) {
-              url = 'https://www.venue.ca' + url;
+              url = 'https://electricowl.ca' + url;
             }
 
             // Skip if no meaningful title or already seen
@@ -72,7 +74,7 @@ const TheVenueEvents = {
             }
 
             // Filter out navigation and non-event links
-            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter', 'read more', 'view all', 'tickets', 'buy'];
+            const skipTerms = ['menu', 'contact', 'about', 'home', 'calendar', 'facebook', 'instagram', 'twitter', 'read more', 'view all', 'tickets', 'buy', 'food', 'drink'];
             if (skipTerms.some(term => title.toLowerCase().includes(term) || url.toLowerCase().includes(term))) {
               return;
             }
@@ -118,13 +120,36 @@ const TheVenueEvents = {
 
             // Only log valid events (junk will be filtered out)
 
+            if (eventDate) {
+              eventDate = eventDate
+                .replace(/\n/g, ' ')
+                .replace(/\s+/g, ' ')
+                .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
+                .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
+                .trim();
+              
+              if (!/\d{4}/.test(eventDate)) {
+                const currentYear = new Date().getFullYear();
+                const currentMonth = new Date().getMonth();
+                const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+                const dateLower = eventDate.toLowerCase();
+                const monthIndex = months.findIndex(m => dateLower.includes(m));
+                if (monthIndex !== -1) {
+                  const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
+                  eventDate = `${eventDate}, ${year}`;
+                } else {
+                  eventDate = `${eventDate}, ${currentYear}`;
+                }
+              }
+            }
+
             events.push({
               id: uuidv4(),
               title: title,
               date: eventDate,
               time: null,
               url: url,
-              venue: { name: 'The Venue', address: 'Vancouver', city: 'Vancouver' },
+              venue: { name: 'Electric Owl', address: '928 Main Street, Vancouver, BC V6A 2W1', city: 'Vancouver' },
               location: 'Vancouver, BC',
               description: '',
               image: null
@@ -133,43 +158,15 @@ const TheVenueEvents = {
         }
       }
 
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
-
-      console.log(`Found ${events.length} total events from The Venue`);
+      console.log(`Found ${events.length} total events from Electric Owl`);
       return filterEvents(events);
 
     } catch (error) {
-      console.error('Error scraping The Venue events:', error.message);
+      console.error('Error scraping Electric Owl events:', error.message);
       return [];
     }
   }
 };
 
 
-module.exports = TheVenueEvents.scrape;
+module.exports = ElectricOwlEvents.scrape;

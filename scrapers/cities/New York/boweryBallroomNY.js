@@ -50,7 +50,7 @@ const BoweryBallroomNYEvents = {
         allDates.push($(el).text().trim());
       });
 
-      $('img.tw-event-image, img[class*="tw-"]').each((i, el) => {
+      $('img.event-img').each((i, el) => {
         allImgs.push($(el).attr('src') || '');
       });
 

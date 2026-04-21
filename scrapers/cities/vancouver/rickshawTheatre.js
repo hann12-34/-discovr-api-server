@@ -76,11 +76,19 @@ const RickshawTheatreEvents = {
             if (description.length > 500) description = description.substring(0, 500) + '...';
           }
 
+          // Get event-specific URL from show_listings link if available
+          let eventUrl = 'https://www.rickshawtheatre.com/';
+          const linkEl = container.querySelector('a[href*="show_listings"], a[href*="/event"]');
+          if (linkEl) {
+            const href = linkEl.href;
+            if (href && href.startsWith('http')) eventUrl = href;
+          }
+
           if (title && title.length > 3 && !title.toLowerCase().includes('get tickets')) {
             events.push({
               title,
               date: dateMatch[0],
-              url: 'https://www.rickshawtheatre.com/',
+              url: eventUrl,
               imageUrl: imageUrl,
               description: description
             });
@@ -96,8 +104,9 @@ const RickshawTheatreEvents = {
       const seen = new Set();
 
       eventData.forEach(({ title, date, url, imageUrl }) => {
-        if (seen.has(url)) return;
-        seen.add(url);
+        const key = title.toLowerCase().trim();
+        if (seen.has(key)) return;
+        seen.add(key);
 
         console.log(`✓ ${title} | ${date || 'TBD'}`);
 
@@ -121,46 +130,15 @@ const RickshawTheatreEvents = {
           date: isoDate || date,
           startDate: isoDate ? new Date(isoDate + 'T00:00:00.000Z') : null,
           time: null,
-          url: url,
+          url: url || 'https://www.rickshawtheatre.com',
           venue: { name: 'Rickshaw Theatre', address: '254 East Hastings Street, Vancouver, BC V6A 1P1', city: 'Vancouver' },
-          latitude: 49.2822,
-          longitude: -123.0962,
-          location: 'Vancouver, BC',
-          description: event.description || '',
+          description: '',
           category: 'Concert',
           city: 'Vancouver',
           imageUrl: imageUrl || null,  // Real poster image or null
           source: 'Rickshaw Theatre'
         });
       });
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
 
       console.log(`\n✅ Found ${events.length} Rickshaw Theatre events`);
       return filterEvents(events);

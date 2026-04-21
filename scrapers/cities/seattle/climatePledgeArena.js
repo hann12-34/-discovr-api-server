@@ -73,7 +73,8 @@ async function scrapeClimatePledgeArena(city = 'Seattle') {
         
         seen.add(href);
         seen.add(title);
-        results.push({ title: title.substring(0, 100), date: formattedDate, url: href });
+        const imgEl = container.querySelector('img[src]:not([src*="logo"]):not([src*="icon"])');
+        results.push({ title: title.substring(0, 100), date: formattedDate, url: href, imageUrl: imgEl ? imgEl.src : null });
       });
       
       return results;
@@ -88,8 +89,8 @@ async function scrapeClimatePledgeArena(city = 'Seattle') {
         description: '',
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T19:00:00') : null,
-      url: 'https://climatepledgearena.com/events/',
-      imageUrl: null,
+      url: event.url || 'https://climatepledgearena.com/events/',
+      imageUrl: event.imageUrl || null,
       venue: { name: 'Climate Pledge Arena', address: '334 1st Ave N, Seattle, WA', city: 'Seattle' },
       latitude: 47.6222,
       longitude: -122.3540,
@@ -99,34 +100,6 @@ async function scrapeClimatePledgeArena(city = 'Seattle') {
     }));
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
-
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
     return filterEvents(formattedEvents);
 
   } catch (error) {

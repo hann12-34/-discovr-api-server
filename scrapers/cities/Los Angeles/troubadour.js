@@ -33,113 +33,132 @@ async function scrapeTroubadour(city = 'Los Angeles') {
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
-      
-      // Find all SeeTickets event links that contain actual titles (not images)
-      const links = document.querySelectorAll('a[href*="seetickets.us/event"]');
-      
-      links.forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href || seen.has(href)) return;
-        
-        // Get event title - skip if it's just an image
-        let title = link.textContent.trim().replace(/<[^>]*>/g, '');
-        
-        // Skip image-only links, ticket links, etc.
-        if (!title || title.length < 3 || /^(Tickets|Sold Out|Buy|img|<)$/i.test(title)) {
-          return;
+      const months = { jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12' };
+      const currentYear = new Date().getFullYear();
+
+      function parseDate(text) {
+        if (!text) return null;
+        const m = text.match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i);
+        if (!m) return null;
+        const mo = months[m[1].toLowerCase().slice(0,3)];
+        if (!mo) return null;
+        const yr = m[3] || currentYear;
+        return `${yr}-${mo}-${String(m[2]).padStart(2,'0')}`;
+      }
+
+      // Find event containers - look for blocks that have both a title link and a date
+      const containers = document.querySelectorAll(
+        'article, .event-block, .eventItem, [class*="event-item"], [class*="eventItem"], li.event, .show-row'
+      );
+
+      containers.forEach(container => {
+        const text = container.innerText || '';
+        const date = parseDate(text);
+        if (!date) return;
+
+        // Find the title from various elements
+        const titleEl = container.querySelector('h1,h2,h3,h4,h5,[class*="title"],[class*="name"],[class*="artist"]');
+        let title = titleEl ? titleEl.textContent.trim() : '';
+        if (!title) {
+          // Try text lines
+          const lines = text.split('\n').map(l=>l.trim()).filter(l=>l.length>3&&l.length<100);
+          for (const l of lines) {
+            if (!/^(mon|tue|wed|thu|fri|sat|sun|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d|buy|ticket|sold)/i.test(l)) {
+              title = l; break;
+            }
+          }
         }
-        
-        // Skip if title contains HTML or img tags
-        if (title.includes('<img') || title.includes('decoding=')) return;
-        
-        // Clean up title
-        title = title.replace(/\s+/g, ' ').trim();
-        
-        // Skip duplicates and non-text
-        if (seen.has(title) || title.length > 80) return;
-        seen.add(title);
-        seen.add(href);
-        
-        // Extract image from sibling or parent
-        let imageUrl = null;
-        const container = link.closest('div') || link.parentElement;
-        if (container) {
-          const img = container.querySelector('img');
-          if (img && img.src) imageUrl = img.src;
+        if (!title || title.length < 3) return;
+        title = title.replace(/\s+/g,' ').trim().slice(0,100);
+
+        // Get URL - prefer troubadour.com links, accept seetickets
+        const linkEl = container.querySelector('a[href*="troubadour.com"], a[href*="seetickets"]');
+        const href = linkEl ? linkEl.href : '';
+        if (!href) return;
+
+        // Get image
+        const imgEl = container.querySelector('img[src]:not([src*="logo"]):not([src*="icon"])');
+        const imageUrl = imgEl ? imgEl.src : null;
+
+        const key = title.toLowerCase() + date;
+        if (!seen.has(key)) {
+          seen.add(key);
+          results.push({ title, date, url: href, imageUrl });
         }
-        
-        results.push({
-          title,
-          url: href,
-          imageUrl
-        });
       });
-      
+
+      // Fallback: If no containers found, scan for seetickets links with nearby dates
+      if (results.length === 0) {
+        document.querySelectorAll('a[href*="seetickets.us/event"]').forEach(link => {
+          const href = link.href;
+          if (!href || seen.has(href)) return;
+          let title = link.textContent.trim().replace(/\s+/g,' ');
+          if (!title || title.length < 3 || /^(tickets|sold|buy|img)/i.test(title)) return;
+          if (title.includes('<img')) return;
+          title = title.slice(0,100);
+
+          // Look for date in parent container text
+          let parent = link.parentElement;
+          let date = null;
+          for (let i=0; i<5 && parent; i++) {
+            date = parseDate(parent.innerText||'');
+            if (date) break;
+            parent = parent.parentElement;
+          }
+          if (!date) return;
+
+          const imgEl = link.closest('div')?.querySelector('img[src]');
+          const imageUrl = imgEl && !imgEl.src.includes('logo') ? imgEl.src : null;
+
+          if (!seen.has(title)) {
+            seen.add(title); seen.add(href);
+            results.push({ title, date, url: href, imageUrl });
+          }
+        });
+      }
+
       return results;
     });
 
     await browser.close();
     console.log(`  ✅ Found ${events.length} Troubadour events`);
 
-    // Generate dates - Troubadour doesn't show dates clearly, use sequential dates
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    
-    const formattedEvents = events.map((event, index) => {
-      // Estimate date based on position (events are roughly in order)
-      const eventDate = new Date();
-      eventDate.setDate(eventDate.getDate() + index * 3); // Space events ~3 days apart
-      const date = eventDate.toISOString().split('T')[0];
-      
-      console.log(`  ✓ ${event.title}`);
+    const formattedEvents = events.map(event => {
+      console.log(`  ✓ ${event.title} | ${event.date}`);
       return {
         id: uuidv4(),
         title: event.title,
-        date: date,
-        startDate: new Date(date + 'T20:00:00'),
+        date: event.date,
+        description: '',
         url: event.url,
-        imageUrl: event.imageUrl,
+        imageUrl: event.imageUrl || null,
         venue: {
           name: 'Troubadour',
           address: '9081 Santa Monica Blvd, West Hollywood, CA 90069',
           city: 'Los Angeles'
         },
-        latitude: 34.0819,
-        longitude: -118.3894,
         city: 'Los Angeles',
-        category: 'Nightlife',
+        category: 'Concert',
         source: 'Troubadour'
       };
     });
 
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+    // Fetch og:image for events without images
+    const needImg = formattedEvents.filter(e => !e.imageUrl && e.url && e.url.startsWith('http'));
+    if (needImg.length > 0) {
+      await Promise.all(needImg.map(async (ev) => {
         try {
-          const _r = await axios.get(event.url, {
+          const r = await axios.get(ev.url, {
             headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
             timeout: 8000
           });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
+          const $p = cheerio.load(r.data);
+          const og = $p('meta[property="og:image"]').attr('content');
+          if (og && og.startsWith('http') && !/logo|placeholder|favicon/i.test(og)) ev.imageUrl = og;
+        } catch (e) { /* skip */ }
+      }));
+    }
 
-    
     return filterEvents(formattedEvents);
 
   } catch (error) {

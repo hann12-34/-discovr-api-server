@@ -28,14 +28,18 @@ const VENUES = {
   }
 };
 
+const VCT_BASE = 'https://www.vancouvercivictheatres.com';
+
 async function fetchEventDetails(eventUrl) {
   try {
     const response = await axios.get(eventUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-        'Accept': 'text/html',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
       },
-      timeout: 15000
+      timeout: 12000,
+      maxRedirects: 5
     });
     
     const $ = cheerio.load(response.data);
@@ -83,10 +87,17 @@ async function fetchEventDetails(eventUrl) {
       }
     }
     
-    // Extract image
-    let image = $('meta[property="og:image"]').attr('content');
+    // Extract image — VCT has no og:image, uses /media/ relative paths
+    let image = $('meta[property="og:image"]').attr('content') ||
+                $('meta[name="twitter:image"]').attr('content') || null;
     if (!image) {
-      image = $('.event-image img, .hero-image img, .featured-image img').first().attr('src');
+      $('img[src*="/media/"]').each((i, el) => {
+        if (image) return;
+        const src = $(el).attr('src');
+        if (src && !src.includes('footer') && !src.includes('logo') && !src.includes('city-logo')) {
+          image = src.startsWith('http') ? src : VCT_BASE + src.split('?')[0];
+        }
+      });
     }
     
     // Extract description
@@ -119,10 +130,10 @@ const VancouverCivicTheatresEvents = {
     console.log('🔍 Scraping events from Vancouver Civic Theatres...');
 
     try {
-      const response = await axios.get('https://vancouvercivictheatres.com/', {
+      const response = await axios.get(VCT_BASE + '/', {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-          'Accept': 'text/html',
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         },
         timeout: 30000
       });
@@ -139,14 +150,11 @@ const VancouverCivicTheatresEvents = {
         
         let url = href;
         if (!url.startsWith('http')) {
-          url = 'https://vancouvercivictheatres.com' + url;
+          url = VCT_BASE + url;
         }
         
-        // Skip generic pages
-        if (url === 'https://vancouvercivictheatres.com/events/' || 
-            url === 'https://vancouvercivictheatres.com/events') {
-          return;
-        }
+        // Skip generic listing pages
+        if (url.endsWith('/events/') || url.endsWith('/events')) return;
         
         if (!seenUrls.has(url)) {
           seenUrls.add(url);
@@ -179,8 +187,8 @@ const VancouverCivicTheatresEvents = {
           
           // Skip if no date found
           if (!details.dateText) {
-            // Try to extract date from URL (e.g., mar-2-2026)
-            const urlDateMatch = eventUrl.match(/(\w{3})-(\d{1,2})-(\d{4})/i);
+            // Extract date from URL slug: handles single days and ranges like apr-16-18-2026
+            const urlDateMatch = eventUrl.match(/-(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)-(\d{1,2})(?:-\d{1,2})?-(\d{4})/i);
             if (urlDateMatch) {
               const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
               const monthIndex = months.indexOf(urlDateMatch[1].toLowerCase());
@@ -214,34 +222,6 @@ const VancouverCivicTheatresEvents = {
 
       console.log(`Found ${events.length} total events from Vancouver Civic Theatres`);
       const filtered = filterEvents(events);
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
       console.log(`✅ Returning ${filtered.length} valid events after filtering`);
       return filtered;
 

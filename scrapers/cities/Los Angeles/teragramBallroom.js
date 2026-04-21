@@ -42,6 +42,8 @@ async function scrapeTeragramBallroom(city = 'Los Angeles') {
       const currentYear = new Date().getFullYear();
       const months = { 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' };
 
+      const BASE = 'https://www.teragramballroom.com';
+      const currentMonth = new Date().getMonth();
       const items = document.querySelectorAll('.event-card, .eventlist-event, article, [class*="event"], .show');
       
       items.forEach(item => {
@@ -51,7 +53,10 @@ async function scrapeTeragramBallroom(city = 'Los Angeles') {
         let title = null;
         for (const line of lines) {
           if (line.length > 3 && line.length < 100 && 
-              !line.match(/^(buy|tickets|more|view|\$|free|on sale)/i)) {
+              !line.match(/^(buy|tickets|more|view|\$|free|on sale)/i) &&
+              !line.match(/^(mon|tue|wed|thu|fri|sat|sun),?\s/i) &&
+              !line.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s/i) &&
+              !line.match(/^\d{1,2}[\/\-\.]\d{1,2}/)) {
             title = line;
             break;
           }
@@ -62,15 +67,19 @@ async function scrapeTeragramBallroom(city = 'Los Angeles') {
         if (title && dateMatch) {
           const monthStr = dateMatch[1].toLowerCase().slice(0, 3);
           const day = dateMatch[2];
-          const year = dateMatch[3] || currentYear;
           const month = months[monthStr];
+          if (!month) return;
+          const mm = parseInt(month) - 1;
+          const year = dateMatch[3] || (mm < currentMonth ? currentYear + 1 : currentYear);
           
-          if (month) {
-            const isoDate = `${year}-${month}-${day.padStart(2, '0')}`;
-            if (!seen.has(title + isoDate)) {
-              seen.add(title + isoDate);
-              results.push({ title: title.substring(0, 100), date: isoDate });
-            }
+          const isoDate = `${year}-${month}-${day.padStart(2, '0')}`;
+          if (!seen.has(title + isoDate)) {
+            seen.add(title + isoDate);
+            const linkEl = item.querySelector('a[href*="teragram"], a[href*="/event"], a[href]');
+            const href = linkEl ? linkEl.href : '';
+            const imgEl = item.querySelector('img[src]:not([src*="logo"]):not([src*="icon"])');
+            const imageUrl = imgEl ? imgEl.src : null;
+            results.push({ title: title.substring(0, 100), date: isoDate, url: href || BASE, imageUrl });
           }
         }
       });
@@ -84,48 +93,17 @@ async function scrapeTeragramBallroom(city = 'Los Angeles') {
     const formattedEvents = events.map(event => ({
       id: uuidv4(),
       title: event.title,
-        description: '',
+      description: '',
       date: event.date,
-      startDate: event.date ? new Date(event.date + 'T20:00:00') : null,
-      url: 'https://www.teragramballroom.com',
-      imageUrl: null,
-      venue: { name: 'Teragram Ballroom', address: '1234 W 7th St, Los Angeles, CA', city: 'Los Angeles' },
-      latitude: 34.0505,
-      longitude: -118.2664,
+      url: event.url || 'https://www.teragramballroom.com',
+      imageUrl: event.imageUrl || null,
+      venue: { name: 'Teragram Ballroom', address: '1234 W 7th St, Los Angeles, CA 90017', city: 'Los Angeles' },
       city: 'Los Angeles',
-      category: 'Nightlife',
+      category: 'Concert',
       source: 'TeragramBallroom'
     }));
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
-
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
     return filterEvents(formattedEvents);
 
   } catch (error) {

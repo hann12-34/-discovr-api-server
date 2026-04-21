@@ -34,53 +34,57 @@ async function scrapeCreateNightclub(city = 'Los Angeles') {
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
+      const months = { jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12' };
+      const BASE = 'https://createnightclub.com';
       const currentYear = new Date().getFullYear();
-      
-      const months = {
-        'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 
-        'may': '05', 'jun': '06', 'jul': '07', 'aug': '08',
-        'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'
-      };
+      const currentMonth = new Date().getMonth();
 
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l.length > 3 && l.length < 150);
-      
-      const datePattern = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/gi;
-      
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const match = line.match(datePattern);
-        
-        if (match) {
-          const parts = match[0].match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i);
-          if (parts) {
-            const monthStr = parts[1].toLowerCase().slice(0, 3);
-            const day = parts[2];
-            const year = parts[3] || currentYear;
-            const month = months[monthStr];
-            
-            if (month) {
-              const isoDate = `${year}-${month}-${day.padStart(2, '0')}`;
-              
-              for (let j = i - 1; j >= Math.max(0, i - 3); j--) {
-                const potentialTitle = lines[j];
-                if (potentialTitle && 
-                    potentialTitle.length > 4 && 
-                    !potentialTitle.match(/^(mon|tue|wed|thu|fri|sat|sun)/i) &&
-                    !potentialTitle.match(/^\d/) &&
-                    !potentialTitle.match(/tickets|buy|menu|home|about|rsvp/i)) {
-                  if (!seen.has(potentialTitle + isoDate)) {
-                    seen.add(potentialTitle + isoDate);
-                    results.push({ title: potentialTitle.substring(0, 100), date: isoDate });
-                  }
-                  break;
-                }
-              }
-            }
+      function parseDate(text) {
+        if (!text) return null;
+        const m = text.match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i);
+        if (!m) return null;
+        const mo = months[m[1].toLowerCase().slice(0, 3)];
+        if (!mo) return null;
+        const mm = parseInt(mo) - 1;
+        const yr = m[3] ? parseInt(m[3]) : (mm < currentMonth ? currentYear + 1 : currentYear);
+        return `${yr}-${mo}-${String(m[2]).padStart(2, '0')}`;
+      }
+
+      // DOM Strategy
+      const containers = document.querySelectorAll('article, .event, [class*="event-item"], [class*="show"], [class*="event-card"], li.event');
+      containers.forEach(c => {
+        const titleEl = c.querySelector('h1,h2,h3,h4,[class*="title"],[class*="name"],[class*="artist"]');
+        let title = titleEl ? titleEl.textContent.trim().replace(/\s+/g, ' ') : '';
+        if (!title || title.length < 3 || /^(buy|ticket|sold)/i.test(title)) return;
+        const date = parseDate(c.textContent || '');
+        if (!date) return;
+        const linkEl = c.querySelector('a[href*="create"], a[href*="/event"], a[href]');
+        const href = linkEl ? linkEl.href : '';
+        const imgEl = c.querySelector('img[src]:not([src*="logo"]):not([src*="icon"])');
+        const imageUrl = imgEl ? imgEl.src : null;
+        const key = title.toLowerCase() + date;
+        if (!seen.has(key)) {
+          seen.add(key);
+          results.push({ title: title.slice(0, 100), date, url: href || BASE, imageUrl });
+        }
+      });
+
+      // Text fallback
+      if (results.length === 0) {
+        const lines = document.body.innerText.split('\n').map(l => l.trim()).filter(l => l.length > 3 && l.length < 150);
+        const junk = /^(mon|tue|wed|thu|fri|sat|sun|buy|ticket|sold|\d{1,2}:\d{2})/i;
+        for (let i = 0; i < lines.length; i++) {
+          const date = parseDate(lines[i]);
+          if (!date) continue;
+          let title = lines[i - 1] || '';
+          if (!title || title.length < 3 || junk.test(title)) title = lines[i - 2] || '';
+          if (title && title.length > 3 && !junk.test(title) && !seen.has(title + date)) {
+            seen.add(title + date);
+            results.push({ title: title.slice(0, 100), date, url: BASE, imageUrl: null });
           }
         }
       }
-      
+
       return results;
     });
 
@@ -94,50 +98,19 @@ async function scrapeCreateNightclub(city = 'Los Angeles') {
         description: '',
       date: event.date,
       startDate: event.date ? new Date(event.date + 'T22:00:00') : null,
-      url: 'https://createnightclub.com',
-      imageUrl: null,
+      url: event.url || 'https://createnightclub.com',
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'Create Nightclub',
         address: '6021 Hollywood Blvd, Los Angeles, CA 90028',
         city: 'Los Angeles'
       },
-      latitude: 34.1018,
-      longitude: -118.3196,
       city: 'Los Angeles',
       category: 'Nightlife',
       source: 'CreateNightclub'
     }));
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
-
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
-    
     return filterEvents(formattedEvents);
 
   } catch (error) {

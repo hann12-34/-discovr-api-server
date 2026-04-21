@@ -33,45 +33,74 @@ async function scrapeTheRoxy(city = 'Los Angeles') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
-      const months = {
-        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 
-        'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
-        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
-      };
-      
-      const datePattern = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2}),?\s*(\d{4})?/i;
-      
       const seen = new Set();
-      const currentYear = new Date().getFullYear();
-      
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const dateMatch = line.match(datePattern);
-        
-        if (dateMatch) {
-          const monthStr = dateMatch[1];
-          const day = dateMatch[2].padStart(2, '0');
-          const year = dateMatch[3] || currentYear;
-          const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1, 3).toLowerCase()];
-          if (!month) continue;
-          
-          const isoDate = `${year}-${month}-${day}`;
-          
-          let title = i > 0 ? lines[i - 1] : null;
-          if (title && title.length < 3) {
-            title = i > 1 ? lines[i - 2] : null;
+      const BASE = 'https://www.theroxy.com';
+
+      const months = {
+        'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+        'may': '05', 'jun': '06', 'jul': '07', 'aug': '08',
+        'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'
+      };
+
+      function parseDate(text) {
+        if (!text) return null;
+        const m = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s*(\d{4})/i)
+                   || text.match(/(\d{4})-(\d{2})-(\d{2})/);
+        if (!m) return null;
+        if (m[0].includes('-')) return m[0]; // already ISO
+        const mo = months[m[1].toLowerCase().slice(0, 3)];
+        if (!mo) return null;
+        const yr = m[3] || new Date().getFullYear();
+        return `${yr}-${mo}-${String(m[2]).padStart(2, '0')}`;
+      }
+
+      const junk = /buy tickets|get tickets|more info|subscribe|follow|toggle|menu|privacy|cookie/i;
+
+      // Strategy 1: DOM selector approach
+      const selectors = [
+        'a[href*="/event"]', 'a[href*="/shows"]', 'a[href*="/tickets"]',
+        '[class*="event"] a', '[class*="show"] a', 'article a', 'li a'
+      ];
+
+      for (const sel of selectors) {
+        document.querySelectorAll(sel).forEach(a => {
+          const href = a.href || '';
+          if (!href.startsWith('http')) return;
+          if (/eventbrite|songkick|allevents/i.test(href)) return;
+          const container = a.closest('article, li, [class*="event"], [class*="show"], [class*="card"]') || a.parentElement;
+          const titleEl = container ? (container.querySelector('h1,h2,h3,h4,[class*="title"],[class*="name"]') || a) : a;
+          const title = titleEl.textContent.trim().replace(/\s+/g, ' ');
+          if (!title || title.length < 3 || junk.test(title)) return;
+          const dateEl = container ? container.querySelector('time,[class*="date"],[class*="Date"]') : null;
+          const dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent) : (container ? container.textContent : '');
+          const date = parseDate(dateStr);
+          const imgEl = container ? container.querySelector('img[src]') : null;
+          const imgSrc = imgEl ? imgEl.src : '';
+          const key = title.toLowerCase() + (date || href.slice(-30));
+          if (!seen.has(key)) {
+            seen.add(key);
+            results.push({ title, date, url: href, imageUrl: imgSrc && !/logo|icon|placeholder/i.test(imgSrc) ? imgSrc : null });
           }
-          
-          if (title && title.length > 3 && !seen.has(title + isoDate)) {
-            seen.add(title + isoDate);
-            results.push({ title, date: isoDate });
+        });
+        if (results.length > 5) break;
+      }
+
+      // Strategy 2: Text fallback if DOM approach fails
+      if (results.length === 0) {
+        const lines = document.body.innerText.split('\n').map(l => l.trim()).filter(l => l);
+        const currentYear = new Date().getFullYear();
+        for (let i = 0; i < lines.length; i++) {
+          const date = parseDate(lines[i]);
+          if (!date) continue;
+          let title = lines[i - 1] || '';
+          if (!title || title.length < 3 || junk.test(title)) title = lines[i - 2] || '';
+          if (title && title.length > 3 && !junk.test(title) && !seen.has(title + date)) {
+            seen.add(title + date);
+            results.push({ title, date, url: BASE + '/events', imageUrl: null });
           }
         }
       }
-      
+
       return results;
     });
 
@@ -82,53 +111,40 @@ async function scrapeTheRoxy(city = 'Los Angeles') {
     const formattedEvents = events.map(event => ({
       id: uuidv4(),
       title: event.title,
-        description: '',
+      description: '',
       date: event.date,
-      startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://www.theroxy.com/events',
-      imageUrl: null,
+      url: event.url || 'https://www.theroxy.com/events',
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'The Roxy Theatre',
         address: '9009 W Sunset Blvd, West Hollywood, CA 90069',
         city: 'Los Angeles'
       },
-      latitude: 34.0901,
-      longitude: -118.3868,
       city: 'Los Angeles',
-      category: 'Nightlife',
+      category: 'Concert',
       source: 'TheRoxy'
     }));
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
 
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
+    // Fetch og:image for events with specific URLs but no image
+    const needImg = formattedEvents.filter(e =>
+      !e.imageUrl && e.url && !e.url.endsWith('/events') && !e.url.endsWith('/events/')
+    );
+    if (needImg.length > 0) {
+      await Promise.all(needImg.map(async (ev) => {
         try {
-          const _r = await axios.get(event.url, {
+          const r = await axios.get(ev.url, {
             headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
             timeout: 8000
           });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
+          const $p = cheerio.load(r.data);
+          const og = $p('meta[property="og:image"]').attr('content');
+          if (og && og.startsWith('http') && !/logo|placeholder|favicon/i.test(og)) ev.imageUrl = og;
+        } catch (e) { /* skip */ }
+      }));
+    }
 
-    
     return filterEvents(formattedEvents);
 
   } catch (error) {

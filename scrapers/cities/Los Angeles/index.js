@@ -18,6 +18,30 @@ const scrapeElReyTheatre = require('./elReyTheatre');
 const scrapeHammerMuseum = require('./scrape-hammer-museum');
 const scrapeKiaForum = require('./scrape-kia-forum');
 const scrapeSofiStadium = require('./scrape-sofi-stadium');
+const scrapeFifa2026 = require('./fifa2026');
+const scrapeTheEcho = require('./theEcho');
+const scrapeTheFonda = require('./theFonda');
+const scrapeHollywoodPalladium = require('./hollywoodPalladium');
+const scrapeTeragramBallroom = require('./teragramBallroom');
+const scrapeRegentTheater = require('./regentTheater');
+const scrapeLodgeRoom = require('./lodgeRoom');
+const scrapeMoroccanLounge = require('./moroccanLounge');
+const scrapeZebulon = require('./zebulon');
+const scrapeEchoPlexLA = require('./echoPlexLA');
+const scrapeCreateNightclub = require('./createNightclub');
+const scrapeCatchOneLA = require('./catchOneLA');
+const scrape1720LA = require('./1720LA');
+const scrapeDaisyLA = require('./daisyLA');
+const scrapeUnionLA = require('./unionLA');
+const scrapeDoLA = require('./doLA');
+const scrapeTheAbbey = require('./theAbbey');
+const scrapeTheNovo = require('./theNovo');
+const scrapeLACMA = require('./lacma');
+const scrapeLAConservancy = require('./laConservancy');
+const scrapeResidentAdvisorLA = require('./residentAdvisorLA');
+const scrapeShrineAuditorium = require('./shrineAuditorium');
+const scrapeHouseOfBluesLA = require('./houseOfBluesLA');
+const scrapeCryptoArena = require('./cryptoArena');
 
 async function scrapeLosAngeles() {
   console.log('🎬 Starting Los Angeles scrapers...');
@@ -58,6 +82,78 @@ async function scrapeLosAngeles() {
     const wilternEvents = await scrapeTheWiltern();
     allEvents.push(...wilternEvents);
     
+    const fifaEvents = await scrapeFifa2026('Los Angeles');
+    allEvents.push(...fifaEvents);
+
+    const echoEvents = await scrapeTheEcho();
+    allEvents.push(...echoEvents);
+
+    const fondaEvents = await scrapeTheFonda();
+    allEvents.push(...fondaEvents);
+
+    const palladiumEvents = await scrapeHollywoodPalladium();
+    allEvents.push(...palladiumEvents);
+
+    const teragramEvents = await scrapeTeragramBallroom();
+    allEvents.push(...teragramEvents);
+
+    const regentEvents = await scrapeRegentTheater();
+    allEvents.push(...regentEvents);
+
+    const lodgeRoomEvents = await scrapeLodgeRoom();
+    allEvents.push(...lodgeRoomEvents);
+
+    const moroccanEvents = await scrapeMoroccanLounge();
+    allEvents.push(...moroccanEvents);
+
+    const zebulonEvents = await scrapeZebulon();
+    allEvents.push(...zebulonEvents);
+
+    const echoPlexEvents = await scrapeEchoPlexLA();
+    allEvents.push(...echoPlexEvents);
+
+    const createEvents = await scrapeCreateNightclub();
+    allEvents.push(...createEvents);
+
+    const catchOneEvents = await scrapeCatchOneLA();
+    allEvents.push(...catchOneEvents);
+
+    const events1720 = await scrape1720LA();
+    allEvents.push(...events1720);
+
+    const daisyEvents = await scrapeDaisyLA();
+    allEvents.push(...daisyEvents);
+
+    const unionEvents = await scrapeUnionLA();
+    allEvents.push(...unionEvents);
+
+    const doEvents = await scrapeDoLA();
+    allEvents.push(...doEvents);
+
+    const abbeyEvents = await scrapeTheAbbey();
+    allEvents.push(...abbeyEvents);
+
+    const novoEvents = await scrapeTheNovo();
+    allEvents.push(...novoEvents);
+
+    const lacmaEvents = await scrapeLACMA();
+    allEvents.push(...lacmaEvents);
+
+    const conservancyEvents = await scrapeLAConservancy();
+    allEvents.push(...conservancyEvents);
+
+    const raEvents = await scrapeResidentAdvisorLA();
+    allEvents.push(...raEvents);
+
+    const shrineEvents = await scrapeShrineAuditorium();
+    allEvents.push(...shrineEvents);
+
+    const hobEvents = await scrapeHouseOfBluesLA();
+    allEvents.push(...hobEvents);
+
+    const cryptoEvents = await scrapeCryptoArena();
+    allEvents.push(...cryptoEvents);
+
     // NO GENERATORS - only real venue scrapers
     
   } catch (error) {
@@ -104,6 +200,30 @@ const _rawExports = {
   scrapeHammerMuseum,
   scrapeKiaForum,
   scrapeSofiStadium,
+  scrapeFifa2026,
+  scrapeTheEcho,
+  scrapeTheFonda,
+  scrapeHollywoodPalladium,
+  scrapeTeragramBallroom,
+  scrapeRegentTheater,
+  scrapeLodgeRoom,
+  scrapeMoroccanLounge,
+  scrapeZebulon,
+  scrapeEchoPlexLA,
+  scrapeCreateNightclub,
+  scrapeCatchOneLA,
+  scrape1720LA,
+  scrapeDaisyLA,
+  scrapeUnionLA,
+  scrapeDoLA,
+  scrapeTheAbbey,
+  scrapeTheNovo,
+  scrapeLACMA,
+  scrapeLAConservancy,
+  scrapeResidentAdvisorLA,
+  scrapeShrineAuditorium,
+  scrapeHouseOfBluesLA,
+  scrapeCryptoArena,
 };
 
 // Wrap each scraper to enhance events with image+description from detail pages

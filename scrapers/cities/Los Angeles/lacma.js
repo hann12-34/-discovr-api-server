@@ -11,6 +11,8 @@ async function scrape() {
   console.log('🎨 Scraping LACMA events...');
   const events = [];
   const seenUrls = new Set();
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
   
   try {
     const response = await axios.get('https://www.lacma.org/calendar', {
@@ -50,30 +52,54 @@ async function scrape() {
       });
     });
     
-    // Fetch dates and images from event pages
-    const months = { 'january': '01', 'february': '02', 'march': '03', 'april': '04', 'may': '05', 'june': '06', 'july': '07', 'august': '08', 'september': '09', 'october': '10', 'november': '11', 'december': '12', 'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12' };
-    
+    const months = { 'january':'01','february':'02','march':'03','april':'04','may':'05','june':'06','july':'07','august':'08','september':'09','october':'10','november':'11','december':'12','jan':'01','feb':'02','mar':'03','apr':'04','jun':'06','jul':'07','aug':'08','sep':'09','oct':'10','nov':'11','dec':'12' };
+
     for (const event of events.slice(0, 30)) {
       try {
-        const resp = await axios.get(event.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 });
+        const resp = await axios.get(event.url, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+          timeout: 10000
+        });
         const $e = cheerio.load(resp.data);
-        const ogImage = $e('meta[property="og:image"]').attr('content');
-        if (ogImage && !ogImage.includes('logo')) {
-          event.image = ogImage;
-          event.imageUrl = ogImage;
+
+        // Image: try multiple sources
+        let imgUrl = $e('meta[property="og:image"]').attr('content')
+          || $e('meta[name="twitter:image"]').attr('content')
+          || null;
+        if (!imgUrl) {
+          const imgEl = $e('.wp-post-image, .exhibition-image img, article img, figure img, .field--type-image img').first();
+          if (imgEl.length) imgUrl = imgEl.attr('src') || imgEl.attr('data-src') || null;
         }
+        if (imgUrl && /logo|placeholder|icon|lacma\.org\/wp-content\/themes/i.test(imgUrl)) imgUrl = null;
+        if (imgUrl) { event.image = imgUrl; event.imageUrl = imgUrl; }
+
+        // Title: prefer h1
         const pageTitle = $e('h1').first().text().trim();
         if (pageTitle && pageTitle.length > 3) event.title = pageTitle.substring(0, 100);
-        
-        // Extract date from page text - look for 2025/2026 dates only
+
+        // Date: look for explicit future date with year (avoid today's date from page header)
         const pageText = $e('body').text();
-        const dateMatch = pageText.match(/(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(2025|2026)/i);
-        if (dateMatch) {
-          const monthStr = dateMatch[1].toLowerCase().slice(0, 3);
-          const month = months[monthStr] || months[dateMatch[1].toLowerCase()];
-          const day = dateMatch[2].padStart(2, '0');
-          const year = dateMatch[3];
-          if (month) event.date = `${year}-${month}-${day}`;
+        // Try to find opening/start date — prefer lines with year
+        const datePatterns = [
+          /(opens?|opening|start[s]?|begin[s]?|from)[:\s]+(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2}),?\s*(202[5-9])/i,
+          /(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2}),?\s*(202[5-9])/i,
+        ];
+        for (const pat of datePatterns) {
+          const m = pageText.match(pat);
+          if (m) {
+            const mStr = pat.source.includes('opens') ? m[2] : m[1];
+            const day  = pat.source.includes('opens') ? m[3] : m[2];
+            const year = pat.source.includes('opens') ? m[4] : m[3];
+            const mo = months[mStr.toLowerCase()] || months[mStr.toLowerCase().slice(0,3)];
+            if (mo) {
+              const candidate = `${year}-${mo}-${day.padStart(2,'0')}`;
+              // Skip if candidate is today (likely picked up from nav/header)
+              if (candidate !== todayStr) {
+                event.date = candidate;
+                break;
+              }
+            }
+          }
         }
       } catch (e) {}
     }
@@ -82,35 +108,9 @@ async function scrape() {
     console.error('  ⚠️ LACMA error:', error.message);
   }
   
-  // Filter out events without valid dates
-  const validEvents = events.filter(e => e.date && e.date.match(/^\d{4}-\d{2}-\d{2}$/));
+  const validEvents = events.filter(e => e.date && e.date.match(/^\d{4}-\d{2}-\d{2}$/) && e.date !== todayStr);
 
-  // Fetch descriptions from event detail pages
-  for (const event of validEvents) {
-    if (event.description || !event.url || !event.url.startsWith('http')) continue;
-    try {
-      const _r = await axios.get(event.url, {
-        headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-        timeout: 8000
-      });
-      const _$ = cheerio.load(_r.data);
-      let _desc = _$('meta[property="og:description"]').attr('content') || '';
-      if (!_desc || _desc.length < 20) _desc = _$('meta[name="description"]').attr('content') || '';
-      if (!_desc || _desc.length < 20) {
-        for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p']) {
-          const _t = _$(_s).first().text().trim();
-          if (_t && _t.length > 30) { _desc = _t; break; }
-        }
-      }
-      if (_desc) {
-        _desc = _desc.replace(/\s+/g, ' ').trim();
-        if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-        event.description = _desc;
-      }
-    } catch (_e) { /* skip */ }
-  }
-
-  console.log(`✅ LACMA: ${validEvents.length} events with dates, ${validEvents.filter(e => e.image).length} with images`);
+  console.log(`✅ LACMA: ${validEvents.length} events with dates, ${validEvents.filter(e => e.imageUrl).length} with images`);
   return validEvents;
 }
 

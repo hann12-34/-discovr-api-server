@@ -1,12 +1,31 @@
 /**
  * Theatre Calgary Events Scraper
- * URL: https://www.theatrecalgary.com/shows-tickets/
+ * URL: https://www.theatrecalgary.com/shows/
  * Has real event images
  */
 
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { filterEvents } = require('../../utils/eventFilter');
+
+const MONTHS_LONG = { january:'01',february:'02',march:'03',april:'04',may:'05',june:'06',
+  july:'07',august:'08',september:'09',october:'10',november:'11',december:'12' };
+
+function parseDateLong(raw) {
+  // "Wednesday, April 15" → need year inference; or "May 3, 2026"
+  const withYear = raw.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})/i);
+  if (withYear) return `${withYear[3]}-${MONTHS_LONG[withYear[1].toLowerCase()]}-${withYear[2].padStart(2,'0')}`;
+  const noYear = raw.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})/i);
+  if (noYear) {
+    const m = MONTHS_LONG[noYear[1].toLowerCase()];
+    const d = noYear[2].padStart(2,'0');
+    const now = new Date();
+    const year = parseInt(m) < now.getMonth() + 1 ? now.getFullYear() + 1 : now.getFullYear();
+    return `${year}-${m}-${d}`;
+  }
+  return null;
+}
 
 async function scrape(city = 'Calgary') {
   console.log('🎭 Scraping Theatre Calgary events...');
@@ -20,132 +39,46 @@ async function scrape(city = 'Calgary') {
     const $ = cheerio.load(response.data);
     const events = [];
     const seenTitles = new Set();
+    const today = new Date().toISOString().slice(0, 10);
 
-    // Find show cards
-    $('article, .show, [class*="show"], .card, a[href*="/shows/"]').each((i, el) => {
+    // Shows are in the showtimes sidebar .show divs
+    // Each .show has: .title span (name), a.cta (link), .date divs (showtimes)
+    $('.show').each((i, el) => {
       const $e = $(el);
-      
-      let title = $e.find('h1, h2, h3, h4, .title, [class*="title"]').first().text().trim();
+      const title = $e.find('.title span').first().text().trim();
       if (!title || title.length < 3) return;
-      
-      // Skip junk
-      if (/menu|filter|search|login|ticket/i.test(title)) return;
-      
+
       const titleKey = title.toLowerCase().replace(/[^a-z]/g, '');
       if (seenTitles.has(titleKey)) return;
       seenTitles.add(titleKey);
 
-      let url = $e.attr('href') || $e.find('a').first().attr('href');
-      if (url && !url.startsWith('http')) {
-        url = 'https://www.theatrecalgary.com' + url;
-      }
+      const relHref = $e.find('a.cta').first().attr('href') || '';
+      const url = relHref.startsWith('http') ? relHref : `https://www.theatrecalgary.com${relHref}`;
 
-      let image = null;
-      const img = $e.find('img').first();
-      if (img.length) {
-        image = img.attr('src') || img.attr('data-src');
-        if (image && !image.startsWith('http')) {
-          image = 'https://www.theatrecalgary.com' + image;
-        }
-        if (image && /logo|icon|placeholder/i.test(image)) {
-          image = null;
-        }
-      }
+      // First upcoming date from .date elements
+      const dateRaw = $e.find('.date').first().text().trim();
+      const dateStr = parseDateLong(dateRaw);
+      if (!dateStr || dateStr < today) return;
 
-      // Extract date from element text
-      const dateText = $e.text();
-      const dateMatch = dateText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{1,2})(?:[,\s]+(\d{4}))?/i);
-      let eventDate = null;
-      if (dateMatch) {
-        const months = {jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'};
-        const month = months[dateMatch[1].toLowerCase().slice(0,3)];
-        const day = dateMatch[2].padStart(2, '0');
-        const year = dateMatch[3] || (parseInt(month) < new Date().getMonth() + 1 ? '2026' : '2025');
-        eventDate = `${year}-${month}-${day}`;
-      }
-      
-      if (title && image && eventDate) {
-        events.push({
-          id: uuidv4(),
-          title: title.substring(0, 100),
-          date: eventDate,
-          url: url,
-          image: image,
-          imageUrl: image,
-          description: '',
-            venue: {
-            name: 'Theatre Calgary',
-            address: '220 9 Ave SE, Calgary, AB T2G 5C4',
-            city: 'Calgary'
-          },
+      events.push({
+        id: uuidv4(),
+        title,
+        url,
+        date: dateStr,
+        description: '',
+        imageUrl: null,
+        venue: {
+          name: 'Theatre Calgary',
+          address: '220 9 Ave SE, Calgary, AB T2G 5C4',
           city: 'Calgary',
-          category: 'Arts & Theatre',
-          source: 'Theatre Calgary'
-        });
-      }
+        },
+        city,
+        source: 'theatre-calgary',
+      });
     });
 
-    // Fetch dates from individual show pages
-    for (const event of events) {
-      if (event.url && event.url.includes('/shows/')) {
-        try {
-          const showPage = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0' },
-            timeout: 8000
-          });
-          const $s = cheerio.load(showPage.data);
-          
-          // Get date
-          const dateText = $s('.date, [class*="date"], time').first().text().trim();
-          const dateMatch = dateText.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{1,2})/i);
-          if (dateMatch) {
-            const months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
-            const month = months[dateMatch[1].toLowerCase().slice(0,3)];
-            const day = parseInt(dateMatch[2]);
-            const year = month < new Date().getMonth() ? 2026 : 2025;
-            event.date = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-          }
-          
-          // Get better image
-          const ogImage = $s('meta[property="og:image"]').attr('content');
-          if (ogImage && !ogImage.includes('logo')) {
-            event.image = ogImage;
-            event.imageUrl = ogImage;
-          }
-        } catch (e) {}
-      }
-    }
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
-
-    console.log(`✅ Theatre Calgary: ${events.length} events with images`);
-    return events;
+    console.log(`✅ Theatre Calgary: ${events.length} events`);
+    return filterEvents(events);
 
   } catch (error) {
     console.error('  ⚠️ Theatre Calgary error:', error.message);

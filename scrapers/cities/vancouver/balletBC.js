@@ -160,35 +160,16 @@ const BalletBCEvents = {
         });
       }
 
-      // Fetch descriptions from detail pages (async)
-      const fullEvents = [];
-      for (const ev of events) {
-        let description = '';
-        try {
-          const detailRes = await axios.get(ev.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const $d = cheerio.load(detailRes.data);
-          description = $d('.description').first().text().trim();
-          if (!description) description = $d('.entry-content').first().text().trim();
-          if (description) {
-            description = description.replace(/\s+/g, ' ').trim();
-            if (description.length > 500) description = description.substring(0, 500) + '...';
-          }
-        } catch (e) { /* skip */ }
-
-        fullEvents.push({
-          id: uuidv4(),
-          title: ev.title,
-          description: description || '',
-          url: ev.url,
-          venue: { name: 'Ballet BC', address: '677 Davie Street, Vancouver, BC V6B 2G6', city: 'Vancouver' },
-          city: city,
-          date: ev.date,
-          source: 'Ballet BC'
-        });
-      }
+      const fullEvents = events.map(ev => ({
+        id: uuidv4(),
+        title: ev.title,
+        description: '',
+        url: ev.url,
+        venue: { name: 'Ballet BC', address: '677 Davie Street, Vancouver, BC V6B 2G6', city: 'Vancouver' },
+        city: city,
+        date: ev.date,
+        source: 'Ballet BC'
+      }));
 
       console.log(`Found ${fullEvents.length} total events from Ballet BC`);
       const cleanedEvents = filter.filterEvents(fullEvents);

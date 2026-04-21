@@ -46,6 +46,7 @@ const scrapeNotoPhiladelphia = require('./noto_philadelphia');
 const scrapeFranklinInstitute = require('./scrape-franklin-institute');
 const scrapePhilamocaPhiladelphia = require('./scrape-philamoca-philadelphia');
 const scrapeUndergroundArtsPhiladelphia = require('./scrape-underground-arts-philadelphia');
+const scrapeFifa2026 = require('./fifa2026');
 
 const _rawExports = {
   scrapeArdmore,
@@ -90,6 +91,7 @@ const _rawExports = {
   scrapeFranklinInstitute,
   scrapePhilamocaPhiladelphia,
   scrapeUndergroundArtsPhiladelphia,
+  scrapeFifa2026,
 };
 
 // Wrap each scraper to enhance events with image+description from detail pages

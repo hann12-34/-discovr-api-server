@@ -33,52 +33,64 @@ async function scrapeTheWiltern(city = 'Los Angeles') {
 
     const events = await page.evaluate(() => {
       const results = [];
-      const bodyText = document.body.innerText;
-      const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l);
-      
-      const months = {
-        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 
-        'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
-        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
-      };
-      
-      const datePattern = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2}),?\s*(\d{4})?/i;
-      
       const seen = new Set();
+      const months = { jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12' };
+      const BASE = 'https://www.wiltern.com';
       const currentYear = new Date().getFullYear();
-      
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const dateMatch = line.match(datePattern);
-        
-        if (dateMatch) {
-          const monthStr = dateMatch[1];
-          const day = dateMatch[2].padStart(2, '0');
-          const year = dateMatch[3] || currentYear;
-          const month = months[monthStr.charAt(0).toUpperCase() + monthStr.slice(1, 3).toLowerCase()];
-          if (!month) continue;
-          
-          const isoDate = `${year}-${month}-${day}`;
-          
-          let title = null;
-          for (let j = i - 1; j >= Math.max(0, i - 3); j--) {
-            const potentialTitle = lines[j];
-            if (potentialTitle && 
-                potentialTitle.length > 3 && 
-                potentialTitle.length < 100 &&
-                !potentialTitle.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i)) {
-              title = potentialTitle;
-              break;
-            }
-          }
-          
-          if (title && !seen.has(title + isoDate)) {
-            seen.add(title + isoDate);
-            results.push({ title, date: isoDate });
+      const currentMonth = new Date().getMonth();
+
+      function parseDate(text) {
+        if (!text) return null;
+        // "THU, MAY 8" or "May 8, 2025" or "May 8"
+        let m = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s*(\d{4})?/i);
+        if (m) {
+          const mo = months[m[1].toLowerCase().slice(0, 3)];
+          if (!mo) return null;
+          const mm = parseInt(mo) - 1;
+          const yr = m[3] ? parseInt(m[3]) : (mm < currentMonth ? currentYear + 1 : currentYear);
+          return `${yr}-${mo}-${String(m[2]).padStart(2, '0')}`;
+        }
+        return null;
+      }
+
+      // Strategy 1: DOM containers
+      const containers = document.querySelectorAll('article, .event, [class*="event-item"], [class*="show-item"], li.event, [class*="show-card"]');
+      containers.forEach(c => {
+        const titleEl = c.querySelector('h1,h2,h3,h4,[class*="title"],[class*="name"],[class*="artist"]');
+        let title = titleEl ? titleEl.textContent.trim().replace(/\s+/g, ' ') : '';
+        if (!title || title.length < 3 || /^(buy|ticket|sold)/i.test(title)) return;
+
+        const date = parseDate(c.textContent || '');
+        if (!date) return;
+
+        const linkEl = c.querySelector('a[href]');
+        const href = linkEl ? linkEl.href : '';
+        const imgEl = c.querySelector('img[src]:not([src*="logo"])');
+        const imageUrl = imgEl ? imgEl.src : null;
+
+        const key = title.toLowerCase() + date;
+        if (!seen.has(key)) {
+          seen.add(key);
+          results.push({ title: title.slice(0, 100), date, url: href || BASE + '/shows', imageUrl });
+        }
+      });
+
+      // Strategy 2: text fallback
+      if (results.length === 0) {
+        const lines = document.body.innerText.split('\n').map(l => l.trim()).filter(l => l);
+        const junk = /^(mon|tue|wed|thu|fri|sat|sun|buy|ticket|sold|\d{1,2}:\d{2})/i;
+        for (let i = 0; i < lines.length; i++) {
+          const date = parseDate(lines[i]);
+          if (!date) continue;
+          let title = lines[i - 1] || '';
+          if (!title || title.length < 3 || junk.test(title)) title = lines[i - 2] || '';
+          if (title && title.length > 3 && !junk.test(title) && !seen.has(title + date)) {
+            seen.add(title + date);
+            results.push({ title: title.slice(0, 100), date, url: BASE + '/shows', imageUrl: null });
           }
         }
       }
-      
+
       return results;
     });
 
@@ -89,53 +101,21 @@ async function scrapeTheWiltern(city = 'Los Angeles') {
     const formattedEvents = events.map(event => ({
       id: uuidv4(),
       title: event.title,
-        description: '',
+      description: '',
       date: event.date,
-      startDate: event.date ? new Date(event.date + 'T00:00:00') : null,
-      url: 'https://www.wiltern.com/events',
-      imageUrl: null,
+      url: event.url || 'https://www.wiltern.com/shows',
+      imageUrl: event.imageUrl || null,
       venue: {
         name: 'The Wiltern',
         address: '3790 Wilshire Blvd, Los Angeles, CA 90010',
         city: 'Los Angeles'
       },
-      latitude: 34.0617,
-      longitude: -118.3087,
       city: 'Los Angeles',
-      category: 'Festival',
+      category: 'Concert',
       source: 'TheWiltern'
     }));
 
     formattedEvents.forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
-
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
-    
     return filterEvents(formattedEvents);
 
   } catch (error) {

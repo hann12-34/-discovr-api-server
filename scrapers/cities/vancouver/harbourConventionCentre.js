@@ -35,9 +35,13 @@ const HarbourConventionCentreEvents = {
       };
 
       $('a[href*="tixr.com/e/"]').each((i, el) => {
-        const rawText = $(el).text().trim();
-        const ticketUrl = $(el).attr('href');
+        const $el = $(el);
+        const rawText = $el.text().trim();
+        const ticketUrl = $el.attr('href');
         if (!rawText || rawText.length < 5 || !ticketUrl) return;
+
+        // Clean title from dedicated element (avoids venue-filter/promo text contamination)
+        const cleanTitle = $el.find('.ticket-name').text().trim();
 
         // Text format examples:
         //   "Don Diablo & Sick IndividualsFriMarMarch2711:00 pmGET TICKETS"
@@ -78,23 +82,20 @@ const HarbourConventionCentreEvents = {
         const isoDate = `${year}-${monthNum}-${day.padStart(2, '0')}`;
         if (new Date(isoDate) < new Date()) return;
 
-        // Extract title: everything before the day-of-week abbreviation
-        const dayOfWeekMatch = rawText.match(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)/);
-        let title = dayOfWeekMatch ? rawText.substring(0, dayOfWeekMatch.index).trim() : rawText;
-
-        // Clean up common suffixes that get concatenated
-        title = title.replace(/DOMINA$/i, '').trim();
-        title = title.replace(/RSVP\/Tables Template$/i, '').trim();
-        title = title.replace(/GET TICKETS$/i, '').trim();
-
-        // Remove duplicate/truncated artist name suffixes
-        // e.g., "Machine Girl - PsychoWarrior TourMachine Girl - PsychoWarr"
-        // Check if any suffix (>5 chars) matches the start of the title
-        for (let len = Math.floor(title.length / 2); len >= 5; len--) {
-          const suffix = title.substring(title.length - len);
-          if (title.startsWith(suffix) || title.substring(0, len + 5).includes(suffix)) {
-            title = title.substring(0, title.length - len).trim();
-            break;
+        // Use clean title if available, otherwise fall back to parsing rawText
+        let title = cleanTitle;
+        if (!title) {
+          const dayOfWeekMatch = rawText.match(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)/);
+          title = dayOfWeekMatch ? rawText.substring(0, dayOfWeekMatch.index).trim() : rawText;
+          title = title.replace(/DOMINA$/i, '').replace(/RSVP\/Tables Template$/i, '').replace(/GET TICKETS$/i, '').trim();
+          // Remove duplicate suffix (case-insensitive)
+          const titleLower = title.toLowerCase();
+          for (let len = Math.floor(title.length / 2); len >= 4; len--) {
+            const suffix = title.substring(title.length - len).toLowerCase();
+            if (titleLower.startsWith(suffix) || titleLower.substring(0, len + 6).includes(suffix)) {
+              title = title.substring(0, title.length - len).trim();
+              break;
+            }
           }
         }
 
@@ -102,20 +103,18 @@ const HarbourConventionCentreEvents = {
         if (seen.has(title + isoDate)) return;
         seen.add(title + isoDate);
 
-        // Try to get image
+        // Extract background-image from any styled element inside the link
         let imageUrl = null;
-        const parentEl = $(el).closest('div, section, article');
-        if (parentEl.length) {
-          const img = parentEl.find('img').first();
-          if (img.length) {
-            imageUrl = img.attr('src') || img.attr('data-src');
-          }
-        }
-        // Also check for background-image in the link itself
+        $el.find('[style]').addBack('[style]').each((j, styled) => {
+          if (imageUrl) return;
+          const s = $(styled).attr('style') || '';
+          const m = s.match(/background-image:\s*url\(["']?([^"')]+)["']?\)/i);
+          if (m && m[1].startsWith('http')) imageUrl = m[1];
+        });
+        // Fallback: regular img
         if (!imageUrl) {
-          const style = $(el).attr('style') || '';
-          const bgMatch = style.match(/url\(["']?([^"')]+)["']?\)/);
-          if (bgMatch) imageUrl = bgMatch[1];
+          const img = $el.find('img').first();
+          if (img.length) imageUrl = img.attr('src') || img.attr('data-src') || null;
         }
 
         events.push({

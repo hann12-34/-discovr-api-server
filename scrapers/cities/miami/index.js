@@ -14,6 +14,7 @@ const kaseyaCenter = require('./kaseyaCenter');
 const palaceSouthBeach = require('./palaceSouthBeach');
 const scrapeMiamiAndBeachesEvents = require('./scrape-miami-and-beaches-events');
 const scrapeSpaceMiami = require('./scrape-space-miami');
+const scrapeFifa2026 = require('./fifa2026');
 
 async function scrapeMiami() {
   console.log('🌴 Starting Miami scrapers...');
@@ -44,6 +45,9 @@ async function scrapeMiami() {
     const palaceEvents = await palaceSouthBeach();
     allEvents.push(...palaceEvents);
     
+    const fifaEvents = await scrapeFifa2026('Miami');
+    allEvents.push(...fifaEvents);
+
     // NO GENERATORS - only real venue scrapers
     
   } catch (error) {
@@ -86,6 +90,7 @@ const _rawExports = {
   palaceSouthBeach,
   scrapeMiamiAndBeachesEvents,
   scrapeSpaceMiami,
+  scrapeFifa2026,
 };
 
 // Wrap each scraper to enhance events with image+description from detail pages

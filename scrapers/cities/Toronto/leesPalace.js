@@ -1,135 +1,84 @@
-const puppeteer = require('puppeteer');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
+const MONTHS = {
+  january: '01', february: '02', march: '03', april: '04',
+  may: '05', june: '06', july: '07', august: '08',
+  september: '09', october: '10', november: '11', december: '12',
+};
+
+function parseDate(dateText) {
+  const m = dateText.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})/i);
+  if (!m) return null;
+  const month = MONTHS[m[1].toLowerCase()];
+  const day = m[2].padStart(2, '0');
+  return `${m[3]}-${month}-${day}`;
+}
+
 async function scrapeEvents(city = 'Toronto') {
   console.log('🎵 Scraping Lee\'s Palace events...');
-  let browser;
 
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const response = await axios.get('https://www.leespalace.com/events', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+      timeout: 20000,
     });
 
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+    const $ = cheerio.load(response.data);
+    const events = [];
+    const seenUrls = new Set();
 
-    await page.goto('https://www.leespalace.com/events', {
-      waitUntil: 'networkidle2',
-      timeout: 30000
+    // Webflow CMS structure: div.schedule-event each has two anchors
+    // - First anchor: image link
+    // - Second anchor (.div-block-14): title + date + venue details
+    $('.schedule-event').each((i, el) => {
+      try {
+        const $el = $(el);
+
+        // Title from .schedule-speaker-name
+        const title = $el.find('.schedule-speaker-name').first().text().trim();
+        if (!title || title.length < 3) return;
+
+        // URL from anchor href
+        const relUrl = $el.find('a[href^="/event/"]').first().attr('href');
+        if (!relUrl) return;
+        const eventUrl = `https://www.leespalace.com${relUrl}`;
+        if (seenUrls.has(eventUrl)) return;
+        seenUrls.add(eventUrl);
+
+        // Date: first .schedule-event-time element (e.g. "Thursday, April 16, 2026")
+        const dateText = $el.find('.schedule-event-time').first().text().trim();
+        const dateStr = parseDate(dateText);
+        if (!dateStr) return;
+
+        // Image from img alt matching title or first img in card
+        const imgEl = $el.find('img').first();
+        const imageUrl = imgEl.attr('src') || null;
+
+        events.push({
+          id: uuidv4(),
+          title,
+          url: eventUrl,
+          date: dateStr,
+          description: '',
+          imageUrl: imageUrl && !imageUrl.includes('logo') ? imageUrl : null,
+          venue: {
+            name: "Lee's Palace",
+            address: '529 Bloor St W, Toronto, ON M5S 1Y5',
+            city: 'Toronto',
+          },
+          city,
+          source: "lee's-palace",
+        });
+      } catch (e) { /* skip bad card */ }
     });
 
-    await new Promise(r => setTimeout(r, 3000));
-
-    const rawEvents = await page.evaluate(() => {
-      const results = [];
-      const seen = new Set();
-      
-      document.querySelectorAll('a').forEach(a => {
-        const href = a.href;
-        if (!href || !href.includes('leespalace') || !href.includes('event')) return;
-        if (href === 'https://www.leespalace.com/events' || href === 'https://www.leespalace.com/events/') return;
-        if (seen.has(href)) return;
-        
-        let title = a.textContent?.trim();
-        if (!title || title.length < 5 || title === 'Events' || title === 'List View' || title === 'Tickets') return;
-        
-        seen.add(href);
-        
-        // Find image
-        const parent = a.parentElement;
-        const grandparent = parent?.parentElement;
-        let imgSrc = null;
-        const img = grandparent?.querySelector('img') || parent?.querySelector('img');
-        if (img) {
-          imgSrc = img.src || img.getAttribute('data-src');
-        }
-        
-        // Extract date (format: "TitleFriday, December 26, 2025" or "TitleSaturday, December 27, 2025")
-        let dateStr = null;
-        const dateMatch = title.match(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s*(January|February|March|April|May|June|July|August|September|October|November|December)\s*(\d{1,2}),?\s*(\d{4})/i);
-        if (dateMatch) {
-          const months = { january: '01', february: '02', march: '03', april: '04', may: '05', june: '06', july: '07', august: '08', september: '09', october: '10', november: '11', december: '12' };
-          const month = months[dateMatch[2].toLowerCase()];
-          const day = dateMatch[3].padStart(2, '0');
-          const year = dateMatch[4];
-          dateStr = `${year}-${month}-${day}`;
-          
-          // Clean title
-          title = title.replace(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s*(January|February|March|April|May|June|July|August|September|October|November|December)\s*\d{1,2},?\s*\d{4}/i, '').trim();
-        }
-        
-        title = title?.replace(/\s*\|\s*$/, '').trim();
-        
-        if (title && title.length > 3 && dateStr) {
-          results.push({
-            title: title.substring(0, 100),
-            url: href,
-            date: dateStr,
-            imageUrl: imgSrc && !imgSrc.includes('logo') ? imgSrc : null
-          });
-        }
-      });
-      
-      return results;
-    });
-
-    await browser.close();
-
-    const events = rawEvents.map(event => ({
-      id: uuidv4(),
-      title: event.title,
-        description: '',
-      url: event.url,
-      date: event.date,
-      startDate: new Date(event.date + 'T20:00:00'),
-      imageUrl: event.imageUrl,
-      venue: {
-        name: 'Lee\'s Palace',
-        address: '529 Bloor St W, Toronto, ON M5S 1Y5',
-        city: 'Toronto'
-      },
-      city: city,
-      category: 'Nightlife',
-      source: 'Lee\'s Palace'
-    }));
-
-    console.log(`✅ Lee's Palace: ${events.length} events, ${events.filter(e => e.imageUrl).length} with images`);
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
+    console.log(`✅ Lee's Palace: ${events.length} events`);
     return filterEvents(events);
 
   } catch (error) {
-    if (browser) await browser.close();
     console.error('Error scraping Lee\'s Palace:', error.message);
     return [];
   }

@@ -94,7 +94,9 @@ async function scrapeMiamiNewTimes(city = 'Miami') {
           if (isoDate && title && !seen.has(title + isoDate) && 
               !title.match(/^\d/) && title.length > 10) {
             seen.add(title + isoDate);
-            results.push({ title: title.substring(0, 100), date: isoDate, venue: venue });
+            const linkEl = item.querySelector('a[href]');
+            const imgEl = item.querySelector('img[src]:not([src*="logo"]):not([src*="icon"])');
+            results.push({ title: title.substring(0, 100), date: isoDate, venue: venue, url: linkEl ? linkEl.href : '', imageUrl: imgEl ? imgEl.src : null });
           }
         }
       });
@@ -148,8 +150,8 @@ async function scrapeMiamiNewTimes(city = 'Miami') {
         description: '',
           date: event.date,
           startDate: event.date ? new Date(event.date + 'T20:00:00') : null,
-          url: 'https://www.miaminewtimes.com/calendar',
-          imageUrl: null,
+          url: event.url || 'https://www.miaminewtimes.com/calendar',
+          imageUrl: event.imageUrl || null,
           venue: { name: event.venue, address: venueInfo.address, city: 'Miami' },
           latitude: venueInfo.lat,
           longitude: venueInfo.lng,
@@ -163,35 +165,6 @@ async function scrapeMiamiNewTimes(city = 'Miami') {
     console.log(`  📋 ${formattedEvents.length} events with valid venue addresses`);
 
     formattedEvents.slice(0, 15).forEach(e => console.log(`  ✓ ${e.title} | ${e.date}`));
-
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
-    
     return filterEvents(formattedEvents);
 
   } catch (error) {

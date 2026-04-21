@@ -17,6 +17,7 @@ const scrapeGAMH = require('./greatAmericanMusicHallSF');
 const scrapeChapel = require('./theChapelSF');
 const scrapeCalAcademyOfSciences = require('./scrape-cal-academy-of-sciences');
 const scrapeNoisePopSf = require('./scrape-noise-pop-sf');
+const scrapeFifa2026 = require('./fifa2026');
 
 const _rawExports = {
   scrape1015folsom,
@@ -32,6 +33,7 @@ const _rawExports = {
   scrapeChapel,
   scrapeCalAcademyOfSciences,
   scrapeNoisePopSf,
+  scrapeFifa2026,
 };
 
 // Wrap each scraper to enhance events with image+description from detail pages

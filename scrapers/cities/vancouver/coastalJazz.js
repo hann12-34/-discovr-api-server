@@ -1,248 +1,100 @@
 /**
  * Coastal Jazz Festival Scraper
- * Scrapes events from Coastal Jazz & Blues Society (TD Vancouver International Jazz Festival)
+ * Scrapes events from Coastal Jazz & Blues Society via Tribe Events API
+ * Source: https://www.coastaljazz.ca/events/
+ * API: https://www.coastaljazz.ca/wp-json/tribe/events/v1/events
  */
 
 const axios = require('axios');
-const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
 const { filterEvents } = require('../../utils/eventFilter');
 
+const HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'application/json',
+};
+
 const CoastalJazzEvents = {
   async scrape(city) {
-    console.log('🔍 Scraping events from Coastal Jazz Festival...');
-
+    console.log('🎷 Scraping Coastal Jazz Festival events via Tribe API...');
     try {
-      const response = await axios.get('https://www.coastaljazz.ca/events/category/festival/', {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.5',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'DNT': '1',
-          'Connection': 'keep-alive',
-        },
-        timeout: 30000
-      });
-
-      const $ = cheerio.load(response.data);
       const events = [];
       const seenUrls = new Set();
+      let page = 1;
+      const maxPages = 5;
 
-      // Known jazz festival events
-      const knownEvents = [
-        'TD Vancouver International Jazz Festival 2025',
-        'Jazz Festival Main Stage',
-        'Jazz Club Series',
-        'Free Outdoor Concerts',
-        'Late Night Jazz Shows',
-        'Jazz Workshop Series',
-        'International Jazz Artists',
-        'Local Jazz Showcase',
-        'Jazz & Blues Fusion',
-        'Festival Opening Night'
-      ];
-
-      knownEvents.forEach(title => {
-        const eventUrl = 'https://www.coastaljazz.ca/events/category/festival/';
-        if (seenUrls.has(eventUrl)) return;
-        seenUrls.add(eventUrl);
-        // Only log valid events (junk will be filtered out)
-        events.push({
-          id: uuidv4(),
-          title: title,
-          description: '',
-          url: eventUrl,
-          venue: { name: 'Coastal Jazz Festival', address: 'Various Locations, Vancouver, BC', city: 'Vancouver' },
-          city: 'Vancouver',
-          date: dateText || null,
-            source: 'Coastal Jazz Festival'
-        });
-      });
-
-      const eventSelectors = [
-        'a[href*="/event"]',
-        'a[href*="/events/"]',
-        'a[href*="/show"]',
-        '.event-item a',
-        '.show-item a',
-        'article a',
-        'h2 a',
-        'h3 a',
-        'a:contains("Jazz")',
-        'a:contains("Concert")',
-        'a:contains("Festival")',
-        'a:contains("Show")',
-        'a:contains("Performance")'
-      ];
-
-      for (const selector of eventSelectors) {
-        const links = $(selector);
-        if (links.length > 0) {
-          console.log(`Found ${links.length} events with selector: ${selector}`);
+      while (page <= maxPages) {
+        const url = `https://www.coastaljazz.ca/wp-json/tribe/events/v1/events?per_page=50&page=${page}`;
+        let data;
+        try {
+          const response = await axios.get(url, { headers: HEADERS, timeout: 15000 });
+          data = response.data;
+        } catch (err) {
+          if (err.response?.status === 404) break;
+          console.log(`  Page ${page} error: ${err.message}`);
+          break;
         }
 
-        links.each((index, element) => {
-          const $element = $(element);
-          let title = $element.text().trim();
-          let url = $element.attr('href');
+        if (!data.events || data.events.length === 0) break;
 
-          if (!title || !url || seenUrls.has(url)) return;
-          if (url.startsWith('/')) url = 'https://www.coastaljazz.ca' + url;
+        for (const item of data.events) {
+          const eventUrl = item.url || '';
+          if (!eventUrl || seenUrls.has(eventUrl)) continue;
+          seenUrls.add(eventUrl);
 
-          const skipPatterns = [/facebook\.com/i, /twitter\.com/i, /instagram\.com/i, /\/about/i, /\/contact/i];
-          if (skipPatterns.some(pattern => pattern.test(url))) return;
+          const title = (item.title || '').replace(/&#[0-9]+;/g, (m) => {
+            const code = parseInt(m.slice(2, -1));
+            return code === 8211 ? '–' : code === 38 ? '&' : code === 8217 ? "'" : code === 8220 ? '"' : code === 8221 ? '"' : m;
+          }).trim();
+          if (!title || title.length < 3) continue;
 
-          title = title.replace(/\s+/g, ' ').trim();
-          if (title.length < 3) return;
+          const startDate = item.start_date || item.utc_start_date || null;
 
-          seenUrls.add(url);
-          // Only log valid events (junk will be filtered out)
-          // Extract date from event element
+          const venue = Array.isArray(item.venue) ? {} : (item.venue || {});
+          const venueName = (venue.venue || 'Coastal Jazz Festival').trim();
+          const address = (venue.address || '').trim();
+          const venueCity = (venue.city || 'Vancouver').trim();
+          const fullAddress = address ? `${address}, ${venueCity}, BC` : `${venueCity}, BC`;
 
+          if (!fullAddress || fullAddress.length < 5) continue;
 
-          let dateText = null;
-
-
-          const dateSelectors = ['time[datetime]', '.date', '.event-date', '[class*="date"]', 'time', '.datetime', '.when'];
-
-
-          for (const selector of dateSelectors) {
-
-
-            const dateEl = $element.find(selector).first();
-
-
-            if (dateEl.length > 0) {
-
-
-              dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-              if (dateText && dateText.length > 0) break;
-
-
-            }
-
-
+          let description = '';
+          const rawDesc = item.description || '';
+          const cleanDesc = rawDesc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+          if (cleanDesc.length >= 20) {
+            description = cleanDesc.length > 1000 ? cleanDesc.slice(0, 1000) + '...' : cleanDesc;
           }
 
-
-          if (!dateText) {
-
-
-            const $parent = $element.closest('.event, .event-item, article, [class*="event"]');
-
-
-            if ($parent.length > 0) {
-
-
-              for (const selector of dateSelectors) {
-
-
-                const dateEl = $parent.find(selector).first();
-
-
-                if (dateEl.length > 0) {
-
-
-                  dateText = dateEl.attr('datetime') || dateEl.text().trim();
-
-
-                  if (dateText && dateText.length > 0) break;
-
-
-                }
-
-
-              }
-
-
-            }
-
-
-          }
-
-
-          if (dateText) {
-            dateText = dateText
-              .replace(/\n/g, ' ')
-              .replace(/\s+/g, ' ')
-              .replace(/(\d+)(st|nd|rd|th)/gi, '$1')
-              .replace(/\d{1,2}:\d{2}\s*(AM|PM)\d{1,2}:\d{2}/gi, '')
-              .trim();
-            
-            if (!/\d{4}/.test(dateText)) {
-              const currentYear = new Date().getFullYear();
-              const currentMonth = new Date().getMonth();
-              const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-              const dateLower = dateText.toLowerCase();
-              const monthIndex = months.findIndex(m => dateLower.includes(m));
-              if (monthIndex !== -1) {
-                const year = monthIndex < currentMonth ? currentYear + 1 : currentYear;
-                dateText = `${dateText}, ${year}`;
-              } else {
-                dateText = `${dateText}, ${currentYear}`;
-              }
-            }
-          }
-
-
-          
-
+          const imageUrl = (item.image || {}).url || null;
 
           events.push({
             id: uuidv4(),
-            title: title,
-            description: '',
-            url: url,
-            venue: { name: 'Coastal Jazz Festival', address: 'Various Locations, Vancouver, BC', city: 'Vancouver' },
+            title,
+            url: eventUrl,
+            date: startDate,
+            venue: { name: venueName, address: fullAddress, city: 'Vancouver' },
             city: 'Vancouver',
-            date: dateText || null,
-            source: 'Coastal Jazz Festival'
+            description,
+            imageUrl,
+            source: 'coastal-jazz',
           });
-        });
+        }
+
+        if (page >= (data.total_pages || 1)) break;
+        page++;
+        await new Promise(r => setTimeout(r, 500));
       }
 
-      console.log(`Found ${events.length} total events from Coastal Jazz Festival`);
+      console.log(`  Found ${events.length} Coastal Jazz events`);
       const filtered = filterEvents(events);
-
-      // Fetch descriptions from event detail pages
-      for (const event of events) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
-      console.log(`✅ Returning ${filtered.length} valid events after filtering`);
+      console.log(`  ✅ Returning ${filtered.length} valid Coastal Jazz events`);
       return filtered;
 
     } catch (error) {
-      console.error('Error scraping Coastal Jazz Festival events:', error.message);
+      console.error('  ⚠️ Coastal Jazz error:', error.message);
       return [];
     }
   }
 };
-
 
 module.exports = CoastalJazzEvents.scrape;
