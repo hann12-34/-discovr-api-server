@@ -53,6 +53,24 @@ router.get('/test', (req, res) => {
 });
 
 /**
+ * @route   GET /api/v1/events/cities
+ * @desc    Get distinct cities with event counts (lightweight)
+ */
+router.get('/cities', async (req, res) => {
+  try {
+    const results = await Event.aggregate([
+      { $match: { city: { $exists: true, $nin: [null, ''] } } },
+      { $group: { _id: '$city', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $project: { city: '$_id', count: 1, _id: 0 } }
+    ]).option({ maxTimeMS: 15000 });
+    res.json({ cities: results });
+  } catch (err) {
+    res.status(500).json({ cities: [], error: err.message });
+  }
+});
+
+/**
  * @route   GET /api/v1/events
  * @desc    Get all events with optional filtering
  * @access  Private (requires API key)
