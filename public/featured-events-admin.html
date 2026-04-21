@@ -528,17 +528,12 @@
         // Load cities dynamically from API
         async function loadAvailableCities() {
             try {
-                const response = await fetch('/api/v1/events?limit=50000');
+                const response = await fetch('/api/v1/events/cities');
                 const data = await response.json();
                 
                 // Get unique cities with event counts
                 const cityCount = {};
-                data.events.forEach(event => {
-                    const city = event.city || event.venue?.city;
-                    if (city) {
-                        cityCount[city] = (cityCount[city] || 0) + 1;
-                    }
-                });
+                (data.cities||[]).forEach(function(i){if(i.city)cityCount[i.city]=i.count;});
                 
                 // Always include ALL cities even if no events yet
                 const allCities = [
