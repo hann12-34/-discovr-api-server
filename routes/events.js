@@ -286,11 +286,6 @@ router.get('/', async (req, res) => {
         return false;
       }
       
-      // Must have a valid image URL — events without images show as blank cards in iOS
-      if (!event.imageUrl || typeof event.imageUrl !== 'string' || !/^https?:\/\//i.test(event.imageUrl)) {
-        return false;
-      }
-      
       return true;
     });
     
@@ -319,7 +314,7 @@ router.get('/', async (req, res) => {
     const dedupedWithLimit = deduplicatedEvents.filter(event => {
       const key = `${(event.title || '').toLowerCase().trim()}|${(event.venue?.name || '').toLowerCase().trim()}`;
       const count = titleVenueCount.get(key) || 0;
-      if (count >= 3) return false;
+      if (count >= 2) return false;
       titleVenueCount.set(key, count + 1);
       return true;
     });
