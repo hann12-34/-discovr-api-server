@@ -61,7 +61,7 @@ async function scrapeICCSydneyEvents(city = 'sydney') {
             img = typeof item.image === 'string' ? item.image : (item.image.url || (Array.isArray(item.image) ? item.image[0] : null));
           }
           if (img && typeof img === 'object') img = img.url || null;
-          if (img && !img.startsWith('http')) img = null;
+          if (img && (!img.startsWith('http') || img.startsWith('data:'))) img = null;
           let desc = item.description || '';
           if (desc) {
             desc = desc.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
@@ -73,7 +73,7 @@ async function scrapeICCSydneyEvents(city = 'sydney') {
             description: desc || '',
             date: isoDate,
             startDate: new Date(isoDate + 'T00:00:00.000Z'),
-            url: url.startsWith('http') ? url : '',
+            sourceURL: url.startsWith('http') ? url : '',
             imageUrl: img,
             venue: { name: 'ICC Sydney Events', address: addr || '14 Darling Dr, Sydney NSW 2000', city: 'sydney' },
             latitude: -33.8755,
@@ -132,14 +132,14 @@ async function scrapeICCSydneyEvents(city = 'sydney') {
           if (img && !img.startsWith('http')) {
             try { img = new URL(img, 'https://www.iccsydney.com.au/whats-on').href; } catch(e) { img = null; }
           }
-          if (img && (/logo|icon|placeholder|default\./i.test(img))) img = null;
+          if (img && (/logo|icon|placeholder|default\./i.test(img) || img.startsWith('data:'))) img = null;
           events.push({
             id: uuidv4(),
             title,
             description: '',
             date: isoDate,
             startDate: new Date(isoDate + 'T00:00:00.000Z'),
-            url: eventUrl,
+            sourceURL: eventUrl,
             imageUrl: img,
             venue: { name: 'ICC Sydney Events', address: '14 Darling Dr, Sydney NSW 2000', city: 'sydney' },
             latitude: -33.8755,
@@ -152,11 +152,12 @@ async function scrapeICCSydneyEvents(city = 'sydney') {
       });
     }
 
-    // Fetch descriptions from detail pages
+    // Fetch descriptions and images from detail pages
     for (const event of events) {
-      if (event.description || !event.url || !event.url.startsWith('http')) continue;
+      if (!event.sourceURL || !event.sourceURL.startsWith('http')) continue;
+      if (event.description && event.imageUrl) continue; // Already have both, skip
       try {
-        const dr = await axios.get(event.url, {
+        const dr = await axios.get(event.sourceURL, {
           headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
           timeout: 8000
         });
