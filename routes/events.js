@@ -286,6 +286,11 @@ router.get('/', async (req, res) => {
         return false;
       }
       
+      // Must have a valid image URL — events without images show as blank cards in iOS
+      if (!event.imageUrl || typeof event.imageUrl !== 'string' || !/^https?:\/\//i.test(event.imageUrl)) {
+        return false;
+      }
+      
       return true;
     });
     
@@ -309,17 +314,27 @@ router.get('/', async (req, res) => {
       console.log(`🧹 Removed ${dupeCount} duplicate events`);
     }
     
+    // Limit same-title events per venue to MAX 3 — prevents tour dates flooding the feed
+    const titleVenueCount = new Map();
+    const dedupedWithLimit = deduplicatedEvents.filter(event => {
+      const key = `${(event.title || '').toLowerCase().trim()}|${(event.venue?.name || '').toLowerCase().trim()}`;
+      const count = titleVenueCount.get(key) || 0;
+      if (count >= 3) return false;
+      titleVenueCount.set(key, count + 1);
+      return true;
+    });
+    
     // Apply pagination to deduplicated results
-    const events = deduplicatedEvents.slice(skip, skip + parseInt(limit));
+    const events = dedupedWithLimit.slice(skip, skip + parseInt(limit));
     
     // Return with pagination metadata - use validEvents.length for accurate count after filtering
     res.json({
       events,
       pagination: {
-        total: deduplicatedEvents.length, // Use deduplicated count for accurate pagination
+        total: dedupedWithLimit.length, // Use deduplicated count for accurate pagination
         page: parseInt(page),
         limit: parseInt(limit),
-        pages: Math.ceil(deduplicatedEvents.length / parseInt(limit))
+        pages: Math.ceil(dedupedWithLimit.length / parseInt(limit))
       }
     });
   } catch (err) {
