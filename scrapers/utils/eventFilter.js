@@ -82,11 +82,17 @@ const JUNK_PATTERNS = [
   /^(OUT|UPU|sp|ICS)$/i,
   /^→$/,  // Just an arrow
   
-  // Cancelled/Postponed events
+  // Cancelled/Postponed events (leading marker)
   /^\*?cancelled\*?/i,
   /^\*?postponed\*?/i,
   /^\[cancelled\]/i,
   /^\(cancelled\)/i,
+  // Cancelled/Postponed as a status marker after a separator or at the end
+  // e.g. "Midlife: Reimagined | CANCELLED", "The Ring in Concert - CANCELED", "(POSTPONED)"
+  /[\|\-–—\(\[]\s*cancell?ed\b/i,
+  /\bcancell?ed\s*[\)\]]?\s*$/i,
+  /[\|\-–—\(\[]\s*postponed\b/i,
+  /\bpostponed\s*[\)\]]?\s*$/i,
   
   // JavaScript code/tech junk
   /^(if|var|const|let|function)\s*\(/i,
