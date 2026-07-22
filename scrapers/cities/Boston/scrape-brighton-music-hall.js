@@ -62,6 +62,31 @@ async function scrapeBrightonMusicHall(city = 'Boston') {
 
       if (results.length > 0) return results;
 
+      // Crossroads Presents venues render events as <li class="event-wrapper">
+      // where the event URL lives in a data-url attribute (not an <a href>) and
+      // the poster is a .bg-cover background-image (not an <img>). Older code only
+      // looked for a[href]/img, so URL and image came back empty. Extract both here.
+      document.querySelectorAll('.event-wrapper').forEach(el => {
+        try {
+          const nameEl = el.querySelector('.event-name, [data-url]');
+          const title = nameEl ? nameEl.textContent.trim() : '';
+          if (!title || title.length < 3) return;
+          const key = title.toLowerCase().trim();
+          if (seen.has(key)) return;
+          seen.add(key);
+          const url = (nameEl && nameEl.getAttribute('data-url')) || '';
+          const dateEl = el.querySelector('.event-date, [class*="date"]');
+          const dateRaw = dateEl ? dateEl.textContent.trim() : '';
+          let img = '';
+          const bg = el.querySelector('.bg-cover, [style*="background-image"]');
+          if (bg) { const m = (bg.getAttribute('style') || '').match(/url\((['"]?)(.*?)\1\)/); if (m && m[2]) img = m[2]; }
+          let address = '';
+          el.querySelectorAll('.event-address').forEach(a => { const t = a.textContent.trim(); if (/\d{2,}\s+\w+/.test(t) && !/presented by/i.test(t)) address = t; });
+          results.push({ title, dateRaw, url, image: img, description: '', address, source: 'crossroads' });
+        } catch(e) {}
+      });
+      if (results.length > 0) return results;
+
       // CSS selector fallback on rendered DOM
       const eventSelectors = [
         'article', '.event-card', '.event-item', '.event-listing',
@@ -121,6 +146,8 @@ async function scrapeBrightonMusicHall(city = 'Boston') {
       if (eventUrl && !eventUrl.startsWith('http')) {
         try { eventUrl = new URL(eventUrl, 'https://crossroadspresents.com/pages/brighton-music-hall').href; } catch(e) { eventUrl = ''; }
       }
+      // Rule 7: never surface competitor aggregator links
+      if (eventUrl && /eventbrite|songkick|allevents|do604/i.test(eventUrl)) eventUrl = '';
       let img = raw.image || null;
       if (img && !img.startsWith('http')) img = null;
       let desc = raw.description || '';
@@ -136,7 +163,7 @@ async function scrapeBrightonMusicHall(city = 'Boston') {
         startDate: new Date(isoDate + 'T00:00:00.000Z'),
         url: eventUrl,
         imageUrl: img,
-        venue: { name: 'Brighton Music Hall', address: raw.address || 'jsonld', city: 'Boston' },
+        venue: { name: 'Brighton Music Hall', address: raw.address || '158 Brighton Ave, Allston, MA 02134', city: 'Boston' },
         latitude: 42.3537,
         longitude: -71.1307,
         city: 'Boston',

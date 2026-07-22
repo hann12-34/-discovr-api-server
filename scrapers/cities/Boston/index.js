@@ -29,7 +29,7 @@ const scrapeBeehive = require('./beehive');
 const scrapeHavanaClub = require('./havana_club');
 const scrapeMiddlesexLoungeBoston = require('./middlesex_lounge_boston');
 const scrapeBowery = require('./bowery');
-const scrapeBrighton = require('./brighton');
+// Removed duplicate Brighton scraper (./brighton) — superseded by ./scrape-brighton-music-hall (scrapeBrightonMusicHall), which correctly extracts per-event URL (data-url) and poster image.
 const scrapeCantabLounge = require('./cantab_lounge');
 const scrapeCityWinery = require('./city_winery');
 const scrapeClubPassim = require('./club_passim');
@@ -85,7 +85,6 @@ const _rawExports = {
   scrapeHavanaClub,
   scrapeMiddlesexLoungeBoston,
   scrapeBowery,
-  scrapeBrighton,
   scrapeCantabLounge,
   scrapeCityWinery,
   scrapeClubPassim,
