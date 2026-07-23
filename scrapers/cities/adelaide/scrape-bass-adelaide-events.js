@@ -5,7 +5,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
+const { filterEvents, cleanImageUrl } = require('../../utils/eventFilter');
 
 function parseDate(raw) {
   if (!raw) return null;
@@ -60,7 +60,8 @@ async function scrapeBASSAdelaideEvents(city = 'adelaide') {
             img = typeof item.image === 'string' ? item.image : (item.image.url || (Array.isArray(item.image) ? item.image[0] : null));
           }
           if (img && typeof img === 'object') img = img.url || null;
-          if (img && !img.startsWith('http')) img = null;
+          // Rule 1: reject data: SVG placeholders and other non-real images
+          img = cleanImageUrl(img);
           let desc = item.description || '';
           if (desc) {
             desc = desc.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
@@ -129,10 +130,11 @@ async function scrapeBASSAdelaideEvents(city = 'adelaide') {
           if (!isoDate) return;
           const imgEl = $e.find('img').first();
           let img = imgEl.attr('src') || imgEl.attr('data-src') || imgEl.attr('data-lazy-src') || null;
-          if (img && !img.startsWith('http')) {
+          if (img && !img.startsWith('http') && !/^data:/i.test(img)) {
             try { img = new URL(img, 'https://www.bass.net.au/events').href; } catch(e) { img = null; }
           }
-          if (img && (/logo|icon|placeholder|default\./i.test(img))) img = null;
+          // Rule 1: reject data: SVG placeholders and other non-real images
+          img = cleanImageUrl(img);
           events.push({
             id: uuidv4(),
             title,

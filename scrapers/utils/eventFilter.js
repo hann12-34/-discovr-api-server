@@ -295,6 +295,30 @@ function isJunkTitle(title) {
 }
 
 /**
+ * Clean/validate an image URL for an event.
+ * Per Rule 1 (images only from real event URLs, no placeholders/generators),
+ * this returns '' for anything that is not a real remote image:
+ *   - empty / non-string values
+ *   - `data:` URIs (e.g. inline SVG placeholders)
+ *   - obvious placeholder/logo/icon/default assets
+ *   - anything that is not an absolute http(s) URL
+ * @param {string} url - Candidate image URL
+ * @returns {string} - The cleaned http(s) URL, or '' if it should be dropped
+ */
+function cleanImageUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  // Reject data: URIs (inline SVG/base64 placeholders are not real images)
+  if (/^data:/i.test(trimmed)) return '';
+  // Reject obvious placeholder / logo / icon / default assets
+  if (/logo|icon|placeholder|default\.(jpg|jpeg|png|gif|svg|webp)/i.test(trimmed)) return '';
+  // Only accept absolute http(s) URLs (real remote images)
+  if (!/^https?:\/\//i.test(trimmed)) return '';
+  return trimmed;
+}
+
+/**
  * Filter an array of events to remove junk
  * @param {Array} events - Array of event objects with 'title' property
  * @returns {Array} - Filtered array of valid events
@@ -414,5 +438,6 @@ function filterEvents(events) {
 module.exports = {
   isJunkTitle,
   filterEvents,
+  cleanImageUrl,
   JUNK_PATTERNS
 };

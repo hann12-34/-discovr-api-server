@@ -87,12 +87,18 @@ async function scrapeReardensCork(city = 'Cork') {
       if (!isoDate) continue;
       if (new Date(isoDate) < now) continue;
 
+      // Rule 7: never surface competitor/aggregator links
+      let eventUrl = event.url || '';
+      if (eventUrl && /eventbrite|songkick|allevents|do604|ticketmaster|stubhub/i.test(eventUrl)) eventUrl = '';
+      // Rule 2: an event must have a valid URL — drop rather than surface a competitor link
+      if (!eventUrl || !eventUrl.startsWith('http')) continue;
+
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
         date: isoDate,
         startDate: new Date(isoDate + 'T00:00:00.000Z'),
-        url: event.url,
+        url: eventUrl,
         imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
         venue: {
           name: 'Reardens',

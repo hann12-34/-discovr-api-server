@@ -7,7 +7,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
-const { filterEvents } = require('../../utils/eventFilter');
+const { filterEvents, cleanImageUrl } = require('../../utils/eventFilter');
 
 const MONTHS = { january:'01',february:'02',march:'03',april:'04',may:'05',june:'06',
   july:'07',august:'08',september:'09',october:'10',november:'11',december:'12' };
@@ -53,7 +53,9 @@ async function scrape(city = 'Calgary') {
       if (url && !url.startsWith('http')) url = 'https://calgaryphil.com' + url;
       if (!url) url = 'https://calgaryphil.com/concerts/';
 
-      const imageUrl = $e.find('img').attr('src') || $e.find('img').attr('data-src') || null;
+      const rawImageUrl = $e.find('img').attr('src') || $e.find('img').attr('data-src') || null;
+      // Rule 1: reject data: SVG placeholders and other non-real images
+      const imageUrl = cleanImageUrl(rawImageUrl);
 
       events.push({
         id: uuidv4(),
@@ -61,7 +63,7 @@ async function scrape(city = 'Calgary') {
         url,
         date: dateStr,
         description: '',
-        imageUrl: imageUrl && !/logo|icon|placeholder/i.test(imageUrl) ? imageUrl : null,
+        imageUrl,
         venue: {
           name: 'Jack Singer Concert Hall',
           address: '205 8 Ave SE, Calgary, AB T2G 0K9',
