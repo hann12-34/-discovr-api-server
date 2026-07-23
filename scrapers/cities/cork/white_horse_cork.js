@@ -20,7 +20,7 @@ async function scrapeWhiteHorseCork(city = 'Cork') {
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
     
-    await page.goto('https://whitehorse.ie/whats-on/', { waitUntil: 'networkidle2', timeout: 30000 });
+    await page.goto('https://whitehorse.ie/events/', { waitUntil: 'networkidle2', timeout: 30000 });
     await delay(2000);
 
     const eventLinks = await page.evaluate(() => {

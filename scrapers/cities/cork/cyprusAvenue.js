@@ -1,13 +1,38 @@
 /**
  * Cyprus Avenue Cork Events Scraper
  * Live music venue
- * URL: https://www.cyprusavenue.ie/
+ * URL: https://www.cyprusavenue.ie/gigs
  */
 
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { cleanImageUrl } = require('../../utils/eventFilter');
+
+const MONTHS = {
+  jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+  jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12'
+};
+
+function parseCyprusDate(dateStr, now = new Date()) {
+  if (!dateStr) return null;
+  // "Thu 23 Jul" / "Sat 1 Aug"
+  const m = dateStr.match(
+    /(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\s+(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i
+  );
+  if (!m) return null;
+  const day = m[1].padStart(2, '0');
+  const month = MONTHS[m[2].toLowerCase().slice(0, 3)];
+  if (!month) return null;
+  let year = now.getFullYear();
+  let iso = `${year}-${month}-${day}`;
+  if (new Date(iso) < new Date(now.toDateString())) {
+    year += 1;
+    iso = `${year}-${month}-${day}`;
+  }
+  return iso;
+}
 
 async function scrapeCyprusAvenue(city = 'Cork') {
   console.log('🎸 Scraping Cyprus Avenue Cork...');
@@ -15,83 +40,74 @@ async function scrapeCyprusAvenue(city = 'Cork') {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.cyprusavenue.ie/', {
+    await page.goto('https://www.cyprusavenue.ie/gigs', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
-
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     const events = await page.evaluate(() => {
       const results = [];
-      const eventItems = document.querySelectorAll('.event-card, .event, [class*="event"], article, .show, .gig');
-      
-      eventItems.forEach(item => {
-        try {
-          const titleEl = item.querySelector('h2, h3, h4, .title, .event-title');
-          const title = titleEl ? titleEl.textContent.trim() : null;
-          if (!title || title.length < 3) return;
-          
-          const dateEl = item.querySelector('time, .date, [class*="date"]');
-          let dateStr = dateEl ? (dateEl.getAttribute('datetime') || dateEl.textContent.trim()) : null;
-          
-          const linkEl = item.querySelector('a[href]');
-          let url = linkEl ? linkEl.href : null;
-          
-          const imgEl = item.querySelector('img');
-          let imageUrl = imgEl ? (imgEl.src || imgEl.getAttribute('data-src')) : null;
-          
-          const descEl = item.querySelector('.description, p');
-          const description = descEl ? descEl.textContent.trim().substring(0, 300) : null;
-          
-          if (title) {
-            results.push({ title, dateStr, url, imageUrl, description });
-          }
-        } catch (e) {}
+      const seen = new Set();
+      // Rows are typically date + event link
+      document.querySelectorAll('a[href*="/gigs/"]').forEach(a => {
+        const href = a.href.split('?')[0];
+        if (!href || href.endsWith('/gigs') || href.endsWith('/gigs/') || seen.has(href)) return;
+        if (/eventbrite|songkick|allevents|do604/i.test(href)) return;
+        seen.add(href);
+
+        let title = (a.innerText || '').replace(/\s+/g, ' ').trim();
+        if (!title || title.length < 3) {
+          // slug fallback: /gigs/cry-before-dawn-11194570
+          const slug = href.split('/gigs/')[1] || '';
+          title = slug
+            .replace(/-\d+$/, '')
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, c => c.toUpperCase())
+            .trim();
+        }
+        if (!title || title.length < 3 || /^(tickets|book)$/i.test(title)) return;
+
+        let dateStr = '';
+        let node = a.parentElement;
+        for (let i = 0; i < 6 && node; i++) {
+          const blob = (node.innerText || '').replace(/\s+/g, ' ').trim();
+          const m = blob.match(/(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\s+\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*/i);
+          if (m) { dateStr = m[0]; break; }
+          node = node.parentElement;
+        }
+        results.push({ title, dateStr, url: href });
       });
-      
       return results;
     });
 
     await browser.close();
 
+    const now = new Date();
     const formattedEvents = [];
-    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
-    
     for (const event of events) {
-      let isoDate = null;
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})[\/\.\s]*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\/\.\s]*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            const year = dateMatch[3] || new Date().getFullYear().toString();
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
-      }
-      
+      const isoDate = parseCyprusDate(event.dateStr, now);
       if (!isoDate) continue;
-      if (new Date(isoDate) < new Date()) continue;
-      
+      // Rule 7: never surface competitor aggregator links
+      let eventUrl = event.url || '';
+      if (eventUrl && /eventbrite|songkick|allevents|do604/i.test(eventUrl)) eventUrl = '';
+      if (!eventUrl || !eventUrl.startsWith('http')) continue;
+
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
-        description: event.description || null,
+        description: null,
         date: isoDate,
         startDate: new Date(isoDate + 'T00:00:00.000Z'),
-        url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
+        url: eventUrl,
+        imageUrl: null,
         venue: {
           name: 'Cyprus Avenue',
           address: 'Caroline Street, Cork T12 XF62',
@@ -105,37 +121,30 @@ async function scrapeCyprusAvenue(city = 'Cork') {
       });
     }
 
-      // Fetch descriptions from event detail pages
-      for (const event of formattedEvents) {
-        if (event.description || !event.url || !event.url.startsWith('http')) continue;
-        try {
-          const _r = await axios.get(event.url, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
-            timeout: 8000
-          });
-          const _$ = cheerio.load(_r.data);
-          let _desc = _$('meta[property="og:description"]').attr('content') || '';
-          if (!_desc || _desc.length < 20) {
-            _desc = _$('meta[name="description"]').attr('content') || '';
-          }
-          if (!_desc || _desc.length < 20) {
-            for (const _s of ['.event-description', '.event-content', '.entry-content p', '.description', 'article p', '.content p', '.page-content p']) {
-              const _t = _$(_s).first().text().trim();
-              if (_t && _t.length > 30) { _desc = _t; break; }
-            }
-          }
-          if (_desc) {
-            _desc = _desc.replace(/\s+/g, ' ').trim();
-            if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
-            event.description = _desc;
-          }
-        } catch (_e) { /* skip */ }
-      }
-
+    for (const event of formattedEvents) {
+      if (!event.url || !event.url.startsWith('http')) continue;
+      try {
+        const _r = await axios.get(event.url, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' },
+          timeout: 8000
+        });
+        const _$ = cheerio.load(_r.data);
+        const ogImg = cleanImageUrl(_$('meta[property="og:image"]').attr('content') || '');
+        if (ogImg) event.imageUrl = ogImg;
+        let _desc = _$('meta[property="og:description"]').attr('content') || '';
+        if (!_desc || _desc.length < 20) {
+          _desc = _$('meta[name="description"]').attr('content') || '';
+        }
+        if (_desc) {
+          _desc = _desc.replace(/\s+/g, ' ').trim();
+          if (_desc.length > 500) _desc = _desc.substring(0, 500) + '...';
+          event.description = _desc;
+        }
+      } catch (_e) { /* skip */ }
+    }
 
     console.log(`  ✅ Found ${formattedEvents.length} valid Cyprus Avenue events`);
     return formattedEvents;
-
   } catch (error) {
     if (browser) await browser.close();
     console.error('  ⚠️  Cyprus Avenue error:', error.message);

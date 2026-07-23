@@ -311,8 +311,8 @@ function cleanImageUrl(url) {
   if (!trimmed) return '';
   // Reject data: URIs (inline SVG/base64 placeholders are not real images)
   if (/^data:/i.test(trimmed)) return '';
-  // Reject obvious placeholder / logo / icon / default assets
-  if (/logo|icon|placeholder|default\.(jpg|jpeg|png|gif|svg|webp)/i.test(trimmed)) return '';
+  // Reject obvious placeholder / logo / icon / default / blank assets
+  if (/logo|icon|placeholder|blankimg|blank[-_]?img|default\.(jpg|jpeg|png|gif|svg|webp)/i.test(trimmed)) return '';
   // Only accept absolute http(s) URLs (real remote images)
   if (!/^https?:\/\//i.test(trimmed)) return '';
   return trimmed;

@@ -1,12 +1,32 @@
 /**
  * Bristol Hippodrome Events Scraper
- * URL: https://www.bristolhippodrome.org.uk/whats-on
+ * URL: https://www.atgtickets.com/venues/bristol-hippodrome/whats-on/
  */
 
 const puppeteer = require('puppeteer');
-const axios = require('axios');
-const cheerio = require('cheerio');
 const { v4: uuidv4 } = require('uuid');
+const { cleanImageUrl } = require('../../utils/eventFilter');
+
+const MONTHS = {
+  jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+  jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12'
+};
+
+function parseAtgDate(text, now = new Date()) {
+  if (!text) return null;
+  // "Until Sat 1 Aug 2026" / "Fri 31 Jul 2026" / "Tue 4 Aug - Sat 8 Aug 2026"
+  const range = text.match(
+    /(?:Until\s+)?(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)?\s*(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{4})/i
+  );
+  if (!range) return null;
+  const day = range[1].padStart(2, '0');
+  const month = MONTHS[range[2].toLowerCase().slice(0, 3)];
+  const year = range[3];
+  if (!month) return null;
+  const iso = `${year}-${month}-${day}`;
+  if (new Date(iso) < new Date(now.toDateString())) return null;
+  return iso;
+}
 
 async function scrapeHippodrome(city = 'Bristol') {
   console.log('🎭 Scraping Bristol Hippodrome...');
@@ -14,79 +34,50 @@ async function scrapeHippodrome(city = 'Bristol') {
   let browser;
   try {
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
 
-    await page.goto('https://www.bristolhippodrome.org.uk/whats-on', {
+    await page.goto('https://www.atgtickets.com/venues/bristol-hippodrome/whats-on/', {
       waitUntil: 'networkidle2',
       timeout: 60000
     });
-
     await new Promise(resolve => setTimeout(resolve, 4000));
 
     const events = await page.evaluate(() => {
       const results = [];
       const seen = new Set();
-      
-      document.querySelectorAll('a[href*="/whats-on/"]').forEach(el => {
-        const href = el.href;
-        if (seen.has(href) || href.endsWith('/whats-on/')) return;
-        seen.add(href);
-        
-        let container = el;
-        for (let i = 0; i < 8; i++) {
-          container = container.parentElement;
-          if (!container) break;
-          
-          const titleEl = container.querySelector('h1, h2, h3, h4, .title, [class*="title"]');
-          const title = titleEl?.textContent?.trim()?.replace(/\s+/g, ' ');
-          
-          const dateEl = container.querySelector('time, .date, [class*="date"]');
-          const dateStr = dateEl?.getAttribute('datetime') || dateEl?.textContent?.trim();
-          const img = container.querySelector('img')?.src;
-          
-          if (title && title.length > 3 && title.length < 150) {
-            results.push({ title, dateStr, url: href, imageUrl: img });
-            break;
-          }
-        }
+      document.querySelectorAll('[data-testid="showCard"]').forEach(card => {
+        const link = card.querySelector('a[href*="/shows/"]');
+        if (!link) return;
+        const href = link.href.split('?')[0].replace(/\/calendar\/?$/, '/');
+        if (seen.has(href) || /\/calendar\/?$/.test(link.href) && seen.has(href)) return;
+        // Prefer non-calendar show URL
+        const showUrl = href.includes('/calendar')
+          ? href.replace(/\/calendar\/?$/, '/')
+          : href;
+        if (seen.has(showUrl)) return;
+        seen.add(showUrl);
+        const title = (card.querySelector('h2')?.textContent || '').trim();
+        if (!title || title.length < 3) return;
+        const text = (card.innerText || '').replace(/\s+/g, ' ').trim();
+        const img = card.querySelector('img')?.src || null;
+        results.push({ title, text, url: showUrl, imageUrl: img });
       });
       return results;
     });
 
     await browser.close();
 
-    const formattedEvents = [];
-    const months = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
     const now = new Date();
-    
+    const formattedEvents = [];
     for (const event of events) {
-      let isoDate = null;
-      
-      if (event.dateStr) {
-        if (event.dateStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-          isoDate = event.dateStr.substring(0, 10);
-        } else {
-          const dateMatch = event.dateStr.match(/(\d{1,2})(?:st|nd|rd|th)?\s*(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s*(\d{4})?/i);
-          if (dateMatch) {
-            const day = dateMatch[1].padStart(2, '0');
-            const month = months[dateMatch[2].toLowerCase().substring(0, 3)];
-            let year = dateMatch[3] || now.getFullYear().toString();
-            if (!dateMatch[3] && parseInt(month) < now.getMonth() + 1) {
-              year = (now.getFullYear() + 1).toString();
-            }
-            isoDate = `${year}-${month}-${day}`;
-          }
-        }
-      }
-      
+      const isoDate = parseAtgDate(event.text, now);
       if (!isoDate) continue;
-      if (new Date(isoDate) < now) continue;
-      
+      const imageUrl = cleanImageUrl(event.imageUrl);
       formattedEvents.push({
         id: uuidv4(),
         title: event.title,
@@ -94,7 +85,7 @@ async function scrapeHippodrome(city = 'Bristol') {
         date: isoDate,
         startDate: new Date(isoDate + 'T00:00:00.000Z'),
         url: event.url,
-        imageUrl: (event.imageUrl && event.imageUrl.startsWith('http') && !event.imageUrl.includes('data:image') && !event.imageUrl.includes('placeholder')) ? event.imageUrl : null,
+        imageUrl: imageUrl || null,
         venue: {
           name: 'Bristol Hippodrome',
           address: 'St Augustines Parade, Bristol BS1 4UZ',
@@ -110,7 +101,6 @@ async function scrapeHippodrome(city = 'Bristol') {
 
     console.log(`  ✅ Found ${formattedEvents.length} Hippodrome events`);
     return formattedEvents;
-
   } catch (error) {
     if (browser) await browser.close();
     console.error('  ⚠️  Hippodrome error:', error.message);
